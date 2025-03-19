@@ -131,15 +131,20 @@ class DataZone {
   /// Parameter [identifier] :
   /// The unique identifier of the subscription request that is to be accepted.
   ///
+  /// Parameter [assetScopes] :
+  /// The asset scopes of the accept subscription request.
+  ///
   /// Parameter [decisionComment] :
   /// A description that specifies the reason for accepting the specified
   /// subscription request.
   Future<AcceptSubscriptionRequestOutput> acceptSubscriptionRequest({
     required String domainIdentifier,
     required String identifier,
+    List<AcceptedAssetScope>? assetScopes,
     String? decisionComment,
   }) async {
     final $payload = <String, dynamic>{
+      if (assetScopes != null) 'assetScopes': assetScopes,
       if (decisionComment != null) 'decisionComment': decisionComment,
     };
     final response = await _protocol.send(
@@ -150,6 +155,142 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return AcceptSubscriptionRequestOutput.fromJson(response);
+  }
+
+  /// Adds the owner of an entity (a domain unit).
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain in which you want to add the entity owner.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity to which you want to add an owner.
+  ///
+  /// Parameter [entityType] :
+  /// The type of an entity.
+  ///
+  /// Parameter [owner] :
+  /// The owner that you want to add to the entity.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  Future<void> addEntityOwner({
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required DataZoneEntityType entityType,
+    required OwnerProperties owner,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'owner': owner,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/addOwner',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Adds a policy grant (an authorization policy) to a specified entity,
+  /// including domain units, environment blueprint configurations, or
+  /// environment profiles.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [detail] :
+  /// The details of the policy grant.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to add a policy grant.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity (resource) to which you want to add a policy grant.
+  ///
+  /// Parameter [entityType] :
+  /// The type of entity (resource) to which the grant is added.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy that you want to grant.
+  ///
+  /// Parameter [principal] :
+  /// The principal to whom the permissions are granted.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  Future<void> addPolicyGrant({
+    required PolicyGrantDetail detail,
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required TargetEntityType entityType,
+    required ManagedPolicyType policyType,
+    required PolicyGrantPrincipal principal,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'detail': detail,
+      'policyType': policyType.value,
+      'principal': principal,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/policies/managed/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/addGrant',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associates the environment role in Amazon DataZone.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which the environment role is
+  /// associated.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the Amazon DataZone environment.
+  ///
+  /// Parameter [environmentRoleArn] :
+  /// The ARN of the environment role.
+  Future<void> associateEnvironmentRole({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String environmentRoleArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/roles/${Uri.encodeComponent(environmentRoleArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Cancels the metadata generation run.
@@ -291,6 +432,59 @@ class DataZone {
     return CreateAssetOutput.fromJson(response);
   }
 
+  /// Creates a data asset filter.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The ID of the data asset.
+  ///
+  /// Parameter [configuration] :
+  /// The configuration of the asset filter.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain in which you want to create an asset filter.
+  ///
+  /// Parameter [name] :
+  /// The name of the asset filter.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the asset filter.
+  Future<CreateAssetFilterOutput> createAssetFilter({
+    required String assetIdentifier,
+    required AssetFilterConfiguration configuration,
+    required String domainIdentifier,
+    required String name,
+    String? clientToken,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'configuration': configuration,
+      'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(assetIdentifier)}/filters',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAssetFilterOutput.fromJson(response);
+  }
+
   /// Creates a revision of the asset.
   ///
   /// May throw [InternalServerException].
@@ -407,6 +601,132 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetTypeOutput.fromJson(response);
+  }
+
+  /// Creates a data product.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where the data product is created.
+  ///
+  /// Parameter [name] :
+  /// The name of the data product.
+  ///
+  /// Parameter [owningProjectIdentifier] :
+  /// The ID of the owning project of the data product.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the data product.
+  ///
+  /// Parameter [formsInput] :
+  /// The metadata forms of the data product.
+  ///
+  /// Parameter [glossaryTerms] :
+  /// The glossary terms of the data product.
+  ///
+  /// Parameter [items] :
+  /// The data assets of the data product.
+  Future<CreateDataProductOutput> createDataProduct({
+    required String domainIdentifier,
+    required String name,
+    required String owningProjectIdentifier,
+    String? clientToken,
+    String? description,
+    List<FormInput>? formsInput,
+    List<String>? glossaryTerms,
+    List<DataProductItem>? items,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'owningProjectIdentifier': owningProjectIdentifier,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (formsInput != null) 'formsInput': formsInput,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/data-products',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDataProductOutput.fromJson(response);
+  }
+
+  /// Creates a data product revision.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where the data product revision is created.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the data product revision.
+  ///
+  /// Parameter [name] :
+  /// The name of the data product revision.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the data product revision.
+  ///
+  /// Parameter [formsInput] :
+  /// The metadata forms of the data product revision.
+  ///
+  /// Parameter [glossaryTerms] :
+  /// The glossary terms of the data product revision.
+  ///
+  /// Parameter [items] :
+  /// The data assets of the data product revision.
+  Future<CreateDataProductRevisionOutput> createDataProductRevision({
+    required String domainIdentifier,
+    required String identifier,
+    required String name,
+    String? clientToken,
+    String? description,
+    List<FormInput>? formsInput,
+    List<String>? glossaryTerms,
+    List<DataProductItem>? items,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (formsInput != null) 'formsInput': formsInput,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/data-products/${Uri.encodeComponent(identifier)}/revisions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDataProductRevisionOutput.fromJson(response);
   }
 
   /// Creates an Amazon DataZone data source.
@@ -568,6 +888,54 @@ class DataZone {
     return CreateDomainOutput.fromJson(response);
   }
 
+  /// Creates a domain unit in Amazon DataZone.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to crate a domain unit.
+  ///
+  /// Parameter [name] :
+  /// The name of the domain unit.
+  ///
+  /// Parameter [parentDomainUnitIdentifier] :
+  /// The ID of the parent domain unit.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// The description of the domain unit.
+  Future<CreateDomainUnitOutput> createDomainUnit({
+    required String domainIdentifier,
+    required String name,
+    required String parentDomainUnitIdentifier,
+    String? clientToken,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'parentDomainUnitIdentifier': parentDomainUnitIdentifier,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/domain-units',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDomainUnitOutput.fromJson(response);
+  }
+
   /// Create an Amazon DataZone environment.
   ///
   /// May throw [InternalServerException].
@@ -596,6 +964,15 @@ class DataZone {
   /// Parameter [description] :
   /// The description of the Amazon DataZone environment.
   ///
+  /// Parameter [environmentAccountIdentifier] :
+  /// The ID of the account in which the environment is being created.
+  ///
+  /// Parameter [environmentAccountRegion] :
+  /// The region of the account in which the environment is being created.
+  ///
+  /// Parameter [environmentBlueprintIdentifier] :
+  /// The ID of the blueprint with which the environment is being created.
+  ///
   /// Parameter [glossaryTerms] :
   /// The glossary terms that can be used in this Amazon DataZone environment.
   ///
@@ -607,6 +984,9 @@ class DataZone {
     required String name,
     required String projectIdentifier,
     String? description,
+    String? environmentAccountIdentifier,
+    String? environmentAccountRegion,
+    String? environmentBlueprintIdentifier,
     List<String>? glossaryTerms,
     List<EnvironmentParameter>? userParameters,
   }) async {
@@ -615,6 +995,12 @@ class DataZone {
       'name': name,
       'projectIdentifier': projectIdentifier,
       if (description != null) 'description': description,
+      if (environmentAccountIdentifier != null)
+        'environmentAccountIdentifier': environmentAccountIdentifier,
+      if (environmentAccountRegion != null)
+        'environmentAccountRegion': environmentAccountRegion,
+      if (environmentBlueprintIdentifier != null)
+        'environmentBlueprintIdentifier': environmentBlueprintIdentifier,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (userParameters != null) 'userParameters': userParameters,
     };
@@ -626,6 +1012,55 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return CreateEnvironmentOutput.fromJson(response);
+  }
+
+  /// Creates an action for the environment, for example, creates a console link
+  /// for an analytics tool that is available in this environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which the environment action is
+  /// created.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the environment in which the environment action is created.
+  ///
+  /// Parameter [name] :
+  /// The name of the environment action.
+  ///
+  /// Parameter [parameters] :
+  /// The parameters of the environment action.
+  ///
+  /// Parameter [description] :
+  /// The description of the environment action that is being created in the
+  /// environment.
+  Future<CreateEnvironmentActionOutput> createEnvironmentAction({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String name,
+    required ActionParameters parameters,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'parameters': parameters,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/actions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEnvironmentActionOutput.fromJson(response);
   }
 
   /// Creates an Amazon DataZone environment profile.
@@ -979,17 +1414,23 @@ class DataZone {
   /// Parameter [description] :
   /// The description of the Amazon DataZone project.
   ///
+  /// Parameter [domainUnitId] :
+  /// The ID of the domain unit. This parameter is not required and if it is not
+  /// specified, then the project is created at the root domain unit level.
+  ///
   /// Parameter [glossaryTerms] :
   /// The glossary terms that can be used in this Amazon DataZone project.
   Future<CreateProjectOutput> createProject({
     required String domainIdentifier,
     required String name,
     String? description,
+    String? domainUnitId,
     List<String>? glossaryTerms,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
       if (description != null) 'description': description,
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
     };
     final response = await _protocol.send(
@@ -1263,12 +1704,13 @@ class DataZone {
     return CreateUserProfileOutput.fromJson(response);
   }
 
-  /// Delets an asset in Amazon DataZone.
+  /// Deletes an asset in Amazon DataZone.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [UnauthorizedException].
   ///
@@ -1286,6 +1728,38 @@ class DataZone {
       method: 'DELETE',
       requestUri:
           '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an asset filter.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The ID of the data asset.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to delete an asset filter.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the asset filter that you want to delete.
+  Future<void> deleteAssetFilter({
+    required String assetIdentifier,
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(assetIdentifier)}/filters/${Uri.encodeComponent(identifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1318,6 +1792,34 @@ class DataZone {
     );
   }
 
+  /// Deletes a data product in Amazon DataZone.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which the data product is deleted.
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the data product that is deleted.
+  Future<void> deleteDataProduct({
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/data-products/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a data source in Amazon DataZone.
   ///
   /// May throw [InternalServerException].
@@ -1338,13 +1840,22 @@ class DataZone {
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that is provided to ensure the
   /// idempotency of the request.
+  ///
+  /// Parameter [retainPermissionsOnRevokeFailure] :
+  /// Specifies that the granted permissions are retained in case of a
+  /// self-subscribe functionality failure for a data source.
   Future<DeleteDataSourceOutput> deleteDataSource({
     required String domainIdentifier,
     required String identifier,
     String? clientToken,
+    bool? retainPermissionsOnRevokeFailure,
   }) async {
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
+      if (retainPermissionsOnRevokeFailure != null)
+        'retainPermissionsOnRevokeFailure': [
+          retainPermissionsOnRevokeFailure.toString()
+        ],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1397,6 +1908,34 @@ class DataZone {
     return DeleteDomainOutput.fromJson(response);
   }
 
+  /// Deletes a domain unit.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to delete a domain unit.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the domain unit that you want to delete.
+  Future<void> deleteDomainUnit({
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/domain-units/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes an environment in Amazon DataZone.
   ///
   /// May throw [InternalServerException].
@@ -1420,6 +1959,40 @@ class DataZone {
       method: 'DELETE',
       requestUri:
           '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an action for the environment, for example, deletes a console link
+  /// for an analytics tool that is available in this environment.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which an environment action is
+  /// deleted.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the environment where an environment action is deleted.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the environment action that is deleted.
+  Future<void> deleteEnvironmentAction({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String identifier,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/actions/${Uri.encodeComponent(identifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1805,6 +2378,39 @@ class DataZone {
     );
   }
 
+  /// Disassociates the environment role in Amazon DataZone.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which an environment role is
+  /// disassociated.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the environment.
+  ///
+  /// Parameter [environmentRoleArn] :
+  /// The ARN of the environment role.
+  Future<void> disassociateEnvironmentRole({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String environmentRoleArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/roles/${Uri.encodeComponent(environmentRoleArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Gets an Amazon DataZone asset.
   ///
   /// May throw [InternalServerException].
@@ -1841,6 +2447,38 @@ class DataZone {
     return GetAssetOutput.fromJson(response);
   }
 
+  /// Gets an asset filter.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The ID of the data asset.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to get an asset filter.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the asset filter.
+  Future<GetAssetFilterOutput> getAssetFilter({
+    required String assetIdentifier,
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(assetIdentifier)}/filters/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAssetFilterOutput.fromJson(response);
+  }
+
   /// Gets an Amazon DataZone asset type.
   ///
   /// May throw [InternalServerException].
@@ -1875,6 +2513,42 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetTypeOutput.fromJson(response);
+  }
+
+  /// Gets the data product.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where the data product lives.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the data product.
+  ///
+  /// Parameter [revision] :
+  /// The revision of the data product.
+  Future<GetDataProductOutput> getDataProduct({
+    required String domainIdentifier,
+    required String identifier,
+    String? revision,
+  }) async {
+    final $query = <String, List<String>>{
+      if (revision != null) 'revision': [revision],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/data-products/${Uri.encodeComponent(identifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDataProductOutput.fromJson(response);
   }
 
   /// Gets an Amazon DataZone data source.
@@ -1961,6 +2635,34 @@ class DataZone {
     return GetDomainOutput.fromJson(response);
   }
 
+  /// Gets the details of the specified domain unit.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to get a domain unit.
+  ///
+  /// Parameter [identifier] :
+  /// The identifier of the domain unit that you want to get.
+  Future<GetDomainUnitOutput> getDomainUnit({
+    required String domainIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/domain-units/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDomainUnitOutput.fromJson(response);
+  }
+
   /// Gets an Amazon DataZone environment.
   ///
   /// May throw [InternalServerException].
@@ -1987,6 +2689,39 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return GetEnvironmentOutput.fromJson(response);
+  }
+
+  /// Gets the specified environment action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which the
+  /// <code>GetEnvironmentAction</code> API is invoked.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The environment ID of the environment action.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the environment action
+  Future<GetEnvironmentActionOutput> getEnvironmentAction({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String identifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/actions/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEnvironmentActionOutput.fromJson(response);
   }
 
   /// Gets an Amazon DataZone blueprint.
@@ -2044,6 +2779,35 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return GetEnvironmentBlueprintConfigurationOutput.fromJson(response);
+  }
+
+  /// Gets the credentials of an environment in Amazon DataZone.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which this environment and its
+  /// credentials exist.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the environment whose credentials this operation gets.
+  Future<GetEnvironmentCredentialsOutput> getEnvironmentCredentials({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/credentials',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEnvironmentCredentialsOutput.fromJson(response);
   }
 
   /// Gets an evinronment profile in Amazon DataZone.
@@ -2225,7 +2989,52 @@ class DataZone {
     return GetIamPortalLoginUrlOutput.fromJson(response);
   }
 
-  /// Gets a listing (a record of an asset at a given time).
+  /// Gets the data lineage node.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain in which you want to get the data lineage node.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the data lineage node that you want to get.
+  ///
+  /// Both, a lineage node identifier generated by Amazon DataZone and a
+  /// <code>sourceIdentifier</code> of the lineage node are supported. If
+  /// <code>sourceIdentifier</code> is greater than 1800 characters, you can use
+  /// lineage node identifier generated by Amazon DataZone to get the node
+  /// details.
+  ///
+  /// Parameter [eventTimestamp] :
+  /// The event time stamp for which you want to get the data lineage node.
+  Future<GetLineageNodeOutput> getLineageNode({
+    required String domainIdentifier,
+    required String identifier,
+    DateTime? eventTimestamp,
+  }) async {
+    final $query = <String, List<String>>{
+      if (eventTimestamp != null)
+        'timestamp': [_s.iso8601ToJson(eventTimestamp).toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/lineage/nodes/${Uri.encodeComponent(identifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetLineageNodeOutput.fromJson(response);
+  }
+
+  /// Gets a listing (a record of an asset at a given time). If you specify a
+  /// listing version, only details that are specific to that version are
+  /// returned.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2520,6 +3329,68 @@ class DataZone {
     return GetUserProfileOutput.fromJson(response);
   }
 
+  /// Lists asset filters.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The ID of the data asset.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to list asset filters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of asset filters to return in a single call to
+  /// <code>ListAssetFilters</code>. When the number of asset filters to be
+  /// listed is greater than the value of <code>MaxResults</code>, the response
+  /// contains a <code>NextToken</code> value that you can use in a subsequent
+  /// call to <code>ListAssetFilters</code> to list the next set of asset
+  /// filters.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of asset filters is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value
+  /// for <code>MaxResults</code> that is less than the number of asset filters,
+  /// the response includes a pagination token named <code>NextToken</code>. You
+  /// can specify this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListAssetFilters</code> to list the next set of asset filters.
+  ///
+  /// Parameter [status] :
+  /// The status of the asset filter.
+  Future<ListAssetFiltersOutput> listAssetFilters({
+    required String assetIdentifier,
+    required String domainIdentifier,
+    int? maxResults,
+    String? nextToken,
+    FilterStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (status != null) 'status': [status.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(assetIdentifier)}/filters',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetFiltersOutput.fromJson(response);
+  }
+
   /// Lists the revisions for the asset.
   ///
   /// May throw [InternalServerException].
@@ -2574,6 +3445,65 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetRevisionsOutput.fromJson(response);
+  }
+
+  /// Lists data product revisions.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain of the data product revisions that you want to list.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the data product revision.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of asset filters to return in a single call to
+  /// <code>ListDataProductRevisions</code>. When the number of data product
+  /// revisions to be listed is greater than the value of
+  /// <code>MaxResults</code>, the response contains a <code>NextToken</code>
+  /// value that you can use in a subsequent call to
+  /// <code>ListDataProductRevisions</code> to list the next set of data product
+  /// revisions.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of data product revisions is greater than the default
+  /// value for the <code>MaxResults</code> parameter, or if you explicitly
+  /// specify a value for <code>MaxResults</code> that is less than the number
+  /// of data product revisions, the response includes a pagination token named
+  /// <code>NextToken</code>. You can specify this <code>NextToken</code> value
+  /// in a subsequent call to <code>ListDataProductRevisions</code> to list the
+  /// next set of data product revisions.
+  Future<ListDataProductRevisionsOutput> listDataProductRevisions({
+    required String domainIdentifier,
+    required String identifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/data-products/${Uri.encodeComponent(identifier)}/revisions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDataProductRevisionsOutput.fromJson(response);
   }
 
   /// Lists data source run activities.
@@ -2787,6 +3717,63 @@ class DataZone {
     return ListDataSourcesOutput.fromJson(response);
   }
 
+  /// Lists child domain units for the specified parent domain unit.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain in which you want to list domain units for a parent
+  /// domain unit.
+  ///
+  /// Parameter [parentDomainUnitIdentifier] :
+  /// The ID of the parent domain unit.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of domain units to return in a single call to
+  /// ListDomainUnitsForParent. When the number of domain units to be listed is
+  /// greater than the value of MaxResults, the response contains a NextToken
+  /// value that you can use in a subsequent call to ListDomainUnitsForParent to
+  /// list the next set of domain units.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of domain units is greater than the default value for the
+  /// MaxResults parameter, or if you explicitly specify a value for MaxResults
+  /// that is less than the number of domain units, the response includes a
+  /// pagination token named NextToken. You can specify this NextToken value in
+  /// a subsequent call to ListDomainUnitsForParent to list the next set of
+  /// domain units.
+  Future<ListDomainUnitsForParentOutput> listDomainUnitsForParent({
+    required String domainIdentifier,
+    required String parentDomainUnitIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      'parentDomainUnitIdentifier': [parentDomainUnitIdentifier],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/domain-units',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDomainUnitsForParentOutput.fromJson(response);
+  }
+
   /// Lists Amazon DataZone domains.
   ///
   /// May throw [InternalServerException].
@@ -2839,6 +3826,123 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsOutput.fromJson(response);
+  }
+
+  /// Lists the entity (domain units) owners.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to list entity owners.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity that you want to list.
+  ///
+  /// Parameter [entityType] :
+  /// The type of the entity that you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of entities to return in a single call to
+  /// <code>ListEntityOwners</code>. When the number of entities to be listed is
+  /// greater than the value of <code>MaxResults</code>, the response contains a
+  /// <code>NextToken</code> value that you can use in a subsequent call to
+  /// <code>ListEntityOwners</code> to list the next set of entities.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of entities is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value
+  /// for <code>MaxResults</code> that is less than the number of entities, the
+  /// response includes a pagination token named <code>NextToken</code>. You can
+  /// specify this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListEntityOwners</code> to list the next set of entities.
+  Future<ListEntityOwnersOutput> listEntityOwners({
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required DataZoneEntityType entityType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/owners',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEntityOwnersOutput.fromJson(response);
+  }
+
+  /// Lists existing environment actions.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the Amazon DataZone domain in which the environment actions are
+  /// listed.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The ID of the envrironment whose environment actions are listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of environment actions to return in a single call to
+  /// <code>ListEnvironmentActions</code>. When the number of environment
+  /// actions to be listed is greater than the value of <code>MaxResults</code>,
+  /// the response contains a <code>NextToken</code> value that you can use in a
+  /// subsequent call to <code>ListEnvironmentActions</code> to list the next
+  /// set of environment actions.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of environment actions is greater than the default value
+  /// for the <code>MaxResults</code> parameter, or if you explicitly specify a
+  /// value for <code>MaxResults</code> that is less than the number of
+  /// environment actions, the response includes a pagination token named
+  /// <code>NextToken</code>. You can specify this <code>NextToken</code> value
+  /// in a subsequent call to <code>ListEnvironmentActions</code> to list the
+  /// next set of environment actions.
+  Future<ListEnvironmentActionsOutput> listEnvironmentActions({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/actions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEnvironmentActionsOutput.fromJson(response);
   }
 
   /// Lists blueprint configurations for a Amazon DataZone environment.
@@ -3140,6 +4244,89 @@ class DataZone {
     return ListEnvironmentsOutput.fromJson(response);
   }
 
+  /// Lists the history of the specified data lineage node.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to list the history of the specified
+  /// data lineage node.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the data lineage node whose history you want to list.
+  ///
+  /// Parameter [direction] :
+  /// The direction of the data lineage node refers to the lineage node having
+  /// neighbors in that direction. For example, if direction is
+  /// <code>UPSTREAM</code>, the <code>ListLineageNodeHistory</code> API
+  /// responds with historical versions with upstream neighbors only.
+  ///
+  /// Parameter [eventTimestampGTE] :
+  /// Specifies whether the action is to return data lineage node history from
+  /// the time after the event timestamp.
+  ///
+  /// Parameter [eventTimestampLTE] :
+  /// Specifies whether the action is to return data lineage node history from
+  /// the time prior of the event timestamp.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of history items to return in a single call to
+  /// ListLineageNodeHistory. When the number of memberships to be listed is
+  /// greater than the value of MaxResults, the response contains a NextToken
+  /// value that you can use in a subsequent call to ListLineageNodeHistory to
+  /// list the next set of items.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of history items is greater than the default value for the
+  /// MaxResults parameter, or if you explicitly specify a value for MaxResults
+  /// that is less than the number of items, the response includes a pagination
+  /// token named NextToken. You can specify this NextToken value in a
+  /// subsequent call to ListLineageNodeHistory to list the next set of items.
+  ///
+  /// Parameter [sortOrder] :
+  /// The order by which you want data lineage node history to be sorted.
+  Future<ListLineageNodeHistoryOutput> listLineageNodeHistory({
+    required String domainIdentifier,
+    required String identifier,
+    EdgeDirection? direction,
+    DateTime? eventTimestampGTE,
+    DateTime? eventTimestampLTE,
+    int? maxResults,
+    String? nextToken,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (direction != null) 'direction': [direction.value],
+      if (eventTimestampGTE != null)
+        'timestampGTE': [_s.iso8601ToJson(eventTimestampGTE).toString()],
+      if (eventTimestampLTE != null)
+        'timestampLTE': [_s.iso8601ToJson(eventTimestampLTE).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/lineage/nodes/${Uri.encodeComponent(identifier)}/history',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLineageNodeHistoryOutput.fromJson(response);
+  }
+
   /// Lists all metadata generation runs.
   ///
   /// May throw [InternalServerException].
@@ -3281,6 +4468,70 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return ListNotificationsOutput.fromJson(response);
+  }
+
+  /// Lists policy grants.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to list policy grants.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity for which you want to list policy grants.
+  ///
+  /// Parameter [entityType] :
+  /// The type of entity for which you want to list policy grants.
+  ///
+  /// Parameter [policyType] :
+  /// The type of policy that you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of grants to return in a single call to
+  /// <code>ListPolicyGrants</code>. When the number of grants to be listed is
+  /// greater than the value of <code>MaxResults</code>, the response contains a
+  /// <code>NextToken</code> value that you can use in a subsequent call to
+  /// <code>ListPolicyGrants</code> to list the next set of grants.
+  ///
+  /// Parameter [nextToken] :
+  /// When the number of grants is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value
+  /// for <code>MaxResults</code> that is less than the number of grants, the
+  /// response includes a pagination token named <code>NextToken</code>. You can
+  /// specify this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListPolicyGrants</code> to list the next set of grants.
+  Future<ListPolicyGrantsOutput> listPolicyGrants({
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required TargetEntityType entityType,
+    required ManagedPolicyType policyType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      'policyType': [policyType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/policies/managed/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/grants',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPolicyGrantsOutput.fromJson(response);
   }
 
   /// Lists all members of the specified project.
@@ -3449,6 +4700,9 @@ class DataZone {
   /// in a subsequent call to <code>ListSubscriptionGrants</code> to list the
   /// next set of subscription grants.
   ///
+  /// Parameter [owningProjectId] :
+  /// The ID of the owning project of the subscription grants.
+  ///
   /// Parameter [sortBy] :
   /// Specifies the way of sorting the results of this action.
   ///
@@ -3468,6 +4722,7 @@ class DataZone {
     String? environmentId,
     int? maxResults,
     String? nextToken,
+    String? owningProjectId,
     SortKey? sortBy,
     SortOrder? sortOrder,
     String? subscribedListingId,
@@ -3484,6 +4739,7 @@ class DataZone {
       if (environmentId != null) 'environmentId': [environmentId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (owningProjectId != null) 'owningProjectId': [owningProjectId],
       if (sortBy != null) 'sortBy': [sortBy.value],
       if (sortOrder != null) 'sortOrder': [sortOrder.value],
       if (subscribedListingId != null)
@@ -3547,6 +4803,10 @@ class DataZone {
   ///
   /// Parameter [status] :
   /// Specifies the status of the subscription requests.
+  /// <note>
+  /// This is not a required parameter, but if not specified, by default, Amazon
+  /// DataZone returns only <code>PENDING</code> subscription requests.
+  /// </note>
   ///
   /// Parameter [subscribedListingId] :
   /// The identifier of the subscribed listing.
@@ -3701,6 +4961,10 @@ class DataZone {
   ///
   /// Parameter [status] :
   /// The status of the subscriptions that you want to list.
+  /// <note>
+  /// This is not a required parameter, but if not provided, by default, Amazon
+  /// DataZone returns only <code>APPROVED</code> subscriptions.
+  /// </note>
   ///
   /// Parameter [subscribedListingId] :
   /// The identifier of the subscribed listing for the subscriptions that you
@@ -3851,6 +5115,45 @@ class DataZone {
     return ListTimeSeriesDataPointsOutput.fromJson(response);
   }
 
+  /// Posts a data lineage event.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to post a data lineage event.
+  ///
+  /// Parameter [event] :
+  /// The data lineage event that you want to post. Only open-lineage run event
+  /// are supported as events.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  Future<void> postLineageEvent({
+    required String domainIdentifier,
+    required Uint8List event,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: event,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/lineage/events',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Posts time series data points to Amazon DataZone for the specified asset.
   ///
   /// May throw [InternalServerException].
@@ -3922,6 +5225,9 @@ class DataZone {
   /// Parameter [manageAccessRoleArn] :
   /// The ARN of the manage access role.
   ///
+  /// Parameter [provisioningConfigurations] :
+  /// The provisioning configuration of a blueprint.
+  ///
   /// Parameter [provisioningRoleArn] :
   /// The ARN of the provisioning role.
   ///
@@ -3933,6 +5239,7 @@ class DataZone {
     required List<String> enabledRegions,
     required String environmentBlueprintIdentifier,
     String? manageAccessRoleArn,
+    List<ProvisioningConfiguration>? provisioningConfigurations,
     String? provisioningRoleArn,
     Map<String, Map<String, String>>? regionalParameters,
   }) async {
@@ -3940,6 +5247,8 @@ class DataZone {
       'enabledRegions': enabledRegions,
       if (manageAccessRoleArn != null)
         'manageAccessRoleArn': manageAccessRoleArn,
+      if (provisioningConfigurations != null)
+        'provisioningConfigurations': provisioningConfigurations,
       if (provisioningRoleArn != null)
         'provisioningRoleArn': provisioningRoleArn,
       if (regionalParameters != null) 'regionalParameters': regionalParameters,
@@ -4048,6 +5357,98 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return RejectSubscriptionRequestOutput.fromJson(response);
+  }
+
+  /// Removes an owner from an entity.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to remove an owner from an entity.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity from which you want to remove an owner.
+  ///
+  /// Parameter [entityType] :
+  /// The type of the entity from which you want to remove an owner.
+  ///
+  /// Parameter [owner] :
+  /// The owner that you want to remove from an entity.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  Future<void> removeEntityOwner({
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required DataZoneEntityType entityType,
+    required OwnerProperties owner,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'owner': owner,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/entities/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/removeOwner',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a policy grant.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to remove a policy grant.
+  ///
+  /// Parameter [entityIdentifier] :
+  /// The ID of the entity from which you want to remove a policy grant.
+  ///
+  /// Parameter [entityType] :
+  /// The type of the entity from which you want to remove a policy grant.
+  ///
+  /// Parameter [policyType] :
+  /// The type of the policy that you want to remove.
+  ///
+  /// Parameter [principal] :
+  /// The principal from which you want to remove a policy grant.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that is provided to ensure the
+  /// idempotency of the request.
+  Future<void> removePolicyGrant({
+    required String domainIdentifier,
+    required String entityIdentifier,
+    required TargetEntityType entityType,
+    required ManagedPolicyType policyType,
+    required PolicyGrantPrincipal principal,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'policyType': policyType.value,
+      'principal': principal,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/policies/managed/${Uri.encodeComponent(entityType.value)}/${Uri.encodeComponent(entityIdentifier)}/removeGrant',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Revokes a specified subscription in Amazon DataZone.
@@ -4606,6 +6007,56 @@ class DataZone {
     );
   }
 
+  /// Updates an asset filter.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [assetIdentifier] :
+  /// The ID of the data asset.
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to update an asset filter.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the asset filter.
+  ///
+  /// Parameter [configuration] :
+  /// The configuration of the asset filter.
+  ///
+  /// Parameter [description] :
+  /// The description of the asset filter.
+  ///
+  /// Parameter [name] :
+  /// The name of the asset filter.
+  Future<UpdateAssetFilterOutput> updateAssetFilter({
+    required String assetIdentifier,
+    required String domainIdentifier,
+    required String identifier,
+    AssetFilterConfiguration? configuration,
+    String? description,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (configuration != null) 'configuration': configuration,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/assets/${Uri.encodeComponent(assetIdentifier)}/filters/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAssetFilterOutput.fromJson(response);
+  }
+
   /// Updates the specified data source in Amazon DataZone.
   ///
   /// May throw [InternalServerException].
@@ -4651,6 +6102,10 @@ class DataZone {
   /// The recommendation to be updated as part of the
   /// <code>UpdateDataSource</code> action.
   ///
+  /// Parameter [retainPermissionsOnRevokeFailure] :
+  /// Specifies that the granted permissions are retained in case of a
+  /// self-subscribe functionality failure for a data source.
+  ///
   /// Parameter [schedule] :
   /// The schedule to be updated as part of the <code>UpdateDataSource</code>
   /// action.
@@ -4664,6 +6119,7 @@ class DataZone {
     String? name,
     bool? publishOnImport,
     RecommendationConfiguration? recommendation,
+    bool? retainPermissionsOnRevokeFailure,
     ScheduleConfiguration? schedule,
   }) async {
     final $payload = <String, dynamic>{
@@ -4674,6 +6130,8 @@ class DataZone {
       if (name != null) 'name': name,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
+      if (retainPermissionsOnRevokeFailure != null)
+        'retainPermissionsOnRevokeFailure': retainPermissionsOnRevokeFailure,
       if (schedule != null) 'schedule': schedule,
     };
     final response = await _protocol.send(
@@ -4746,6 +6204,47 @@ class DataZone {
     return UpdateDomainOutput.fromJson(response);
   }
 
+  /// Updates the domain unit.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The ID of the domain where you want to update a domain unit.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the domain unit that you want to update.
+  ///
+  /// Parameter [description] :
+  /// The description of the domain unit that you want to update.
+  ///
+  /// Parameter [name] :
+  /// The name of the domain unit that you want to update.
+  Future<UpdateDomainUnitOutput> updateDomainUnit({
+    required String domainIdentifier,
+    required String identifier,
+    String? description,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/domain-units/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDomainUnitOutput.fromJson(response);
+  }
+
   /// Updates the specified environment in Amazon DataZone.
   ///
   /// May throw [InternalServerException].
@@ -4793,6 +6292,56 @@ class DataZone {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateEnvironmentOutput.fromJson(response);
+  }
+
+  /// Updates an environment action.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainIdentifier] :
+  /// The domain ID of the environment action.
+  ///
+  /// Parameter [environmentIdentifier] :
+  /// The environment ID of the environment action.
+  ///
+  /// Parameter [identifier] :
+  /// The ID of the environment action.
+  ///
+  /// Parameter [description] :
+  /// The description of the environment action.
+  ///
+  /// Parameter [name] :
+  /// The name of the environment action.
+  ///
+  /// Parameter [parameters] :
+  /// The parameters of the environment action.
+  Future<UpdateEnvironmentActionOutput> updateEnvironmentAction({
+    required String domainIdentifier,
+    required String environmentIdentifier,
+    required String identifier,
+    String? description,
+    String? name,
+    ActionParameters? parameters,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (parameters != null) 'parameters': parameters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/v2/domains/${Uri.encodeComponent(domainIdentifier)}/environments/${Uri.encodeComponent(environmentIdentifier)}/actions/${Uri.encodeComponent(identifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEnvironmentActionOutput.fromJson(response);
   }
 
   /// Updates the specified environment profile in Amazon DataZone.
@@ -5028,8 +6577,7 @@ class DataZone {
   /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainIdentifier] :
-  /// The identifier of the Amazon DataZone domain in which a project is to be
-  /// updated.
+  /// The ID of the Amazon DataZone domain where a project is being updated.
   ///
   /// Parameter [identifier] :
   /// The identifier of the project that is to be updated.
@@ -5492,6 +7040,294 @@ class AcceptSubscriptionRequestOutput {
       if (decisionComment != null) 'decisionComment': decisionComment,
       if (reviewerId != null) 'reviewerId': reviewerId,
       if (updatedBy != null) 'updatedBy': updatedBy,
+    };
+  }
+}
+
+/// The accepted asset scope.
+class AcceptedAssetScope {
+  /// The asset ID of the accepted asset scope.
+  final String assetId;
+
+  /// The filter IDs of the accepted asset scope.
+  final List<String> filterIds;
+
+  AcceptedAssetScope({
+    required this.assetId,
+    required this.filterIds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final filterIds = this.filterIds;
+    return {
+      'assetId': assetId,
+      'filterIds': filterIds,
+    };
+  }
+}
+
+/// The parameters of the environment action.
+class ActionParameters {
+  /// The console link specified as part of the environment action.
+  final AwsConsoleLinkParameters? awsConsoleLink;
+
+  ActionParameters({
+    this.awsConsoleLink,
+  });
+
+  factory ActionParameters.fromJson(Map<String, dynamic> json) {
+    return ActionParameters(
+      awsConsoleLink: json['awsConsoleLink'] != null
+          ? AwsConsoleLinkParameters.fromJson(
+              json['awsConsoleLink'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsConsoleLink = this.awsConsoleLink;
+    return {
+      if (awsConsoleLink != null) 'awsConsoleLink': awsConsoleLink,
+    };
+  }
+}
+
+class AddEntityOwnerOutput {
+  AddEntityOwnerOutput();
+
+  factory AddEntityOwnerOutput.fromJson(Map<String, dynamic> _) {
+    return AddEntityOwnerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AddPolicyGrantOutput {
+  AddPolicyGrantOutput();
+
+  factory AddPolicyGrantOutput.fromJson(Map<String, dynamic> _) {
+    return AddPolicyGrantOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The details of the policy grant.
+class AddToProjectMemberPoolPolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  AddToProjectMemberPoolPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory AddToProjectMemberPoolPolicyGrantDetail.fromJson(
+      Map<String, dynamic> json) {
+    return AddToProjectMemberPoolPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+/// The grant filter for all domain units.
+class AllDomainUnitsGrantFilter {
+  AllDomainUnitsGrantFilter();
+
+  factory AllDomainUnitsGrantFilter.fromJson(Map<String, dynamic> _) {
+    return AllDomainUnitsGrantFilter();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The all users grant filter.
+class AllUsersGrantFilter {
+  AllUsersGrantFilter();
+
+  factory AllUsersGrantFilter.fromJson(Map<String, dynamic> _) {
+    return AllUsersGrantFilter();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The configuration details of the asset filter.
+class AssetFilterConfiguration {
+  /// The column configuration of the asset filter.
+  final ColumnFilterConfiguration? columnConfiguration;
+
+  /// The row configuration of the asset filter.
+  final RowFilterConfiguration? rowConfiguration;
+
+  AssetFilterConfiguration({
+    this.columnConfiguration,
+    this.rowConfiguration,
+  });
+
+  factory AssetFilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return AssetFilterConfiguration(
+      columnConfiguration: json['columnConfiguration'] != null
+          ? ColumnFilterConfiguration.fromJson(
+              json['columnConfiguration'] as Map<String, dynamic>)
+          : null,
+      rowConfiguration: json['rowConfiguration'] != null
+          ? RowFilterConfiguration.fromJson(
+              json['rowConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnConfiguration = this.columnConfiguration;
+    final rowConfiguration = this.rowConfiguration;
+    return {
+      if (columnConfiguration != null)
+        'columnConfiguration': columnConfiguration,
+      if (rowConfiguration != null) 'rowConfiguration': rowConfiguration,
+    };
+  }
+}
+
+/// The summary of the asset filter.
+class AssetFilterSummary {
+  /// The ID of the data asset.
+  final String assetId;
+
+  /// The ID of the domain where the asset filter lives.
+  final String domainId;
+
+  /// The ID of the asset filter.
+  final String id;
+
+  /// The name of the asset filter.
+  final String name;
+
+  /// The timestamp at which the asset filter was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset filter.
+  final String? description;
+
+  /// The effective column names of the asset filter.
+  final List<String>? effectiveColumnNames;
+
+  /// The effective row filter of the asset filter.
+  final String? effectiveRowFilter;
+
+  /// The error message that is displayed if the action does not succeed.
+  final String? errorMessage;
+
+  /// The status of the asset filter.
+  final FilterStatus? status;
+
+  AssetFilterSummary({
+    required this.assetId,
+    required this.domainId,
+    required this.id,
+    required this.name,
+    this.createdAt,
+    this.description,
+    this.effectiveColumnNames,
+    this.effectiveRowFilter,
+    this.errorMessage,
+    this.status,
+  });
+
+  factory AssetFilterSummary.fromJson(Map<String, dynamic> json) {
+    return AssetFilterSummary(
+      assetId: json['assetId'] as String,
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      effectiveColumnNames: (json['effectiveColumnNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      effectiveRowFilter: json['effectiveRowFilter'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      status: (json['status'] as String?)?.let(FilterStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final effectiveColumnNames = this.effectiveColumnNames;
+    final effectiveRowFilter = this.effectiveRowFilter;
+    final errorMessage = this.errorMessage;
+    final status = this.status;
+    return {
+      'assetId': assetId,
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (effectiveColumnNames != null)
+        'effectiveColumnNames': effectiveColumnNames,
+      if (effectiveRowFilter != null) 'effectiveRowFilter': effectiveRowFilter,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The listing of the asset in a data product.
+class AssetInDataProductListingItem {
+  /// The entity ID of the listing of the asset in a data product.
+  final String? entityId;
+
+  /// The entity revision of the listing of the asset in a data product.
+  final String? entityRevision;
+
+  /// The entity type of the listing of the asset in a data product.
+  final String? entityType;
+
+  AssetInDataProductListingItem({
+    this.entityId,
+    this.entityRevision,
+    this.entityType,
+  });
+
+  factory AssetInDataProductListingItem.fromJson(Map<String, dynamic> json) {
+    return AssetInDataProductListingItem(
+      entityId: json['entityId'] as String?,
+      entityRevision: json['entityRevision'] as String?,
+      entityType: json['entityType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final entityRevision = this.entityRevision;
+    final entityType = this.entityType;
+    return {
+      if (entityId != null) 'entityId': entityId,
+      if (entityRevision != null) 'entityRevision': entityRevision,
+      if (entityType != null) 'entityType': entityType,
     };
   }
 }
@@ -6001,6 +7837,51 @@ class AssetRevision {
   }
 }
 
+/// The asset scope.
+class AssetScope {
+  /// The asset ID of the asset scope.
+  final String assetId;
+
+  /// The filter IDs of the asset scope.
+  final List<String> filterIds;
+
+  /// The status of the asset scope.
+  final String status;
+
+  /// The error message of the asset scope.
+  final String? errorMessage;
+
+  AssetScope({
+    required this.assetId,
+    required this.filterIds,
+    required this.status,
+    this.errorMessage,
+  });
+
+  factory AssetScope.fromJson(Map<String, dynamic> json) {
+    return AssetScope(
+      assetId: json['assetId'] as String,
+      filterIds:
+          (json['filterIds'] as List).nonNulls.map((e) => e as String).toList(),
+      status: json['status'] as String,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final filterIds = this.filterIds;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    return {
+      'assetId': assetId,
+      'filterIds': filterIds,
+      'status': status,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
 /// The name map for assets.
 class AssetTargetNameMap {
   /// The identifier of the inventory asset.
@@ -6126,6 +8007,18 @@ class AssetTypeItem {
   }
 }
 
+class AssociateEnvironmentRoleOutput {
+  AssociateEnvironmentRoleOutput();
+
+  factory AssociateEnvironmentRoleOutput.fromJson(Map<String, dynamic> _) {
+    return AssociateEnvironmentRoleOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum AuthType {
   iamIdc('IAM_IDC'),
   disabled('DISABLED'),
@@ -6138,6 +8031,30 @@ enum AuthType {
   static AuthType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum AuthType'));
+}
+
+/// The parameters of the console link specified as part of the environment
+/// action.
+class AwsConsoleLinkParameters {
+  /// The URI of the console link specified as part of the environment action.
+  final String? uri;
+
+  AwsConsoleLinkParameters({
+    this.uri,
+  });
+
+  factory AwsConsoleLinkParameters.fromJson(Map<String, dynamic> json) {
+    return AwsConsoleLinkParameters(
+      uri: json['uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      if (uri != null) 'uri': uri,
+    };
+  }
 }
 
 /// The configuration of the business name generation.
@@ -6315,6 +8232,33 @@ class CloudFormationProperties {
   }
 }
 
+/// The column configuration of the asset filter.
+class ColumnFilterConfiguration {
+  /// Specifies whether to include column names.
+  final List<String>? includedColumnNames;
+
+  ColumnFilterConfiguration({
+    this.includedColumnNames,
+  });
+
+  factory ColumnFilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return ColumnFilterConfiguration(
+      includedColumnNames: (json['includedColumnNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includedColumnNames = this.includedColumnNames;
+    return {
+      if (includedColumnNames != null)
+        'includedColumnNames': includedColumnNames,
+    };
+  }
+}
+
 /// The details of the parameters for the configurable environment action.
 class ConfigurableActionParameter {
   /// The key of the configurable action parameter.
@@ -6399,6 +8343,104 @@ class ConfigurableEnvironmentAction {
       'parameters': parameters,
       'type': type,
       if (auth != null) 'auth': auth.value,
+    };
+  }
+}
+
+class CreateAssetFilterOutput {
+  /// The ID of the asset.
+  final String assetId;
+
+  /// The configuration of the asset filter.
+  final AssetFilterConfiguration configuration;
+
+  /// The ID of the domain where the asset filter is created.
+  final String domainId;
+
+  /// The ID of the asset filter.
+  final String id;
+
+  /// The name of the asset filter.
+  final String name;
+
+  /// The timestamp at which the asset filter was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset filter.
+  final String? description;
+
+  /// The column names in the asset filter.
+  final List<String>? effectiveColumnNames;
+
+  /// The row filter in the asset filter.
+  final String? effectiveRowFilter;
+
+  /// The error message that is displayed if the asset filter is not created
+  /// successfully.
+  final String? errorMessage;
+
+  /// The status of the asset filter.
+  final FilterStatus? status;
+
+  CreateAssetFilterOutput({
+    required this.assetId,
+    required this.configuration,
+    required this.domainId,
+    required this.id,
+    required this.name,
+    this.createdAt,
+    this.description,
+    this.effectiveColumnNames,
+    this.effectiveRowFilter,
+    this.errorMessage,
+    this.status,
+  });
+
+  factory CreateAssetFilterOutput.fromJson(Map<String, dynamic> json) {
+    return CreateAssetFilterOutput(
+      assetId: json['assetId'] as String,
+      configuration: AssetFilterConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      effectiveColumnNames: (json['effectiveColumnNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      effectiveRowFilter: json['effectiveRowFilter'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      status: (json['status'] as String?)?.let(FilterStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final configuration = this.configuration;
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final effectiveColumnNames = this.effectiveColumnNames;
+    final effectiveRowFilter = this.effectiveRowFilter;
+    final errorMessage = this.errorMessage;
+    final status = this.status;
+    return {
+      'assetId': assetId,
+      'configuration': configuration,
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (effectiveColumnNames != null)
+        'effectiveColumnNames': effectiveColumnNames,
+      if (effectiveRowFilter != null) 'effectiveRowFilter': effectiveRowFilter,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (status != null) 'status': status.value,
     };
   }
 }
@@ -6865,6 +8907,278 @@ class CreateAssetTypeOutput {
   }
 }
 
+/// The details of the policy grant.
+class CreateAssetTypePolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  CreateAssetTypePolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory CreateAssetTypePolicyGrantDetail.fromJson(Map<String, dynamic> json) {
+    return CreateAssetTypePolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+class CreateDataProductOutput {
+  /// The ID of the domain where the data product lives.
+  final String domainId;
+
+  /// The ID of the data product.
+  final String id;
+
+  /// The name of the data product.
+  final String name;
+
+  /// The ID of the owning project of the data product.
+  final String owningProjectId;
+
+  /// The revision of the data product.
+  final String revision;
+
+  /// The status of the data product.
+  final DataProductStatus status;
+
+  /// The timestamp at which the data product was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data product.
+  final String? createdBy;
+
+  /// The description of the data product.
+  final String? description;
+
+  /// The timestamp at which the first revision of the data product was created.
+  final DateTime? firstRevisionCreatedAt;
+
+  /// The user who created the first revision of the data product.
+  final String? firstRevisionCreatedBy;
+
+  /// The metadata forms of the data product.
+  final List<FormOutput>? formsOutput;
+
+  /// The glossary terms of the data product.
+  final List<String>? glossaryTerms;
+
+  /// The data assets of the data product.
+  final List<DataProductItem>? items;
+
+  CreateDataProductOutput({
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owningProjectId,
+    required this.revision,
+    required this.status,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.firstRevisionCreatedAt,
+    this.firstRevisionCreatedBy,
+    this.formsOutput,
+    this.glossaryTerms,
+    this.items,
+  });
+
+  factory CreateDataProductOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDataProductOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owningProjectId: json['owningProjectId'] as String,
+      revision: json['revision'] as String,
+      status: DataProductStatus.fromString((json['status'] as String)),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
+      firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
+      formsOutput: (json['formsOutput'] as List?)
+          ?.nonNulls
+          .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => DataProductItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owningProjectId = this.owningProjectId;
+    final revision = this.revision;
+    final status = this.status;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final firstRevisionCreatedAt = this.firstRevisionCreatedAt;
+    final firstRevisionCreatedBy = this.firstRevisionCreatedBy;
+    final formsOutput = this.formsOutput;
+    final glossaryTerms = this.glossaryTerms;
+    final items = this.items;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owningProjectId': owningProjectId,
+      'revision': revision,
+      'status': status.value,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (firstRevisionCreatedAt != null)
+        'firstRevisionCreatedAt': unixTimestampToJson(firstRevisionCreatedAt),
+      if (firstRevisionCreatedBy != null)
+        'firstRevisionCreatedBy': firstRevisionCreatedBy,
+      if (formsOutput != null) 'formsOutput': formsOutput,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+    };
+  }
+}
+
+class CreateDataProductRevisionOutput {
+  /// The ID of the domain where data product revision is created.
+  final String domainId;
+
+  /// The ID of the data product revision.
+  final String id;
+
+  /// The name of the data product revision.
+  final String name;
+
+  /// The ID of the owning project of the data product revision.
+  final String owningProjectId;
+
+  /// The revision of the data product revision.
+  final String revision;
+
+  /// The status of the data product revision.
+  final DataProductStatus status;
+
+  /// The timestamp at which the data product revision is created.
+  final DateTime? createdAt;
+
+  /// The user who created the data product revision.
+  final String? createdBy;
+
+  /// The description of the data product revision.
+  final String? description;
+
+  /// The timestamp at which the first revision of the data product is created.
+  final DateTime? firstRevisionCreatedAt;
+
+  /// The user who created the first revision of the data product.
+  final String? firstRevisionCreatedBy;
+
+  /// The metadata forms of the data product revision.
+  final List<FormOutput>? formsOutput;
+
+  /// The glossary terms of the data product revision.
+  final List<String>? glossaryTerms;
+
+  /// The data assets of the data product revision.
+  final List<DataProductItem>? items;
+
+  CreateDataProductRevisionOutput({
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owningProjectId,
+    required this.revision,
+    required this.status,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.firstRevisionCreatedAt,
+    this.firstRevisionCreatedBy,
+    this.formsOutput,
+    this.glossaryTerms,
+    this.items,
+  });
+
+  factory CreateDataProductRevisionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDataProductRevisionOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owningProjectId: json['owningProjectId'] as String,
+      revision: json['revision'] as String,
+      status: DataProductStatus.fromString((json['status'] as String)),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
+      firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
+      formsOutput: (json['formsOutput'] as List?)
+          ?.nonNulls
+          .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => DataProductItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owningProjectId = this.owningProjectId;
+    final revision = this.revision;
+    final status = this.status;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final firstRevisionCreatedAt = this.firstRevisionCreatedAt;
+    final firstRevisionCreatedBy = this.firstRevisionCreatedBy;
+    final formsOutput = this.formsOutput;
+    final glossaryTerms = this.glossaryTerms;
+    final items = this.items;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owningProjectId': owningProjectId,
+      'revision': revision,
+      'status': status.value,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (firstRevisionCreatedAt != null)
+        'firstRevisionCreatedAt': unixTimestampToJson(firstRevisionCreatedAt),
+      if (firstRevisionCreatedBy != null)
+        'firstRevisionCreatedBy': firstRevisionCreatedBy,
+      if (formsOutput != null) 'formsOutput': formsOutput,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+    };
+  }
+}
+
 class CreateDataSourceOutput {
   /// The ID of the Amazon DataZone domain in which the data source is created.
   final String domainId;
@@ -7073,6 +9387,9 @@ class CreateDomainOutput {
   /// The URL of the data portal for this Amazon DataZone domain.
   final String? portalUrl;
 
+  /// The ID of the root domain unit.
+  final String? rootDomainUnitId;
+
   /// The single-sign on configuration of the Amazon DataZone domain.
   final SingleSignOn? singleSignOn;
 
@@ -7090,6 +9407,7 @@ class CreateDomainOutput {
     this.kmsKeyIdentifier,
     this.name,
     this.portalUrl,
+    this.rootDomainUnitId,
     this.singleSignOn,
     this.status,
     this.tags,
@@ -7104,6 +9422,7 @@ class CreateDomainOutput {
       kmsKeyIdentifier: json['kmsKeyIdentifier'] as String?,
       name: json['name'] as String?,
       portalUrl: json['portalUrl'] as String?,
+      rootDomainUnitId: json['rootDomainUnitId'] as String?,
       singleSignOn: json['singleSignOn'] != null
           ? SingleSignOn.fromJson(json['singleSignOn'] as Map<String, dynamic>)
           : null,
@@ -7121,6 +9440,7 @@ class CreateDomainOutput {
     final kmsKeyIdentifier = this.kmsKeyIdentifier;
     final name = this.name;
     final portalUrl = this.portalUrl;
+    final rootDomainUnitId = this.rootDomainUnitId;
     final singleSignOn = this.singleSignOn;
     final status = this.status;
     final tags = this.tags;
@@ -7133,9 +9453,178 @@ class CreateDomainOutput {
       if (kmsKeyIdentifier != null) 'kmsKeyIdentifier': kmsKeyIdentifier,
       if (name != null) 'name': name,
       if (portalUrl != null) 'portalUrl': portalUrl,
+      if (rootDomainUnitId != null) 'rootDomainUnitId': rootDomainUnitId,
       if (singleSignOn != null) 'singleSignOn': singleSignOn,
       if (status != null) 'status': status.value,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class CreateDomainUnitOutput {
+  /// The IDs of the ancestor domain units.
+  final List<String> ancestorDomainUnitIds;
+
+  /// The ID of the domain where the domain unit was created.
+  final String domainId;
+
+  /// The ID of the domain unit.
+  final String id;
+
+  /// The name of the domain unit.
+  final String name;
+
+  /// The owners of the domain unit.
+  final List<DomainUnitOwnerProperties> owners;
+
+  /// The timestamp at which the domain unit was created.
+  final DateTime? createdAt;
+
+  /// The user who created the domain unit.
+  final String? createdBy;
+
+  /// The description of the domain unit.
+  final String? description;
+
+  /// The ID of the parent domain unit.
+  final String? parentDomainUnitId;
+
+  CreateDomainUnitOutput({
+    required this.ancestorDomainUnitIds,
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owners,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.parentDomainUnitId,
+  });
+
+  factory CreateDomainUnitOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDomainUnitOutput(
+      ancestorDomainUnitIds: (json['ancestorDomainUnitIds'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owners: (json['owners'] as List)
+          .nonNulls
+          .map((e) =>
+              DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      parentDomainUnitId: json['parentDomainUnitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ancestorDomainUnitIds = this.ancestorDomainUnitIds;
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owners = this.owners;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final parentDomainUnitId = this.parentDomainUnitId;
+    return {
+      'ancestorDomainUnitIds': ancestorDomainUnitIds,
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owners': owners,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (parentDomainUnitId != null) 'parentDomainUnitId': parentDomainUnitId,
+    };
+  }
+}
+
+/// The details of the policy grant.
+class CreateDomainUnitPolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  CreateDomainUnitPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory CreateDomainUnitPolicyGrantDetail.fromJson(
+      Map<String, dynamic> json) {
+    return CreateDomainUnitPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+class CreateEnvironmentActionOutput {
+  /// The ID of the domain in which the environment action is created.
+  final String domainId;
+
+  /// The ID of the environment in which the environment is created.
+  final String environmentId;
+
+  /// The ID of the environment action.
+  final String id;
+
+  /// The name of the environment action.
+  final String name;
+
+  /// The parameters of the environment action.
+  final ActionParameters parameters;
+
+  /// The description of the environment action.
+  final String? description;
+
+  CreateEnvironmentActionOutput({
+    required this.domainId,
+    required this.environmentId,
+    required this.id,
+    required this.name,
+    required this.parameters,
+    this.description,
+  });
+
+  factory CreateEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateEnvironmentActionOutput(
+      domainId: json['domainId'] as String,
+      environmentId: json['environmentId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      parameters:
+          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final description = this.description;
+    return {
+      'domainId': domainId,
+      'environmentId': environmentId,
+      'id': id,
+      'name': name,
+      'parameters': parameters,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -7147,10 +9636,6 @@ class CreateEnvironmentOutput {
   /// The identifier of the Amazon DataZone domain in which the environment is
   /// created.
   final String domainId;
-
-  /// The ID of the environment profile with which this Amazon DataZone
-  /// environment was created.
-  final String environmentProfileId;
 
   /// The name of this environment.
   final String name;
@@ -7185,6 +9670,10 @@ class CreateEnvironmentOutput {
   /// created.
   final String? environmentBlueprintId;
 
+  /// The ID of the environment profile with which this Amazon DataZone
+  /// environment was created.
+  final String? environmentProfileId;
+
   /// The glossary terms that can be used in this Amazon DataZone environment.
   final List<String>? glossaryTerms;
 
@@ -7212,7 +9701,6 @@ class CreateEnvironmentOutput {
   CreateEnvironmentOutput({
     required this.createdBy,
     required this.domainId,
-    required this.environmentProfileId,
     required this.name,
     required this.projectId,
     required this.provider,
@@ -7223,6 +9711,7 @@ class CreateEnvironmentOutput {
     this.description,
     this.environmentActions,
     this.environmentBlueprintId,
+    this.environmentProfileId,
     this.glossaryTerms,
     this.id,
     this.lastDeployment,
@@ -7237,7 +9726,6 @@ class CreateEnvironmentOutput {
     return CreateEnvironmentOutput(
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
-      environmentProfileId: json['environmentProfileId'] as String,
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
@@ -7255,6 +9743,7 @@ class CreateEnvironmentOutput {
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
+      environmentProfileId: json['environmentProfileId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -7283,7 +9772,6 @@ class CreateEnvironmentOutput {
   Map<String, dynamic> toJson() {
     final createdBy = this.createdBy;
     final domainId = this.domainId;
-    final environmentProfileId = this.environmentProfileId;
     final name = this.name;
     final projectId = this.projectId;
     final provider = this.provider;
@@ -7294,6 +9782,7 @@ class CreateEnvironmentOutput {
     final description = this.description;
     final environmentActions = this.environmentActions;
     final environmentBlueprintId = this.environmentBlueprintId;
+    final environmentProfileId = this.environmentProfileId;
     final glossaryTerms = this.glossaryTerms;
     final id = this.id;
     final lastDeployment = this.lastDeployment;
@@ -7305,7 +9794,6 @@ class CreateEnvironmentOutput {
     return {
       'createdBy': createdBy,
       'domainId': domainId,
-      'environmentProfileId': environmentProfileId,
       'name': name,
       'projectId': projectId,
       'provider': provider,
@@ -7318,6 +9806,8 @@ class CreateEnvironmentOutput {
       if (environmentActions != null) 'environmentActions': environmentActions,
       if (environmentBlueprintId != null)
         'environmentBlueprintId': environmentBlueprintId,
+      if (environmentProfileId != null)
+        'environmentProfileId': environmentProfileId,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (id != null) 'id': id,
       if (lastDeployment != null) 'lastDeployment': lastDeployment,
@@ -7438,6 +9928,30 @@ class CreateEnvironmentProfileOutput {
   }
 }
 
+/// The details of the policy grant.
+class CreateEnvironmentProfilePolicyGrantDetail {
+  /// The ID of the domain unit.
+  final String? domainUnitId;
+
+  CreateEnvironmentProfilePolicyGrantDetail({
+    this.domainUnitId,
+  });
+
+  factory CreateEnvironmentProfilePolicyGrantDetail.fromJson(
+      Map<String, dynamic> json) {
+    return CreateEnvironmentProfilePolicyGrantDetail(
+      domainUnitId: json['domainUnitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainUnitId = this.domainUnitId;
+    return {
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
+    };
+  }
+}
+
 class CreateFormTypeOutput {
   /// The ID of the Amazon DataZone domain in which this metadata form type is
   /// created.
@@ -7505,6 +10019,30 @@ class CreateFormTypeOutput {
   }
 }
 
+/// The details of the policy grant.
+class CreateFormTypePolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  CreateFormTypePolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory CreateFormTypePolicyGrantDetail.fromJson(Map<String, dynamic> json) {
+    return CreateFormTypePolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
 class CreateGlossaryOutput {
   /// The ID of the Amazon DataZone domain in which this business glossary is
   /// created.
@@ -7559,6 +10097,30 @@ class CreateGlossaryOutput {
       'owningProjectId': owningProjectId,
       if (description != null) 'description': description,
       if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The details of the policy grant.
+class CreateGlossaryPolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  CreateGlossaryPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory CreateGlossaryPolicyGrantDetail.fromJson(Map<String, dynamic> json) {
+    return CreateGlossaryPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
     };
   }
 }
@@ -7750,6 +10312,9 @@ class CreateProjectOutput {
   /// The description of the project.
   final String? description;
 
+  /// The ID of the domain unit.
+  final String? domainUnitId;
+
   /// Specifies the error message that is returned if the operation cannot be
   /// successfully completed.
   final List<ProjectDeletionError>? failureReasons;
@@ -7770,6 +10335,7 @@ class CreateProjectOutput {
     required this.name,
     this.createdAt,
     this.description,
+    this.domainUnitId,
     this.failureReasons,
     this.glossaryTerms,
     this.lastUpdatedAt,
@@ -7784,6 +10350,7 @@ class CreateProjectOutput {
       name: json['name'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      domainUnitId: json['domainUnitId'] as String?,
       failureReasons: (json['failureReasons'] as List?)
           ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
@@ -7805,6 +10372,7 @@ class CreateProjectOutput {
     final name = this.name;
     final createdAt = this.createdAt;
     final description = this.description;
+    final domainUnitId = this.domainUnitId;
     final failureReasons = this.failureReasons;
     final glossaryTerms = this.glossaryTerms;
     final lastUpdatedAt = this.lastUpdatedAt;
@@ -7816,10 +10384,35 @@ class CreateProjectOutput {
       'name': name,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
       if (projectStatus != null) 'projectStatus': projectStatus.value,
+    };
+  }
+}
+
+/// The details of the policy grant.
+class CreateProjectPolicyGrantDetail {
+  /// Specifies whether the policy grant is applied to child domain units.
+  final bool? includeChildDomainUnits;
+
+  CreateProjectPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory CreateProjectPolicyGrantDetail.fromJson(Map<String, dynamic> json) {
+    return CreateProjectPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
     };
   }
 }
@@ -8291,104 +10884,340 @@ enum DataAssetActivityStatus {
               '$value is not known in enum DataAssetActivityStatus'));
 }
 
-/// <p/>
+/// The data product.
 class DataProductItem {
-  /// <p/>
-  final String? domainId;
+  /// The ID of the data product.
+  final String identifier;
 
-  /// <p/>
-  final String? itemId;
+  /// The type of the data product.
+  final DataProductItemType itemType;
+
+  /// The glossary terms of the data product.
+  final List<String>? glossaryTerms;
+
+  /// The revision of the data product.
+  final String? revision;
 
   DataProductItem({
-    this.domainId,
-    this.itemId,
+    required this.identifier,
+    required this.itemType,
+    this.glossaryTerms,
+    this.revision,
   });
 
   factory DataProductItem.fromJson(Map<String, dynamic> json) {
     return DataProductItem(
-      domainId: json['domainId'] as String?,
-      itemId: json['itemId'] as String?,
+      identifier: json['identifier'] as String,
+      itemType: DataProductItemType.fromString((json['itemType'] as String)),
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      revision: json['revision'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final domainId = this.domainId;
-    final itemId = this.itemId;
+    final identifier = this.identifier;
+    final itemType = this.itemType;
+    final glossaryTerms = this.glossaryTerms;
+    final revision = this.revision;
     return {
-      if (domainId != null) 'domainId': domainId,
-      if (itemId != null) 'itemId': itemId,
+      'identifier': identifier,
+      'itemType': itemType.value,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (revision != null) 'revision': revision,
     };
   }
 }
 
-/// <p/>
-class DataProductSummary {
-  /// <p/>
-  final String domainId;
+enum DataProductItemType {
+  asset('ASSET'),
+  ;
 
-  /// <p/>
-  final String id;
+  final String value;
 
-  /// <p/>
-  final String name;
+  const DataProductItemType(this.value);
 
-  /// <p/>
-  final String owningProjectId;
+  static DataProductItemType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataProductItemType'));
+}
 
-  /// <p/>
+/// The data product listing.
+class DataProductListing {
+  /// The timestamp at which the data product listing was created.
   final DateTime? createdAt;
 
-  /// <p/>
-  final String? createdBy;
+  /// The ID of the data product listing.
+  final String? dataProductId;
 
-  /// <p/>
-  final List<DataProductItem>? dataProductItems;
+  /// The revision of the data product listing.
+  final String? dataProductRevision;
 
-  /// <p/>
+  /// The metadata forms of the data product listing.
+  final String? forms;
+
+  /// The glossary terms of the data product listing.
+  final List<DetailedGlossaryTerm>? glossaryTerms;
+
+  /// The data assets of the data product listing.
+  final List<ListingSummary>? items;
+
+  /// The ID of the owning project of the data product listing.
+  final String? owningProjectId;
+
+  DataProductListing({
+    this.createdAt,
+    this.dataProductId,
+    this.dataProductRevision,
+    this.forms,
+    this.glossaryTerms,
+    this.items,
+    this.owningProjectId,
+  });
+
+  factory DataProductListing.fromJson(Map<String, dynamic> json) {
+    return DataProductListing(
+      createdAt: timeStampFromJson(json['createdAt']),
+      dataProductId: json['dataProductId'] as String?,
+      dataProductRevision: json['dataProductRevision'] as String?,
+      forms: json['forms'] as String?,
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => ListingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      owningProjectId: json['owningProjectId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final dataProductId = this.dataProductId;
+    final dataProductRevision = this.dataProductRevision;
+    final forms = this.forms;
+    final glossaryTerms = this.glossaryTerms;
+    final items = this.items;
+    final owningProjectId = this.owningProjectId;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (dataProductId != null) 'dataProductId': dataProductId,
+      if (dataProductRevision != null)
+        'dataProductRevision': dataProductRevision,
+      if (forms != null) 'forms': forms,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+      if (owningProjectId != null) 'owningProjectId': owningProjectId,
+    };
+  }
+}
+
+/// The asset of the data product listing.
+class DataProductListingItem {
+  /// The additional attributes of the asset of the data product.
+  final DataProductListingItemAdditionalAttributes? additionalAttributes;
+
+  /// The timestamp at which the asset of the data product listing was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset of the asset of the data product.
   final String? description;
 
-  /// <p/>
+  /// The entity ID of the asset of the asset of the data product.
+  final String? entityId;
+
+  /// The revision of the asset of the asset of the data product.
+  final String? entityRevision;
+
+  /// The glossary terms of the asset of the asset of the data product.
+  final List<DetailedGlossaryTerm>? glossaryTerms;
+
+  /// The data of the asset of the data product.
+  final List<ListingSummaryItem>? items;
+
+  /// The timestamp at which the listing was created.
+  final String? listingCreatedBy;
+
+  /// The ID of the listing.
+  final String? listingId;
+
+  /// The revision of the listing.
+  final String? listingRevision;
+
+  /// The user who updated the listing.
+  final String? listingUpdatedBy;
+
+  /// The name of the asset of the data product.
+  final String? name;
+
+  /// The ID of the owning project of the asset of the data product.
+  final String? owningProjectId;
+
+  DataProductListingItem({
+    this.additionalAttributes,
+    this.createdAt,
+    this.description,
+    this.entityId,
+    this.entityRevision,
+    this.glossaryTerms,
+    this.items,
+    this.listingCreatedBy,
+    this.listingId,
+    this.listingRevision,
+    this.listingUpdatedBy,
+    this.name,
+    this.owningProjectId,
+  });
+
+  factory DataProductListingItem.fromJson(Map<String, dynamic> json) {
+    return DataProductListingItem(
+      additionalAttributes: json['additionalAttributes'] != null
+          ? DataProductListingItemAdditionalAttributes.fromJson(
+              json['additionalAttributes'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      entityId: json['entityId'] as String?,
+      entityRevision: json['entityRevision'] as String?,
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => ListingSummaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listingCreatedBy: json['listingCreatedBy'] as String?,
+      listingId: json['listingId'] as String?,
+      listingRevision: json['listingRevision'] as String?,
+      listingUpdatedBy: json['listingUpdatedBy'] as String?,
+      name: json['name'] as String?,
+      owningProjectId: json['owningProjectId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAttributes = this.additionalAttributes;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final entityId = this.entityId;
+    final entityRevision = this.entityRevision;
+    final glossaryTerms = this.glossaryTerms;
+    final items = this.items;
+    final listingCreatedBy = this.listingCreatedBy;
+    final listingId = this.listingId;
+    final listingRevision = this.listingRevision;
+    final listingUpdatedBy = this.listingUpdatedBy;
+    final name = this.name;
+    final owningProjectId = this.owningProjectId;
+    return {
+      if (additionalAttributes != null)
+        'additionalAttributes': additionalAttributes,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (entityId != null) 'entityId': entityId,
+      if (entityRevision != null) 'entityRevision': entityRevision,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+      if (listingCreatedBy != null) 'listingCreatedBy': listingCreatedBy,
+      if (listingId != null) 'listingId': listingId,
+      if (listingRevision != null) 'listingRevision': listingRevision,
+      if (listingUpdatedBy != null) 'listingUpdatedBy': listingUpdatedBy,
+      if (name != null) 'name': name,
+      if (owningProjectId != null) 'owningProjectId': owningProjectId,
+    };
+  }
+}
+
+/// The additional attributes of the asset of the data product.
+class DataProductListingItemAdditionalAttributes {
+  /// The metadata forms of the asset of the data product.
+  final String? forms;
+
+  DataProductListingItemAdditionalAttributes({
+    this.forms,
+  });
+
+  factory DataProductListingItemAdditionalAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return DataProductListingItemAdditionalAttributes(
+      forms: json['forms'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forms = this.forms;
+    return {
+      if (forms != null) 'forms': forms,
+    };
+  }
+}
+
+/// The data product.
+class DataProductResultItem {
+  /// The ID of the domain where the data product lives.
+  final String domainId;
+
+  /// The ID of the data product.
+  final String id;
+
+  /// The name of the data product.
+  final String name;
+
+  /// The ID of the owning project of the data product.
+  final String owningProjectId;
+
+  /// The timestamp at which the data product was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data product.
+  final String? createdBy;
+
+  /// The description of the data product.
+  final String? description;
+
+  /// The timestamp at which first revision of the data product was created.
+  final DateTime? firstRevisionCreatedAt;
+
+  /// The user who created the first revision of the data product.
+  final String? firstRevisionCreatedBy;
+
+  /// The glossary terms of the data product.
   final List<String>? glossaryTerms;
 
-  /// <p/>
-  final DateTime? updatedAt;
-
-  /// <p/>
-  final String? updatedBy;
-
-  DataProductSummary({
+  DataProductResultItem({
     required this.domainId,
     required this.id,
     required this.name,
     required this.owningProjectId,
     this.createdAt,
     this.createdBy,
-    this.dataProductItems,
     this.description,
+    this.firstRevisionCreatedAt,
+    this.firstRevisionCreatedBy,
     this.glossaryTerms,
-    this.updatedAt,
-    this.updatedBy,
   });
 
-  factory DataProductSummary.fromJson(Map<String, dynamic> json) {
-    return DataProductSummary(
+  factory DataProductResultItem.fromJson(Map<String, dynamic> json) {
+    return DataProductResultItem(
       domainId: json['domainId'] as String,
       id: json['id'] as String,
       name: json['name'] as String,
       owningProjectId: json['owningProjectId'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
-      dataProductItems: (json['dataProductItems'] as List?)
-          ?.nonNulls
-          .map((e) => DataProductItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
       description: json['description'] as String?,
+      firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
+      firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-      updatedBy: json['updatedBy'] as String?,
     );
   }
 
@@ -8399,11 +11228,10 @@ class DataProductSummary {
     final owningProjectId = this.owningProjectId;
     final createdAt = this.createdAt;
     final createdBy = this.createdBy;
-    final dataProductItems = this.dataProductItems;
     final description = this.description;
+    final firstRevisionCreatedAt = this.firstRevisionCreatedAt;
+    final firstRevisionCreatedBy = this.firstRevisionCreatedBy;
     final glossaryTerms = this.glossaryTerms;
-    final updatedAt = this.updatedAt;
-    final updatedBy = this.updatedBy;
     return {
       'domainId': domainId,
       'id': id,
@@ -8411,13 +11239,81 @@ class DataProductSummary {
       'owningProjectId': owningProjectId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
-      if (dataProductItems != null) 'dataProductItems': dataProductItems,
       if (description != null) 'description': description,
+      if (firstRevisionCreatedAt != null)
+        'firstRevisionCreatedAt': unixTimestampToJson(firstRevisionCreatedAt),
+      if (firstRevisionCreatedBy != null)
+        'firstRevisionCreatedBy': firstRevisionCreatedBy,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-      if (updatedBy != null) 'updatedBy': updatedBy,
     };
   }
+}
+
+/// The data product revision.
+class DataProductRevision {
+  /// The timestamp at which the data product revision was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data product revision.
+  final String? createdBy;
+
+  /// The ID of the domain where the data product revision lives.
+  final String? domainId;
+
+  /// The ID of the data product revision.
+  final String? id;
+
+  /// The data product revision.
+  final String? revision;
+
+  DataProductRevision({
+    this.createdAt,
+    this.createdBy,
+    this.domainId,
+    this.id,
+    this.revision,
+  });
+
+  factory DataProductRevision.fromJson(Map<String, dynamic> json) {
+    return DataProductRevision(
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      domainId: json['domainId'] as String?,
+      id: json['id'] as String?,
+      revision: json['revision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final domainId = this.domainId;
+    final id = this.id;
+    final revision = this.revision;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (domainId != null) 'domainId': domainId,
+      if (id != null) 'id': id,
+      if (revision != null) 'revision': revision,
+    };
+  }
+}
+
+enum DataProductStatus {
+  created('CREATED'),
+  creating('CREATING'),
+  createFailed('CREATE_FAILED'),
+  ;
+
+  final String value;
+
+  const DataProductStatus(this.value);
+
+  static DataProductStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataProductStatus'));
 }
 
 /// The configuration of the data source.
@@ -8894,6 +11790,20 @@ class DataSourceSummary {
   }
 }
 
+enum DataZoneEntityType {
+  domainUnit('DOMAIN_UNIT'),
+  ;
+
+  final String value;
+
+  const DataZoneEntityType(this.value);
+
+  static DataZoneEntityType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DataZoneEntityType'));
+}
+
 class DeleteAssetOutput {
   DeleteAssetOutput();
 
@@ -8911,6 +11821,18 @@ class DeleteAssetTypeOutput {
 
   factory DeleteAssetTypeOutput.fromJson(Map<String, dynamic> _) {
     return DeleteAssetTypeOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteDataProductOutput {
+  DeleteDataProductOutput();
+
+  factory DeleteDataProductOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDataProductOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -8969,8 +11891,15 @@ class DeleteDataSourceOutput {
   /// are to be also automatically published to the catalog.
   final bool? publishOnImport;
 
+  /// Specifies that the granted permissions are retained in case of a
+  /// self-subscribe functionality failure for a data source.
+  final bool? retainPermissionsOnRevokeFailure;
+
   /// The schedule of runs for this data source.
   final ScheduleConfiguration? schedule;
+
+  /// Specifies the status of the self-granting functionality.
+  final SelfGrantStatusOutput? selfGrantStatus;
 
   /// The status of this data source.
   final DataSourceStatus? status;
@@ -8997,7 +11926,9 @@ class DeleteDataSourceOutput {
     this.lastRunErrorMessage,
     this.lastRunStatus,
     this.publishOnImport,
+    this.retainPermissionsOnRevokeFailure,
     this.schedule,
+    this.selfGrantStatus,
     this.status,
     this.type,
     this.updatedAt,
@@ -9034,9 +11965,15 @@ class DeleteDataSourceOutput {
       lastRunStatus: (json['lastRunStatus'] as String?)
           ?.let(DataSourceRunStatus.fromString),
       publishOnImport: json['publishOnImport'] as bool?,
+      retainPermissionsOnRevokeFailure:
+          json['retainPermissionsOnRevokeFailure'] as bool?,
       schedule: json['schedule'] != null
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
+          : null,
+      selfGrantStatus: json['selfGrantStatus'] != null
+          ? SelfGrantStatusOutput.fromJson(
+              json['selfGrantStatus'] as Map<String, dynamic>)
           : null,
       status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
@@ -9060,7 +11997,10 @@ class DeleteDataSourceOutput {
     final lastRunErrorMessage = this.lastRunErrorMessage;
     final lastRunStatus = this.lastRunStatus;
     final publishOnImport = this.publishOnImport;
+    final retainPermissionsOnRevokeFailure =
+        this.retainPermissionsOnRevokeFailure;
     final schedule = this.schedule;
+    final selfGrantStatus = this.selfGrantStatus;
     final status = this.status;
     final type = this.type;
     final updatedAt = this.updatedAt;
@@ -9081,7 +12021,10 @@ class DeleteDataSourceOutput {
         'lastRunErrorMessage': lastRunErrorMessage,
       if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
+      if (retainPermissionsOnRevokeFailure != null)
+        'retainPermissionsOnRevokeFailure': retainPermissionsOnRevokeFailure,
       if (schedule != null) 'schedule': schedule,
+      if (selfGrantStatus != null) 'selfGrantStatus': selfGrantStatus,
       if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
@@ -9108,6 +12051,18 @@ class DeleteDomainOutput {
     return {
       'status': status.value,
     };
+  }
+}
+
+class DeleteDomainUnitOutput {
+  DeleteDomainUnitOutput();
+
+  factory DeleteDomainUnitOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDomainUnitOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -9469,6 +12424,18 @@ class DetailedGlossaryTerm {
   }
 }
 
+class DisassociateEnvironmentRoleOutput {
+  DisassociateEnvironmentRoleOutput();
+
+  factory DisassociateEnvironmentRoleOutput.fromJson(Map<String, dynamic> _) {
+    return DisassociateEnvironmentRoleOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum DomainStatus {
   creating('CREATING'),
   available('AVAILABLE'),
@@ -9568,6 +12535,250 @@ class DomainSummary {
   }
 }
 
+enum DomainUnitDesignation {
+  owner('OWNER'),
+  ;
+
+  final String value;
+
+  const DomainUnitDesignation(this.value);
+
+  static DomainUnitDesignation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DomainUnitDesignation'));
+}
+
+/// The domain unit filter of the project grant filter.
+class DomainUnitFilterForProject {
+  /// The domain unit ID to use in the filter.
+  final String domainUnit;
+
+  /// Specifies whether to include child domain units.
+  final bool? includeChildDomainUnits;
+
+  DomainUnitFilterForProject({
+    required this.domainUnit,
+    this.includeChildDomainUnits,
+  });
+
+  factory DomainUnitFilterForProject.fromJson(Map<String, dynamic> json) {
+    return DomainUnitFilterForProject(
+      domainUnit: json['domainUnit'] as String,
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainUnit = this.domainUnit;
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      'domainUnit': domainUnit,
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+/// The grant filter for the domain unit. In the current release of Amazon
+/// DataZone, the only supported filter is the
+/// <code>allDomainUnitsGrantFilter</code>.
+class DomainUnitGrantFilter {
+  /// Specifies a grant filter containing all domain units.
+  final AllDomainUnitsGrantFilter? allDomainUnitsGrantFilter;
+
+  DomainUnitGrantFilter({
+    this.allDomainUnitsGrantFilter,
+  });
+
+  factory DomainUnitGrantFilter.fromJson(Map<String, dynamic> json) {
+    return DomainUnitGrantFilter(
+      allDomainUnitsGrantFilter: json['allDomainUnitsGrantFilter'] != null
+          ? AllDomainUnitsGrantFilter.fromJson(
+              json['allDomainUnitsGrantFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allDomainUnitsGrantFilter = this.allDomainUnitsGrantFilter;
+    return {
+      if (allDomainUnitsGrantFilter != null)
+        'allDomainUnitsGrantFilter': allDomainUnitsGrantFilter,
+    };
+  }
+}
+
+/// The properties of a domain unit group.
+class DomainUnitGroupProperties {
+  /// The ID of the domain unit group.
+  final String? groupId;
+
+  DomainUnitGroupProperties({
+    this.groupId,
+  });
+
+  factory DomainUnitGroupProperties.fromJson(Map<String, dynamic> json) {
+    return DomainUnitGroupProperties(
+      groupId: json['groupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    return {
+      if (groupId != null) 'groupId': groupId,
+    };
+  }
+}
+
+/// The properties of the domain unit owner.
+class DomainUnitOwnerProperties {
+  /// Indicates that the domain unit owner is a group.
+  final DomainUnitGroupProperties? group;
+
+  /// Indicates that the domain unit owner is a user.
+  final DomainUnitUserProperties? user;
+
+  DomainUnitOwnerProperties({
+    this.group,
+    this.user,
+  });
+
+  factory DomainUnitOwnerProperties.fromJson(Map<String, dynamic> json) {
+    return DomainUnitOwnerProperties(
+      group: json['group'] != null
+          ? DomainUnitGroupProperties.fromJson(
+              json['group'] as Map<String, dynamic>)
+          : null,
+      user: json['user'] != null
+          ? DomainUnitUserProperties.fromJson(
+              json['user'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final user = this.user;
+    return {
+      if (group != null) 'group': group,
+      if (user != null) 'user': user,
+    };
+  }
+}
+
+/// The domain unit principal to whom the policy is granted.
+class DomainUnitPolicyGrantPrincipal {
+  /// Specifes the designation of the domain unit users.
+  final DomainUnitDesignation domainUnitDesignation;
+
+  /// The grant filter for the domain unit.
+  final DomainUnitGrantFilter? domainUnitGrantFilter;
+
+  /// The ID of the domain unit.
+  final String? domainUnitIdentifier;
+
+  DomainUnitPolicyGrantPrincipal({
+    required this.domainUnitDesignation,
+    this.domainUnitGrantFilter,
+    this.domainUnitIdentifier,
+  });
+
+  factory DomainUnitPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
+    return DomainUnitPolicyGrantPrincipal(
+      domainUnitDesignation: DomainUnitDesignation.fromString(
+          (json['domainUnitDesignation'] as String)),
+      domainUnitGrantFilter: json['domainUnitGrantFilter'] != null
+          ? DomainUnitGrantFilter.fromJson(
+              json['domainUnitGrantFilter'] as Map<String, dynamic>)
+          : null,
+      domainUnitIdentifier: json['domainUnitIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainUnitDesignation = this.domainUnitDesignation;
+    final domainUnitGrantFilter = this.domainUnitGrantFilter;
+    final domainUnitIdentifier = this.domainUnitIdentifier;
+    return {
+      'domainUnitDesignation': domainUnitDesignation.value,
+      if (domainUnitGrantFilter != null)
+        'domainUnitGrantFilter': domainUnitGrantFilter,
+      if (domainUnitIdentifier != null)
+        'domainUnitIdentifier': domainUnitIdentifier,
+    };
+  }
+}
+
+/// The summary of the domain unit.
+class DomainUnitSummary {
+  /// The ID of the domain unit summary.
+  final String id;
+
+  /// The name of the domain unit summary.
+  final String name;
+
+  DomainUnitSummary({
+    required this.id,
+    required this.name,
+  });
+
+  factory DomainUnitSummary.fromJson(Map<String, dynamic> json) {
+    return DomainUnitSummary(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
+}
+
+/// The properties of the domain unit user.
+class DomainUnitUserProperties {
+  /// The ID of teh domain unit user.
+  final String? userId;
+
+  DomainUnitUserProperties({
+    this.userId,
+  });
+
+  factory DomainUnitUserProperties.fromJson(Map<String, dynamic> json) {
+    return DomainUnitUserProperties(
+      userId: json['userId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    return {
+      if (userId != null) 'userId': userId,
+    };
+  }
+}
+
+enum EdgeDirection {
+  upstream('UPSTREAM'),
+  downstream('DOWNSTREAM'),
+  ;
+
+  final String value;
+
+  const EdgeDirection(this.value);
+
+  static EdgeDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EdgeDirection'));
+}
+
 enum EnableSetting {
   enabled('ENABLED'),
   disabled('DISABLED'),
@@ -9585,6 +12796,7 @@ enum EnableSetting {
 
 enum EntityType {
   asset('ASSET'),
+  dataProduct('DATA_PRODUCT'),
   ;
 
   final String value;
@@ -9594,6 +12806,67 @@ enum EntityType {
   static EntityType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum EntityType'));
+}
+
+/// The details about the specified action configured for an environment. For
+/// example, the details of the specified console links for an analytics tool
+/// that is available in this environment.
+class EnvironmentActionSummary {
+  /// The Amazon DataZone domain ID of the environment action.
+  final String domainId;
+
+  /// The environment ID of the environment action.
+  final String environmentId;
+
+  /// The ID of the environment action.
+  final String id;
+
+  /// The name of the environment action.
+  final String name;
+
+  /// The parameters of the environment action.
+  final ActionParameters parameters;
+
+  /// The environment action description.
+  final String? description;
+
+  EnvironmentActionSummary({
+    required this.domainId,
+    required this.environmentId,
+    required this.id,
+    required this.name,
+    required this.parameters,
+    this.description,
+  });
+
+  factory EnvironmentActionSummary.fromJson(Map<String, dynamic> json) {
+    return EnvironmentActionSummary(
+      domainId: json['domainId'] as String,
+      environmentId: json['environmentId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      parameters:
+          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final description = this.description;
+    return {
+      'domainId': domainId,
+      'environmentId': environmentId,
+      'id': id,
+      'name': name,
+      'parameters': parameters,
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// The configuration details of an environment blueprint.
@@ -9616,6 +12889,9 @@ class EnvironmentBlueprintConfigurationItem {
   /// configuration.
   final String? manageAccessRoleArn;
 
+  /// The provisioning configuration of a blueprint.
+  final List<ProvisioningConfiguration>? provisioningConfigurations;
+
   /// The ARN of the provisioning role specified in the environment blueprint
   /// configuration.
   final String? provisioningRoleArn;
@@ -9632,6 +12908,7 @@ class EnvironmentBlueprintConfigurationItem {
     this.createdAt,
     this.enabledRegions,
     this.manageAccessRoleArn,
+    this.provisioningConfigurations,
     this.provisioningRoleArn,
     this.regionalParameters,
     this.updatedAt,
@@ -9648,6 +12925,11 @@ class EnvironmentBlueprintConfigurationItem {
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
+      provisioningConfigurations: (json['provisioningConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProvisioningConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       provisioningRoleArn: json['provisioningRoleArn'] as String?,
       regionalParameters: (json['regionalParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
@@ -9664,6 +12946,7 @@ class EnvironmentBlueprintConfigurationItem {
     final createdAt = this.createdAt;
     final enabledRegions = this.enabledRegions;
     final manageAccessRoleArn = this.manageAccessRoleArn;
+    final provisioningConfigurations = this.provisioningConfigurations;
     final provisioningRoleArn = this.provisioningRoleArn;
     final regionalParameters = this.regionalParameters;
     final updatedAt = this.updatedAt;
@@ -9674,6 +12957,8 @@ class EnvironmentBlueprintConfigurationItem {
       if (enabledRegions != null) 'enabledRegions': enabledRegions,
       if (manageAccessRoleArn != null)
         'manageAccessRoleArn': manageAccessRoleArn,
+      if (provisioningConfigurations != null)
+        'provisioningConfigurations': provisioningConfigurations,
       if (provisioningRoleArn != null)
         'provisioningRoleArn': provisioningRoleArn,
       if (regionalParameters != null) 'regionalParameters': regionalParameters,
@@ -9931,10 +13216,6 @@ class EnvironmentSummary {
   /// exists.
   final String domainId;
 
-  /// The identifier of the environment profile with which the environment was
-  /// created.
-  final String environmentProfileId;
-
   /// The name of the environment.
   final String name;
 
@@ -9957,6 +13238,10 @@ class EnvironmentSummary {
   /// The description of the environment.
   final String? description;
 
+  /// The identifier of the environment profile with which the environment was
+  /// created.
+  final String? environmentProfileId;
+
   /// The identifier of the environment.
   final String? id;
 
@@ -9969,7 +13254,6 @@ class EnvironmentSummary {
   EnvironmentSummary({
     required this.createdBy,
     required this.domainId,
-    required this.environmentProfileId,
     required this.name,
     required this.projectId,
     required this.provider,
@@ -9977,6 +13261,7 @@ class EnvironmentSummary {
     this.awsAccountRegion,
     this.createdAt,
     this.description,
+    this.environmentProfileId,
     this.id,
     this.status,
     this.updatedAt,
@@ -9986,7 +13271,6 @@ class EnvironmentSummary {
     return EnvironmentSummary(
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
-      environmentProfileId: json['environmentProfileId'] as String,
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
@@ -9994,6 +13278,7 @@ class EnvironmentSummary {
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      environmentProfileId: json['environmentProfileId'] as String?,
       id: json['id'] as String?,
       status: (json['status'] as String?)?.let(EnvironmentStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -10003,7 +13288,6 @@ class EnvironmentSummary {
   Map<String, dynamic> toJson() {
     final createdBy = this.createdBy;
     final domainId = this.domainId;
-    final environmentProfileId = this.environmentProfileId;
     final name = this.name;
     final projectId = this.projectId;
     final provider = this.provider;
@@ -10011,13 +13295,13 @@ class EnvironmentSummary {
     final awsAccountRegion = this.awsAccountRegion;
     final createdAt = this.createdAt;
     final description = this.description;
+    final environmentProfileId = this.environmentProfileId;
     final id = this.id;
     final status = this.status;
     final updatedAt = this.updatedAt;
     return {
       'createdBy': createdBy,
       'domainId': domainId,
-      'environmentProfileId': environmentProfileId,
       'name': name,
       'projectId': projectId,
       'provider': provider,
@@ -10025,9 +13309,41 @@ class EnvironmentSummary {
       if (awsAccountRegion != null) 'awsAccountRegion': awsAccountRegion,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
+      if (environmentProfileId != null)
+        'environmentProfileId': environmentProfileId,
       if (id != null) 'id': id,
       if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// Specifies whether the value is equal to an expression.
+class EqualToExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be equal to an expression.
+  final String value;
+
+  EqualToExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory EqualToExpression.fromJson(Map<String, dynamic> json) {
+    return EqualToExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
     };
   }
 }
@@ -10151,6 +13467,21 @@ enum FilterExpressionType {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum FilterExpressionType'));
+}
+
+enum FilterStatus {
+  valid('VALID'),
+  invalid('INVALID'),
+  ;
+
+  final String value;
+
+  const FilterStatus(this.value);
+
+  static FilterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FilterStatus'));
 }
 
 /// The details of the form entry.
@@ -10417,6 +13748,104 @@ enum FormTypeStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum FormTypeStatus'));
+}
+
+class GetAssetFilterOutput {
+  /// The ID of the data asset.
+  final String assetId;
+
+  /// The configuration of the asset filter.
+  final AssetFilterConfiguration configuration;
+
+  /// The ID of the domain where you want to get an asset filter.
+  final String domainId;
+
+  /// The ID of the asset filter.
+  final String id;
+
+  /// The name of the asset filter.
+  final String name;
+
+  /// The timestamp at which the asset filter was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset filter.
+  final String? description;
+
+  /// The column names of the asset filter.
+  final List<String>? effectiveColumnNames;
+
+  /// The row filter of the asset filter.
+  final String? effectiveRowFilter;
+
+  /// The error message that is displayed if the action does not complete
+  /// successfully.
+  final String? errorMessage;
+
+  /// The status of the asset filter.
+  final FilterStatus? status;
+
+  GetAssetFilterOutput({
+    required this.assetId,
+    required this.configuration,
+    required this.domainId,
+    required this.id,
+    required this.name,
+    this.createdAt,
+    this.description,
+    this.effectiveColumnNames,
+    this.effectiveRowFilter,
+    this.errorMessage,
+    this.status,
+  });
+
+  factory GetAssetFilterOutput.fromJson(Map<String, dynamic> json) {
+    return GetAssetFilterOutput(
+      assetId: json['assetId'] as String,
+      configuration: AssetFilterConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      effectiveColumnNames: (json['effectiveColumnNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      effectiveRowFilter: json['effectiveRowFilter'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      status: (json['status'] as String?)?.let(FilterStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final configuration = this.configuration;
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final effectiveColumnNames = this.effectiveColumnNames;
+    final effectiveRowFilter = this.effectiveRowFilter;
+    final errorMessage = this.errorMessage;
+    final status = this.status;
+    return {
+      'assetId': assetId,
+      'configuration': configuration,
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (effectiveColumnNames != null)
+        'effectiveColumnNames': effectiveColumnNames,
+      if (effectiveRowFilter != null) 'effectiveRowFilter': effectiveRowFilter,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (status != null) 'status': status.value,
+    };
+  }
 }
 
 class GetAssetOutput {
@@ -10687,6 +14116,130 @@ class GetAssetTypeOutput {
   }
 }
 
+class GetDataProductOutput {
+  /// The ID of the domain where the data product lives.
+  final String domainId;
+
+  /// The ID of the data product.
+  final String id;
+
+  /// The name of the data product.
+  final String name;
+
+  /// The ID of the owning project of the data product.
+  final String owningProjectId;
+
+  /// The revision of the data product.
+  final String revision;
+
+  /// The status of the data product.
+  final DataProductStatus status;
+
+  /// The timestamp at which the data product is created.
+  final DateTime? createdAt;
+
+  /// The user who created the data product.
+  final String? createdBy;
+
+  /// The description of the data product.
+  final String? description;
+
+  /// The timestamp at which the first revision of the data product is created.
+  final DateTime? firstRevisionCreatedAt;
+
+  /// The user who created the first revision of the data product.
+  final String? firstRevisionCreatedBy;
+
+  /// The metadata forms of the data product.
+  final List<FormOutput>? formsOutput;
+
+  /// The glossary terms of the data product.
+  final List<String>? glossaryTerms;
+
+  /// The data assets of the data product.
+  final List<DataProductItem>? items;
+
+  GetDataProductOutput({
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owningProjectId,
+    required this.revision,
+    required this.status,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.firstRevisionCreatedAt,
+    this.firstRevisionCreatedBy,
+    this.formsOutput,
+    this.glossaryTerms,
+    this.items,
+  });
+
+  factory GetDataProductOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataProductOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owningProjectId: json['owningProjectId'] as String,
+      revision: json['revision'] as String,
+      status: DataProductStatus.fromString((json['status'] as String)),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      firstRevisionCreatedAt: timeStampFromJson(json['firstRevisionCreatedAt']),
+      firstRevisionCreatedBy: json['firstRevisionCreatedBy'] as String?,
+      formsOutput: (json['formsOutput'] as List?)
+          ?.nonNulls
+          .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) => DataProductItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owningProjectId = this.owningProjectId;
+    final revision = this.revision;
+    final status = this.status;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final firstRevisionCreatedAt = this.firstRevisionCreatedAt;
+    final firstRevisionCreatedBy = this.firstRevisionCreatedBy;
+    final formsOutput = this.formsOutput;
+    final glossaryTerms = this.glossaryTerms;
+    final items = this.items;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owningProjectId': owningProjectId,
+      'revision': revision,
+      'status': status.value,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (firstRevisionCreatedAt != null)
+        'firstRevisionCreatedAt': unixTimestampToJson(firstRevisionCreatedAt),
+      if (firstRevisionCreatedBy != null)
+        'firstRevisionCreatedBy': firstRevisionCreatedBy,
+      if (formsOutput != null) 'formsOutput': formsOutput,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (items != null) 'items': items,
+    };
+  }
+}
+
 class GetDataSourceOutput {
   /// The ID of the Amazon DataZone domain in which the data source exists.
   final String domainId;
@@ -10746,6 +14299,9 @@ class GetDataSourceOutput {
   /// The schedule of the data source runs.
   final ScheduleConfiguration? schedule;
 
+  /// Specifies the status of the self-granting functionality.
+  final SelfGrantStatusOutput? selfGrantStatus;
+
   /// The status of the data source.
   final DataSourceStatus? status;
 
@@ -10774,6 +14330,7 @@ class GetDataSourceOutput {
     this.publishOnImport,
     this.recommendation,
     this.schedule,
+    this.selfGrantStatus,
     this.status,
     this.type,
     this.updatedAt,
@@ -10819,6 +14376,10 @@ class GetDataSourceOutput {
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
           : null,
+      selfGrantStatus: json['selfGrantStatus'] != null
+          ? SelfGrantStatusOutput.fromJson(
+              json['selfGrantStatus'] as Map<String, dynamic>)
+          : null,
       status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -10844,6 +14405,7 @@ class GetDataSourceOutput {
     final publishOnImport = this.publishOnImport;
     final recommendation = this.recommendation;
     final schedule = this.schedule;
+    final selfGrantStatus = this.selfGrantStatus;
     final status = this.status;
     final type = this.type;
     final updatedAt = this.updatedAt;
@@ -10867,6 +14429,7 @@ class GetDataSourceOutput {
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
       if (schedule != null) 'schedule': schedule,
+      if (selfGrantStatus != null) 'selfGrantStatus': selfGrantStatus,
       if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
@@ -11024,6 +14587,9 @@ class GetDomainOutput {
   /// The URL of the data portal for this Amazon DataZone domain.
   final String? portalUrl;
 
+  /// The ID of the root domain in Amazon Datazone.
+  final String? rootDomainUnitId;
+
   /// The single sing-on option of the specified Amazon DataZone domain.
   final SingleSignOn? singleSignOn;
 
@@ -11041,6 +14607,7 @@ class GetDomainOutput {
     this.lastUpdatedAt,
     this.name,
     this.portalUrl,
+    this.rootDomainUnitId,
     this.singleSignOn,
     this.tags,
   });
@@ -11057,6 +14624,7 @@ class GetDomainOutput {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
       portalUrl: json['portalUrl'] as String?,
+      rootDomainUnitId: json['rootDomainUnitId'] as String?,
       singleSignOn: json['singleSignOn'] != null
           ? SingleSignOn.fromJson(json['singleSignOn'] as Map<String, dynamic>)
           : null,
@@ -11076,6 +14644,7 @@ class GetDomainOutput {
     final lastUpdatedAt = this.lastUpdatedAt;
     final name = this.name;
     final portalUrl = this.portalUrl;
+    final rootDomainUnitId = this.rootDomainUnitId;
     final singleSignOn = this.singleSignOn;
     final tags = this.tags;
     return {
@@ -11090,8 +14659,157 @@ class GetDomainOutput {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (name != null) 'name': name,
       if (portalUrl != null) 'portalUrl': portalUrl,
+      if (rootDomainUnitId != null) 'rootDomainUnitId': rootDomainUnitId,
       if (singleSignOn != null) 'singleSignOn': singleSignOn,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class GetDomainUnitOutput {
+  /// The ID of the domain in which the domain unit lives.
+  final String domainId;
+
+  /// The ID of the domain unit.
+  final String id;
+
+  /// The name of the domain unit.
+  final String name;
+
+  /// The owners of the domain unit.
+  final List<DomainUnitOwnerProperties> owners;
+
+  /// The time stamp at which the domain unit was created.
+  final DateTime? createdAt;
+
+  /// The user who created the domain unit.
+  final String? createdBy;
+
+  /// The description of the domain unit.
+  final String? description;
+
+  /// The timestamp at which the domain unit was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The user who last updated the domain unit.
+  final String? lastUpdatedBy;
+
+  /// The ID of the parent domain unit.
+  final String? parentDomainUnitId;
+
+  GetDomainUnitOutput({
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owners,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.parentDomainUnitId,
+  });
+
+  factory GetDomainUnitOutput.fromJson(Map<String, dynamic> json) {
+    return GetDomainUnitOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owners: (json['owners'] as List)
+          .nonNulls
+          .map((e) =>
+              DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      parentDomainUnitId: json['parentDomainUnitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owners = this.owners;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final parentDomainUnitId = this.parentDomainUnitId;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owners': owners,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (parentDomainUnitId != null) 'parentDomainUnitId': parentDomainUnitId,
+    };
+  }
+}
+
+class GetEnvironmentActionOutput {
+  /// The ID of the Amazon DataZone domain in which the environment action lives.
+  final String domainId;
+
+  /// The environment ID of the environment action.
+  final String environmentId;
+
+  /// The ID of the environment action.
+  final String id;
+
+  /// The name of the environment action.
+  final String name;
+
+  /// The parameters of the environment action.
+  final ActionParameters parameters;
+
+  /// The description of the environment action.
+  final String? description;
+
+  GetEnvironmentActionOutput({
+    required this.domainId,
+    required this.environmentId,
+    required this.id,
+    required this.name,
+    required this.parameters,
+    this.description,
+  });
+
+  factory GetEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
+    return GetEnvironmentActionOutput(
+      domainId: json['domainId'] as String,
+      environmentId: json['environmentId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      parameters:
+          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final description = this.description;
+    return {
+      'domainId': domainId,
+      'environmentId': environmentId,
+      'id': id,
+      'name': name,
+      'parameters': parameters,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -11112,6 +14830,9 @@ class GetEnvironmentBlueprintConfigurationOutput {
   /// The ARN of the manage access role with which this blueprint is created.
   final String? manageAccessRoleArn;
 
+  /// The provisioning configuration of a blueprint.
+  final List<ProvisioningConfiguration>? provisioningConfigurations;
+
   /// The ARN of the provisioning role with which this blueprint is created.
   final String? provisioningRoleArn;
 
@@ -11127,6 +14848,7 @@ class GetEnvironmentBlueprintConfigurationOutput {
     this.createdAt,
     this.enabledRegions,
     this.manageAccessRoleArn,
+    this.provisioningConfigurations,
     this.provisioningRoleArn,
     this.regionalParameters,
     this.updatedAt,
@@ -11143,6 +14865,11 @@ class GetEnvironmentBlueprintConfigurationOutput {
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
+      provisioningConfigurations: (json['provisioningConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProvisioningConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       provisioningRoleArn: json['provisioningRoleArn'] as String?,
       regionalParameters: (json['regionalParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
@@ -11159,6 +14886,7 @@ class GetEnvironmentBlueprintConfigurationOutput {
     final createdAt = this.createdAt;
     final enabledRegions = this.enabledRegions;
     final manageAccessRoleArn = this.manageAccessRoleArn;
+    final provisioningConfigurations = this.provisioningConfigurations;
     final provisioningRoleArn = this.provisioningRoleArn;
     final regionalParameters = this.regionalParameters;
     final updatedAt = this.updatedAt;
@@ -11169,6 +14897,8 @@ class GetEnvironmentBlueprintConfigurationOutput {
       if (enabledRegions != null) 'enabledRegions': enabledRegions,
       if (manageAccessRoleArn != null)
         'manageAccessRoleArn': manageAccessRoleArn,
+      if (provisioningConfigurations != null)
+        'provisioningConfigurations': provisioningConfigurations,
       if (provisioningRoleArn != null)
         'provisioningRoleArn': provisioningRoleArn,
       if (regionalParameters != null) 'regionalParameters': regionalParameters,
@@ -11273,15 +15003,55 @@ class GetEnvironmentBlueprintOutput {
   }
 }
 
+class GetEnvironmentCredentialsOutput {
+  /// The access key ID of the environment.
+  final String? accessKeyId;
+
+  /// The expiration timestamp of the environment credentials.
+  final DateTime? expiration;
+
+  /// The secret access key of the environment credentials.
+  final String? secretAccessKey;
+
+  /// The session token of the environment credentials.
+  final String? sessionToken;
+
+  GetEnvironmentCredentialsOutput({
+    this.accessKeyId,
+    this.expiration,
+    this.secretAccessKey,
+    this.sessionToken,
+  });
+
+  factory GetEnvironmentCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return GetEnvironmentCredentialsOutput(
+      accessKeyId: json['accessKeyId'] as String?,
+      expiration: timeStampFromJson(json['expiration']),
+      secretAccessKey: json['secretAccessKey'] as String?,
+      sessionToken: json['sessionToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'accessKeyId': accessKeyId,
+      if (expiration != null) 'expiration': iso8601ToJson(expiration),
+      if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
+      if (sessionToken != null) 'sessionToken': sessionToken,
+    };
+  }
+}
+
 class GetEnvironmentOutput {
   /// The Amazon DataZone user who created the environment.
   final String createdBy;
 
   /// The ID of the Amazon DataZone domain where the environment exists.
   final String domainId;
-
-  /// The ID of the environment profile with which the environment is created.
-  final String environmentProfileId;
 
   /// The name of the environment.
   final String name;
@@ -11313,6 +15083,9 @@ class GetEnvironmentOutput {
   /// The blueprint with which the environment is created.
   final String? environmentBlueprintId;
 
+  /// The ID of the environment profile with which the environment is created.
+  final String? environmentProfileId;
+
   /// The business glossary terms that can be used in this environment.
   final List<String>? glossaryTerms;
 
@@ -11340,7 +15113,6 @@ class GetEnvironmentOutput {
   GetEnvironmentOutput({
     required this.createdBy,
     required this.domainId,
-    required this.environmentProfileId,
     required this.name,
     required this.projectId,
     required this.provider,
@@ -11351,6 +15123,7 @@ class GetEnvironmentOutput {
     this.description,
     this.environmentActions,
     this.environmentBlueprintId,
+    this.environmentProfileId,
     this.glossaryTerms,
     this.id,
     this.lastDeployment,
@@ -11365,7 +15138,6 @@ class GetEnvironmentOutput {
     return GetEnvironmentOutput(
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
-      environmentProfileId: json['environmentProfileId'] as String,
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
@@ -11383,6 +15155,7 @@ class GetEnvironmentOutput {
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
+      environmentProfileId: json['environmentProfileId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11411,7 +15184,6 @@ class GetEnvironmentOutput {
   Map<String, dynamic> toJson() {
     final createdBy = this.createdBy;
     final domainId = this.domainId;
-    final environmentProfileId = this.environmentProfileId;
     final name = this.name;
     final projectId = this.projectId;
     final provider = this.provider;
@@ -11422,6 +15194,7 @@ class GetEnvironmentOutput {
     final description = this.description;
     final environmentActions = this.environmentActions;
     final environmentBlueprintId = this.environmentBlueprintId;
+    final environmentProfileId = this.environmentProfileId;
     final glossaryTerms = this.glossaryTerms;
     final id = this.id;
     final lastDeployment = this.lastDeployment;
@@ -11433,7 +15206,6 @@ class GetEnvironmentOutput {
     return {
       'createdBy': createdBy,
       'domainId': domainId,
-      'environmentProfileId': environmentProfileId,
       'name': name,
       'projectId': projectId,
       'provider': provider,
@@ -11446,6 +15218,8 @@ class GetEnvironmentOutput {
       if (environmentActions != null) 'environmentActions': environmentActions,
       if (environmentBlueprintId != null)
         'environmentBlueprintId': environmentBlueprintId,
+      if (environmentProfileId != null)
+        'environmentProfileId': environmentProfileId,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (id != null) 'id': id,
       if (lastDeployment != null) 'lastDeployment': lastDeployment,
@@ -11931,6 +15705,136 @@ class GetIamPortalLoginUrlOutput {
   }
 }
 
+class GetLineageNodeOutput {
+  /// The ID of the domain where you're getting the data lineage node.
+  final String domainId;
+
+  /// The ID of the data lineage node.
+  final String id;
+
+  /// The name of the type of the specified data lineage node.
+  final String typeName;
+
+  /// The timestamp at which the data lineage node was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data lineage node.
+  final String? createdBy;
+
+  /// The description of the data lineage node.
+  final String? description;
+
+  /// The downsteam nodes of the specified data lineage node.
+  final List<LineageNodeReference>? downstreamNodes;
+
+  /// The timestamp of the event described in the data lineage node.
+  final DateTime? eventTimestamp;
+
+  /// The metadata of the specified data lineage node.
+  final List<FormOutput>? formsOutput;
+
+  /// The name of the data lineage node.
+  final String? name;
+
+  /// The source identifier of the data lineage node.
+  final String? sourceIdentifier;
+
+  /// The revision type of the specified data lineage node.
+  final String? typeRevision;
+
+  /// The timestamp at which the data lineage node was updated.
+  final DateTime? updatedAt;
+
+  /// The user who updated the data lineage node.
+  final String? updatedBy;
+
+  /// The upstream nodes of the specified data lineage node.
+  final List<LineageNodeReference>? upstreamNodes;
+
+  GetLineageNodeOutput({
+    required this.domainId,
+    required this.id,
+    required this.typeName,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.downstreamNodes,
+    this.eventTimestamp,
+    this.formsOutput,
+    this.name,
+    this.sourceIdentifier,
+    this.typeRevision,
+    this.updatedAt,
+    this.updatedBy,
+    this.upstreamNodes,
+  });
+
+  factory GetLineageNodeOutput.fromJson(Map<String, dynamic> json) {
+    return GetLineageNodeOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      typeName: json['typeName'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      downstreamNodes: (json['downstreamNodes'] as List?)
+          ?.nonNulls
+          .map((e) => LineageNodeReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventTimestamp: timeStampFromJson(json['eventTimestamp']),
+      formsOutput: (json['formsOutput'] as List?)
+          ?.nonNulls
+          .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      sourceIdentifier: json['sourceIdentifier'] as String?,
+      typeRevision: json['typeRevision'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+      updatedBy: json['updatedBy'] as String?,
+      upstreamNodes: (json['upstreamNodes'] as List?)
+          ?.nonNulls
+          .map((e) => LineageNodeReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final typeName = this.typeName;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final downstreamNodes = this.downstreamNodes;
+    final eventTimestamp = this.eventTimestamp;
+    final formsOutput = this.formsOutput;
+    final name = this.name;
+    final sourceIdentifier = this.sourceIdentifier;
+    final typeRevision = this.typeRevision;
+    final updatedAt = this.updatedAt;
+    final updatedBy = this.updatedBy;
+    final upstreamNodes = this.upstreamNodes;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'typeName': typeName,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (downstreamNodes != null) 'downstreamNodes': downstreamNodes,
+      if (eventTimestamp != null)
+        'eventTimestamp': unixTimestampToJson(eventTimestamp),
+      if (formsOutput != null) 'formsOutput': formsOutput,
+      if (name != null) 'name': name,
+      if (sourceIdentifier != null) 'sourceIdentifier': sourceIdentifier,
+      if (typeRevision != null) 'typeRevision': typeRevision,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+      if (updatedBy != null) 'updatedBy': updatedBy,
+      if (upstreamNodes != null) 'upstreamNodes': upstreamNodes,
+    };
+  }
+}
+
 class GetListingOutput {
   /// The ID of the Amazon DataZone domain.
   final String domainId;
@@ -12122,6 +16026,9 @@ class GetProjectOutput {
   /// The description of the project.
   final String? description;
 
+  /// The ID of the domain unit.
+  final String? domainUnitId;
+
   /// Specifies the error message that is returned if the operation cannot be
   /// successfully completed.
   final List<ProjectDeletionError>? failureReasons;
@@ -12142,6 +16049,7 @@ class GetProjectOutput {
     required this.name,
     this.createdAt,
     this.description,
+    this.domainUnitId,
     this.failureReasons,
     this.glossaryTerms,
     this.lastUpdatedAt,
@@ -12156,6 +16064,7 @@ class GetProjectOutput {
       name: json['name'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      domainUnitId: json['domainUnitId'] as String?,
       failureReasons: (json['failureReasons'] as List?)
           ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
@@ -12177,6 +16086,7 @@ class GetProjectOutput {
     final name = this.name;
     final createdAt = this.createdAt;
     final description = this.description;
+    final domainUnitId = this.domainUnitId;
     final failureReasons = this.failureReasons;
     final glossaryTerms = this.glossaryTerms;
     final lastUpdatedAt = this.lastUpdatedAt;
@@ -12188,6 +16098,7 @@ class GetProjectOutput {
       'name': name,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
@@ -13051,6 +16962,32 @@ class GlueRunConfigurationOutput {
   }
 }
 
+/// The details of the self granting status.
+class GlueSelfGrantStatusOutput {
+  /// The details for the self granting status for a Glue data source.
+  final List<SelfGrantStatusDetail> selfGrantStatusDetails;
+
+  GlueSelfGrantStatusOutput({
+    required this.selfGrantStatusDetails,
+  });
+
+  factory GlueSelfGrantStatusOutput.fromJson(Map<String, dynamic> json) {
+    return GlueSelfGrantStatusOutput(
+      selfGrantStatusDetails: (json['selfGrantStatusDetails'] as List)
+          .nonNulls
+          .map((e) => SelfGrantStatusDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selfGrantStatusDetails = this.selfGrantStatusDetails;
+    return {
+      'selfGrantStatusDetails': selfGrantStatusDetails,
+    };
+  }
+}
+
 /// The details of a listing for which a subscription is granted.
 class GrantedEntity {
   /// The listing for which a subscription is granted.
@@ -13093,6 +17030,66 @@ class GrantedEntityInput {
   }
 }
 
+/// Specifies whether the value is greater than an expression.
+class GreaterThanExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be greater than an expression.
+  final String value;
+
+  GreaterThanExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory GreaterThanExpression.fromJson(Map<String, dynamic> json) {
+    return GreaterThanExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
+/// Specifies whether the value is greater than or equal to an expression.
+class GreaterThanOrEqualToExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be greater than or equal to an expression.
+  final String value;
+
+  GreaterThanOrEqualToExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory GreaterThanOrEqualToExpression.fromJson(Map<String, dynamic> json) {
+    return GreaterThanOrEqualToExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
 /// The details of a group in Amazon DataZone.
 class GroupDetails {
   /// The identifier of the group in Amazon DataZone.
@@ -13112,6 +17109,29 @@ class GroupDetails {
     final groupId = this.groupId;
     return {
       'groupId': groupId,
+    };
+  }
+}
+
+/// The group principal to whom the policy is granted.
+class GroupPolicyGrantPrincipal {
+  /// The ID Of the group of the group principal.
+  final String? groupIdentifier;
+
+  GroupPolicyGrantPrincipal({
+    this.groupIdentifier,
+  });
+
+  factory GroupPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
+    return GroupPolicyGrantPrincipal(
+      groupIdentifier: json['groupIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupIdentifier = this.groupIdentifier;
+    return {
+      if (groupIdentifier != null) 'groupIdentifier': groupIdentifier,
     };
   }
 }
@@ -13243,10 +17263,42 @@ class Import {
   }
 }
 
+/// Specifies whether values are in the expression.
+class InExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The values that might be in the expression.
+  final List<String> values;
+
+  InExpression({
+    required this.columnName,
+    required this.values,
+  });
+
+  factory InExpression.fromJson(Map<String, dynamic> json) {
+    return InExpression(
+      columnName: json['columnName'] as String,
+      values:
+          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final values = this.values;
+    return {
+      'columnName': columnName,
+      'values': values,
+    };
+  }
+}
+
 enum InventorySearchScope {
   asset('ASSET'),
   glossary('GLOSSARY'),
   glossaryTerm('GLOSSARY_TERM'),
+  dataProduct('DATA_PRODUCT'),
   ;
 
   final String value;
@@ -13257,6 +17309,431 @@ enum InventorySearchScope {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum InventorySearchScope'));
+}
+
+/// Specifies that the expression is not null.
+class IsNotNullExpression {
+  /// The name of the column.
+  final String columnName;
+
+  IsNotNullExpression({
+    required this.columnName,
+  });
+
+  factory IsNotNullExpression.fromJson(Map<String, dynamic> json) {
+    return IsNotNullExpression(
+      columnName: json['columnName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    return {
+      'columnName': columnName,
+    };
+  }
+}
+
+/// Specifies that the expression is null.
+class IsNullExpression {
+  /// The name of the column.
+  final String columnName;
+
+  IsNullExpression({
+    required this.columnName,
+  });
+
+  factory IsNullExpression.fromJson(Map<String, dynamic> json) {
+    return IsNullExpression(
+      columnName: json['columnName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    return {
+      'columnName': columnName,
+    };
+  }
+}
+
+/// The Lake Formation configuration of the Data Lake blueprint.
+class LakeFormationConfiguration {
+  /// Specifies certain Amazon S3 locations if you do not want Amazon DataZone to
+  /// automatically register them in hybrid mode.
+  final List<String>? locationRegistrationExcludeS3Locations;
+
+  /// The role that is used to manage read/write access to the chosen Amazon S3
+  /// bucket(s) for Data Lake using AWS Lake Formation hybrid access mode.
+  final String? locationRegistrationRole;
+
+  LakeFormationConfiguration({
+    this.locationRegistrationExcludeS3Locations,
+    this.locationRegistrationRole,
+  });
+
+  factory LakeFormationConfiguration.fromJson(Map<String, dynamic> json) {
+    return LakeFormationConfiguration(
+      locationRegistrationExcludeS3Locations:
+          (json['locationRegistrationExcludeS3Locations'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      locationRegistrationRole: json['locationRegistrationRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationRegistrationExcludeS3Locations =
+        this.locationRegistrationExcludeS3Locations;
+    final locationRegistrationRole = this.locationRegistrationRole;
+    return {
+      if (locationRegistrationExcludeS3Locations != null)
+        'locationRegistrationExcludeS3Locations':
+            locationRegistrationExcludeS3Locations,
+      if (locationRegistrationRole != null)
+        'locationRegistrationRole': locationRegistrationRole,
+    };
+  }
+}
+
+/// Specifies that a value is less than an expression.
+class LessThanExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be less than the expression.
+  final String value;
+
+  LessThanExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory LessThanExpression.fromJson(Map<String, dynamic> json) {
+    return LessThanExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
+/// Specifies that a value is less than or equal to an expression.
+class LessThanOrEqualToExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be less than or equal to an expression.
+  final String value;
+
+  LessThanOrEqualToExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory LessThanOrEqualToExpression.fromJson(Map<String, dynamic> json) {
+    return LessThanOrEqualToExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
+/// Specifies that a value is like the expression.
+class LikeExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might be like the expression.
+  final String value;
+
+  LikeExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory LikeExpression.fromJson(Map<String, dynamic> json) {
+    return LikeExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
+/// The reference details for the data lineage node.
+class LineageNodeReference {
+  /// The event timestamp of the data lineage node.
+  final DateTime? eventTimestamp;
+
+  /// The ID of the data lineage node.
+  final String? id;
+
+  LineageNodeReference({
+    this.eventTimestamp,
+    this.id,
+  });
+
+  factory LineageNodeReference.fromJson(Map<String, dynamic> json) {
+    return LineageNodeReference(
+      eventTimestamp: timeStampFromJson(json['eventTimestamp']),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTimestamp = this.eventTimestamp;
+    final id = this.id;
+    return {
+      if (eventTimestamp != null)
+        'eventTimestamp': unixTimestampToJson(eventTimestamp),
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// The summary of the data lineage node.
+class LineageNodeSummary {
+  /// The ID of the domain of the data lineage node.
+  final String domainId;
+
+  /// The ID of the data lineage node.
+  final String id;
+
+  /// The name of the type of the data lineage node.
+  final String typeName;
+
+  /// The timestamp at which the data lineage node was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data lineage node.
+  final String? createdBy;
+
+  /// The description of the data lineage node.
+  final String? description;
+
+  /// The event timestamp of the data lineage node.
+  final DateTime? eventTimestamp;
+
+  /// The name of the data lineage node.
+  final String? name;
+
+  /// The alternate ID of the data lineage node.
+  final String? sourceIdentifier;
+
+  /// The type of the revision of the data lineage node.
+  final String? typeRevision;
+
+  /// The timestamp at which the data lineage node was updated.
+  final DateTime? updatedAt;
+
+  /// The user who updated the data lineage node.
+  final String? updatedBy;
+
+  LineageNodeSummary({
+    required this.domainId,
+    required this.id,
+    required this.typeName,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.eventTimestamp,
+    this.name,
+    this.sourceIdentifier,
+    this.typeRevision,
+    this.updatedAt,
+    this.updatedBy,
+  });
+
+  factory LineageNodeSummary.fromJson(Map<String, dynamic> json) {
+    return LineageNodeSummary(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      typeName: json['typeName'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      eventTimestamp: timeStampFromJson(json['eventTimestamp']),
+      name: json['name'] as String?,
+      sourceIdentifier: json['sourceIdentifier'] as String?,
+      typeRevision: json['typeRevision'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+      updatedBy: json['updatedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final typeName = this.typeName;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final eventTimestamp = this.eventTimestamp;
+    final name = this.name;
+    final sourceIdentifier = this.sourceIdentifier;
+    final typeRevision = this.typeRevision;
+    final updatedAt = this.updatedAt;
+    final updatedBy = this.updatedBy;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'typeName': typeName,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (eventTimestamp != null)
+        'eventTimestamp': unixTimestampToJson(eventTimestamp),
+      if (name != null) 'name': name,
+      if (sourceIdentifier != null) 'sourceIdentifier': sourceIdentifier,
+      if (typeRevision != null) 'typeRevision': typeRevision,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+      if (updatedBy != null) 'updatedBy': updatedBy,
+    };
+  }
+}
+
+/// The details of a data lineage node type.
+class LineageNodeTypeItem {
+  /// The ID of the domain where the data lineage node type lives.
+  final String domainId;
+
+  /// The forms output of the data lineage node type.
+  final Map<String, FormEntryOutput> formsOutput;
+
+  /// The revision of the data lineage node type.
+  final String revision;
+
+  /// The timestamp at which the data lineage node type was created.
+  final DateTime? createdAt;
+
+  /// The user who created the data lineage node type.
+  final String? createdBy;
+
+  /// The description of the data lineage node type.
+  final String? description;
+
+  /// The name of the data lineage node type.
+  final String? name;
+
+  /// The timestamp at which the data lineage node type was updated.
+  final DateTime? updatedAt;
+
+  /// The user who updated the data lineage node type.
+  final String? updatedBy;
+
+  LineageNodeTypeItem({
+    required this.domainId,
+    required this.formsOutput,
+    required this.revision,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.name,
+    this.updatedAt,
+    this.updatedBy,
+  });
+
+  factory LineageNodeTypeItem.fromJson(Map<String, dynamic> json) {
+    return LineageNodeTypeItem(
+      domainId: json['domainId'] as String,
+      formsOutput: (json['formsOutput'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
+      revision: json['revision'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+      updatedBy: json['updatedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final formsOutput = this.formsOutput;
+    final revision = this.revision;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final updatedBy = this.updatedBy;
+    return {
+      'domainId': domainId,
+      'formsOutput': formsOutput,
+      'revision': revision,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+      if (updatedBy != null) 'updatedBy': updatedBy,
+    };
+  }
+}
+
+class ListAssetFiltersOutput {
+  /// The results of the <code>ListAssetFilters</code> action.
+  final List<AssetFilterSummary> items;
+
+  /// When the number of asset filters is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value for
+  /// <code>MaxResults</code> that is less than the number of asset filters, the
+  /// response includes a pagination token named <code>NextToken</code>. You can
+  /// specify this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListAssetFilters</code> to list the next set of asset filters.
+  final String? nextToken;
+
+  ListAssetFiltersOutput({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListAssetFiltersOutput.fromJson(Map<String, dynamic> json) {
+    return ListAssetFiltersOutput(
+      items: (json['items'] as List)
+          .nonNulls
+          .map((e) => AssetFilterSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 class ListAssetRevisionsOutput {
@@ -13291,6 +17768,44 @@ class ListAssetRevisionsOutput {
     final nextToken = this.nextToken;
     return {
       if (items != null) 'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDataProductRevisionsOutput {
+  /// The results of the <code>ListDataProductRevisions</code> action.
+  final List<DataProductRevision> items;
+
+  /// When the number of data product revisions is greater than the default value
+  /// for the <code>MaxResults</code> parameter, or if you explicitly specify a
+  /// value for <code>MaxResults</code> that is less than the number of data
+  /// product revisions, the response includes a pagination token named
+  /// <code>NextToken</code>. You can specify this <code>NextToken</code> value in
+  /// a subsequent call to <code>ListDataProductRevisions</code> to list the next
+  /// set of data product revisions.
+  final String? nextToken;
+
+  ListDataProductRevisionsOutput({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListDataProductRevisionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDataProductRevisionsOutput(
+      items: (json['items'] as List)
+          .nonNulls
+          .map((e) => DataProductRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -13408,6 +17923,43 @@ class ListDataSourcesOutput {
   }
 }
 
+class ListDomainUnitsForParentOutput {
+  /// The results returned by this action.
+  final List<DomainUnitSummary> items;
+
+  /// When the number of domain units is greater than the default value for the
+  /// MaxResults parameter, or if you explicitly specify a value for MaxResults
+  /// that is less than the number of domain units, the response includes a
+  /// pagination token named NextToken. You can specify this NextToken value in a
+  /// subsequent call to ListDomainUnitsForParent to list the next set of domain
+  /// units.
+  final String? nextToken;
+
+  ListDomainUnitsForParentOutput({
+    required this.items,
+    this.nextToken,
+  });
+
+  factory ListDomainUnitsForParentOutput.fromJson(Map<String, dynamic> json) {
+    return ListDomainUnitsForParentOutput(
+      items: (json['items'] as List)
+          .nonNulls
+          .map((e) => DomainUnitSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListDomainsOutput {
   /// The results of the <code>ListDomains</code> action.
   final List<DomainSummary> items;
@@ -13440,6 +17992,82 @@ class ListDomainsOutput {
     final nextToken = this.nextToken;
     return {
       'items': items,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListEntityOwnersOutput {
+  /// The owners of the entity.
+  final List<OwnerPropertiesOutput> owners;
+
+  /// When the number of entities is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value for
+  /// <code>MaxResults</code> that is less than the number of entities, the
+  /// response includes a pagination token named <code>NextToken</code>. You can
+  /// specify this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListEntityOwners</code> to list the next set of entities.
+  final String? nextToken;
+
+  ListEntityOwnersOutput({
+    required this.owners,
+    this.nextToken,
+  });
+
+  factory ListEntityOwnersOutput.fromJson(Map<String, dynamic> json) {
+    return ListEntityOwnersOutput(
+      owners: (json['owners'] as List)
+          .nonNulls
+          .map((e) => OwnerPropertiesOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owners = this.owners;
+    final nextToken = this.nextToken;
+    return {
+      'owners': owners,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListEnvironmentActionsOutput {
+  /// The results of <code>ListEnvironmentActions</code>.
+  final List<EnvironmentActionSummary>? items;
+
+  /// When the number of environment actions is greater than the default value for
+  /// the <code>MaxResults</code> parameter, or if you explicitly specify a value
+  /// for <code>MaxResults</code> that is less than the number of environment
+  /// actions, the response includes a pagination token named
+  /// <code>NextToken</code>. You can specify this <code>NextToken</code> value in
+  /// a subsequent call to <code>ListEnvironmentActions</code> to list the next
+  /// set of environment actions.
+  final String? nextToken;
+
+  ListEnvironmentActionsOutput({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListEnvironmentActionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListEnvironmentActionsOutput(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              EnvironmentActionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -13601,6 +18229,42 @@ class ListEnvironmentsOutput {
   }
 }
 
+class ListLineageNodeHistoryOutput {
+  /// When the number of history items is greater than the default value for the
+  /// MaxResults parameter, or if you explicitly specify a value for MaxResults
+  /// that is less than the number of items, the response includes a pagination
+  /// token named NextToken. You can specify this NextToken value in a subsequent
+  /// call to ListLineageNodeHistory to list the next set of items.
+  final String? nextToken;
+
+  /// The nodes returned by the ListLineageNodeHistory action.
+  final List<LineageNodeSummary>? nodes;
+
+  ListLineageNodeHistoryOutput({
+    this.nextToken,
+    this.nodes,
+  });
+
+  factory ListLineageNodeHistoryOutput.fromJson(Map<String, dynamic> json) {
+    return ListLineageNodeHistoryOutput(
+      nextToken: json['nextToken'] as String?,
+      nodes: (json['nodes'] as List?)
+          ?.nonNulls
+          .map((e) => LineageNodeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final nodes = this.nodes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (nodes != null) 'nodes': nodes,
+    };
+  }
+}
+
 class ListMetadataGenerationRunsOutput {
   /// The results of the ListMetadataGenerationRuns action.
   final List<MetadataGenerationRunItem>? items;
@@ -13672,6 +18336,43 @@ class ListNotificationsOutput {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (notifications != null) 'notifications': notifications,
+    };
+  }
+}
+
+class ListPolicyGrantsOutput {
+  /// The results of this action - the listed grants.
+  final List<PolicyGrantMember> grantList;
+
+  /// When the number of grants is greater than the default value for the
+  /// <code>MaxResults</code> parameter, or if you explicitly specify a value for
+  /// <code>MaxResults</code> that is less than the number of grants, the response
+  /// includes a pagination token named <code>NextToken</code>. You can specify
+  /// this <code>NextToken</code> value in a subsequent call to
+  /// <code>ListPolicyGrants</code> to list the next set of grants.
+  final String? nextToken;
+
+  ListPolicyGrantsOutput({
+    required this.grantList,
+    this.nextToken,
+  });
+
+  factory ListPolicyGrantsOutput.fromJson(Map<String, dynamic> json) {
+    return ListPolicyGrantsOutput(
+      grantList: (json['grantList'] as List)
+          .nonNulls
+          .map((e) => PolicyGrantMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grantList = this.grantList;
+    final nextToken = this.nextToken;
+    return {
+      'grantList': grantList,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -13970,8 +18671,12 @@ class ListingItem {
   /// An asset published in an Amazon DataZone catalog.
   final AssetListing? assetListing;
 
+  /// The data product listing.
+  final DataProductListing? dataProductListing;
+
   ListingItem({
     this.assetListing,
+    this.dataProductListing,
   });
 
   factory ListingItem.fromJson(Map<String, dynamic> json) {
@@ -13979,13 +18684,19 @@ class ListingItem {
       assetListing: json['assetListing'] != null
           ? AssetListing.fromJson(json['assetListing'] as Map<String, dynamic>)
           : null,
+      dataProductListing: json['dataProductListing'] != null
+          ? DataProductListing.fromJson(
+              json['dataProductListing'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetListing = this.assetListing;
+    final dataProductListing = this.dataProductListing;
     return {
       if (assetListing != null) 'assetListing': assetListing,
+      if (dataProductListing != null) 'dataProductListing': dataProductListing,
     };
   }
 }
@@ -14061,6 +18772,110 @@ enum ListingStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum ListingStatus'));
+}
+
+/// The summary of the listing of the data product.
+class ListingSummary {
+  /// The glossary terms of the data product.
+  final List<DetailedGlossaryTerm>? glossaryTerms;
+
+  /// The ID of the data product listing.
+  final String? listingId;
+
+  /// The revision of the data product listing.
+  final String? listingRevision;
+
+  ListingSummary({
+    this.glossaryTerms,
+    this.listingId,
+    this.listingRevision,
+  });
+
+  factory ListingSummary.fromJson(Map<String, dynamic> json) {
+    return ListingSummary(
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listingId: json['listingId'] as String?,
+      listingRevision: json['listingRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glossaryTerms = this.glossaryTerms;
+    final listingId = this.listingId;
+    final listingRevision = this.listingRevision;
+    return {
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (listingId != null) 'listingId': listingId,
+      if (listingRevision != null) 'listingRevision': listingRevision,
+    };
+  }
+}
+
+/// The results of the data product summary.
+class ListingSummaryItem {
+  /// The glossary terms of the data product listing.
+  final List<DetailedGlossaryTerm>? glossaryTerms;
+
+  /// The ID of the data product listing.
+  final String? listingId;
+
+  /// The revision of the data product listing.
+  final String? listingRevision;
+
+  ListingSummaryItem({
+    this.glossaryTerms,
+    this.listingId,
+    this.listingRevision,
+  });
+
+  factory ListingSummaryItem.fromJson(Map<String, dynamic> json) {
+    return ListingSummaryItem(
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listingId: json['listingId'] as String?,
+      listingRevision: json['listingRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glossaryTerms = this.glossaryTerms;
+    final listingId = this.listingId;
+    final listingRevision = this.listingRevision;
+    return {
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (listingId != null) 'listingId': listingId,
+      if (listingRevision != null) 'listingRevision': listingRevision,
+    };
+  }
+}
+
+enum ManagedPolicyType {
+  createDomainUnit('CREATE_DOMAIN_UNIT'),
+  overrideDomainUnitOwners('OVERRIDE_DOMAIN_UNIT_OWNERS'),
+  addToProjectMemberPool('ADD_TO_PROJECT_MEMBER_POOL'),
+  overrideProjectOwners('OVERRIDE_PROJECT_OWNERS'),
+  createGlossary('CREATE_GLOSSARY'),
+  createFormType('CREATE_FORM_TYPE'),
+  createAssetType('CREATE_ASSET_TYPE'),
+  createProject('CREATE_PROJECT'),
+  createEnvironmentProfile('CREATE_ENVIRONMENT_PROFILE'),
+  delegateCreateEnvironmentProfile('DELEGATE_CREATE_ENVIRONMENT_PROFILE'),
+  createEnvironment('CREATE_ENVIRONMENT'),
+  ;
+
+  final String value;
+
+  const ManagedPolicyType(this.value);
+
+  static ManagedPolicyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ManagedPolicyType'));
 }
 
 /// The details about a project member.
@@ -14305,6 +19120,97 @@ class Model {
   }
 }
 
+/// Specifies that a value is not equal to the expression.
+class NotEqualToExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might not be equal to the expression.
+  final String value;
+
+  NotEqualToExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory NotEqualToExpression.fromJson(Map<String, dynamic> json) {
+    return NotEqualToExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
+/// Specifies that a value is not in the expression.
+class NotInExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might not be in the expression.
+  final List<String> values;
+
+  NotInExpression({
+    required this.columnName,
+    required this.values,
+  });
+
+  factory NotInExpression.fromJson(Map<String, dynamic> json) {
+    return NotInExpression(
+      columnName: json['columnName'] as String,
+      values:
+          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final values = this.values;
+    return {
+      'columnName': columnName,
+      'values': values,
+    };
+  }
+}
+
+/// Specifies that a value might be not like the expression.
+class NotLikeExpression {
+  /// The name of the column.
+  final String columnName;
+
+  /// The value that might not be like the expression.
+  final String value;
+
+  NotLikeExpression({
+    required this.columnName,
+    required this.value,
+  });
+
+  factory NotLikeExpression.fromJson(Map<String, dynamic> json) {
+    return NotLikeExpression(
+      columnName: json['columnName'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnName = this.columnName;
+    final value = this.value;
+    return {
+      'columnName': columnName,
+      'value': value,
+    };
+  }
+}
+
 /// The details of a notification generated in Amazon DataZone.
 class NotificationOutput {
   /// The action link included in the notification.
@@ -14485,6 +19391,446 @@ enum NotificationType {
               throw Exception('$value is not known in enum NotificationType'));
 }
 
+/// The grant details of the override domain unit owners policy.
+class OverrideDomainUnitOwnersPolicyGrantDetail {
+  /// Specifies whether the policy is inherited by child domain units.
+  final bool? includeChildDomainUnits;
+
+  OverrideDomainUnitOwnersPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory OverrideDomainUnitOwnersPolicyGrantDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OverrideDomainUnitOwnersPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+/// The details of the override project owners policy grant.
+class OverrideProjectOwnersPolicyGrantDetail {
+  /// Specifies whether the policy is inherited by child domain units.
+  final bool? includeChildDomainUnits;
+
+  OverrideProjectOwnersPolicyGrantDetail({
+    this.includeChildDomainUnits,
+  });
+
+  factory OverrideProjectOwnersPolicyGrantDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OverrideProjectOwnersPolicyGrantDetail(
+      includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeChildDomainUnits = this.includeChildDomainUnits;
+    return {
+      if (includeChildDomainUnits != null)
+        'includeChildDomainUnits': includeChildDomainUnits,
+    };
+  }
+}
+
+/// The properties of the domain unit owners group.
+class OwnerGroupProperties {
+  /// The ID of the domain unit owners group.
+  final String groupIdentifier;
+
+  OwnerGroupProperties({
+    required this.groupIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupIdentifier = this.groupIdentifier;
+    return {
+      'groupIdentifier': groupIdentifier,
+    };
+  }
+}
+
+/// The properties of the domain unit owners group.
+class OwnerGroupPropertiesOutput {
+  /// The ID of the domain unit owners group.
+  final String? groupId;
+
+  OwnerGroupPropertiesOutput({
+    this.groupId,
+  });
+
+  factory OwnerGroupPropertiesOutput.fromJson(Map<String, dynamic> json) {
+    return OwnerGroupPropertiesOutput(
+      groupId: json['groupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    return {
+      if (groupId != null) 'groupId': groupId,
+    };
+  }
+}
+
+/// The properties of a domain unit's owner.
+class OwnerProperties {
+  /// Specifies that the domain unit owner is a group.
+  final OwnerGroupProperties? group;
+
+  /// Specifies that the domain unit owner is a user.
+  final OwnerUserProperties? user;
+
+  OwnerProperties({
+    this.group,
+    this.user,
+  });
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final user = this.user;
+    return {
+      if (group != null) 'group': group,
+      if (user != null) 'user': user,
+    };
+  }
+}
+
+/// The ID of the domain unit owners group.
+class OwnerPropertiesOutput {
+  /// Specifies that the domain unit owner is a group.
+  final OwnerGroupPropertiesOutput? group;
+
+  /// Specifies that the domain unit owner is a user.
+  final OwnerUserPropertiesOutput? user;
+
+  OwnerPropertiesOutput({
+    this.group,
+    this.user,
+  });
+
+  factory OwnerPropertiesOutput.fromJson(Map<String, dynamic> json) {
+    return OwnerPropertiesOutput(
+      group: json['group'] != null
+          ? OwnerGroupPropertiesOutput.fromJson(
+              json['group'] as Map<String, dynamic>)
+          : null,
+      user: json['user'] != null
+          ? OwnerUserPropertiesOutput.fromJson(
+              json['user'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final user = this.user;
+    return {
+      if (group != null) 'group': group,
+      if (user != null) 'user': user,
+    };
+  }
+}
+
+/// The properties of the owner user.
+class OwnerUserProperties {
+  /// The ID of the owner user.
+  final String userIdentifier;
+
+  OwnerUserProperties({
+    required this.userIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final userIdentifier = this.userIdentifier;
+    return {
+      'userIdentifier': userIdentifier,
+    };
+  }
+}
+
+/// The properties of the owner user.
+class OwnerUserPropertiesOutput {
+  /// The ID of the owner user.
+  final String? userId;
+
+  OwnerUserPropertiesOutput({
+    this.userId,
+  });
+
+  factory OwnerUserPropertiesOutput.fromJson(Map<String, dynamic> json) {
+    return OwnerUserPropertiesOutput(
+      userId: json['userId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    return {
+      if (userId != null) 'userId': userId,
+    };
+  }
+}
+
+/// The details of the policy grant.
+class PolicyGrantDetail {
+  /// Specifies that the policy grant is to be added to the members of the
+  /// project.
+  final AddToProjectMemberPoolPolicyGrantDetail? addToProjectMemberPool;
+
+  /// Specifies that this is a create asset type policy.
+  final CreateAssetTypePolicyGrantDetail? createAssetType;
+
+  /// Specifies that this is a create domain unit policy.
+  final CreateDomainUnitPolicyGrantDetail? createDomainUnit;
+
+  /// Specifies that this is a create environment policy.
+  final Unit? createEnvironment;
+
+  /// Specifies that this is a create environment profile policy.
+  final CreateEnvironmentProfilePolicyGrantDetail? createEnvironmentProfile;
+
+  /// Specifies that this is a create form type policy.
+  final CreateFormTypePolicyGrantDetail? createFormType;
+
+  /// Specifies that this is a create glossary policy.
+  final CreateGlossaryPolicyGrantDetail? createGlossary;
+
+  /// Specifies that this is a create project policy.
+  final CreateProjectPolicyGrantDetail? createProject;
+
+  /// Specifies that this is the delegation of the create environment profile
+  /// policy.
+  final Unit? delegateCreateEnvironmentProfile;
+
+  /// Specifies whether to override domain unit owners.
+  final OverrideDomainUnitOwnersPolicyGrantDetail? overrideDomainUnitOwners;
+
+  /// Specifies whether to override project owners.
+  final OverrideProjectOwnersPolicyGrantDetail? overrideProjectOwners;
+
+  PolicyGrantDetail({
+    this.addToProjectMemberPool,
+    this.createAssetType,
+    this.createDomainUnit,
+    this.createEnvironment,
+    this.createEnvironmentProfile,
+    this.createFormType,
+    this.createGlossary,
+    this.createProject,
+    this.delegateCreateEnvironmentProfile,
+    this.overrideDomainUnitOwners,
+    this.overrideProjectOwners,
+  });
+
+  factory PolicyGrantDetail.fromJson(Map<String, dynamic> json) {
+    return PolicyGrantDetail(
+      addToProjectMemberPool: json['addToProjectMemberPool'] != null
+          ? AddToProjectMemberPoolPolicyGrantDetail.fromJson(
+              json['addToProjectMemberPool'] as Map<String, dynamic>)
+          : null,
+      createAssetType: json['createAssetType'] != null
+          ? CreateAssetTypePolicyGrantDetail.fromJson(
+              json['createAssetType'] as Map<String, dynamic>)
+          : null,
+      createDomainUnit: json['createDomainUnit'] != null
+          ? CreateDomainUnitPolicyGrantDetail.fromJson(
+              json['createDomainUnit'] as Map<String, dynamic>)
+          : null,
+      createEnvironment: json['createEnvironment'] != null
+          ? Unit.fromJson(json['createEnvironment'] as Map<String, dynamic>)
+          : null,
+      createEnvironmentProfile: json['createEnvironmentProfile'] != null
+          ? CreateEnvironmentProfilePolicyGrantDetail.fromJson(
+              json['createEnvironmentProfile'] as Map<String, dynamic>)
+          : null,
+      createFormType: json['createFormType'] != null
+          ? CreateFormTypePolicyGrantDetail.fromJson(
+              json['createFormType'] as Map<String, dynamic>)
+          : null,
+      createGlossary: json['createGlossary'] != null
+          ? CreateGlossaryPolicyGrantDetail.fromJson(
+              json['createGlossary'] as Map<String, dynamic>)
+          : null,
+      createProject: json['createProject'] != null
+          ? CreateProjectPolicyGrantDetail.fromJson(
+              json['createProject'] as Map<String, dynamic>)
+          : null,
+      delegateCreateEnvironmentProfile:
+          json['delegateCreateEnvironmentProfile'] != null
+              ? Unit.fromJson(json['delegateCreateEnvironmentProfile']
+                  as Map<String, dynamic>)
+              : null,
+      overrideDomainUnitOwners: json['overrideDomainUnitOwners'] != null
+          ? OverrideDomainUnitOwnersPolicyGrantDetail.fromJson(
+              json['overrideDomainUnitOwners'] as Map<String, dynamic>)
+          : null,
+      overrideProjectOwners: json['overrideProjectOwners'] != null
+          ? OverrideProjectOwnersPolicyGrantDetail.fromJson(
+              json['overrideProjectOwners'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addToProjectMemberPool = this.addToProjectMemberPool;
+    final createAssetType = this.createAssetType;
+    final createDomainUnit = this.createDomainUnit;
+    final createEnvironment = this.createEnvironment;
+    final createEnvironmentProfile = this.createEnvironmentProfile;
+    final createFormType = this.createFormType;
+    final createGlossary = this.createGlossary;
+    final createProject = this.createProject;
+    final delegateCreateEnvironmentProfile =
+        this.delegateCreateEnvironmentProfile;
+    final overrideDomainUnitOwners = this.overrideDomainUnitOwners;
+    final overrideProjectOwners = this.overrideProjectOwners;
+    return {
+      if (addToProjectMemberPool != null)
+        'addToProjectMemberPool': addToProjectMemberPool,
+      if (createAssetType != null) 'createAssetType': createAssetType,
+      if (createDomainUnit != null) 'createDomainUnit': createDomainUnit,
+      if (createEnvironment != null) 'createEnvironment': createEnvironment,
+      if (createEnvironmentProfile != null)
+        'createEnvironmentProfile': createEnvironmentProfile,
+      if (createFormType != null) 'createFormType': createFormType,
+      if (createGlossary != null) 'createGlossary': createGlossary,
+      if (createProject != null) 'createProject': createProject,
+      if (delegateCreateEnvironmentProfile != null)
+        'delegateCreateEnvironmentProfile': delegateCreateEnvironmentProfile,
+      if (overrideDomainUnitOwners != null)
+        'overrideDomainUnitOwners': overrideDomainUnitOwners,
+      if (overrideProjectOwners != null)
+        'overrideProjectOwners': overrideProjectOwners,
+    };
+  }
+}
+
+/// A member of the policy grant list.
+class PolicyGrantMember {
+  /// Specifies the timestamp at which policy grant member was created.
+  final DateTime? createdAt;
+
+  /// Specifies the user who created the policy grant member.
+  final String? createdBy;
+
+  /// The details of the policy grant member.
+  final PolicyGrantDetail? detail;
+
+  /// The principal of the policy grant member.
+  final PolicyGrantPrincipal? principal;
+
+  PolicyGrantMember({
+    this.createdAt,
+    this.createdBy,
+    this.detail,
+    this.principal,
+  });
+
+  factory PolicyGrantMember.fromJson(Map<String, dynamic> json) {
+    return PolicyGrantMember(
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      detail: json['detail'] != null
+          ? PolicyGrantDetail.fromJson(json['detail'] as Map<String, dynamic>)
+          : null,
+      principal: json['principal'] != null
+          ? PolicyGrantPrincipal.fromJson(
+              json['principal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final detail = this.detail;
+    final principal = this.principal;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (detail != null) 'detail': detail,
+      if (principal != null) 'principal': principal,
+    };
+  }
+}
+
+/// The policy grant principal.
+class PolicyGrantPrincipal {
+  /// The domain unit of the policy grant principal.
+  final DomainUnitPolicyGrantPrincipal? domainUnit;
+
+  /// The group of the policy grant principal.
+  final GroupPolicyGrantPrincipal? group;
+
+  /// The project of the policy grant principal.
+  final ProjectPolicyGrantPrincipal? project;
+
+  /// The user of the policy grant principal.
+  final UserPolicyGrantPrincipal? user;
+
+  PolicyGrantPrincipal({
+    this.domainUnit,
+    this.group,
+    this.project,
+    this.user,
+  });
+
+  factory PolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
+    return PolicyGrantPrincipal(
+      domainUnit: json['domainUnit'] != null
+          ? DomainUnitPolicyGrantPrincipal.fromJson(
+              json['domainUnit'] as Map<String, dynamic>)
+          : null,
+      group: json['group'] != null
+          ? GroupPolicyGrantPrincipal.fromJson(
+              json['group'] as Map<String, dynamic>)
+          : null,
+      project: json['project'] != null
+          ? ProjectPolicyGrantPrincipal.fromJson(
+              json['project'] as Map<String, dynamic>)
+          : null,
+      user: json['user'] != null
+          ? UserPolicyGrantPrincipal.fromJson(
+              json['user'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainUnit = this.domainUnit;
+    final group = this.group;
+    final project = this.project;
+    final user = this.user;
+    return {
+      if (domainUnit != null) 'domainUnit': domainUnit,
+      if (group != null) 'group': group,
+      if (project != null) 'project': project,
+      if (user != null) 'user': user,
+    };
+  }
+}
+
+class PostLineageEventOutput {
+  PostLineageEventOutput();
+
+  factory PostLineageEventOutput.fromJson(Map<String, dynamic> _) {
+    return PostLineageEventOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class PostTimeSeriesDataPointsOutput {
   /// The ID of the Amazon DataZone domain in which you want to post time series
   /// data points.
@@ -14592,6 +19938,47 @@ class ProjectDeletionError {
   }
 }
 
+enum ProjectDesignation {
+  owner('OWNER'),
+  contributor('CONTRIBUTOR'),
+  ;
+
+  final String value;
+
+  const ProjectDesignation(this.value);
+
+  static ProjectDesignation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ProjectDesignation'));
+}
+
+/// The project grant filter.
+class ProjectGrantFilter {
+  /// The domain unit filter of the project grant filter.
+  final DomainUnitFilterForProject? domainUnitFilter;
+
+  ProjectGrantFilter({
+    this.domainUnitFilter,
+  });
+
+  factory ProjectGrantFilter.fromJson(Map<String, dynamic> json) {
+    return ProjectGrantFilter(
+      domainUnitFilter: json['domainUnitFilter'] != null
+          ? DomainUnitFilterForProject.fromJson(
+              json['domainUnitFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainUnitFilter = this.domainUnitFilter;
+    return {
+      if (domainUnitFilter != null) 'domainUnitFilter': domainUnitFilter,
+    };
+  }
+}
+
 /// The details of a project member.
 class ProjectMember {
   /// The designated role of a project member.
@@ -14619,6 +20006,47 @@ class ProjectMember {
     return {
       'designation': designation.value,
       'memberDetails': memberDetails,
+    };
+  }
+}
+
+/// The project policy grant principal.
+class ProjectPolicyGrantPrincipal {
+  /// The project designation of the project policy grant principal.
+  final ProjectDesignation projectDesignation;
+
+  /// The project grant filter of the project policy grant principal.
+  final ProjectGrantFilter? projectGrantFilter;
+
+  /// The project ID of the project policy grant principal.
+  final String? projectIdentifier;
+
+  ProjectPolicyGrantPrincipal({
+    required this.projectDesignation,
+    this.projectGrantFilter,
+    this.projectIdentifier,
+  });
+
+  factory ProjectPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
+    return ProjectPolicyGrantPrincipal(
+      projectDesignation:
+          ProjectDesignation.fromString((json['projectDesignation'] as String)),
+      projectGrantFilter: json['projectGrantFilter'] != null
+          ? ProjectGrantFilter.fromJson(
+              json['projectGrantFilter'] as Map<String, dynamic>)
+          : null,
+      projectIdentifier: json['projectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectDesignation = this.projectDesignation;
+    final projectGrantFilter = this.projectGrantFilter;
+    final projectIdentifier = this.projectIdentifier;
+    return {
+      'projectDesignation': projectDesignation.value,
+      if (projectGrantFilter != null) 'projectGrantFilter': projectGrantFilter,
+      if (projectIdentifier != null) 'projectIdentifier': projectIdentifier,
     };
   }
 }
@@ -14659,6 +20087,9 @@ class ProjectSummary {
   /// The description of a project.
   final String? description;
 
+  /// The ID of the domain unit.
+  final String? domainUnitId;
+
   /// Specifies the error message that is returned if the operation cannot be
   /// successfully completed.
   final List<ProjectDeletionError>? failureReasons;
@@ -14676,6 +20107,7 @@ class ProjectSummary {
     required this.name,
     this.createdAt,
     this.description,
+    this.domainUnitId,
     this.failureReasons,
     this.projectStatus,
     this.updatedAt,
@@ -14689,6 +20121,7 @@ class ProjectSummary {
       name: json['name'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      domainUnitId: json['domainUnitId'] as String?,
       failureReasons: (json['failureReasons'] as List?)
           ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
@@ -14706,6 +20139,7 @@ class ProjectSummary {
     final name = this.name;
     final createdAt = this.createdAt;
     final description = this.description;
+    final domainUnitId = this.domainUnitId;
     final failureReasons = this.failureReasons;
     final projectStatus = this.projectStatus;
     final updatedAt = this.updatedAt;
@@ -14716,9 +20150,37 @@ class ProjectSummary {
       'name': name,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (projectStatus != null) 'projectStatus': projectStatus.value,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// The provisioning configuration of the blueprint.
+class ProvisioningConfiguration {
+  /// The Lake Formation configuration of the Data Lake blueprint.
+  final LakeFormationConfiguration? lakeFormationConfiguration;
+
+  ProvisioningConfiguration({
+    this.lakeFormationConfiguration,
+  });
+
+  factory ProvisioningConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProvisioningConfiguration(
+      lakeFormationConfiguration: json['lakeFormationConfiguration'] != null
+          ? LakeFormationConfiguration.fromJson(
+              json['lakeFormationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lakeFormationConfiguration = this.lakeFormationConfiguration;
+    return {
+      if (lakeFormationConfiguration != null)
+        'lakeFormationConfiguration': lakeFormationConfiguration,
     };
   }
 }
@@ -14766,6 +20228,9 @@ class PutEnvironmentBlueprintConfigurationOutput {
   /// The ARN of the manage access role.
   final String? manageAccessRoleArn;
 
+  /// The provisioning configuration of a blueprint.
+  final List<ProvisioningConfiguration>? provisioningConfigurations;
+
   /// The ARN of the provisioning role.
   final String? provisioningRoleArn;
 
@@ -14781,6 +20246,7 @@ class PutEnvironmentBlueprintConfigurationOutput {
     this.createdAt,
     this.enabledRegions,
     this.manageAccessRoleArn,
+    this.provisioningConfigurations,
     this.provisioningRoleArn,
     this.regionalParameters,
     this.updatedAt,
@@ -14797,6 +20263,11 @@ class PutEnvironmentBlueprintConfigurationOutput {
           .map((e) => e as String)
           .toList(),
       manageAccessRoleArn: json['manageAccessRoleArn'] as String?,
+      provisioningConfigurations: (json['provisioningConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProvisioningConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       provisioningRoleArn: json['provisioningRoleArn'] as String?,
       regionalParameters: (json['regionalParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
@@ -14813,6 +20284,7 @@ class PutEnvironmentBlueprintConfigurationOutput {
     final createdAt = this.createdAt;
     final enabledRegions = this.enabledRegions;
     final manageAccessRoleArn = this.manageAccessRoleArn;
+    final provisioningConfigurations = this.provisioningConfigurations;
     final provisioningRoleArn = this.provisioningRoleArn;
     final regionalParameters = this.regionalParameters;
     final updatedAt = this.updatedAt;
@@ -14823,6 +20295,8 @@ class PutEnvironmentBlueprintConfigurationOutput {
       if (enabledRegions != null) 'enabledRegions': enabledRegions,
       if (manageAccessRoleArn != null)
         'manageAccessRoleArn': manageAccessRoleArn,
+      if (provisioningConfigurations != null)
+        'provisioningConfigurations': provisioningConfigurations,
       if (provisioningRoleArn != null)
         'provisioningRoleArn': provisioningRoleArn,
       if (regionalParameters != null) 'regionalParameters': regionalParameters,
@@ -15003,6 +20477,32 @@ class RedshiftRunConfigurationOutput {
       if (accountId != null) 'accountId': accountId,
       if (dataAccessRole != null) 'dataAccessRole': dataAccessRole,
       if (region != null) 'region': region,
+    };
+  }
+}
+
+/// The details for the self granting status for an Amazon Redshift data source.
+class RedshiftSelfGrantStatusOutput {
+  /// The details for the self granting status for an Amazon Redshift data source.
+  final List<SelfGrantStatusDetail> selfGrantStatusDetails;
+
+  RedshiftSelfGrantStatusOutput({
+    required this.selfGrantStatusDetails,
+  });
+
+  factory RedshiftSelfGrantStatusOutput.fromJson(Map<String, dynamic> json) {
+    return RedshiftSelfGrantStatusOutput(
+      selfGrantStatusDetails: (json['selfGrantStatusDetails'] as List)
+          .nonNulls
+          .map((e) => SelfGrantStatusDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selfGrantStatusDetails = this.selfGrantStatusDetails;
+    return {
+      'selfGrantStatusDetails': selfGrantStatusDetails,
     };
   }
 }
@@ -15321,6 +20821,30 @@ class RelationalFilterConfiguration {
   }
 }
 
+class RemoveEntityOwnerOutput {
+  RemoveEntityOwnerOutput();
+
+  factory RemoveEntityOwnerOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveEntityOwnerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RemovePolicyGrantOutput {
+  RemovePolicyGrantOutput();
+
+  factory RemovePolicyGrantOutput.fromJson(Map<String, dynamic> _) {
+    return RemovePolicyGrantOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// The details of a provisioned resource of this Amazon DataZone environment.
 class Resource {
   /// The type of a provisioned resource of this Amazon DataZone environment.
@@ -15457,6 +20981,213 @@ class RevokeSubscriptionOutput {
       if (subscriptionRequestId != null)
         'subscriptionRequestId': subscriptionRequestId,
       if (updatedBy != null) 'updatedBy': updatedBy,
+    };
+  }
+}
+
+/// The row filter.
+class RowFilter {
+  /// The 'and' clause of the row filter.
+  final List<RowFilter>? and;
+
+  /// The expression of the row filter.
+  final RowFilterExpression? expression;
+
+  /// The 'or' clause of the row filter.
+  final List<RowFilter>? or;
+
+  RowFilter({
+    this.and,
+    this.expression,
+    this.or,
+  });
+
+  factory RowFilter.fromJson(Map<String, dynamic> json) {
+    return RowFilter(
+      and: (json['and'] as List?)
+          ?.nonNulls
+          .map((e) => RowFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expression: json['expression'] != null
+          ? RowFilterExpression.fromJson(
+              json['expression'] as Map<String, dynamic>)
+          : null,
+      or: (json['or'] as List?)
+          ?.nonNulls
+          .map((e) => RowFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final expression = this.expression;
+    final or = this.or;
+    return {
+      if (and != null) 'and': and,
+      if (expression != null) 'expression': expression,
+      if (or != null) 'or': or,
+    };
+  }
+}
+
+/// The row filter configuration details.
+class RowFilterConfiguration {
+  /// The row filter.
+  final RowFilter rowFilter;
+
+  /// Specifies whether the row filter is sensitive.
+  final bool? sensitive;
+
+  RowFilterConfiguration({
+    required this.rowFilter,
+    this.sensitive,
+  });
+
+  factory RowFilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return RowFilterConfiguration(
+      rowFilter: RowFilter.fromJson(json['rowFilter'] as Map<String, dynamic>),
+      sensitive: json['sensitive'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rowFilter = this.rowFilter;
+    final sensitive = this.sensitive;
+    return {
+      'rowFilter': rowFilter,
+      if (sensitive != null) 'sensitive': sensitive,
+    };
+  }
+}
+
+/// The row filter expression.
+class RowFilterExpression {
+  /// The 'equal to' clause of the row filter expression.
+  final EqualToExpression? equalTo;
+
+  /// The 'greater than' clause of the row filter expression.
+  final GreaterThanExpression? greaterThan;
+
+  /// The 'greater than or equal to' clause of the filter expression.
+  final GreaterThanOrEqualToExpression? greaterThanOrEqualTo;
+
+  /// The 'in' clause of the row filter expression.
+  final InExpression? inValue;
+
+  /// The 'is not null' clause of the row filter expression.
+  final IsNotNullExpression? isNotNull;
+
+  /// The 'is null' clause of the row filter expression.
+  final IsNullExpression? isNull;
+
+  /// The 'less than' clause of the row filter expression.
+  final LessThanExpression? lessThan;
+
+  /// The 'less than or equal to' clause of the row filter expression.
+  final LessThanOrEqualToExpression? lessThanOrEqualTo;
+
+  /// The 'like' clause of the row filter expression.
+  final LikeExpression? like;
+
+  /// The 'no equal to' clause of the row filter expression.
+  final NotEqualToExpression? notEqualTo;
+
+  /// The 'not in' clause of the row filter expression.
+  final NotInExpression? notIn;
+
+  /// The 'not like' clause of the row filter expression.
+  final NotLikeExpression? notLike;
+
+  RowFilterExpression({
+    this.equalTo,
+    this.greaterThan,
+    this.greaterThanOrEqualTo,
+    this.inValue,
+    this.isNotNull,
+    this.isNull,
+    this.lessThan,
+    this.lessThanOrEqualTo,
+    this.like,
+    this.notEqualTo,
+    this.notIn,
+    this.notLike,
+  });
+
+  factory RowFilterExpression.fromJson(Map<String, dynamic> json) {
+    return RowFilterExpression(
+      equalTo: json['equalTo'] != null
+          ? EqualToExpression.fromJson(json['equalTo'] as Map<String, dynamic>)
+          : null,
+      greaterThan: json['greaterThan'] != null
+          ? GreaterThanExpression.fromJson(
+              json['greaterThan'] as Map<String, dynamic>)
+          : null,
+      greaterThanOrEqualTo: json['greaterThanOrEqualTo'] != null
+          ? GreaterThanOrEqualToExpression.fromJson(
+              json['greaterThanOrEqualTo'] as Map<String, dynamic>)
+          : null,
+      inValue: json['in'] != null
+          ? InExpression.fromJson(json['in'] as Map<String, dynamic>)
+          : null,
+      isNotNull: json['isNotNull'] != null
+          ? IsNotNullExpression.fromJson(
+              json['isNotNull'] as Map<String, dynamic>)
+          : null,
+      isNull: json['isNull'] != null
+          ? IsNullExpression.fromJson(json['isNull'] as Map<String, dynamic>)
+          : null,
+      lessThan: json['lessThan'] != null
+          ? LessThanExpression.fromJson(
+              json['lessThan'] as Map<String, dynamic>)
+          : null,
+      lessThanOrEqualTo: json['lessThanOrEqualTo'] != null
+          ? LessThanOrEqualToExpression.fromJson(
+              json['lessThanOrEqualTo'] as Map<String, dynamic>)
+          : null,
+      like: json['like'] != null
+          ? LikeExpression.fromJson(json['like'] as Map<String, dynamic>)
+          : null,
+      notEqualTo: json['notEqualTo'] != null
+          ? NotEqualToExpression.fromJson(
+              json['notEqualTo'] as Map<String, dynamic>)
+          : null,
+      notIn: json['notIn'] != null
+          ? NotInExpression.fromJson(json['notIn'] as Map<String, dynamic>)
+          : null,
+      notLike: json['notLike'] != null
+          ? NotLikeExpression.fromJson(json['notLike'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final equalTo = this.equalTo;
+    final greaterThan = this.greaterThan;
+    final greaterThanOrEqualTo = this.greaterThanOrEqualTo;
+    final inValue = this.inValue;
+    final isNotNull = this.isNotNull;
+    final isNull = this.isNull;
+    final lessThan = this.lessThan;
+    final lessThanOrEqualTo = this.lessThanOrEqualTo;
+    final like = this.like;
+    final notEqualTo = this.notEqualTo;
+    final notIn = this.notIn;
+    final notLike = this.notLike;
+    return {
+      if (equalTo != null) 'equalTo': equalTo,
+      if (greaterThan != null) 'greaterThan': greaterThan,
+      if (greaterThanOrEqualTo != null)
+        'greaterThanOrEqualTo': greaterThanOrEqualTo,
+      if (inValue != null) 'in': inValue,
+      if (isNotNull != null) 'isNotNull': isNotNull,
+      if (isNull != null) 'isNull': isNull,
+      if (lessThan != null) 'lessThan': lessThan,
+      if (lessThanOrEqualTo != null) 'lessThanOrEqualTo': lessThanOrEqualTo,
+      if (like != null) 'like': like,
+      if (notEqualTo != null) 'notEqualTo': notEqualTo,
+      if (notIn != null) 'notIn': notIn,
+      if (notLike != null) 'notLike': notLike,
     };
   }
 }
@@ -15601,8 +21332,8 @@ class SearchInventoryResultItem {
   /// The asset item included in the search results.
   final AssetItem? assetItem;
 
-  /// The data product item included in the search results.
-  final DataProductSummary? dataProductItem;
+  /// The data product.
+  final DataProductResultItem? dataProductItem;
 
   /// The glossary item included in the search results.
   final GlossaryItem? glossaryItem;
@@ -15623,7 +21354,7 @@ class SearchInventoryResultItem {
           ? AssetItem.fromJson(json['assetItem'] as Map<String, dynamic>)
           : null,
       dataProductItem: json['dataProductItem'] != null
-          ? DataProductSummary.fromJson(
+          ? DataProductResultItem.fromJson(
               json['dataProductItem'] as Map<String, dynamic>)
           : null,
       glossaryItem: json['glossaryItem'] != null
@@ -15760,8 +21491,12 @@ class SearchResultItem {
   /// action.
   final AssetListingItem? assetListing;
 
+  /// The data product listing.
+  final DataProductListingItem? dataProductListing;
+
   SearchResultItem({
     this.assetListing,
+    this.dataProductListing,
   });
 
   factory SearchResultItem.fromJson(Map<String, dynamic> json) {
@@ -15770,13 +21505,19 @@ class SearchResultItem {
           ? AssetListingItem.fromJson(
               json['assetListing'] as Map<String, dynamic>)
           : null,
+      dataProductListing: json['dataProductListing'] != null
+          ? DataProductListingItem.fromJson(
+              json['dataProductListing'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetListing = this.assetListing;
+    final dataProductListing = this.dataProductListing;
     return {
       if (assetListing != null) 'assetListing': assetListing,
+      if (dataProductListing != null) 'dataProductListing': dataProductListing,
     };
   }
 }
@@ -15858,9 +21599,13 @@ class SearchTypesResultItem {
   /// action.
   final FormTypeData? formTypeItem;
 
+  /// The details of a data lineage node type.
+  final LineageNodeTypeItem? lineageNodeTypeItem;
+
   SearchTypesResultItem({
     this.assetTypeItem,
     this.formTypeItem,
+    this.lineageNodeTypeItem,
   });
 
   factory SearchTypesResultItem.fromJson(Map<String, dynamic> json) {
@@ -15872,15 +21617,22 @@ class SearchTypesResultItem {
       formTypeItem: json['formTypeItem'] != null
           ? FormTypeData.fromJson(json['formTypeItem'] as Map<String, dynamic>)
           : null,
+      lineageNodeTypeItem: json['lineageNodeTypeItem'] != null
+          ? LineageNodeTypeItem.fromJson(
+              json['lineageNodeTypeItem'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetTypeItem = this.assetTypeItem;
     final formTypeItem = this.formTypeItem;
+    final lineageNodeTypeItem = this.lineageNodeTypeItem;
     return {
       if (assetTypeItem != null) 'assetTypeItem': assetTypeItem,
       if (formTypeItem != null) 'formTypeItem': formTypeItem,
+      if (lineageNodeTypeItem != null)
+        'lineageNodeTypeItem': lineageNodeTypeItem,
     };
   }
 }
@@ -15918,6 +21670,108 @@ class SearchUserProfilesOutput {
     return {
       if (items != null) 'items': items,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+enum SelfGrantStatus {
+  grantPending('GRANT_PENDING'),
+  revokePending('REVOKE_PENDING'),
+  grantInProgress('GRANT_IN_PROGRESS'),
+  revokeInProgress('REVOKE_IN_PROGRESS'),
+  granted('GRANTED'),
+  grantFailed('GRANT_FAILED'),
+  revokeFailed('REVOKE_FAILED'),
+  ;
+
+  final String value;
+
+  const SelfGrantStatus(this.value);
+
+  static SelfGrantStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SelfGrantStatus'));
+}
+
+/// The details for the self granting status.
+class SelfGrantStatusDetail {
+  /// The name of the database used for the data source.
+  final String databaseName;
+
+  /// The self granting status of the data source.
+  final SelfGrantStatus status;
+
+  /// The reason for why the operation failed.
+  final String? failureCause;
+
+  /// The name of the schema used in the data source.
+  final String? schemaName;
+
+  SelfGrantStatusDetail({
+    required this.databaseName,
+    required this.status,
+    this.failureCause,
+    this.schemaName,
+  });
+
+  factory SelfGrantStatusDetail.fromJson(Map<String, dynamic> json) {
+    return SelfGrantStatusDetail(
+      databaseName: json['databaseName'] as String,
+      status: SelfGrantStatus.fromString((json['status'] as String)),
+      failureCause: json['failureCause'] as String?,
+      schemaName: json['schemaName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final status = this.status;
+    final failureCause = this.failureCause;
+    final schemaName = this.schemaName;
+    return {
+      'databaseName': databaseName,
+      'status': status.value,
+      if (failureCause != null) 'failureCause': failureCause,
+      if (schemaName != null) 'schemaName': schemaName,
+    };
+  }
+}
+
+/// The details for the self granting status for a data source.
+class SelfGrantStatusOutput {
+  /// The details for the self granting status for a Glue data source.
+  final GlueSelfGrantStatusOutput? glueSelfGrantStatus;
+
+  /// The details for the self granting status for an Amazon Redshift data source.
+  final RedshiftSelfGrantStatusOutput? redshiftSelfGrantStatus;
+
+  SelfGrantStatusOutput({
+    this.glueSelfGrantStatus,
+    this.redshiftSelfGrantStatus,
+  });
+
+  factory SelfGrantStatusOutput.fromJson(Map<String, dynamic> json) {
+    return SelfGrantStatusOutput(
+      glueSelfGrantStatus: json['glueSelfGrantStatus'] != null
+          ? GlueSelfGrantStatusOutput.fromJson(
+              json['glueSelfGrantStatus'] as Map<String, dynamic>)
+          : null,
+      redshiftSelfGrantStatus: json['redshiftSelfGrantStatus'] != null
+          ? RedshiftSelfGrantStatusOutput.fromJson(
+              json['redshiftSelfGrantStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueSelfGrantStatus = this.glueSelfGrantStatus;
+    final redshiftSelfGrantStatus = this.redshiftSelfGrantStatus;
+    return {
+      if (glueSelfGrantStatus != null)
+        'glueSelfGrantStatus': glueSelfGrantStatus,
+      if (redshiftSelfGrantStatus != null)
+        'redshiftSelfGrantStatus': redshiftSelfGrantStatus,
     };
   }
 }
@@ -16229,6 +22083,9 @@ class SubscribedAsset {
   /// The status of the asset for which the subscription grant is created.
   final SubscriptionGrantStatus status;
 
+  /// The asset scope of the subscribed asset.
+  final AssetScope? assetScope;
+
   /// The failure cause included in the details of the asset for which the
   /// subscription grant is created.
   final FailureCause? failureCause;
@@ -16247,6 +22104,7 @@ class SubscribedAsset {
     required this.assetId,
     required this.assetRevision,
     required this.status,
+    this.assetScope,
     this.failureCause,
     this.failureTimestamp,
     this.grantedTimestamp,
@@ -16258,6 +22116,9 @@ class SubscribedAsset {
       assetId: json['assetId'] as String,
       assetRevision: json['assetRevision'] as String,
       status: SubscriptionGrantStatus.fromString((json['status'] as String)),
+      assetScope: json['assetScope'] != null
+          ? AssetScope.fromJson(json['assetScope'] as Map<String, dynamic>)
+          : null,
       failureCause: json['failureCause'] != null
           ? FailureCause.fromJson(json['failureCause'] as Map<String, dynamic>)
           : null,
@@ -16271,6 +22132,7 @@ class SubscribedAsset {
     final assetId = this.assetId;
     final assetRevision = this.assetRevision;
     final status = this.status;
+    final assetScope = this.assetScope;
     final failureCause = this.failureCause;
     final failureTimestamp = this.failureTimestamp;
     final grantedTimestamp = this.grantedTimestamp;
@@ -16279,6 +22141,7 @@ class SubscribedAsset {
       'assetId': assetId,
       'assetRevision': assetRevision,
       'status': status.value,
+      if (assetScope != null) 'assetScope': assetScope,
       if (failureCause != null) 'failureCause': failureCause,
       if (failureTimestamp != null)
         'failureTimestamp': unixTimestampToJson(failureTimestamp),
@@ -16292,6 +22155,9 @@ class SubscribedAsset {
 /// The details of the published asset for which the subscription grant is
 /// created.
 class SubscribedAssetListing {
+  /// The asset scope of the subscribed asset listing.
+  final AssetScope? assetScope;
+
   /// The identifier of the published asset for which the subscription grant is
   /// created.
   final String? entityId;
@@ -16312,6 +22178,7 @@ class SubscribedAssetListing {
   final List<DetailedGlossaryTerm>? glossaryTerms;
 
   SubscribedAssetListing({
+    this.assetScope,
     this.entityId,
     this.entityRevision,
     this.entityType,
@@ -16321,6 +22188,9 @@ class SubscribedAssetListing {
 
   factory SubscribedAssetListing.fromJson(Map<String, dynamic> json) {
     return SubscribedAssetListing(
+      assetScope: json['assetScope'] != null
+          ? AssetScope.fromJson(json['assetScope'] as Map<String, dynamic>)
+          : null,
       entityId: json['entityId'] as String?,
       entityRevision: json['entityRevision'] as String?,
       entityType: json['entityType'] as String?,
@@ -16333,12 +22203,14 @@ class SubscribedAssetListing {
   }
 
   Map<String, dynamic> toJson() {
+    final assetScope = this.assetScope;
     final entityId = this.entityId;
     final entityRevision = this.entityRevision;
     final entityType = this.entityType;
     final forms = this.forms;
     final glossaryTerms = this.glossaryTerms;
     return {
+      if (assetScope != null) 'assetScope': assetScope,
       if (entityId != null) 'entityId': entityId,
       if (entityRevision != null) 'entityRevision': entityRevision,
       if (entityType != null) 'entityType': entityType,
@@ -16443,8 +22315,12 @@ class SubscribedListingItem {
   /// The asset for which the subscription grant is created.
   final SubscribedAssetListing? assetListing;
 
+  /// The data product listing.
+  final SubscribedProductListing? productListing;
+
   SubscribedListingItem({
     this.assetListing,
+    this.productListing,
   });
 
   factory SubscribedListingItem.fromJson(Map<String, dynamic> json) {
@@ -16453,13 +22329,19 @@ class SubscribedListingItem {
           ? SubscribedAssetListing.fromJson(
               json['assetListing'] as Map<String, dynamic>)
           : null,
+      productListing: json['productListing'] != null
+          ? SubscribedProductListing.fromJson(
+              json['productListing'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetListing = this.assetListing;
+    final productListing = this.productListing;
     return {
       if (assetListing != null) 'assetListing': assetListing,
+      if (productListing != null) 'productListing': productListing,
     };
   }
 }
@@ -16502,6 +22384,71 @@ class SubscribedPrincipalInput {
     final project = this.project;
     return {
       if (project != null) 'project': project,
+    };
+  }
+}
+
+/// The data product listing.
+class SubscribedProductListing {
+  /// The data assets of the data product listing.
+  final List<AssetInDataProductListingItem>? assetListings;
+
+  /// The description of the data product listing.
+  final String? description;
+
+  /// The ID of the data product listing.
+  final String? entityId;
+
+  /// The revision of the data product listing.
+  final String? entityRevision;
+
+  /// The glossary terms of the data product listing.
+  final List<DetailedGlossaryTerm>? glossaryTerms;
+
+  /// The name of the data product listing.
+  final String? name;
+
+  SubscribedProductListing({
+    this.assetListings,
+    this.description,
+    this.entityId,
+    this.entityRevision,
+    this.glossaryTerms,
+    this.name,
+  });
+
+  factory SubscribedProductListing.fromJson(Map<String, dynamic> json) {
+    return SubscribedProductListing(
+      assetListings: (json['assetListings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetInDataProductListingItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      entityId: json['entityId'] as String?,
+      entityRevision: json['entityRevision'] as String?,
+      glossaryTerms: (json['glossaryTerms'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedGlossaryTerm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetListings = this.assetListings;
+    final description = this.description;
+    final entityId = this.entityId;
+    final entityRevision = this.entityRevision;
+    final glossaryTerms = this.glossaryTerms;
+    final name = this.name;
+    return {
+      if (assetListings != null) 'assetListings': assetListings,
+      if (description != null) 'description': description,
+      if (entityId != null) 'entityId': entityId,
+      if (entityRevision != null) 'entityRevision': entityRevision,
+      if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
+      if (name != null) 'name': name,
     };
   }
 }
@@ -16624,7 +22571,7 @@ class SubscriptionGrantSummary {
   /// The assets included in the subscription grant.
   final List<SubscribedAsset>? assets;
 
-  /// The ID of the subscription grant.
+  /// The ID of the subscription.
   final String? subscriptionId;
 
   /// The Amazon DataZone user who updated the subscription grant.
@@ -17103,6 +23050,22 @@ class TagResourceResponse {
   }
 }
 
+enum TargetEntityType {
+  domainUnit('DOMAIN_UNIT'),
+  environmentBlueprintConfiguration('ENVIRONMENT_BLUEPRINT_CONFIGURATION'),
+  environmentProfile('ENVIRONMENT_PROFILE'),
+  ;
+
+  final String value;
+
+  const TargetEntityType(this.value);
+
+  static TargetEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetEntityType'));
+}
+
 enum TaskStatus {
   active('ACTIVE'),
   inactive('INACTIVE'),
@@ -17439,6 +23402,7 @@ class Topic {
 enum TypesSearchScope {
   assetType('ASSET_TYPE'),
   formType('FORM_TYPE'),
+  lineageNodeType('LINEAGE_NODE_TYPE'),
   ;
 
   final String value;
@@ -17451,6 +23415,19 @@ enum TypesSearchScope {
               throw Exception('$value is not known in enum TypesSearchScope'));
 }
 
+/// The details of the policy of creating an environment.
+class Unit {
+  Unit();
+
+  factory Unit.fromJson(Map<String, dynamic> _) {
+    return Unit();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -17460,6 +23437,104 @@ class UntagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateAssetFilterOutput {
+  /// The ID of the data asset.
+  final String assetId;
+
+  /// The configuration of the asset filter.
+  final AssetFilterConfiguration configuration;
+
+  /// The ID of the domain where the asset filter was created.
+  final String domainId;
+
+  /// The ID of the asset filter.
+  final String id;
+
+  /// The name of the asset filter.
+  final String name;
+
+  /// The timestamp at which the asset filter was created.
+  final DateTime? createdAt;
+
+  /// The description of the asset filter.
+  final String? description;
+
+  /// The column names of the asset filter.
+  final List<String>? effectiveColumnNames;
+
+  /// The row filter of the asset filter.
+  final String? effectiveRowFilter;
+
+  /// The error message that is displayed if the action is not completed
+  /// successfully.
+  final String? errorMessage;
+
+  /// The status of the asset filter.
+  final FilterStatus? status;
+
+  UpdateAssetFilterOutput({
+    required this.assetId,
+    required this.configuration,
+    required this.domainId,
+    required this.id,
+    required this.name,
+    this.createdAt,
+    this.description,
+    this.effectiveColumnNames,
+    this.effectiveRowFilter,
+    this.errorMessage,
+    this.status,
+  });
+
+  factory UpdateAssetFilterOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetFilterOutput(
+      assetId: json['assetId'] as String,
+      configuration: AssetFilterConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      effectiveColumnNames: (json['effectiveColumnNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      effectiveRowFilter: json['effectiveRowFilter'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      status: (json['status'] as String?)?.let(FilterStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final configuration = this.configuration;
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final effectiveColumnNames = this.effectiveColumnNames;
+    final effectiveRowFilter = this.effectiveRowFilter;
+    final errorMessage = this.errorMessage;
+    final status = this.status;
+    return {
+      'assetId': assetId,
+      'configuration': configuration,
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (effectiveColumnNames != null)
+        'effectiveColumnNames': effectiveColumnNames,
+      if (effectiveRowFilter != null) 'effectiveRowFilter': effectiveRowFilter,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (status != null) 'status': status.value,
+    };
   }
 }
 
@@ -17520,9 +23595,16 @@ class UpdateDataSourceOutput {
   /// <code>UpdateDataSource</code> action.
   final RecommendationConfiguration? recommendation;
 
+  /// Specifies that the granted permissions are retained in case of a
+  /// self-subscribe functionality failure for a data source.
+  final bool? retainPermissionsOnRevokeFailure;
+
   /// The schedule to be updated as part of the <code>UpdateDataSource</code>
   /// action.
   final ScheduleConfiguration? schedule;
+
+  /// Specifies the status of the self-granting functionality.
+  final SelfGrantStatusOutput? selfGrantStatus;
 
   /// The status to be updated as part of the <code>UpdateDataSource</code>
   /// action.
@@ -17551,7 +23633,9 @@ class UpdateDataSourceOutput {
     this.lastRunStatus,
     this.publishOnImport,
     this.recommendation,
+    this.retainPermissionsOnRevokeFailure,
     this.schedule,
+    this.selfGrantStatus,
     this.status,
     this.type,
     this.updatedAt,
@@ -17592,9 +23676,15 @@ class UpdateDataSourceOutput {
           ? RecommendationConfiguration.fromJson(
               json['recommendation'] as Map<String, dynamic>)
           : null,
+      retainPermissionsOnRevokeFailure:
+          json['retainPermissionsOnRevokeFailure'] as bool?,
       schedule: json['schedule'] != null
           ? ScheduleConfiguration.fromJson(
               json['schedule'] as Map<String, dynamic>)
+          : null,
+      selfGrantStatus: json['selfGrantStatus'] != null
+          ? SelfGrantStatusOutput.fromJson(
+              json['selfGrantStatus'] as Map<String, dynamic>)
           : null,
       status: (json['status'] as String?)?.let(DataSourceStatus.fromString),
       type: json['type'] as String?,
@@ -17619,7 +23709,10 @@ class UpdateDataSourceOutput {
     final lastRunStatus = this.lastRunStatus;
     final publishOnImport = this.publishOnImport;
     final recommendation = this.recommendation;
+    final retainPermissionsOnRevokeFailure =
+        this.retainPermissionsOnRevokeFailure;
     final schedule = this.schedule;
+    final selfGrantStatus = this.selfGrantStatus;
     final status = this.status;
     final type = this.type;
     final updatedAt = this.updatedAt;
@@ -17641,7 +23734,10 @@ class UpdateDataSourceOutput {
       if (lastRunStatus != null) 'lastRunStatus': lastRunStatus.value,
       if (publishOnImport != null) 'publishOnImport': publishOnImport,
       if (recommendation != null) 'recommendation': recommendation,
+      if (retainPermissionsOnRevokeFailure != null)
+        'retainPermissionsOnRevokeFailure': retainPermissionsOnRevokeFailure,
       if (schedule != null) 'schedule': schedule,
+      if (selfGrantStatus != null) 'selfGrantStatus': selfGrantStatus,
       if (status != null) 'status': status.value,
       if (type != null) 'type': type,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
@@ -17667,6 +23763,9 @@ class UpdateDomainOutput {
   /// The name to be updated as part of the <code>UpdateDomain</code> action.
   final String? name;
 
+  /// The ID of the root domain unit.
+  final String? rootDomainUnitId;
+
   /// The single sign-on option of the Amazon DataZone domain.
   final SingleSignOn? singleSignOn;
 
@@ -17676,6 +23775,7 @@ class UpdateDomainOutput {
     this.domainExecutionRole,
     this.lastUpdatedAt,
     this.name,
+    this.rootDomainUnitId,
     this.singleSignOn,
   });
 
@@ -17686,6 +23786,7 @@ class UpdateDomainOutput {
       domainExecutionRole: json['domainExecutionRole'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       name: json['name'] as String?,
+      rootDomainUnitId: json['rootDomainUnitId'] as String?,
       singleSignOn: json['singleSignOn'] != null
           ? SingleSignOn.fromJson(json['singleSignOn'] as Map<String, dynamic>)
           : null,
@@ -17698,6 +23799,7 @@ class UpdateDomainOutput {
     final domainExecutionRole = this.domainExecutionRole;
     final lastUpdatedAt = this.lastUpdatedAt;
     final name = this.name;
+    final rootDomainUnitId = this.rootDomainUnitId;
     final singleSignOn = this.singleSignOn;
     return {
       'id': id,
@@ -17707,7 +23809,156 @@ class UpdateDomainOutput {
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (name != null) 'name': name,
+      if (rootDomainUnitId != null) 'rootDomainUnitId': rootDomainUnitId,
       if (singleSignOn != null) 'singleSignOn': singleSignOn,
+    };
+  }
+}
+
+class UpdateDomainUnitOutput {
+  /// The ID of the domain where you want to update the domain unit.
+  final String domainId;
+
+  /// The ID of the domain unit that you want to update.
+  final String id;
+
+  /// The name of the domain unit that you want to update.
+  final String name;
+
+  /// The owners of the domain unit that you want to update.
+  final List<DomainUnitOwnerProperties> owners;
+
+  /// The time stamp at which the domain unit that you want to update was created.
+  final DateTime? createdAt;
+
+  /// The user who created the domain unit that you want to update.
+  final String? createdBy;
+
+  /// The description of the domain unit that you want to update.
+  final String? description;
+
+  /// The timestamp at which the domain unit was last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// The user who last updated the domain unit.
+  final String? lastUpdatedBy;
+
+  /// The ID of the parent domain unit.
+  final String? parentDomainUnitId;
+
+  UpdateDomainUnitOutput({
+    required this.domainId,
+    required this.id,
+    required this.name,
+    required this.owners,
+    this.createdAt,
+    this.createdBy,
+    this.description,
+    this.lastUpdatedAt,
+    this.lastUpdatedBy,
+    this.parentDomainUnitId,
+  });
+
+  factory UpdateDomainUnitOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainUnitOutput(
+      domainId: json['domainId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      owners: (json['owners'] as List)
+          .nonNulls
+          .map((e) =>
+              DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      parentDomainUnitId: json['parentDomainUnitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final id = this.id;
+    final name = this.name;
+    final owners = this.owners;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final description = this.description;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final parentDomainUnitId = this.parentDomainUnitId;
+    return {
+      'domainId': domainId,
+      'id': id,
+      'name': name,
+      'owners': owners,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (description != null) 'description': description,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (parentDomainUnitId != null) 'parentDomainUnitId': parentDomainUnitId,
+    };
+  }
+}
+
+class UpdateEnvironmentActionOutput {
+  /// The domain ID of the environment action.
+  final String domainId;
+
+  /// The environment ID of the environment action.
+  final String environmentId;
+
+  /// The ID of the environment action.
+  final String id;
+
+  /// The name of the environment action.
+  final String name;
+
+  /// The parameters of the environment action.
+  final ActionParameters parameters;
+
+  /// The description of the environment action.
+  final String? description;
+
+  UpdateEnvironmentActionOutput({
+    required this.domainId,
+    required this.environmentId,
+    required this.id,
+    required this.name,
+    required this.parameters,
+    this.description,
+  });
+
+  factory UpdateEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateEnvironmentActionOutput(
+      domainId: json['domainId'] as String,
+      environmentId: json['environmentId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      parameters:
+          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final environmentId = this.environmentId;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final description = this.description;
+    return {
+      'domainId': domainId,
+      'environmentId': environmentId,
+      'id': id,
+      'name': name,
+      'parameters': parameters,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -17718,9 +23969,6 @@ class UpdateEnvironmentOutput {
 
   /// The identifier of the domain in which the environment is to be updated.
   final String domainId;
-
-  /// The profile identifier of the environment.
-  final String environmentProfileId;
 
   /// The name to be updated as part of the <code>UpdateEnvironment</code> action.
   final String name;
@@ -17756,6 +24004,9 @@ class UpdateEnvironmentOutput {
   /// The blueprint identifier of the environment.
   final String? environmentBlueprintId;
 
+  /// The profile identifier of the environment.
+  final String? environmentProfileId;
+
   /// The glossary terms to be updated as part of the
   /// <code>UpdateEnvironment</code> action.
   final List<String>? glossaryTerms;
@@ -17788,7 +24039,6 @@ class UpdateEnvironmentOutput {
   UpdateEnvironmentOutput({
     required this.createdBy,
     required this.domainId,
-    required this.environmentProfileId,
     required this.name,
     required this.projectId,
     required this.provider,
@@ -17799,6 +24049,7 @@ class UpdateEnvironmentOutput {
     this.description,
     this.environmentActions,
     this.environmentBlueprintId,
+    this.environmentProfileId,
     this.glossaryTerms,
     this.id,
     this.lastDeployment,
@@ -17813,7 +24064,6 @@ class UpdateEnvironmentOutput {
     return UpdateEnvironmentOutput(
       createdBy: json['createdBy'] as String,
       domainId: json['domainId'] as String,
-      environmentProfileId: json['environmentProfileId'] as String,
       name: json['name'] as String,
       projectId: json['projectId'] as String,
       provider: json['provider'] as String,
@@ -17831,6 +24081,7 @@ class UpdateEnvironmentOutput {
               ConfigurableEnvironmentAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       environmentBlueprintId: json['environmentBlueprintId'] as String?,
+      environmentProfileId: json['environmentProfileId'] as String?,
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -17859,7 +24110,6 @@ class UpdateEnvironmentOutput {
   Map<String, dynamic> toJson() {
     final createdBy = this.createdBy;
     final domainId = this.domainId;
-    final environmentProfileId = this.environmentProfileId;
     final name = this.name;
     final projectId = this.projectId;
     final provider = this.provider;
@@ -17870,6 +24120,7 @@ class UpdateEnvironmentOutput {
     final description = this.description;
     final environmentActions = this.environmentActions;
     final environmentBlueprintId = this.environmentBlueprintId;
+    final environmentProfileId = this.environmentProfileId;
     final glossaryTerms = this.glossaryTerms;
     final id = this.id;
     final lastDeployment = this.lastDeployment;
@@ -17881,7 +24132,6 @@ class UpdateEnvironmentOutput {
     return {
       'createdBy': createdBy,
       'domainId': domainId,
-      'environmentProfileId': environmentProfileId,
       'name': name,
       'projectId': projectId,
       'provider': provider,
@@ -17894,6 +24144,8 @@ class UpdateEnvironmentOutput {
       if (environmentActions != null) 'environmentActions': environmentActions,
       if (environmentBlueprintId != null)
         'environmentBlueprintId': environmentBlueprintId,
+      if (environmentProfileId != null)
+        'environmentProfileId': environmentProfileId,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (id != null) 'id': id,
       if (lastDeployment != null) 'lastDeployment': lastDeployment,
@@ -18220,6 +24472,9 @@ class UpdateProjectOutput {
   /// The description of the project that is to be updated.
   final String? description;
 
+  /// The ID of the domain unit.
+  final String? domainUnitId;
+
   /// Specifies the error message that is returned if the operation cannot be
   /// successfully completed.
   final List<ProjectDeletionError>? failureReasons;
@@ -18240,6 +24495,7 @@ class UpdateProjectOutput {
     required this.name,
     this.createdAt,
     this.description,
+    this.domainUnitId,
     this.failureReasons,
     this.glossaryTerms,
     this.lastUpdatedAt,
@@ -18254,6 +24510,7 @@ class UpdateProjectOutput {
       name: json['name'] as String,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
+      domainUnitId: json['domainUnitId'] as String?,
       failureReasons: (json['failureReasons'] as List?)
           ?.nonNulls
           .map((e) => ProjectDeletionError.fromJson(e as Map<String, dynamic>))
@@ -18275,6 +24532,7 @@ class UpdateProjectOutput {
     final name = this.name;
     final createdAt = this.createdAt;
     final description = this.description;
+    final domainUnitId = this.domainUnitId;
     final failureReasons = this.failureReasons;
     final glossaryTerms = this.glossaryTerms;
     final lastUpdatedAt = this.lastUpdatedAt;
@@ -18286,6 +24544,7 @@ class UpdateProjectOutput {
       'name': name,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (description != null) 'description': description,
+      if (domainUnitId != null) 'domainUnitId': domainUnitId,
       if (failureReasons != null) 'failureReasons': failureReasons,
       if (glossaryTerms != null) 'glossaryTerms': glossaryTerms,
       if (lastUpdatedAt != null) 'lastUpdatedAt': iso8601ToJson(lastUpdatedAt),
@@ -18744,6 +25003,40 @@ class UserDetails {
     final userId = this.userId;
     return {
       'userId': userId,
+    };
+  }
+}
+
+/// The user policy grant principal.
+class UserPolicyGrantPrincipal {
+  /// The all users grant filter of the user policy grant principal.
+  final AllUsersGrantFilter? allUsersGrantFilter;
+
+  /// The user ID of the user policy grant principal.
+  final String? userIdentifier;
+
+  UserPolicyGrantPrincipal({
+    this.allUsersGrantFilter,
+    this.userIdentifier,
+  });
+
+  factory UserPolicyGrantPrincipal.fromJson(Map<String, dynamic> json) {
+    return UserPolicyGrantPrincipal(
+      allUsersGrantFilter: json['allUsersGrantFilter'] != null
+          ? AllUsersGrantFilter.fromJson(
+              json['allUsersGrantFilter'] as Map<String, dynamic>)
+          : null,
+      userIdentifier: json['userIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allUsersGrantFilter = this.allUsersGrantFilter;
+    final userIdentifier = this.userIdentifier;
+    return {
+      if (allUsersGrantFilter != null)
+        'allUsersGrantFilter': allUsersGrantFilter,
+      if (userIdentifier != null) 'userIdentifier': userIdentifier,
     };
   }
 }

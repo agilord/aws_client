@@ -2024,15 +2024,18 @@ class Sqs {
   /// Delivers a message to the specified queue.
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
-  /// Unicode characters are allowed:
+  /// Unicode characters are allowed. For more information, see the <a
+  /// href="http://www.w3.org/TR/REC-xml/#charsets">W3C specification for
+  /// characters</a>.
   ///
   /// <code>#x9</code> | <code>#xA</code> | <code>#xD</code> | <code>#x20</code>
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Any characters not included in this list will be rejected. For more
-  /// information, see the <a href="http://www.w3.org/TR/REC-xml/#charsets">W3C
-  /// specification for characters</a>.
+  /// Amazon SQS does not throw an exception or completely reject the message if
+  /// it contains invalid characters. Instead, it replaces those invalid
+  /// characters with <code>U+FFFD</code> before storing the message in the
+  /// queue, as long as the message body contains at least one valid character.
   /// </important>
   ///
   /// May throw [InvalidMessageContents].
@@ -2054,15 +2057,18 @@ class Sqs {
   /// is 256 KiB.
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
-  /// Unicode characters are allowed:
+  /// Unicode characters are allowed. For more information, see the <a
+  /// href="http://www.w3.org/TR/REC-xml/#charsets">W3C specification for
+  /// characters</a>.
   ///
   /// <code>#x9</code> | <code>#xA</code> | <code>#xD</code> | <code>#x20</code>
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Any characters not included in this list will be rejected. For more
-  /// information, see the <a href="http://www.w3.org/TR/REC-xml/#charsets">W3C
-  /// specification for characters</a>.
+  /// Amazon SQS does not throw an exception or completely reject the message if
+  /// it contains invalid characters. Instead, it replaces those invalid
+  /// characters with <code>U+FFFD</code> before storing the message in the
+  /// queue, as long as the message body contains at least one valid character.
   /// </important>
   ///
   /// Parameter [queueUrl] :
@@ -2261,15 +2267,18 @@ class Sqs {
   /// are both 256 KiB (262,144 bytes).
   /// <important>
   /// A message can include only XML, JSON, and unformatted text. The following
-  /// Unicode characters are allowed:
+  /// Unicode characters are allowed. For more information, see the <a
+  /// href="http://www.w3.org/TR/REC-xml/#charsets">W3C specification for
+  /// characters</a>.
   ///
   /// <code>#x9</code> | <code>#xA</code> | <code>#xD</code> | <code>#x20</code>
   /// to <code>#xD7FF</code> | <code>#xE000</code> to <code>#xFFFD</code> |
   /// <code>#x10000</code> to <code>#x10FFFF</code>
   ///
-  /// Any characters not included in this list will be rejected. For more
-  /// information, see the <a href="http://www.w3.org/TR/REC-xml/#charsets">W3C
-  /// specification for characters</a>.
+  /// Amazon SQS does not throw an exception or completely reject the message if
+  /// it contains invalid characters. Instead, it replaces those invalid
+  /// characters with <code>U+FFFD</code> before storing the message in the
+  /// queue, as long as the message body contains at least one valid character.
   /// </important>
   /// If you don't specify the <code>DelaySeconds</code> parameter for an entry,
   /// Amazon SQS uses the default value for the queue.

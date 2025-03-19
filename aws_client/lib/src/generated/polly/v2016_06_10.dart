@@ -739,6 +739,8 @@ enum LanguageCode {
   enIe('en-IE'),
   nlBe('nl-BE'),
   frBe('fr-BE'),
+  csCz('cs-CZ'),
+  deCh('de-CH'),
   ;
 
   final String value;
@@ -1442,6 +1444,8 @@ enum VoiceId {
   danielle('Danielle'),
   gregory('Gregory'),
   burcu('Burcu'),
+  jitka('Jitka'),
+  sabrina('Sabrina'),
   ;
 
   final String value;

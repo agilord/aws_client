@@ -340,7 +340,33 @@ class ChimeSdkMediaPipelines {
     return CreateMediaLiveConnectorPipelineResponse.fromJson(response);
   }
 
-  /// Creates an Kinesis video stream pool for the media pipeline.
+  /// Creates an Amazon Kinesis Video Stream pool for use with media stream
+  /// pipelines.
+  /// <note>
+  /// If a meeting uses an opt-in Region as its <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion">MediaRegion</a>,
+  /// the KVS stream must be in that same Region. For example, if a meeting uses
+  /// the <code>af-south-1</code> Region, the KVS stream must also be in
+  /// <code>af-south-1</code>. However, if the meeting uses a Region that AWS
+  /// turns on by default, the KVS stream can be in any available Region,
+  /// including an opt-in Region. For example, if the meeting uses
+  /// <code>ca-central-1</code>, the KVS stream can be in
+  /// <code>eu-west-2</code>, <code>us-east-1</code>, <code>af-south-1</code>,
+  /// or any other Region that the Amazon Chime SDK supports.
+  ///
+  /// To learn which AWS Region a meeting uses, call the <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html">GetMeeting</a>
+  /// API and use the <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion">MediaRegion</a>
+  /// parameter from the response.
+  ///
+  /// For more information about opt-in Regions, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html">Available
+  /// Regions</a> in the <i>Amazon Chime SDK Developer Guide</i>, and <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html">Specify
+  /// which AWS Regions your account can use</a>, in the <i>AWS Account
+  /// Management Reference Guide</i>.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -352,16 +378,16 @@ class ChimeSdkMediaPipelines {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [poolName] :
-  /// The name of the video stream pool.
+  /// The name of the pool.
   ///
   /// Parameter [streamConfiguration] :
-  /// The configuration settings for the video stream.
+  /// The configuration settings for the stream.
   ///
   /// Parameter [clientRequestToken] :
   /// The token assigned to the client making the request.
   ///
   /// Parameter [tags] :
-  /// The tags assigned to the video stream pool.
+  /// The tags assigned to the stream pool.
   Future<CreateMediaPipelineKinesisVideoStreamPoolResponse>
       createMediaPipelineKinesisVideoStreamPool({
     required String poolName,
@@ -502,7 +528,7 @@ class ChimeSdkMediaPipelines {
     );
   }
 
-  /// Deletes an Kinesis video stream pool.
+  /// Deletes an Amazon Kinesis Video Stream pool.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -514,7 +540,8 @@ class ChimeSdkMediaPipelines {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [identifier] :
-  /// The ID of the pool being deleted.
+  /// The unique identifier of the requested resource. Valid values include the
+  /// name and ARN of the media pipeline Kinesis Video Stream pool.
   Future<void> deleteMediaPipelineKinesisVideoStreamPool({
     required String identifier,
   }) async {
@@ -615,7 +642,8 @@ class ChimeSdkMediaPipelines {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [identifier] :
-  /// The ID of the video stream pool.
+  /// The unique identifier of the requested resource. Valid values include the
+  /// name and ARN of the media pipeline Kinesis Video Stream pool.
   Future<GetMediaPipelineKinesisVideoStreamPoolResponse>
       getMediaPipelineKinesisVideoStreamPool({
     required String identifier,
@@ -1201,7 +1229,7 @@ class ChimeSdkMediaPipelines {
     );
   }
 
-  /// Updates an Kinesis video stream pool in a media pipeline.
+  /// Updates an Amazon Kinesis Video Stream pool in a media pipeline.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1213,7 +1241,8 @@ class ChimeSdkMediaPipelines {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [identifier] :
-  /// The ID of the video stream pool.
+  /// The unique identifier of the requested resource. Valid values include the
+  /// name and ARN of the media pipeline Kinesis Video Stream pool.
   ///
   /// Parameter [streamConfiguration] :
   /// The configuration settings for the video stream.
@@ -1509,6 +1538,12 @@ class AmazonTranscribeCallAnalyticsProcessorConfiguration {
 
 /// A structure that contains the configuration settings for an Amazon
 /// Transcribe processor.
+/// <note>
+/// Calls to this API must include a <code>LanguageCode</code>,
+/// <code>IdentifyLanguage</code>, or <code>IdentifyMultipleLanguages</code>
+/// parameter. If you include more than one of those parameters, your
+/// transcription job fails.
+/// </note>
 class AmazonTranscribeProcessorConfiguration {
   /// Labels all personally identifiable information (PII) identified in your
   /// transcript.
@@ -1557,6 +1592,9 @@ class AmazonTranscribeProcessorConfiguration {
 
   /// Turns language identification on or off.
   final bool? identifyLanguage;
+
+  /// Turns language identification on or off for multiple languages.
+  final bool? identifyMultipleLanguages;
 
   /// The language code that represents the language spoken in your audio.
   ///
@@ -1655,6 +1693,7 @@ class AmazonTranscribeProcessorConfiguration {
     this.enablePartialResultsStabilization,
     this.filterPartialResults,
     this.identifyLanguage,
+    this.identifyMultipleLanguages,
     this.languageCode,
     this.languageModelName,
     this.languageOptions,
@@ -1680,6 +1719,7 @@ class AmazonTranscribeProcessorConfiguration {
           json['EnablePartialResultsStabilization'] as bool?,
       filterPartialResults: json['FilterPartialResults'] as bool?,
       identifyLanguage: json['IdentifyLanguage'] as bool?,
+      identifyMultipleLanguages: json['IdentifyMultipleLanguages'] as bool?,
       languageCode: (json['LanguageCode'] as String?)
           ?.let(CallAnalyticsLanguageCode.fromString),
       languageModelName: json['LanguageModelName'] as String?,
@@ -1706,6 +1746,7 @@ class AmazonTranscribeProcessorConfiguration {
         this.enablePartialResultsStabilization;
     final filterPartialResults = this.filterPartialResults;
     final identifyLanguage = this.identifyLanguage;
+    final identifyMultipleLanguages = this.identifyMultipleLanguages;
     final languageCode = this.languageCode;
     final languageModelName = this.languageModelName;
     final languageOptions = this.languageOptions;
@@ -1728,6 +1769,8 @@ class AmazonTranscribeProcessorConfiguration {
       if (filterPartialResults != null)
         'FilterPartialResults': filterPartialResults,
       if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
+      if (identifyMultipleLanguages != null)
+        'IdentifyMultipleLanguages': identifyMultipleLanguages,
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (languageModelName != null) 'LanguageModelName': languageModelName,
       if (languageOptions != null) 'LanguageOptions': languageOptions,
@@ -2618,7 +2661,8 @@ class CreateMediaLiveConnectorPipelineResponse {
 }
 
 class CreateMediaPipelineKinesisVideoStreamPoolResponse {
-  /// The configuration for the Kinesis video stream pool.
+  /// The configuration for applying the streams to the pool.
+  /// <note> <p/> </note>
   final KinesisVideoStreamPoolConfiguration?
       kinesisVideoStreamPoolConfiguration;
 
@@ -3195,6 +3239,31 @@ class KinesisDataStreamSinkConfiguration {
 }
 
 /// The configuration of an Kinesis video stream.
+/// <note>
+/// If a meeting uses an opt-in Region as its <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion">MediaRegion</a>,
+/// the KVS stream must be in that same Region. For example, if a meeting uses
+/// the <code>af-south-1</code> Region, the KVS stream must also be in
+/// <code>af-south-1</code>. However, if the meeting uses a Region that AWS
+/// turns on by default, the KVS stream can be in any available Region,
+/// including an opt-in Region. For example, if the meeting uses
+/// <code>ca-central-1</code>, the KVS stream can be in <code>eu-west-2</code>,
+/// <code>us-east-1</code>, <code>af-south-1</code>, or any other Region that
+/// the Amazon Chime SDK supports.
+///
+/// To learn which AWS Region a meeting uses, call the <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html">GetMeeting</a>
+/// API and use the <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion">MediaRegion</a>
+/// parameter from the response.
+///
+/// For more information about opt-in Regions, refer to <a
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html">Available
+/// Regions</a> in the <i>Amazon Chime SDK Developer Guide</i>, and <a
+/// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html">Specify
+/// which AWS Regions your account can use</a>, in the <i>AWS Account Management
+/// Reference Guide</i>.
+/// </note>
 class KinesisVideoStreamConfiguration {
   /// The Amazon Web Services Region of the video stream.
   final String region;
@@ -4968,7 +5037,8 @@ class MediaStreamSink {
   /// Specifies the number of streams that the sink can accept.
   final int reservedStreamCapacity;
 
-  /// The ARN of the media stream sink.
+  /// The ARN of the Kinesis Video Stream pool returned by the
+  /// <a>CreateMediaPipelineKinesisVideoStreamPool</a> API.
   final String sinkArn;
 
   /// The media stream sink's type.
@@ -5008,7 +5078,7 @@ class MediaStreamSink {
 
 /// Structure that contains the settings for media stream sources.
 class MediaStreamSource {
-  /// The ARN of the media stream source.
+  /// The ARN of the meeting.
   final String sourceArn;
 
   /// The type of media stream source.

@@ -768,10 +768,6 @@ class CodePipeline {
   /// remaining results, make another call with the returned nextToken value.
   /// Action execution history is retained for up to 12 months, based on action
   /// execution start times. Default value is 100.
-  /// <note>
-  /// Detailed execution history is available for executions run on or after
-  /// February 21, 2019.
-  /// </note>
   ///
   /// Parameter [nextToken] :
   /// The token that was returned from the previous
@@ -852,6 +848,11 @@ class CodePipeline {
   }
 
   /// Gets a summary of the most recent executions for a pipeline.
+  /// <note>
+  /// When applying the filter for pipeline executions that have succeeded in
+  /// the stage, the operation returns all executions in the current pipeline
+  /// version beginning on February 1, 2024.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [PipelineNotFoundException].
@@ -950,6 +951,97 @@ class CodePipeline {
     return ListPipelinesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists the rule executions that have occurred in a pipeline configured for
+  /// conditions with rules.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [PipelineExecutionNotFoundException].
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline for which you want to get execution summary
+  /// information.
+  ///
+  /// Parameter [filter] :
+  /// Input information used to filter rule execution history.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned nextToken value.
+  /// Pipeline history is limited to the most recent 12 months, based on
+  /// pipeline execution start times. Default value is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that was returned from the previous
+  /// <code>ListRuleExecutions</code> call, which can be used to return the next
+  /// set of rule executions in the list.
+  Future<ListRuleExecutionsOutput> listRuleExecutions({
+    required String pipelineName,
+    RuleExecutionFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.ListRuleExecutions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'pipelineName': pipelineName,
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListRuleExecutionsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the rules for the condition.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [regionFilter] :
+  /// The rule Region to filter on.
+  ///
+  /// Parameter [ruleOwnerFilter] :
+  /// The rule owner to filter on.
+  Future<ListRuleTypesOutput> listRuleTypes({
+    String? regionFilter,
+    RuleOwner? ruleOwnerFilter,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.ListRuleTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (regionFilter != null) 'regionFilter': regionFilter,
+        if (ruleOwnerFilter != null) 'ruleOwnerFilter': ruleOwnerFilter.value,
+      },
+    );
+
+    return ListRuleTypesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets the set of key-value pairs (metadata) that are used to manage the
   /// resource.
   ///
@@ -1002,6 +1094,9 @@ class CodePipeline {
   /// Gets a listing of all the webhooks in this Amazon Web Services Region for
   /// this account. The output lists all webhooks and includes the webhook URL
   /// and ARN and the configuration for each webhook.
+  /// <note>
+  /// If a secret token was provided, it will be redacted in the response.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -1040,6 +1135,53 @@ class CodePipeline {
     );
 
     return ListWebhooksOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Used to override a stage condition.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [StageNotFoundException].
+  /// May throw [ConditionNotOverridableException].
+  /// May throw [NotLatestPipelineExecutionException].
+  /// May throw [ConcurrentPipelineExecutionsLimitExceededException].
+  ///
+  /// Parameter [conditionType] :
+  /// The type of condition to override for the stage, such as entry conditions,
+  /// failure conditions, or success conditions.
+  ///
+  /// Parameter [pipelineExecutionId] :
+  /// The ID of the pipeline execution for the override.
+  ///
+  /// Parameter [pipelineName] :
+  /// The name of the pipeline with the stage that will override the condition.
+  ///
+  /// Parameter [stageName] :
+  /// The name of the stage for the override.
+  Future<void> overrideStageCondition({
+    required ConditionType conditionType,
+    required String pipelineExecutionId,
+    required String pipelineName,
+    required String stageName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.OverrideStageCondition'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'conditionType': conditionType.value,
+        'pipelineExecutionId': pipelineExecutionId,
+        'pipelineName': pipelineName,
+        'stageName': stageName,
+      },
+    );
   }
 
   /// Returns information about any jobs for CodePipeline to act on.
@@ -1151,6 +1293,7 @@ class CodePipeline {
   /// May throw [StageNotFoundException].
   /// May throw [ActionNotFoundException].
   /// May throw [ValidationException].
+  /// May throw [ConcurrentPipelineExecutionsLimitExceededException].
   ///
   /// Parameter [actionName] :
   /// The name of the action that processes the revision.
@@ -1450,6 +1593,18 @@ class CodePipeline {
   /// RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can
   /// be used to automatically configure supported third parties to call the
   /// generated webhook URL.
+  /// <important>
+  /// When creating CodePipeline webhooks, do not use your own credentials or
+  /// reuse the same secret token across multiple webhooks. For optimal
+  /// security, generate a unique secret token for each webhook you create. The
+  /// secret token is an arbitrary string that you provide, which GitHub uses to
+  /// compute and sign the webhook payloads sent to CodePipeline, for protecting
+  /// the integrity and authenticity of the webhook payloads. Using your own
+  /// credentials or reusing the same token across multiple webhooks can lead to
+  /// security vulnerabilities.
+  /// </important> <note>
+  /// If a secret token was provided, it will be redacted in the response.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [LimitExceededException].
@@ -1536,6 +1691,7 @@ class CodePipeline {
   /// May throw [StageNotFoundException].
   /// May throw [StageNotRetryableException].
   /// May throw [NotLatestPipelineExecutionException].
+  /// May throw [ConcurrentPipelineExecutionsLimitExceededException].
   ///
   /// Parameter [pipelineExecutionId] :
   /// The ID of the pipeline execution in the failed stage to be retried. Use
@@ -3703,6 +3859,32 @@ enum ArtifactStoreType {
               throw Exception('$value is not known in enum ArtifactStoreType'));
 }
 
+/// The conditions for making checks for entry to a stage.
+class BeforeEntryConditions {
+  /// The conditions that are configured as entry conditions.
+  final List<Condition> conditions;
+
+  BeforeEntryConditions({
+    required this.conditions,
+  });
+
+  factory BeforeEntryConditions.fromJson(Map<String, dynamic> json) {
+    return BeforeEntryConditions(
+      conditions: (json['conditions'] as List)
+          .nonNulls
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
+    return {
+      'conditions': conditions,
+    };
+  }
+}
+
 /// Reserved for future use.
 class BlockerDeclaration {
   /// Reserved for future use.
@@ -3744,6 +3926,151 @@ enum BlockerType {
   static BlockerType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum BlockerType'));
+}
+
+/// The condition for the stage. A condition is made up of the rules and the
+/// result for the condition.
+class Condition {
+  /// The action to be done when the condition is met. For example, rolling back
+  /// an execution for a failure condition.
+  final Result? result;
+
+  /// The rules that make up the condition.
+  final List<RuleDeclaration>? rules;
+
+  Condition({
+    this.result,
+    this.rules,
+  });
+
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      result: (json['result'] as String?)?.let(Result.fromString),
+      rules: (json['rules'] as List?)
+          ?.nonNulls
+          .map((e) => RuleDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    final rules = this.rules;
+    return {
+      if (result != null) 'result': result.value,
+      if (rules != null) 'rules': rules,
+    };
+  }
+}
+
+/// The run of a condition.
+class ConditionExecution {
+  /// The last status change of the condition.
+  final DateTime? lastStatusChange;
+
+  /// The status of the run for a condition.
+  final ConditionExecutionStatus? status;
+
+  /// The summary of information about a run for a condition.
+  final String? summary;
+
+  ConditionExecution({
+    this.lastStatusChange,
+    this.status,
+    this.summary,
+  });
+
+  factory ConditionExecution.fromJson(Map<String, dynamic> json) {
+    return ConditionExecution(
+      lastStatusChange: timeStampFromJson(json['lastStatusChange']),
+      status:
+          (json['status'] as String?)?.let(ConditionExecutionStatus.fromString),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastStatusChange = this.lastStatusChange;
+    final status = this.status;
+    final summary = this.summary;
+    return {
+      if (lastStatusChange != null)
+        'lastStatusChange': unixTimestampToJson(lastStatusChange),
+      if (status != null) 'status': status.value,
+      if (summary != null) 'summary': summary,
+    };
+  }
+}
+
+enum ConditionExecutionStatus {
+  inProgress('InProgress'),
+  failed('Failed'),
+  errored('Errored'),
+  succeeded('Succeeded'),
+  cancelled('Cancelled'),
+  abandoned('Abandoned'),
+  overridden('Overridden'),
+  ;
+
+  final String value;
+
+  const ConditionExecutionStatus(this.value);
+
+  static ConditionExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConditionExecutionStatus'));
+}
+
+/// Information about the state of the condition.
+class ConditionState {
+  /// The state of the latest run of the rule.
+  final ConditionExecution? latestExecution;
+
+  /// The state of the rules for the condition.
+  final List<RuleState>? ruleStates;
+
+  ConditionState({
+    this.latestExecution,
+    this.ruleStates,
+  });
+
+  factory ConditionState.fromJson(Map<String, dynamic> json) {
+    return ConditionState(
+      latestExecution: json['latestExecution'] != null
+          ? ConditionExecution.fromJson(
+              json['latestExecution'] as Map<String, dynamic>)
+          : null,
+      ruleStates: (json['ruleStates'] as List?)
+          ?.nonNulls
+          .map((e) => RuleState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestExecution = this.latestExecution;
+    final ruleStates = this.ruleStates;
+    return {
+      if (latestExecution != null) 'latestExecution': latestExecution,
+      if (ruleStates != null) 'ruleStates': ruleStates,
+    };
+  }
+}
+
+enum ConditionType {
+  beforeEntry('BEFORE_ENTRY'),
+  onSuccess('ON_SUCCESS'),
+  ;
+
+  final String value;
+
+  const ConditionType(this.value);
+
+  static ConditionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConditionType'));
 }
 
 /// Represents the output of a <code>CreateCustomActionType</code> operation.
@@ -4120,23 +4447,33 @@ enum ExecutorType {
 /// The configuration that specifies the result, such as rollback, to occur upon
 /// stage failure.
 class FailureConditions {
+  /// The conditions that are configured as failure conditions.
+  final List<Condition>? conditions;
+
   /// The specified result for when the failure conditions are met, such as
   /// rolling back the stage.
   final Result? result;
 
   FailureConditions({
+    this.conditions,
     this.result,
   });
 
   factory FailureConditions.fromJson(Map<String, dynamic> json) {
     return FailureConditions(
+      conditions: (json['conditions'] as List?)
+          ?.nonNulls
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
       result: (json['result'] as String?)?.let(Result.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
     final result = this.result;
     return {
+      if (conditions != null) 'conditions': conditions,
       if (result != null) 'result': result.value,
     };
   }
@@ -5169,6 +5506,66 @@ class ListPipelinesOutput {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (pipelines != null) 'pipelines': pipelines,
+    };
+  }
+}
+
+class ListRuleExecutionsOutput {
+  /// A token that can be used in the next <code>ListRuleExecutions</code> call.
+  /// To view all items in the list, continue to call this operation with each
+  /// subsequent token until no more nextToken values are returned.
+  final String? nextToken;
+
+  /// Details about the output for listing rule executions.
+  final List<RuleExecutionDetail>? ruleExecutionDetails;
+
+  ListRuleExecutionsOutput({
+    this.nextToken,
+    this.ruleExecutionDetails,
+  });
+
+  factory ListRuleExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListRuleExecutionsOutput(
+      nextToken: json['nextToken'] as String?,
+      ruleExecutionDetails: (json['ruleExecutionDetails'] as List?)
+          ?.nonNulls
+          .map((e) => RuleExecutionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final ruleExecutionDetails = this.ruleExecutionDetails;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (ruleExecutionDetails != null)
+        'ruleExecutionDetails': ruleExecutionDetails,
+    };
+  }
+}
+
+class ListRuleTypesOutput {
+  /// Lists the rules that are configured for the condition.
+  final List<RuleType> ruleTypes;
+
+  ListRuleTypesOutput({
+    required this.ruleTypes,
+  });
+
+  factory ListRuleTypesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRuleTypesOutput(
+      ruleTypes: (json['ruleTypes'] as List)
+          .nonNulls
+          .map((e) => RuleType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleTypes = this.ruleTypes;
+    return {
+      'ruleTypes': ruleTypes,
     };
   }
 }
@@ -6368,6 +6765,7 @@ class ResolvedPipelineVariable {
 
 enum Result {
   rollback('ROLLBACK'),
+  fail('FAIL'),
   ;
 
   final String value;
@@ -6422,6 +6820,840 @@ class RollbackStageOutput {
     final pipelineExecutionId = this.pipelineExecutionId;
     return {
       'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
+}
+
+enum RuleCategory {
+  rule('Rule'),
+  ;
+
+  final String value;
+
+  const RuleCategory(this.value);
+
+  static RuleCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RuleCategory'));
+}
+
+/// Represents information about a rule configuration property.
+class RuleConfigurationProperty {
+  /// Whether the configuration property is a key.
+  final bool key;
+
+  /// The name of the rule configuration property.
+  final String name;
+
+  /// Whether the configuration property is a required value.
+  final bool required;
+
+  /// Whether the configuration property is secret.
+  ///
+  /// When updating a pipeline, passing * * * * * without changing any other
+  /// values of the action preserves the previous value of the secret.
+  final bool secret;
+
+  /// The description of the action configuration property that is displayed to
+  /// users.
+  final String? description;
+
+  /// Indicates whether the property can be queried.
+  ///
+  /// If you create a pipeline with a condition and rule, and that rule contains a
+  /// queryable property, the value for that configuration property is subject to
+  /// other restrictions. The value must be less than or equal to twenty (20)
+  /// characters. The value can contain only alphanumeric characters, underscores,
+  /// and hyphens.
+  final bool? queryable;
+
+  /// The type of the configuration property.
+  final RuleConfigurationPropertyType? type;
+
+  RuleConfigurationProperty({
+    required this.key,
+    required this.name,
+    required this.required,
+    required this.secret,
+    this.description,
+    this.queryable,
+    this.type,
+  });
+
+  factory RuleConfigurationProperty.fromJson(Map<String, dynamic> json) {
+    return RuleConfigurationProperty(
+      key: json['key'] as bool,
+      name: json['name'] as String,
+      required: json['required'] as bool,
+      secret: json['secret'] as bool,
+      description: json['description'] as String?,
+      queryable: json['queryable'] as bool?,
+      type: (json['type'] as String?)
+          ?.let(RuleConfigurationPropertyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final name = this.name;
+    final required = this.required;
+    final secret = this.secret;
+    final description = this.description;
+    final queryable = this.queryable;
+    final type = this.type;
+    return {
+      'key': key,
+      'name': name,
+      'required': required,
+      'secret': secret,
+      if (description != null) 'description': description,
+      if (queryable != null) 'queryable': queryable,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+enum RuleConfigurationPropertyType {
+  string('String'),
+  number('Number'),
+  boolean('Boolean'),
+  ;
+
+  final String value;
+
+  const RuleConfigurationPropertyType(this.value);
+
+  static RuleConfigurationPropertyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RuleConfigurationPropertyType'));
+}
+
+/// Represents information about the rule to be created for an associated
+/// condition. An example would be creating a new rule for an entry condition,
+/// such as a rule that checks for a test result before allowing the run to
+/// enter the deployment stage.
+class RuleDeclaration {
+  /// The name of the rule that is created for the condition, such as
+  /// CheckAllResults.
+  final String name;
+
+  /// The ID for the rule type, which is made up of the combined values for
+  /// category, owner, provider, and version.
+  final RuleTypeId ruleTypeId;
+
+  /// The action configuration fields for the rule.
+  final Map<String, String>? configuration;
+
+  /// The input artifacts fields for the rule, such as specifying an input file
+  /// for the rule.
+  final List<InputArtifact>? inputArtifacts;
+
+  /// The Region for the condition associated with the rule.
+  final String? region;
+
+  /// The pipeline role ARN associated with the rule.
+  final String? roleArn;
+
+  /// The action timeout for the rule.
+  final int? timeoutInMinutes;
+
+  RuleDeclaration({
+    required this.name,
+    required this.ruleTypeId,
+    this.configuration,
+    this.inputArtifacts,
+    this.region,
+    this.roleArn,
+    this.timeoutInMinutes,
+  });
+
+  factory RuleDeclaration.fromJson(Map<String, dynamic> json) {
+    return RuleDeclaration(
+      name: json['name'] as String,
+      ruleTypeId:
+          RuleTypeId.fromJson(json['ruleTypeId'] as Map<String, dynamic>),
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.nonNulls
+          .map((e) => InputArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      region: json['region'] as String?,
+      roleArn: json['roleArn'] as String?,
+      timeoutInMinutes: json['timeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final ruleTypeId = this.ruleTypeId;
+    final configuration = this.configuration;
+    final inputArtifacts = this.inputArtifacts;
+    final region = this.region;
+    final roleArn = this.roleArn;
+    final timeoutInMinutes = this.timeoutInMinutes;
+    return {
+      'name': name,
+      'ruleTypeId': ruleTypeId,
+      if (configuration != null) 'configuration': configuration,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (region != null) 'region': region,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (timeoutInMinutes != null) 'timeoutInMinutes': timeoutInMinutes,
+    };
+  }
+}
+
+/// Represents information about each time a rule is run as part of the pipeline
+/// execution for a pipeline configured with conditions.
+class RuleExecution {
+  final ErrorDetails? errorDetails;
+
+  /// The external ID of the run of the rule.
+  final String? externalExecutionId;
+
+  /// The URL of a resource external to Amazon Web Services that is used when
+  /// running the rule (for example, an external repository URL).
+  final String? externalExecutionUrl;
+
+  /// The last status change of the rule.
+  final DateTime? lastStatusChange;
+
+  /// The ARN of the user who last changed the rule.
+  final String? lastUpdatedBy;
+
+  /// The execution ID for the run of the rule.
+  final String? ruleExecutionId;
+
+  /// The status of the run of the rule, such as FAILED.
+  final RuleExecutionStatus? status;
+
+  /// A summary of the run of the rule.
+  final String? summary;
+
+  /// The system-generated token used to identify a unique request.
+  final String? token;
+
+  RuleExecution({
+    this.errorDetails,
+    this.externalExecutionId,
+    this.externalExecutionUrl,
+    this.lastStatusChange,
+    this.lastUpdatedBy,
+    this.ruleExecutionId,
+    this.status,
+    this.summary,
+    this.token,
+  });
+
+  factory RuleExecution.fromJson(Map<String, dynamic> json) {
+    return RuleExecution(
+      errorDetails: json['errorDetails'] != null
+          ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
+          : null,
+      externalExecutionId: json['externalExecutionId'] as String?,
+      externalExecutionUrl: json['externalExecutionUrl'] as String?,
+      lastStatusChange: timeStampFromJson(json['lastStatusChange']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      ruleExecutionId: json['ruleExecutionId'] as String?,
+      status: (json['status'] as String?)?.let(RuleExecutionStatus.fromString),
+      summary: json['summary'] as String?,
+      token: json['token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDetails = this.errorDetails;
+    final externalExecutionId = this.externalExecutionId;
+    final externalExecutionUrl = this.externalExecutionUrl;
+    final lastStatusChange = this.lastStatusChange;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final ruleExecutionId = this.ruleExecutionId;
+    final status = this.status;
+    final summary = this.summary;
+    final token = this.token;
+    return {
+      if (errorDetails != null) 'errorDetails': errorDetails,
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+      if (externalExecutionUrl != null)
+        'externalExecutionUrl': externalExecutionUrl,
+      if (lastStatusChange != null)
+        'lastStatusChange': unixTimestampToJson(lastStatusChange),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (ruleExecutionId != null) 'ruleExecutionId': ruleExecutionId,
+      if (status != null) 'status': status.value,
+      if (summary != null) 'summary': summary,
+      if (token != null) 'token': token,
+    };
+  }
+}
+
+/// The details of the runs for a rule and the results produced on an artifact
+/// as it passes through stages in the pipeline.
+class RuleExecutionDetail {
+  /// Input details for the rule execution, such as role ARN, Region, and input
+  /// artifacts.
+  final RuleExecutionInput? input;
+
+  /// The date and time of the last change to the rule execution, in timestamp
+  /// format.
+  final DateTime? lastUpdateTime;
+
+  /// Output details for the rule execution, such as the rule execution result.
+  final RuleExecutionOutput? output;
+
+  /// The ID of the pipeline execution in the stage where the rule was run. Use
+  /// the <a>GetPipelineState</a> action to retrieve the current
+  /// pipelineExecutionId of the stage.
+  final String? pipelineExecutionId;
+
+  /// The version number of the pipeline with the stage where the rule was run.
+  final int? pipelineVersion;
+
+  /// The ID of the run for the rule.
+  final String? ruleExecutionId;
+
+  /// The name of the rule that was run in the stage.
+  final String? ruleName;
+
+  /// The name of the stage where the rule was run.
+  final String? stageName;
+
+  /// The start time of the rule execution.
+  final DateTime? startTime;
+
+  /// The status of the rule execution. Status categories are
+  /// <code>InProgress</code>, <code>Succeeded</code>, and <code>Failed</code>.
+  final RuleExecutionStatus? status;
+
+  /// The ARN of the user who changed the rule execution details.
+  final String? updatedBy;
+
+  RuleExecutionDetail({
+    this.input,
+    this.lastUpdateTime,
+    this.output,
+    this.pipelineExecutionId,
+    this.pipelineVersion,
+    this.ruleExecutionId,
+    this.ruleName,
+    this.stageName,
+    this.startTime,
+    this.status,
+    this.updatedBy,
+  });
+
+  factory RuleExecutionDetail.fromJson(Map<String, dynamic> json) {
+    return RuleExecutionDetail(
+      input: json['input'] != null
+          ? RuleExecutionInput.fromJson(json['input'] as Map<String, dynamic>)
+          : null,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      output: json['output'] != null
+          ? RuleExecutionOutput.fromJson(json['output'] as Map<String, dynamic>)
+          : null,
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      pipelineVersion: json['pipelineVersion'] as int?,
+      ruleExecutionId: json['ruleExecutionId'] as String?,
+      ruleName: json['ruleName'] as String?,
+      stageName: json['stageName'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.let(RuleExecutionStatus.fromString),
+      updatedBy: json['updatedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final input = this.input;
+    final lastUpdateTime = this.lastUpdateTime;
+    final output = this.output;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineVersion = this.pipelineVersion;
+    final ruleExecutionId = this.ruleExecutionId;
+    final ruleName = this.ruleName;
+    final stageName = this.stageName;
+    final startTime = this.startTime;
+    final status = this.status;
+    final updatedBy = this.updatedBy;
+    return {
+      if (input != null) 'input': input,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (output != null) 'output': output,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+      if (pipelineVersion != null) 'pipelineVersion': pipelineVersion,
+      if (ruleExecutionId != null) 'ruleExecutionId': ruleExecutionId,
+      if (ruleName != null) 'ruleName': ruleName,
+      if (stageName != null) 'stageName': stageName,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (updatedBy != null) 'updatedBy': updatedBy,
+    };
+  }
+}
+
+/// Filter values for the rule execution.
+class RuleExecutionFilter {
+  final LatestInPipelineExecutionFilter? latestInPipelineExecution;
+
+  /// The pipeline execution ID used to filter rule execution history.
+  final String? pipelineExecutionId;
+
+  RuleExecutionFilter({
+    this.latestInPipelineExecution,
+    this.pipelineExecutionId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final latestInPipelineExecution = this.latestInPipelineExecution;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (latestInPipelineExecution != null)
+        'latestInPipelineExecution': latestInPipelineExecution,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
+}
+
+/// Input information used for a rule execution.
+class RuleExecutionInput {
+  /// Configuration data for a rule execution, such as the resolved values for
+  /// that run.
+  final Map<String, String>? configuration;
+
+  /// Details of input artifacts of the rule that correspond to the rule
+  /// execution.
+  final List<ArtifactDetail>? inputArtifacts;
+
+  /// The Amazon Web Services Region for the rule, such as us-east-1.
+  final String? region;
+
+  /// Configuration data for a rule execution with all variable references
+  /// replaced with their real values for the execution.
+  final Map<String, String>? resolvedConfiguration;
+
+  /// The ARN of the IAM service role that performs the declared rule. This is
+  /// assumed through the roleArn for the pipeline.
+  final String? roleArn;
+
+  /// The ID for the rule type, which is made up of the combined values for
+  /// category, owner, provider, and version.
+  final RuleTypeId? ruleTypeId;
+
+  RuleExecutionInput({
+    this.configuration,
+    this.inputArtifacts,
+    this.region,
+    this.resolvedConfiguration,
+    this.roleArn,
+    this.ruleTypeId,
+  });
+
+  factory RuleExecutionInput.fromJson(Map<String, dynamic> json) {
+    return RuleExecutionInput(
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.nonNulls
+          .map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      region: json['region'] as String?,
+      resolvedConfiguration:
+          (json['resolvedConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      roleArn: json['roleArn'] as String?,
+      ruleTypeId: json['ruleTypeId'] != null
+          ? RuleTypeId.fromJson(json['ruleTypeId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final inputArtifacts = this.inputArtifacts;
+    final region = this.region;
+    final resolvedConfiguration = this.resolvedConfiguration;
+    final roleArn = this.roleArn;
+    final ruleTypeId = this.ruleTypeId;
+    return {
+      if (configuration != null) 'configuration': configuration,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (region != null) 'region': region,
+      if (resolvedConfiguration != null)
+        'resolvedConfiguration': resolvedConfiguration,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (ruleTypeId != null) 'ruleTypeId': ruleTypeId,
+    };
+  }
+}
+
+/// Output details listed for a rule execution, such as the rule execution
+/// result.
+class RuleExecutionOutput {
+  /// Execution result information listed in the output details for a rule
+  /// execution.
+  final RuleExecutionResult? executionResult;
+
+  RuleExecutionOutput({
+    this.executionResult,
+  });
+
+  factory RuleExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return RuleExecutionOutput(
+      executionResult: json['executionResult'] != null
+          ? RuleExecutionResult.fromJson(
+              json['executionResult'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionResult = this.executionResult;
+    return {
+      if (executionResult != null) 'executionResult': executionResult,
+    };
+  }
+}
+
+/// Execution result information, such as the external execution ID.
+class RuleExecutionResult {
+  final ErrorDetails? errorDetails;
+
+  /// The external ID for the rule execution.
+  final String? externalExecutionId;
+
+  /// The external provider summary for the rule execution.
+  final String? externalExecutionSummary;
+
+  /// The deepest external link to the external resource (for example, a
+  /// repository URL or deployment endpoint) that is used when running the rule.
+  final String? externalExecutionUrl;
+
+  RuleExecutionResult({
+    this.errorDetails,
+    this.externalExecutionId,
+    this.externalExecutionSummary,
+    this.externalExecutionUrl,
+  });
+
+  factory RuleExecutionResult.fromJson(Map<String, dynamic> json) {
+    return RuleExecutionResult(
+      errorDetails: json['errorDetails'] != null
+          ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
+          : null,
+      externalExecutionId: json['externalExecutionId'] as String?,
+      externalExecutionSummary: json['externalExecutionSummary'] as String?,
+      externalExecutionUrl: json['externalExecutionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDetails = this.errorDetails;
+    final externalExecutionId = this.externalExecutionId;
+    final externalExecutionSummary = this.externalExecutionSummary;
+    final externalExecutionUrl = this.externalExecutionUrl;
+    return {
+      if (errorDetails != null) 'errorDetails': errorDetails,
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+      if (externalExecutionSummary != null)
+        'externalExecutionSummary': externalExecutionSummary,
+      if (externalExecutionUrl != null)
+        'externalExecutionUrl': externalExecutionUrl,
+    };
+  }
+}
+
+enum RuleExecutionStatus {
+  inProgress('InProgress'),
+  abandoned('Abandoned'),
+  succeeded('Succeeded'),
+  failed('Failed'),
+  ;
+
+  final String value;
+
+  const RuleExecutionStatus(this.value);
+
+  static RuleExecutionStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RuleExecutionStatus'));
+}
+
+enum RuleOwner {
+  aws('AWS'),
+  ;
+
+  final String value;
+
+  const RuleOwner(this.value);
+
+  static RuleOwner fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum RuleOwner'));
+}
+
+/// The change to a rule that creates a revision of the rule.
+class RuleRevision {
+  /// The date and time when the most recent version of the rule was created, in
+  /// timestamp format.
+  final DateTime created;
+
+  /// The unique identifier of the change that set the state to this revision (for
+  /// example, a deployment ID or timestamp).
+  final String revisionChangeId;
+
+  /// The system-generated unique ID that identifies the revision number of the
+  /// rule.
+  final String revisionId;
+
+  RuleRevision({
+    required this.created,
+    required this.revisionChangeId,
+    required this.revisionId,
+  });
+
+  factory RuleRevision.fromJson(Map<String, dynamic> json) {
+    return RuleRevision(
+      created: nonNullableTimeStampFromJson(json['created'] as Object),
+      revisionChangeId: json['revisionChangeId'] as String,
+      revisionId: json['revisionId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final revisionChangeId = this.revisionChangeId;
+    final revisionId = this.revisionId;
+    return {
+      'created': unixTimestampToJson(created),
+      'revisionChangeId': revisionChangeId,
+      'revisionId': revisionId,
+    };
+  }
+}
+
+/// Returns information about the state of a rule.
+/// <note>
+/// Values returned in the <code>revisionId</code> field indicate the rule
+/// revision information, such as the commit ID, for the current state.
+/// </note>
+class RuleState {
+  /// The ID of the current revision of the artifact successfully worked on by the
+  /// job.
+  final RuleRevision? currentRevision;
+
+  /// A URL link for more information about the state of the action, such as a
+  /// details page.
+  final String? entityUrl;
+
+  /// Represents information about the latest run of an rule.
+  final RuleExecution? latestExecution;
+
+  /// A URL link for more information about the revision, such as a commit details
+  /// page.
+  final String? revisionUrl;
+
+  /// The name of the rule.
+  final String? ruleName;
+
+  RuleState({
+    this.currentRevision,
+    this.entityUrl,
+    this.latestExecution,
+    this.revisionUrl,
+    this.ruleName,
+  });
+
+  factory RuleState.fromJson(Map<String, dynamic> json) {
+    return RuleState(
+      currentRevision: json['currentRevision'] != null
+          ? RuleRevision.fromJson(
+              json['currentRevision'] as Map<String, dynamic>)
+          : null,
+      entityUrl: json['entityUrl'] as String?,
+      latestExecution: json['latestExecution'] != null
+          ? RuleExecution.fromJson(
+              json['latestExecution'] as Map<String, dynamic>)
+          : null,
+      revisionUrl: json['revisionUrl'] as String?,
+      ruleName: json['ruleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentRevision = this.currentRevision;
+    final entityUrl = this.entityUrl;
+    final latestExecution = this.latestExecution;
+    final revisionUrl = this.revisionUrl;
+    final ruleName = this.ruleName;
+    return {
+      if (currentRevision != null) 'currentRevision': currentRevision,
+      if (entityUrl != null) 'entityUrl': entityUrl,
+      if (latestExecution != null) 'latestExecution': latestExecution,
+      if (revisionUrl != null) 'revisionUrl': revisionUrl,
+      if (ruleName != null) 'ruleName': ruleName,
+    };
+  }
+}
+
+/// The rule type, which is made up of the combined values for category, owner,
+/// provider, and version.
+class RuleType {
+  /// Represents information about a rule type.
+  final RuleTypeId id;
+  final ArtifactDetails inputArtifactDetails;
+
+  /// The configuration properties for the rule type.
+  final List<RuleConfigurationProperty>? ruleConfigurationProperties;
+
+  /// Returns information about the settings for a rule type.
+  final RuleTypeSettings? settings;
+
+  RuleType({
+    required this.id,
+    required this.inputArtifactDetails,
+    this.ruleConfigurationProperties,
+    this.settings,
+  });
+
+  factory RuleType.fromJson(Map<String, dynamic> json) {
+    return RuleType(
+      id: RuleTypeId.fromJson(json['id'] as Map<String, dynamic>),
+      inputArtifactDetails: ArtifactDetails.fromJson(
+          json['inputArtifactDetails'] as Map<String, dynamic>),
+      ruleConfigurationProperties:
+          (json['ruleConfigurationProperties'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  RuleConfigurationProperty.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      settings: json['settings'] != null
+          ? RuleTypeSettings.fromJson(json['settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final inputArtifactDetails = this.inputArtifactDetails;
+    final ruleConfigurationProperties = this.ruleConfigurationProperties;
+    final settings = this.settings;
+    return {
+      'id': id,
+      'inputArtifactDetails': inputArtifactDetails,
+      if (ruleConfigurationProperties != null)
+        'ruleConfigurationProperties': ruleConfigurationProperties,
+      if (settings != null) 'settings': settings,
+    };
+  }
+}
+
+/// The ID for the rule type, which is made up of the combined values for
+/// category, owner, provider, and version.
+class RuleTypeId {
+  /// A category defines what kind of rule can be run in the stage, and constrains
+  /// the provider type for the rule. The valid category is <code>Rule</code>.
+  final RuleCategory category;
+
+  /// The rule provider, such as the <code>DeploymentWindow</code> rule.
+  final String provider;
+
+  /// The creator of the rule being called. The valid value for the
+  /// <code>Owner</code> field in the rule category is <code>AWS</code>.
+  final RuleOwner? owner;
+
+  /// A string that describes the rule version.
+  final String? version;
+
+  RuleTypeId({
+    required this.category,
+    required this.provider,
+    this.owner,
+    this.version,
+  });
+
+  factory RuleTypeId.fromJson(Map<String, dynamic> json) {
+    return RuleTypeId(
+      category: RuleCategory.fromString((json['category'] as String)),
+      provider: json['provider'] as String,
+      owner: (json['owner'] as String?)?.let(RuleOwner.fromString),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final provider = this.provider;
+    final owner = this.owner;
+    final version = this.version;
+    return {
+      'category': category.value,
+      'provider': provider,
+      if (owner != null) 'owner': owner.value,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Returns information about the settings for a rule type.
+class RuleTypeSettings {
+  /// The URL returned to the CodePipeline console that provides a deep link to
+  /// the resources of the external system, such as the configuration page for a
+  /// CodeDeploy deployment group. This link is provided as part of the action
+  /// display in the pipeline.
+  final String? entityUrlTemplate;
+
+  /// The URL returned to the CodePipeline console that contains a link to the
+  /// top-level landing page for the external system, such as the console page for
+  /// CodeDeploy. This link is shown on the pipeline view page in the CodePipeline
+  /// console and provides a link to the execution entity of the external action.
+  final String? executionUrlTemplate;
+
+  /// The URL returned to the CodePipeline console that contains a link to the
+  /// page where customers can update or change the configuration of the external
+  /// action.
+  final String? revisionUrlTemplate;
+
+  /// The URL of a sign-up page where users can sign up for an external service
+  /// and perform initial configuration of the action provided by that service.
+  final String? thirdPartyConfigurationUrl;
+
+  RuleTypeSettings({
+    this.entityUrlTemplate,
+    this.executionUrlTemplate,
+    this.revisionUrlTemplate,
+    this.thirdPartyConfigurationUrl,
+  });
+
+  factory RuleTypeSettings.fromJson(Map<String, dynamic> json) {
+    return RuleTypeSettings(
+      entityUrlTemplate: json['entityUrlTemplate'] as String?,
+      executionUrlTemplate: json['executionUrlTemplate'] as String?,
+      revisionUrlTemplate: json['revisionUrlTemplate'] as String?,
+      thirdPartyConfigurationUrl: json['thirdPartyConfigurationUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityUrlTemplate = this.entityUrlTemplate;
+    final executionUrlTemplate = this.executionUrlTemplate;
+    final revisionUrlTemplate = this.revisionUrlTemplate;
+    final thirdPartyConfigurationUrl = this.thirdPartyConfigurationUrl;
+    return {
+      if (entityUrlTemplate != null) 'entityUrlTemplate': entityUrlTemplate,
+      if (executionUrlTemplate != null)
+        'executionUrlTemplate': executionUrlTemplate,
+      if (revisionUrlTemplate != null)
+        'revisionUrlTemplate': revisionUrlTemplate,
+      if (thirdPartyConfigurationUrl != null)
+        'thirdPartyConfigurationUrl': thirdPartyConfigurationUrl,
     };
   }
 }
@@ -6542,6 +7774,12 @@ class SourceRevision {
 /// pipeline execution that's being started. A source revision is the version
 /// with all the changes to your application code, or source artifact, for the
 /// pipeline execution.
+/// <note>
+/// For the <code>S3_OBJECT_VERSION_ID</code> and <code>S3_OBJECT_KEY</code>
+/// types of source revisions, either of the types can be used independently, or
+/// they can be used together to override the source with a specific ObjectKey
+/// and VersionID.
+/// </note>
 class SourceRevisionOverride {
   /// The name of the action where the override will be applied.
   final String actionName;
@@ -6576,6 +7814,7 @@ enum SourceRevisionType {
   commitId('COMMIT_ID'),
   imageDigest('IMAGE_DIGEST'),
   s3ObjectVersionId('S3_OBJECT_VERSION_ID'),
+  s3ObjectKey('S3_OBJECT_KEY'),
   ;
 
   final String value;
@@ -6586,6 +7825,73 @@ enum SourceRevisionType {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum SourceRevisionType'));
+}
+
+/// The state of a run of a condition for a stage.
+class StageConditionState {
+  /// The states of the conditions for a run of a condition for a stage.
+  final List<ConditionState>? conditionStates;
+
+  /// Represents information about the latest run of a condition for a stage.
+  final StageConditionsExecution? latestExecution;
+
+  StageConditionState({
+    this.conditionStates,
+    this.latestExecution,
+  });
+
+  factory StageConditionState.fromJson(Map<String, dynamic> json) {
+    return StageConditionState(
+      conditionStates: (json['conditionStates'] as List?)
+          ?.nonNulls
+          .map((e) => ConditionState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      latestExecution: json['latestExecution'] != null
+          ? StageConditionsExecution.fromJson(
+              json['latestExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionStates = this.conditionStates;
+    final latestExecution = this.latestExecution;
+    return {
+      if (conditionStates != null) 'conditionStates': conditionStates,
+      if (latestExecution != null) 'latestExecution': latestExecution,
+    };
+  }
+}
+
+/// Represents information about the run of a condition for a stage.
+class StageConditionsExecution {
+  /// The status of a run of a condition for a stage.
+  final ConditionExecutionStatus? status;
+
+  /// A summary of the run of the condition for a stage.
+  final String? summary;
+
+  StageConditionsExecution({
+    this.status,
+    this.summary,
+  });
+
+  factory StageConditionsExecution.fromJson(Map<String, dynamic> json) {
+    return StageConditionsExecution(
+      status:
+          (json['status'] as String?)?.let(ConditionExecutionStatus.fromString),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final summary = this.summary;
+    return {
+      if (status != null) 'status': status.value,
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
 /// Represents information about a stage to a job worker.
@@ -6619,6 +7925,11 @@ class StageDeclaration {
   /// The name of the stage.
   final String name;
 
+  /// The method to use when a stage allows entry. For example, configuring this
+  /// field for conditions will allow entry to the stage when the conditions are
+  /// met.
+  final BeforeEntryConditions? beforeEntry;
+
   /// Reserved for future use.
   final List<BlockerDeclaration>? blockers;
 
@@ -6627,11 +7938,18 @@ class StageDeclaration {
   /// automatically to the last successful pipeline execution in the stage.
   final FailureConditions? onFailure;
 
+  /// The method to use when a stage has succeeded. For example, configuring this
+  /// field for conditions will allow the stage to succeed when the conditions are
+  /// met.
+  final SuccessConditions? onSuccess;
+
   StageDeclaration({
     required this.actions,
     required this.name,
+    this.beforeEntry,
     this.blockers,
     this.onFailure,
+    this.onSuccess,
   });
 
   factory StageDeclaration.fromJson(Map<String, dynamic> json) {
@@ -6641,6 +7959,10 @@ class StageDeclaration {
           .map((e) => ActionDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
       name: json['name'] as String,
+      beforeEntry: json['beforeEntry'] != null
+          ? BeforeEntryConditions.fromJson(
+              json['beforeEntry'] as Map<String, dynamic>)
+          : null,
       blockers: (json['blockers'] as List?)
           ?.nonNulls
           .map((e) => BlockerDeclaration.fromJson(e as Map<String, dynamic>))
@@ -6649,19 +7971,27 @@ class StageDeclaration {
           ? FailureConditions.fromJson(
               json['onFailure'] as Map<String, dynamic>)
           : null,
+      onSuccess: json['onSuccess'] != null
+          ? SuccessConditions.fromJson(
+              json['onSuccess'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final actions = this.actions;
     final name = this.name;
+    final beforeEntry = this.beforeEntry;
     final blockers = this.blockers;
     final onFailure = this.onFailure;
+    final onSuccess = this.onSuccess;
     return {
       'actions': actions,
       'name': name,
+      if (beforeEntry != null) 'beforeEntry': beforeEntry,
       if (blockers != null) 'blockers': blockers,
       if (onFailure != null) 'onFailure': onFailure,
+      if (onSuccess != null) 'onSuccess': onSuccess,
     };
   }
 }
@@ -6747,6 +8077,9 @@ enum StageRetryMode {
 class StageState {
   /// The state of the stage.
   final List<ActionState>? actionStates;
+
+  /// The state of the entry conditions for a stage.
+  final StageConditionState? beforeEntryConditionState;
   final StageExecution? inboundExecution;
 
   /// The inbound executions for a stage.
@@ -6759,15 +8092,24 @@ class StageState {
   /// status.
   final StageExecution? latestExecution;
 
+  /// The state of the failure conditions for a stage.
+  final StageConditionState? onFailureConditionState;
+
+  /// The state of the success conditions for a stage.
+  final StageConditionState? onSuccessConditionState;
+
   /// The name of the stage.
   final String? stageName;
 
   StageState({
     this.actionStates,
+    this.beforeEntryConditionState,
     this.inboundExecution,
     this.inboundExecutions,
     this.inboundTransitionState,
     this.latestExecution,
+    this.onFailureConditionState,
+    this.onSuccessConditionState,
     this.stageName,
   });
 
@@ -6777,6 +8119,10 @@ class StageState {
           ?.nonNulls
           .map((e) => ActionState.fromJson(e as Map<String, dynamic>))
           .toList(),
+      beforeEntryConditionState: json['beforeEntryConditionState'] != null
+          ? StageConditionState.fromJson(
+              json['beforeEntryConditionState'] as Map<String, dynamic>)
+          : null,
       inboundExecution: json['inboundExecution'] != null
           ? StageExecution.fromJson(
               json['inboundExecution'] as Map<String, dynamic>)
@@ -6793,24 +8139,41 @@ class StageState {
           ? StageExecution.fromJson(
               json['latestExecution'] as Map<String, dynamic>)
           : null,
+      onFailureConditionState: json['onFailureConditionState'] != null
+          ? StageConditionState.fromJson(
+              json['onFailureConditionState'] as Map<String, dynamic>)
+          : null,
+      onSuccessConditionState: json['onSuccessConditionState'] != null
+          ? StageConditionState.fromJson(
+              json['onSuccessConditionState'] as Map<String, dynamic>)
+          : null,
       stageName: json['stageName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final actionStates = this.actionStates;
+    final beforeEntryConditionState = this.beforeEntryConditionState;
     final inboundExecution = this.inboundExecution;
     final inboundExecutions = this.inboundExecutions;
     final inboundTransitionState = this.inboundTransitionState;
     final latestExecution = this.latestExecution;
+    final onFailureConditionState = this.onFailureConditionState;
+    final onSuccessConditionState = this.onSuccessConditionState;
     final stageName = this.stageName;
     return {
       if (actionStates != null) 'actionStates': actionStates,
+      if (beforeEntryConditionState != null)
+        'beforeEntryConditionState': beforeEntryConditionState,
       if (inboundExecution != null) 'inboundExecution': inboundExecution,
       if (inboundExecutions != null) 'inboundExecutions': inboundExecutions,
       if (inboundTransitionState != null)
         'inboundTransitionState': inboundTransitionState,
       if (latestExecution != null) 'latestExecution': latestExecution,
+      if (onFailureConditionState != null)
+        'onFailureConditionState': onFailureConditionState,
+      if (onSuccessConditionState != null)
+        'onSuccessConditionState': onSuccessConditionState,
       if (stageName != null) 'stageName': stageName,
     };
   }
@@ -6931,6 +8294,32 @@ class SucceededInStageFilter {
     final stageName = this.stageName;
     return {
       if (stageName != null) 'stageName': stageName,
+    };
+  }
+}
+
+/// The conditions for making checks that, if met, succeed a stage.
+class SuccessConditions {
+  /// The conditions that are success conditions.
+  final List<Condition> conditions;
+
+  SuccessConditions({
+    required this.conditions,
+  });
+
+  factory SuccessConditions.fromJson(Map<String, dynamic> json) {
+    return SuccessConditions(
+      conditions: (json['conditions'] as List)
+          .nonNulls
+          .map((e) => Condition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
+    return {
+      'conditions': conditions,
     };
   }
 }
@@ -7278,6 +8667,18 @@ class WebhookAuthConfiguration {
 
   /// The property used to configure GitHub authentication. For GITHUB_HMAC, only
   /// the <code>SecretToken</code> property must be set.
+  /// <important>
+  /// When creating CodePipeline webhooks, do not use your own credentials or
+  /// reuse the same secret token across multiple webhooks. For optimal security,
+  /// generate a unique secret token for each webhook you create. The secret token
+  /// is an arbitrary string that you provide, which GitHub uses to compute and
+  /// sign the webhook payloads sent to CodePipeline, for protecting the integrity
+  /// and authenticity of the webhook payloads. Using your own credentials or
+  /// reusing the same token across multiple webhooks can lead to security
+  /// vulnerabilities.
+  /// </important> <note>
+  /// If a secret token was provided, it will be redacted in the response.
+  /// </note>
   final String? secretToken;
 
   WebhookAuthConfiguration({
@@ -7321,7 +8722,18 @@ enum WebhookAuthenticationType {
 /// Represents information about a webhook and its definition.
 class WebhookDefinition {
   /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.
-  ///
+  /// <important>
+  /// When creating CodePipeline webhooks, do not use your own credentials or
+  /// reuse the same secret token across multiple webhooks. For optimal security,
+  /// generate a unique secret token for each webhook you create. The secret token
+  /// is an arbitrary string that you provide, which GitHub uses to compute and
+  /// sign the webhook payloads sent to CodePipeline, for protecting the integrity
+  /// and authenticity of the webhook payloads. Using your own credentials or
+  /// reusing the same token across multiple webhooks can lead to security
+  /// vulnerabilities.
+  /// </important> <note>
+  /// If a secret token was provided, it will be redacted in the response.
+  /// </note>
   /// <ul>
   /// <li>
   /// For information about the authentication scheme implemented by GITHUB_HMAC,
@@ -7483,6 +8895,14 @@ class ConcurrentPipelineExecutionsLimitExceededException
       : super(
             type: type,
             code: 'ConcurrentPipelineExecutionsLimitExceededException',
+            message: message);
+}
+
+class ConditionNotOverridableException extends _s.GenericAwsException {
+  ConditionNotOverridableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ConditionNotOverridableException',
             message: message);
 }
 
@@ -7713,6 +9133,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConcurrentPipelineExecutionsLimitExceededException': (type, message) =>
       ConcurrentPipelineExecutionsLimitExceededException(
           type: type, message: message),
+  'ConditionNotOverridableException': (type, message) =>
+      ConditionNotOverridableException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'DuplicatedStopRequestException': (type, message) =>

@@ -628,6 +628,24 @@ class SageMaker {
 
   /// Creates an Autopilot job also referred to as Autopilot experiment or
   /// AutoML job.
+  ///
+  /// An AutoML job in SageMaker is a fully automated process that allows you to
+  /// build machine learning models with minimal effort and machine learning
+  /// expertise. When initiating an AutoML job, you provide your data and
+  /// optionally specify parameters tailored to your use case. SageMaker then
+  /// automates the entire model development lifecycle, including data
+  /// preprocessing, model training, tuning, and evaluation. AutoML jobs are
+  /// designed to simplify and accelerate the model building process by
+  /// automating various tasks and exploring different combinations of machine
+  /// learning algorithms, data preprocessing techniques, and hyperparameter
+  /// values. The output of an AutoML job comprises one or more trained models
+  /// ready for deployment and inference. Additionally, SageMaker AutoML jobs
+  /// generate a candidate model leaderboard, allowing you to select the
+  /// best-performing model for deployment.
+  ///
+  /// For more information about AutoML jobs, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html">https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html</a>
+  /// in the SageMaker developer guide.
   /// <note>
   /// We recommend using the new versions <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
@@ -748,6 +766,29 @@ class SageMaker {
 
   /// Creates an Autopilot job also referred to as Autopilot experiment or
   /// AutoML job V2.
+  ///
+  /// An AutoML job in SageMaker is a fully automated process that allows you to
+  /// build machine learning models with minimal effort and machine learning
+  /// expertise. When initiating an AutoML job, you provide your data and
+  /// optionally specify parameters tailored to your use case. SageMaker then
+  /// automates the entire model development lifecycle, including data
+  /// preprocessing, model training, tuning, and evaluation. AutoML jobs are
+  /// designed to simplify and accelerate the model building process by
+  /// automating various tasks and exploring different combinations of machine
+  /// learning algorithms, data preprocessing techniques, and hyperparameter
+  /// values. The output of an AutoML job comprises one or more trained models
+  /// ready for deployment and inference. Additionally, SageMaker AutoML jobs
+  /// generate a candidate model leaderboard, allowing you to select the
+  /// best-performing model for deployment.
+  ///
+  /// For more information about AutoML jobs, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html">https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html</a>
+  /// in the SageMaker developer guide.
+  ///
+  /// AutoML jobs V2 support various problem types such as regression, binary,
+  /// and multiclass classification with tabular data, text and image
+  /// classification, time-series forecasting, and fine-tuning of large language
+  /// models (LLMs) for text generation.
   /// <note>
   /// <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html">CreateAutoMLJobV2</a>
@@ -821,6 +862,9 @@ class SageMaker {
   /// Parameter [roleArn] :
   /// The ARN of the role that is used to access the data.
   ///
+  /// Parameter [autoMLComputeConfig] :
+  /// Specifies the compute configuration for the AutoML job V2.
+  ///
   /// Parameter [autoMLJobObjective] :
   /// Specifies a metric to minimize or maximize as the objective of a job. If
   /// not specified, the default objective metric depends on the problem type.
@@ -880,6 +924,7 @@ class SageMaker {
     required AutoMLProblemTypeConfig autoMLProblemTypeConfig,
     required AutoMLOutputDataConfig outputDataConfig,
     required String roleArn,
+    AutoMLComputeConfig? autoMLComputeConfig,
     AutoMLJobObjective? autoMLJobObjective,
     AutoMLDataSplitConfig? dataSplitConfig,
     ModelDeployConfig? modelDeployConfig,
@@ -902,6 +947,8 @@ class SageMaker {
         'AutoMLProblemTypeConfig': autoMLProblemTypeConfig,
         'OutputDataConfig': outputDataConfig,
         'RoleArn': roleArn,
+        if (autoMLComputeConfig != null)
+          'AutoMLComputeConfig': autoMLComputeConfig,
         if (autoMLJobObjective != null)
           'AutoMLJobObjective': autoMLJobObjective,
         if (dataSplitConfig != null) 'DataSplitConfig': dataSplitConfig,
@@ -2338,9 +2385,6 @@ class SageMaker {
   }
 
   /// Create a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceLimitExceeded].
@@ -2391,6 +2435,56 @@ class SageMaker {
     );
 
     return CreateHubResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Create a hub content reference in order to add a model in the JumpStart
+  /// public hub to a private hub.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ResourceInUse].
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [hubName] :
+  /// The name of the hub to add the hub content reference to.
+  ///
+  /// Parameter [sageMakerPublicHubContentArn] :
+  /// The ARN of the public hub content to reference.
+  ///
+  /// Parameter [hubContentName] :
+  /// The name of the hub content to reference.
+  ///
+  /// Parameter [minVersion] :
+  /// The minimum version of the hub content to reference.
+  ///
+  /// Parameter [tags] :
+  /// Any tags associated with the hub content to reference.
+  Future<CreateHubContentReferenceResponse> createHubContentReference({
+    required String hubName,
+    required String sageMakerPublicHubContentArn,
+    String? hubContentName,
+    String? minVersion,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateHubContentReference'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HubName': hubName,
+        'SageMakerPublicHubContentArn': sageMakerPublicHubContentArn,
+        if (hubContentName != null) 'HubContentName': hubContentName,
+        if (minVersion != null) 'MinVersion': minVersion,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateHubContentReferenceResponse.fromJson(jsonResponse.body);
   }
 
   /// Defines the settings you will use for the human review workflow user
@@ -3381,6 +3475,100 @@ class SageMaker {
     return CreateLabelingJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket
+  /// as the artifact store. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server.html">Create
+  /// an MLflow Tracking Server</a>.
+  ///
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [artifactStoreUri] :
+  /// The S3 URI for a general purpose bucket to use as the MLflow Tracking
+  /// Server artifact store.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) for an IAM role in your account that the
+  /// MLflow Tracking Server uses to access the artifact store in Amazon S3. The
+  /// role should have <code>AmazonS3FullAccess</code> permissions. For more
+  /// information on IAM permissions for tracking server creation, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html">Set
+  /// up IAM permissions for MLflow</a>.
+  ///
+  /// Parameter [trackingServerName] :
+  /// A unique string identifying the tracking server name. This string is part
+  /// of the tracking server ARN.
+  ///
+  /// Parameter [automaticModelRegistration] :
+  /// Whether to enable or disable automatic registration of new MLflow models
+  /// to the SageMaker Model Registry. To enable automatic model registration,
+  /// set this value to <code>True</code>. To disable automatic model
+  /// registration, set this value to <code>False</code>. If not specified,
+  /// <code>AutomaticModelRegistration</code> defaults to <code>False</code>.
+  ///
+  /// Parameter [mlflowVersion] :
+  /// The version of MLflow that the tracking server uses. To see which MLflow
+  /// versions are available to use, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow.html#mlflow-create-tracking-server-how-it-works">How
+  /// it works</a>.
+  ///
+  /// Parameter [tags] :
+  /// Tags consisting of key-value pairs used to manage metadata for the
+  /// tracking server.
+  ///
+  /// Parameter [trackingServerSize] :
+  /// The size of the tracking server you want to create. You can choose between
+  /// <code>"Small"</code>, <code>"Medium"</code>, and <code>"Large"</code>. The
+  /// default MLflow Tracking Server configuration size is <code>"Small"</code>.
+  /// You can choose a size depending on the projected use of the tracking
+  /// server such as the volume of data logged, number of users, and frequency
+  /// of use.
+  ///
+  /// We recommend using a small tracking server for teams of up to 25 users, a
+  /// medium tracking server for teams of up to 50 users, and a large tracking
+  /// server for teams of up to 100 users.
+  ///
+  /// Parameter [weeklyMaintenanceWindowStart] :
+  /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour
+  /// standard time that weekly maintenance updates are scheduled. For example:
+  /// TUE:03:30.
+  Future<CreateMlflowTrackingServerResponse> createMlflowTrackingServer({
+    required String artifactStoreUri,
+    required String roleArn,
+    required String trackingServerName,
+    bool? automaticModelRegistration,
+    String? mlflowVersion,
+    List<Tag>? tags,
+    TrackingServerSize? trackingServerSize,
+    String? weeklyMaintenanceWindowStart,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ArtifactStoreUri': artifactStoreUri,
+        'RoleArn': roleArn,
+        'TrackingServerName': trackingServerName,
+        if (automaticModelRegistration != null)
+          'AutomaticModelRegistration': automaticModelRegistration,
+        if (mlflowVersion != null) 'MlflowVersion': mlflowVersion,
+        if (tags != null) 'Tags': tags,
+        if (trackingServerSize != null)
+          'TrackingServerSize': trackingServerSize.value,
+        if (weeklyMaintenanceWindowStart != null)
+          'WeeklyMaintenanceWindowStart': weeklyMaintenanceWindowStart,
+      },
+    );
+
+    return CreateMlflowTrackingServerResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a model in SageMaker. In the request, you name the model and
   /// describe a primary container. For the primary container, you specify the
   /// Docker image that contains inference code, artifacts (from prior
@@ -3855,8 +4043,11 @@ class SageMaker {
   /// <code>ModelPackageModelCard</code> schema does not include
   /// <code>model_package_details</code>, and <code>model_overview</code> is
   /// composed of the <code>model_creator</code> and <code>model_artifact</code>
-  /// properties. For more information about the model card associated with the
-  /// model package, see <a
+  /// properties. For more information about the model package model card
+  /// schema, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema">Model
+  /// package model card schema</a>. For more information about the model card
+  /// associated with the model package, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
   /// the Details of a Model Version</a>.
   ///
@@ -4453,6 +4644,115 @@ class SageMaker {
         jsonResponse.body);
   }
 
+  /// Creates a job that optimizes a model for inference performance. To create
+  /// the job, you provide the location of a source model, and you provide the
+  /// settings for the optimization techniques that you want the job to apply.
+  /// When the job completes successfully, SageMaker uploads the new optimized
+  /// model to the output destination that you specify.
+  ///
+  /// For more information about how to use this action, and about the supported
+  /// optimization techniques, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-optimize.html">Optimize
+  /// model inference with Amazon SageMaker</a>.
+  ///
+  /// May throw [ResourceInUse].
+  /// May throw [ResourceLimitExceeded].
+  ///
+  /// Parameter [deploymentInstanceType] :
+  /// The type of instance that hosts the optimized model that you create with
+  /// the optimization job.
+  ///
+  /// Parameter [modelSource] :
+  /// The location of the source model to optimize with an optimization job.
+  ///
+  /// Parameter [optimizationConfigs] :
+  /// Settings for each of the optimization techniques that the job applies.
+  ///
+  /// Parameter [optimizationJobName] :
+  /// A custom name for the new optimization job.
+  ///
+  /// Parameter [outputConfig] :
+  /// Details for where to store the optimized model that you create with the
+  /// optimization job.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon
+  /// SageMaker to perform tasks on your behalf.
+  ///
+  /// During model optimization, Amazon SageMaker needs your permission to:
+  ///
+  /// <ul>
+  /// <li>
+  /// Read input data from an S3 bucket
+  /// </li>
+  /// <li>
+  /// Write model artifacts to an S3 bucket
+  /// </li>
+  /// <li>
+  /// Write logs to Amazon CloudWatch Logs
+  /// </li>
+  /// <li>
+  /// Publish metrics to Amazon CloudWatch
+  /// </li>
+  /// </ul>
+  /// You grant permissions for all of these tasks to an IAM role. To pass this
+  /// role to Amazon SageMaker, the caller of this API must have the
+  /// <code>iam:PassRole</code> permission. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html">Amazon
+  /// SageMaker Roles.</a>
+  ///
+  /// Parameter [optimizationEnvironment] :
+  /// The environment variables to set in the model container.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs associated with the optimization job. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference Guide</i>.
+  ///
+  /// Parameter [vpcConfig] :
+  /// A VPC in Amazon VPC that your optimized model has access to.
+  Future<CreateOptimizationJobResponse> createOptimizationJob({
+    required OptimizationJobDeploymentInstanceType deploymentInstanceType,
+    required OptimizationJobModelSource modelSource,
+    required List<OptimizationConfig> optimizationConfigs,
+    required String optimizationJobName,
+    required OptimizationJobOutputConfig outputConfig,
+    required String roleArn,
+    required StoppingCondition stoppingCondition,
+    Map<String, String>? optimizationEnvironment,
+    List<Tag>? tags,
+    OptimizationVpcConfig? vpcConfig,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreateOptimizationJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeploymentInstanceType': deploymentInstanceType.value,
+        'ModelSource': modelSource,
+        'OptimizationConfigs': optimizationConfigs,
+        'OptimizationJobName': optimizationJobName,
+        'OutputConfig': outputConfig,
+        'RoleArn': roleArn,
+        'StoppingCondition': stoppingCondition,
+        if (optimizationEnvironment != null)
+          'OptimizationEnvironment': optimizationEnvironment,
+        if (tags != null) 'Tags': tags,
+        if (vpcConfig != null) 'VpcConfig': vpcConfig,
+      },
+    );
+
+    return CreateOptimizationJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a pipeline using a JSON pipeline definition.
   ///
   /// May throw [ResourceNotFound].
@@ -4653,6 +4953,63 @@ class SageMaker {
     );
 
     return CreatePresignedDomainUrlResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a presigned URL that you can use to connect to the MLflow UI
+  /// attached to your tracking server. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html">Launch
+  /// the MLflow UI using a presigned URL</a>.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the tracking server to connect to your MLflow UI.
+  ///
+  /// Parameter [expiresInSeconds] :
+  /// The duration in seconds that your presigned URL is valid. The presigned
+  /// URL can be used only once.
+  ///
+  /// Parameter [sessionExpirationDurationInSeconds] :
+  /// The duration in seconds that your MLflow UI session is valid.
+  Future<CreatePresignedMlflowTrackingServerUrlResponse>
+      createPresignedMlflowTrackingServerUrl({
+    required String trackingServerName,
+    int? expiresInSeconds,
+    int? sessionExpirationDurationInSeconds,
+  }) async {
+    _s.validateNumRange(
+      'expiresInSeconds',
+      expiresInSeconds,
+      5,
+      300,
+    );
+    _s.validateNumRange(
+      'sessionExpirationDurationInSeconds',
+      sessionExpirationDurationInSeconds,
+      1800,
+      43200,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.CreatePresignedMlflowTrackingServerUrl'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+        if (expiresInSeconds != null) 'ExpiresInSeconds': expiresInSeconds,
+        if (sessionExpirationDurationInSeconds != null)
+          'SessionExpirationDurationInSeconds':
+              sessionExpirationDurationInSeconds,
+      },
+    );
+
+    return CreatePresignedMlflowTrackingServerUrlResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Returns a URL that you can use to connect to the Jupyter server from a
@@ -5393,8 +5750,9 @@ class SageMaker {
   /// Prediction Results with their Corresponding Input Records</a>.
   ///
   /// Parameter [environment] :
-  /// The environment variables to set in the Docker container. We support up to
-  /// 16 key and values entries in the map.
+  /// The environment variables to set in the Docker container. Don't include
+  /// any sensitive data in your environment variables. We support up to 16 key
+  /// and values entries in the map.
   ///
   /// Parameter [maxConcurrentTransforms] :
   /// The maximum number of parallel requests that can be sent to each instance
@@ -6531,9 +6889,6 @@ class SageMaker {
   }
 
   /// Delete a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceNotFound].
@@ -6560,9 +6915,6 @@ class SageMaker {
   }
 
   /// Delete the contents of a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceNotFound].
@@ -6598,6 +6950,43 @@ class SageMaker {
         'HubContentName': hubContentName,
         'HubContentType': hubContentType.value,
         'HubContentVersion': hubContentVersion,
+        'HubName': hubName,
+      },
+    );
+  }
+
+  /// Delete a hub content reference in order to remove a model from a private
+  /// hub.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [hubContentName] :
+  /// The name of the hub content to delete.
+  ///
+  /// Parameter [hubContentType] :
+  /// The type of hub content reference to delete. The only supported type of
+  /// hub content reference to delete is <code>ModelReference</code>.
+  ///
+  /// Parameter [hubName] :
+  /// The name of the hub to delete the hub content reference from.
+  Future<void> deleteHubContentReference({
+    required String hubContentName,
+    required HubContentType hubContentType,
+    required String hubName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteHubContentReference'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HubContentName': hubContentName,
+        'HubContentType': hubContentType.value,
         'HubName': hubName,
       },
     );
@@ -6787,6 +7176,35 @@ class SageMaker {
     );
 
     return DeleteInferenceExperimentResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes an MLflow Tracking Server. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-cleanup.html.html">Clean
+  /// up MLflow resources</a>.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the the tracking server to delete.
+  Future<DeleteMlflowTrackingServerResponse> deleteMlflowTrackingServer({
+    required String trackingServerName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+      },
+    );
+
+    return DeleteMlflowTrackingServerResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a model. The <code>DeleteModel</code> API deletes only the model
@@ -7077,6 +7495,31 @@ class SageMaker {
     );
   }
 
+  /// Deletes an optimization job.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [optimizationJobName] :
+  /// The name that you assigned to the optimization job.
+  Future<void> deleteOptimizationJob({
+    required String optimizationJobName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DeleteOptimizationJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OptimizationJobName': optimizationJobName,
+      },
+    );
+  }
+
   /// Deletes a pipeline if there are no running instances of the pipeline. To
   /// delete a pipeline, you must stop all running instances of the pipeline
   /// using the <code>StopPipelineExecution</code> API. When you delete a
@@ -7348,7 +7791,7 @@ class SageMaker {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html">DeleteWorkteam</a>
   /// operation to delete all work teams before you delete the workforce. If you
   /// try to delete a workforce that contains one or more work teams, you will
-  /// recieve a <code>ResourceInUse</code> error.
+  /// receive a <code>ResourceInUse</code> error.
   /// </important>
   ///
   /// Parameter [workforceName] :
@@ -8156,10 +8599,7 @@ class SageMaker {
     return DescribeFlowDefinitionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describe a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
+  /// Describes a hub.
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -8187,9 +8627,6 @@ class SageMaker {
   }
 
   /// Describe the content of a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -8500,6 +8937,33 @@ class SageMaker {
     );
 
     return DescribeLineageGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about an MLflow Tracking Server.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the MLflow Tracking Server to describe.
+  Future<DescribeMlflowTrackingServerResponse> describeMlflowTrackingServer({
+    required String trackingServerName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+      },
+    );
+
+    return DescribeMlflowTrackingServerResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes a model that you created using the <code>CreateModel</code> API.
@@ -8822,6 +9286,33 @@ class SageMaker {
 
     return DescribeNotebookInstanceLifecycleConfigOutput.fromJson(
         jsonResponse.body);
+  }
+
+  /// Provides the properties of the specified optimization job.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [optimizationJobName] :
+  /// The name that you assigned to the optimization job.
+  Future<DescribeOptimizationJobResponse> describeOptimizationJob({
+    required String optimizationJobName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.DescribeOptimizationJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OptimizationJobName': optimizationJobName,
+      },
+    );
+
+    return DescribeOptimizationJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the details of a pipeline.
@@ -9231,8 +9722,8 @@ class SageMaker {
   }
 
   /// Gets information about a specific work team. You can see information such
-  /// as the create date, the last updated date, membership information, and the
-  /// work team's Amazon Resource Name (ARN).
+  /// as the creation date, the last updated date, membership information, and
+  /// the work team's Amazon Resource Name (ARN).
   ///
   /// Parameter [workteamName] :
   /// The name of the work team to return a description of.
@@ -9537,9 +10028,6 @@ class SageMaker {
   }
 
   /// Import hub content.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceInUse].
   /// May throw [ResourceLimitExceeded].
@@ -11547,9 +12035,6 @@ class SageMaker {
   }
 
   /// List hub content versions.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -11638,9 +12123,6 @@ class SageMaker {
   }
 
   /// List the contents of a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -11723,9 +12205,6 @@ class SageMaker {
   }
 
   /// List all existing hubs.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// Parameter [creationTimeAfter] :
   /// Only list hubs that were created after the time specified.
@@ -12714,6 +13193,90 @@ class SageMaker {
     return ListLineageGroupsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all MLflow Tracking Servers.
+  ///
+  /// Parameter [createdAfter] :
+  /// Use the <code>CreatedAfter</code> filter to only list tracking servers
+  /// created after a specific date and time. Listed tracking servers are shown
+  /// with a date and time such as <code>"2024-03-16T01:46:56+00:00"</code>. The
+  /// <code>CreatedAfter</code> parameter takes in a Unix timestamp. To convert
+  /// a date and time into a Unix timestamp, see <a
+  /// href="https://www.epochconverter.com/">EpochConverter</a>.
+  ///
+  /// Parameter [createdBefore] :
+  /// Use the <code>CreatedBefore</code> filter to only list tracking servers
+  /// created before a specific date and time. Listed tracking servers are shown
+  /// with a date and time such as <code>"2024-03-16T01:46:56+00:00"</code>. The
+  /// <code>CreatedBefore</code> parameter takes in a Unix timestamp. To convert
+  /// a date and time into a Unix timestamp, see <a
+  /// href="https://www.epochconverter.com/">EpochConverter</a>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of tracking servers to list.
+  ///
+  /// Parameter [mlflowVersion] :
+  /// Filter for tracking servers using the specified MLflow version.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response was truncated, you will receive this token. Use
+  /// it in your next request to receive the next set of results.
+  ///
+  /// Parameter [sortBy] :
+  /// Filter for trackings servers sorting by name, creation time, or creation
+  /// status.
+  ///
+  /// Parameter [sortOrder] :
+  /// Change the order of the listed tracking servers. By default, tracking
+  /// servers are listed in <code>Descending</code> order by creation time. To
+  /// change the list order, you can specify <code>SortOrder</code> to be
+  /// <code>Ascending</code>.
+  ///
+  /// Parameter [trackingServerStatus] :
+  /// Filter for tracking servers with a specified creation status.
+  Future<ListMlflowTrackingServersResponse> listMlflowTrackingServers({
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? mlflowVersion,
+    String? nextToken,
+    SortTrackingServerBy? sortBy,
+    SortOrder? sortOrder,
+    TrackingServerStatus? trackingServerStatus,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListMlflowTrackingServers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (mlflowVersion != null) 'MlflowVersion': mlflowVersion,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (trackingServerStatus != null)
+          'TrackingServerStatus': trackingServerStatus.value,
+      },
+    );
+
+    return ListMlflowTrackingServersResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists model bias jobs definitions that satisfy various filters.
   ///
   /// Parameter [creationTimeAfter] :
@@ -13149,6 +13712,14 @@ class SageMaker {
   /// Parameter [creationTimeBefore] :
   /// A filter that returns only model groups created before the specified time.
   ///
+  /// Parameter [crossAccountFilterOption] :
+  /// A filter that returns either model groups shared with you or model groups
+  /// in your own account. When the value is <code>CrossAccount</code>, the
+  /// results show the resources made discoverable to you from other accounts.
+  /// When the value is <code>SameAccount</code> or <code>null</code>, the
+  /// results show resources from your account. The default is
+  /// <code>SameAccount</code>.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in the response.
   ///
@@ -13169,6 +13740,7 @@ class SageMaker {
   Future<ListModelPackageGroupsOutput> listModelPackageGroups({
     DateTime? creationTimeAfter,
     DateTime? creationTimeBefore,
+    CrossAccountFilterOption? crossAccountFilterOption,
     int? maxResults,
     String? nameContains,
     String? nextToken,
@@ -13196,6 +13768,8 @@ class SageMaker {
           'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
           'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (crossAccountFilterOption != null)
+          'CrossAccountFilterOption': crossAccountFilterOption.value,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
@@ -14012,6 +14586,104 @@ class SageMaker {
     );
 
     return ListNotebookInstancesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the optimization jobs in your account and their properties.
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Filters the results to only those optimization jobs that were created
+  /// after the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Filters the results to only those optimization jobs that were created
+  /// before the specified time.
+  ///
+  /// Parameter [lastModifiedTimeAfter] :
+  /// Filters the results to only those optimization jobs that were updated
+  /// after the specified time.
+  ///
+  /// Parameter [lastModifiedTimeBefore] :
+  /// Filters the results to only those optimization jobs that were updated
+  /// before the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of optimization jobs to return in the response. The
+  /// default is 50.
+  ///
+  /// Parameter [nameContains] :
+  /// Filters the results to only those optimization jobs with a name that
+  /// contains the specified string.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that you use to get the next set of results following a truncated
+  /// response. If the response to the previous request was truncated, that
+  /// response provides the value for this token.
+  ///
+  /// Parameter [optimizationContains] :
+  /// Filters the results to only those optimization jobs that apply the
+  /// specified optimization techniques. You can specify either
+  /// <code>Quantization</code> or <code>Compilation</code>.
+  ///
+  /// Parameter [sortBy] :
+  /// The field by which to sort the optimization jobs in the response. The
+  /// default is <code>CreationTime</code>
+  ///
+  /// Parameter [sortOrder] :
+  /// The sort order for results. The default is <code>Ascending</code>
+  ///
+  /// Parameter [statusEquals] :
+  /// Filters the results to only those optimization jobs with the specified
+  /// status.
+  Future<ListOptimizationJobsResponse> listOptimizationJobs({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    DateTime? lastModifiedTimeAfter,
+    DateTime? lastModifiedTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    String? optimizationContains,
+    ListOptimizationJobsSortBy? sortBy,
+    SortOrder? sortOrder,
+    OptimizationJobStatus? statusEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.ListOptimizationJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+        if (creationTimeBefore != null)
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (lastModifiedTimeAfter != null)
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
+        if (lastModifiedTimeBefore != null)
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (optimizationContains != null)
+          'OptimizationContains': optimizationContains,
+        if (sortBy != null) 'SortBy': sortBy.value,
+        if (sortOrder != null) 'SortOrder': sortOrder.value,
+        if (statusEquals != null) 'StatusEquals': statusEquals.value,
+      },
+    );
+
+    return ListOptimizationJobsResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of <code>PipeLineExecutionStep</code> objects.
@@ -15931,6 +16603,34 @@ class SageMaker {
     return StartInferenceExperimentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Programmatically start an MLflow Tracking Server.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the tracking server to start.
+  Future<StartMlflowTrackingServerResponse> startMlflowTrackingServer({
+    required String trackingServerName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.StartMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+      },
+    );
+
+    return StartMlflowTrackingServerResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts a previously stopped monitoring schedule.
   /// <note>
   /// By default, when you successfully create a new schedule, the status of a
@@ -16327,6 +17027,34 @@ class SageMaker {
     );
   }
 
+  /// Programmatically stop an MLflow Tracking Server.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the tracking server to stop.
+  Future<StopMlflowTrackingServerResponse> stopMlflowTrackingServer({
+    required String trackingServerName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.StopMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+      },
+    );
+
+    return StopMlflowTrackingServerResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops a previously started monitoring schedule.
   ///
   /// May throw [ResourceNotFound].
@@ -16380,6 +17108,31 @@ class SageMaker {
       headers: headers,
       payload: {
         'NotebookInstanceName': notebookInstanceName,
+      },
+    );
+  }
+
+  /// Ends a running inference optimization job.
+  ///
+  /// May throw [ResourceNotFound].
+  ///
+  /// Parameter [optimizationJobName] :
+  /// The name that you assigned to the optimization job.
+  Future<void> stopOptimizationJob({
+    required String optimizationJobName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.StopOptimizationJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OptimizationJobName': optimizationJobName,
       },
     );
   }
@@ -17279,9 +18032,6 @@ class SageMaker {
   }
 
   /// Update a hub.
-  /// <note>
-  /// Hub APIs are only callable through SageMaker Studio.
-  /// </note>
   ///
   /// May throw [ResourceNotFound].
   ///
@@ -17648,6 +18398,65 @@ class SageMaker {
     return UpdateInferenceExperimentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates properties of an existing MLflow Tracking Server.
+  ///
+  /// May throw [ResourceNotFound].
+  /// May throw [ResourceLimitExceeded].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [trackingServerName] :
+  /// The name of the MLflow Tracking Server to update.
+  ///
+  /// Parameter [artifactStoreUri] :
+  /// The new S3 URI for the general purpose bucket to use as the artifact store
+  /// for the MLflow Tracking Server.
+  ///
+  /// Parameter [automaticModelRegistration] :
+  /// Whether to enable or disable automatic registration of new MLflow models
+  /// to the SageMaker Model Registry. To enable automatic model registration,
+  /// set this value to <code>True</code>. To disable automatic model
+  /// registration, set this value to <code>False</code>. If not specified,
+  /// <code>AutomaticModelRegistration</code> defaults to <code>False</code>
+  ///
+  /// Parameter [trackingServerSize] :
+  /// The new size for the MLflow Tracking Server.
+  ///
+  /// Parameter [weeklyMaintenanceWindowStart] :
+  /// The new weekly maintenance window start day and time to update. The
+  /// maintenance window day and time should be in Coordinated Universal Time
+  /// (UTC) 24-hour standard time. For example: TUE:03:30.
+  Future<UpdateMlflowTrackingServerResponse> updateMlflowTrackingServer({
+    required String trackingServerName,
+    String? artifactStoreUri,
+    bool? automaticModelRegistration,
+    TrackingServerSize? trackingServerSize,
+    String? weeklyMaintenanceWindowStart,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SageMaker.UpdateMlflowTrackingServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TrackingServerName': trackingServerName,
+        if (artifactStoreUri != null) 'ArtifactStoreUri': artifactStoreUri,
+        if (automaticModelRegistration != null)
+          'AutomaticModelRegistration': automaticModelRegistration,
+        if (trackingServerSize != null)
+          'TrackingServerSize': trackingServerSize.value,
+        if (weeklyMaintenanceWindowStart != null)
+          'WeeklyMaintenanceWindowStart': weeklyMaintenanceWindowStart,
+      },
+    );
+
+    return UpdateMlflowTrackingServerResponse.fromJson(jsonResponse.body);
+  }
+
   /// Update an Amazon SageMaker Model Card.
   /// <important>
   /// You cannot update both model card content and model card status in a
@@ -17769,8 +18578,11 @@ class SageMaker {
   /// <code>ModelPackageModelCard</code> schema does not include
   /// <code>model_package_details</code>, and <code>model_overview</code> is
   /// composed of the <code>model_creator</code> and <code>model_artifact</code>
-  /// properties. For more information about the model card associated with the
-  /// model package, see <a
+  /// properties. For more information about the model package model card
+  /// schema, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema">Model
+  /// package model card schema</a>. For more information about the model card
+  /// associated with the model package, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
   /// the Details of a Model Version</a>.
   ///
@@ -18984,6 +19796,37 @@ class AdditionalInferenceSpecificationDefinition {
   }
 }
 
+/// Data sources that are available to your model in addition to the one that
+/// you specify for <code>ModelDataSource</code> when you use the
+/// <code>CreateModel</code> action.
+class AdditionalModelDataSource {
+  /// A custom name for this <code>AdditionalModelDataSource</code> object.
+  final String channelName;
+  final S3ModelDataSource s3DataSource;
+
+  AdditionalModelDataSource({
+    required this.channelName,
+    required this.s3DataSource,
+  });
+
+  factory AdditionalModelDataSource.fromJson(Map<String, dynamic> json) {
+    return AdditionalModelDataSource(
+      channelName: json['ChannelName'] as String,
+      s3DataSource: S3ModelDataSource.fromJson(
+          json['S3DataSource'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelName = this.channelName;
+    final s3DataSource = this.s3DataSource;
+    return {
+      'ChannelName': channelName,
+      'S3DataSource': s3DataSource,
+    };
+  }
+}
+
 /// A data source used for training or inference that is in addition to the
 /// input dataset or model data.
 class AdditionalS3DataSource {
@@ -19478,6 +20321,37 @@ class AlgorithmValidationSpecification {
     return {
       'ValidationProfiles': validationProfiles,
       'ValidationRole': validationRole,
+    };
+  }
+}
+
+/// A collection of settings that configure the Amazon Q experience within the
+/// domain.
+class AmazonQSettings {
+  /// The ARN of the Amazon Q profile used within the domain.
+  final String? qProfileArn;
+
+  /// Whether Amazon Q has been enabled within the domain.
+  final FeatureStatus? status;
+
+  AmazonQSettings({
+    this.qProfileArn,
+    this.status,
+  });
+
+  factory AmazonQSettings.fromJson(Map<String, dynamic> json) {
+    return AmazonQSettings(
+      qProfileArn: json['QProfileArn'] as String?,
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qProfileArn = this.qProfileArn;
+    final status = this.status;
+    return {
+      if (qProfileArn != null) 'QProfileArn': qProfileArn,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -20749,6 +21623,32 @@ enum AppInstanceType {
               throw Exception('$value is not known in enum AppInstanceType'));
 }
 
+/// Settings that are used to configure and manage the lifecycle of Amazon
+/// SageMaker Studio applications.
+class AppLifecycleManagement {
+  /// Settings related to idle shutdown of Studio applications.
+  final IdleSettings? idleSettings;
+
+  AppLifecycleManagement({
+    this.idleSettings,
+  });
+
+  factory AppLifecycleManagement.fromJson(Map<String, dynamic> json) {
+    return AppLifecycleManagement(
+      idleSettings: json['IdleSettings'] != null
+          ? IdleSettings.fromJson(json['IdleSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleSettings = this.idleSettings;
+    return {
+      if (idleSettings != null) 'IdleSettings': idleSettings,
+    };
+  }
+}
+
 enum AppNetworkAccessType {
   publicInternetOnly('PublicInternetOnly'),
   vpcOnly('VpcOnly'),
@@ -21889,6 +22789,53 @@ enum AutoMLChannelType {
               throw Exception('$value is not known in enum AutoMLChannelType'));
 }
 
+/// <note>
+/// This data type is intended for use exclusively by SageMaker Canvas and
+/// cannot be used in other contexts at the moment.
+/// </note>
+/// Specifies the compute configuration for an AutoML job V2.
+class AutoMLComputeConfig {
+  /// The configuration for using <a
+  /// href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/emr-serverless.html">
+  /// EMR Serverless</a> to run the AutoML job V2.
+  ///
+  /// To allow your AutoML job V2 to automatically initiate a remote job on EMR
+  /// Serverless when additional compute resources are needed to process large
+  /// datasets, you need to provide an <code>EmrServerlessComputeConfig</code>
+  /// object, which includes an <code>ExecutionRoleARN</code> attribute, to the
+  /// <code>AutoMLComputeConfig</code> of the AutoML job V2 input request.
+  ///
+  /// By seamlessly transitioning to EMR Serverless when required, the AutoML job
+  /// can handle datasets that would otherwise exceed the initially provisioned
+  /// resources, without any manual intervention from you.
+  ///
+  /// EMR Serverless is available for the tabular and time series problem types.
+  /// We recommend setting up this option for tabular datasets larger than 5 GB
+  /// and time series datasets larger than 30 GB.
+  final EmrServerlessComputeConfig? emrServerlessComputeConfig;
+
+  AutoMLComputeConfig({
+    this.emrServerlessComputeConfig,
+  });
+
+  factory AutoMLComputeConfig.fromJson(Map<String, dynamic> json) {
+    return AutoMLComputeConfig(
+      emrServerlessComputeConfig: json['EmrServerlessComputeConfig'] != null
+          ? EmrServerlessComputeConfig.fromJson(
+              json['EmrServerlessComputeConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emrServerlessComputeConfig = this.emrServerlessComputeConfig;
+    return {
+      if (emrServerlessComputeConfig != null)
+        'EmrServerlessComputeConfig': emrServerlessComputeConfig,
+    };
+  }
+}
+
 /// A list of container definitions that describe the different containers that
 /// make up an AutoML candidate. For more information, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html">
@@ -22602,7 +23549,7 @@ enum AutoMLMode {
 
 /// The output data configuration.
 class AutoMLOutputDataConfig {
-  /// The Amazon S3 output path. Must be 128 characters or less.
+  /// The Amazon S3 output path. Must be 512 characters or less.
   final String s3OutputPath;
 
   /// The Key Management Service encryption key ID.
@@ -22994,6 +23941,22 @@ enum AutoMLSortOrder {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum AutoMLSortOrder'));
+}
+
+enum AutoMountHomeEFS {
+  enabled('Enabled'),
+  disabled('Disabled'),
+  defaultAsDomain('DefaultAsDomain'),
+  ;
+
+  final String value;
+
+  const AutoMountHomeEFS(this.value);
+
+  static AutoMountHomeEFS fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoMountHomeEFS'));
 }
 
 /// The name and an example value of the hyperparameter that you want to use in
@@ -23854,6 +24817,10 @@ class CanvasAppSettings {
   /// The model deployment settings for the SageMaker Canvas application.
   final DirectDeploySettings? directDeploySettings;
 
+  /// The settings for running Amazon EMR Serverless data processing jobs in
+  /// SageMaker Canvas.
+  final EmrServerlessSettings? emrServerlessSettings;
+
   /// The generative AI settings for the SageMaker Canvas application.
   final GenerativeAiSettings? generativeAiSettings;
 
@@ -23874,6 +24841,7 @@ class CanvasAppSettings {
 
   CanvasAppSettings({
     this.directDeploySettings,
+    this.emrServerlessSettings,
     this.generativeAiSettings,
     this.identityProviderOAuthSettings,
     this.kendraSettings,
@@ -23887,6 +24855,10 @@ class CanvasAppSettings {
       directDeploySettings: json['DirectDeploySettings'] != null
           ? DirectDeploySettings.fromJson(
               json['DirectDeploySettings'] as Map<String, dynamic>)
+          : null,
+      emrServerlessSettings: json['EmrServerlessSettings'] != null
+          ? EmrServerlessSettings.fromJson(
+              json['EmrServerlessSettings'] as Map<String, dynamic>)
           : null,
       generativeAiSettings: json['GenerativeAiSettings'] != null
           ? GenerativeAiSettings.fromJson(
@@ -23920,6 +24892,7 @@ class CanvasAppSettings {
 
   Map<String, dynamic> toJson() {
     final directDeploySettings = this.directDeploySettings;
+    final emrServerlessSettings = this.emrServerlessSettings;
     final generativeAiSettings = this.generativeAiSettings;
     final identityProviderOAuthSettings = this.identityProviderOAuthSettings;
     final kendraSettings = this.kendraSettings;
@@ -23929,6 +24902,8 @@ class CanvasAppSettings {
     return {
       if (directDeploySettings != null)
         'DirectDeploySettings': directDeploySettings,
+      if (emrServerlessSettings != null)
+        'EmrServerlessSettings': emrServerlessSettings,
       if (generativeAiSettings != null)
         'GenerativeAiSettings': generativeAiSettings,
       if (identityProviderOAuthSettings != null)
@@ -24983,6 +25958,36 @@ enum ClarifyTextLanguage {
           throw Exception('$value is not known in enum ClarifyTextLanguage'));
 }
 
+/// Defines the configuration for attaching an additional Amazon Elastic Block
+/// Store (EBS) volume to each instance of the SageMaker HyperPod cluster
+/// instance group. To learn more, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620">SageMaker
+/// HyperPod release notes: June 20, 2024</a>.
+class ClusterEbsVolumeConfig {
+  /// The size in gigabytes (GB) of the additional EBS volume to be attached to
+  /// the instances in the SageMaker HyperPod cluster instance group. The
+  /// additional EBS volume is attached to each instance within the SageMaker
+  /// HyperPod cluster instance group and mounted to <code>/opt/sagemaker</code>.
+  final int volumeSizeInGB;
+
+  ClusterEbsVolumeConfig({
+    required this.volumeSizeInGB,
+  });
+
+  factory ClusterEbsVolumeConfig.fromJson(Map<String, dynamic> json) {
+    return ClusterEbsVolumeConfig(
+      volumeSizeInGB: json['VolumeSizeInGB'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final volumeSizeInGB = this.volumeSizeInGB;
+    return {
+      'VolumeSizeInGB': volumeSizeInGB,
+    };
+  }
+}
+
 /// Details of an instance group in a SageMaker HyperPod cluster.
 class ClusterInstanceGroupDetails {
   /// The number of instances that are currently in the instance group of a
@@ -24994,6 +25999,10 @@ class ClusterInstanceGroupDetails {
 
   /// The name of the instance group of a SageMaker HyperPod cluster.
   final String? instanceGroupName;
+
+  /// The additional storage configurations for the instances in the SageMaker
+  /// HyperPod cluster instance group.
+  final List<ClusterInstanceStorageConfig>? instanceStorageConfigs;
 
   /// The instance type of the instance group of a SageMaker HyperPod cluster.
   final ClusterInstanceType? instanceType;
@@ -25019,6 +26028,7 @@ class ClusterInstanceGroupDetails {
     this.currentCount,
     this.executionRole,
     this.instanceGroupName,
+    this.instanceStorageConfigs,
     this.instanceType,
     this.lifeCycleConfig,
     this.targetCount,
@@ -25030,6 +26040,11 @@ class ClusterInstanceGroupDetails {
       currentCount: json['CurrentCount'] as int?,
       executionRole: json['ExecutionRole'] as String?,
       instanceGroupName: json['InstanceGroupName'] as String?,
+      instanceStorageConfigs: (json['InstanceStorageConfigs'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ClusterInstanceStorageConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
       instanceType: (json['InstanceType'] as String?)
           ?.let(ClusterInstanceType.fromString),
       lifeCycleConfig: json['LifeCycleConfig'] != null
@@ -25060,6 +26075,10 @@ class ClusterInstanceGroupSpecification {
   /// Specifies the LifeCycle configuration for the instance group.
   final ClusterLifeCycleConfig lifeCycleConfig;
 
+  /// Specifies the additional storage configurations for the instances in the
+  /// SageMaker HyperPod cluster instance group.
+  final List<ClusterInstanceStorageConfig>? instanceStorageConfigs;
+
   /// Specifies the value for <b>Threads per core</b>. For instance types that
   /// support multithreading, you can specify <code>1</code> for disabling
   /// multithreading and <code>2</code> for enabling multithreading. For instance
@@ -25076,6 +26095,7 @@ class ClusterInstanceGroupSpecification {
     required this.instanceGroupName,
     required this.instanceType,
     required this.lifeCycleConfig,
+    this.instanceStorageConfigs,
     this.threadsPerCore,
   });
 
@@ -25085,6 +26105,7 @@ class ClusterInstanceGroupSpecification {
     final instanceGroupName = this.instanceGroupName;
     final instanceType = this.instanceType;
     final lifeCycleConfig = this.lifeCycleConfig;
+    final instanceStorageConfigs = this.instanceStorageConfigs;
     final threadsPerCore = this.threadsPerCore;
     return {
       'ExecutionRole': executionRole,
@@ -25092,6 +26113,8 @@ class ClusterInstanceGroupSpecification {
       'InstanceGroupName': instanceGroupName,
       'InstanceType': instanceType.value,
       'LifeCycleConfig': lifeCycleConfig,
+      if (instanceStorageConfigs != null)
+        'InstanceStorageConfigs': instanceStorageConfigs,
       if (threadsPerCore != null) 'ThreadsPerCore': threadsPerCore,
     };
   }
@@ -25158,6 +26181,39 @@ class ClusterInstanceStatusDetails {
       status: ClusterInstanceStatus.fromString((json['Status'] as String)),
       message: json['Message'] as String?,
     );
+  }
+}
+
+/// Defines the configuration for attaching additional storage to the instances
+/// in the SageMaker HyperPod cluster instance group. To learn more, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620">SageMaker
+/// HyperPod release notes: June 20, 2024</a>.
+class ClusterInstanceStorageConfig {
+  /// Defines the configuration for attaching additional Amazon Elastic Block
+  /// Store (EBS) volumes to the instances in the SageMaker HyperPod cluster
+  /// instance group. The additional EBS volume is attached to each instance
+  /// within the SageMaker HyperPod cluster instance group and mounted to
+  /// <code>/opt/sagemaker</code>.
+  final ClusterEbsVolumeConfig? ebsVolumeConfig;
+
+  ClusterInstanceStorageConfig({
+    this.ebsVolumeConfig,
+  });
+
+  factory ClusterInstanceStorageConfig.fromJson(Map<String, dynamic> json) {
+    return ClusterInstanceStorageConfig(
+      ebsVolumeConfig: json['EbsVolumeConfig'] != null
+          ? ClusterEbsVolumeConfig.fromJson(
+              json['EbsVolumeConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsVolumeConfig = this.ebsVolumeConfig;
+    return {
+      if (ebsVolumeConfig != null) 'EbsVolumeConfig': ebsVolumeConfig,
+    };
   }
 }
 
@@ -25266,6 +26322,10 @@ class ClusterNodeDetails {
   /// The status of the instance.
   final ClusterInstanceStatusDetails? instanceStatus;
 
+  /// The configurations of additional storage specified to the instance group
+  /// where the instance (node) is launched.
+  final List<ClusterInstanceStorageConfig>? instanceStorageConfigs;
+
   /// The type of the instance.
   final ClusterInstanceType? instanceType;
 
@@ -25292,6 +26352,7 @@ class ClusterNodeDetails {
     this.instanceGroupName,
     this.instanceId,
     this.instanceStatus,
+    this.instanceStorageConfigs,
     this.instanceType,
     this.launchTime,
     this.lifeCycleConfig,
@@ -25309,6 +26370,11 @@ class ClusterNodeDetails {
           ? ClusterInstanceStatusDetails.fromJson(
               json['InstanceStatus'] as Map<String, dynamic>)
           : null,
+      instanceStorageConfigs: (json['InstanceStorageConfigs'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ClusterInstanceStorageConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
       instanceType: (json['InstanceType'] as String?)
           ?.let(ClusterInstanceType.fromString),
       launchTime: timeStampFromJson(json['LaunchTime']),
@@ -25475,6 +26541,11 @@ class CodeEditorAppImageConfig {
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/code-editor.html">Get
 /// started with Code Editor in Amazon SageMaker</a>.
 class CodeEditorAppSettings {
+  /// Settings that are used to configure and manage the lifecycle of CodeEditor
+  /// applications.
+  /// <p/>
+  final AppLifecycleManagement? appLifecycleManagement;
+
   /// A list of custom SageMaker images that are configured to run as a Code
   /// Editor app.
   final List<CustomImage>? customImages;
@@ -25485,6 +26556,7 @@ class CodeEditorAppSettings {
   final List<String>? lifecycleConfigArns;
 
   CodeEditorAppSettings({
+    this.appLifecycleManagement,
     this.customImages,
     this.defaultResourceSpec,
     this.lifecycleConfigArns,
@@ -25492,6 +26564,10 @@ class CodeEditorAppSettings {
 
   factory CodeEditorAppSettings.fromJson(Map<String, dynamic> json) {
     return CodeEditorAppSettings(
+      appLifecycleManagement: json['AppLifecycleManagement'] != null
+          ? AppLifecycleManagement.fromJson(
+              json['AppLifecycleManagement'] as Map<String, dynamic>)
+          : null,
       customImages: (json['CustomImages'] as List?)
           ?.nonNulls
           .map((e) => CustomImage.fromJson(e as Map<String, dynamic>))
@@ -25508,10 +26584,13 @@ class CodeEditorAppSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final appLifecycleManagement = this.appLifecycleManagement;
     final customImages = this.customImages;
     final defaultResourceSpec = this.defaultResourceSpec;
     final lifecycleConfigArns = this.lifecycleConfigArns;
     return {
+      if (appLifecycleManagement != null)
+        'AppLifecycleManagement': appLifecycleManagement,
       if (customImages != null) 'CustomImages': customImages,
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
@@ -25989,6 +27068,11 @@ class ContainerConfig {
 
 /// Describes the container, as part of model definition.
 class ContainerDefinition {
+  /// Data sources that are available to your model in addition to the one that
+  /// you specify for <code>ModelDataSource</code> when you use the
+  /// <code>CreateModel</code> action.
+  final List<AdditionalModelDataSource>? additionalModelDataSources;
+
   /// This parameter is ignored for models that contain only a
   /// <code>PrimaryContainer</code>.
   ///
@@ -26006,7 +27090,8 @@ class ContainerDefinition {
   /// every <code>ContainerDefinition</code> in that pipeline.
   final String? containerHostname;
 
-  /// The environment variables to set in the Docker container.
+  /// The environment variables to set in the Docker container. Don't include any
+  /// sensitive data in your environment variables.
   ///
   /// The maximum length of each key and value in the <code>Environment</code> map
   /// is 1024 bytes. The maximum length of all keys and values in the map,
@@ -26093,6 +27178,7 @@ class ContainerDefinition {
   final MultiModelConfig? multiModelConfig;
 
   ContainerDefinition({
+    this.additionalModelDataSources,
     this.containerHostname,
     this.environment,
     this.image,
@@ -26107,6 +27193,11 @@ class ContainerDefinition {
 
   factory ContainerDefinition.fromJson(Map<String, dynamic> json) {
     return ContainerDefinition(
+      additionalModelDataSources: (json['AdditionalModelDataSources'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AdditionalModelDataSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
       containerHostname: json['ContainerHostname'] as String?,
       environment: (json['Environment'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -26130,6 +27221,7 @@ class ContainerDefinition {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalModelDataSources = this.additionalModelDataSources;
     final containerHostname = this.containerHostname;
     final environment = this.environment;
     final image = this.image;
@@ -26141,6 +27233,8 @@ class ContainerDefinition {
     final modelPackageName = this.modelPackageName;
     final multiModelConfig = this.multiModelConfig;
     return {
+      if (additionalModelDataSources != null)
+        'AdditionalModelDataSources': additionalModelDataSources,
       if (containerHostname != null) 'ContainerHostname': containerHostname,
       if (environment != null) 'Environment': environment,
       if (image != null) 'Image': image,
@@ -26696,6 +27790,27 @@ class CreateFlowDefinitionResponse {
   }
 }
 
+class CreateHubContentReferenceResponse {
+  /// The ARN of the hub that the hub content reference was added to.
+  final String hubArn;
+
+  /// The ARN of the hub content.
+  final String hubContentArn;
+
+  CreateHubContentReferenceResponse({
+    required this.hubArn,
+    required this.hubContentArn,
+  });
+
+  factory CreateHubContentReferenceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateHubContentReferenceResponse(
+      hubArn: json['HubArn'] as String,
+      hubContentArn: json['HubContentArn'] as String,
+    );
+  }
+}
+
 class CreateHubResponse {
   /// The Amazon Resource Name (ARN) of the hub.
   final String hubArn;
@@ -26833,6 +27948,22 @@ class CreateLabelingJobResponse {
   factory CreateLabelingJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateLabelingJobResponse(
       labelingJobArn: json['LabelingJobArn'] as String,
+    );
+  }
+}
+
+class CreateMlflowTrackingServerResponse {
+  /// The ARN of the tracking server.
+  final String? trackingServerArn;
+
+  CreateMlflowTrackingServerResponse({
+    this.trackingServerArn,
+  });
+
+  factory CreateMlflowTrackingServerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMlflowTrackingServerResponse(
+      trackingServerArn: json['TrackingServerArn'] as String?,
     );
   }
 }
@@ -27007,6 +28138,21 @@ class CreateNotebookInstanceOutput {
   }
 }
 
+class CreateOptimizationJobResponse {
+  /// The Amazon Resource Name (ARN) of the optimization job.
+  final String optimizationJobArn;
+
+  CreateOptimizationJobResponse({
+    required this.optimizationJobArn,
+  });
+
+  factory CreateOptimizationJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOptimizationJobResponse(
+      optimizationJobArn: json['OptimizationJobArn'] as String,
+    );
+  }
+}
+
 class CreatePipelineResponse {
   /// The Amazon Resource Name (ARN) of the created pipeline.
   final String? pipelineArn;
@@ -27032,6 +28178,22 @@ class CreatePresignedDomainUrlResponse {
 
   factory CreatePresignedDomainUrlResponse.fromJson(Map<String, dynamic> json) {
     return CreatePresignedDomainUrlResponse(
+      authorizedUrl: json['AuthorizedUrl'] as String?,
+    );
+  }
+}
+
+class CreatePresignedMlflowTrackingServerUrlResponse {
+  /// A presigned URL with an authorization token.
+  final String? authorizedUrl;
+
+  CreatePresignedMlflowTrackingServerUrlResponse({
+    this.authorizedUrl,
+  });
+
+  factory CreatePresignedMlflowTrackingServerUrlResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreatePresignedMlflowTrackingServerUrlResponse(
       authorizedUrl: json['AuthorizedUrl'] as String?,
     );
   }
@@ -28398,6 +29560,23 @@ class DeleteInferenceExperimentResponse {
   }
 }
 
+class DeleteMlflowTrackingServerResponse {
+  /// A <code>TrackingServerArn</code> object, the ARN of the tracking server that
+  /// is deleted if successfully found.
+  final String? trackingServerArn;
+
+  DeleteMlflowTrackingServerResponse({
+    this.trackingServerArn,
+  });
+
+  factory DeleteMlflowTrackingServerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteMlflowTrackingServerResponse(
+      trackingServerArn: json['TrackingServerArn'] as String?,
+    );
+  }
+}
+
 class DeletePipelineResponse {
   /// The Amazon Resource Name (ARN) of the pipeline to delete.
   final String? pipelineArn;
@@ -29242,6 +30421,9 @@ class DescribeAutoMLJobV2Response {
   /// The ARN of the IAM role that has read permission to the input data location
   /// and write permission to the output data location in Amazon S3.
   final String roleArn;
+
+  /// The compute configuration used for the AutoML job V2.
+  final AutoMLComputeConfig? autoMLComputeConfig;
   final AutoMLJobArtifacts? autoMLJobArtifacts;
 
   /// Returns the job's objective.
@@ -29296,6 +30478,7 @@ class DescribeAutoMLJobV2Response {
     required this.lastModifiedTime,
     required this.outputDataConfig,
     required this.roleArn,
+    this.autoMLComputeConfig,
     this.autoMLJobArtifacts,
     this.autoMLJobObjective,
     this.autoMLProblemTypeConfig,
@@ -29330,6 +30513,10 @@ class DescribeAutoMLJobV2Response {
       outputDataConfig: AutoMLOutputDataConfig.fromJson(
           json['OutputDataConfig'] as Map<String, dynamic>),
       roleArn: json['RoleArn'] as String,
+      autoMLComputeConfig: json['AutoMLComputeConfig'] != null
+          ? AutoMLComputeConfig.fromJson(
+              json['AutoMLComputeConfig'] as Map<String, dynamic>)
+          : null,
       autoMLJobArtifacts: json['AutoMLJobArtifacts'] != null
           ? AutoMLJobArtifacts.fromJson(
               json['AutoMLJobArtifacts'] as Map<String, dynamic>)
@@ -30910,6 +32097,15 @@ class DescribeHubContentResponse {
   /// The searchable keywords for the hub content.
   final List<String>? hubContentSearchKeywords;
 
+  /// The minimum version of the hub content.
+  final String? referenceMinVersion;
+
+  /// The ARN of the public hub content.
+  final String? sageMakerPublicHubContentArn;
+
+  /// The support status of the hub content.
+  final HubContentSupportStatus? supportStatus;
+
   DescribeHubContentResponse({
     required this.creationTime,
     required this.documentSchemaVersion,
@@ -30927,6 +32123,9 @@ class DescribeHubContentResponse {
     this.hubContentDisplayName,
     this.hubContentMarkdown,
     this.hubContentSearchKeywords,
+    this.referenceMinVersion,
+    this.sageMakerPublicHubContentArn,
+    this.supportStatus,
   });
 
   factory DescribeHubContentResponse.fromJson(Map<String, dynamic> json) {
@@ -30956,6 +32155,11 @@ class DescribeHubContentResponse {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      referenceMinVersion: json['ReferenceMinVersion'] as String?,
+      sageMakerPublicHubContentArn:
+          json['SageMakerPublicHubContentArn'] as String?,
+      supportStatus: (json['SupportStatus'] as String?)
+          ?.let(HubContentSupportStatus.fromString),
     );
   }
 }
@@ -31974,6 +33178,103 @@ class DescribeLineageGroupResponse {
   }
 }
 
+class DescribeMlflowTrackingServerResponse {
+  /// The S3 URI of the general purpose bucket used as the MLflow Tracking Server
+  /// artifact store.
+  final String? artifactStoreUri;
+
+  /// Whether automatic registration of new MLflow models to the SageMaker Model
+  /// Registry is enabled.
+  final bool? automaticModelRegistration;
+  final UserContext? createdBy;
+
+  /// The timestamp of when the described MLflow Tracking Server was created.
+  final DateTime? creationTime;
+
+  /// Whether the described MLflow Tracking Server is currently active.
+  final IsTrackingServerActive? isActive;
+  final UserContext? lastModifiedBy;
+
+  /// The timestamp of when the described MLflow Tracking Server was last
+  /// modified.
+  final DateTime? lastModifiedTime;
+
+  /// The MLflow version used for the described tracking server.
+  final String? mlflowVersion;
+
+  /// The Amazon Resource Name (ARN) for an IAM role in your account that the
+  /// described MLflow Tracking Server uses to access the artifact store in Amazon
+  /// S3.
+  final String? roleArn;
+
+  /// The ARN of the described tracking server.
+  final String? trackingServerArn;
+
+  /// The name of the described tracking server.
+  final String? trackingServerName;
+
+  /// The size of the described tracking server.
+  final TrackingServerSize? trackingServerSize;
+
+  /// The current creation status of the described MLflow Tracking Server.
+  final TrackingServerStatus? trackingServerStatus;
+
+  /// The URL to connect to the MLflow user interface for the described tracking
+  /// server.
+  final String? trackingServerUrl;
+
+  /// The day and time of the week when weekly maintenance occurs on the described
+  /// tracking server.
+  final String? weeklyMaintenanceWindowStart;
+
+  DescribeMlflowTrackingServerResponse({
+    this.artifactStoreUri,
+    this.automaticModelRegistration,
+    this.createdBy,
+    this.creationTime,
+    this.isActive,
+    this.lastModifiedBy,
+    this.lastModifiedTime,
+    this.mlflowVersion,
+    this.roleArn,
+    this.trackingServerArn,
+    this.trackingServerName,
+    this.trackingServerSize,
+    this.trackingServerStatus,
+    this.trackingServerUrl,
+    this.weeklyMaintenanceWindowStart,
+  });
+
+  factory DescribeMlflowTrackingServerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMlflowTrackingServerResponse(
+      artifactStoreUri: json['ArtifactStoreUri'] as String?,
+      automaticModelRegistration: json['AutomaticModelRegistration'] as bool?,
+      createdBy: json['CreatedBy'] != null
+          ? UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      isActive:
+          (json['IsActive'] as String?)?.let(IsTrackingServerActive.fromString),
+      lastModifiedBy: json['LastModifiedBy'] != null
+          ? UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      mlflowVersion: json['MlflowVersion'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      trackingServerArn: json['TrackingServerArn'] as String?,
+      trackingServerName: json['TrackingServerName'] as String?,
+      trackingServerSize: (json['TrackingServerSize'] as String?)
+          ?.let(TrackingServerSize.fromString),
+      trackingServerStatus: (json['TrackingServerStatus'] as String?)
+          ?.let(TrackingServerStatus.fromString),
+      trackingServerUrl: json['TrackingServerUrl'] as String?,
+      weeklyMaintenanceWindowStart:
+          json['WeeklyMaintenanceWindowStart'] as String?,
+    );
+  }
+}
+
 class DescribeModelBiasJobDefinitionResponse {
   /// The time at which the model bias job was created.
   final DateTime creationTime;
@@ -32519,7 +33820,10 @@ class DescribeModelPackageOutput {
   /// schema does not include <code>model_package_details</code>, and
   /// <code>model_overview</code> is composed of the <code>model_creator</code>
   /// and <code>model_artifact</code> properties. For more information about the
-  /// model card associated with the model package, see <a
+  /// model package model card schema, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema">Model
+  /// package model card schema</a>. For more information about the model card
+  /// associated with the model package, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
   /// the Details of a Model Version</a>.
   final ModelPackageModelCard? modelCard;
@@ -33067,6 +34371,120 @@ class DescribeNotebookInstanceOutput {
       subnetId: json['SubnetId'] as String?,
       url: json['Url'] as String?,
       volumeSizeInGB: json['VolumeSizeInGB'] as int?,
+    );
+  }
+}
+
+class DescribeOptimizationJobResponse {
+  /// The time when you created the optimization job.
+  final DateTime creationTime;
+
+  /// The type of instance that hosts the optimized model that you create with the
+  /// optimization job.
+  final OptimizationJobDeploymentInstanceType deploymentInstanceType;
+
+  /// The time when the optimization job was last updated.
+  final DateTime lastModifiedTime;
+
+  /// The location of the source model to optimize with an optimization job.
+  final OptimizationJobModelSource modelSource;
+
+  /// Settings for each of the optimization techniques that the job applies.
+  final List<OptimizationConfig> optimizationConfigs;
+
+  /// The Amazon Resource Name (ARN) of the optimization job.
+  final String optimizationJobArn;
+
+  /// The name that you assigned to the optimization job.
+  final String optimizationJobName;
+
+  /// The current status of the optimization job.
+  final OptimizationJobStatus optimizationJobStatus;
+
+  /// Details for where to store the optimized model that you create with the
+  /// optimization job.
+  final OptimizationJobOutputConfig outputConfig;
+
+  /// The ARN of the IAM role that you assigned to the optimization job.
+  final String roleArn;
+  final StoppingCondition stoppingCondition;
+
+  /// If the optimization job status is <code>FAILED</code>, the reason for the
+  /// failure.
+  final String? failureReason;
+
+  /// The time when the optimization job finished processing.
+  final DateTime? optimizationEndTime;
+
+  /// The environment variables to set in the model container.
+  final Map<String, String>? optimizationEnvironment;
+
+  /// Output values produced by an optimization job.
+  final OptimizationOutput? optimizationOutput;
+
+  /// The time when the optimization job started.
+  final DateTime? optimizationStartTime;
+
+  /// A VPC in Amazon VPC that your optimized model has access to.
+  final OptimizationVpcConfig? vpcConfig;
+
+  DescribeOptimizationJobResponse({
+    required this.creationTime,
+    required this.deploymentInstanceType,
+    required this.lastModifiedTime,
+    required this.modelSource,
+    required this.optimizationConfigs,
+    required this.optimizationJobArn,
+    required this.optimizationJobName,
+    required this.optimizationJobStatus,
+    required this.outputConfig,
+    required this.roleArn,
+    required this.stoppingCondition,
+    this.failureReason,
+    this.optimizationEndTime,
+    this.optimizationEnvironment,
+    this.optimizationOutput,
+    this.optimizationStartTime,
+    this.vpcConfig,
+  });
+
+  factory DescribeOptimizationJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOptimizationJobResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      deploymentInstanceType: OptimizationJobDeploymentInstanceType.fromString(
+          (json['DeploymentInstanceType'] as String)),
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      modelSource: OptimizationJobModelSource.fromJson(
+          json['ModelSource'] as Map<String, dynamic>),
+      optimizationConfigs: (json['OptimizationConfigs'] as List)
+          .nonNulls
+          .map((e) => OptimizationConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      optimizationJobArn: json['OptimizationJobArn'] as String,
+      optimizationJobName: json['OptimizationJobName'] as String,
+      optimizationJobStatus: OptimizationJobStatus.fromString(
+          (json['OptimizationJobStatus'] as String)),
+      outputConfig: OptimizationJobOutputConfig.fromJson(
+          json['OutputConfig'] as Map<String, dynamic>),
+      roleArn: json['RoleArn'] as String,
+      stoppingCondition: StoppingCondition.fromJson(
+          json['StoppingCondition'] as Map<String, dynamic>),
+      failureReason: json['FailureReason'] as String?,
+      optimizationEndTime: timeStampFromJson(json['OptimizationEndTime']),
+      optimizationEnvironment:
+          (json['OptimizationEnvironment'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      optimizationOutput: json['OptimizationOutput'] != null
+          ? OptimizationOutput.fromJson(
+              json['OptimizationOutput'] as Map<String, dynamic>)
+          : null,
+      optimizationStartTime: timeStampFromJson(json['OptimizationStartTime']),
+      vpcConfig: json['VpcConfig'] != null
+          ? OptimizationVpcConfig.fromJson(
+              json['VpcConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -35099,6 +36517,11 @@ class DomainDetails {
 /// A collection of settings that apply to the <code>SageMaker Domain</code>.
 /// These settings are specified through the <code>CreateDomain</code> API call.
 class DomainSettings {
+  /// A collection of settings that configure the Amazon Q experience within the
+  /// domain. The <code>AuthMode</code> that you use to create the domain must be
+  /// <code>SSO</code>.
+  final AmazonQSettings? amazonQSettings;
+
   /// A collection of settings that configure the domain's Docker interaction.
   final DockerSettings? dockerSettings;
 
@@ -35118,6 +36541,7 @@ class DomainSettings {
   final List<String>? securityGroupIds;
 
   DomainSettings({
+    this.amazonQSettings,
     this.dockerSettings,
     this.executionRoleIdentityConfig,
     this.rStudioServerProDomainSettings,
@@ -35126,6 +36550,10 @@ class DomainSettings {
 
   factory DomainSettings.fromJson(Map<String, dynamic> json) {
     return DomainSettings(
+      amazonQSettings: json['AmazonQSettings'] != null
+          ? AmazonQSettings.fromJson(
+              json['AmazonQSettings'] as Map<String, dynamic>)
+          : null,
       dockerSettings: json['DockerSettings'] != null
           ? DockerSettings.fromJson(
               json['DockerSettings'] as Map<String, dynamic>)
@@ -35146,11 +36574,13 @@ class DomainSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final amazonQSettings = this.amazonQSettings;
     final dockerSettings = this.dockerSettings;
     final executionRoleIdentityConfig = this.executionRoleIdentityConfig;
     final rStudioServerProDomainSettings = this.rStudioServerProDomainSettings;
     final securityGroupIds = this.securityGroupIds;
     return {
+      if (amazonQSettings != null) 'AmazonQSettings': amazonQSettings,
       if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
         'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.value,
@@ -35163,6 +36593,10 @@ class DomainSettings {
 
 /// A collection of <code>Domain</code> configuration settings to update.
 class DomainSettingsForUpdate {
+  /// A collection of settings that configure the Amazon Q experience within the
+  /// domain.
+  final AmazonQSettings? amazonQSettings;
+
   /// A collection of settings that configure the domain's Docker interaction.
   final DockerSettings? dockerSettings;
 
@@ -35185,6 +36619,7 @@ class DomainSettingsForUpdate {
   final List<String>? securityGroupIds;
 
   DomainSettingsForUpdate({
+    this.amazonQSettings,
     this.dockerSettings,
     this.executionRoleIdentityConfig,
     this.rStudioServerProDomainSettingsForUpdate,
@@ -35192,12 +36627,14 @@ class DomainSettingsForUpdate {
   });
 
   Map<String, dynamic> toJson() {
+    final amazonQSettings = this.amazonQSettings;
     final dockerSettings = this.dockerSettings;
     final executionRoleIdentityConfig = this.executionRoleIdentityConfig;
     final rStudioServerProDomainSettingsForUpdate =
         this.rStudioServerProDomainSettingsForUpdate;
     final securityGroupIds = this.securityGroupIds;
     return {
+      if (amazonQSettings != null) 'AmazonQSettings': amazonQSettings,
       if (dockerSettings != null) 'DockerSettings': dockerSettings,
       if (executionRoleIdentityConfig != null)
         'ExecutionRoleIdentityConfig': executionRoleIdentityConfig.value,
@@ -36092,6 +37529,129 @@ enum EdgePresetDeploymentType {
               '$value is not known in enum EdgePresetDeploymentType'));
 }
 
+/// <note>
+/// This data type is intended for use exclusively by SageMaker Canvas and
+/// cannot be used in other contexts at the moment.
+/// </note>
+/// Specifies the compute configuration for the EMR Serverless job.
+class EmrServerlessComputeConfig {
+  /// The ARN of the IAM role granting the AutoML job V2 the necessary permissions
+  /// access policies to list, connect to, or manage EMR Serverless jobs. For
+  /// detailed information about the required permissions of this role, see "How
+  /// to configure AutoML to initiate a remote job on EMR Serverless for large
+  /// datasets" in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html">Create
+  /// a regression or classification job for tabular data using the AutoML API</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-timeseries-forecasting.html#timeseries-forecasting-api-optional-params">Create
+  /// an AutoML job for time-series forecasting using the API</a>.
+  final String executionRoleARN;
+
+  EmrServerlessComputeConfig({
+    required this.executionRoleARN,
+  });
+
+  factory EmrServerlessComputeConfig.fromJson(Map<String, dynamic> json) {
+    return EmrServerlessComputeConfig(
+      executionRoleARN: json['ExecutionRoleARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleARN = this.executionRoleARN;
+    return {
+      'ExecutionRoleARN': executionRoleARN,
+    };
+  }
+}
+
+/// The settings for running Amazon EMR Serverless jobs in SageMaker Canvas.
+class EmrServerlessSettings {
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM role that is
+  /// assumed for running Amazon EMR Serverless jobs in SageMaker Canvas. This
+  /// role should have the necessary permissions to read and write data attached
+  /// and a trust relationship with EMR Serverless.
+  final String? executionRoleArn;
+
+  /// Describes whether Amazon EMR Serverless job capabilities are enabled or
+  /// disabled in the SageMaker Canvas application.
+  final FeatureStatus? status;
+
+  EmrServerlessSettings({
+    this.executionRoleArn,
+    this.status,
+  });
+
+  factory EmrServerlessSettings.fromJson(Map<String, dynamic> json) {
+    return EmrServerlessSettings(
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
+      status: (json['Status'] as String?)?.let(FeatureStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleArn = this.executionRoleArn;
+    final status = this.status;
+    return {
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// The configuration parameters that specify the IAM roles assumed by the
+/// execution role of SageMaker (assumable roles) and the cluster instances or
+/// job execution environments (execution roles or runtime roles) to manage and
+/// access resources required for running Amazon EMR clusters or Amazon EMR
+/// Serverless applications.
+class EmrSettings {
+  /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution
+  /// role of SageMaker can assume for performing operations or tasks related to
+  /// Amazon EMR clusters or Amazon EMR Serverless applications. These roles
+  /// define the permissions and access policies required when performing Amazon
+  /// EMR-related operations, such as listing, connecting to, or terminating
+  /// Amazon EMR clusters or Amazon EMR Serverless applications. They are
+  /// typically used in cross-account access scenarios, where the Amazon EMR
+  /// resources (clusters or serverless applications) are located in a different
+  /// Amazon Web Services account than the SageMaker domain.
+  final List<String>? assumableRoleArns;
+
+  /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon
+  /// EMR cluster instances or job execution environments to access other Amazon
+  /// Web Services services and resources needed during the runtime of your Amazon
+  /// EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access,
+  /// Amazon CloudWatch for logging, or other Amazon Web Services services based
+  /// on the particular workload requirements.
+  final List<String>? executionRoleArns;
+
+  EmrSettings({
+    this.assumableRoleArns,
+    this.executionRoleArns,
+  });
+
+  factory EmrSettings.fromJson(Map<String, dynamic> json) {
+    return EmrSettings(
+      assumableRoleArns: (json['AssumableRoleArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      executionRoleArns: (json['ExecutionRoleArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assumableRoleArns = this.assumableRoleArns;
+    final executionRoleArns = this.executionRoleArns;
+    return {
+      if (assumableRoleArns != null) 'AssumableRoleArns': assumableRoleArns,
+      if (executionRoleArns != null) 'ExecutionRoleArns': executionRoleArns,
+    };
+  }
+}
+
 class EnableSagemakerServicecatalogPortfolioOutput {
   EnableSagemakerServicecatalogPortfolioOutput();
 
@@ -36228,6 +37788,23 @@ enum EndpointConfigSortKey {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum EndpointConfigSortKey'));
+}
+
+/// Metadata for an endpoint configuration step.
+class EndpointConfigStepMetadata {
+  /// The Amazon Resource Name (ARN) of the endpoint configuration used in the
+  /// step.
+  final String? arn;
+
+  EndpointConfigStepMetadata({
+    this.arn,
+  });
+
+  factory EndpointConfigStepMetadata.fromJson(Map<String, dynamic> json) {
+    return EndpointConfigStepMetadata(
+      arn: json['Arn'] as String?,
+    );
+  }
 }
 
 /// Provides summary information for an endpoint configuration.
@@ -36581,6 +38158,22 @@ enum EndpointStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum EndpointStatus'));
+}
+
+/// Metadata for an endpoint step.
+class EndpointStepMetadata {
+  /// The Amazon Resource Name (ARN) of the endpoint in the step.
+  final String? arn;
+
+  EndpointStepMetadata({
+    this.arn,
+  });
+
+  factory EndpointStepMetadata.fromJson(Map<String, dynamic> json) {
+    return EndpointStepMetadata(
+      arn: json['Arn'] as String?,
+    );
+  }
 }
 
 /// Provides summary information for an endpoint.
@@ -38387,6 +39980,16 @@ class HubContentInfo {
   /// The searchable keywords for the hub content.
   final List<String>? hubContentSearchKeywords;
 
+  /// The date and time when the hub content was originally created, before any
+  /// updates or revisions.
+  final DateTime? originalCreationTime;
+
+  /// The ARN of the public hub content.
+  final String? sageMakerPublicHubContentArn;
+
+  /// The support status of the hub content.
+  final HubContentSupportStatus? supportStatus;
+
   HubContentInfo({
     required this.creationTime,
     required this.documentSchemaVersion,
@@ -38398,6 +40001,9 @@ class HubContentInfo {
     this.hubContentDescription,
     this.hubContentDisplayName,
     this.hubContentSearchKeywords,
+    this.originalCreationTime,
+    this.sageMakerPublicHubContentArn,
+    this.supportStatus,
   });
 
   factory HubContentInfo.fromJson(Map<String, dynamic> json) {
@@ -38418,6 +40024,11 @@ class HubContentInfo {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      originalCreationTime: timeStampFromJson(json['OriginalCreationTime']),
+      sageMakerPublicHubContentArn:
+          json['SageMakerPublicHubContentArn'] as String?,
+      supportStatus: (json['SupportStatus'] as String?)
+          ?.let(HubContentSupportStatus.fromString),
     );
   }
 }
@@ -38456,9 +40067,25 @@ enum HubContentStatus {
               throw Exception('$value is not known in enum HubContentStatus'));
 }
 
+enum HubContentSupportStatus {
+  supported('Supported'),
+  deprecated('Deprecated'),
+  ;
+
+  final String value;
+
+  const HubContentSupportStatus(this.value);
+
+  static HubContentSupportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum HubContentSupportStatus'));
+}
+
 enum HubContentType {
   model('Model'),
   notebook('Notebook'),
+  modelReference('ModelReference'),
   ;
 
   final String value;
@@ -41468,6 +43095,58 @@ class IdentityProviderOAuthSetting {
   }
 }
 
+/// Settings related to idle shutdown of Studio applications.
+class IdleSettings {
+  /// The time that SageMaker waits after the application becomes idle before
+  /// shutting it down.
+  final int? idleTimeoutInMinutes;
+
+  /// Indicates whether idle shutdown is activated for the application type.
+  final LifecycleManagement? lifecycleManagement;
+
+  /// The maximum value in minutes that custom idle shutdown can be set to by the
+  /// user.
+  final int? maxIdleTimeoutInMinutes;
+
+  /// The minimum value in minutes that custom idle shutdown can be set to by the
+  /// user.
+  final int? minIdleTimeoutInMinutes;
+
+  IdleSettings({
+    this.idleTimeoutInMinutes,
+    this.lifecycleManagement,
+    this.maxIdleTimeoutInMinutes,
+    this.minIdleTimeoutInMinutes,
+  });
+
+  factory IdleSettings.fromJson(Map<String, dynamic> json) {
+    return IdleSettings(
+      idleTimeoutInMinutes: json['IdleTimeoutInMinutes'] as int?,
+      lifecycleManagement: (json['LifecycleManagement'] as String?)
+          ?.let(LifecycleManagement.fromString),
+      maxIdleTimeoutInMinutes: json['MaxIdleTimeoutInMinutes'] as int?,
+      minIdleTimeoutInMinutes: json['MinIdleTimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleTimeoutInMinutes = this.idleTimeoutInMinutes;
+    final lifecycleManagement = this.lifecycleManagement;
+    final maxIdleTimeoutInMinutes = this.maxIdleTimeoutInMinutes;
+    final minIdleTimeoutInMinutes = this.minIdleTimeoutInMinutes;
+    return {
+      if (idleTimeoutInMinutes != null)
+        'IdleTimeoutInMinutes': idleTimeoutInMinutes,
+      if (lifecycleManagement != null)
+        'LifecycleManagement': lifecycleManagement.value,
+      if (maxIdleTimeoutInMinutes != null)
+        'MaxIdleTimeoutInMinutes': maxIdleTimeoutInMinutes,
+      if (minIdleTimeoutInMinutes != null)
+        'MinIdleTimeoutInMinutes': minIdleTimeoutInMinutes,
+    };
+  }
+}
+
 /// A SageMaker image. A SageMaker image represents a set of container images
 /// that are derived from a common base container image. Each of these container
 /// images is represented by a SageMaker <code>ImageVersion</code>.
@@ -42397,6 +44076,30 @@ enum InferenceExperimentType {
               '$value is not known in enum InferenceExperimentType'));
 }
 
+/// Configuration information specifying which hub contents have accessible
+/// deployment options.
+class InferenceHubAccessConfig {
+  /// The ARN of the hub content for which deployment access is allowed.
+  final String hubContentArn;
+
+  InferenceHubAccessConfig({
+    required this.hubContentArn,
+  });
+
+  factory InferenceHubAccessConfig.fromJson(Map<String, dynamic> json) {
+    return InferenceHubAccessConfig(
+      hubContentArn: json['HubContentArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hubContentArn = this.hubContentArn;
+    return {
+      'HubContentArn': hubContentArn,
+    };
+  }
+}
+
 /// The metrics for an existing endpoint compared in an Inference Recommender
 /// job.
 class InferenceMetrics {
@@ -42425,9 +44128,6 @@ class InferenceRecommendation {
   /// Defines the endpoint configuration parameters.
   final EndpointOutputConfiguration endpointConfiguration;
 
-  /// The metrics used to decide what recommendation to make.
-  final RecommendationMetrics metrics;
-
   /// Defines the model configuration.
   final ModelConfiguration modelConfiguration;
 
@@ -42437,15 +44137,18 @@ class InferenceRecommendation {
   /// A timestamp that shows when the benchmark started.
   final DateTime? invocationStartTime;
 
+  /// The metrics used to decide what recommendation to make.
+  final RecommendationMetrics? metrics;
+
   /// The recommendation ID which uniquely identifies each recommendation.
   final String? recommendationId;
 
   InferenceRecommendation({
     required this.endpointConfiguration,
-    required this.metrics,
     required this.modelConfiguration,
     this.invocationEndTime,
     this.invocationStartTime,
+    this.metrics,
     this.recommendationId,
   });
 
@@ -42453,12 +44156,14 @@ class InferenceRecommendation {
     return InferenceRecommendation(
       endpointConfiguration: EndpointOutputConfiguration.fromJson(
           json['EndpointConfiguration'] as Map<String, dynamic>),
-      metrics: RecommendationMetrics.fromJson(
-          json['Metrics'] as Map<String, dynamic>),
       modelConfiguration: ModelConfiguration.fromJson(
           json['ModelConfiguration'] as Map<String, dynamic>),
       invocationEndTime: timeStampFromJson(json['InvocationEndTime']),
       invocationStartTime: timeStampFromJson(json['InvocationStartTime']),
+      metrics: json['Metrics'] != null
+          ? RecommendationMetrics.fromJson(
+              json['Metrics'] as Map<String, dynamic>)
+          : null,
       recommendationId: json['RecommendationId'] as String?,
     );
   }
@@ -43390,6 +45095,21 @@ class IntegerParameterRangeSpecification {
   }
 }
 
+enum IsTrackingServerActive {
+  active('Active'),
+  inactive('Inactive'),
+  ;
+
+  final String value;
+
+  const IsTrackingServerActive(this.value);
+
+  static IsTrackingServerActive fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum IsTrackingServerActive'));
+}
+
 enum JobType {
   training('TRAINING'),
   inference('INFERENCE'),
@@ -43456,6 +45176,9 @@ class JupyterLabAppImageConfig {
 
 /// The settings for the JupyterLab application.
 class JupyterLabAppSettings {
+  /// Indicates whether idle shutdown is activated for JupyterLab applications.
+  final AppLifecycleManagement? appLifecycleManagement;
+
   /// A list of Git repositories that SageMaker automatically displays to users
   /// for cloning in the JupyterLab application.
   final List<CodeRepository>? codeRepositories;
@@ -43465,20 +45188,33 @@ class JupyterLabAppSettings {
   final List<CustomImage>? customImages;
   final ResourceSpec? defaultResourceSpec;
 
+  /// The configuration parameters that specify the IAM roles assumed by the
+  /// execution role of SageMaker (assumable roles) and the cluster instances or
+  /// job execution environments (execution roles or runtime roles) to manage and
+  /// access resources required for running Amazon EMR clusters or Amazon EMR
+  /// Serverless applications.
+  final EmrSettings? emrSettings;
+
   /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to
   /// the user profile or domain. To remove a lifecycle config, you must set
   /// <code>LifecycleConfigArns</code> to an empty list.
   final List<String>? lifecycleConfigArns;
 
   JupyterLabAppSettings({
+    this.appLifecycleManagement,
     this.codeRepositories,
     this.customImages,
     this.defaultResourceSpec,
+    this.emrSettings,
     this.lifecycleConfigArns,
   });
 
   factory JupyterLabAppSettings.fromJson(Map<String, dynamic> json) {
     return JupyterLabAppSettings(
+      appLifecycleManagement: json['AppLifecycleManagement'] != null
+          ? AppLifecycleManagement.fromJson(
+              json['AppLifecycleManagement'] as Map<String, dynamic>)
+          : null,
       codeRepositories: (json['CodeRepositories'] as List?)
           ?.nonNulls
           .map((e) => CodeRepository.fromJson(e as Map<String, dynamic>))
@@ -43491,6 +45227,9 @@ class JupyterLabAppSettings {
           ? ResourceSpec.fromJson(
               json['DefaultResourceSpec'] as Map<String, dynamic>)
           : null,
+      emrSettings: json['EmrSettings'] != null
+          ? EmrSettings.fromJson(json['EmrSettings'] as Map<String, dynamic>)
+          : null,
       lifecycleConfigArns: (json['LifecycleConfigArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -43499,15 +45238,20 @@ class JupyterLabAppSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final appLifecycleManagement = this.appLifecycleManagement;
     final codeRepositories = this.codeRepositories;
     final customImages = this.customImages;
     final defaultResourceSpec = this.defaultResourceSpec;
+    final emrSettings = this.emrSettings;
     final lifecycleConfigArns = this.lifecycleConfigArns;
     return {
+      if (appLifecycleManagement != null)
+        'AppLifecycleManagement': appLifecycleManagement,
       if (codeRepositories != null) 'CodeRepositories': codeRepositories,
       if (customImages != null) 'CustomImages': customImages,
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
+      if (emrSettings != null) 'EmrSettings': emrSettings,
       if (lifecycleConfigArns != null)
         'LifecycleConfigArns': lifecycleConfigArns,
     };
@@ -44449,6 +46193,21 @@ enum LastUpdateStatusValue {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum LastUpdateStatusValue'));
+}
+
+enum LifecycleManagement {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const LifecycleManagement(this.value);
+
+  static LifecycleManagement fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum LifecycleManagement'));
 }
 
 /// Lists a summary of the properties of a lineage group. A lineage group
@@ -45576,6 +47335,31 @@ class ListLineageGroupsResponse {
   }
 }
 
+class ListMlflowTrackingServersResponse {
+  /// If the previous response was truncated, you will receive this token. Use it
+  /// in your next request to receive the next set of results.
+  final String? nextToken;
+
+  /// A list of tracking servers according to chosen filters.
+  final List<TrackingServerSummary>? trackingServerSummaries;
+
+  ListMlflowTrackingServersResponse({
+    this.nextToken,
+    this.trackingServerSummaries,
+  });
+
+  factory ListMlflowTrackingServersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMlflowTrackingServersResponse(
+      nextToken: json['NextToken'] as String?,
+      trackingServerSummaries: (json['TrackingServerSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => TrackingServerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListModelBiasJobDefinitionsResponse {
   /// A JSON array in which each element is a summary for a model bias jobs.
   final List<MonitoringJobDefinitionSummary> jobDefinitionSummaries;
@@ -45984,6 +47768,48 @@ class ListNotebookInstancesOutput {
           .toList(),
     );
   }
+}
+
+class ListOptimizationJobsResponse {
+  /// A list of optimization jobs and their properties that matches any of the
+  /// filters you specified in the request.
+  final List<OptimizationJobSummary> optimizationJobSummaries;
+
+  /// The token to use in a subsequent request to get the next set of results
+  /// following a truncated response.
+  final String? nextToken;
+
+  ListOptimizationJobsResponse({
+    required this.optimizationJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListOptimizationJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOptimizationJobsResponse(
+      optimizationJobSummaries: (json['OptimizationJobSummaries'] as List)
+          .nonNulls
+          .map(
+              (e) => OptimizationJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+enum ListOptimizationJobsSortBy {
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
+
+  final String value;
+
+  const ListOptimizationJobsSortBy(this.value);
+
+  static ListOptimizationJobsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ListOptimizationJobsSortBy'));
 }
 
 class ListPipelineExecutionStepsResponse {
@@ -46811,6 +48637,32 @@ class MetricsSource {
   }
 }
 
+enum MlTools {
+  dataWrangler('DataWrangler'),
+  featureStore('FeatureStore'),
+  emrClusters('EmrClusters'),
+  autoMl('AutoMl'),
+  experiments('Experiments'),
+  training('Training'),
+  modelEvaluation('ModelEvaluation'),
+  pipelines('Pipelines'),
+  models('Models'),
+  jumpStart('JumpStart'),
+  inferenceRecommender('InferenceRecommender'),
+  endpoints('Endpoints'),
+  projects('Projects'),
+  inferenceOptimization('InferenceOptimization'),
+  ;
+
+  final String value;
+
+  const MlTools(this.value);
+
+  static MlTools fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum MlTools'));
+}
+
 /// The properties of a model as returned by the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html">Search</a>
 /// API.
@@ -47614,6 +49466,41 @@ class ModelClientConfig {
         'InvocationsMaxRetries': invocationsMaxRetries,
       if (invocationsTimeoutInSeconds != null)
         'InvocationsTimeoutInSeconds': invocationsTimeoutInSeconds,
+    };
+  }
+}
+
+/// Settings for the model compilation technique that's applied by a model
+/// optimization job.
+class ModelCompilationConfig {
+  /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the
+  /// optimization.
+  final String? image;
+
+  /// Environment variables that override the default ones in the model container.
+  final Map<String, String>? overrideEnvironment;
+
+  ModelCompilationConfig({
+    this.image,
+    this.overrideEnvironment,
+  });
+
+  factory ModelCompilationConfig.fromJson(Map<String, dynamic> json) {
+    return ModelCompilationConfig(
+      image: json['Image'] as String?,
+      overrideEnvironment:
+          (json['OverrideEnvironment'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    final overrideEnvironment = this.overrideEnvironment;
+    return {
+      if (image != null) 'Image': image,
+      if (overrideEnvironment != null)
+        'OverrideEnvironment': overrideEnvironment,
     };
   }
 }
@@ -48988,11 +50875,17 @@ class ModelPackageGroupSummary {
 /// schema does not include <code>model_package_details</code>, and
 /// <code>model_overview</code> is composed of the <code>model_creator</code>
 /// and <code>model_artifact</code> properties. For more information about the
-/// model card associated with the model package, see <a
+/// model package model card schema, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema">Model
+/// package model card schema</a>. For more information about the model card
+/// associated with the model package, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html">View
 /// the Details of a Model Version</a>.
 class ModelPackageModelCard {
-  /// The content of the model card.
+  /// The content of the model card. The content must follow the schema described
+  /// in <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema">Model
+  /// Package Model Card Schema</a>.
   final String? modelCardContent;
 
   /// The approval status of the model card within your organization. Different
@@ -49506,6 +51399,41 @@ class ModelQualityJobInput {
       if (batchTransformInput != null)
         'BatchTransformInput': batchTransformInput,
       if (endpointInput != null) 'EndpointInput': endpointInput,
+    };
+  }
+}
+
+/// Settings for the model quantization technique that's applied by a model
+/// optimization job.
+class ModelQuantizationConfig {
+  /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the
+  /// optimization.
+  final String? image;
+
+  /// Environment variables that override the default ones in the model container.
+  final Map<String, String>? overrideEnvironment;
+
+  ModelQuantizationConfig({
+    this.image,
+    this.overrideEnvironment,
+  });
+
+  factory ModelQuantizationConfig.fromJson(Map<String, dynamic> json) {
+    return ModelQuantizationConfig(
+      image: json['Image'] as String?,
+      overrideEnvironment:
+          (json['OverrideEnvironment'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    final overrideEnvironment = this.overrideEnvironment;
+    return {
+      if (image != null) 'Image': image,
+      if (overrideEnvironment != null)
+        'OverrideEnvironment': overrideEnvironment,
     };
   }
 }
@@ -51588,6 +53516,14 @@ class OidcConfig {
   /// workforce.
   final String userInfoEndpoint;
 
+  /// A string to string map of identifiers specific to the custom identity
+  /// provider (IdP) being used.
+  final Map<String, String>? authenticationRequestExtraParams;
+
+  /// An array of string identifiers used to refer to the specific pieces of user
+  /// data or claims that the client application wants to access.
+  final String? scope;
+
   OidcConfig({
     required this.authorizationEndpoint,
     required this.clientId,
@@ -51597,6 +53533,8 @@ class OidcConfig {
     required this.logoutEndpoint,
     required this.tokenEndpoint,
     required this.userInfoEndpoint,
+    this.authenticationRequestExtraParams,
+    this.scope,
   });
 
   Map<String, dynamic> toJson() {
@@ -51608,6 +53546,9 @@ class OidcConfig {
     final logoutEndpoint = this.logoutEndpoint;
     final tokenEndpoint = this.tokenEndpoint;
     final userInfoEndpoint = this.userInfoEndpoint;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final scope = this.scope;
     return {
       'AuthorizationEndpoint': authorizationEndpoint,
       'ClientId': clientId,
@@ -51617,12 +53558,19 @@ class OidcConfig {
       'LogoutEndpoint': logoutEndpoint,
       'TokenEndpoint': tokenEndpoint,
       'UserInfoEndpoint': userInfoEndpoint,
+      if (authenticationRequestExtraParams != null)
+        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
+      if (scope != null) 'Scope': scope,
     };
   }
 }
 
 /// Your OIDC IdP workforce configuration.
 class OidcConfigForResponse {
+  /// A string to string map of identifiers specific to the custom identity
+  /// provider (IdP) being used.
+  final Map<String, String>? authenticationRequestExtraParams;
+
   /// The OIDC IdP authorization endpoint used to configure your private
   /// workforce.
   final String? authorizationEndpoint;
@@ -51640,6 +53588,10 @@ class OidcConfigForResponse {
   /// The OIDC IdP logout endpoint used to configure your private workforce.
   final String? logoutEndpoint;
 
+  /// An array of string identifiers used to refer to the specific pieces of user
+  /// data or claims that the client application wants to access.
+  final String? scope;
+
   /// The OIDC IdP token endpoint used to configure your private workforce.
   final String? tokenEndpoint;
 
@@ -51648,22 +53600,28 @@ class OidcConfigForResponse {
   final String? userInfoEndpoint;
 
   OidcConfigForResponse({
+    this.authenticationRequestExtraParams,
     this.authorizationEndpoint,
     this.clientId,
     this.issuer,
     this.jwksUri,
     this.logoutEndpoint,
+    this.scope,
     this.tokenEndpoint,
     this.userInfoEndpoint,
   });
 
   factory OidcConfigForResponse.fromJson(Map<String, dynamic> json) {
     return OidcConfigForResponse(
+      authenticationRequestExtraParams:
+          (json['AuthenticationRequestExtraParams'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
       authorizationEndpoint: json['AuthorizationEndpoint'] as String?,
       clientId: json['ClientId'] as String?,
       issuer: json['Issuer'] as String?,
       jwksUri: json['JwksUri'] as String?,
       logoutEndpoint: json['LogoutEndpoint'] as String?,
+      scope: json['Scope'] as String?,
       tokenEndpoint: json['TokenEndpoint'] as String?,
       userInfoEndpoint: json['UserInfoEndpoint'] as String?,
     );
@@ -51889,6 +53847,354 @@ enum Operator {
   static Operator fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum Operator'));
+}
+
+/// Settings for an optimization technique that you apply with a model
+/// optimization job.
+class OptimizationConfig {
+  /// Settings for the model compilation technique that's applied by a model
+  /// optimization job.
+  final ModelCompilationConfig? modelCompilationConfig;
+
+  /// Settings for the model quantization technique that's applied by a model
+  /// optimization job.
+  final ModelQuantizationConfig? modelQuantizationConfig;
+
+  OptimizationConfig({
+    this.modelCompilationConfig,
+    this.modelQuantizationConfig,
+  });
+
+  factory OptimizationConfig.fromJson(Map<String, dynamic> json) {
+    return OptimizationConfig(
+      modelCompilationConfig: json['ModelCompilationConfig'] != null
+          ? ModelCompilationConfig.fromJson(
+              json['ModelCompilationConfig'] as Map<String, dynamic>)
+          : null,
+      modelQuantizationConfig: json['ModelQuantizationConfig'] != null
+          ? ModelQuantizationConfig.fromJson(
+              json['ModelQuantizationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelCompilationConfig = this.modelCompilationConfig;
+    final modelQuantizationConfig = this.modelQuantizationConfig;
+    return {
+      if (modelCompilationConfig != null)
+        'ModelCompilationConfig': modelCompilationConfig,
+      if (modelQuantizationConfig != null)
+        'ModelQuantizationConfig': modelQuantizationConfig,
+    };
+  }
+}
+
+enum OptimizationJobDeploymentInstanceType {
+  mlP4d_24xlarge('ml.p4d.24xlarge'),
+  mlP4de_24xlarge('ml.p4de.24xlarge'),
+  mlP5_48xlarge('ml.p5.48xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlG6Xlarge('ml.g6.xlarge'),
+  mlG6_2xlarge('ml.g6.2xlarge'),
+  mlG6_4xlarge('ml.g6.4xlarge'),
+  mlG6_8xlarge('ml.g6.8xlarge'),
+  mlG6_12xlarge('ml.g6.12xlarge'),
+  mlG6_16xlarge('ml.g6.16xlarge'),
+  mlG6_24xlarge('ml.g6.24xlarge'),
+  mlG6_48xlarge('ml.g6.48xlarge'),
+  mlInf2Xlarge('ml.inf2.xlarge'),
+  mlInf2_8xlarge('ml.inf2.8xlarge'),
+  mlInf2_24xlarge('ml.inf2.24xlarge'),
+  mlInf2_48xlarge('ml.inf2.48xlarge'),
+  mlTrn1_2xlarge('ml.trn1.2xlarge'),
+  mlTrn1_32xlarge('ml.trn1.32xlarge'),
+  mlTrn1n_32xlarge('ml.trn1n.32xlarge'),
+  ;
+
+  final String value;
+
+  const OptimizationJobDeploymentInstanceType(this.value);
+
+  static OptimizationJobDeploymentInstanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum OptimizationJobDeploymentInstanceType'));
+}
+
+/// The location of the source model to optimize with an optimization job.
+class OptimizationJobModelSource {
+  /// The Amazon S3 location of a source model to optimize with an optimization
+  /// job.
+  final OptimizationJobModelSourceS3? s3;
+
+  OptimizationJobModelSource({
+    this.s3,
+  });
+
+  factory OptimizationJobModelSource.fromJson(Map<String, dynamic> json) {
+    return OptimizationJobModelSource(
+      s3: json['S3'] != null
+          ? OptimizationJobModelSourceS3.fromJson(
+              json['S3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 'S3': s3,
+    };
+  }
+}
+
+/// The Amazon S3 location of a source model to optimize with an optimization
+/// job.
+class OptimizationJobModelSourceS3 {
+  /// The access configuration settings for the source ML model for an
+  /// optimization job, where you can accept the model end-user license agreement
+  /// (EULA).
+  final OptimizationModelAccessConfig? modelAccessConfig;
+
+  /// An Amazon S3 URI that locates a source model to optimize with an
+  /// optimization job.
+  final String? s3Uri;
+
+  OptimizationJobModelSourceS3({
+    this.modelAccessConfig,
+    this.s3Uri,
+  });
+
+  factory OptimizationJobModelSourceS3.fromJson(Map<String, dynamic> json) {
+    return OptimizationJobModelSourceS3(
+      modelAccessConfig: json['ModelAccessConfig'] != null
+          ? OptimizationModelAccessConfig.fromJson(
+              json['ModelAccessConfig'] as Map<String, dynamic>)
+          : null,
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelAccessConfig = this.modelAccessConfig;
+    final s3Uri = this.s3Uri;
+    return {
+      if (modelAccessConfig != null) 'ModelAccessConfig': modelAccessConfig,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
+}
+
+/// Details for where to store the optimized model that you create with the
+/// optimization job.
+class OptimizationJobOutputConfig {
+  /// The Amazon S3 URI for where to store the optimized model that you create
+  /// with an optimization job.
+  final String s3OutputLocation;
+
+  /// The Amazon Resource Name (ARN) of a key in Amazon Web Services KMS.
+  /// SageMaker uses they key to encrypt the artifacts of the optimized model when
+  /// SageMaker uploads the model to Amazon S3.
+  final String? kmsKeyId;
+
+  OptimizationJobOutputConfig({
+    required this.s3OutputLocation,
+    this.kmsKeyId,
+  });
+
+  factory OptimizationJobOutputConfig.fromJson(Map<String, dynamic> json) {
+    return OptimizationJobOutputConfig(
+      s3OutputLocation: json['S3OutputLocation'] as String,
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3OutputLocation = this.s3OutputLocation;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'S3OutputLocation': s3OutputLocation,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+enum OptimizationJobStatus {
+  inprogress('INPROGRESS'),
+  completed('COMPLETED'),
+  failed('FAILED'),
+  starting('STARTING'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  ;
+
+  final String value;
+
+  const OptimizationJobStatus(this.value);
+
+  static OptimizationJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum OptimizationJobStatus'));
+}
+
+/// Summarizes an optimization job by providing some of its key properties.
+class OptimizationJobSummary {
+  /// The time when you created the optimization job.
+  final DateTime creationTime;
+
+  /// The type of instance that hosts the optimized model that you create with the
+  /// optimization job.
+  final OptimizationJobDeploymentInstanceType deploymentInstanceType;
+
+  /// The Amazon Resource Name (ARN) of the optimization job.
+  final String optimizationJobArn;
+
+  /// The name that you assigned to the optimization job.
+  final String optimizationJobName;
+
+  /// The current status of the optimization job.
+  final OptimizationJobStatus optimizationJobStatus;
+
+  /// The optimization techniques that are applied by the optimization job.
+  final List<String> optimizationTypes;
+
+  /// The time when the optimization job was last updated.
+  final DateTime? lastModifiedTime;
+
+  /// The time when the optimization job finished processing.
+  final DateTime? optimizationEndTime;
+
+  /// The time when the optimization job started.
+  final DateTime? optimizationStartTime;
+
+  OptimizationJobSummary({
+    required this.creationTime,
+    required this.deploymentInstanceType,
+    required this.optimizationJobArn,
+    required this.optimizationJobName,
+    required this.optimizationJobStatus,
+    required this.optimizationTypes,
+    this.lastModifiedTime,
+    this.optimizationEndTime,
+    this.optimizationStartTime,
+  });
+
+  factory OptimizationJobSummary.fromJson(Map<String, dynamic> json) {
+    return OptimizationJobSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      deploymentInstanceType: OptimizationJobDeploymentInstanceType.fromString(
+          (json['DeploymentInstanceType'] as String)),
+      optimizationJobArn: json['OptimizationJobArn'] as String,
+      optimizationJobName: json['OptimizationJobName'] as String,
+      optimizationJobStatus: OptimizationJobStatus.fromString(
+          (json['OptimizationJobStatus'] as String)),
+      optimizationTypes: (json['OptimizationTypes'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      optimizationEndTime: timeStampFromJson(json['OptimizationEndTime']),
+      optimizationStartTime: timeStampFromJson(json['OptimizationStartTime']),
+    );
+  }
+}
+
+/// The access configuration settings for the source ML model for an
+/// optimization job, where you can accept the model end-user license agreement
+/// (EULA).
+class OptimizationModelAccessConfig {
+  /// Specifies agreement to the model end-user license agreement (EULA). The
+  /// <code>AcceptEula</code> value must be explicitly defined as
+  /// <code>True</code> in order to accept the EULA that this model requires. You
+  /// are responsible for reviewing and complying with any applicable license
+  /// terms and making sure they are acceptable for your use case before
+  /// downloading or using a model.
+  final bool acceptEula;
+
+  OptimizationModelAccessConfig({
+    required this.acceptEula,
+  });
+
+  factory OptimizationModelAccessConfig.fromJson(Map<String, dynamic> json) {
+    return OptimizationModelAccessConfig(
+      acceptEula: json['AcceptEula'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptEula = this.acceptEula;
+    return {
+      'AcceptEula': acceptEula,
+    };
+  }
+}
+
+/// Output values produced by an optimization job.
+class OptimizationOutput {
+  /// The image that SageMaker recommends that you use to host the optimized model
+  /// that you created with an optimization job.
+  final String? recommendedInferenceImage;
+
+  OptimizationOutput({
+    this.recommendedInferenceImage,
+  });
+
+  factory OptimizationOutput.fromJson(Map<String, dynamic> json) {
+    return OptimizationOutput(
+      recommendedInferenceImage: json['RecommendedInferenceImage'] as String?,
+    );
+  }
+}
+
+/// A VPC in Amazon VPC that's accessible to an optimized that you create with
+/// an optimization job. You can control access to and from your resources by
+/// configuring a VPC. For more information, see <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html">Give
+/// SageMaker Access to Resources in your Amazon VPC</a>.
+class OptimizationVpcConfig {
+  /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. Specify
+  /// the security groups for the VPC that is specified in the
+  /// <code>Subnets</code> field.
+  final List<String> securityGroupIds;
+
+  /// The ID of the subnets in the VPC to which you want to connect your optimized
+  /// model.
+  final List<String> subnets;
+
+  OptimizationVpcConfig({
+    required this.securityGroupIds,
+    required this.subnets,
+  });
+
+  factory OptimizationVpcConfig.fromJson(Map<String, dynamic> json) {
+    return OptimizationVpcConfig(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnets:
+          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnets = this.subnets;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'Subnets': subnets,
+    };
+  }
 }
 
 enum OrderKey {
@@ -53187,6 +55493,13 @@ class PipelineExecutionStepMetadata {
   /// The configurations and outcomes of an Amazon EMR step execution.
   final EMRStepMetadata? emr;
 
+  /// The endpoint that was invoked during this step execution.
+  final EndpointStepMetadata? endpoint;
+
+  /// The endpoint configuration used to create an endpoint during this step
+  /// execution.
+  final EndpointConfigStepMetadata? endpointConfig;
+
   /// The configurations and outcomes of a Fail step execution.
   final FailStepMetadata? fail;
 
@@ -53257,6 +55570,8 @@ class PipelineExecutionStepMetadata {
     this.clarifyCheck,
     this.condition,
     this.emr,
+    this.endpoint,
+    this.endpointConfig,
     this.fail,
     this.lambda,
     this.model,
@@ -53288,6 +55603,14 @@ class PipelineExecutionStepMetadata {
           : null,
       emr: json['EMR'] != null
           ? EMRStepMetadata.fromJson(json['EMR'] as Map<String, dynamic>)
+          : null,
+      endpoint: json['Endpoint'] != null
+          ? EndpointStepMetadata.fromJson(
+              json['Endpoint'] as Map<String, dynamic>)
+          : null,
+      endpointConfig: json['EndpointConfig'] != null
+          ? EndpointConfigStepMetadata.fromJson(
+              json['EndpointConfig'] as Map<String, dynamic>)
           : null,
       fail: json['Fail'] != null
           ? FailStepMetadata.fromJson(json['Fail'] as Map<String, dynamic>)
@@ -53690,6 +56013,22 @@ enum ProcessingInstanceType {
   mlG4dn_8xlarge('ml.g4dn.8xlarge'),
   mlG4dn_12xlarge('ml.g4dn.12xlarge'),
   mlG4dn_16xlarge('ml.g4dn.16xlarge'),
+  mlG5Xlarge('ml.g5.xlarge'),
+  mlG5_2xlarge('ml.g5.2xlarge'),
+  mlG5_4xlarge('ml.g5.4xlarge'),
+  mlG5_8xlarge('ml.g5.8xlarge'),
+  mlG5_16xlarge('ml.g5.16xlarge'),
+  mlG5_12xlarge('ml.g5.12xlarge'),
+  mlG5_24xlarge('ml.g5.24xlarge'),
+  mlG5_48xlarge('ml.g5.48xlarge'),
+  mlR5dLarge('ml.r5d.large'),
+  mlR5dXlarge('ml.r5d.xlarge'),
+  mlR5d_2xlarge('ml.r5d.2xlarge'),
+  mlR5d_4xlarge('ml.r5d.4xlarge'),
+  mlR5d_8xlarge('ml.r5d.8xlarge'),
+  mlR5d_12xlarge('ml.r5d.12xlarge'),
+  mlR5d_16xlarge('ml.r5d.16xlarge'),
+  mlR5d_24xlarge('ml.r5d.24xlarge'),
   ;
 
   final String value;
@@ -54209,12 +56548,6 @@ enum ProcessingS3InputMode {
 /// Configuration for uploading output data to Amazon S3 from the processing
 /// container.
 class ProcessingS3Output {
-  /// The local path of a directory where you want Amazon SageMaker to upload its
-  /// contents to Amazon S3. <code>LocalPath</code> is an absolute path to a
-  /// directory containing output files. This directory will be created by the
-  /// platform and exist when your container's entrypoint is invoked.
-  final String localPath;
-
   /// Whether to upload the results of the processing job continuously or after
   /// the job completes.
   final ProcessingS3UploadMode s3UploadMode;
@@ -54223,29 +56556,35 @@ class ProcessingS3Output {
   /// to save the results of a processing job.
   final String s3Uri;
 
+  /// The local path of a directory where you want Amazon SageMaker to upload its
+  /// contents to Amazon S3. <code>LocalPath</code> is an absolute path to a
+  /// directory containing output files. This directory will be created by the
+  /// platform and exist when your container's entrypoint is invoked.
+  final String? localPath;
+
   ProcessingS3Output({
-    required this.localPath,
     required this.s3UploadMode,
     required this.s3Uri,
+    this.localPath,
   });
 
   factory ProcessingS3Output.fromJson(Map<String, dynamic> json) {
     return ProcessingS3Output(
-      localPath: json['LocalPath'] as String,
       s3UploadMode:
           ProcessingS3UploadMode.fromString((json['S3UploadMode'] as String)),
       s3Uri: json['S3Uri'] as String,
+      localPath: json['LocalPath'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final localPath = this.localPath;
     final s3UploadMode = this.s3UploadMode;
     final s3Uri = this.s3Uri;
+    final localPath = this.localPath;
     return {
-      'LocalPath': localPath,
       'S3UploadMode': s3UploadMode.value,
       'S3Uri': s3Uri,
+      if (localPath != null) 'LocalPath': localPath,
     };
   }
 }
@@ -54339,6 +56678,35 @@ class ProductionVariant {
   /// calling <code>UpdateEndpoint</code>.
   final bool? enableSSMAccess;
 
+  /// Specifies an option from a collection of preconfigured Amazon Machine Image
+  /// (AMI) images. Each image is configured by Amazon Web Services with a set of
+  /// software and driver versions. Amazon Web Services optimizes these
+  /// configurations for different machine learning workloads.
+  ///
+  /// By selecting an AMI version, you can ensure that your inference environment
+  /// is compatible with specific software requirements, such as CUDA driver
+  /// versions, Linux kernel versions, or Amazon Web Services Neuron driver
+  /// versions.
+  ///
+  /// The AMI version names, and their configurations, are the following:
+  /// <dl> <dt>al2-ami-sagemaker-inference-gpu-2</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// Accelerator: GPU
+  /// </li>
+  /// <li>
+  /// NVIDIA driver version: 535.54.03
+  /// </li>
+  /// <li>
+  /// CUDA driver version: 12.2
+  /// </li>
+  /// <li>
+  /// Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*,
+  /// ml.p4de.*, ml.p5.*
+  /// </li>
+  /// </ul> </dd> </dl>
+  final ProductionVariantInferenceAmiVersion? inferenceAmiVersion;
+
   /// Number of instances to launch initially.
   final int? initialInstanceCount;
 
@@ -54384,6 +56752,7 @@ class ProductionVariant {
     this.containerStartupHealthCheckTimeoutInSeconds,
     this.coreDumpConfig,
     this.enableSSMAccess,
+    this.inferenceAmiVersion,
     this.initialInstanceCount,
     this.initialVariantWeight,
     this.instanceType,
@@ -54407,6 +56776,8 @@ class ProductionVariant {
               json['CoreDumpConfig'] as Map<String, dynamic>)
           : null,
       enableSSMAccess: json['EnableSSMAccess'] as bool?,
+      inferenceAmiVersion: (json['InferenceAmiVersion'] as String?)
+          ?.let(ProductionVariantInferenceAmiVersion.fromString),
       initialInstanceCount: json['InitialInstanceCount'] as int?,
       initialVariantWeight: json['InitialVariantWeight'] as double?,
       instanceType: (json['InstanceType'] as String?)
@@ -54437,6 +56808,7 @@ class ProductionVariant {
         this.containerStartupHealthCheckTimeoutInSeconds;
     final coreDumpConfig = this.coreDumpConfig;
     final enableSSMAccess = this.enableSSMAccess;
+    final inferenceAmiVersion = this.inferenceAmiVersion;
     final initialInstanceCount = this.initialInstanceCount;
     final initialVariantWeight = this.initialVariantWeight;
     final instanceType = this.instanceType;
@@ -54455,6 +56827,8 @@ class ProductionVariant {
             containerStartupHealthCheckTimeoutInSeconds,
       if (coreDumpConfig != null) 'CoreDumpConfig': coreDumpConfig,
       if (enableSSMAccess != null) 'EnableSSMAccess': enableSSMAccess,
+      if (inferenceAmiVersion != null)
+        'InferenceAmiVersion': inferenceAmiVersion.value,
       if (initialInstanceCount != null)
         'InitialInstanceCount': initialInstanceCount,
       if (initialVariantWeight != null)
@@ -54565,6 +56939,20 @@ class ProductionVariantCoreDumpConfig {
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
     };
   }
+}
+
+enum ProductionVariantInferenceAmiVersion {
+  al2AmiSagemakerInferenceGpu_2('al2-ami-sagemaker-inference-gpu-2'),
+  ;
+
+  final String value;
+
+  const ProductionVariantInferenceAmiVersion(this.value);
+
+  static ProductionVariantInferenceAmiVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ProductionVariantInferenceAmiVersion'));
 }
 
 enum ProductionVariantInstanceType {
@@ -56941,17 +59329,10 @@ class RecommendationJobVpcConfig {
 /// The metrics of recommendations.
 class RecommendationMetrics {
   /// Defines the cost per hour for the instance.
-  final double costPerHour;
+  final double? costPerHour;
 
   /// Defines the cost per inference for the instance .
-  final double costPerInference;
-
-  /// The expected maximum number of requests per minute for the instance.
-  final int maxInvocations;
-
-  /// The expected model latency at maximum invocation per minute for the
-  /// instance.
-  final int modelLatency;
+  final double? costPerInference;
 
   /// The expected CPU utilization at maximum invocations per minute for the
   /// instance.
@@ -56959,11 +59340,18 @@ class RecommendationMetrics {
   /// <code>NaN</code> indicates that the value is not available.
   final double? cpuUtilization;
 
+  /// The expected maximum number of requests per minute for the instance.
+  final int? maxInvocations;
+
   /// The expected memory utilization at maximum invocations per minute for the
   /// instance.
   ///
   /// <code>NaN</code> indicates that the value is not available.
   final double? memoryUtilization;
+
+  /// The expected model latency at maximum invocation per minute for the
+  /// instance.
+  final int? modelLatency;
 
   /// The time it takes to launch new compute resources for a serverless endpoint.
   /// The time can vary depending on the model size, how long it takes to download
@@ -56973,23 +59361,23 @@ class RecommendationMetrics {
   final int? modelSetupTime;
 
   RecommendationMetrics({
-    required this.costPerHour,
-    required this.costPerInference,
-    required this.maxInvocations,
-    required this.modelLatency,
+    this.costPerHour,
+    this.costPerInference,
     this.cpuUtilization,
+    this.maxInvocations,
     this.memoryUtilization,
+    this.modelLatency,
     this.modelSetupTime,
   });
 
   factory RecommendationMetrics.fromJson(Map<String, dynamic> json) {
     return RecommendationMetrics(
-      costPerHour: json['CostPerHour'] as double,
-      costPerInference: json['CostPerInference'] as double,
-      maxInvocations: json['MaxInvocations'] as int,
-      modelLatency: json['ModelLatency'] as int,
+      costPerHour: json['CostPerHour'] as double?,
+      costPerInference: json['CostPerInference'] as double?,
       cpuUtilization: json['CpuUtilization'] as double?,
+      maxInvocations: json['MaxInvocations'] as int?,
       memoryUtilization: json['MemoryUtilization'] as double?,
+      modelLatency: json['ModelLatency'] as int?,
       modelSetupTime: json['ModelSetupTime'] as int?,
     );
   }
@@ -58197,6 +60585,9 @@ class S3ModelDataSource {
   /// Specifies the S3 path of ML model data to deploy.
   final String s3Uri;
 
+  /// Configuration information for hub access.
+  final InferenceHubAccessConfig? hubAccessConfig;
+
   /// Specifies the access configuration file for the ML model. You can explicitly
   /// accept the model end-user license agreement (EULA) within the
   /// <code>ModelAccessConfig</code>. You are responsible for reviewing and
@@ -58208,6 +60599,7 @@ class S3ModelDataSource {
     required this.compressionType,
     required this.s3DataType,
     required this.s3Uri,
+    this.hubAccessConfig,
     this.modelAccessConfig,
   });
 
@@ -58217,6 +60609,10 @@ class S3ModelDataSource {
           ModelCompressionType.fromString((json['CompressionType'] as String)),
       s3DataType: S3ModelDataType.fromString((json['S3DataType'] as String)),
       s3Uri: json['S3Uri'] as String,
+      hubAccessConfig: json['HubAccessConfig'] != null
+          ? InferenceHubAccessConfig.fromJson(
+              json['HubAccessConfig'] as Map<String, dynamic>)
+          : null,
       modelAccessConfig: json['ModelAccessConfig'] != null
           ? ModelAccessConfig.fromJson(
               json['ModelAccessConfig'] as Map<String, dynamic>)
@@ -58228,11 +60624,13 @@ class S3ModelDataSource {
     final compressionType = this.compressionType;
     final s3DataType = this.s3DataType;
     final s3Uri = this.s3Uri;
+    final hubAccessConfig = this.hubAccessConfig;
     final modelAccessConfig = this.modelAccessConfig;
     return {
       'CompressionType': compressionType.value,
       'S3DataType': s3DataType.value,
       'S3Uri': s3Uri,
+      if (hubAccessConfig != null) 'HubAccessConfig': hubAccessConfig,
       if (modelAccessConfig != null) 'ModelAccessConfig': modelAccessConfig,
     };
   }
@@ -59596,6 +61994,22 @@ enum SortPipelinesBy {
               throw Exception('$value is not known in enum SortPipelinesBy'));
 }
 
+enum SortTrackingServerBy {
+  name('Name'),
+  creationTime('CreationTime'),
+  status('Status'),
+  ;
+
+  final String value;
+
+  const SortTrackingServerBy(this.value);
+
+  static SortTrackingServerBy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SortTrackingServerBy'));
+}
+
 enum SortTrialComponentsBy {
   name('Name'),
   creationTime('CreationTime'),
@@ -59705,9 +62119,9 @@ class SourceAlgorithmSpecification {
 /// A list of IP address ranges (<a
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">CIDRs</a>).
 /// Used to create an allow list of IP addresses for a private workforce.
-/// Workers will only be able to login to their worker portal from an IP address
-/// within this range. By default, a workforce isn't restricted to specific IP
-/// addresses.
+/// Workers will only be able to log in to their worker portal from an IP
+/// address within this range. By default, a workforce isn't restricted to
+/// specific IP addresses.
 class SourceIpConfig {
   /// A list of one to ten <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Classless
@@ -59738,16 +62152,51 @@ class SourceIpConfig {
   }
 }
 
+/// Settings that are used to configure and manage the lifecycle of Amazon
+/// SageMaker Studio applications in a space.
+class SpaceAppLifecycleManagement {
+  /// Settings related to idle shutdown of Studio applications.
+  final SpaceIdleSettings? idleSettings;
+
+  SpaceAppLifecycleManagement({
+    this.idleSettings,
+  });
+
+  factory SpaceAppLifecycleManagement.fromJson(Map<String, dynamic> json) {
+    return SpaceAppLifecycleManagement(
+      idleSettings: json['IdleSettings'] != null
+          ? SpaceIdleSettings.fromJson(
+              json['IdleSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleSettings = this.idleSettings;
+    return {
+      if (idleSettings != null) 'IdleSettings': idleSettings,
+    };
+  }
+}
+
 /// The application settings for a Code Editor space.
 class SpaceCodeEditorAppSettings {
+  /// Settings that are used to configure and manage the lifecycle of CodeEditor
+  /// applications in a space.
+  final SpaceAppLifecycleManagement? appLifecycleManagement;
   final ResourceSpec? defaultResourceSpec;
 
   SpaceCodeEditorAppSettings({
+    this.appLifecycleManagement,
     this.defaultResourceSpec,
   });
 
   factory SpaceCodeEditorAppSettings.fromJson(Map<String, dynamic> json) {
     return SpaceCodeEditorAppSettings(
+      appLifecycleManagement: json['AppLifecycleManagement'] != null
+          ? SpaceAppLifecycleManagement.fromJson(
+              json['AppLifecycleManagement'] as Map<String, dynamic>)
+          : null,
       defaultResourceSpec: json['DefaultResourceSpec'] != null
           ? ResourceSpec.fromJson(
               json['DefaultResourceSpec'] as Map<String, dynamic>)
@@ -59756,8 +62205,11 @@ class SpaceCodeEditorAppSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final appLifecycleManagement = this.appLifecycleManagement;
     final defaultResourceSpec = this.defaultResourceSpec;
     return {
+      if (appLifecycleManagement != null)
+        'AppLifecycleManagement': appLifecycleManagement,
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
     };
@@ -59829,20 +62281,54 @@ class SpaceDetails {
   }
 }
 
+/// Settings related to idle shutdown of Studio applications in a space.
+class SpaceIdleSettings {
+  /// The time that SageMaker waits after the application becomes idle before
+  /// shutting it down.
+  final int? idleTimeoutInMinutes;
+
+  SpaceIdleSettings({
+    this.idleTimeoutInMinutes,
+  });
+
+  factory SpaceIdleSettings.fromJson(Map<String, dynamic> json) {
+    return SpaceIdleSettings(
+      idleTimeoutInMinutes: json['IdleTimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleTimeoutInMinutes = this.idleTimeoutInMinutes;
+    return {
+      if (idleTimeoutInMinutes != null)
+        'IdleTimeoutInMinutes': idleTimeoutInMinutes,
+    };
+  }
+}
+
 /// The settings for the JupyterLab application within a space.
 class SpaceJupyterLabAppSettings {
+  /// Settings that are used to configure and manage the lifecycle of JupyterLab
+  /// applications in a space.
+  final SpaceAppLifecycleManagement? appLifecycleManagement;
+
   /// A list of Git repositories that SageMaker automatically displays to users
   /// for cloning in the JupyterLab application.
   final List<CodeRepository>? codeRepositories;
   final ResourceSpec? defaultResourceSpec;
 
   SpaceJupyterLabAppSettings({
+    this.appLifecycleManagement,
     this.codeRepositories,
     this.defaultResourceSpec,
   });
 
   factory SpaceJupyterLabAppSettings.fromJson(Map<String, dynamic> json) {
     return SpaceJupyterLabAppSettings(
+      appLifecycleManagement: json['AppLifecycleManagement'] != null
+          ? SpaceAppLifecycleManagement.fromJson(
+              json['AppLifecycleManagement'] as Map<String, dynamic>)
+          : null,
       codeRepositories: (json['CodeRepositories'] as List?)
           ?.nonNulls
           .map((e) => CodeRepository.fromJson(e as Map<String, dynamic>))
@@ -59855,9 +62341,12 @@ class SpaceJupyterLabAppSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final appLifecycleManagement = this.appLifecycleManagement;
     final codeRepositories = this.codeRepositories;
     final defaultResourceSpec = this.defaultResourceSpec;
     return {
+      if (appLifecycleManagement != null)
+        'AppLifecycleManagement': appLifecycleManagement,
       if (codeRepositories != null) 'CodeRepositories': codeRepositories,
       if (defaultResourceSpec != null)
         'DefaultResourceSpec': defaultResourceSpec,
@@ -60167,6 +62656,22 @@ class StartInferenceExperimentResponse {
   }
 }
 
+class StartMlflowTrackingServerResponse {
+  /// The ARN of the started tracking server.
+  final String? trackingServerArn;
+
+  StartMlflowTrackingServerResponse({
+    this.trackingServerArn,
+  });
+
+  factory StartMlflowTrackingServerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMlflowTrackingServerResponse(
+      trackingServerArn: json['TrackingServerArn'] as String?,
+    );
+  }
+}
+
 class StartPipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -60232,6 +62737,21 @@ class StopInferenceExperimentResponse {
   }
 }
 
+class StopMlflowTrackingServerResponse {
+  /// The ARN of the stopped tracking server.
+  final String? trackingServerArn;
+
+  StopMlflowTrackingServerResponse({
+    this.trackingServerArn,
+  });
+
+  factory StopMlflowTrackingServerResponse.fromJson(Map<String, dynamic> json) {
+    return StopMlflowTrackingServerResponse(
+      trackingServerArn: json['TrackingServerArn'] as String?,
+    );
+  }
+}
+
 class StopPipelineExecutionResponse {
   /// The Amazon Resource Name (ARN) of the pipeline execution.
   final String? pipelineExecutionArn;
@@ -60247,10 +62767,8 @@ class StopPipelineExecutionResponse {
   }
 }
 
-/// Specifies a limit to how long a model training job or model compilation job
-/// can run. It also specifies how long a managed spot training job has to
-/// complete. When the job reaches the time limit, SageMaker ends the training
-/// or compilation job. Use this API to cap model training costs.
+/// Specifies a limit to how long a job can run. When the job reaches the time
+/// limit, SageMaker ends the job. Use this API to cap costs.
 ///
 /// To stop a training job, SageMaker sends the algorithm the
 /// <code>SIGTERM</code> signal, which delays job termination for 120 seconds.
@@ -60433,7 +62951,50 @@ enum StudioWebPortal {
               throw Exception('$value is not known in enum StudioWebPortal'));
 }
 
-/// Describes a work team of a vendor that does the a labelling job.
+/// Studio settings. If these settings are applied on a user level, they take
+/// priority over the settings applied on a domain level.
+class StudioWebPortalSettings {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-apps.html">Applications
+  /// supported in Studio</a> that are hidden from the Studio left navigation
+  /// pane.
+  final List<AppType>? hiddenAppTypes;
+
+  /// The machine learning tools that are hidden from the Studio left navigation
+  /// pane.
+  final List<MlTools>? hiddenMlTools;
+
+  StudioWebPortalSettings({
+    this.hiddenAppTypes,
+    this.hiddenMlTools,
+  });
+
+  factory StudioWebPortalSettings.fromJson(Map<String, dynamic> json) {
+    return StudioWebPortalSettings(
+      hiddenAppTypes: (json['HiddenAppTypes'] as List?)
+          ?.nonNulls
+          .map((e) => AppType.fromString((e as String)))
+          .toList(),
+      hiddenMlTools: (json['HiddenMlTools'] as List?)
+          ?.nonNulls
+          .map((e) => MlTools.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hiddenAppTypes = this.hiddenAppTypes;
+    final hiddenMlTools = this.hiddenMlTools;
+    return {
+      if (hiddenAppTypes != null)
+        'HiddenAppTypes': hiddenAppTypes.map((e) => e.value).toList(),
+      if (hiddenMlTools != null)
+        'HiddenMlTools': hiddenMlTools.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Describes a work team of a vendor that does the labelling job.
 class SubscribedWorkteam {
   /// The Amazon Resource Name (ARN) of the vendor that you have subscribed.
   final String workteamArn;
@@ -61661,6 +64222,100 @@ class TimeSeriesTransformations {
   }
 }
 
+enum TrackingServerSize {
+  small('Small'),
+  medium('Medium'),
+  large('Large'),
+  ;
+
+  final String value;
+
+  const TrackingServerSize(this.value);
+
+  static TrackingServerSize fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TrackingServerSize'));
+}
+
+enum TrackingServerStatus {
+  creating('Creating'),
+  created('Created'),
+  createFailed('CreateFailed'),
+  updating('Updating'),
+  updated('Updated'),
+  updateFailed('UpdateFailed'),
+  deleting('Deleting'),
+  deleteFailed('DeleteFailed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  stopFailed('StopFailed'),
+  starting('Starting'),
+  started('Started'),
+  startFailed('StartFailed'),
+  maintenanceInProgress('MaintenanceInProgress'),
+  maintenanceComplete('MaintenanceComplete'),
+  maintenanceFailed('MaintenanceFailed'),
+  ;
+
+  final String value;
+
+  const TrackingServerStatus(this.value);
+
+  static TrackingServerStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TrackingServerStatus'));
+}
+
+/// The summary of the tracking server to list.
+class TrackingServerSummary {
+  /// The creation time of a listed tracking server.
+  final DateTime? creationTime;
+
+  /// The activity status of a listed tracking server.
+  final IsTrackingServerActive? isActive;
+
+  /// The last modified time of a listed tracking server.
+  final DateTime? lastModifiedTime;
+
+  /// The MLflow version used for a listed tracking server.
+  final String? mlflowVersion;
+
+  /// The ARN of a listed tracking server.
+  final String? trackingServerArn;
+
+  /// The name of a listed tracking server.
+  final String? trackingServerName;
+
+  /// The creation status of a listed tracking server.
+  final TrackingServerStatus? trackingServerStatus;
+
+  TrackingServerSummary({
+    this.creationTime,
+    this.isActive,
+    this.lastModifiedTime,
+    this.mlflowVersion,
+    this.trackingServerArn,
+    this.trackingServerName,
+    this.trackingServerStatus,
+  });
+
+  factory TrackingServerSummary.fromJson(Map<String, dynamic> json) {
+    return TrackingServerSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      isActive:
+          (json['IsActive'] as String?)?.let(IsTrackingServerActive.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      mlflowVersion: json['MlflowVersion'] as String?,
+      trackingServerArn: json['TrackingServerArn'] as String?,
+      trackingServerName: json['TrackingServerName'] as String?,
+      trackingServerStatus: (json['TrackingServerStatus'] as String?)
+          ?.let(TrackingServerStatus.fromString),
+    );
+  }
+}
+
 /// Defines the traffic pattern of the load test.
 class TrafficPattern {
   /// Defines the phases traffic specification.
@@ -61967,6 +64622,26 @@ enum TrainingInstanceType {
   mlC6i_16xlarge('ml.c6i.16xlarge'),
   mlC6i_24xlarge('ml.c6i.24xlarge'),
   mlC6i_32xlarge('ml.c6i.32xlarge'),
+  mlR5dLarge('ml.r5d.large'),
+  mlR5dXlarge('ml.r5d.xlarge'),
+  mlR5d_2xlarge('ml.r5d.2xlarge'),
+  mlR5d_4xlarge('ml.r5d.4xlarge'),
+  mlR5d_8xlarge('ml.r5d.8xlarge'),
+  mlR5d_12xlarge('ml.r5d.12xlarge'),
+  mlR5d_16xlarge('ml.r5d.16xlarge'),
+  mlR5d_24xlarge('ml.r5d.24xlarge'),
+  mlT3Medium('ml.t3.medium'),
+  mlT3Large('ml.t3.large'),
+  mlT3Xlarge('ml.t3.xlarge'),
+  mlT3_2xlarge('ml.t3.2xlarge'),
+  mlR5Large('ml.r5.large'),
+  mlR5Xlarge('ml.r5.xlarge'),
+  mlR5_2xlarge('ml.r5.2xlarge'),
+  mlR5_4xlarge('ml.r5.4xlarge'),
+  mlR5_8xlarge('ml.r5.8xlarge'),
+  mlR5_12xlarge('ml.r5.12xlarge'),
+  mlR5_16xlarge('ml.r5.16xlarge'),
+  mlR5_24xlarge('ml.r5.24xlarge'),
   ;
 
   final String value;
@@ -64849,6 +67524,22 @@ class UpdateInferenceExperimentResponse {
   }
 }
 
+class UpdateMlflowTrackingServerResponse {
+  /// The ARN of the updated MLflow Tracking Server.
+  final String? trackingServerArn;
+
+  UpdateMlflowTrackingServerResponse({
+    this.trackingServerArn,
+  });
+
+  factory UpdateMlflowTrackingServerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateMlflowTrackingServerResponse(
+      trackingServerArn: json['TrackingServerArn'] as String?,
+    );
+  }
+}
+
 class UpdateModelCardResponse {
   /// The Amazon Resource Name (ARN) of the updated model card.
   final String modelCardArn;
@@ -65203,6 +67894,12 @@ enum UserProfileStatus {
 /// <code>CreateUserProfile</code> take precedence over those specified in
 /// <code>CreateDomain</code>.
 class UserSettings {
+  /// Indicates whether auto-mounting of an EFS volume is supported for the user
+  /// profile. The <code>DefaultAsDomain</code> value is only supported for user
+  /// profiles. Do not use the <code>DefaultAsDomain</code> value when setting
+  /// this parameter for a domain.
+  final AutoMountHomeEFS? autoMountHomeEFS;
+
   /// The Canvas app settings.
   final CanvasAppSettings? canvasAppSettings;
 
@@ -65278,10 +67975,15 @@ class UserSettings {
   /// default experience for the domain.
   final StudioWebPortal? studioWebPortal;
 
+  /// Studio settings. If these settings are applied on a user level, they take
+  /// priority over the settings applied on a domain level.
+  final StudioWebPortalSettings? studioWebPortalSettings;
+
   /// The TensorBoard app settings.
   final TensorBoardAppSettings? tensorBoardAppSettings;
 
   UserSettings({
+    this.autoMountHomeEFS,
     this.canvasAppSettings,
     this.codeEditorAppSettings,
     this.customFileSystemConfigs,
@@ -65297,11 +67999,14 @@ class UserSettings {
     this.sharingSettings,
     this.spaceStorageSettings,
     this.studioWebPortal,
+    this.studioWebPortalSettings,
     this.tensorBoardAppSettings,
   });
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
     return UserSettings(
+      autoMountHomeEFS: (json['AutoMountHomeEFS'] as String?)
+          ?.let(AutoMountHomeEFS.fromString),
       canvasAppSettings: json['CanvasAppSettings'] != null
           ? CanvasAppSettings.fromJson(
               json['CanvasAppSettings'] as Map<String, dynamic>)
@@ -65355,6 +68060,10 @@ class UserSettings {
           : null,
       studioWebPortal:
           (json['StudioWebPortal'] as String?)?.let(StudioWebPortal.fromString),
+      studioWebPortalSettings: json['StudioWebPortalSettings'] != null
+          ? StudioWebPortalSettings.fromJson(
+              json['StudioWebPortalSettings'] as Map<String, dynamic>)
+          : null,
       tensorBoardAppSettings: json['TensorBoardAppSettings'] != null
           ? TensorBoardAppSettings.fromJson(
               json['TensorBoardAppSettings'] as Map<String, dynamic>)
@@ -65363,6 +68072,7 @@ class UserSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final autoMountHomeEFS = this.autoMountHomeEFS;
     final canvasAppSettings = this.canvasAppSettings;
     final codeEditorAppSettings = this.codeEditorAppSettings;
     final customFileSystemConfigs = this.customFileSystemConfigs;
@@ -65378,8 +68088,10 @@ class UserSettings {
     final sharingSettings = this.sharingSettings;
     final spaceStorageSettings = this.spaceStorageSettings;
     final studioWebPortal = this.studioWebPortal;
+    final studioWebPortalSettings = this.studioWebPortalSettings;
     final tensorBoardAppSettings = this.tensorBoardAppSettings;
     return {
+      if (autoMountHomeEFS != null) 'AutoMountHomeEFS': autoMountHomeEFS.value,
       if (canvasAppSettings != null) 'CanvasAppSettings': canvasAppSettings,
       if (codeEditorAppSettings != null)
         'CodeEditorAppSettings': codeEditorAppSettings,
@@ -65404,6 +68116,8 @@ class UserSettings {
       if (spaceStorageSettings != null)
         'SpaceStorageSettings': spaceStorageSettings,
       if (studioWebPortal != null) 'StudioWebPortal': studioWebPortal.value,
+      if (studioWebPortalSettings != null)
+        'StudioWebPortalSettings': studioWebPortalSettings,
       if (tensorBoardAppSettings != null)
         'TensorBoardAppSettings': tensorBoardAppSettings,
     };
@@ -65842,8 +68556,8 @@ enum WorkforceStatus {
 
 /// The VPC object you use to create or update a workforce.
 class WorkforceVpcConfigRequest {
-  /// The VPC security group IDs, in the form sg-xxxxxxxx. The security groups
-  /// must be for the same VPC as specified in the subnet.
+  /// The VPC security group IDs, in the form <code>sg-xxxxxxxx</code>. The
+  /// security groups must be for the same VPC as specified in the subnet.
   final List<String>? securityGroupIds;
 
   /// The ID of the subnets in the VPC that you want to connect.

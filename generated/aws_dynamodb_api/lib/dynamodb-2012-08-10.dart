@@ -57,7 +57,9 @@ class DynamoDB {
   /// in DynamoDB, using PartiQL. Each read statement in a
   /// <code>BatchExecuteStatement</code> must specify an equality condition on
   /// all key attributes. This enforces that each <code>SELECT</code> statement
-  /// in a batch returns at most a single item.
+  /// in a batch returns at most a single item. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html">Running
+  /// batch operations with PartiQL for DynamoDB </a>.
   /// <note>
   /// The entire batch must consist of either read statements or write
   /// statements, you cannot mix both in one batch.
@@ -311,10 +313,13 @@ class DynamoDB {
   /// unprocessed items and submit a new <code>BatchWriteItem</code> request
   /// with those unprocessed items until all items have been processed.
   ///
-  /// If <i>none</i> of the items can be processed due to insufficient
-  /// provisioned throughput on all of the tables in the request, then
-  /// <code>BatchWriteItem</code> returns a
-  /// <code>ProvisionedThroughputExceededException</code>.
+  /// For tables and indexes with provisioned capacity, if none of the items can
+  /// be processed due to insufficient provisioned throughput on all of the
+  /// tables in the request, then <code>BatchWriteItem</code> returns a
+  /// <code>ProvisionedThroughputExceededException</code>. For all tables and
+  /// indexes, if none of the items can be processed due to other throttling
+  /// scenarios (such as exceeding partition level limits), then
+  /// <code>BatchWriteItem</code> returns a <code>ThrottlingException</code>.
   /// <important>
   /// If DynamoDB returns any unprocessed items, you should retry the batch
   /// operation on those items. However, <i>we strongly recommend that you use
@@ -552,15 +557,20 @@ class DynamoDB {
   /// replication relationship between two or more DynamoDB tables with the same
   /// table name in the provided Regions.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important>
   /// If you want to add a new replica table to a global table, each of the
   /// following conditions must be true:
@@ -1346,7 +1356,9 @@ class DynamoDB {
   /// </important> <note>
   /// DynamoDB might continue to accept data read and write operations, such as
   /// <code>GetItem</code> and <code>PutItem</code>, on a table in the
-  /// <code>DELETING</code> state until the table deletion is complete.
+  /// <code>DELETING</code> state until the table deletion is complete. For the
+  /// full list of table states, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus">TableStatus</a>.
   /// </note>
   /// When you delete a table, any indexes on that table are also deleted.
   ///
@@ -1550,15 +1562,20 @@ class DynamoDB {
 
   /// Returns information about the specified global table.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important>
   ///
   /// May throw [InternalServerError].
@@ -1589,15 +1606,20 @@ class DynamoDB {
 
   /// Describes Region-specific settings for a global table.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important>
   ///
   /// May throw [GlobalTableNotFoundException].
@@ -2733,15 +2755,20 @@ class DynamoDB {
 
   /// Lists all global tables that have a replica in the specified Region.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important>
   ///
   /// May throw [InternalServerError].
@@ -4840,15 +4867,20 @@ class DynamoDB {
   /// key schema, have DynamoDB Streams enabled, and have the same provisioned
   /// and maximum write capacity units.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important> <note>
   /// For global tables, this operation only applies to global tables using
   /// Version 2019.11.21 (Current version). If you are using global tables <a
@@ -4914,15 +4946,20 @@ class DynamoDB {
 
   /// Updates settings for a global table.
   /// <important>
-  /// For global tables, this operation only applies to global tables using
-  /// Version 2019.11.21 (Current version), as it provides greater flexibility,
-  /// higher efficiency and consumes less write capacity than 2017.11.29
-  /// (Legacy). To determine which version you are using, see <a
+  /// This documentation is for version 2017.11.29 (Legacy) of global tables,
+  /// which should be avoided for new global tables. Customers should use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global
+  /// Tables version 2019.11.21 (Current)</a> when possible, because it provides
+  /// greater flexibility, higher efficiency, and consumes less write capacity
+  /// than 2017.11.29 (Legacy).
+  ///
+  /// To determine which version you're using, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html">Determining
-  /// the version</a>. To update existing global tables from version 2017.11.29
-  /// (Legacy) to version 2019.11.21 (Current), see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">
-  /// Updating global tables</a>.
+  /// the global table version you are using</a>. To update existing global
+  /// tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+  /// see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html">Upgrading
+  /// global tables</a>.
   /// </important>
   ///
   /// May throw [GlobalTableNotFoundException].
@@ -11289,7 +11326,7 @@ class QueryOutput {
   /// applied. A high <code>ScannedCount</code> value with few, or no,
   /// <code>Count</code> results indicates an inefficient <code>Query</code>
   /// operation. For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Count">Count
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Count">Count
   /// and ScannedCount</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// If you did not use a filter in the request, then <code>ScannedCount</code>

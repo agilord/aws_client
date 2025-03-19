@@ -72,6 +72,7 @@ class GenerateSinglePackageCommand extends Command {
 
       try {
         final api = Api.fromJson(defJson);
+        _fixApi(api);
 
         final percentage = i * 100 ~/ services.length;
 
@@ -229,4 +230,11 @@ void _replaceInFile(File file, Map<String, String> terms) {
     content = content.replaceAll(term.key, term.value);
   }
   file.writeAsStringSync(content);
+}
+
+void _fixApi(Api api) {
+  if (api.directoryName == 's3') {
+    final checksum = api.shapes['ChecksumAlgorithm']!;
+    checksum.enumeration!.add('CRC64NVME');
+  }
 }

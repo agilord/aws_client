@@ -91,10 +91,6 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
-  /// <note>
-  /// The valid values for this parameter are <code>Ec2Instance</code> and
-  /// <code>AutoScalingGroup</code>.
-  /// </note>
   ///
   /// Parameter [scope] :
   /// An object that describes the scope of the recommendation preference to
@@ -873,6 +869,113 @@ class ComputeOptimizer {
     );
 
     return ExportLicenseRecommendationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Export optimization recommendations for your Amazon Relational Database
+  /// Service (Amazon RDS).
+  ///
+  /// Recommendations are exported in a comma-separated values (CSV) file, and
+  /// its metadata in a JavaScript Object Notation (JSON) file, to an existing
+  /// Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html">Exporting
+  /// Recommendations</a> in the <i>Compute Optimizer User Guide</i>.
+  ///
+  /// You can have only one Amazon RDS export job in progress per Amazon Web
+  /// Services Region.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [accountIds] :
+  /// The Amazon Web Services account IDs for the export Amazon RDS
+  /// recommendations.
+  ///
+  /// If your account is the management account or the delegated administrator
+  /// of an organization, use this parameter to specify the member account you
+  /// want to export recommendations to.
+  ///
+  /// This parameter can't be specified together with the include member
+  /// accounts parameter. The parameters are mutually exclusive.
+  ///
+  /// If this parameter or the include member accounts parameter is omitted, the
+  /// recommendations for member accounts aren't included in the export.
+  ///
+  /// You can specify multiple account IDs per request.
+  ///
+  /// Parameter [fieldsToExport] :
+  /// The recommendations data to include in the export file. For more
+  /// information about the fields that can be exported, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files">Exported
+  /// files</a> in the <i>Compute Optimizer User Guide</i>.
+  ///
+  /// Parameter [fileFormat] :
+  /// The format of the export file.
+  ///
+  /// The CSV file is the only export file format currently supported.
+  ///
+  /// Parameter [filters] :
+  /// An array of objects to specify a filter that exports a more specific set
+  /// of Amazon RDS recommendations.
+  ///
+  /// Parameter [includeMemberAccounts] :
+  /// If your account is the management account or the delegated administrator
+  /// of an organization, this parameter indicates whether to include
+  /// recommendations for resources in all member accounts of the organization.
+  ///
+  /// The member accounts must also be opted in to Compute Optimizer, and
+  /// trusted access for Compute Optimizer must be enabled in the organization
+  /// account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access">Compute
+  /// Optimizer and Amazon Web Services Organizations trusted access</a> in the
+  /// <i>Compute Optimizer User Guide</i>.
+  ///
+  /// If this parameter is omitted, recommendations for member accounts of the
+  /// organization aren't included in the export file.
+  ///
+  /// If this parameter or the account ID parameter is omitted, recommendations
+  /// for member accounts aren't included in the export.
+  Future<ExportRDSDatabaseRecommendationsResponse>
+      exportRDSDatabaseRecommendations({
+    required S3DestinationConfig s3DestinationConfig,
+    List<String>? accountIds,
+    List<ExportableRDSDBField>? fieldsToExport,
+    FileFormat? fileFormat,
+    List<RDSDBRecommendationFilter>? filters,
+    bool? includeMemberAccounts,
+    RecommendationPreferences? recommendationPreferences,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'ComputeOptimizerService.ExportRDSDatabaseRecommendations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        's3DestinationConfig': s3DestinationConfig,
+        if (accountIds != null) 'accountIds': accountIds,
+        if (fieldsToExport != null)
+          'fieldsToExport': fieldsToExport.map((e) => e.value).toList(),
+        if (fileFormat != null) 'fileFormat': fileFormat.value,
+        if (filters != null) 'filters': filters,
+        if (includeMemberAccounts != null)
+          'includeMemberAccounts': includeMemberAccounts,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
+      },
+    );
+
+    return ExportRDSDatabaseRecommendationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns Auto Scaling group recommendations.
@@ -1656,6 +1759,158 @@ class ComputeOptimizer {
     return GetLicenseRecommendationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the projected metrics of Amazon RDS recommendations.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [endTime] :
+  /// The timestamp of the last projected metrics data point to return.
+  ///
+  /// Parameter [period] :
+  /// The granularity, in seconds, of the projected metrics data points.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN that identifies the Amazon RDS.
+  ///
+  /// The following is the format of the ARN:
+  ///
+  /// <code>arn:aws:rds:{region}:{accountId}:db:{resourceName}</code>
+  ///
+  /// Parameter [startTime] :
+  /// The timestamp of the first projected metrics data point to return.
+  ///
+  /// Parameter [stat] :
+  /// The statistic of the projected metrics.
+  Future<GetRDSDatabaseRecommendationProjectedMetricsResponse>
+      getRDSDatabaseRecommendationProjectedMetrics({
+    required DateTime endTime,
+    required int period,
+    required String resourceArn,
+    required DateTime startTime,
+    required MetricStatistic stat,
+    RecommendationPreferences? recommendationPreferences,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'ComputeOptimizerService.GetRDSDatabaseRecommendationProjectedMetrics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'endTime': unixTimestampToJson(endTime),
+        'period': period,
+        'resourceArn': resourceArn,
+        'startTime': unixTimestampToJson(startTime),
+        'stat': stat.value,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
+      },
+    );
+
+    return GetRDSDatabaseRecommendationProjectedMetricsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns Amazon RDS recommendations.
+  ///
+  /// Compute Optimizer generates recommendations for Amazon RDS that meet a
+  /// specific set of requirements. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html">Supported
+  /// resources and requirements</a> in the <i>Compute Optimizer User Guide</i>.
+  ///
+  /// May throw [OptInRequiredException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [MissingAuthenticationToken].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [accountIds] :
+  /// Return the Amazon RDS recommendations to the specified Amazon Web Services
+  /// account IDs.
+  ///
+  /// If your account is the management account or the delegated administrator
+  /// of an organization, use this parameter to return the Amazon RDS
+  /// recommendations to specific member accounts.
+  ///
+  /// You can only specify one account ID per request.
+  ///
+  /// Parameter [filters] :
+  /// An array of objects to specify a filter that returns a more specific list
+  /// of Amazon RDS recommendations.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of Amazon RDS recommendations to return with a single
+  /// request.
+  ///
+  /// To retrieve the remaining results, make another request with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to advance to the next page of Amazon RDS recommendations.
+  ///
+  /// Parameter [resourceArns] :
+  /// The ARN that identifies the Amazon RDS.
+  ///
+  /// The following is the format of the ARN:
+  ///
+  /// <code>arn:aws:rds:{region}:{accountId}:db:{resourceName}</code>
+  ///
+  /// The following is the format of a DB Cluster ARN:
+  ///
+  /// <code>arn:aws:rds:{region}:{accountId}:cluster:{resourceName}</code>
+  Future<GetRDSDatabaseRecommendationsResponse> getRDSDatabaseRecommendations({
+    List<String>? accountIds,
+    List<RDSDBRecommendationFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    RecommendationPreferences? recommendationPreferences,
+    List<String>? resourceArns,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'ComputeOptimizerService.GetRDSDatabaseRecommendations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (accountIds != null) 'accountIds': accountIds,
+        if (filters != null) 'filters': filters,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (recommendationPreferences != null)
+          'recommendationPreferences': recommendationPreferences,
+        if (resourceArns != null) 'resourceArns': resourceArns,
+      },
+    );
+
+    return GetRDSDatabaseRecommendationsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns existing recommendation preferences, such as enhanced
   /// infrastructure metrics.
   ///
@@ -1686,10 +1941,6 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
-  /// <note>
-  /// The valid values for this parameter are <code>Ec2Instance</code> and
-  /// <code>AutoScalingGroup</code>.
-  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of recommendation preferences to return with a single
@@ -1853,10 +2104,6 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
-  /// <note>
-  /// The valid values for this parameter are <code>Ec2Instance</code> and
-  /// <code>AutoScalingGroup</code>.
-  /// </note>
   ///
   /// Parameter [enhancedInfrastructureMetrics] :
   /// The status of the enhanced infrastructure metrics recommendation
@@ -1902,10 +2149,20 @@ class ComputeOptimizer {
   /// The preference to control the number of days the utilization metrics of
   /// the Amazon Web Services resource are analyzed. When this preference isn't
   /// specified, we use the default value <code>DAYS_14</code>.
-  /// <note>
+  ///
   /// You can only set this preference for the Amazon EC2 instance and Auto
   /// Scaling group resource types.
-  /// </note>
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Amazon EC2 instance lookback preferences can be set at the organization,
+  /// account, and resource levels.
+  /// </li>
+  /// <li>
+  /// Auto Scaling group lookback preferences can only be set at the resource
+  /// level.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [preferredResources] :
   /// The preference to control which resource type values are considered when
@@ -2763,6 +3020,43 @@ enum CustomizableMetricThreshold {
               '$value is not known in enum CustomizableMetricThreshold'));
 }
 
+/// The configuration of the recommended RDS storage.
+class DBStorageConfiguration {
+  /// The size of the RDS storage in gigabytes (GB).
+  final int? allocatedStorage;
+
+  /// The provisioned IOPs of the RDS storage.
+  final int? iops;
+
+  /// The maximum limit in gibibytes (GiB) to which Amazon RDS can automatically
+  /// scale the storage of the RDS instance.
+  final int? maxAllocatedStorage;
+
+  /// The storage throughput of the RDS storage.
+  final int? storageThroughput;
+
+  /// The type of RDS storage.
+  final String? storageType;
+
+  DBStorageConfiguration({
+    this.allocatedStorage,
+    this.iops,
+    this.maxAllocatedStorage,
+    this.storageThroughput,
+    this.storageType,
+  });
+
+  factory DBStorageConfiguration.fromJson(Map<String, dynamic> json) {
+    return DBStorageConfiguration(
+      allocatedStorage: json['allocatedStorage'] as int?,
+      iops: json['iops'] as int?,
+      maxAllocatedStorage: json['maxAllocatedStorage'] as int?,
+      storageThroughput: json['storageThroughput'] as int?,
+      storageType: json['storageType'] as String?,
+    );
+  }
+}
+
 class DeleteRecommendationPreferencesResponse {
   DeleteRecommendationPreferencesResponse();
 
@@ -3571,8 +3865,8 @@ class ECSServiceRecommendationFilter {
   /// <ul>
   /// <li>
   /// If you specify the <code>name</code> parameter as <code>Finding</code>,
-  /// specify <code>Optimized</code>, <code>NotOptimized</code>, or
-  /// <code>Unavailable</code>.
+  /// specify <code>Optimized</code>, <code>Underprovisioned</code>, or
+  /// <code>Overprovisioned</code>.
   /// </li>
   /// <li>
   /// If you specify the <code>name</code> parameter as
@@ -3859,17 +4153,17 @@ class EffectiveRecommendationPreferences {
   /// <li>
   /// A <a>GetEC2InstanceRecommendations</a> or
   /// <a>GetAutoScalingGroupRecommendations</a> request, Compute Optimizer returns
-  /// recommendations that consist of Graviton2 instance types only.
+  /// recommendations that consist of Graviton instance types only.
   /// </li>
   /// <li>
   /// A <a>GetEC2RecommendationProjectedMetrics</a> request, Compute Optimizer
-  /// returns projected utilization metrics for Graviton2 instance type
+  /// returns projected utilization metrics for Graviton instance type
   /// recommendations only.
   /// </li>
   /// <li>
   /// A <a>ExportEC2InstanceRecommendations</a> or
   /// <a>ExportAutoScalingGroupRecommendations</a> request, Compute Optimizer
-  /// exports recommendations that consist of Graviton2 instance types only.
+  /// exports recommendations that consist of Graviton instance types only.
   /// </li>
   /// </ul>
   final List<CpuVendorArchitecture>? cpuVendorArchitectures;
@@ -4230,6 +4524,31 @@ class ExportLicenseRecommendationsResponse {
   }
 }
 
+class ExportRDSDatabaseRecommendationsResponse {
+  /// The identification number of the export job.
+  ///
+  /// To view the status of an export job, use the
+  /// <a>DescribeRecommendationExportJobs</a> action and specify the job ID.
+  final String? jobId;
+  final S3Destination? s3Destination;
+
+  ExportRDSDatabaseRecommendationsResponse({
+    this.jobId,
+    this.s3Destination,
+  });
+
+  factory ExportRDSDatabaseRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ExportRDSDatabaseRecommendationsResponse(
+      jobId: json['jobId'] as String?,
+      s3Destination: json['s3Destination'] != null
+          ? S3Destination.fromJson(
+              json['s3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 enum ExportableAutoScalingGroupField {
   accountId('AccountId'),
   autoScalingGroupArn('AutoScalingGroupArn'),
@@ -4311,6 +4630,10 @@ enum ExportableAutoScalingGroupField {
       'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics'),
   effectiveRecommendationPreferencesInferredWorkloadTypes(
       'EffectiveRecommendationPreferencesInferredWorkloadTypes'),
+  effectiveRecommendationPreferencesPreferredResources(
+      'EffectiveRecommendationPreferencesPreferredResources'),
+  effectiveRecommendationPreferencesLookBackPeriod(
+      'EffectiveRecommendationPreferencesLookBackPeriod'),
   inferredWorkloadTypes('InferredWorkloadTypes'),
   recommendationOptionsMigrationEffort('RecommendationOptionsMigrationEffort'),
   currentInstanceGpuInfo('CurrentInstanceGpuInfo'),
@@ -4331,10 +4654,6 @@ enum ExportableAutoScalingGroupField {
       'RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
   recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
       'RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
-  effectiveRecommendationPreferencesPreferredResources(
-      'EffectiveRecommendationPreferencesPreferredResources'),
-  effectiveRecommendationPreferencesLookBackPeriod(
-      'EffectiveRecommendationPreferencesLookBackPeriod'),
   ;
 
   final String value;
@@ -4483,8 +4802,8 @@ enum ExportableInstanceField {
   recommendationOptionsMigrationEffort('RecommendationOptionsMigrationEffort'),
   effectiveRecommendationPreferencesExternalMetricsSource(
       'EffectiveRecommendationPreferencesExternalMetricsSource'),
-  instanceState('InstanceState'),
   tags('Tags'),
+  instanceState('InstanceState'),
   externalMetricStatusCode('ExternalMetricStatusCode'),
   externalMetricStatusReason('ExternalMetricStatusReason'),
   currentInstanceGpuInfo('CurrentInstanceGpuInfo'),
@@ -4624,6 +4943,115 @@ enum ExportableLicenseField {
               '$value is not known in enum ExportableLicenseField'));
 }
 
+enum ExportableRDSDBField {
+  resourceArn('ResourceArn'),
+  accountId('AccountId'),
+  engine('Engine'),
+  engineVersion('EngineVersion'),
+  idle('Idle'),
+  multiAZDBInstance('MultiAZDBInstance'),
+  currentDBInstanceClass('CurrentDBInstanceClass'),
+  currentStorageConfigurationStorageType(
+      'CurrentStorageConfigurationStorageType'),
+  currentStorageConfigurationAllocatedStorage(
+      'CurrentStorageConfigurationAllocatedStorage'),
+  currentStorageConfigurationMaxAllocatedStorage(
+      'CurrentStorageConfigurationMaxAllocatedStorage'),
+  currentStorageConfigurationIOPS('CurrentStorageConfigurationIOPS'),
+  currentStorageConfigurationStorageThroughput(
+      'CurrentStorageConfigurationStorageThroughput'),
+  currentInstanceOnDemandHourlyPrice('CurrentInstanceOnDemandHourlyPrice'),
+  currentStorageOnDemandMonthlyPrice('CurrentStorageOnDemandMonthlyPrice'),
+  lookbackPeriodInDays('LookbackPeriodInDays'),
+  utilizationMetricsCpuMaximum('UtilizationMetricsCpuMaximum'),
+  utilizationMetricsMemoryMaximum('UtilizationMetricsMemoryMaximum'),
+  utilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum(
+      'UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum'),
+  utilizationMetricsNetworkReceiveThroughputMaximum(
+      'UtilizationMetricsNetworkReceiveThroughputMaximum'),
+  utilizationMetricsNetworkTransmitThroughputMaximum(
+      'UtilizationMetricsNetworkTransmitThroughputMaximum'),
+  utilizationMetricsEBSVolumeReadIOPSMaximum(
+      'UtilizationMetricsEBSVolumeReadIOPSMaximum'),
+  utilizationMetricsEBSVolumeWriteIOPSMaximum(
+      'UtilizationMetricsEBSVolumeWriteIOPSMaximum'),
+  utilizationMetricsEBSVolumeReadThroughputMaximum(
+      'UtilizationMetricsEBSVolumeReadThroughputMaximum'),
+  utilizationMetricsEBSVolumeWriteThroughputMaximum(
+      'UtilizationMetricsEBSVolumeWriteThroughputMaximum'),
+  utilizationMetricsDatabaseConnectionsMaximum(
+      'UtilizationMetricsDatabaseConnectionsMaximum'),
+  instanceFinding('InstanceFinding'),
+  instanceFindingReasonCodes('InstanceFindingReasonCodes'),
+  storageFinding('StorageFinding'),
+  storageFindingReasonCodes('StorageFindingReasonCodes'),
+  instanceRecommendationOptionsDBInstanceClass(
+      'InstanceRecommendationOptionsDBInstanceClass'),
+  instanceRecommendationOptionsRank('InstanceRecommendationOptionsRank'),
+  instanceRecommendationOptionsPerformanceRisk(
+      'InstanceRecommendationOptionsPerformanceRisk'),
+  instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum(
+      'InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum'),
+  storageRecommendationOptionsStorageType(
+      'StorageRecommendationOptionsStorageType'),
+  storageRecommendationOptionsAllocatedStorage(
+      'StorageRecommendationOptionsAllocatedStorage'),
+  storageRecommendationOptionsMaxAllocatedStorage(
+      'StorageRecommendationOptionsMaxAllocatedStorage'),
+  storageRecommendationOptionsIOPS('StorageRecommendationOptionsIOPS'),
+  storageRecommendationOptionsStorageThroughput(
+      'StorageRecommendationOptionsStorageThroughput'),
+  storageRecommendationOptionsRank('StorageRecommendationOptionsRank'),
+  instanceRecommendationOptionsInstanceOnDemandHourlyPrice(
+      'InstanceRecommendationOptionsInstanceOnDemandHourlyPrice'),
+  instanceRecommendationOptionsSavingsOpportunityPercentage(
+      'InstanceRecommendationOptionsSavingsOpportunityPercentage'),
+  instanceRecommendationOptionsEstimatedMonthlySavingsCurrency(
+      'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency'),
+  instanceRecommendationOptionsEstimatedMonthlySavingsValue(
+      'InstanceRecommendationOptionsEstimatedMonthlySavingsValue'),
+  instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
+      'InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
+  instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
+      'InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
+  instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
+      'InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
+  storageRecommendationOptionsOnDemandMonthlyPrice(
+      'StorageRecommendationOptionsOnDemandMonthlyPrice'),
+  storageRecommendationOptionsSavingsOpportunityPercentage(
+      'StorageRecommendationOptionsSavingsOpportunityPercentage'),
+  storageRecommendationOptionsEstimatedMonthlySavingsCurrency(
+      'StorageRecommendationOptionsEstimatedMonthlySavingsCurrency'),
+  storageRecommendationOptionsEstimatedMonthlySavingsValue(
+      'StorageRecommendationOptionsEstimatedMonthlySavingsValue'),
+  storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage(
+      'StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage'),
+  storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts(
+      'StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts'),
+  storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts(
+      'StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts'),
+  effectiveRecommendationPreferencesCpuVendorArchitectures(
+      'EffectiveRecommendationPreferencesCpuVendorArchitectures'),
+  effectiveRecommendationPreferencesEnhancedInfrastructureMetrics(
+      'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics'),
+  effectiveRecommendationPreferencesLookBackPeriod(
+      'EffectiveRecommendationPreferencesLookBackPeriod'),
+  effectiveRecommendationPreferencesSavingsEstimationMode(
+      'EffectiveRecommendationPreferencesSavingsEstimationMode'),
+  lastRefreshTimestamp('LastRefreshTimestamp'),
+  tags('Tags'),
+  ;
+
+  final String value;
+
+  const ExportableRDSDBField(this.value);
+
+  static ExportableRDSDBField fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ExportableRDSDBField'));
+}
+
 enum ExportableVolumeField {
   accountId('AccountId'),
   volumeArn('VolumeArn'),
@@ -4669,8 +5097,8 @@ enum ExportableVolumeField {
       'RecommendationOptionsEstimatedMonthlySavingsCurrency'),
   recommendationOptionsEstimatedMonthlySavingsValue(
       'RecommendationOptionsEstimatedMonthlySavingsValue'),
-  rootVolume('RootVolume'),
   tags('Tags'),
+  rootVolume('RootVolume'),
   currentConfigurationRootVolume('CurrentConfigurationRootVolume'),
   effectiveRecommendationPreferencesSavingsEstimationMode(
       'EffectiveRecommendationPreferencesSavingsEstimationMode'),
@@ -5453,6 +5881,61 @@ class GetLicenseRecommendationsResponse {
   }
 }
 
+class GetRDSDatabaseRecommendationProjectedMetricsResponse {
+  /// An array of objects that describes the projected metrics.
+  final List<RDSDatabaseRecommendedOptionProjectedMetric>?
+      recommendedOptionProjectedMetrics;
+
+  GetRDSDatabaseRecommendationProjectedMetricsResponse({
+    this.recommendedOptionProjectedMetrics,
+  });
+
+  factory GetRDSDatabaseRecommendationProjectedMetricsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRDSDatabaseRecommendationProjectedMetricsResponse(
+      recommendedOptionProjectedMetrics:
+          (json['recommendedOptionProjectedMetrics'] as List?)
+              ?.nonNulls
+              .map((e) => RDSDatabaseRecommendedOptionProjectedMetric.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+}
+
+class GetRDSDatabaseRecommendationsResponse {
+  /// An array of objects that describe errors of the request.
+  final List<GetRecommendationError>? errors;
+
+  /// The token to advance to the next page of Amazon RDS recommendations.
+  final String? nextToken;
+
+  /// An array of objects that describe the Amazon RDS recommendations.
+  final List<RDSDBRecommendation>? rdsDBRecommendations;
+
+  GetRDSDatabaseRecommendationsResponse({
+    this.errors,
+    this.nextToken,
+    this.rdsDBRecommendations,
+  });
+
+  factory GetRDSDatabaseRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetRDSDatabaseRecommendationsResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => GetRecommendationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      rdsDBRecommendations: (json['rdsDBRecommendations'] as List?)
+          ?.nonNulls
+          .map((e) => RDSDBRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// Describes an error experienced when getting recommendations.
 ///
 /// For example, an error is returned if you request recommendations for an
@@ -5578,6 +6061,20 @@ class GpuInfo {
           .toList(),
     );
   }
+}
+
+enum Idle {
+  $true('True'),
+  $false('False'),
+  ;
+
+  final String value;
+
+  const Idle(this.value);
+
+  static Idle fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Idle'));
 }
 
 /// The estimated monthly savings after you adjust the configurations of your
@@ -5779,7 +6276,10 @@ class InstanceRecommendation {
   /// optimized resources, Compute Optimizer might recommend a new generation
   /// instance type.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The valid values in your API responses appear as OVER_PROVISIONED,
+  /// UNDER_PROVISIONED, or OPTIMIZED.
+  /// </note>
   final Finding? finding;
 
   /// The reason for the finding classification of the instance.
@@ -7825,6 +8325,786 @@ class PutRecommendationPreferencesResponse {
   }
 }
 
+/// Describes the recommendation options for an Amazon RDS instance.
+class RDSDBInstanceRecommendationOption {
+  /// Describes the DB instance class recommendation option for your Amazon RDS
+  /// instance.
+  final String? dbInstanceClass;
+
+  /// The performance risk of the RDS instance recommendation option.
+  final double? performanceRisk;
+
+  /// An array of objects that describe the projected utilization metrics of the
+  /// RDS instance recommendation option.
+  final List<RDSDBUtilizationMetric>? projectedUtilizationMetrics;
+
+  /// The rank identifier of the RDS instance recommendation option.
+  final int? rank;
+  final SavingsOpportunity? savingsOpportunity;
+
+  /// Describes the savings opportunity for Amazon RDS recommendations or for the
+  /// recommendation option.
+  ///
+  /// Savings opportunity represents the estimated monthly savings after applying
+  /// Savings Plans discounts. You can achieve this by implementing a given
+  /// Compute Optimizer recommendation.
+  final RDSInstanceSavingsOpportunityAfterDiscounts?
+      savingsOpportunityAfterDiscounts;
+
+  RDSDBInstanceRecommendationOption({
+    this.dbInstanceClass,
+    this.performanceRisk,
+    this.projectedUtilizationMetrics,
+    this.rank,
+    this.savingsOpportunity,
+    this.savingsOpportunityAfterDiscounts,
+  });
+
+  factory RDSDBInstanceRecommendationOption.fromJson(
+      Map<String, dynamic> json) {
+    return RDSDBInstanceRecommendationOption(
+      dbInstanceClass: json['dbInstanceClass'] as String?,
+      performanceRisk: json['performanceRisk'] as double?,
+      projectedUtilizationMetrics: (json['projectedUtilizationMetrics']
+              as List?)
+          ?.nonNulls
+          .map(
+              (e) => RDSDBUtilizationMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
+      savingsOpportunityAfterDiscounts:
+          json['savingsOpportunityAfterDiscounts'] != null
+              ? RDSInstanceSavingsOpportunityAfterDiscounts.fromJson(
+                  json['savingsOpportunityAfterDiscounts']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+}
+
+enum RDSDBMetricName {
+  cpu('CPU'),
+  memory('Memory'),
+  eBSVolumeStorageSpaceUtilization('EBSVolumeStorageSpaceUtilization'),
+  networkReceiveThroughput('NetworkReceiveThroughput'),
+  networkTransmitThroughput('NetworkTransmitThroughput'),
+  eBSVolumeReadIOPS('EBSVolumeReadIOPS'),
+  eBSVolumeWriteIOPS('EBSVolumeWriteIOPS'),
+  eBSVolumeReadThroughput('EBSVolumeReadThroughput'),
+  eBSVolumeWriteThroughput('EBSVolumeWriteThroughput'),
+  databaseConnections('DatabaseConnections'),
+  ;
+
+  final String value;
+
+  const RDSDBMetricName(this.value);
+
+  static RDSDBMetricName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RDSDBMetricName'));
+}
+
+enum RDSDBMetricStatistic {
+  maximum('Maximum'),
+  minimum('Minimum'),
+  average('Average'),
+  ;
+
+  final String value;
+
+  const RDSDBMetricStatistic(this.value);
+
+  static RDSDBMetricStatistic fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RDSDBMetricStatistic'));
+}
+
+/// Describes an Amazon RDS recommendation.
+class RDSDBRecommendation {
+  /// The Amazon Web Services account ID of the Amazon RDS.
+  final String? accountId;
+
+  /// The DB instance class of the current RDS instance.
+  final String? currentDBInstanceClass;
+
+  /// The configuration of the current RDS storage.
+  final DBStorageConfiguration? currentStorageConfiguration;
+
+  /// Describes the effective recommendation preferences for Amazon RDS.
+  final RDSEffectiveRecommendationPreferences?
+      effectiveRecommendationPreferences;
+
+  /// The engine of the RDS instance.
+  final String? engine;
+
+  /// The database engine version.
+  final String? engineVersion;
+
+  /// This indicates if the RDS instance is idle or not.
+  final Idle? idle;
+
+  /// The finding classification of an Amazon RDS instance.
+  ///
+  /// Findings for Amazon RDS instance include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>Underprovisioned</code> </b> — When Compute Optimizer detects that
+  /// there’s not enough resource specifications, an Amazon RDS is considered
+  /// under-provisioned.
+  /// </li>
+  /// <li>
+  /// <b> <code>Overprovisioned</code> </b> — When Compute Optimizer detects that
+  /// there’s excessive resource specifications, an Amazon RDS is considered
+  /// over-provisioned.
+  /// </li>
+  /// <li>
+  /// <b> <code>Optimized</code> </b> — When the specifications of your Amazon RDS
+  /// instance meet the performance requirements of your workload, the service is
+  /// considered optimized.
+  /// </li>
+  /// </ul>
+  final RDSInstanceFinding? instanceFinding;
+
+  /// The reason for the finding classification of an Amazon RDS instance.
+  final List<RDSInstanceFindingReasonCode>? instanceFindingReasonCodes;
+
+  /// An array of objects that describe the recommendation options for the Amazon
+  /// RDS instance.
+  final List<RDSDBInstanceRecommendationOption>? instanceRecommendationOptions;
+
+  /// The timestamp of when the Amazon RDS recommendation was last generated.
+  final DateTime? lastRefreshTimestamp;
+
+  /// The number of days the Amazon RDS utilization metrics were analyzed.
+  final double? lookbackPeriodInDays;
+
+  /// The ARN of the current Amazon RDS.
+  ///
+  /// The following is the format of the ARN:
+  ///
+  /// <code>arn:aws:rds:{region}:{accountId}:db:{resourceName}</code>
+  final String? resourceArn;
+
+  /// The finding classification of Amazon RDS storage.
+  ///
+  /// Findings for Amazon RDS instance include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>Underprovisioned</code> </b> — When Compute Optimizer detects that
+  /// there’s not enough storage, an Amazon RDS is considered under-provisioned.
+  /// </li>
+  /// <li>
+  /// <b> <code>Overprovisioned</code> </b> — When Compute Optimizer detects that
+  /// there’s excessive storage, an Amazon RDS is considered over-provisioned.
+  /// </li>
+  /// <li>
+  /// <b> <code>Optimized</code> </b> — When the storage of your Amazon RDS meet
+  /// the performance requirements of your workload, the service is considered
+  /// optimized.
+  /// </li>
+  /// </ul>
+  final RDSStorageFinding? storageFinding;
+
+  /// The reason for the finding classification of Amazon RDS storage.
+  final List<RDSStorageFindingReasonCode>? storageFindingReasonCodes;
+
+  /// An array of objects that describe the recommendation options for Amazon RDS
+  /// storage.
+  final List<RDSDBStorageRecommendationOption>? storageRecommendationOptions;
+
+  /// A list of tags assigned to your Amazon RDS recommendations.
+  final List<Tag>? tags;
+
+  /// An array of objects that describe the utilization metrics of the Amazon RDS.
+  final List<RDSDBUtilizationMetric>? utilizationMetrics;
+
+  RDSDBRecommendation({
+    this.accountId,
+    this.currentDBInstanceClass,
+    this.currentStorageConfiguration,
+    this.effectiveRecommendationPreferences,
+    this.engine,
+    this.engineVersion,
+    this.idle,
+    this.instanceFinding,
+    this.instanceFindingReasonCodes,
+    this.instanceRecommendationOptions,
+    this.lastRefreshTimestamp,
+    this.lookbackPeriodInDays,
+    this.resourceArn,
+    this.storageFinding,
+    this.storageFindingReasonCodes,
+    this.storageRecommendationOptions,
+    this.tags,
+    this.utilizationMetrics,
+  });
+
+  factory RDSDBRecommendation.fromJson(Map<String, dynamic> json) {
+    return RDSDBRecommendation(
+      accountId: json['accountId'] as String?,
+      currentDBInstanceClass: json['currentDBInstanceClass'] as String?,
+      currentStorageConfiguration: json['currentStorageConfiguration'] != null
+          ? DBStorageConfiguration.fromJson(
+              json['currentStorageConfiguration'] as Map<String, dynamic>)
+          : null,
+      effectiveRecommendationPreferences:
+          json['effectiveRecommendationPreferences'] != null
+              ? RDSEffectiveRecommendationPreferences.fromJson(
+                  json['effectiveRecommendationPreferences']
+                      as Map<String, dynamic>)
+              : null,
+      engine: json['engine'] as String?,
+      engineVersion: json['engineVersion'] as String?,
+      idle: (json['idle'] as String?)?.let(Idle.fromString),
+      instanceFinding: (json['instanceFinding'] as String?)
+          ?.let(RDSInstanceFinding.fromString),
+      instanceFindingReasonCodes: (json['instanceFindingReasonCodes'] as List?)
+          ?.nonNulls
+          .map((e) => RDSInstanceFindingReasonCode.fromString((e as String)))
+          .toList(),
+      instanceRecommendationOptions:
+          (json['instanceRecommendationOptions'] as List?)
+              ?.nonNulls
+              .map((e) => RDSDBInstanceRecommendationOption.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+      lookbackPeriodInDays: json['lookbackPeriodInDays'] as double?,
+      resourceArn: json['resourceArn'] as String?,
+      storageFinding: (json['storageFinding'] as String?)
+          ?.let(RDSStorageFinding.fromString),
+      storageFindingReasonCodes: (json['storageFindingReasonCodes'] as List?)
+          ?.nonNulls
+          .map((e) => RDSStorageFindingReasonCode.fromString((e as String)))
+          .toList(),
+      storageRecommendationOptions:
+          (json['storageRecommendationOptions'] as List?)
+              ?.nonNulls
+              .map((e) => RDSDBStorageRecommendationOption.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      utilizationMetrics: (json['utilizationMetrics'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => RDSDBUtilizationMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Describes a filter that returns a more specific list of Amazon RDS
+/// recommendations. Use this filter with the
+/// <a>GetECSServiceRecommendations</a> action.
+class RDSDBRecommendationFilter {
+  /// The name of the filter.
+  ///
+  /// Specify <code>Finding</code> to return recommendations with a specific
+  /// finding classification.
+  ///
+  /// You can filter your Amazon RDS recommendations by <code>tag:key</code> and
+  /// <code>tag-key</code> tags.
+  ///
+  /// A <code>tag:key</code> is a key and value combination of a tag assigned to
+  /// your Amazon RDS recommendations. Use the tag key in the filter name and the
+  /// tag value as the filter value. For example, to find all Amazon RDS service
+  /// recommendations that have a tag with the key of <code>Owner</code> and the
+  /// value of <code>TeamA</code>, specify <code>tag:Owner</code> for the filter
+  /// name and <code>TeamA</code> for the filter value.
+  ///
+  /// A <code>tag-key</code> is the key of a tag assigned to your Amazon RDS
+  /// recommendations. Use this filter to find all of your Amazon RDS
+  /// recommendations that have a tag with a specific key. This doesn’t consider
+  /// the tag value. For example, you can find your Amazon RDS service
+  /// recommendations with a tag key value of <code>Owner</code> or without any
+  /// tag keys assigned.
+  final RDSDBRecommendationFilterName? name;
+
+  /// The value of the filter.
+  final List<String>? values;
+
+  RDSDBRecommendationFilter({
+    this.name,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.value,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+enum RDSDBRecommendationFilterName {
+  instanceFinding('InstanceFinding'),
+  instanceFindingReasonCode('InstanceFindingReasonCode'),
+  storageFinding('StorageFinding'),
+  storageFindingReasonCode('StorageFindingReasonCode'),
+  idle('Idle'),
+  ;
+
+  final String value;
+
+  const RDSDBRecommendationFilterName(this.value);
+
+  static RDSDBRecommendationFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RDSDBRecommendationFilterName'));
+}
+
+/// Describes the recommendation options for Amazon RDS storage.
+class RDSDBStorageRecommendationOption {
+  /// The rank identifier of the RDS storage recommendation option.
+  final int? rank;
+  final SavingsOpportunity? savingsOpportunity;
+
+  /// Describes the savings opportunity for Amazon RDS storage recommendations or
+  /// for the recommendation option.
+  ///
+  /// Savings opportunity represents the estimated monthly savings after applying
+  /// Savings Plans discounts. You can achieve this by implementing a given
+  /// Compute Optimizer recommendation.
+  final RDSStorageSavingsOpportunityAfterDiscounts?
+      savingsOpportunityAfterDiscounts;
+
+  /// The recommended storage configuration.
+  final DBStorageConfiguration? storageConfiguration;
+
+  RDSDBStorageRecommendationOption({
+    this.rank,
+    this.savingsOpportunity,
+    this.savingsOpportunityAfterDiscounts,
+    this.storageConfiguration,
+  });
+
+  factory RDSDBStorageRecommendationOption.fromJson(Map<String, dynamic> json) {
+    return RDSDBStorageRecommendationOption(
+      rank: json['rank'] as int?,
+      savingsOpportunity: json['savingsOpportunity'] != null
+          ? SavingsOpportunity.fromJson(
+              json['savingsOpportunity'] as Map<String, dynamic>)
+          : null,
+      savingsOpportunityAfterDiscounts:
+          json['savingsOpportunityAfterDiscounts'] != null
+              ? RDSStorageSavingsOpportunityAfterDiscounts.fromJson(
+                  json['savingsOpportunityAfterDiscounts']
+                      as Map<String, dynamic>)
+              : null,
+      storageConfiguration: json['storageConfiguration'] != null
+          ? DBStorageConfiguration.fromJson(
+              json['storageConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Describes the utilization metric of an Amazon RDS.
+///
+/// To determine the performance difference between your current Amazon RDS and
+/// the recommended option, compare the utilization metric data of your service
+/// against its projected utilization metric data.
+class RDSDBUtilizationMetric {
+  /// The name of the utilization metric.
+  final RDSDBMetricName? name;
+
+  /// The statistic of the utilization metric.
+  ///
+  /// The Compute Optimizer API, Command Line Interface (CLI), and SDKs return
+  /// utilization metrics using only the <code>Maximum</code> statistic, which is
+  /// the highest value observed during the specified period.
+  ///
+  /// The Compute Optimizer console displays graphs for some utilization metrics
+  /// using the <code>Average</code> statistic, which is the value of
+  /// <code>Sum</code> / <code>SampleCount</code> during the specified period. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html">Viewing
+  /// resource recommendations</a> in the <i>Compute Optimizer User Guide</i>. You
+  /// can also get averaged utilization metric data for your resources using
+  /// Amazon CloudWatch. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
+  /// CloudWatch User Guide</a>.
+  final RDSDBMetricStatistic? statistic;
+
+  /// The value of the utilization metric.
+  final double? value;
+
+  RDSDBUtilizationMetric({
+    this.name,
+    this.statistic,
+    this.value,
+  });
+
+  factory RDSDBUtilizationMetric.fromJson(Map<String, dynamic> json) {
+    return RDSDBUtilizationMetric(
+      name: (json['name'] as String?)?.let(RDSDBMetricName.fromString),
+      statistic:
+          (json['statistic'] as String?)?.let(RDSDBMetricStatistic.fromString),
+      value: json['value'] as double?,
+    );
+  }
+}
+
+/// Describes the projected metrics of an Amazon RDS recommendation option.
+///
+/// To determine the performance difference between your current Amazon RDS and
+/// the recommended option, compare the metric data of your service against its
+/// projected metric data.
+class RDSDatabaseProjectedMetric {
+  /// The name of the projected metric.
+  final RDSDBMetricName? name;
+
+  /// The timestamps of the projected metric.
+  final List<DateTime>? timestamps;
+
+  /// The values for the projected metric.
+  final List<double>? values;
+
+  RDSDatabaseProjectedMetric({
+    this.name,
+    this.timestamps,
+    this.values,
+  });
+
+  factory RDSDatabaseProjectedMetric.fromJson(Map<String, dynamic> json) {
+    return RDSDatabaseProjectedMetric(
+      name: (json['name'] as String?)?.let(RDSDBMetricName.fromString),
+      timestamps: (json['timestamps'] as List?)
+          ?.nonNulls
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+    );
+  }
+}
+
+/// Describes the projected metrics of an Amazon RDS recommendation option.
+///
+/// To determine the performance difference between your current Amazon RDS and
+/// the recommended option, compare the metric data of your service against its
+/// projected metric data.
+class RDSDatabaseRecommendedOptionProjectedMetric {
+  /// An array of objects that describe the projected metric.
+  final List<RDSDatabaseProjectedMetric>? projectedMetrics;
+
+  /// The rank identifier of the RDS instance recommendation option.
+  final int? rank;
+
+  /// The recommended DB instance class for the Amazon RDS.
+  final String? recommendedDBInstanceClass;
+
+  RDSDatabaseRecommendedOptionProjectedMetric({
+    this.projectedMetrics,
+    this.rank,
+    this.recommendedDBInstanceClass,
+  });
+
+  factory RDSDatabaseRecommendedOptionProjectedMetric.fromJson(
+      Map<String, dynamic> json) {
+    return RDSDatabaseRecommendedOptionProjectedMetric(
+      projectedMetrics: (json['projectedMetrics'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RDSDatabaseProjectedMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rank: json['rank'] as int?,
+      recommendedDBInstanceClass: json['recommendedDBInstanceClass'] as String?,
+    );
+  }
+}
+
+/// Describes the effective recommendation preferences for Amazon RDS.
+class RDSEffectiveRecommendationPreferences {
+  /// Describes the CPU vendor and architecture for Amazon RDS recommendations.
+  final List<CpuVendorArchitecture>? cpuVendorArchitectures;
+
+  /// Describes the activation status of the enhanced infrastructure metrics
+  /// preference.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh, and a status of <code>Inactive</code>
+  /// confirms that it's not yet applied to recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Enhanced
+  /// infrastructure metrics</a> in the <i>Compute Optimizer User Guide</i>.
+  final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  /// The number of days the utilization metrics of the Amazon RDS are analyzed.
+  final LookBackPeriodPreference? lookBackPeriod;
+
+  /// Describes the savings estimation mode preference applied for calculating
+  /// savings opportunity for Amazon RDS.
+  final RDSSavingsEstimationMode? savingsEstimationMode;
+
+  RDSEffectiveRecommendationPreferences({
+    this.cpuVendorArchitectures,
+    this.enhancedInfrastructureMetrics,
+    this.lookBackPeriod,
+    this.savingsEstimationMode,
+  });
+
+  factory RDSEffectiveRecommendationPreferences.fromJson(
+      Map<String, dynamic> json) {
+    return RDSEffectiveRecommendationPreferences(
+      cpuVendorArchitectures: (json['cpuVendorArchitectures'] as List?)
+          ?.nonNulls
+          .map((e) => CpuVendorArchitecture.fromString((e as String)))
+          .toList(),
+      enhancedInfrastructureMetrics:
+          (json['enhancedInfrastructureMetrics'] as String?)
+              ?.let(EnhancedInfrastructureMetrics.fromString),
+      lookBackPeriod: (json['lookBackPeriod'] as String?)
+          ?.let(LookBackPeriodPreference.fromString),
+      savingsEstimationMode: json['savingsEstimationMode'] != null
+          ? RDSSavingsEstimationMode.fromJson(
+              json['savingsEstimationMode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+/// Describes the estimated monthly savings possible for Amazon RDS instances by
+/// adopting Compute Optimizer recommendations. This is based on Amazon RDS
+/// pricing after applying Savings Plans discounts.
+class RDSInstanceEstimatedMonthlySavings {
+  /// The currency of the estimated monthly savings.
+  final Currency? currency;
+
+  /// The value of the estimated monthly savings for Amazon RDS instances.
+  final double? value;
+
+  RDSInstanceEstimatedMonthlySavings({
+    this.currency,
+    this.value,
+  });
+
+  factory RDSInstanceEstimatedMonthlySavings.fromJson(
+      Map<String, dynamic> json) {
+    return RDSInstanceEstimatedMonthlySavings(
+      currency: (json['currency'] as String?)?.let(Currency.fromString),
+      value: json['value'] as double?,
+    );
+  }
+}
+
+enum RDSInstanceFinding {
+  optimized('Optimized'),
+  underprovisioned('Underprovisioned'),
+  overprovisioned('Overprovisioned'),
+  ;
+
+  final String value;
+
+  const RDSInstanceFinding(this.value);
+
+  static RDSInstanceFinding fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RDSInstanceFinding'));
+}
+
+enum RDSInstanceFindingReasonCode {
+  cPUOverprovisioned('CPUOverprovisioned'),
+  networkBandwidthOverprovisioned('NetworkBandwidthOverprovisioned'),
+  eBSIOPSOverprovisioned('EBSIOPSOverprovisioned'),
+  eBSThroughputOverprovisioned('EBSThroughputOverprovisioned'),
+  cPUUnderprovisioned('CPUUnderprovisioned'),
+  networkBandwidthUnderprovisioned('NetworkBandwidthUnderprovisioned'),
+  eBSThroughputUnderprovisioned('EBSThroughputUnderprovisioned'),
+  newGenerationDBInstanceClassAvailable(
+      'NewGenerationDBInstanceClassAvailable'),
+  newEngineVersionAvailable('NewEngineVersionAvailable'),
+  ;
+
+  final String value;
+
+  const RDSInstanceFindingReasonCode(this.value);
+
+  static RDSInstanceFindingReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RDSInstanceFindingReasonCode'));
+}
+
+/// Describes the savings opportunity for Amazon RDS instance recommendations
+/// after applying Savings Plans discounts.
+///
+/// Savings opportunity represents the estimated monthly savings after applying
+/// Savings Plans discounts. You can achieve this by implementing a given
+/// Compute Optimizer recommendation.
+class RDSInstanceSavingsOpportunityAfterDiscounts {
+  /// The estimated monthly savings possible by adopting Compute Optimizer’s
+  /// Amazon RDS instance recommendations. This includes any applicable Savings
+  /// Plans discounts.
+  final RDSInstanceEstimatedMonthlySavings? estimatedMonthlySavings;
+
+  /// The estimated monthly savings possible as a percentage of monthly cost by
+  /// adopting Compute Optimizer’s Amazon RDS instance recommendations. This
+  /// includes any applicable Savings Plans discounts.
+  final double? savingsOpportunityPercentage;
+
+  RDSInstanceSavingsOpportunityAfterDiscounts({
+    this.estimatedMonthlySavings,
+    this.savingsOpportunityPercentage,
+  });
+
+  factory RDSInstanceSavingsOpportunityAfterDiscounts.fromJson(
+      Map<String, dynamic> json) {
+    return RDSInstanceSavingsOpportunityAfterDiscounts(
+      estimatedMonthlySavings: json['estimatedMonthlySavings'] != null
+          ? RDSInstanceEstimatedMonthlySavings.fromJson(
+              json['estimatedMonthlySavings'] as Map<String, dynamic>)
+          : null,
+      savingsOpportunityPercentage:
+          json['savingsOpportunityPercentage'] as double?,
+    );
+  }
+}
+
+/// Describes the savings estimation mode used for calculating savings
+/// opportunity for Amazon RDS.
+class RDSSavingsEstimationMode {
+  /// Describes the source for calculating the savings opportunity for Amazon RDS.
+  final RDSSavingsEstimationModeSource? source;
+
+  RDSSavingsEstimationMode({
+    this.source,
+  });
+
+  factory RDSSavingsEstimationMode.fromJson(Map<String, dynamic> json) {
+    return RDSSavingsEstimationMode(
+      source: (json['source'] as String?)
+          ?.let(RDSSavingsEstimationModeSource.fromString),
+    );
+  }
+}
+
+enum RDSSavingsEstimationModeSource {
+  publicPricing('PublicPricing'),
+  costExplorerRightsizing('CostExplorerRightsizing'),
+  costOptimizationHub('CostOptimizationHub'),
+  ;
+
+  final String value;
+
+  const RDSSavingsEstimationModeSource(this.value);
+
+  static RDSSavingsEstimationModeSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RDSSavingsEstimationModeSource'));
+}
+
+/// Describes the estimated monthly savings possible for Amazon RDS storage by
+/// adopting Compute Optimizer recommendations. This is based on Amazon RDS
+/// pricing after applying Savings Plans discounts.
+class RDSStorageEstimatedMonthlySavings {
+  /// The currency of the estimated monthly savings.
+  final Currency? currency;
+
+  /// The value of the estimated monthly savings for Amazon RDS storage.
+  final double? value;
+
+  RDSStorageEstimatedMonthlySavings({
+    this.currency,
+    this.value,
+  });
+
+  factory RDSStorageEstimatedMonthlySavings.fromJson(
+      Map<String, dynamic> json) {
+    return RDSStorageEstimatedMonthlySavings(
+      currency: (json['currency'] as String?)?.let(Currency.fromString),
+      value: json['value'] as double?,
+    );
+  }
+}
+
+enum RDSStorageFinding {
+  optimized('Optimized'),
+  underprovisioned('Underprovisioned'),
+  overprovisioned('Overprovisioned'),
+  ;
+
+  final String value;
+
+  const RDSStorageFinding(this.value);
+
+  static RDSStorageFinding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RDSStorageFinding'));
+}
+
+enum RDSStorageFindingReasonCode {
+  eBSVolumeAllocatedStorageUnderprovisioned(
+      'EBSVolumeAllocatedStorageUnderprovisioned'),
+  eBSVolumeThroughputUnderprovisioned('EBSVolumeThroughputUnderprovisioned'),
+  eBSVolumeIOPSOverprovisioned('EBSVolumeIOPSOverprovisioned'),
+  eBSVolumeThroughputOverprovisioned('EBSVolumeThroughputOverprovisioned'),
+  newGenerationStorageTypeAvailable('NewGenerationStorageTypeAvailable'),
+  ;
+
+  final String value;
+
+  const RDSStorageFindingReasonCode(this.value);
+
+  static RDSStorageFindingReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RDSStorageFindingReasonCode'));
+}
+
+/// Describes the savings opportunity for Amazon RDS storage recommendations
+/// after applying Savings Plans discounts.
+///
+/// Savings opportunity represents the estimated monthly savings after applying
+/// Savings Plans discounts. You can achieve this by implementing a given
+/// Compute Optimizer recommendation.
+class RDSStorageSavingsOpportunityAfterDiscounts {
+  /// The estimated monthly savings possible by adopting Compute Optimizer’s
+  /// Amazon RDS storage recommendations. This includes any applicable Savings
+  /// Plans discounts.
+  final RDSStorageEstimatedMonthlySavings? estimatedMonthlySavings;
+
+  /// The estimated monthly savings possible as a percentage of monthly cost by
+  /// adopting Compute Optimizer’s Amazon RDS storage recommendations. This
+  /// includes any applicable Savings Plans discounts.
+  final double? savingsOpportunityPercentage;
+
+  RDSStorageSavingsOpportunityAfterDiscounts({
+    this.estimatedMonthlySavings,
+    this.savingsOpportunityPercentage,
+  });
+
+  factory RDSStorageSavingsOpportunityAfterDiscounts.fromJson(
+      Map<String, dynamic> json) {
+    return RDSStorageSavingsOpportunityAfterDiscounts(
+      estimatedMonthlySavings: json['estimatedMonthlySavings'] != null
+          ? RDSStorageEstimatedMonthlySavings.fromJson(
+              json['estimatedMonthlySavings'] as Map<String, dynamic>)
+          : null,
+      savingsOpportunityPercentage:
+          json['savingsOpportunityPercentage'] as double?,
+    );
+  }
+}
+
 /// A summary of a finding reason code.
 class ReasonCodeSummary {
   /// The name of the finding reason code.
@@ -7924,8 +9204,10 @@ enum RecommendationPreferenceName {
 
 /// Describes the recommendation preferences to return in the response of a
 /// <a>GetAutoScalingGroupRecommendations</a>,
-/// <a>GetEC2InstanceRecommendations</a>, and
-/// <a>GetEC2RecommendationProjectedMetrics</a> request.
+/// <a>GetEC2InstanceRecommendations</a>,
+/// <a>GetEC2RecommendationProjectedMetrics</a>,
+/// <a>GetRDSDatabaseRecommendations</a>, and
+/// <a>GetRDSDatabaseRecommendationProjectedMetrics</a> request.
 class RecommendationPreferences {
   /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto
   /// Scaling group recommendations.
@@ -7936,17 +9218,17 @@ class RecommendationPreferences {
   /// <li>
   /// A <a>GetEC2InstanceRecommendations</a> or
   /// <a>GetAutoScalingGroupRecommendations</a> request, Compute Optimizer returns
-  /// recommendations that consist of Graviton2 instance types only.
+  /// recommendations that consist of Graviton instance types only.
   /// </li>
   /// <li>
   /// A <a>GetEC2RecommendationProjectedMetrics</a> request, Compute Optimizer
-  /// returns projected utilization metrics for Graviton2 instance type
+  /// returns projected utilization metrics for Graviton instance type
   /// recommendations only.
   /// </li>
   /// <li>
   /// A <a>ExportEC2InstanceRecommendations</a> or
   /// <a>ExportAutoScalingGroupRecommendations</a> request, Compute Optimizer
-  /// exports recommendations that consist of Graviton2 instance types only.
+  /// exports recommendations that consist of Graviton instance types only.
   /// </li>
   /// </ul>
   final List<CpuVendorArchitecture>? cpuVendorArchitectures;
@@ -8114,6 +9396,8 @@ enum RecommendationSourceType {
   lambdaFunction('LambdaFunction'),
   ecsService('EcsService'),
   license('License'),
+  rdsDBInstance('RdsDBInstance'),
+  rdsDBInstanceStorage('RdsDBInstanceStorage'),
   ;
 
   final String value;
@@ -8242,6 +9526,7 @@ enum ResourceType {
   notApplicable('NotApplicable'),
   ecsService('EcsService'),
   license('License'),
+  rdsDBInstance('RdsDBInstance'),
   ;
 
   final String value;
@@ -8806,8 +10091,8 @@ class UtilizationMetric {
   }
 }
 
-/// The preference to control the resource’s CPU utilization thresholds -
-/// threshold and headroom.
+/// The preference to control the resource’s CPU utilization threshold, CPU
+/// utilization headroom, and memory utilization headroom.
 /// <note>
 /// This preference is only available for the Amazon EC2 instance resource type.
 /// </note>

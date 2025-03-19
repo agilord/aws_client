@@ -1936,6 +1936,103 @@ class Location {
     );
   }
 
+  /// Evaluates device positions against geofence geometries from a given
+  /// geofence collection. The event forecasts three states for which a device
+  /// can be in relative to a geofence:
+  ///
+  /// <code>ENTER</code>: If a device is outside of a geofence, but would breach
+  /// the fence if the device is moving at its current speed within time horizon
+  /// window.
+  ///
+  /// <code>EXIT</code>: If a device is inside of a geofence, but would breach
+  /// the fence if the device is moving at its current speed within time horizon
+  /// window.
+  ///
+  /// <code>IDLE</code>: If a device is inside of a geofence, and the device is
+  /// not moving.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [collectionName] :
+  /// The name of the geofence collection.
+  ///
+  /// Parameter [deviceState] :
+  /// The device's state, including current position and speed.
+  ///
+  /// Parameter [distanceUnit] :
+  /// The distance unit used for the <code>NearestDistance</code> property
+  /// returned in a forecasted event. The measurement system must match for
+  /// <code>DistanceUnit</code> and <code>SpeedUnit</code>; if
+  /// <code>Kilometers</code> is specified for <code>DistanceUnit</code>, then
+  /// <code>SpeedUnit</code> must be <code>KilometersPerHour</code>.
+  ///
+  /// Default Value: <code>Kilometers</code>
+  ///
+  /// Parameter [maxResults] :
+  /// An optional limit for the number of resources returned in a single call.
+  ///
+  /// Default value: <code>20</code>
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token specifying which page of results to return in the
+  /// response. If no token is provided, the default page is the first page.
+  ///
+  /// Default value: <code>null</code>
+  ///
+  /// Parameter [speedUnit] :
+  /// The speed unit for the device captured by the device state. The
+  /// measurement system must match for <code>DistanceUnit</code> and
+  /// <code>SpeedUnit</code>; if <code>Kilometers</code> is specified for
+  /// <code>DistanceUnit</code>, then <code>SpeedUnit</code> must be
+  /// <code>KilometersPerHour</code>.
+  ///
+  /// Default Value: <code>KilometersPerHour</code>.
+  ///
+  /// Parameter [timeHorizonMinutes] :
+  /// Specifies the time horizon in minutes for the forecasted events.
+  Future<ForecastGeofenceEventsResponse> forecastGeofenceEvents({
+    required String collectionName,
+    required ForecastGeofenceEventsDeviceState deviceState,
+    DistanceUnit? distanceUnit,
+    int? maxResults,
+    String? nextToken,
+    SpeedUnit? speedUnit,
+    double? timeHorizonMinutes,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    _s.validateNumRange(
+      'timeHorizonMinutes',
+      timeHorizonMinutes,
+      0,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'DeviceState': deviceState,
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.value,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (speedUnit != null) 'SpeedUnit': speedUnit.value,
+      if (timeHorizonMinutes != null) 'TimeHorizonMinutes': timeHorizonMinutes,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/geofencing/v0/collections/${Uri.encodeComponent(collectionName)}/forecast-geofence-events',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ForecastGeofenceEventsResponse.fromJson(response);
+  }
+
   /// Retrieves a device's most recent position according to its sample time.
   /// <note>
   /// Device positions are deleted after 30 days.
@@ -2059,6 +2156,10 @@ class Location {
   }
 
   /// Retrieves the geofence details from a geofence collection.
+  /// <note>
+  /// The returned geometry will always match the geometry format used when the
+  /// geofence was created.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -2122,8 +2223,7 @@ class Location {
   /// </li>
   /// <li>
   /// VectorEsriNavigation – <code>Arial Regular</code> | <code>Arial
-  /// Italic</code> | <code>Arial Bold</code> | <code>Arial Unicode MS
-  /// Bold</code> | <code>Arial Unicode MS Regular</code>
+  /// Italic</code> | <code>Arial Bold</code>
   /// </li>
   /// </ul>
   /// Valid font stacks for <a
@@ -2416,44 +2516,6 @@ class Location {
   ///
   /// Parameter [placeId] :
   /// The identifier of the place to find.
-  ///
-  /// While you can use PlaceID in subsequent requests, PlaceID is not intended
-  /// to be a permanent identifier and the ID can change between consecutive API
-  /// calls. Please see the following PlaceID behaviour for each data provider:
-  ///
-  /// <ul>
-  /// <li>
-  /// Esri: Place IDs will change every quarter at a minimum. The typical time
-  /// period for these changes would be March, June, September, and December.
-  /// Place IDs might also change between the typical quarterly change but that
-  /// will be much less frequent.
-  /// </li>
-  /// <li>
-  /// HERE: We recommend that you cache data for no longer than a week to keep
-  /// your data data fresh. You can assume that less than 1% ID shifts will
-  /// release over release which is approximately 1 - 2 times per week.
-  /// </li>
-  /// <li>
-  /// Grab: Place IDs can expire or become invalid in the following situations.
-  ///
-  /// <ul>
-  /// <li>
-  /// Data operations: The POI may be removed from Grab POI database by Grab Map
-  /// Ops based on the ground-truth, such as being closed in the real world,
-  /// being detected as a duplicate POI, or having incorrect information. Grab
-  /// will synchronize data to the Waypoint environment on weekly basis.
-  /// </li>
-  /// <li>
-  /// Interpolated POI: Interpolated POI is a temporary POI generated in real
-  /// time when serving a request, and it will be marked as derived in the
-  /// <code>place.result_type</code> field in the response. The information of
-  /// interpolated POIs will be retained for at least 30 days, which means that
-  /// within 30 days, you are able to obtain POI details by Place ID from Place
-  /// Details API. After 30 days, the interpolated POIs(both Place ID and
-  /// details) may expire and inaccessible from the Places Details API.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
   ///
   /// Parameter [key] :
   /// The optional <a
@@ -2943,13 +3005,15 @@ class Location {
   /// <code>ExampleGeofence-1</code>.
   ///
   /// Parameter [geometry] :
-  /// Contains the details to specify the position of the geofence. Can be
-  /// either a polygon or a circle. Including both will return a validation
-  /// error.
+  /// Contains the details to specify the position of the geofence. Can be a
+  /// polygon, a circle or a polygon encoded in Geobuf format. Including
+  /// multiple selections will return a validation error.
   /// <note>
-  /// Each <a
+  /// The <a
   /// href="https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html">
-  /// geofence polygon</a> can have a maximum of 1,000 vertices.
+  /// geofence polygon</a> format supports a maximum of 1,000 vertices. The <a
+  /// href="https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html">Geofence
+  /// Geobuf</a> format supports a maximum of 100,000 vertices.
   /// </note>
   ///
   /// Parameter [geofenceProperties] :
@@ -3807,6 +3871,47 @@ class Location {
     );
     return UpdateTrackerResponse.fromJson(response);
   }
+
+  /// Verifies the integrity of the device's position by determining if it was
+  /// reported behind a proxy, and by comparing it to an inferred position
+  /// estimated based on the device's state.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [deviceState] :
+  /// The device's state, including position, IP address, cell signals and Wi-Fi
+  /// access points.
+  ///
+  /// Parameter [trackerName] :
+  /// The name of the tracker resource to be associated with verification
+  /// request.
+  ///
+  /// Parameter [distanceUnit] :
+  /// The distance unit for the verification request.
+  ///
+  /// Default Value: <code>Kilometers</code>
+  Future<VerifyDevicePositionResponse> verifyDevicePosition({
+    required DeviceState deviceState,
+    required String trackerName,
+    DistanceUnit? distanceUnit,
+  }) async {
+    final $payload = <String, dynamic>{
+      'DeviceState': deviceState,
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/tracking/v0/trackers/${Uri.encodeComponent(trackerName)}/positions/verify',
+      exceptionFnMap: _exceptionFns,
+    );
+    return VerifyDevicePositionResponse.fromJson(response);
+  }
 }
 
 /// Options for filtering API keys.
@@ -4324,12 +4429,15 @@ class BatchPutGeofenceRequestEntry {
   /// The identifier for the geofence to be stored in a given geofence collection.
   final String geofenceId;
 
-  /// Contains the details of the position of the geofence. Can be either a
-  /// polygon or a circle. Including both will return a validation error.
+  /// Contains the details to specify the position of the geofence. Can be a
+  /// polygon, a circle or a polygon encoded in Geobuf format. Including multiple
+  /// selections will return a validation error.
   /// <note>
-  /// Each <a
+  /// The <a
   /// href="https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html">
-  /// geofence polygon</a> can have a maximum of 1,000 vertices.
+  /// geofence polygon</a> format supports a maximum of 1,000 vertices. The <a
+  /// href="https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html">Geofence
+  /// geobuf</a> format supports a maximum of 100,000 vertices.
   /// </note>
   final GeofenceGeometry geometry;
 
@@ -4885,6 +4993,24 @@ class CalculateRouteTruckModeOptions {
       if (avoidTolls != null) 'AvoidTolls': avoidTolls,
       if (dimensions != null) 'Dimensions': dimensions,
       if (weight != null) 'Weight': weight,
+    };
+  }
+}
+
+/// The cellular network communication infrastructure that the device uses.
+class CellSignals {
+  /// Information about the Long-Term Evolution (LTE) network the device is
+  /// connected to.
+  final List<LteCellDetails> lteCellDetails;
+
+  CellSignals({
+    required this.lteCellDetails,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lteCellDetails = this.lteCellDetails;
+    return {
+      'LteCellDetails': lteCellDetails,
     };
   }
 }
@@ -6110,6 +6236,59 @@ class DevicePositionUpdate {
   }
 }
 
+/// The device's position, IP address, and Wi-Fi access points.
+class DeviceState {
+  /// The device identifier.
+  final String deviceId;
+
+  /// The last known device position.
+  final List<double> position;
+
+  /// The timestamp at which the device's position was determined. Uses <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601 </a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime sampleTime;
+  final PositionalAccuracy? accuracy;
+
+  /// The cellular network infrastructure that the device is connected to.
+  final CellSignals? cellSignals;
+
+  /// The device's Ipv4 address.
+  final String? ipv4Address;
+
+  /// The Wi-Fi access points the device is using.
+  final List<WiFiAccessPoint>? wiFiAccessPoints;
+
+  DeviceState({
+    required this.deviceId,
+    required this.position,
+    required this.sampleTime,
+    this.accuracy,
+    this.cellSignals,
+    this.ipv4Address,
+    this.wiFiAccessPoints,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final position = this.position;
+    final sampleTime = this.sampleTime;
+    final accuracy = this.accuracy;
+    final cellSignals = this.cellSignals;
+    final ipv4Address = this.ipv4Address;
+    final wiFiAccessPoints = this.wiFiAccessPoints;
+    return {
+      'DeviceId': deviceId,
+      'Position': position,
+      'SampleTime': iso8601ToJson(sampleTime),
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (cellSignals != null) 'CellSignals': cellSignals,
+      if (ipv4Address != null) 'Ipv4Address': ipv4Address,
+      if (wiFiAccessPoints != null) 'WiFiAccessPoints': wiFiAccessPoints,
+    };
+  }
+}
+
 enum DimensionUnit {
   meters('Meters'),
   feet('Feet'),
@@ -6152,10 +6331,181 @@ enum DistanceUnit {
               throw Exception('$value is not known in enum DistanceUnit'));
 }
 
+/// The device's position, IP address, and WiFi access points.
+class ForecastGeofenceEventsDeviceState {
+  /// The device's position.
+  final List<double> position;
+
+  /// The device's speed.
+  final double? speed;
+
+  ForecastGeofenceEventsDeviceState({
+    required this.position,
+    this.speed,
+  });
+
+  Map<String, dynamic> toJson() {
+    final position = this.position;
+    final speed = this.speed;
+    return {
+      'Position': position,
+      if (speed != null) 'Speed': speed,
+    };
+  }
+}
+
+class ForecastGeofenceEventsResponse {
+  /// The distance unit for the forecasted events.
+  final DistanceUnit distanceUnit;
+
+  /// The list of forecasted events.
+  final List<ForecastedEvent> forecastedEvents;
+
+  /// The speed unit for the forecasted events.
+  final SpeedUnit speedUnit;
+
+  /// The pagination token specifying which page of results to return in the
+  /// response. If no token is provided, the default page is the first page.
+  final String? nextToken;
+
+  ForecastGeofenceEventsResponse({
+    required this.distanceUnit,
+    required this.forecastedEvents,
+    required this.speedUnit,
+    this.nextToken,
+  });
+
+  factory ForecastGeofenceEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ForecastGeofenceEventsResponse(
+      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      forecastedEvents: (json['ForecastedEvents'] as List)
+          .nonNulls
+          .map((e) => ForecastedEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      speedUnit: SpeedUnit.fromString((json['SpeedUnit'] as String)),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distanceUnit = this.distanceUnit;
+    final forecastedEvents = this.forecastedEvents;
+    final speedUnit = this.speedUnit;
+    final nextToken = this.nextToken;
+    return {
+      'DistanceUnit': distanceUnit.value,
+      'ForecastedEvents': forecastedEvents,
+      'SpeedUnit': speedUnit.value,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A forecasted event represents a geofence event in relation to the requested
+/// device state, that may occur given the provided device state and time
+/// horizon.
+class ForecastedEvent {
+  /// The forecasted event identifier.
+  final String eventId;
+
+  /// The event type, forecasting three states for which a device can be in
+  /// relative to a geofence:
+  ///
+  /// <code>ENTER</code>: If a device is outside of a geofence, but would breach
+  /// the fence if the device is moving at its current speed within time horizon
+  /// window.
+  ///
+  /// <code>EXIT</code>: If a device is inside of a geofence, but would breach the
+  /// fence if the device is moving at its current speed within time horizon
+  /// window.
+  ///
+  /// <code>IDLE</code>: If a device is inside of a geofence, and the device is
+  /// not moving.
+  final ForecastedGeofenceEventType eventType;
+
+  /// The geofence identifier pertaining to the forecasted event.
+  final String geofenceId;
+
+  /// Indicates if the device is located within the geofence.
+  final bool isDeviceInGeofence;
+
+  /// The closest distance from the device's position to the geofence.
+  final double nearestDistance;
+
+  /// The forecasted time the device will breach the geofence in <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
+  final DateTime? forecastedBreachTime;
+
+  /// The geofence properties.
+  final Map<String, String>? geofenceProperties;
+
+  ForecastedEvent({
+    required this.eventId,
+    required this.eventType,
+    required this.geofenceId,
+    required this.isDeviceInGeofence,
+    required this.nearestDistance,
+    this.forecastedBreachTime,
+    this.geofenceProperties,
+  });
+
+  factory ForecastedEvent.fromJson(Map<String, dynamic> json) {
+    return ForecastedEvent(
+      eventId: json['EventId'] as String,
+      eventType:
+          ForecastedGeofenceEventType.fromString((json['EventType'] as String)),
+      geofenceId: json['GeofenceId'] as String,
+      isDeviceInGeofence: json['IsDeviceInGeofence'] as bool,
+      nearestDistance: json['NearestDistance'] as double,
+      forecastedBreachTime: timeStampFromJson(json['ForecastedBreachTime']),
+      geofenceProperties: (json['GeofenceProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventId = this.eventId;
+    final eventType = this.eventType;
+    final geofenceId = this.geofenceId;
+    final isDeviceInGeofence = this.isDeviceInGeofence;
+    final nearestDistance = this.nearestDistance;
+    final forecastedBreachTime = this.forecastedBreachTime;
+    final geofenceProperties = this.geofenceProperties;
+    return {
+      'EventId': eventId,
+      'EventType': eventType.value,
+      'GeofenceId': geofenceId,
+      'IsDeviceInGeofence': isDeviceInGeofence,
+      'NearestDistance': nearestDistance,
+      if (forecastedBreachTime != null)
+        'ForecastedBreachTime': iso8601ToJson(forecastedBreachTime),
+      if (geofenceProperties != null) 'GeofenceProperties': geofenceProperties,
+    };
+  }
+}
+
+enum ForecastedGeofenceEventType {
+  enter('ENTER'),
+  exit('EXIT'),
+  idle('IDLE'),
+  ;
+
+  final String value;
+
+  const ForecastedGeofenceEventType(this.value);
+
+  static ForecastedGeofenceEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ForecastedGeofenceEventType'));
+}
+
 /// Contains the geofence geometry details.
 ///
-/// A geofence geometry is made up of either a polygon or a circle. Can be
-/// either a polygon or a circle. Including both will return a validation error.
+/// A geofence geometry is made up of either a polygon or a circle. Can be a
+/// polygon, a circle or a polygon encoded in Geobuf format. Including multiple
+/// selections will return a validation error.
 /// <note>
 /// Amazon Location doesn't currently support polygons with holes,
 /// multipolygons, polygons that are wound clockwise, or that cross the
@@ -6164,6 +6514,12 @@ enum DistanceUnit {
 class GeofenceGeometry {
   /// A circle on the earth, as defined by a center point and a radius.
   final Circle? circle;
+
+  /// Geobuf is a compact binary encoding for geographic data that provides
+  /// lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded.
+  ///
+  /// A polygon in Geobuf format can have up to 100,000 vertices.
+  final Uint8List? geobuf;
 
   /// A polygon is a list of linear rings which are each made up of a list of
   /// vertices.
@@ -6189,6 +6545,7 @@ class GeofenceGeometry {
 
   GeofenceGeometry({
     this.circle,
+    this.geobuf,
     this.polygon,
   });
 
@@ -6197,6 +6554,7 @@ class GeofenceGeometry {
       circle: json['Circle'] != null
           ? Circle.fromJson(json['Circle'] as Map<String, dynamic>)
           : null,
+      geobuf: _s.decodeNullableUint8List(json['Geobuf'] as String?),
       polygon: (json['Polygon'] as List?)
           ?.nonNulls
           .map((e) => (e as List)
@@ -6209,9 +6567,11 @@ class GeofenceGeometry {
 
   Map<String, dynamic> toJson() {
     final circle = this.circle;
+    final geobuf = this.geobuf;
     final polygon = this.polygon;
     return {
       if (circle != null) 'Circle': circle,
+      if (geobuf != null) 'Geobuf': base64Encode(geobuf),
       if (polygon != null) 'Polygon': polygon,
     };
   }
@@ -6254,9 +6614,9 @@ class GetDevicePositionResponse {
   /// The last known device position.
   final List<double> position;
 
-  /// The timestamp for when the tracker resource received the device position in
-  /// <a href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601
-  /// </a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  /// The timestamp for when the tracker resource received the device position.
+  /// Uses <a href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO
+  /// 8601 </a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime receivedTime;
 
   /// The timestamp at which the device's position was determined. Uses <a
@@ -6530,6 +6890,59 @@ class GetPlaceResponse {
     final place = this.place;
     return {
       'Place': place,
+    };
+  }
+}
+
+/// The inferred state of the device, given the provided position, IP address,
+/// cellular signals, and Wi-Fi- access points.
+class InferredState {
+  /// Indicates if a proxy was used.
+  final bool proxyDetected;
+
+  /// The level of certainty of the inferred position.
+  final PositionalAccuracy? accuracy;
+
+  /// The distance between the inferred position and the device's self-reported
+  /// position.
+  final double? deviationDistance;
+
+  /// The device position inferred by the provided position, IP address, cellular
+  /// signals, and Wi-Fi- access points.
+  final List<double>? position;
+
+  InferredState({
+    required this.proxyDetected,
+    this.accuracy,
+    this.deviationDistance,
+    this.position,
+  });
+
+  factory InferredState.fromJson(Map<String, dynamic> json) {
+    return InferredState(
+      proxyDetected: json['ProxyDetected'] as bool,
+      accuracy: json['Accuracy'] != null
+          ? PositionalAccuracy.fromJson(
+              json['Accuracy'] as Map<String, dynamic>)
+          : null,
+      deviationDistance: json['DeviationDistance'] as double?,
+      position: (json['Position'] as List?)
+          ?.nonNulls
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxyDetected = this.proxyDetected;
+    final accuracy = this.accuracy;
+    final deviationDistance = this.deviationDistance;
+    final position = this.position;
+    return {
+      'ProxyDetected': proxyDetected,
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (deviationDistance != null) 'DeviationDistance': deviationDistance,
+      if (position != null) 'Position': position,
     };
   }
 }
@@ -6836,6 +7249,10 @@ class ListGeofenceCollectionsResponse {
 }
 
 /// Contains the geofence collection details.
+/// <note>
+/// The returned geometry will always match the geometry format used when the
+/// geofence was created.
+/// </note>
 class ListGeofenceCollectionsResponseEntry {
   /// The name of the geofence collection.
   final String collectionName;
@@ -6901,6 +7318,10 @@ class ListGeofenceCollectionsResponseEntry {
 }
 
 /// Contains a list of geofences stored in a given geofence collection.
+/// <note>
+/// The returned geometry will always match the geometry format used when the
+/// geofence was created.
+/// </note>
 class ListGeofenceResponseEntry {
   /// The timestamp for when the geofence was stored in a geofence collection in
   /// <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO
@@ -7620,6 +8041,146 @@ class ListTrackersResponseEntry {
   }
 }
 
+/// Details about the Long-Term Evolution (LTE) network.
+class LteCellDetails {
+  /// The E-UTRAN Cell Identifier (ECI).
+  final int cellId;
+
+  /// The Mobile Country Code (MCC).
+  final int mcc;
+
+  /// The Mobile Network Code (MNC)
+  final int mnc;
+
+  /// The LTE local identification information (local ID).
+  final LteLocalId? localId;
+
+  /// The network measurements.
+  final List<LteNetworkMeasurements>? networkMeasurements;
+
+  /// Indicates whether the LTE object is capable of supporting NR (new radio).
+  final bool? nrCapable;
+
+  /// Signal power of the reference signal received, measured in
+  /// decibel-milliwatts (dBm).
+  final int? rsrp;
+
+  /// Signal quality of the reference Signal received, measured in decibels (dB).
+  final double? rsrq;
+
+  /// LTE Tracking Area Code (TAC).
+  final int? tac;
+
+  /// Timing Advance (TA).
+  final int? timingAdvance;
+
+  LteCellDetails({
+    required this.cellId,
+    required this.mcc,
+    required this.mnc,
+    this.localId,
+    this.networkMeasurements,
+    this.nrCapable,
+    this.rsrp,
+    this.rsrq,
+    this.tac,
+    this.timingAdvance,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cellId = this.cellId;
+    final mcc = this.mcc;
+    final mnc = this.mnc;
+    final localId = this.localId;
+    final networkMeasurements = this.networkMeasurements;
+    final nrCapable = this.nrCapable;
+    final rsrp = this.rsrp;
+    final rsrq = this.rsrq;
+    final tac = this.tac;
+    final timingAdvance = this.timingAdvance;
+    return {
+      'CellId': cellId,
+      'Mcc': mcc,
+      'Mnc': mnc,
+      if (localId != null) 'LocalId': localId,
+      if (networkMeasurements != null)
+        'NetworkMeasurements': networkMeasurements,
+      if (nrCapable != null) 'NrCapable': nrCapable,
+      if (rsrp != null) 'Rsrp': rsrp,
+      if (rsrq != null) 'Rsrq': rsrq,
+      if (tac != null) 'Tac': tac,
+      if (timingAdvance != null) 'TimingAdvance': timingAdvance,
+    };
+  }
+}
+
+/// LTE local identification information (local ID).
+class LteLocalId {
+  /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency
+  /// channel number (EARFCN).
+  final int earfcn;
+
+  /// Physical Cell ID (PCI).
+  final int pci;
+
+  LteLocalId({
+    required this.earfcn,
+    required this.pci,
+  });
+
+  Map<String, dynamic> toJson() {
+    final earfcn = this.earfcn;
+    final pci = this.pci;
+    return {
+      'Earfcn': earfcn,
+      'Pci': pci,
+    };
+  }
+}
+
+/// LTE network measurements.
+class LteNetworkMeasurements {
+  /// E-UTRAN Cell Identifier (ECI).
+  final int cellId;
+
+  /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency
+  /// channel number (EARFCN).
+  final int earfcn;
+
+  /// Physical Cell ID (PCI).
+  final int pci;
+
+  /// Signal power of the reference signal received, measured in dBm
+  /// (decibel-milliwatts).
+  final int? rsrp;
+
+  /// Signal quality of the reference Signal received, measured in decibels (dB).
+  final double? rsrq;
+
+  LteNetworkMeasurements({
+    required this.cellId,
+    required this.earfcn,
+    required this.pci,
+    this.rsrp,
+    this.rsrq,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cellId = this.cellId;
+    final earfcn = this.earfcn;
+    final pci = this.pci;
+    final rsrp = this.rsrp;
+    final rsrq = this.rsrq;
+    return {
+      'CellId': cellId,
+      'Earfcn': earfcn,
+      'Pci': pci,
+      if (rsrp != null) 'Rsrp': rsrp,
+      if (rsrq != null) 'Rsrq': rsrq,
+    };
+  }
+}
+
 /// Specifies the map tile style selected from an available provider.
 class MapConfiguration {
   /// Specifies the map style selected from an available data provider.
@@ -7630,14 +8191,11 @@ class MapConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>VectorEsriNavigation</code> – The Esri Navigation map style, which
-  /// provides a detailed basemap for the world symbolized with a custom
-  /// navigation map style that's designed for use during the day in mobile
-  /// devices. It also includes a richer set of places, such as shops, services,
-  /// restaurants, attractions, and other points of interest. Enable the
-  /// <code>POI</code> layer by setting it in CustomLayers to leverage the
-  /// additional places data.
-  /// <p/> </li>
+  /// <code>VectorEsriDarkGrayCanvas</code> – The Esri Dark Gray Canvas map style.
+  /// A vector basemap with a dark gray, neutral background with minimal colors,
+  /// labels, and features that's designed to draw attention to your thematic
+  /// content.
+  /// </li>
   /// <li>
   /// <code>RasterEsriImagery</code> – The Esri Imagery map style. A raster
   /// basemap that provides one meter or better satellite and aerial imagery in
@@ -7660,10 +8218,10 @@ class MapConfiguration {
   /// World Street Map raster map.
   /// </li>
   /// <li>
-  /// <code>VectorEsriDarkGrayCanvas</code> – The Esri Dark Gray Canvas map style.
-  /// A vector basemap with a dark gray, neutral background with minimal colors,
-  /// labels, and features that's designed to draw attention to your thematic
-  /// content.
+  /// <code>VectorEsriNavigation</code> – The Esri Navigation map style, which
+  /// provides a detailed basemap for the world symbolized with a custom
+  /// navigation map style that's designed for use during the day in mobile
+  /// devices.
   /// </li>
   /// </ul>
   /// Valid <a
@@ -7672,9 +8230,24 @@ class MapConfiguration {
   ///
   /// <ul>
   /// <li>
+  /// <code>VectorHereContrast</code> – The HERE Contrast (Berlin) map style is a
+  /// high contrast detailed base map of the world that blends 3D and 2D
+  /// rendering.
+  /// <note>
+  /// The <code>VectorHereContrast</code> style has been renamed from
+  /// <code>VectorHereBerlin</code>. <code>VectorHereBerlin</code> has been
+  /// deprecated, but will continue to work in applications that use it.
+  /// </note> </li>
+  /// <li>
   /// <code>VectorHereExplore</code> – A default HERE map style containing a
   /// neutral, global map and its features including roads, buildings, landmarks,
   /// and water features. It also now includes a fully designed map of Japan.
+  /// </li>
+  /// <li>
+  /// <code>VectorHereExploreTruck</code> – A global map containing truck
+  /// restrictions and attributes (e.g. width / height / HAZMAT) symbolized with
+  /// highlighted segments and icons on top of HERE Explore to support use cases
+  /// within transport and logistics.
   /// </li>
   /// <li>
   /// <code>RasterHereExploreSatellite</code> – A global map containing high
@@ -7690,21 +8263,6 @@ class MapConfiguration {
   /// you see. This means that more tiles are retrieved than when using either
   /// vector or raster tiles alone. Your charges will include all tiles retrieved.
   /// </note> </li>
-  /// <li>
-  /// <code>VectorHereContrast</code> – The HERE Contrast (Berlin) map style is a
-  /// high contrast detailed base map of the world that blends 3D and 2D
-  /// rendering.
-  /// <note>
-  /// The <code>VectorHereContrast</code> style has been renamed from
-  /// <code>VectorHereBerlin</code>. <code>VectorHereBerlin</code> has been
-  /// deprecated, but will continue to work in applications that use it.
-  /// </note> </li>
-  /// <li>
-  /// <code>VectorHereExploreTruck</code> – A global map containing truck
-  /// restrictions and attributes (e.g. width / height / HAZMAT) symbolized with
-  /// highlighted segments and icons on top of HERE Explore to support use cases
-  /// within transport and logistics.
-  /// </li>
   /// </ul>
   /// Valid <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/grab.html">GrabMaps
@@ -7761,13 +8319,11 @@ class MapConfiguration {
 
   /// Specifies the custom layers for the style. Leave unset to not enable any
   /// custom layer, or, for styles that support custom layers, you can enable
-  /// layer(s), such as <code>POI</code> layer for the VectorEsriNavigation style.
-  /// Default is <code>unset</code>.
+  /// layer(s), such as POI layer for the VectorEsriNavigation style. Default is
+  /// <code>unset</code>.
   /// <note>
-  /// Currenlty only <code>VectorEsriNavigation</code> supports CustomLayers. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers">Custom
-  /// Layers</a>.
+  /// Not all map resources or styles support custom layers. See Custom Layers for
+  /// more information.
   /// </note>
   final List<String>? customLayers;
 
@@ -7816,13 +8372,11 @@ class MapConfiguration {
 class MapConfigurationUpdate {
   /// Specifies the custom layers for the style. Leave unset to not enable any
   /// custom layer, or, for styles that support custom layers, you can enable
-  /// layer(s), such as <code>POI</code> layer for the VectorEsriNavigation style.
-  /// Default is <code>unset</code>.
+  /// layer(s), such as POI layer for the VectorEsriNavigation style. Default is
+  /// <code>unset</code>.
   /// <note>
-  /// Currenlty only <code>VectorEsriNavigation</code> supports CustomLayers. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers">Custom
-  /// Layers</a>.
+  /// Not all map resources or styles support custom layers. See Custom Layers for
+  /// more information.
   /// </note>
   final List<String>? customLayers;
 
@@ -7925,16 +8479,12 @@ class Place {
   /// <code>Main Street</code>.
   final String? street;
 
-  /// An area that's part of a larger municipality. For example,
-  /// <code>Blissville</code> is a submunicipality in the Queen County in New
-  /// York.
+  /// An area that's part of a larger municipality. For example, <code>Blissville
+  /// </code> is a submunicipality in the Queen County in New York.
   /// <note>
-  /// This property is only returned for a place index that uses Esri as a data
-  /// provider. The property is represented as a <code>district</code>.
+  /// This property supported by Esri and OpenData. The Esri property is
+  /// <code>district</code>, and the OpenData property is <code>borough</code>.
   /// </note>
-  /// For more information about data providers, see <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
-  /// Location Service data providers</a>.
   final String? subMunicipality;
 
   /// A county, or an area that's part of a larger region. For example,
@@ -7952,17 +8502,15 @@ class Place {
   /// For addresses with multiple units, the unit identifier. Can include numbers
   /// and letters, for example <code>3B</code> or <code>Unit 123</code>.
   /// <note>
-  /// This property is returned only for a place index that uses Esri or Grab as a
-  /// data provider. It is not returned for
-  /// <code>SearchPlaceIndexForPosition</code>.
+  /// Returned only for a place index that uses Esri or Grab as a data provider.
+  /// Is not returned for <code>SearchPlaceIndexForPosition</code>.
   /// </note>
   final String? unitNumber;
 
   /// For addresses with a <code>UnitNumber</code>, the type of unit. For example,
   /// <code>Apartment</code>.
   /// <note>
-  /// This property is returned only for a place index that uses Esri as a data
-  /// provider.
+  /// Returned only for a place index that uses Esri as a data provider.
   /// </note>
   final String? unitType;
 
@@ -8395,43 +8943,6 @@ class SearchForSuggestionsResult {
   /// <code>PlaceId</code> is returned by place indexes that use Esri, Grab, or
   /// HERE as data providers.
   /// </note>
-  /// While you can use PlaceID in subsequent requests, PlaceID is not intended to
-  /// be a permanent identifier and the ID can change between consecutive API
-  /// calls. Please see the following PlaceID behaviour for each data provider:
-  ///
-  /// <ul>
-  /// <li>
-  /// Esri: Place IDs will change every quarter at a minimum. The typical time
-  /// period for these changes would be March, June, September, and December.
-  /// Place IDs might also change between the typical quarterly change but that
-  /// will be much less frequent.
-  /// </li>
-  /// <li>
-  /// HERE: We recommend that you cache data for no longer than a week to keep
-  /// your data data fresh. You can assume that less than 1% ID shifts will
-  /// release over release which is approximately 1 - 2 times per week.
-  /// </li>
-  /// <li>
-  /// Grab: Place IDs can expire or become invalid in the following situations.
-  ///
-  /// <ul>
-  /// <li>
-  /// Data operations: The POI may be removed from Grab POI database by Grab Map
-  /// Ops based on the ground-truth, such as being closed in the real world, being
-  /// detected as a duplicate POI, or having incorrect information. Grab will
-  /// synchronize data to the Waypoint environment on weekly basis.
-  /// </li>
-  /// <li>
-  /// Interpolated POI: Interpolated POI is a temporary POI generated in real time
-  /// when serving a request, and it will be marked as derived in the
-  /// <code>place.result_type</code> field in the response. The information of
-  /// interpolated POIs will be retained for at least 30 days, which means that
-  /// within 30 days, you are able to obtain POI details by Place ID from Place
-  /// Details API. After 30 days, the interpolated POIs(both Place ID and details)
-  /// may expire and inaccessible from the Places Details API.
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
   final String? placeId;
 
   /// Categories from the data provider that describe the Place that are not
@@ -8963,6 +9474,20 @@ class SearchPlaceIndexForTextSummary {
       if (resultBBox != null) 'ResultBBox': resultBBox,
     };
   }
+}
+
+enum SpeedUnit {
+  kilometersPerHour('KilometersPerHour'),
+  milesPerHour('MilesPerHour'),
+  ;
+
+  final String value;
+
+  const SpeedUnit(this.value);
+
+  static SpeedUnit fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SpeedUnit'));
 }
 
 enum Status {
@@ -9527,6 +10052,86 @@ enum VehicleWeightUnit {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum VehicleWeightUnit'));
+}
+
+class VerifyDevicePositionResponse {
+  /// The device identifier.
+  final String deviceId;
+
+  /// The distance unit for the verification response.
+  final DistanceUnit distanceUnit;
+
+  /// The inferred state of the device, given the provided position, IP address,
+  /// cellular signals, and Wi-Fi- access points.
+  final InferredState inferredState;
+
+  /// The timestamp for when the tracker resource received the device position in
+  /// <a href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601
+  /// </a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime receivedTime;
+
+  /// The timestamp at which the device's position was determined. Uses <a
+  /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601 </a>
+  /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
+  final DateTime sampleTime;
+
+  VerifyDevicePositionResponse({
+    required this.deviceId,
+    required this.distanceUnit,
+    required this.inferredState,
+    required this.receivedTime,
+    required this.sampleTime,
+  });
+
+  factory VerifyDevicePositionResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyDevicePositionResponse(
+      deviceId: json['DeviceId'] as String,
+      distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
+      inferredState:
+          InferredState.fromJson(json['InferredState'] as Map<String, dynamic>),
+      receivedTime:
+          nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final distanceUnit = this.distanceUnit;
+    final inferredState = this.inferredState;
+    final receivedTime = this.receivedTime;
+    final sampleTime = this.sampleTime;
+    return {
+      'DeviceId': deviceId,
+      'DistanceUnit': distanceUnit.value,
+      'InferredState': inferredState,
+      'ReceivedTime': iso8601ToJson(receivedTime),
+      'SampleTime': iso8601ToJson(sampleTime),
+    };
+  }
+}
+
+/// Wi-Fi access point.
+class WiFiAccessPoint {
+  /// Medium access control address (Mac).
+  final String macAddress;
+
+  /// Received signal strength (dBm) of the WLAN measurement data.
+  final int rss;
+
+  WiFiAccessPoint({
+    required this.macAddress,
+    required this.rss,
+  });
+
+  Map<String, dynamic> toJson() {
+    final macAddress = this.macAddress;
+    final rss = this.rss;
+    return {
+      'MacAddress': macAddress,
+      'Rss': rss,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

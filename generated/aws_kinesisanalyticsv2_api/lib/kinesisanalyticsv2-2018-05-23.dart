@@ -1099,6 +1099,35 @@ class KinesisAnalyticsV2 {
     return DescribeApplicationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about a specific operation performed on a Managed
+  /// Service for Apache Flink application
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedOperationException].
+  Future<DescribeApplicationOperationResponse> describeApplicationOperation({
+    required String applicationName,
+    required String operationId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.DescribeApplicationOperation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        'OperationId': operationId,
+      },
+    );
+
+    return DescribeApplicationOperationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about a snapshot of application state data.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1247,6 +1276,47 @@ class KinesisAnalyticsV2 {
     );
 
     return DiscoverInputSchemaResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists information about operations performed on a Managed Service for
+  /// Apache Flink application
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedOperationException].
+  Future<ListApplicationOperationsResponse> listApplicationOperations({
+    required String applicationName,
+    int? limit,
+    String? nextToken,
+    String? operation,
+    OperationStatus? operationStatus,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplicationOperations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (operation != null) 'Operation': operation,
+        if (operationStatus != null) 'OperationStatus': operationStatus.value,
+      },
+    );
+
+    return ListApplicationOperationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists information about the current application snapshots.
@@ -1434,17 +1504,16 @@ class KinesisAnalyticsV2 {
   }
 
   /// Reverts the application to the previous running version. You can roll back
-  /// an application if you suspect it is stuck in a transient status.
+  /// an application if you suspect it is stuck in a transient status or in the
+  /// running status.
   ///
   /// You can roll back an application only if it is in the
-  /// <code>UPDATING</code> or <code>AUTOSCALING</code> status.
+  /// <code>UPDATING</code>, <code>AUTOSCALING</code>, or <code>RUNNING</code>
+  /// statuses.
   ///
   /// When you rollback an application, it loads state data from the last
   /// successful snapshot. If the application has no snapshots, Managed Service
   /// for Apache Flink rejects the rollback request.
-  ///
-  /// This action is not supported for Managed Service for Apache Flink for SQL
-  /// applications.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
@@ -1505,7 +1574,7 @@ class KinesisAnalyticsV2 {
   /// Parameter [runConfiguration] :
   /// Identifies the run configuration (start parameters) of a Managed Service
   /// for Apache Flink application.
-  Future<void> startApplication({
+  Future<StartApplicationResponse> startApplication({
     required String applicationName,
     RunConfiguration? runConfiguration,
   }) async {
@@ -1513,7 +1582,7 @@ class KinesisAnalyticsV2 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.StartApplication'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1524,6 +1593,8 @@ class KinesisAnalyticsV2 {
         if (runConfiguration != null) 'RunConfiguration': runConfiguration,
       },
     );
+
+    return StartApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops the application from processing data. You can stop an application
@@ -1561,7 +1632,7 @@ class KinesisAnalyticsV2 {
   /// The application must be in the <code>STARTING</code>,
   /// <code>UPDATING</code>, <code>STOPPING</code>, <code>AUTOSCALING</code>, or
   /// <code>RUNNING</code> status.
-  Future<void> stopApplication({
+  Future<StopApplicationResponse> stopApplication({
     required String applicationName,
     bool? force,
   }) async {
@@ -1569,7 +1640,7 @@ class KinesisAnalyticsV2 {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.StopApplication'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1580,6 +1651,8 @@ class KinesisAnalyticsV2 {
         if (force != null) 'Force': force,
       },
     );
+
+    return StopApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds one or more key-value tags to a Managed Service for Apache Flink
@@ -1850,10 +1923,14 @@ class AddApplicationCloudWatchLoggingOptionResponse {
   final List<CloudWatchLoggingOptionDescription>?
       cloudWatchLoggingOptionDescriptions;
 
+  /// Operation ID for tracking AddApplicationCloudWatchLoggingOption request
+  final String? operationId;
+
   AddApplicationCloudWatchLoggingOptionResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.cloudWatchLoggingOptionDescriptions,
+    this.operationId,
   });
 
   factory AddApplicationCloudWatchLoggingOptionResponse.fromJson(
@@ -1867,6 +1944,7 @@ class AddApplicationCloudWatchLoggingOptionResponse {
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+      operationId: json['OperationId'] as String?,
     );
   }
 }
@@ -2010,12 +2088,16 @@ class AddApplicationVpcConfigurationResponse {
   /// updates the ApplicationVersionId each time you update the application.
   final int? applicationVersionId;
 
+  /// Operation ID for tracking AddApplicationVpcConfiguration request
+  final String? operationId;
+
   /// The parameters of the new VPC configuration.
   final VpcConfigurationDescription? vpcConfigurationDescription;
 
   AddApplicationVpcConfigurationResponse({
     this.applicationARN,
     this.applicationVersionId,
+    this.operationId,
     this.vpcConfigurationDescription,
   });
 
@@ -2024,6 +2106,7 @@ class AddApplicationVpcConfigurationResponse {
     return AddApplicationVpcConfigurationResponse(
       applicationARN: json['ApplicationARN'] as String?,
       applicationVersionId: json['ApplicationVersionId'] as int?,
+      operationId: json['OperationId'] as String?,
       vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
           ? VpcConfigurationDescription.fromJson(
               json['VpcConfigurationDescription'] as Map<String, dynamic>)
@@ -2117,6 +2200,8 @@ class ApplicationConfiguration {
   /// Describes whether snapshots are enabled for a Managed Service for Apache
   /// Flink application.
   final ApplicationSnapshotConfiguration? applicationSnapshotConfiguration;
+  final ApplicationSystemRollbackConfiguration?
+      applicationSystemRollbackConfiguration;
 
   /// Describes execution properties for a Managed Service for Apache Flink
   /// application.
@@ -2141,6 +2226,7 @@ class ApplicationConfiguration {
   ApplicationConfiguration({
     this.applicationCodeConfiguration,
     this.applicationSnapshotConfiguration,
+    this.applicationSystemRollbackConfiguration,
     this.environmentProperties,
     this.flinkApplicationConfiguration,
     this.sqlApplicationConfiguration,
@@ -2152,6 +2238,8 @@ class ApplicationConfiguration {
     final applicationCodeConfiguration = this.applicationCodeConfiguration;
     final applicationSnapshotConfiguration =
         this.applicationSnapshotConfiguration;
+    final applicationSystemRollbackConfiguration =
+        this.applicationSystemRollbackConfiguration;
     final environmentProperties = this.environmentProperties;
     final flinkApplicationConfiguration = this.flinkApplicationConfiguration;
     final sqlApplicationConfiguration = this.sqlApplicationConfiguration;
@@ -2163,6 +2251,9 @@ class ApplicationConfiguration {
         'ApplicationCodeConfiguration': applicationCodeConfiguration,
       if (applicationSnapshotConfiguration != null)
         'ApplicationSnapshotConfiguration': applicationSnapshotConfiguration,
+      if (applicationSystemRollbackConfiguration != null)
+        'ApplicationSystemRollbackConfiguration':
+            applicationSystemRollbackConfiguration,
       if (environmentProperties != null)
         'EnvironmentProperties': environmentProperties,
       if (flinkApplicationConfiguration != null)
@@ -2188,6 +2279,8 @@ class ApplicationConfigurationDescription {
   /// Flink application.
   final ApplicationSnapshotConfigurationDescription?
       applicationSnapshotConfigurationDescription;
+  final ApplicationSystemRollbackConfigurationDescription?
+      applicationSystemRollbackConfigurationDescription;
 
   /// Describes execution properties for a Managed Service for Apache Flink
   /// application.
@@ -2218,6 +2311,7 @@ class ApplicationConfigurationDescription {
   ApplicationConfigurationDescription({
     this.applicationCodeConfigurationDescription,
     this.applicationSnapshotConfigurationDescription,
+    this.applicationSystemRollbackConfigurationDescription,
     this.environmentPropertyDescriptions,
     this.flinkApplicationConfigurationDescription,
     this.runConfigurationDescription,
@@ -2239,6 +2333,12 @@ class ApplicationConfigurationDescription {
           json['ApplicationSnapshotConfigurationDescription'] != null
               ? ApplicationSnapshotConfigurationDescription.fromJson(
                   json['ApplicationSnapshotConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      applicationSystemRollbackConfigurationDescription:
+          json['ApplicationSystemRollbackConfigurationDescription'] != null
+              ? ApplicationSystemRollbackConfigurationDescription.fromJson(
+                  json['ApplicationSystemRollbackConfigurationDescription']
                       as Map<String, dynamic>)
               : null,
       environmentPropertyDescriptions:
@@ -2288,6 +2388,8 @@ class ApplicationConfigurationUpdate {
   /// Flink application.
   final ApplicationSnapshotConfigurationUpdate?
       applicationSnapshotConfigurationUpdate;
+  final ApplicationSystemRollbackConfigurationUpdate?
+      applicationSystemRollbackConfigurationUpdate;
 
   /// Describes updates to the environment properties for a Managed Service for
   /// Apache Flink application.
@@ -2314,6 +2416,7 @@ class ApplicationConfigurationUpdate {
   ApplicationConfigurationUpdate({
     this.applicationCodeConfigurationUpdate,
     this.applicationSnapshotConfigurationUpdate,
+    this.applicationSystemRollbackConfigurationUpdate,
     this.environmentPropertyUpdates,
     this.flinkApplicationConfigurationUpdate,
     this.sqlApplicationConfigurationUpdate,
@@ -2326,6 +2429,8 @@ class ApplicationConfigurationUpdate {
         this.applicationCodeConfigurationUpdate;
     final applicationSnapshotConfigurationUpdate =
         this.applicationSnapshotConfigurationUpdate;
+    final applicationSystemRollbackConfigurationUpdate =
+        this.applicationSystemRollbackConfigurationUpdate;
     final environmentPropertyUpdates = this.environmentPropertyUpdates;
     final flinkApplicationConfigurationUpdate =
         this.flinkApplicationConfigurationUpdate;
@@ -2341,6 +2446,9 @@ class ApplicationConfigurationUpdate {
       if (applicationSnapshotConfigurationUpdate != null)
         'ApplicationSnapshotConfigurationUpdate':
             applicationSnapshotConfigurationUpdate,
+      if (applicationSystemRollbackConfigurationUpdate != null)
+        'ApplicationSystemRollbackConfigurationUpdate':
+            applicationSystemRollbackConfigurationUpdate,
       if (environmentPropertyUpdates != null)
         'EnvironmentPropertyUpdates': environmentPropertyUpdates,
       if (flinkApplicationConfigurationUpdate != null)
@@ -2394,6 +2502,9 @@ class ApplicationDetail {
   /// Apache Flink application, the mode is optional.
   final ApplicationMode? applicationMode;
 
+  /// The current timestamp when the application version was created.
+  final DateTime? applicationVersionCreateTimestamp;
+
   /// If you reverted the application using <a>RollbackApplication</a>, the
   /// application version when <code>RollbackApplication</code> was called.
   final int? applicationVersionRolledBackFrom;
@@ -2432,6 +2543,7 @@ class ApplicationDetail {
     this.applicationDescription,
     this.applicationMaintenanceConfigurationDescription,
     this.applicationMode,
+    this.applicationVersionCreateTimestamp,
     this.applicationVersionRolledBackFrom,
     this.applicationVersionRolledBackTo,
     this.applicationVersionUpdatedFrom,
@@ -2466,6 +2578,8 @@ class ApplicationDetail {
               : null,
       applicationMode:
           (json['ApplicationMode'] as String?)?.let(ApplicationMode.fromString),
+      applicationVersionCreateTimestamp:
+          timeStampFromJson(json['ApplicationVersionCreateTimestamp']),
       applicationVersionRolledBackFrom:
           json['ApplicationVersionRolledBackFrom'] as int?,
       applicationVersionRolledBackTo:
@@ -2542,6 +2656,81 @@ enum ApplicationMode {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum ApplicationMode'));
+}
+
+/// Provides a description of the operation, such as the type and status of
+/// operation
+class ApplicationOperationInfo {
+  /// The timestamp at which the operation finished for the application
+  final DateTime? endTime;
+  final String? operation;
+  final String? operationId;
+  final OperationStatus? operationStatus;
+
+  /// The timestamp at which the operation was created
+  final DateTime? startTime;
+
+  ApplicationOperationInfo({
+    this.endTime,
+    this.operation,
+    this.operationId,
+    this.operationStatus,
+    this.startTime,
+  });
+
+  factory ApplicationOperationInfo.fromJson(Map<String, dynamic> json) {
+    return ApplicationOperationInfo(
+      endTime: timeStampFromJson(json['EndTime']),
+      operation: json['Operation'] as String?,
+      operationId: json['OperationId'] as String?,
+      operationStatus:
+          (json['OperationStatus'] as String?)?.let(OperationStatus.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+}
+
+/// Provides a description of the operation, such as the operation-type and
+/// status
+class ApplicationOperationInfoDetails {
+  /// The timestamp at which the operation finished for the application
+  final DateTime endTime;
+  final String operation;
+  final OperationStatus operationStatus;
+
+  /// The timestamp at which the operation was created
+  final DateTime startTime;
+  final ApplicationVersionChangeDetails? applicationVersionChangeDetails;
+  final OperationFailureDetails? operationFailureDetails;
+
+  ApplicationOperationInfoDetails({
+    required this.endTime,
+    required this.operation,
+    required this.operationStatus,
+    required this.startTime,
+    this.applicationVersionChangeDetails,
+    this.operationFailureDetails,
+  });
+
+  factory ApplicationOperationInfoDetails.fromJson(Map<String, dynamic> json) {
+    return ApplicationOperationInfoDetails(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      operation: json['Operation'] as String,
+      operationStatus:
+          OperationStatus.fromString((json['OperationStatus'] as String)),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      applicationVersionChangeDetails:
+          json['ApplicationVersionChangeDetails'] != null
+              ? ApplicationVersionChangeDetails.fromJson(
+                  json['ApplicationVersionChangeDetails']
+                      as Map<String, dynamic>)
+              : null,
+      operationFailureDetails: json['OperationFailureDetails'] != null
+          ? OperationFailureDetails.fromJson(
+              json['OperationFailureDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies the method and snapshot to use when restarting an application
@@ -2722,6 +2911,87 @@ class ApplicationSummary {
   }
 }
 
+/// Describes system rollback configuration for a Managed Service for Apache
+/// Flink application
+class ApplicationSystemRollbackConfiguration {
+  /// Describes whether system rollbacks are enabled for a Managed Service for
+  /// Apache Flink application
+  final bool rollbackEnabled;
+
+  ApplicationSystemRollbackConfiguration({
+    required this.rollbackEnabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rollbackEnabled = this.rollbackEnabled;
+    return {
+      'RollbackEnabled': rollbackEnabled,
+    };
+  }
+}
+
+/// Describes system rollback configuration for a Managed Service for Apache
+/// Flink application
+class ApplicationSystemRollbackConfigurationDescription {
+  /// Describes whether system rollbacks are enabled for a Managed Service for
+  /// Apache Flink application
+  final bool rollbackEnabled;
+
+  ApplicationSystemRollbackConfigurationDescription({
+    required this.rollbackEnabled,
+  });
+
+  factory ApplicationSystemRollbackConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationSystemRollbackConfigurationDescription(
+      rollbackEnabled: json['RollbackEnabled'] as bool,
+    );
+  }
+}
+
+/// Describes system rollback configuration for a Managed Service for Apache
+/// Flink application
+class ApplicationSystemRollbackConfigurationUpdate {
+  /// Describes whether system rollbacks are enabled for a Managed Service for
+  /// Apache Flink application
+  final bool rollbackEnabledUpdate;
+
+  ApplicationSystemRollbackConfigurationUpdate({
+    required this.rollbackEnabledUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rollbackEnabledUpdate = this.rollbackEnabledUpdate;
+    return {
+      'RollbackEnabledUpdate': rollbackEnabledUpdate,
+    };
+  }
+}
+
+/// Contains information about the application version changes due to an
+/// operation
+class ApplicationVersionChangeDetails {
+  /// The operation was performed on this version of the application
+  final int applicationVersionUpdatedFrom;
+
+  /// The operation execution resulted in the transition to the following version
+  /// of the application
+  final int applicationVersionUpdatedTo;
+
+  ApplicationVersionChangeDetails({
+    required this.applicationVersionUpdatedFrom,
+    required this.applicationVersionUpdatedTo,
+  });
+
+  factory ApplicationVersionChangeDetails.fromJson(Map<String, dynamic> json) {
+    return ApplicationVersionChangeDetails(
+      applicationVersionUpdatedFrom:
+          json['ApplicationVersionUpdatedFrom'] as int,
+      applicationVersionUpdatedTo: json['ApplicationVersionUpdatedTo'] as int,
+    );
+  }
+}
+
 /// The summary of the application version.
 class ApplicationVersionSummary {
   /// The status of the application.
@@ -2870,9 +3140,9 @@ class CatalogConfigurationUpdate {
 /// Describes an application's checkpointing configuration. Checkpointing is the
 /// process of persisting application state for fault tolerance. For more
 /// information, see <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
+/// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
 /// Checkpoints for Fault Tolerance</a> in the <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+/// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
 /// Flink Documentation</a>.
 class CheckpointConfiguration {
   /// Describes whether the application uses Managed Service for Apache Flink'
@@ -2922,9 +3192,9 @@ class CheckpointConfiguration {
   /// operation takes longer than the <code>CheckpointInterval</code>, the
   /// application otherwise performs continual checkpoint operations. For more
   /// information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/ops/state/large_state_tuning/#tuning-checkpointing">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/large_state_tuning/#tuning-checkpointing">
   /// Tuning Checkpointing</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
   /// Flink Documentation</a>.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
@@ -3437,10 +3707,14 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
   final List<CloudWatchLoggingOptionDescription>?
       cloudWatchLoggingOptionDescriptions;
 
+  /// Operation ID for tracking DeleteApplicationCloudWatchLoggingOption request
+  final String? operationId;
+
   DeleteApplicationCloudWatchLoggingOptionResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.cloudWatchLoggingOptionDescriptions,
+    this.operationId,
   });
 
   factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
@@ -3454,6 +3728,7 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
               .map((e) => CloudWatchLoggingOptionDescription.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+      operationId: json['OperationId'] as String?,
     );
   }
 }
@@ -3543,9 +3818,13 @@ class DeleteApplicationVpcConfigurationResponse {
   /// The updated version ID of the application.
   final int? applicationVersionId;
 
+  /// Operation ID for tracking DeleteApplicationVpcConfiguration request
+  final String? operationId;
+
   DeleteApplicationVpcConfigurationResponse({
     this.applicationARN,
     this.applicationVersionId,
+    this.operationId,
   });
 
   factory DeleteApplicationVpcConfigurationResponse.fromJson(
@@ -3553,6 +3832,7 @@ class DeleteApplicationVpcConfigurationResponse {
     return DeleteApplicationVpcConfigurationResponse(
       applicationARN: json['ApplicationARN'] as String?,
       applicationVersionId: json['ApplicationVersionId'] as int?,
+      operationId: json['OperationId'] as String?,
     );
   }
 }
@@ -3615,6 +3895,28 @@ class DeployAsApplicationConfigurationUpdate {
       if (s3ContentLocationUpdate != null)
         'S3ContentLocationUpdate': s3ContentLocationUpdate,
     };
+  }
+}
+
+/// Provides details of the operation corresponding to the operation-ID on a
+/// Managed Service for Apache Flink application
+class DescribeApplicationOperationResponse {
+  final ApplicationOperationInfoDetails? applicationOperationInfoDetails;
+
+  DescribeApplicationOperationResponse({
+    this.applicationOperationInfoDetails,
+  });
+
+  factory DescribeApplicationOperationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeApplicationOperationResponse(
+      applicationOperationInfoDetails:
+          json['ApplicationOperationInfoDetails'] != null
+              ? ApplicationOperationInfoDetails.fromJson(
+                  json['ApplicationOperationInfoDetails']
+                      as Map<String, dynamic>)
+              : null,
+    );
   }
 }
 
@@ -3795,15 +4097,30 @@ class EnvironmentPropertyUpdates {
   }
 }
 
+/// Provides a description of the operation failure error
+class ErrorInfo {
+  final String? errorString;
+
+  ErrorInfo({
+    this.errorString,
+  });
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      errorString: json['ErrorString'] as String?,
+    );
+  }
+}
+
 /// Describes configuration parameters for a Managed Service for Apache Flink
 /// application or a Studio notebook.
 class FlinkApplicationConfiguration {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance. For more
   /// information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing">
   /// Checkpoints for Fault Tolerance</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
   /// Flink Documentation</a>.
   final CheckpointConfiguration? checkpointConfiguration;
 
@@ -3845,9 +4162,9 @@ class FlinkApplicationConfigurationDescription {
 
   /// The job plan for an application. For more information about the job plan,
   /// see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/internals/job_scheduling.html">Jobs
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/internals/job_scheduling.html">Jobs
   /// and Scheduling</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
   /// Flink Documentation</a>. To retrieve the job plan for the application, use
   /// the <a>DescribeApplicationRequest$IncludeAdditionalDetails</a> parameter of
   /// the <a>DescribeApplication</a> operation.
@@ -3940,9 +4257,9 @@ class FlinkRunConfiguration {
   /// the program is updated between snapshots to remove stateful parameters, and
   /// state data in the snapshot no longer corresponds to valid application data.
   /// For more information, see <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/ops/state/savepoints/#allowing-non-restored-state">
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/savepoints/#allowing-non-restored-state">
   /// Allowing Non-Restored State</a> in the <a
-  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+  /// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
   /// Flink documentation</a>.
   /// <note>
   /// This value defaults to <code>false</code>. If you update your application
@@ -4920,6 +5237,30 @@ class LambdaOutputUpdate {
   }
 }
 
+/// Response with the list of operations for an application
+class ListApplicationOperationsResponse {
+  final List<ApplicationOperationInfo>? applicationOperationInfoList;
+  final String? nextToken;
+
+  ListApplicationOperationsResponse({
+    this.applicationOperationInfoList,
+    this.nextToken,
+  });
+
+  factory ListApplicationOperationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListApplicationOperationsResponse(
+      applicationOperationInfoList:
+          (json['ApplicationOperationInfoList'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  ApplicationOperationInfo.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
 class ListApplicationSnapshotsResponse {
   /// The token for the next set of results, or <code>null</code> if there are no
   /// additional results.
@@ -5243,6 +5584,47 @@ class MonitoringConfigurationUpdate {
   }
 }
 
+/// Provides a description of the operation failure
+class OperationFailureDetails {
+  final ErrorInfo? errorInfo;
+
+  /// Provides the operation ID of a system-rollback operation executed due to
+  /// failure in the current operation
+  final String? rollbackOperationId;
+
+  OperationFailureDetails({
+    this.errorInfo,
+    this.rollbackOperationId,
+  });
+
+  factory OperationFailureDetails.fromJson(Map<String, dynamic> json) {
+    return OperationFailureDetails(
+      errorInfo: json['ErrorInfo'] != null
+          ? ErrorInfo.fromJson(json['ErrorInfo'] as Map<String, dynamic>)
+          : null,
+      rollbackOperationId: json['RollbackOperationId'] as String?,
+    );
+  }
+}
+
+/// Status of the operation performed on an application
+enum OperationStatus {
+  inProgress('IN_PROGRESS'),
+  cancelled('CANCELLED'),
+  successful('SUCCESSFUL'),
+  failed('FAILED'),
+  ;
+
+  final String value;
+
+  const OperationStatus(this.value);
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OperationStatus'));
+}
+
 /// Describes a SQL-based Kinesis Data Analytics application's output
 /// configuration, in which you identify an in-application stream and a
 /// destination where you want the in-application stream data to be written. The
@@ -5410,9 +5792,9 @@ class OutputUpdate {
 /// Describes parameters for how a Managed Service for Apache Flink application
 /// executes multiple tasks simultaneously. For more information about
 /// parallelism, see <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/dev/parallel.html">Parallel
+/// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/dev/parallel.html">Parallel
 /// Execution</a> in the <a
-/// href="https://nightlies.apache.org/flink/flink-docs-release-1.18/">Apache
+/// href="https://nightlies.apache.org/flink/flink-docs-release-1.19/">Apache
 /// Flink Documentation</a>.
 class ParallelismConfiguration {
   /// Describes whether the application uses the default parallelism for the
@@ -5841,14 +6223,19 @@ class ReferenceDataSourceUpdate {
 class RollbackApplicationResponse {
   final ApplicationDetail applicationDetail;
 
+  /// Operation ID for tracking RollbackApplication request
+  final String? operationId;
+
   RollbackApplicationResponse({
     required this.applicationDetail,
+    this.operationId,
   });
 
   factory RollbackApplicationResponse.fromJson(Map<String, dynamic> json) {
     return RollbackApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
           json['ApplicationDetail'] as Map<String, dynamic>),
+      operationId: json['OperationId'] as String?,
     );
   }
 }
@@ -5959,6 +6346,8 @@ enum RuntimeEnvironment {
   flink_1_15('FLINK-1_15'),
   zeppelinFlink_3_0('ZEPPELIN-FLINK-3_0'),
   flink_1_18('FLINK-1_18'),
+  flink_1_19('FLINK-1_19'),
+  flink_1_20('FLINK-1_20'),
   ;
 
   final String value;
@@ -6489,18 +6878,32 @@ class SqlRunConfiguration {
 }
 
 class StartApplicationResponse {
-  StartApplicationResponse();
+  /// Operation ID for tracking StartApplication request
+  final String? operationId;
 
-  factory StartApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return StartApplicationResponse();
+  StartApplicationResponse({
+    this.operationId,
+  });
+
+  factory StartApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StartApplicationResponse(
+      operationId: json['OperationId'] as String?,
+    );
   }
 }
 
 class StopApplicationResponse {
-  StopApplicationResponse();
+  /// Operation ID for tracking StopApplication request
+  final String? operationId;
 
-  factory StopApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return StopApplicationResponse();
+  StopApplicationResponse({
+    this.operationId,
+  });
+
+  factory StopApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StopApplicationResponse(
+      operationId: json['OperationId'] as String?,
+    );
   }
 }
 
@@ -6587,14 +6990,19 @@ class UpdateApplicationResponse {
   /// Describes application updates.
   final ApplicationDetail applicationDetail;
 
+  /// Operation ID for tracking UpdateApplication request
+  final String? operationId;
+
   UpdateApplicationResponse({
     required this.applicationDetail,
+    this.operationId,
   });
 
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
           json['ApplicationDetail'] as Map<String, dynamic>),
+      operationId: json['OperationId'] as String?,
     );
   }
 }

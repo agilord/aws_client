@@ -61,13 +61,16 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 /// Amazon SageMaker endpoint variants
 /// </li>
 /// <li>
-/// Amazon SageMaker Serverless endpoint provisioned concurrency
-/// </li>
-/// <li>
 /// Amazon SageMaker inference components
 /// </li>
 /// <li>
+/// Amazon SageMaker serverless endpoint provisioned concurrency
+/// </li>
+/// <li>
 /// Spot Fleets (Amazon EC2)
+/// </li>
+/// <li>
+/// Pool of WorkSpaces
 /// </li>
 /// <li>
 /// Custom resources provided by your own applications or services
@@ -163,7 +166,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -244,7 +247,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -252,6 +255,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -261,8 +269,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -273,7 +280,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -346,11 +353,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -403,7 +414,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -484,7 +495,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -492,6 +503,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -501,8 +517,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -513,7 +528,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -586,11 +601,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -647,7 +666,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -728,7 +747,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -736,6 +755,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -745,8 +769,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -757,7 +780,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -830,11 +853,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -902,7 +929,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -983,7 +1010,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -991,6 +1018,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -1001,8 +1033,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -1013,7 +1044,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -1086,11 +1117,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   Future<DescribeScalableTargetsResponse> describeScalableTargets({
@@ -1175,7 +1210,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -1256,7 +1291,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -1264,6 +1299,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -1274,8 +1314,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -1286,7 +1325,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -1359,11 +1398,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   Future<DescribeScalingActivitiesResponse> describeScalingActivities({
@@ -1447,7 +1490,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -1528,7 +1571,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -1536,6 +1579,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -1546,8 +1594,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -1558,7 +1605,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -1631,11 +1678,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   Future<DescribeScalingPoliciesResponse> describeScalingPolicies({
@@ -1679,9 +1730,7 @@ class ApplicationAutoScaling {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html">Scheduled
-  /// scaling</a> and <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html">Managing
-  /// scheduled scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+  /// scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
@@ -1715,7 +1764,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -1796,7 +1845,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -1804,6 +1853,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -1814,8 +1868,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -1826,7 +1879,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -1899,11 +1952,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -1948,8 +2005,8 @@ class ApplicationAutoScaling {
   /// For general information about tags, including the format and syntax, see
   /// <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// your Amazon Web Services resources</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
   ///
   /// May throw [ResourceNotFoundException].
   ///
@@ -2041,7 +2098,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -2122,7 +2179,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -2130,6 +2187,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -2139,8 +2201,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -2151,7 +2212,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -2224,11 +2285,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -2342,7 +2407,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -2423,7 +2488,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -2431,6 +2496,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -2440,8 +2510,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -2452,7 +2521,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -2525,11 +2594,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -2581,9 +2654,9 @@ class ApplicationAutoScaling {
   /// is <code>minute</code> | <code>minutes</code> | <code>hour</code> |
   /// <code>hours</code> | <code>day</code> | <code>days</code>.
   ///
-  /// For more information and examples, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html">Example
-  /// scheduled actions for Application Auto Scaling</a> in the <i>Application
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html">Schedule
+  /// recurring scaling actions using cron expressions</a> in the <i>Application
   /// Auto Scaling User Guide</i>.
   ///
   /// Parameter [startTime] :
@@ -2697,7 +2770,7 @@ class ApplicationAutoScaling {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -2778,7 +2851,7 @@ class ApplicationAutoScaling {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -2786,6 +2859,11 @@ class ApplicationAutoScaling {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   ///
@@ -2795,8 +2873,7 @@ class ApplicationAutoScaling {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -2807,7 +2884,7 @@ class ApplicationAutoScaling {
   /// of a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an
   /// AppStream 2.0 fleet.
   /// </li>
   /// <li>
@@ -2880,11 +2957,15 @@ class ApplicationAutoScaling {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number
   /// of copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   ///
@@ -2937,7 +3018,10 @@ class ApplicationAutoScaling {
   /// SageMaker endpoint variants
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint provisioned concurrency
+  /// SageMaker inference components
+  /// </li>
+  /// <li>
+  /// SageMaker serverless endpoint provisioned concurrency
   /// </li>
   /// <li>
   /// Spot Fleets
@@ -2965,8 +3049,8 @@ class ApplicationAutoScaling {
   /// If the service supports service-linked roles, Application Auto Scaling
   /// uses a service-linked role, which it creates if it does not yet exist. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles">Application
-  /// Auto Scaling IAM roles</a>.
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html">How
+  /// Application Auto Scaling works with IAM</a>.
   ///
   /// Parameter [suspendedState] :
   /// An embedded object that contains attributes and attribute values that are
@@ -2995,9 +3079,8 @@ class ApplicationAutoScaling {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html">Suspending
-  /// and resuming scaling</a> in the <i>Application Auto Scaling User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html">Suspend
+  /// and resume scaling</a> in the <i>Application Auto Scaling User Guide</i>.
   ///
   /// Parameter [tags] :
   /// Assigns one or more tags to the scalable target. Use this parameter to tag
@@ -3063,8 +3146,8 @@ class ApplicationAutoScaling {
   /// For general information about tags, including the format and syntax, see
   /// <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
+  /// your Amazon Web Services resources</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
   ///
   /// Use tags to control access to a scalable target. For more information, see
   /// <a
@@ -3099,8 +3182,7 @@ class ApplicationAutoScaling {
   /// For information about the rules that apply to tag keys and tag values, see
   /// <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-defined
-  /// tag restrictions</a> in the <i>Amazon Web Services Billing and Cost
-  /// Management User Guide</i>.
+  /// tag restrictions</a> in the <i>Amazon Web Services Billing User Guide</i>.
   Future<void> tagResource({
     required String resourceARN,
     required Map<String, String> tags,
@@ -3538,6 +3620,12 @@ enum MetricType {
       'ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage'),
   sageMakerInferenceComponentInvocationsPerCopy(
       'SageMakerInferenceComponentInvocationsPerCopy'),
+  workSpacesAverageUserSessionsCapacityUtilization(
+      'WorkSpacesAverageUserSessionsCapacityUtilization'),
+  sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution(
+      'SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution'),
+  sageMakerVariantConcurrentRequestsPerModelHighResolution(
+      'SageMakerVariantConcurrentRequestsPerModelHighResolution'),
   ;
 
   final String value;
@@ -3553,7 +3641,8 @@ enum MetricType {
 /// activity</i>), in machine-readable format. For help interpreting the not
 /// scaled reason details, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html">Scaling
-/// activities for Application Auto Scaling</a>.
+/// activities for Application Auto Scaling</a> in the <i>Application Auto
+/// Scaling User Guide</i>.
 class NotScaledReason {
   /// A code that represents the reason for not scaling.
   ///
@@ -3621,13 +3710,10 @@ enum PolicyType {
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Application Auto Scaling.
 ///
-/// Only the Amazon Web Services that you're using send metrics to Amazon
-/// CloudWatch. To determine whether a desired metric already exists by looking
-/// up its namespace and dimension using the CloudWatch metrics dashboard in the
-/// console, follow the procedure in <a
-/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html">Monitor
-/// your resources using CloudWatch</a> in the <i>Application Auto Scaling User
-/// Guide</i>.
+/// For more information, <a
+/// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitor-cloudwatch-metrics.html#predefined-metrics">Predefined
+/// metrics for target tracking scaling policies</a> in the <i>Application Auto
+/// Scaling User Guide</i>.
 class PredefinedMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
   /// applies only to Spot Fleets and ECS services.
@@ -3764,6 +3850,8 @@ enum ScalableDimension {
       'sagemaker:variant:DesiredProvisionedConcurrency'),
   sagemakerInferenceComponentDesiredCopyCount(
       'sagemaker:inference-component:DesiredCopyCount'),
+  workspacesWorkspacespoolDesiredUserSessions(
+      'workspaces:workspacespool:DesiredUserSessions'),
   ;
 
   final String value;
@@ -3794,7 +3882,7 @@ class ScalableTarget {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -3873,7 +3961,7 @@ class ScalableTarget {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -3881,6 +3969,11 @@ class ScalableTarget {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   final String resourceId;
@@ -3894,8 +3987,7 @@ class ScalableTarget {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -3906,8 +3998,8 @@ class ScalableTarget {
   /// a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
-  /// AppStream 2.0 fleet.
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an AppStream
+  /// 2.0 fleet.
   /// </li>
   /// <li>
   /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
@@ -3978,11 +4070,15 @@ class ScalableTarget {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
   /// copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4094,7 +4190,7 @@ class ScalingActivity {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -4173,7 +4269,7 @@ class ScalingActivity {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -4181,6 +4277,11 @@ class ScalingActivity {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   final String resourceId;
@@ -4190,8 +4291,7 @@ class ScalingActivity {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -4202,8 +4302,8 @@ class ScalingActivity {
   /// a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
-  /// AppStream 2.0 fleet.
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an AppStream
+  /// 2.0 fleet.
   /// </li>
   /// <li>
   /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
@@ -4274,11 +4374,15 @@ class ScalingActivity {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
   /// copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4400,7 +4504,7 @@ class ScalingPolicy {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -4479,7 +4583,7 @@ class ScalingPolicy {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -4487,6 +4591,11 @@ class ScalingPolicy {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   final String resourceId;
@@ -4496,8 +4605,7 @@ class ScalingPolicy {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -4508,8 +4616,8 @@ class ScalingPolicy {
   /// a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
-  /// AppStream 2.0 fleet.
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an AppStream
+  /// 2.0 fleet.
   /// </li>
   /// <li>
   /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
@@ -4580,11 +4688,15 @@ class ScalingPolicy {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
   /// copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   final ScalableDimension scalableDimension;
@@ -4659,7 +4771,7 @@ class ScheduledAction {
   /// <li>
   /// ECS service - The resource type is <code>service</code> and the unique
   /// identifier is the cluster name and service name. Example:
-  /// <code>service/default/sample-webapp</code>.
+  /// <code>service/my-cluster/my-service</code>.
   /// </li>
   /// <li>
   /// Spot Fleet - The resource type is <code>spot-fleet-request</code> and the
@@ -4738,7 +4850,7 @@ class ScheduledAction {
   /// identifier is the cluster name. Example: <code>cluster:mycluster</code>.
   /// </li>
   /// <li>
-  /// SageMaker Serverless endpoint - The resource type is <code>variant</code>
+  /// SageMaker serverless endpoint - The resource type is <code>variant</code>
   /// and the unique identifier is the resource ID. Example:
   /// <code>endpoint/my-end-point/variant/KMeansClustering</code>.
   /// </li>
@@ -4746,6 +4858,11 @@ class ScheduledAction {
   /// SageMaker inference component - The resource type is
   /// <code>inference-component</code> and the unique identifier is the resource
   /// ID. Example: <code>inference-component/my-inference-component</code>.
+  /// </li>
+  /// <li>
+  /// Pool of WorkSpaces - The resource type is <code>workspacespool</code> and
+  /// the unique identifier is the pool ID. Example:
+  /// <code>workspacespool/wspool-123456</code>.
   /// </li>
   /// </ul>
   final String resourceId;
@@ -4778,9 +4895,9 @@ class ScheduledAction {
   /// <code>minute</code> | <code>minutes</code> | <code>hour</code> |
   /// <code>hours</code> | <code>day</code> | <code>days</code>.
   ///
-  /// For more information and examples, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html">Example
-  /// scheduled actions for Application Auto Scaling</a> in the <i>Application
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html">Schedule
+  /// recurring scaling actions using cron expressions</a> in the <i>Application
   /// Auto Scaling User Guide</i>.
   final String schedule;
 
@@ -4802,8 +4919,7 @@ class ScheduledAction {
   ///
   /// <ul>
   /// <li>
-  /// <code>ecs:service:DesiredCount</code> - The desired task count of an ECS
-  /// service.
+  /// <code>ecs:service:DesiredCount</code> - The task count of an ECS service.
   /// </li>
   /// <li>
   /// <code>elasticmapreduce:instancegroup:InstanceCount</code> - The instance
@@ -4814,8 +4930,8 @@ class ScheduledAction {
   /// a Spot Fleet.
   /// </li>
   /// <li>
-  /// <code>appstream:fleet:DesiredCapacity</code> - The desired capacity of an
-  /// AppStream 2.0 fleet.
+  /// <code>appstream:fleet:DesiredCapacity</code> - The capacity of an AppStream
+  /// 2.0 fleet.
   /// </li>
   /// <li>
   /// <code>dynamodb:table:ReadCapacityUnits</code> - The provisioned read
@@ -4886,11 +5002,15 @@ class ScheduledAction {
   /// </li>
   /// <li>
   /// <code>sagemaker:variant:DesiredProvisionedConcurrency</code> - The
-  /// provisioned concurrency for a SageMaker Serverless endpoint.
+  /// provisioned concurrency for a SageMaker serverless endpoint.
   /// </li>
   /// <li>
   /// <code>sagemaker:inference-component:DesiredCopyCount</code> - The number of
   /// copies across an endpoint for a SageMaker inference component.
+  /// </li>
+  /// <li>
+  /// <code>workspaces:workspacespool:DesiredUserSessions</code> - The number of
+  /// user sessions for the WorkSpaces in the pool.
   /// </li>
   /// </ul>
   final ScalableDimension? scalableDimension;
@@ -4961,6 +5081,7 @@ enum ServiceNamespace {
   kafka('kafka'),
   elasticache('elasticache'),
   neptune('neptune'),
+  workspaces('workspaces'),
   ;
 
   final String value;
@@ -5385,7 +5506,7 @@ class TargetTrackingMetricDimension {
 }
 
 /// This structure defines the CloudWatch metric to return, along with the
-/// statistic, period, and unit.
+/// statistic and unit.
 ///
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon

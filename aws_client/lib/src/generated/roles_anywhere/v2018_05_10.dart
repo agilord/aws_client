@@ -84,6 +84,10 @@ class IamRolesAnywhere {
   /// A list of IAM roles that this profile can assume in a temporary credential
   /// request.
   ///
+  /// Parameter [acceptRoleSessionName] :
+  /// Used to determine if a custom role session name will be accepted in a
+  /// temporary credential request.
+  ///
   /// Parameter [durationSeconds] :
   /// Used to determine how long sessions vended using this profile are valid
   /// for. See the <code>Expiration</code> section of the <a
@@ -111,6 +115,7 @@ class IamRolesAnywhere {
   Future<ProfileDetailResponse> createProfile({
     required String name,
     required List<String> roleArns,
+    bool? acceptRoleSessionName,
     int? durationSeconds,
     bool? enabled,
     List<String>? managedPolicyArns,
@@ -127,6 +132,8 @@ class IamRolesAnywhere {
     final $payload = <String, dynamic>{
       'name': name,
       'roleArns': roleArns,
+      if (acceptRoleSessionName != null)
+        'acceptRoleSessionName': acceptRoleSessionName,
       if (durationSeconds != null) 'durationSeconds': durationSeconds,
       if (enabled != null) 'enabled': enabled,
       if (managedPolicyArns != null) 'managedPolicyArns': managedPolicyArns,
@@ -931,6 +938,10 @@ class IamRolesAnywhere {
   /// Parameter [profileId] :
   /// The unique identifier of the profile.
   ///
+  /// Parameter [acceptRoleSessionName] :
+  /// Used to determine if a custom role session name will be accepted in a
+  /// temporary credential request.
+  ///
   /// Parameter [durationSeconds] :
   /// Used to determine how long sessions vended using this profile are valid
   /// for. See the <code>Expiration</code> section of the <a
@@ -954,6 +965,7 @@ class IamRolesAnywhere {
   /// credentials.
   Future<ProfileDetailResponse> updateProfile({
     required String profileId,
+    bool? acceptRoleSessionName,
     int? durationSeconds,
     List<String>? managedPolicyArns,
     String? name,
@@ -967,6 +979,8 @@ class IamRolesAnywhere {
       43200,
     );
     final $payload = <String, dynamic>{
+      if (acceptRoleSessionName != null)
+        'acceptRoleSessionName': acceptRoleSessionName,
       if (durationSeconds != null) 'durationSeconds': durationSeconds,
       if (managedPolicyArns != null) 'managedPolicyArns': managedPolicyArns,
       if (name != null) 'name': name,
@@ -1642,6 +1656,10 @@ class NotificationSettingKey {
 
 /// The state of the profile after a read or write operation.
 class ProfileDetail {
+  /// Used to determine if a custom role session name will be accepted in a
+  /// temporary credential request.
+  final bool? acceptRoleSessionName;
+
   /// A mapping applied to the authenticating end-entity certificate.
   final List<AttributeMapping>? attributeMappings;
 
@@ -1689,6 +1707,7 @@ class ProfileDetail {
   final DateTime? updatedAt;
 
   ProfileDetail({
+    this.acceptRoleSessionName,
     this.attributeMappings,
     this.createdAt,
     this.createdBy,
@@ -1706,6 +1725,7 @@ class ProfileDetail {
 
   factory ProfileDetail.fromJson(Map<String, dynamic> json) {
     return ProfileDetail(
+      acceptRoleSessionName: json['acceptRoleSessionName'] as bool?,
       attributeMappings: (json['attributeMappings'] as List?)
           ?.nonNulls
           .map((e) => AttributeMapping.fromJson(e as Map<String, dynamic>))
@@ -1732,6 +1752,7 @@ class ProfileDetail {
   }
 
   Map<String, dynamic> toJson() {
+    final acceptRoleSessionName = this.acceptRoleSessionName;
     final attributeMappings = this.attributeMappings;
     final createdAt = this.createdAt;
     final createdBy = this.createdBy;
@@ -1746,6 +1767,8 @@ class ProfileDetail {
     final sessionPolicy = this.sessionPolicy;
     final updatedAt = this.updatedAt;
     return {
+      if (acceptRoleSessionName != null)
+        'acceptRoleSessionName': acceptRoleSessionName,
       if (attributeMappings != null) 'attributeMappings': attributeMappings,
       if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,

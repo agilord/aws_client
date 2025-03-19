@@ -3,6 +3,18 @@
 **Generated Dart library from API specification**
 
 *About the service:*
+<ul>
+<li>
+<a
+href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Operations_Amazon_Connect_Service.html">Amazon
+Connect actions</a>
+</li>
+<li>
+<a
+href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Types_Amazon_Connect_Service.html">Amazon
+Connect data types</a>
+</li>
+</ul>
 Amazon Connect is a cloud-based contact center solution that you use to set
 up and manage a customer contact center and provide reliable customer
 engagement at any scale.

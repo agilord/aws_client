@@ -120,6 +120,35 @@ class Macie2 {
     return BatchGetCustomDataIdentifiersResponse.fromJson(response);
   }
 
+  /// Changes the status of automated sensitive data discovery for one or more
+  /// accounts.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [accounts] :
+  /// An array of objects, one for each account to change the status of
+  /// automated sensitive data discovery for. Each object specifies the Amazon
+  /// Web Services account ID for an account and a new status for that account.
+  Future<BatchUpdateAutomatedDiscoveryAccountsResponse>
+      batchUpdateAutomatedDiscoveryAccounts({
+    List<AutomatedDiscoveryAccountUpdate>? accounts,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accounts != null) 'accounts': accounts,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/automated-discovery/accounts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchUpdateAutomatedDiscoveryAccountsResponse.fromJson(response);
+  }
+
   /// Creates and defines the settings for an allow list.
   ///
   /// May throw [ValidationException].
@@ -198,7 +227,7 @@ class Macie2 {
   /// </li>
   /// <li>
   /// SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you
-  /// specify this value, use the scheduleFrequency property to define the
+  /// specify this value, use the scheduleFrequency property to specify the
   /// recurrence pattern for the job.
   /// </li>
   /// </ul>
@@ -283,10 +312,10 @@ class Macie2 {
   /// recurring job, each job run automatically uses all the managed data
   /// identifiers that are in the recommended set when the run starts.
   ///
-  /// For information about individual managed data identifiers or to determine
-  /// which ones are in the recommended set, see <a
+  /// To learn about individual managed data identifiers or determine which ones
+  /// are in the recommended set, see <a
   /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
-  /// managed data identifiers</a> and <a
+  /// managed data identifiers</a> or <a
   /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html">Recommended
   /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
   ///
@@ -1146,7 +1175,7 @@ class Macie2 {
   }
 
   /// Retrieves the configuration settings and status of automated sensitive
-  /// data discovery for an account.
+  /// data discovery for an organization or standalone account.
   ///
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -1732,6 +1761,56 @@ class Macie2 {
     return ListAllowListsResponse.fromJson(response);
   }
 
+  /// Retrieves the status of automated sensitive data discovery for one or more
+  /// accounts.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [accountIds] :
+  /// The Amazon Web Services account ID for each account, for as many as 50
+  /// accounts. To retrieve the status for multiple accounts, append the
+  /// accountIds parameter and argument for each account, separated by an
+  /// ampersand (&amp;). To retrieve the status for all the accounts in an
+  /// organization, omit this parameter.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to include in each page of a paginated
+  /// response.
+  ///
+  /// Parameter [nextToken] :
+  /// The nextToken string that specifies which page of results to return in a
+  /// paginated response.
+  Future<ListAutomatedDiscoveryAccountsResponse>
+      listAutomatedDiscoveryAccounts({
+    List<String>? accountIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (accountIds != null) 'accountIds': accountIds,
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/automated-discovery/accounts',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAutomatedDiscoveryAccountsResponse.fromJson(response);
+  }
+
   /// Retrieves a subset of information about one or more classification jobs.
   ///
   /// May throw [ValidationException].
@@ -1927,8 +2006,8 @@ class Macie2 {
     return ListFindingsFiltersResponse.fromJson(response);
   }
 
-  /// Retrieves information about the Amazon Macie membership invitations that
-  /// were received by an account.
+  /// Retrieves information about Amazon Macie membership invitations that were
+  /// received by an account.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2082,8 +2161,8 @@ class Macie2 {
     return ListOrganizationAdminAccountsResponse.fromJson(response);
   }
 
-  /// Retrieves information about objects that were selected from an S3 bucket
-  /// for automated sensitive data discovery.
+  /// Retrieves information about objects that Amazon Macie selected from an S3
+  /// bucket for automated sensitive data discovery.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -2221,8 +2300,8 @@ class Macie2 {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Creates or updates the configuration settings for storing data
-  /// classification results.
+  /// Adds or updates the configuration settings for storing data classification
+  /// results.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2360,7 +2439,7 @@ class Macie2 {
     );
   }
 
-  /// Tests a custom data identifier.
+  /// Tests criteria for a custom data identifier.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -2497,7 +2576,8 @@ class Macie2 {
     return UpdateAllowListResponse.fromJson(response);
   }
 
-  /// Enables or disables automated sensitive data discovery for an account.
+  /// Changes the configuration settings and status of automated sensitive data
+  /// discovery for an organization or standalone account.
   ///
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
@@ -2505,23 +2585,35 @@ class Macie2 {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [status] :
-  /// The new status of automated sensitive data discovery for the account.
-  /// Valid values are: ENABLED, start or resume automated sensitive data
-  /// discovery activities for the account; and, DISABLED, stop performing
-  /// automated sensitive data discovery activities for the account.
+  /// The new status of automated sensitive data discovery for the organization
+  /// or account. Valid values are: ENABLED, start or resume all automated
+  /// sensitive data discovery activities; and, DISABLED, stop performing all
+  /// automated sensitive data discovery activities.
   ///
-  /// When you enable automated sensitive data discovery for the first time,
-  /// Amazon Macie uses default configuration settings to determine which data
-  /// sources to analyze and which managed data identifiers to use. To change
-  /// these settings, use the UpdateClassificationScope and
-  /// UpdateSensitivityInspectionTemplate operations, respectively. If you
-  /// change the settings and subsequently disable the configuration, Amazon
-  /// Macie retains your changes.
+  /// If you specify DISABLED for an administrator account, you also disable
+  /// automated sensitive data discovery for all member accounts in the
+  /// organization.
+  ///
+  /// Parameter [autoEnableOrganizationMembers] :
+  /// Specifies whether to automatically enable automated sensitive data
+  /// discovery for accounts in the organization. Valid values are: ALL
+  /// (default), enable it for all existing accounts and new member accounts;
+  /// NEW, enable it only for new member accounts; and, NONE, don't enable it
+  /// for any accounts.
+  ///
+  /// If you specify NEW or NONE, automated sensitive data discovery continues
+  /// to be enabled for any existing accounts that it's currently enabled for.
+  /// To enable or disable it for individual member accounts, specify NEW or
+  /// NONE, and then enable or disable it for each account by using the
+  /// BatchUpdateAutomatedDiscoveryAccounts operation.
   Future<void> updateAutomatedDiscoveryConfiguration({
     required AutomatedDiscoveryStatus status,
+    AutoEnableMode? autoEnableOrganizationMembers,
   }) async {
     final $payload = <String, dynamic>{
       'status': status.value,
+      if (autoEnableOrganizationMembers != null)
+        'autoEnableOrganizationMembers': autoEnableOrganizationMembers.value,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2783,8 +2875,8 @@ class Macie2 {
   /// May throw [ConflictException].
   ///
   /// Parameter [autoEnable] :
-  /// Specifies whether to enable Amazon Macie automatically for an account when
-  /// the account is added to the organization in Organizations.
+  /// Specifies whether to enable Amazon Macie automatically for accounts that
+  /// are added to the organization in Organizations.
   Future<void> updateOrganizationConfiguration({
     required bool autoEnable,
   }) async {
@@ -2926,7 +3018,7 @@ class Macie2 {
   ///
   /// Parameter [excludes] :
   /// The managed data identifiers to explicitly exclude (not use) when
-  /// analyzing data.
+  /// performing automated sensitive data discovery.
   ///
   /// To exclude an allow list or custom data identifier that's currently
   /// included by the template, update the values for the
@@ -2936,7 +3028,8 @@ class Macie2 {
   ///
   /// Parameter [includes] :
   /// The allow lists, custom data identifiers, and managed data identifiers to
-  /// explicitly include (use) when analyzing data.
+  /// explicitly include (use) when performing automated sensitive data
+  /// discovery.
   Future<void> updateSensitivityInspectionTemplate({
     required String id,
     String? description,
@@ -3434,8 +3527,180 @@ class AssumedRole {
   }
 }
 
+/// Specifies whether to automatically enable automated sensitive data discovery
+/// for accounts that are part of an organization in Amazon Macie. Valid values
+/// are:
+enum AutoEnableMode {
+  all('ALL'),
+  $new('NEW'),
+  none('NONE'),
+  ;
+
+  final String value;
+
+  const AutoEnableMode(this.value);
+
+  static AutoEnableMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AutoEnableMode'));
+}
+
+/// Provides information about the status of automated sensitive data discovery
+/// for an Amazon Macie account.
+class AutomatedDiscoveryAccount {
+  /// The Amazon Web Services account ID for the account.
+  final String? accountId;
+
+  /// The current status of automated sensitive data discovery for the account.
+  /// Possible values are: ENABLED, perform automated sensitive data discovery
+  /// activities for the account; and, DISABLED, don't perform automated sensitive
+  /// data discovery activities for the account.
+  final AutomatedDiscoveryAccountStatus? status;
+
+  AutomatedDiscoveryAccount({
+    this.accountId,
+    this.status,
+  });
+
+  factory AutomatedDiscoveryAccount.fromJson(Map<String, dynamic> json) {
+    return AutomatedDiscoveryAccount(
+      accountId: json['accountId'] as String?,
+      status: (json['status'] as String?)
+          ?.let(AutomatedDiscoveryAccountStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final status = this.status;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The status of automated sensitive data discovery for an Amazon Macie
+/// account. Valid values are:
+enum AutomatedDiscoveryAccountStatus {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const AutomatedDiscoveryAccountStatus(this.value);
+
+  static AutomatedDiscoveryAccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomatedDiscoveryAccountStatus'));
+}
+
+/// Changes the status of automated sensitive data discovery for an Amazon Macie
+/// account.
+class AutomatedDiscoveryAccountUpdate {
+  /// The Amazon Web Services account ID for the account.
+  final String? accountId;
+
+  /// The new status of automated sensitive data discovery for the account. Valid
+  /// values are: ENABLED, perform automated sensitive data discovery activities
+  /// for the account; and, DISABLED, don't perform automated sensitive data
+  /// discovery activities for the account.
+  final AutomatedDiscoveryAccountStatus? status;
+
+  AutomatedDiscoveryAccountUpdate({
+    this.accountId,
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final status = this.status;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Provides information about a request that failed to change the status of
+/// automated sensitive data discovery for an Amazon Macie account.
+class AutomatedDiscoveryAccountUpdateError {
+  /// The Amazon Web Services account ID for the account that the request applied
+  /// to.
+  final String? accountId;
+
+  /// The error code for the error that caused the request to fail for the account
+  /// (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t
+  /// exist or you're not the Amazon Macie administrator for the account; and,
+  /// ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon
+  /// Web Services Region.
+  final AutomatedDiscoveryAccountUpdateErrorCode? errorCode;
+
+  AutomatedDiscoveryAccountUpdateError({
+    this.accountId,
+    this.errorCode,
+  });
+
+  factory AutomatedDiscoveryAccountUpdateError.fromJson(
+      Map<String, dynamic> json) {
+    return AutomatedDiscoveryAccountUpdateError(
+      accountId: json['accountId'] as String?,
+      errorCode: (json['errorCode'] as String?)
+          ?.let(AutomatedDiscoveryAccountUpdateErrorCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final errorCode = this.errorCode;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (errorCode != null) 'errorCode': errorCode.value,
+    };
+  }
+}
+
+/// The error code that indicates why a request failed to change the status of
+/// automated sensitive data discovery for an Amazon Macie account. Possible
+/// values are:
+enum AutomatedDiscoveryAccountUpdateErrorCode {
+  accountPaused('ACCOUNT_PAUSED'),
+  accountNotFound('ACCOUNT_NOT_FOUND'),
+  ;
+
+  final String value;
+
+  const AutomatedDiscoveryAccountUpdateErrorCode(this.value);
+
+  static AutomatedDiscoveryAccountUpdateErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomatedDiscoveryAccountUpdateErrorCode'));
+}
+
+/// Specifies whether automated sensitive data discovery is currently configured
+/// to analyze objects in an S3 bucket. Possible values are:
+enum AutomatedDiscoveryMonitoringStatus {
+  monitored('MONITORED'),
+  notMonitored('NOT_MONITORED'),
+  ;
+
+  final String value;
+
+  const AutomatedDiscoveryMonitoringStatus(this.value);
+
+  static AutomatedDiscoveryMonitoringStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutomatedDiscoveryMonitoringStatus'));
+}
+
 /// The status of the automated sensitive data discovery configuration for an
-/// Amazon Macie account. Valid values are:
+/// organization in Amazon Macie or a standalone Macie account. Valid values
+/// are:
 enum AutomatedDiscoveryStatus {
   enabled('ENABLED'),
   disabled('DISABLED'),
@@ -3625,6 +3890,36 @@ class BatchGetCustomDataIdentifiersResponse {
         'customDataIdentifiers': customDataIdentifiers,
       if (notFoundIdentifierIds != null)
         'notFoundIdentifierIds': notFoundIdentifierIds,
+    };
+  }
+}
+
+class BatchUpdateAutomatedDiscoveryAccountsResponse {
+  /// An array of objects, one for each account whose status wasn’t changed. Each
+  /// object identifies the account and explains why the status of automated
+  /// sensitive data discovery wasn’t changed for the account. This value is null
+  /// if the request succeeded for all specified accounts.
+  final List<AutomatedDiscoveryAccountUpdateError>? errors;
+
+  BatchUpdateAutomatedDiscoveryAccountsResponse({
+    this.errors,
+  });
+
+  factory BatchUpdateAutomatedDiscoveryAccountsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchUpdateAutomatedDiscoveryAccountsResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map((e) => AutomatedDiscoveryAccountUpdateError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'errors': errors,
     };
   }
 }
@@ -4054,6 +4349,13 @@ class BucketMetadata {
   /// x-amz-server-side-encryption-customer-algorithm with a value of AES256.
   final AllowsUnencryptedObjectUploads? allowsUnencryptedObjectUploads;
 
+  /// Specifies whether automated sensitive data discovery is currently configured
+  /// to analyze objects in the bucket. Possible values are: MONITORED, the bucket
+  /// is included in analyses; and, NOT_MONITORED, the bucket is excluded from
+  /// analyses. If automated sensitive data discovery is disabled for your
+  /// account, this value is NOT_MONITORED.
+  final AutomatedDiscoveryMonitoringStatus? automatedDiscoveryMonitoringStatus;
+
   /// The Amazon Resource Name (ARN) of the bucket.
   final String? bucketArn;
 
@@ -4095,14 +4397,14 @@ class BucketMetadata {
   final String? errorMessage;
 
   /// Specifies whether any one-time or recurring classification jobs are
-  /// configured to analyze data in the bucket, and, if so, the details of the job
-  /// that ran most recently.
+  /// configured to analyze objects in the bucket, and, if so, the details of the
+  /// job that ran most recently.
   final JobDetails? jobDetails;
 
   /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie
-  /// most recently analyzed data in the bucket while performing automated
-  /// sensitive data discovery for your account. This value is null if automated
-  /// sensitive data discovery is currently disabled for your account.
+  /// most recently analyzed objects in the bucket while performing automated
+  /// sensitive data discovery. This value is null if automated sensitive data
+  /// discovery is disabled for your account.
   final DateTime? lastAutomatedDiscoveryTime;
 
   /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie
@@ -4132,8 +4434,13 @@ class BucketMetadata {
   final ReplicationDetails? replicationDetails;
 
   /// The sensitivity score for the bucket, ranging from -1 (classification error)
-  /// to 100 (sensitive). This value is null if automated sensitive data discovery
-  /// is currently disabled for your account.
+  /// to 100 (sensitive).
+  ///
+  /// If automated sensitive data discovery has never been enabled for your
+  /// account or it’s been disabled for your organization or your standalone
+  /// account for more than 30 days, possible values are: 1, the bucket is empty;
+  /// or, 50, the bucket stores objects but it’s been excluded from recent
+  /// analyses.
   final int? sensitivityScore;
 
   /// The default server-side encryption settings for the bucket.
@@ -4206,6 +4513,7 @@ class BucketMetadata {
   BucketMetadata({
     this.accountId,
     this.allowsUnencryptedObjectUploads,
+    this.automatedDiscoveryMonitoringStatus,
     this.bucketArn,
     this.bucketCreatedAt,
     this.bucketName,
@@ -4238,6 +4546,9 @@ class BucketMetadata {
       allowsUnencryptedObjectUploads:
           (json['allowsUnencryptedObjectUploads'] as String?)
               ?.let(AllowsUnencryptedObjectUploads.fromString),
+      automatedDiscoveryMonitoringStatus:
+          (json['automatedDiscoveryMonitoringStatus'] as String?)
+              ?.let(AutomatedDiscoveryMonitoringStatus.fromString),
       bucketArn: json['bucketArn'] as String?,
       bucketCreatedAt: timeStampFromJson(json['bucketCreatedAt']),
       bucketName: json['bucketName'] as String?,
@@ -4296,6 +4607,8 @@ class BucketMetadata {
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final allowsUnencryptedObjectUploads = this.allowsUnencryptedObjectUploads;
+    final automatedDiscoveryMonitoringStatus =
+        this.automatedDiscoveryMonitoringStatus;
     final bucketArn = this.bucketArn;
     final bucketCreatedAt = this.bucketCreatedAt;
     final bucketName = this.bucketName;
@@ -4325,6 +4638,9 @@ class BucketMetadata {
       if (accountId != null) 'accountId': accountId,
       if (allowsUnencryptedObjectUploads != null)
         'allowsUnencryptedObjectUploads': allowsUnencryptedObjectUploads.value,
+      if (automatedDiscoveryMonitoringStatus != null)
+        'automatedDiscoveryMonitoringStatus':
+            automatedDiscoveryMonitoringStatus.value,
       if (bucketArn != null) 'bucketArn': bucketArn,
       if (bucketCreatedAt != null)
         'bucketCreatedAt': iso8601ToJson(bucketCreatedAt),
@@ -4363,8 +4679,7 @@ class BucketMetadata {
 }
 
 /// The error code for an error that prevented Amazon Macie from retrieving and
-/// processing metadata from Amazon S3 for an S3 bucket and the bucket's
-/// objects.
+/// processing information about an S3 bucket and the bucket's objects.
 enum BucketMetadataErrorCode {
   accessDenied('ACCESS_DENIED'),
   ;
@@ -4774,7 +5089,7 @@ class ClassificationDetails {
 
 /// Specifies where to store data classification results, and the encryption
 /// settings to use when storing results in that location. The location must be
-/// an S3 bucket.
+/// an S3 general purpose bucket.
 class ClassificationExportConfiguration {
   /// The S3 bucket to store data classification results in, and the encryption
   /// settings to use when storing results in that bucket.
@@ -5822,8 +6137,8 @@ class DescribeBucketsResponse {
 }
 
 class DescribeClassificationJobResponse {
-  /// An array of unique identifiers, one for each allow list that the job uses
-  /// when it analyzes data.
+  /// An array of unique identifiers, one for each allow list that the job is
+  /// configured to use when it analyzes data.
   final List<String>? allowListIds;
 
   /// The token that was provided to ensure the idempotency of the request to
@@ -5835,8 +6150,8 @@ class DescribeClassificationJobResponse {
   final DateTime? createdAt;
 
   /// An array of unique identifiers, one for each custom data identifier that the
-  /// job uses when it analyzes data. This value is null if the job uses only
-  /// managed data identifiers to analyze data.
+  /// job is configured to use when it analyzes data. This value is null if the
+  /// job is configured to use only managed data identifiers to analyze data.
   final List<String>? customDataIdentifierIds;
 
   /// The custom description of the job.
@@ -5954,10 +6269,10 @@ class DescribeClassificationJobResponse {
   /// managed data identifiers that are in the recommended set when the run
   /// starts.
   ///
-  /// For information about individual managed data identifiers or to determine
-  /// which ones are in the recommended set, see <a
+  /// To learn about individual managed data identifiers or determine which ones
+  /// are in the recommended set, see <a
   /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
-  /// managed data identifiers</a> and <a
+  /// managed data identifiers</a> or <a
   /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html">Recommended
   /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
   final ManagedDataIdentifierSelector? managedDataIdentifierSelector;
@@ -5982,7 +6297,7 @@ class DescribeClassificationJobResponse {
   final Statistics? statistics;
 
   /// A map of key-value pairs that specifies which tags (keys and values) are
-  /// associated with the classification job.
+  /// associated with the job.
   final Map<String, String>? tags;
 
   /// If the current status of the job is USER_PAUSED, specifies when the job was
@@ -6178,10 +6493,10 @@ class DetectedDataDetails {
 }
 
 /// Provides information about a type of sensitive data that Amazon Macie found
-/// in an S3 bucket while performing automated sensitive data discovery for the
-/// bucket. The information also specifies the custom data identifier or managed
-/// data identifier that detected the data. This information is available only
-/// if automated sensitive data discovery is currently enabled for your account.
+/// in an S3 bucket while performing automated sensitive data discovery for an
+/// account. The information also specifies the custom or managed data
+/// identifier that detected the data. This information is available only if
+/// automated sensitive data discovery has been enabled for the account.
 class Detection {
   /// If the sensitive data was detected by a custom data identifier, the Amazon
   /// Resource Name (ARN) of the custom data identifier that detected the data.
@@ -6702,13 +7017,14 @@ class FindingActor {
   /// the affected resource.
   final DomainDetails? domainDetails;
 
-  /// The IP address of the device that the entity used to perform the action on
-  /// the affected resource. This object also provides information such as the
-  /// owner and geographic location for the IP address.
+  /// The IP address and related details about the device that the entity used to
+  /// perform the action on the affected resource. The details can include
+  /// information such as the owner and geographic location of the IP address.
   final IpAddressDetails? ipAddressDetails;
 
   /// The type and other characteristics of the entity that performed the action
-  /// on the affected resource.
+  /// on the affected resource. This value is null if the action was performed by
+  /// an anonymous (unauthenticated) entity.
   final UserIdentity? userIdentity;
 
   FindingActor({
@@ -7081,43 +7397,46 @@ class GetAllowListResponse {
 }
 
 class GetAutomatedDiscoveryConfigurationResponse {
+  /// Specifies whether automated sensitive data discovery is enabled
+  /// automatically for accounts in the organization. Possible values are: ALL,
+  /// enable it for all existing accounts and new member accounts; NEW, enable it
+  /// only for new member accounts; and, NONE, don't enable it for any accounts.
+  final AutoEnableMode? autoEnableOrganizationMembers;
+
   /// The unique identifier for the classification scope that's used when
-  /// performing automated sensitive data discovery for the account. The
-  /// classification scope specifies S3 buckets to exclude from automated
-  /// sensitive data discovery.
+  /// performing automated sensitive data discovery. The classification scope
+  /// specifies S3 buckets to exclude from analyses.
   final String? classificationScopeId;
 
   /// The date and time, in UTC and extended ISO 8601 format, when automated
-  /// sensitive data discovery was most recently disabled for the account. This
-  /// value is null if automated sensitive data discovery wasn't enabled and
-  /// subsequently disabled for the account.
+  /// sensitive data discovery was most recently disabled. This value is null if
+  /// automated sensitive data discovery is currently enabled.
   final DateTime? disabledAt;
 
   /// The date and time, in UTC and extended ISO 8601 format, when automated
-  /// sensitive data discovery was initially enabled for the account. This value
-  /// is null if automated sensitive data discovery has never been enabled for the
-  /// account.
+  /// sensitive data discovery was initially enabled. This value is null if
+  /// automated sensitive data discovery has never been enabled.
   final DateTime? firstEnabledAt;
 
-  /// The date and time, in UTC and extended ISO 8601 format, when automated
-  /// sensitive data discovery was most recently enabled or disabled for the
-  /// account.
+  /// The date and time, in UTC and extended ISO 8601 format, when the
+  /// configuration settings or status of automated sensitive data discovery was
+  /// most recently changed.
   final DateTime? lastUpdatedAt;
 
   /// The unique identifier for the sensitivity inspection template that's used
-  /// when performing automated sensitive data discovery for the account. The
-  /// template specifies which allow lists, custom data identifiers, and managed
-  /// data identifiers to use when analyzing data.
+  /// when performing automated sensitive data discovery. The template specifies
+  /// which allow lists, custom data identifiers, and managed data identifiers to
+  /// use when analyzing data.
   final String? sensitivityInspectionTemplateId;
 
-  /// The current status of the automated sensitive data discovery configuration
-  /// for the account. Possible values are: ENABLED, use the specified settings to
-  /// perform automated sensitive data discovery activities for the account; and,
-  /// DISABLED, don't perform automated sensitive data discovery activities for
-  /// the account.
+  /// The current status of automated sensitive data discovery for the
+  /// organization or account. Possible values are: ENABLED, use the specified
+  /// settings to perform automated sensitive data discovery activities; and,
+  /// DISABLED, don't perform automated sensitive data discovery activities.
   final AutomatedDiscoveryStatus? status;
 
   GetAutomatedDiscoveryConfigurationResponse({
+    this.autoEnableOrganizationMembers,
     this.classificationScopeId,
     this.disabledAt,
     this.firstEnabledAt,
@@ -7129,6 +7448,9 @@ class GetAutomatedDiscoveryConfigurationResponse {
   factory GetAutomatedDiscoveryConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAutomatedDiscoveryConfigurationResponse(
+      autoEnableOrganizationMembers:
+          (json['autoEnableOrganizationMembers'] as String?)
+              ?.let(AutoEnableMode.fromString),
       classificationScopeId: json['classificationScopeId'] as String?,
       disabledAt: timeStampFromJson(json['disabledAt']),
       firstEnabledAt: timeStampFromJson(json['firstEnabledAt']),
@@ -7141,6 +7463,7 @@ class GetAutomatedDiscoveryConfigurationResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final autoEnableOrganizationMembers = this.autoEnableOrganizationMembers;
     final classificationScopeId = this.classificationScopeId;
     final disabledAt = this.disabledAt;
     final firstEnabledAt = this.firstEnabledAt;
@@ -7149,6 +7472,8 @@ class GetAutomatedDiscoveryConfigurationResponse {
         this.sensitivityInspectionTemplateId;
     final status = this.status;
     return {
+      if (autoEnableOrganizationMembers != null)
+        'autoEnableOrganizationMembers': autoEnableOrganizationMembers.value,
       if (classificationScopeId != null)
         'classificationScopeId': classificationScopeId,
       if (disabledAt != null) 'disabledAt': iso8601ToJson(disabledAt),
@@ -8183,11 +8508,12 @@ class GetSensitivityInspectionTemplateResponse {
   final String? description;
 
   /// The managed data identifiers that are explicitly excluded (not used) when
-  /// analyzing data.
+  /// performing automated sensitive data discovery.
   final SensitivityInspectionTemplateExcludes? excludes;
 
   /// The allow lists, custom data identifiers, and managed data identifiers that
-  /// are explicitly included (used) when analyzing data.
+  /// are explicitly included (used) when performing automated sensitive data
+  /// discovery.
   final SensitivityInspectionTemplateIncludes? includes;
 
   /// The name of the template: automated-sensitive-data-discovery.
@@ -8712,11 +9038,11 @@ enum JobComparator {
 }
 
 /// Specifies whether any one-time or recurring classification jobs are
-/// configured to analyze data in an S3 bucket, and, if so, the details of the
-/// job that ran most recently.
+/// configured to analyze objects in an S3 bucket, and, if so, the details of
+/// the job that ran most recently.
 class JobDetails {
   /// Specifies whether any one-time or recurring jobs are configured to analyze
-  /// data in the bucket. Possible values are:
+  /// objects in the bucket. Possible values are:
   ///
   /// <ul>
   /// <li>
@@ -8739,8 +9065,8 @@ class JobDetails {
   /// </ul>
   final IsDefinedInJob? isDefinedInJob;
 
-  /// Specifies whether any recurring jobs are configured to analyze data in the
-  /// bucket. Possible values are:
+  /// Specifies whether any recurring jobs are configured to analyze objects in
+  /// the bucket. Possible values are:
   ///
   /// <ul>
   /// <li>
@@ -8765,8 +9091,8 @@ class JobDetails {
   final IsMonitoredByJob? isMonitoredByJob;
 
   /// The unique identifier for the job that ran most recently and is configured
-  /// to analyze data in the bucket, either the latest run of a recurring job or
-  /// the only run of a one-time job.
+  /// to analyze objects in the bucket, either the latest run of a recurring job
+  /// or the only run of a one-time job.
   ///
   /// This value is typically null if the value for the isDefinedInJob property is
   /// FALSE or UNKNOWN.
@@ -9228,6 +9554,43 @@ class ListAllowListsResponse {
     final nextToken = this.nextToken;
     return {
       if (allowLists != null) 'allowLists': allowLists,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListAutomatedDiscoveryAccountsResponse {
+  /// An array of objects, one for each account specified in the request. Each
+  /// object specifies the Amazon Web Services account ID for an account and the
+  /// current status of automated sensitive data discovery for that account.
+  final List<AutomatedDiscoveryAccount>? items;
+
+  /// The string to use in a subsequent request to get the next page of results in
+  /// a paginated response. This value is null if there are no additional pages.
+  final String? nextToken;
+
+  ListAutomatedDiscoveryAccountsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListAutomatedDiscoveryAccountsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAutomatedDiscoveryAccountsResponse(
+      items: (json['items'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AutomatedDiscoveryAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'items': items,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -9903,6 +10266,13 @@ class MatchingBucket {
   /// bucket.
   final String? accountId;
 
+  /// Specifies whether automated sensitive data discovery is currently configured
+  /// to analyze objects in the bucket. Possible values are: MONITORED, the bucket
+  /// is included in analyses; and, NOT_MONITORED, the bucket is excluded from
+  /// analyses. If automated sensitive data discovery is disabled for your
+  /// account, this value is NOT_MONITORED.
+  final AutomatedDiscoveryMonitoringStatus? automatedDiscoveryMonitoringStatus;
+
   /// The name of the bucket.
   final String? bucketName;
 
@@ -9941,9 +10311,9 @@ class MatchingBucket {
   final JobDetails? jobDetails;
 
   /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie
-  /// most recently analyzed data in the bucket while performing automated
-  /// sensitive data discovery for your account. This value is null if automated
-  /// sensitive data discovery is currently disabled for your account.
+  /// most recently analyzed objects in the bucket while performing automated
+  /// sensitive data discovery. This value is null if automated sensitive data
+  /// discovery is disabled for your account.
   final DateTime? lastAutomatedDiscoveryTime;
 
   /// The total number of objects in the bucket.
@@ -9954,9 +10324,14 @@ class MatchingBucket {
   /// aren't encrypted or use client-side encryption.
   final ObjectCountByEncryptionType? objectCountByEncryptionType;
 
-  /// The current sensitivity score for the bucket, ranging from -1
-  /// (classification error) to 100 (sensitive). This value is null if automated
-  /// sensitive data discovery is currently disabled for your account.
+  /// The sensitivity score for the bucket, ranging from -1 (classification error)
+  /// to 100 (sensitive).
+  ///
+  /// If automated sensitive data discovery has never been enabled for your
+  /// account or it’s been disabled for your organization or your standalone
+  /// account for more than 30 days, possible values are: 1, the bucket is empty;
+  /// or, 50, the bucket stores objects but it’s been excluded from recent
+  /// analyses.
   final int? sensitivityScore;
 
   /// The total storage size, in bytes, of the bucket.
@@ -9988,6 +10363,7 @@ class MatchingBucket {
 
   MatchingBucket({
     this.accountId,
+    this.automatedDiscoveryMonitoringStatus,
     this.bucketName,
     this.classifiableObjectCount,
     this.classifiableSizeInBytes,
@@ -10007,6 +10383,9 @@ class MatchingBucket {
   factory MatchingBucket.fromJson(Map<String, dynamic> json) {
     return MatchingBucket(
       accountId: json['accountId'] as String?,
+      automatedDiscoveryMonitoringStatus:
+          (json['automatedDiscoveryMonitoringStatus'] as String?)
+              ?.let(AutomatedDiscoveryMonitoringStatus.fromString),
       bucketName: json['bucketName'] as String?,
       classifiableObjectCount: json['classifiableObjectCount'] as int?,
       classifiableSizeInBytes: json['classifiableSizeInBytes'] as int?,
@@ -10041,6 +10420,8 @@ class MatchingBucket {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final automatedDiscoveryMonitoringStatus =
+        this.automatedDiscoveryMonitoringStatus;
     final bucketName = this.bucketName;
     final classifiableObjectCount = this.classifiableObjectCount;
     final classifiableSizeInBytes = this.classifiableSizeInBytes;
@@ -10058,6 +10439,9 @@ class MatchingBucket {
         this.unclassifiableObjectSizeInBytes;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (automatedDiscoveryMonitoringStatus != null)
+        'automatedDiscoveryMonitoringStatus':
+            automatedDiscoveryMonitoringStatus.value,
       if (bucketName != null) 'bucketName': bucketName,
       if (classifiableObjectCount != null)
         'classifiableObjectCount': classifiableObjectCount,
@@ -10746,10 +11130,9 @@ class ReplicationDetails {
 }
 
 /// Provides information about an S3 object that Amazon Macie selected for
-/// analysis while performing automated sensitive data discovery for an S3
-/// bucket, and the status and results of the analysis. This information is
-/// available only if automated sensitive data discovery is currently enabled
-/// for your account.
+/// analysis while performing automated sensitive data discovery for an account,
+/// and the status and results of the analysis. This information is available
+/// only if automated sensitive data discovery has been enabled for the account.
 class ResourceProfileArtifact {
   /// The Amazon Resource Name (ARN) of the object.
   final String arn;
@@ -10801,11 +11184,10 @@ class ResourceProfileArtifact {
 }
 
 /// Provides statistical data for sensitive data discovery metrics that apply to
-/// an S3 bucket that Amazon Macie monitors and analyzes for your account. The
-/// statistics capture the results of automated sensitive data discovery
-/// activities that Macie has performed for the bucket. The data is available
-/// only if automated sensitive data discovery is currently enabled for your
-/// account.
+/// an S3 bucket that Amazon Macie monitors and analyzes for an account, if
+/// automated sensitive data discovery has been enabled for the account. The
+/// data captures the results of automated sensitive data discovery activities
+/// that Macie has performed for the bucket.
 class ResourceStatistics {
   /// The total amount of data, in bytes, that Amazon Macie has analyzed in the
   /// bucket.
@@ -11443,7 +11825,8 @@ class S3ClassificationScopeUpdate {
 /// Specifies an S3 bucket to store data classification results in, and the
 /// encryption settings to use when storing results in that bucket.
 class S3Destination {
-  /// The name of the bucket.
+  /// The name of the bucket. This must be the name of an existing general purpose
+  /// bucket.
   final String bucketName;
 
   /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
@@ -11890,6 +12273,12 @@ class SearchResourcesSimpleCriterion {
   /// Web Services account that owns the resource.
   /// </li>
   /// <li>
+  /// AUTOMATED_DISCOVERY_MONITORING_STATUS - A string that represents an
+  /// enumerated value that Macie defines for the <a
+  /// href="https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketmetadata-automateddiscoverymonitoringstatus">BucketMetadata.automatedDiscoveryMonitoringStatus</a>
+  /// property of an S3 bucket.
+  /// </li>
+  /// <li>
   /// S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated
   /// value that Macie defines for the <a
   /// href="https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketpublicaccess-effectivepermission">BucketPublicAccess.effectivePermission</a>
@@ -11934,6 +12323,7 @@ enum SearchResourcesSimpleCriterionKey {
   s3BucketName('S3_BUCKET_NAME'),
   s3BucketEffectivePermission('S3_BUCKET_EFFECTIVE_PERMISSION'),
   s3BucketSharedAccess('S3_BUCKET_SHARED_ACCESS'),
+  automatedDiscoveryMonitoringStatus('AUTOMATED_DISCOVERY_MONITORING_STATUS'),
   ;
 
   final String value;
@@ -12218,9 +12608,8 @@ class SensitivityAggregations {
 }
 
 /// Specifies managed data identifiers to exclude (not use) when performing
-/// automated sensitive data discovery for an Amazon Macie account. For
-/// information about the managed data identifiers that Amazon Macie currently
-/// provides, see <a
+/// automated sensitive data discovery. For information about the managed data
+/// identifiers that Amazon Macie currently provides, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
 /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
 class SensitivityInspectionTemplateExcludes {
@@ -12254,10 +12643,9 @@ class SensitivityInspectionTemplateExcludes {
 
 /// Specifies the allow lists, custom data identifiers, and managed data
 /// identifiers to include (use) when performing automated sensitive data
-/// discovery for an Amazon Macie account. The configuration must specify at
-/// least one custom data identifier or managed data identifier. For information
-/// about the managed data identifiers that Amazon Macie currently provides, see
-/// <a
+/// discovery. The configuration must specify at least one custom data
+/// identifier or managed data identifier. For information about the managed
+/// data identifiers that Amazon Macie currently provides, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
 /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
 class SensitivityInspectionTemplateIncludes {
@@ -12318,8 +12706,7 @@ class SensitivityInspectionTemplateIncludes {
 }
 
 /// Provides information about the sensitivity inspection template for an Amazon
-/// Macie account. Macie uses the template's settings when it performs automated
-/// sensitive data discovery for the account.
+/// Macie account.
 class SensitivityInspectionTemplatesEntry {
   /// The unique identifier for the sensitivity inspection template.
   final String? id;
@@ -13596,9 +13983,9 @@ class UsageRecord {
   final String? accountId;
 
   /// The date and time, in UTC and extended ISO 8601 format, when the free trial
-  /// of automated sensitive data discovery started for the account. If the
-  /// account is a member account in an organization, this value is the same as
-  /// the value for the organization's Amazon Macie administrator account.
+  /// of automated sensitive data discovery started for the account. This value is
+  /// null if automated sensitive data discovery hasn't been enabled for the
+  /// account.
   final DateTime? automatedDiscoveryFreeTrialStartDate;
 
   /// The date and time, in UTC and extended ISO 8601 format, when the Amazon

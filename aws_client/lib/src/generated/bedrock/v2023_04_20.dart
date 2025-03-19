@@ -51,11 +51,40 @@ class Bedrock {
     _protocol.close();
   }
 
+  /// Creates a batch deletion job. A model evaluation job can only be deleted
+  /// if it has following status <code>FAILED</code>, <code>COMPLETED</code>,
+  /// and <code>STOPPED</code>. You can request up to 25 model evaluation jobs
+  /// be deleted in a single request.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobIdentifiers] :
+  /// An array of model evaluation job ARNs to be deleted.
+  Future<BatchDeleteEvaluationJobResponse> batchDeleteEvaluationJob({
+    required List<String> jobIdentifiers,
+  }) async {
+    final $payload = <String, dynamic>{
+      'jobIdentifiers': jobIdentifiers,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/evaluation-jobs/batch-delete',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteEvaluationJobResponse.fromJson(response);
+  }
+
   /// API operation for creating and managing Amazon Bedrock automatic model
   /// evaluation jobs and model evaluation jobs that use human workers. To learn
   /// more about the requirements for creating a model evaluation job see, <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html">Model
-  /// evaluations</a>.
+  /// evaluation</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -142,69 +171,41 @@ class Bedrock {
     return CreateEvaluationJobResponse.fromJson(response);
   }
 
-  /// Creates a guardrail to block topics and to filter out harmful content.
+  /// Creates a guardrail to block topics and to implement safeguards for your
+  /// generative AI applications.
+  ///
+  /// You can configure the following policies in a guardrail to avoid
+  /// undesirable and harmful content, filter out denied topics and words, and
+  /// remove sensitive information for privacy protection.
   ///
   /// <ul>
   /// <li>
-  /// Specify a <code>name</code> and optional <code>description</code>.
+  /// <b>Content filters</b> - Adjust filter strengths to block input prompts or
+  /// model responses containing harmful content.
   /// </li>
   /// <li>
-  /// Specify messages for when the guardrail successfully blocks a prompt or a
-  /// model response in the <code>blockedInputMessaging</code> and
-  /// <code>blockedOutputsMessaging</code> fields.
+  /// <b>Denied topics</b> - Define a set of topics that are undesirable in the
+  /// context of your application. These topics will be blocked if detected in
+  /// user queries or model responses.
   /// </li>
   /// <li>
-  /// Specify topics for the guardrail to deny in the
-  /// <code>topicPolicyConfig</code> object. Each <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailTopicConfig.html">GuardrailTopicConfig</a>
-  /// object in the <code>topicsConfig</code> list pertains to one topic.
-  ///
-  /// <ul>
-  /// <li>
-  /// Give a <code>name</code> and <code>description</code> so that the
-  /// guardrail can properly identify the topic.
+  /// <b>Word filters</b> - Configure filters to block undesirable words,
+  /// phrases, and profanity. Such words can include offensive terms, competitor
+  /// names etc.
   /// </li>
   /// <li>
-  /// Specify <code>DENY</code> in the <code>type</code> field.
-  /// </li>
-  /// <li>
-  /// (Optional) Provide up to five prompts that you would categorize as
-  /// belonging to the topic in the <code>examples</code> list.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Specify filter strengths for the harmful categories defined in Amazon
-  /// Bedrock in the <code>contentPolicyConfig</code> object. Each <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html">GuardrailContentFilterConfig</a>
-  /// object in the <code>filtersConfig</code> list pertains to a harmful
-  /// category. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters">Content
-  /// filters</a>. For more information about the fields in a content filter,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html">GuardrailContentFilterConfig</a>.
-  ///
-  /// <ul>
-  /// <li>
-  /// Specify the category in the <code>type</code> field.
-  /// </li>
-  /// <li>
-  /// Specify the strength of the filter for prompts in the
-  /// <code>inputStrength</code> field and for model responses in the
-  /// <code>strength</code> field of the <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html">GuardrailContentFilterConfig</a>.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// (Optional) For security, include the ARN of a KMS key in the
-  /// <code>kmsKeyId</code> field.
-  /// </li>
-  /// <li>
-  /// (Optional) Attach any tags to the guardrail in the <code>tags</code>
-  /// object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging">Tag
-  /// resources</a>.
+  /// <b>Sensitive information filters</b> - Block or mask sensitive information
+  /// such as personally identifiable information (PII) or custom regex in user
+  /// inputs and model responses.
   /// </li>
   /// </ul>
+  /// In addition to the above policies, you can also configure the messages to
+  /// be returned to the user if a user input or model response is in violation
+  /// of the policies defined in the guardrail.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html">Guardrails
+  /// for Amazon Bedrock</a> in the <i>Amazon Bedrock User Guide</i>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -235,6 +236,9 @@ class Bedrock {
   /// Parameter [contentPolicyConfig] :
   /// The content filter policies to configure for the guardrail.
   ///
+  /// Parameter [contextualGroundingPolicyConfig] :
+  /// The contextual grounding policy configuration used to create a guardrail.
+  ///
   /// Parameter [description] :
   /// A description of the guardrail.
   ///
@@ -258,6 +262,7 @@ class Bedrock {
     required String name,
     String? clientRequestToken,
     GuardrailContentPolicyConfig? contentPolicyConfig,
+    GuardrailContextualGroundingPolicyConfig? contextualGroundingPolicyConfig,
     String? description,
     String? kmsKeyId,
     GuardrailSensitiveInformationPolicyConfig? sensitiveInformationPolicyConfig,
@@ -272,6 +277,8 @@ class Bedrock {
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (contentPolicyConfig != null)
         'contentPolicyConfig': contentPolicyConfig,
+      if (contextualGroundingPolicyConfig != null)
+        'contextualGroundingPolicyConfig': contextualGroundingPolicyConfig,
       if (description != null) 'description': description,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (sensitiveInformationPolicyConfig != null)
@@ -302,7 +309,7 @@ class Bedrock {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [guardrailIdentifier] :
-  /// The unique identifier of the guardrail.
+  /// The unique identifier of the guardrail. This can be an ID or the ARN.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique, case-sensitive identifier to ensure that the API request
@@ -332,6 +339,64 @@ class Bedrock {
     return CreateGuardrailVersionResponse.fromJson(response);
   }
 
+  /// Copies a model to another region so that it can be used there. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html">Copy
+  /// models to be used in other regions</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyTagsException].
+  ///
+  /// Parameter [sourceModelArn] :
+  /// The Amazon Resource Name (ARN) of the model to be copied.
+  ///
+  /// Parameter [targetModelName] :
+  /// A name for the copied model.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [modelKmsKeyId] :
+  /// The ARN of the KMS key that you use to encrypt the model copy.
+  ///
+  /// Parameter [targetModelTags] :
+  /// Tags to associate with the target model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tag
+  /// resources</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  Future<CreateModelCopyJobResponse> createModelCopyJob({
+    required String sourceModelArn,
+    required String targetModelName,
+    String? clientRequestToken,
+    String? modelKmsKeyId,
+    List<Tag>? targetModelTags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'sourceModelArn': sourceModelArn,
+      'targetModelName': targetModelName,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (modelKmsKeyId != null) 'modelKmsKeyId': modelKmsKeyId,
+      if (targetModelTags != null) 'targetModelTags': targetModelTags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/model-copy-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateModelCopyJobResponse.fromJson(response);
+  }
+
   /// Creates a fine-tuning job to customize a base model.
   ///
   /// You specify the base foundation model and the location of the training
@@ -350,7 +415,9 @@ class Bedrock {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -461,12 +528,184 @@ class Bedrock {
     return CreateModelCustomizationJobResponse.fromJson(response);
   }
 
+  /// Creates a model import job to import model that you have customized in
+  /// other environments, such as Amazon SageMaker. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">Import
+  /// a customized model</a>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [importedModelName] :
+  /// The name of the imported model.
+  ///
+  /// Parameter [jobName] :
+  /// The name of the import job.
+  ///
+  /// Parameter [modelDataSource] :
+  /// The data source for the imported model.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the model import job.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [importedModelKmsKeyId] :
+  /// The imported model is encrypted at rest using this key.
+  ///
+  /// Parameter [importedModelTags] :
+  /// Tags to attach to the imported model.
+  ///
+  /// Parameter [jobTags] :
+  /// Tags to attach to this import job.
+  ///
+  /// Parameter [vpcConfig] :
+  /// VPC configuration parameters for the private Virtual Private Cloud (VPC)
+  /// that contains the resources you are using for the import job.
+  Future<CreateModelImportJobResponse> createModelImportJob({
+    required String importedModelName,
+    required String jobName,
+    required ModelDataSource modelDataSource,
+    required String roleArn,
+    String? clientRequestToken,
+    String? importedModelKmsKeyId,
+    List<Tag>? importedModelTags,
+    List<Tag>? jobTags,
+    VpcConfig? vpcConfig,
+  }) async {
+    final $payload = <String, dynamic>{
+      'importedModelName': importedModelName,
+      'jobName': jobName,
+      'modelDataSource': modelDataSource,
+      'roleArn': roleArn,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (importedModelKmsKeyId != null)
+        'importedModelKmsKeyId': importedModelKmsKeyId,
+      if (importedModelTags != null) 'importedModelTags': importedModelTags,
+      if (jobTags != null) 'jobTags': jobTags,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/model-import-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateModelImportJobResponse.fromJson(response);
+  }
+
+  /// Creates a batch inference job to invoke a model on multiple prompts.
+  /// Format your data according to <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data">Format
+  /// your inference data</a> and upload it to an Amazon S3 bucket. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html">Process
+  /// multiple prompts with batch inference</a>.
+  ///
+  /// The response returns a <code>jobArn</code> that you can use to stop or get
+  /// details about the job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [inputDataConfig] :
+  /// Details about the location of the input to the batch inference job.
+  ///
+  /// Parameter [jobName] :
+  /// A name to give the batch inference job.
+  ///
+  /// Parameter [modelId] :
+  /// The unique identifier of the foundation model to use for the batch
+  /// inference job.
+  ///
+  /// Parameter [outputDataConfig] :
+  /// Details about the location of the output of the batch inference job.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// carry out and manage batch inference. You can use the console to create a
+  /// default service role or follow the steps at <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html">Create
+  /// a service role for batch inference</a>.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [tags] :
+  /// Any tags to associate with the batch inference job. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
+  /// Amazon Bedrock resources</a>.
+  ///
+  /// Parameter [timeoutDurationInHours] :
+  /// The number of hours after which to force the batch inference job to time
+  /// out.
+  Future<CreateModelInvocationJobResponse> createModelInvocationJob({
+    required ModelInvocationJobInputDataConfig inputDataConfig,
+    required String jobName,
+    required String modelId,
+    required ModelInvocationJobOutputDataConfig outputDataConfig,
+    required String roleArn,
+    String? clientRequestToken,
+    List<Tag>? tags,
+    int? timeoutDurationInHours,
+  }) async {
+    _s.validateNumRange(
+      'timeoutDurationInHours',
+      timeoutDurationInHours,
+      24,
+      168,
+    );
+    final $payload = <String, dynamic>{
+      'inputDataConfig': inputDataConfig,
+      'jobName': jobName,
+      'modelId': modelId,
+      'outputDataConfig': outputDataConfig,
+      'roleArn': roleArn,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+      if (timeoutDurationInHours != null)
+        'timeoutDurationInHours': timeoutDurationInHours,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/model-invocation-job',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateModelInvocationJobResponse.fromJson(response);
+  }
+
   /// Creates dedicated throughput for a base or custom model with the model
   /// units and for the duration that you specify. For pricing details, see <a
   /// href="http://aws.amazon.com/bedrock/pricing/">Amazon Bedrock Pricing</a>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -481,8 +720,9 @@ class Bedrock {
   /// Provisioned Throughput. For a list of models for which you can purchase
   /// Provisioned Throughput, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#prov-throughput-models">Amazon
-  /// Bedrock model IDs for purchasing Provisioned Throughput</a> in the Amazon
-  /// Bedrock User Guide.
+  /// Bedrock model IDs for purchasing Provisioned Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// Parameter [modelUnits] :
   /// Number of model units to allocate. A model unit delivers a specific
@@ -496,7 +736,9 @@ class Bedrock {
   ///
   /// For model unit quotas, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html#prov-thru-quotas">Provisioned
-  /// Throughput quotas</a> in the Amazon Bedrock User Guide.
+  /// Throughput quotas</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// For more information about what an MU specifies, contact your Amazon Web
   /// Services account manager.
@@ -520,8 +762,9 @@ class Bedrock {
   /// Custom models support all levels of commitment. To see which base models
   /// support no commitment, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/pt-supported.html">Supported
-  /// regions and models for Provisioned Throughput</a> in the Amazon Bedrock
-  /// User Guide
+  /// regions and models for Provisioned Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>
   ///
   /// Parameter [tags] :
   /// Tags to associate with this Provisioned Throughput.
@@ -562,7 +805,9 @@ class Bedrock {
   /// Deletes a custom model that you created earlier. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -607,7 +852,7 @@ class Bedrock {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [guardrailIdentifier] :
-  /// The unique identifier of the guardrail.
+  /// The unique identifier of the guardrail. This can be an ID or the ARN.
   ///
   /// Parameter [guardrailVersion] :
   /// The version of the guardrail.
@@ -623,6 +868,33 @@ class Bedrock {
       method: 'DELETE',
       requestUri: '/guardrails/${Uri.encodeComponent(guardrailIdentifier)}',
       queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a custom model that you imported earlier. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">Import
+  /// a customized model</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [modelIdentifier] :
+  /// Name of the imported model to delete.
+  Future<void> deleteImportedModel({
+    required String modelIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/imported-models/${Uri.encodeComponent(modelIdentifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -645,7 +917,9 @@ class Bedrock {
   /// Throughput before the commitment term is over. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -671,7 +945,9 @@ class Bedrock {
   /// Get the properties associated with a Amazon Bedrock custom model that you
   /// have created.For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -695,8 +971,8 @@ class Bedrock {
 
   /// Retrieves the properties associated with a model evaluation job, including
   /// the status of the job. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/latest/userguide/model-evaluation.html">Model
-  /// evaluations</a>.
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html">Model
+  /// evaluation</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -750,7 +1026,8 @@ class Bedrock {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [guardrailIdentifier] :
-  /// The unique identifier of the guardrail for which to get details.
+  /// The unique identifier of the guardrail for which to get details. This can
+  /// be an ID or the ARN.
   ///
   /// Parameter [guardrailVersion] :
   /// The version of the guardrail for which to get details. If you don't
@@ -773,10 +1050,84 @@ class Bedrock {
     return GetGuardrailResponse.fromJson(response);
   }
 
+  /// Gets properties associated with a customized model you imported.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [modelIdentifier] :
+  /// Name or Amazon Resource Name (ARN) of the imported model.
+  Future<GetImportedModelResponse> getImportedModel({
+    required String modelIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/imported-models/${Uri.encodeComponent(modelIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetImportedModelResponse.fromJson(response);
+  }
+
+  /// Gets information about an inference profile. For more information, see the
+  /// Amazon Bedrock User Guide.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [inferenceProfileIdentifier] :
+  /// The unique identifier of the inference profile.
+  Future<GetInferenceProfileResponse> getInferenceProfile({
+    required String inferenceProfileIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/inference-profiles/${Uri.encodeComponent(inferenceProfileIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInferenceProfileResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a model copy job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html">Copy
+  /// models to be used in other regions</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobArn] :
+  /// The Amazon Resource Name (ARN) of the model copy job.
+  Future<GetModelCopyJobResponse> getModelCopyJob({
+    required String jobArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-copy-jobs/${Uri.encodeComponent(jobArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetModelCopyJobResponse.fromJson(response);
+  }
+
   /// Retrieves the properties associated with a model-customization job,
   /// including the status of the job. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -799,6 +1150,57 @@ class Bedrock {
     return GetModelCustomizationJobResponse.fromJson(response);
   }
 
+  /// Retrieves the properties associated with import model job, including the
+  /// status of the job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">Import
+  /// a customized model</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobIdentifier] :
+  /// The identifier of the import job.
+  Future<GetModelImportJobResponse> getModelImportJob({
+    required String jobIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-import-jobs/${Uri.encodeComponent(jobIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetModelImportJobResponse.fromJson(response);
+  }
+
+  /// Gets details about a batch inference job. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view">View
+  /// details about a batch inference job</a>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobIdentifier] :
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  Future<GetModelInvocationJobResponse> getModelInvocationJob({
+    required String jobIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-invocation-job/${Uri.encodeComponent(jobIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetModelInvocationJobResponse.fromJson(response);
+  }
+
   /// Get the current configuration values for model invocation logging.
   ///
   /// May throw [AccessDeniedException].
@@ -817,7 +1219,9 @@ class Bedrock {
 
   /// Returns details for a Provisioned Throughput. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -845,7 +1249,9 @@ class Bedrock {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -866,15 +1272,25 @@ class Bedrock {
   /// Return custom models only if the foundation model Amazon Resource Name
   /// (ARN) matches this parameter.
   ///
+  /// Parameter [isOwned] :
+  /// Return custom models depending on if the current account owns them
+  /// (<code>true</code>) or if they were shared with the current account
+  /// (<code>false</code>).
+  ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in the response.
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
   ///
   /// Parameter [nameContains] :
   /// Return custom models only if the job name contains these characters.
   ///
   /// Parameter [nextToken] :
-  /// Continuation token from the previous response, for Amazon Bedrock to list
-  /// the next set of results.
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
   ///
   /// Parameter [sortBy] :
   /// The field to sort by in the returned list of models.
@@ -886,6 +1302,7 @@ class Bedrock {
     DateTime? creationTimeAfter,
     DateTime? creationTimeBefore,
     String? foundationModelArnEquals,
+    bool? isOwned,
     int? maxResults,
     String? nameContains,
     String? nextToken,
@@ -907,6 +1324,7 @@ class Bedrock {
         'creationTimeBefore': [_s.iso8601ToJson(creationTimeBefore).toString()],
       if (foundationModelArnEquals != null)
         'foundationModelArnEquals': [foundationModelArnEquals],
+      if (isOwned != null) 'isOwned': [isOwned.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nameContains != null) 'nameContains': [nameContains],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -997,7 +1415,9 @@ class Bedrock {
   /// Lists Amazon Bedrock foundation models that you can use. You can filter
   /// the results with the request parameters. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html">Foundation
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1008,13 +1428,17 @@ class Bedrock {
   /// Return models that support the customization type that you specify. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// Parameter [byInferenceType] :
   /// Return models that support the inference type that you specify. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// Parameter [byOutputModality] :
   /// Return models that support the output modality that you specify.
@@ -1064,7 +1488,7 @@ class Bedrock {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [guardrailIdentifier] :
-  /// The unique identifier of the guardrail.
+  /// The unique identifier of the guardrail. This can be an ID or the ARN.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in the response.
@@ -1100,12 +1524,228 @@ class Bedrock {
     return ListGuardrailsResponse.fromJson(response);
   }
 
+  /// Returns a list of models you've imported. You can filter the results to
+  /// return based on one or more criteria. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">Import
+  /// a customized model</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Return imported models that were created after the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Return imported models that created before the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nameContains] :
+  /// Return imported models only if the model name contains these characters.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to sort by in the returned list of imported models.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies whetehr to sort the results in ascending or descending order.
+  Future<ListImportedModelsResponse> listImportedModels({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    SortModelsBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (creationTimeAfter != null)
+        'creationTimeAfter': [_s.iso8601ToJson(creationTimeAfter).toString()],
+      if (creationTimeBefore != null)
+        'creationTimeBefore': [_s.iso8601ToJson(creationTimeBefore).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nameContains != null) 'nameContains': [nameContains],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/imported-models',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListImportedModelsResponse.fromJson(response);
+  }
+
+  /// Returns a list of inference profiles that you can use.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListInferenceProfilesResponse> listInferenceProfiles({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/inference-profiles',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInferenceProfilesResponse.fromJson(response);
+  }
+
+  /// Returns a list of model copy jobs that you have submitted. You can filter
+  /// the jobs to return based on one or more criteria. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html">Copy
+  /// models to be used in other regions</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Filters for model copy jobs created after the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Filters for model copy jobs created before the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to sort by in the returned list of model copy jobs.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies whether to sort the results in ascending or descending order.
+  ///
+  /// Parameter [sourceAccountEquals] :
+  /// Filters for model copy jobs in which the account that the source model
+  /// belongs to is equal to the value that you specify.
+  ///
+  /// Parameter [sourceModelArnEquals] :
+  /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the
+  /// source model to is equal to the value that you specify.
+  ///
+  /// Parameter [statusEquals] :
+  /// Filters for model copy jobs whose status matches the value that you
+  /// specify.
+  ///
+  /// Parameter [targetModelNameContains] :
+  /// Filters for model copy jobs in which the name of the copied model contains
+  /// the string that you specify.
+  Future<ListModelCopyJobsResponse> listModelCopyJobs({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nextToken,
+    SortJobsBy? sortBy,
+    SortOrder? sortOrder,
+    String? sourceAccountEquals,
+    String? sourceModelArnEquals,
+    ModelCopyJobStatus? statusEquals,
+    String? targetModelNameContains,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (creationTimeAfter != null)
+        'creationTimeAfter': [_s.iso8601ToJson(creationTimeAfter).toString()],
+      if (creationTimeBefore != null)
+        'creationTimeBefore': [_s.iso8601ToJson(creationTimeBefore).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (sourceAccountEquals != null)
+        'sourceAccountEquals': [sourceAccountEquals],
+      if (sourceModelArnEquals != null)
+        'sourceModelArnEquals': [sourceModelArnEquals],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
+      if (targetModelNameContains != null)
+        'outputModelNameContains': [targetModelNameContains],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-copy-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListModelCopyJobsResponse.fromJson(response);
+  }
+
   /// Returns a list of model customization jobs that you have submitted. You
   /// can filter the jobs to return based on one or more criteria.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1119,14 +1759,19 @@ class Bedrock {
   /// Return customization jobs created before the specified time.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in the response.
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
   ///
   /// Parameter [nameContains] :
   /// Return customization jobs only if the job name contains these characters.
   ///
   /// Parameter [nextToken] :
-  /// Continuation token from the previous response, for Amazon Bedrock to list
-  /// the next set of results.
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
   ///
   /// Parameter [sortBy] :
   /// The field to sort by in the returned list of jobs.
@@ -1174,10 +1819,173 @@ class Bedrock {
     return ListModelCustomizationJobsResponse.fromJson(response);
   }
 
+  /// Returns a list of import jobs you've submitted. You can filter the results
+  /// to return based on one or more criteria. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">Import
+  /// a customized model</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [creationTimeAfter] :
+  /// Return import jobs that were created after the specified time.
+  ///
+  /// Parameter [creationTimeBefore] :
+  /// Return import jobs that were created before the specified time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nameContains] :
+  /// Return imported jobs only if the job name contains these characters.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  ///
+  /// Parameter [sortBy] :
+  /// The field to sort by in the returned list of imported jobs.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies whether to sort the results in ascending or descending order.
+  ///
+  /// Parameter [statusEquals] :
+  /// Return imported jobs with the specified status.
+  Future<ListModelImportJobsResponse> listModelImportJobs({
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    SortJobsBy? sortBy,
+    SortOrder? sortOrder,
+    ModelImportJobStatus? statusEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (creationTimeAfter != null)
+        'creationTimeAfter': [_s.iso8601ToJson(creationTimeAfter).toString()],
+      if (creationTimeBefore != null)
+        'creationTimeBefore': [_s.iso8601ToJson(creationTimeBefore).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nameContains != null) 'nameContains': [nameContains],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-import-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListModelImportJobsResponse.fromJson(response);
+  }
+
+  /// Lists all batch inference jobs in the account. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view">View
+  /// details about a batch inference job</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return. If there are more results than
+  /// the number that you specify, a <code>nextToken</code> value is returned.
+  /// Use the <code>nextToken</code> in a request to return the next batch of
+  /// results.
+  ///
+  /// Parameter [nameContains] :
+  /// Specify a string to filter for batch inference jobs whose names contain
+  /// the string.
+  ///
+  /// Parameter [nextToken] :
+  /// If there were more results than the value you specified in the
+  /// <code>maxResults</code> field in a previous
+  /// <code>ListModelInvocationJobs</code> request, the response would have
+  /// returned a <code>nextToken</code> value. To see the next batch of results,
+  /// send the <code>nextToken</code> value in another request.
+  ///
+  /// Parameter [sortBy] :
+  /// An attribute by which to sort the results.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies whether to sort the results by ascending or descending order.
+  ///
+  /// Parameter [statusEquals] :
+  /// Specify a status to filter for batch inference jobs whose statuses match
+  /// the string you specify.
+  ///
+  /// Parameter [submitTimeAfter] :
+  /// Specify a time to filter for batch inference jobs that were submitted
+  /// after the time you specify.
+  ///
+  /// Parameter [submitTimeBefore] :
+  /// Specify a time to filter for batch inference jobs that were submitted
+  /// before the time you specify.
+  Future<ListModelInvocationJobsResponse> listModelInvocationJobs({
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    SortJobsBy? sortBy,
+    SortOrder? sortOrder,
+    ModelInvocationJobStatus? statusEquals,
+    DateTime? submitTimeAfter,
+    DateTime? submitTimeBefore,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nameContains != null) 'nameContains': [nameContains],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (sortBy != null) 'sortBy': [sortBy.value],
+      if (sortOrder != null) 'sortOrder': [sortOrder.value],
+      if (statusEquals != null) 'statusEquals': [statusEquals.value],
+      if (submitTimeAfter != null)
+        'submitTimeAfter': [_s.iso8601ToJson(submitTimeAfter).toString()],
+      if (submitTimeBefore != null)
+        'submitTimeBefore': [_s.iso8601ToJson(submitTimeBefore).toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/model-invocation-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListModelInvocationJobsResponse.fromJson(response);
+  }
+
   /// Lists the Provisioned Throughputs in the account. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1266,7 +2074,9 @@ class Bedrock {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
-  /// resources</a> in the Amazon Bedrock User Guide.
+  /// resources</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1338,7 +2148,9 @@ class Bedrock {
 
   /// Stops an active model customization job. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom
-  /// models</a> in the Amazon Bedrock User Guide.
+  /// models</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1361,9 +2173,37 @@ class Bedrock {
     );
   }
 
+  /// Stops a batch inference job. You're only charged for tokens that were
+  /// already processed. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-stop">Stop
+  /// a batch inference job</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobIdentifier] :
+  /// The Amazon Resource Name (ARN) of the batch inference job to stop.
+  Future<void> stopModelInvocationJob({
+    required String jobIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/model-invocation-job/${Uri.encodeComponent(jobIdentifier)}/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Associate tags with a resource. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
-  /// resources</a> in the Amazon Bedrock User Guide.
+  /// resources</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1395,7 +2235,9 @@ class Bedrock {
 
   /// Remove one or more tags from a resource. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
-  /// resources</a> in the Amazon Bedrock User Guide.
+  /// resources</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1460,7 +2302,7 @@ class Bedrock {
   /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html">GuardrailContentFilterConfig</a>
   /// object in the <code>filtersConfig</code> list pertains to a harmful
   /// category. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters">Content
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-content-filters">Content
   /// filters</a>. For more information about the fields in a content filter,
   /// see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GuardrailContentFilterConfig.html">GuardrailContentFilterConfig</a>.
@@ -1480,12 +2322,6 @@ class Bedrock {
   /// (Optional) For security, include the ARN of a KMS key in the
   /// <code>kmsKeyId</code> field.
   /// </li>
-  /// <li>
-  /// (Optional) Attach any tags to the guardrail in the <code>tags</code>
-  /// object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging">Tag
-  /// resources</a>.
-  /// </li>
   /// </ul>
   ///
   /// May throw [ResourceNotFoundException].
@@ -1503,13 +2339,16 @@ class Bedrock {
   /// The message to return when the guardrail blocks a model response.
   ///
   /// Parameter [guardrailIdentifier] :
-  /// The unique identifier of the guardrail
+  /// The unique identifier of the guardrail. This can be an ID or the ARN.
   ///
   /// Parameter [name] :
   /// A name for the guardrail.
   ///
   /// Parameter [contentPolicyConfig] :
   /// The content policy to configure for the guardrail.
+  ///
+  /// Parameter [contextualGroundingPolicyConfig] :
+  /// The contextual grounding policy configuration used to update a guardrail.
   ///
   /// Parameter [description] :
   /// A description of the guardrail.
@@ -1531,6 +2370,7 @@ class Bedrock {
     required String guardrailIdentifier,
     required String name,
     GuardrailContentPolicyConfig? contentPolicyConfig,
+    GuardrailContextualGroundingPolicyConfig? contextualGroundingPolicyConfig,
     String? description,
     String? kmsKeyId,
     GuardrailSensitiveInformationPolicyConfig? sensitiveInformationPolicyConfig,
@@ -1543,6 +2383,8 @@ class Bedrock {
       'name': name,
       if (contentPolicyConfig != null)
         'contentPolicyConfig': contentPolicyConfig,
+      if (contextualGroundingPolicyConfig != null)
+        'contextualGroundingPolicyConfig': contextualGroundingPolicyConfig,
       if (description != null) 'description': description,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
       if (sensitiveInformationPolicyConfig != null)
@@ -1562,7 +2404,9 @@ class Bedrock {
   /// Updates the name or associated model for a Provisioned Throughput. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
-  /// Throughput</a> in the Amazon Bedrock User Guide.
+  /// Throughput</a> in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
+  /// Bedrock User Guide</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1639,6 +2483,113 @@ class AutomatedEvaluationConfig {
     final datasetMetricConfigs = this.datasetMetricConfigs;
     return {
       'datasetMetricConfigs': datasetMetricConfigs,
+    };
+  }
+}
+
+/// A JSON array that provides the status of the model evaluation jobs being
+/// deleted.
+class BatchDeleteEvaluationJobError {
+  /// A HTTP status code of the model evaluation job being deleted.
+  final String code;
+
+  /// The ARN of the model evaluation job being deleted.
+  final String jobIdentifier;
+
+  /// A status message about the model evaluation job deletion.
+  final String? message;
+
+  BatchDeleteEvaluationJobError({
+    required this.code,
+    required this.jobIdentifier,
+    this.message,
+  });
+
+  factory BatchDeleteEvaluationJobError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteEvaluationJobError(
+      code: json['code'] as String,
+      jobIdentifier: json['jobIdentifier'] as String,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final jobIdentifier = this.jobIdentifier;
+    final message = this.message;
+    return {
+      'code': code,
+      'jobIdentifier': jobIdentifier,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// An array of model evaluation jobs to be deleted, and their associated
+/// statuses.
+class BatchDeleteEvaluationJobItem {
+  /// The ARN of model evaluation job to be deleted.
+  final String jobIdentifier;
+
+  /// The status of the job's deletion.
+  final EvaluationJobStatus jobStatus;
+
+  BatchDeleteEvaluationJobItem({
+    required this.jobIdentifier,
+    required this.jobStatus,
+  });
+
+  factory BatchDeleteEvaluationJobItem.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteEvaluationJobItem(
+      jobIdentifier: json['jobIdentifier'] as String,
+      jobStatus: EvaluationJobStatus.fromString((json['jobStatus'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobIdentifier = this.jobIdentifier;
+    final jobStatus = this.jobStatus;
+    return {
+      'jobIdentifier': jobIdentifier,
+      'jobStatus': jobStatus.value,
+    };
+  }
+}
+
+class BatchDeleteEvaluationJobResponse {
+  /// A JSON object containing the HTTP status codes and the ARNs of model
+  /// evaluation jobs that failed to be deleted.
+  final List<BatchDeleteEvaluationJobError> errors;
+
+  /// The list of model evaluation jobs to be deleted.
+  final List<BatchDeleteEvaluationJobItem> evaluationJobs;
+
+  BatchDeleteEvaluationJobResponse({
+    required this.errors,
+    required this.evaluationJobs,
+  });
+
+  factory BatchDeleteEvaluationJobResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteEvaluationJobResponse(
+      errors: (json['errors'] as List)
+          .nonNulls
+          .map((e) =>
+              BatchDeleteEvaluationJobError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      evaluationJobs: (json['evaluationJobs'] as List)
+          .nonNulls
+          .map((e) =>
+              BatchDeleteEvaluationJobItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final evaluationJobs = this.evaluationJobs;
+    return {
+      'errors': errors,
+      'evaluationJobs': evaluationJobs,
     };
   }
 }
@@ -1725,13 +2676,14 @@ class CreateGuardrailResponse {
   /// The time at which the guardrail was created.
   final DateTime createdAt;
 
-  /// The ARN of the guardrail that was created.
+  /// The ARN of the guardrail.
   final String guardrailArn;
 
   /// The unique identifier of the guardrail that was created.
   final String guardrailId;
 
-  /// The version of the guardrail that was created. This value should be 1.
+  /// The version of the guardrail that was created. This value will always be
+  /// <code>DRAFT</code>.
   final String version;
 
   CreateGuardrailResponse({
@@ -1793,6 +2745,28 @@ class CreateGuardrailVersionResponse {
   }
 }
 
+class CreateModelCopyJobResponse {
+  /// The Amazon Resource Name (ARN) of the model copy job.
+  final String jobArn;
+
+  CreateModelCopyJobResponse({
+    required this.jobArn,
+  });
+
+  factory CreateModelCopyJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelCopyJobResponse(
+      jobArn: json['jobArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobArn = this.jobArn;
+    return {
+      'jobArn': jobArn,
+    };
+  }
+}
+
 class CreateModelCustomizationJobResponse {
   /// Amazon Resource Name (ARN) of the fine tuning job
   final String jobArn;
@@ -1804,6 +2778,50 @@ class CreateModelCustomizationJobResponse {
   factory CreateModelCustomizationJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateModelCustomizationJobResponse(
+      jobArn: json['jobArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobArn = this.jobArn;
+    return {
+      'jobArn': jobArn,
+    };
+  }
+}
+
+class CreateModelImportJobResponse {
+  /// The Amazon Resource Name (ARN) of the model import job.
+  final String jobArn;
+
+  CreateModelImportJobResponse({
+    required this.jobArn,
+  });
+
+  factory CreateModelImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelImportJobResponse(
+      jobArn: json['jobArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobArn = this.jobArn;
+    return {
+      'jobArn': jobArn,
+    };
+  }
+}
+
+class CreateModelInvocationJobResponse {
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  final String jobArn;
+
+  CreateModelInvocationJobResponse({
+    required this.jobArn,
+  });
+
+  factory CreateModelInvocationJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelInvocationJobResponse(
       jobArn: json['jobArn'] as String,
     );
   }
@@ -1862,6 +2880,9 @@ class CustomModelSummary {
   /// models</a>.
   final CustomizationType? customizationType;
 
+  /// The unique identifier of the account that owns the model.
+  final String? ownerAccountId;
+
   CustomModelSummary({
     required this.baseModelArn,
     required this.baseModelName,
@@ -1869,6 +2890,7 @@ class CustomModelSummary {
     required this.modelArn,
     required this.modelName,
     this.customizationType,
+    this.ownerAccountId,
   });
 
   factory CustomModelSummary.fromJson(Map<String, dynamic> json) {
@@ -1881,6 +2903,7 @@ class CustomModelSummary {
       modelName: json['modelName'] as String,
       customizationType: (json['customizationType'] as String?)
           ?.let(CustomizationType.fromString),
+      ownerAccountId: json['ownerAccountId'] as String?,
     );
   }
 
@@ -1891,6 +2914,7 @@ class CustomModelSummary {
     final modelArn = this.modelArn;
     final modelName = this.modelName;
     final customizationType = this.customizationType;
+    final ownerAccountId = this.ownerAccountId;
     return {
       'baseModelArn': baseModelArn,
       'baseModelName': baseModelName,
@@ -1899,6 +2923,7 @@ class CustomModelSummary {
       'modelName': modelName,
       if (customizationType != null)
         'customizationType': customizationType.value,
+      if (ownerAccountId != null) 'ownerAccountId': ownerAccountId,
     };
   }
 }
@@ -1942,6 +2967,18 @@ class DeleteGuardrailResponse {
   }
 }
 
+class DeleteImportedModelResponse {
+  DeleteImportedModelResponse();
+
+  factory DeleteImportedModelResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteImportedModelResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteModelInvocationLoggingConfigurationResponse {
   DeleteModelInvocationLoggingConfigurationResponse();
 
@@ -1972,7 +3009,7 @@ class DeleteProvisionedModelThroughputResponse {
 /// evaluation job. Each Amazon Bedrock model supports different
 /// <code>inferenceParams</code>. To learn more about supported inference
 /// parameters for Amazon Bedrock models, see <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-prompt-datasets-custom.html">Inference
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
 /// parameters for foundation models</a>.
 ///
 /// The <code>inferenceParams</code> are specified using JSON. To successfully
@@ -2055,7 +3092,7 @@ class EvaluationDataset {
   /// Used to specify supported built-in prompt datasets. Valid values are
   /// <code>Builtin.Bold</code>, <code>Builtin.BoolQ</code>,
   /// <code>Builtin.NaturalQuestions</code>, <code>Builtin.Gigaword</code>,
-  /// <code>Builtin.RealToxicityPrompts</code>, <code>Builtin.TriviaQa</code>,
+  /// <code>Builtin.RealToxicityPrompts</code>, <code>Builtin.TriviaQA</code>,
   /// <code>Builtin.T-Rex</code>,
   /// <code>Builtin.WomensEcommerceClothingReviews</code> and
   /// <code>Builtin.Wikitext2</code>.
@@ -2195,6 +3232,7 @@ enum EvaluationJobStatus {
   failed('Failed'),
   stopping('Stopping'),
   stopped('Stopped'),
+  deleting('Deleting'),
   ;
 
   final String value;
@@ -2923,7 +3961,7 @@ class GetGuardrailResponse {
   /// The date and time at which the guardrail was created.
   final DateTime createdAt;
 
-  /// The ARN of the guardrail that was created.
+  /// The ARN of the guardrail.
   final String guardrailArn;
 
   /// The unique identifier of the guardrail.
@@ -2943,6 +3981,9 @@ class GetGuardrailResponse {
 
   /// The content policy that was configured for the guardrail.
   final GuardrailContentPolicy? contentPolicy;
+
+  /// The contextual grounding policy used in the guardrail.
+  final GuardrailContextualGroundingPolicy? contextualGroundingPolicy;
 
   /// The description of the guardrail.
   final String? description;
@@ -2978,6 +4019,7 @@ class GetGuardrailResponse {
     required this.updatedAt,
     required this.version,
     this.contentPolicy,
+    this.contextualGroundingPolicy,
     this.description,
     this.failureRecommendations,
     this.kmsKeyArn,
@@ -3001,6 +4043,10 @@ class GetGuardrailResponse {
       contentPolicy: json['contentPolicy'] != null
           ? GuardrailContentPolicy.fromJson(
               json['contentPolicy'] as Map<String, dynamic>)
+          : null,
+      contextualGroundingPolicy: json['contextualGroundingPolicy'] != null
+          ? GuardrailContextualGroundingPolicy.fromJson(
+              json['contextualGroundingPolicy'] as Map<String, dynamic>)
           : null,
       description: json['description'] as String?,
       failureRecommendations: (json['failureRecommendations'] as List?)
@@ -3038,6 +4084,7 @@ class GetGuardrailResponse {
     final updatedAt = this.updatedAt;
     final version = this.version;
     final contentPolicy = this.contentPolicy;
+    final contextualGroundingPolicy = this.contextualGroundingPolicy;
     final description = this.description;
     final failureRecommendations = this.failureRecommendations;
     final kmsKeyArn = this.kmsKeyArn;
@@ -3056,6 +4103,8 @@ class GetGuardrailResponse {
       'updatedAt': iso8601ToJson(updatedAt),
       'version': version,
       if (contentPolicy != null) 'contentPolicy': contentPolicy,
+      if (contextualGroundingPolicy != null)
+        'contextualGroundingPolicy': contextualGroundingPolicy,
       if (description != null) 'description': description,
       if (failureRecommendations != null)
         'failureRecommendations': failureRecommendations,
@@ -3065,6 +4114,261 @@ class GetGuardrailResponse {
       if (statusReasons != null) 'statusReasons': statusReasons,
       if (topicPolicy != null) 'topicPolicy': topicPolicy,
       if (wordPolicy != null) 'wordPolicy': wordPolicy,
+    };
+  }
+}
+
+class GetImportedModelResponse {
+  /// Creation time of the imported model.
+  final DateTime? creationTime;
+
+  /// Job Amazon Resource Name (ARN) associated with the imported model.
+  final String? jobArn;
+
+  /// Job name associated with the imported model.
+  final String? jobName;
+
+  /// The architecture of the imported model.
+  final String? modelArchitecture;
+
+  /// The Amazon Resource Name (ARN) associated with this imported model.
+  final String? modelArn;
+
+  /// The data source for this imported model.
+  final ModelDataSource? modelDataSource;
+
+  /// The imported model is encrypted at rest using this key.
+  final String? modelKmsKeyArn;
+
+  /// The name of the imported model.
+  final String? modelName;
+
+  GetImportedModelResponse({
+    this.creationTime,
+    this.jobArn,
+    this.jobName,
+    this.modelArchitecture,
+    this.modelArn,
+    this.modelDataSource,
+    this.modelKmsKeyArn,
+    this.modelName,
+  });
+
+  factory GetImportedModelResponse.fromJson(Map<String, dynamic> json) {
+    return GetImportedModelResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      jobArn: json['jobArn'] as String?,
+      jobName: json['jobName'] as String?,
+      modelArchitecture: json['modelArchitecture'] as String?,
+      modelArn: json['modelArn'] as String?,
+      modelDataSource: json['modelDataSource'] != null
+          ? ModelDataSource.fromJson(
+              json['modelDataSource'] as Map<String, dynamic>)
+          : null,
+      modelKmsKeyArn: json['modelKmsKeyArn'] as String?,
+      modelName: json['modelName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final jobArn = this.jobArn;
+    final jobName = this.jobName;
+    final modelArchitecture = this.modelArchitecture;
+    final modelArn = this.modelArn;
+    final modelDataSource = this.modelDataSource;
+    final modelKmsKeyArn = this.modelKmsKeyArn;
+    final modelName = this.modelName;
+    return {
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobName != null) 'jobName': jobName,
+      if (modelArchitecture != null) 'modelArchitecture': modelArchitecture,
+      if (modelArn != null) 'modelArn': modelArn,
+      if (modelDataSource != null) 'modelDataSource': modelDataSource,
+      if (modelKmsKeyArn != null) 'modelKmsKeyArn': modelKmsKeyArn,
+      if (modelName != null) 'modelName': modelName,
+    };
+  }
+}
+
+class GetInferenceProfileResponse {
+  /// The Amazon Resource Name (ARN) of the inference profile.
+  final String inferenceProfileArn;
+
+  /// The unique identifier of the inference profile.
+  final String inferenceProfileId;
+
+  /// The name of the inference profile.
+  final String inferenceProfileName;
+
+  /// A list of information about each model in the inference profile.
+  final List<InferenceProfileModel> models;
+
+  /// The status of the inference profile. <code>ACTIVE</code> means that the
+  /// inference profile is available to use.
+  final InferenceProfileStatus status;
+
+  /// The type of the inference profile. <code>SYSTEM_DEFINED</code> means that
+  /// the inference profile is defined by Amazon Bedrock.
+  final InferenceProfileType type;
+
+  /// The time at which the inference profile was created.
+  final DateTime? createdAt;
+
+  /// The description of the inference profile.
+  final String? description;
+
+  /// The time at which the inference profile was last updated.
+  final DateTime? updatedAt;
+
+  GetInferenceProfileResponse({
+    required this.inferenceProfileArn,
+    required this.inferenceProfileId,
+    required this.inferenceProfileName,
+    required this.models,
+    required this.status,
+    required this.type,
+    this.createdAt,
+    this.description,
+    this.updatedAt,
+  });
+
+  factory GetInferenceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetInferenceProfileResponse(
+      inferenceProfileArn: json['inferenceProfileArn'] as String,
+      inferenceProfileId: json['inferenceProfileId'] as String,
+      inferenceProfileName: json['inferenceProfileName'] as String,
+      models: (json['models'] as List)
+          .nonNulls
+          .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: InferenceProfileStatus.fromString((json['status'] as String)),
+      type: InferenceProfileType.fromString((json['type'] as String)),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceProfileArn = this.inferenceProfileArn;
+    final inferenceProfileId = this.inferenceProfileId;
+    final inferenceProfileName = this.inferenceProfileName;
+    final models = this.models;
+    final status = this.status;
+    final type = this.type;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final updatedAt = this.updatedAt;
+    return {
+      'inferenceProfileArn': inferenceProfileArn,
+      'inferenceProfileId': inferenceProfileId,
+      'inferenceProfileName': inferenceProfileName,
+      'models': models,
+      'status': status.value,
+      'type': type.value,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+class GetModelCopyJobResponse {
+  /// The time at which the model copy job was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the model copy job.
+  final String jobArn;
+
+  /// The unique identifier of the account that the model being copied originated
+  /// from.
+  final String sourceAccountId;
+
+  /// The Amazon Resource Name (ARN) of the original model being copied.
+  final String sourceModelArn;
+
+  /// The status of the model copy job.
+  final ModelCopyJobStatus status;
+
+  /// The Amazon Resource Name (ARN) of the copied model.
+  final String targetModelArn;
+
+  /// An error message for why the model copy job failed.
+  final String? failureMessage;
+
+  /// The name of the original model being copied.
+  final String? sourceModelName;
+
+  /// The Amazon Resource Name (ARN) of the KMS key encrypting the copied model.
+  final String? targetModelKmsKeyArn;
+
+  /// The name of the copied model.
+  final String? targetModelName;
+
+  /// The tags associated with the copied model.
+  final List<Tag>? targetModelTags;
+
+  GetModelCopyJobResponse({
+    required this.creationTime,
+    required this.jobArn,
+    required this.sourceAccountId,
+    required this.sourceModelArn,
+    required this.status,
+    required this.targetModelArn,
+    this.failureMessage,
+    this.sourceModelName,
+    this.targetModelKmsKeyArn,
+    this.targetModelName,
+    this.targetModelTags,
+  });
+
+  factory GetModelCopyJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelCopyJobResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      jobArn: json['jobArn'] as String,
+      sourceAccountId: json['sourceAccountId'] as String,
+      sourceModelArn: json['sourceModelArn'] as String,
+      status: ModelCopyJobStatus.fromString((json['status'] as String)),
+      targetModelArn: json['targetModelArn'] as String,
+      failureMessage: json['failureMessage'] as String?,
+      sourceModelName: json['sourceModelName'] as String?,
+      targetModelKmsKeyArn: json['targetModelKmsKeyArn'] as String?,
+      targetModelName: json['targetModelName'] as String?,
+      targetModelTags: (json['targetModelTags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final jobArn = this.jobArn;
+    final sourceAccountId = this.sourceAccountId;
+    final sourceModelArn = this.sourceModelArn;
+    final status = this.status;
+    final targetModelArn = this.targetModelArn;
+    final failureMessage = this.failureMessage;
+    final sourceModelName = this.sourceModelName;
+    final targetModelKmsKeyArn = this.targetModelKmsKeyArn;
+    final targetModelName = this.targetModelName;
+    final targetModelTags = this.targetModelTags;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'jobArn': jobArn,
+      'sourceAccountId': sourceAccountId,
+      'sourceModelArn': sourceModelArn,
+      'status': status.value,
+      'targetModelArn': targetModelArn,
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (sourceModelName != null) 'sourceModelName': sourceModelName,
+      if (targetModelKmsKeyArn != null)
+        'targetModelKmsKeyArn': targetModelKmsKeyArn,
+      if (targetModelName != null) 'targetModelName': targetModelName,
+      if (targetModelTags != null) 'targetModelTags': targetModelTags,
     };
   }
 }
@@ -3252,6 +4556,250 @@ class GetModelCustomizationJobResponse {
       if (trainingMetrics != null) 'trainingMetrics': trainingMetrics,
       if (validationMetrics != null) 'validationMetrics': validationMetrics,
       if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+  }
+}
+
+class GetModelImportJobResponse {
+  /// The time the resource was created.
+  final DateTime? creationTime;
+
+  /// Time that the resource transitioned to terminal state.
+  final DateTime? endTime;
+
+  /// Information about why the import job failed.
+  final String? failureMessage;
+
+  /// The Amazon Resource Name (ARN) of the imported model.
+  final String? importedModelArn;
+
+  /// The imported model is encrypted at rest using this key.
+  final String? importedModelKmsKeyArn;
+
+  /// The name of the imported model.
+  final String? importedModelName;
+
+  /// The Amazon Resource Name (ARN) of the import job.
+  final String? jobArn;
+
+  /// The name of the import job.
+  final String? jobName;
+
+  /// Time the resource was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The data source for the imported model.
+  final ModelDataSource? modelDataSource;
+
+  /// The Amazon Resource Name (ARN) of the IAM role associated with this job.
+  final String? roleArn;
+
+  /// The status of the job. A successful job transitions from in-progress to
+  /// completed when the imported model is ready to use. If the job failed, the
+  /// failure message contains information about why the job failed.
+  final ModelImportJobStatus? status;
+
+  /// The Virtual Private Cloud (VPC) configuration of the import model job.
+  final VpcConfig? vpcConfig;
+
+  GetModelImportJobResponse({
+    this.creationTime,
+    this.endTime,
+    this.failureMessage,
+    this.importedModelArn,
+    this.importedModelKmsKeyArn,
+    this.importedModelName,
+    this.jobArn,
+    this.jobName,
+    this.lastModifiedTime,
+    this.modelDataSource,
+    this.roleArn,
+    this.status,
+    this.vpcConfig,
+  });
+
+  factory GetModelImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelImportJobResponse(
+      creationTime: timeStampFromJson(json['creationTime']),
+      endTime: timeStampFromJson(json['endTime']),
+      failureMessage: json['failureMessage'] as String?,
+      importedModelArn: json['importedModelArn'] as String?,
+      importedModelKmsKeyArn: json['importedModelKmsKeyArn'] as String?,
+      importedModelName: json['importedModelName'] as String?,
+      jobArn: json['jobArn'] as String?,
+      jobName: json['jobName'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      modelDataSource: json['modelDataSource'] != null
+          ? ModelDataSource.fromJson(
+              json['modelDataSource'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.let(ModelImportJobStatus.fromString),
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final endTime = this.endTime;
+    final failureMessage = this.failureMessage;
+    final importedModelArn = this.importedModelArn;
+    final importedModelKmsKeyArn = this.importedModelKmsKeyArn;
+    final importedModelName = this.importedModelName;
+    final jobArn = this.jobArn;
+    final jobName = this.jobName;
+    final lastModifiedTime = this.lastModifiedTime;
+    final modelDataSource = this.modelDataSource;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (importedModelArn != null) 'importedModelArn': importedModelArn,
+      if (importedModelKmsKeyArn != null)
+        'importedModelKmsKeyArn': importedModelKmsKeyArn,
+      if (importedModelName != null) 'importedModelName': importedModelName,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobName != null) 'jobName': jobName,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': iso8601ToJson(lastModifiedTime),
+      if (modelDataSource != null) 'modelDataSource': modelDataSource,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status.value,
+      if (vpcConfig != null) 'vpcConfig': vpcConfig,
+    };
+  }
+}
+
+class GetModelInvocationJobResponse {
+  /// Details about the location of the input to the batch inference job.
+  final ModelInvocationJobInputDataConfig inputDataConfig;
+
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  final String jobArn;
+
+  /// The unique identifier of the foundation model used for model inference.
+  final String modelId;
+
+  /// Details about the location of the output of the batch inference job.
+  final ModelInvocationJobOutputDataConfig outputDataConfig;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to carry
+  /// out and manage batch inference. You can use the console to create a default
+  /// service role or follow the steps at <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html">Create
+  /// a service role for batch inference</a>.
+  final String roleArn;
+
+  /// The time at which the batch inference job was submitted.
+  final DateTime submitTime;
+
+  /// A unique, case-sensitive identifier to ensure that the API request completes
+  /// no more than one time. If this token matches a previous request, Amazon
+  /// Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  final String? clientRequestToken;
+
+  /// The time at which the batch inference job ended.
+  final DateTime? endTime;
+
+  /// The time at which the batch inference job times or timed out.
+  final DateTime? jobExpirationTime;
+
+  /// The name of the batch inference job.
+  final String? jobName;
+
+  /// The time at which the batch inference job was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// If the batch inference job failed, this field contains a message describing
+  /// why the job failed.
+  final String? message;
+
+  /// The status of the batch inference job.
+  final ModelInvocationJobStatus? status;
+
+  /// The number of hours after which batch inference job was set to time out.
+  final int? timeoutDurationInHours;
+
+  GetModelInvocationJobResponse({
+    required this.inputDataConfig,
+    required this.jobArn,
+    required this.modelId,
+    required this.outputDataConfig,
+    required this.roleArn,
+    required this.submitTime,
+    this.clientRequestToken,
+    this.endTime,
+    this.jobExpirationTime,
+    this.jobName,
+    this.lastModifiedTime,
+    this.message,
+    this.status,
+    this.timeoutDurationInHours,
+  });
+
+  factory GetModelInvocationJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelInvocationJobResponse(
+      inputDataConfig: ModelInvocationJobInputDataConfig.fromJson(
+          json['inputDataConfig'] as Map<String, dynamic>),
+      jobArn: json['jobArn'] as String,
+      modelId: json['modelId'] as String,
+      outputDataConfig: ModelInvocationJobOutputDataConfig.fromJson(
+          json['outputDataConfig'] as Map<String, dynamic>),
+      roleArn: json['roleArn'] as String,
+      submitTime: nonNullableTimeStampFromJson(json['submitTime'] as Object),
+      clientRequestToken: json['clientRequestToken'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      jobExpirationTime: timeStampFromJson(json['jobExpirationTime']),
+      jobName: json['jobName'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      message: json['message'] as String?,
+      status:
+          (json['status'] as String?)?.let(ModelInvocationJobStatus.fromString),
+      timeoutDurationInHours: json['timeoutDurationInHours'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputDataConfig = this.inputDataConfig;
+    final jobArn = this.jobArn;
+    final modelId = this.modelId;
+    final outputDataConfig = this.outputDataConfig;
+    final roleArn = this.roleArn;
+    final submitTime = this.submitTime;
+    final clientRequestToken = this.clientRequestToken;
+    final endTime = this.endTime;
+    final jobExpirationTime = this.jobExpirationTime;
+    final jobName = this.jobName;
+    final lastModifiedTime = this.lastModifiedTime;
+    final message = this.message;
+    final status = this.status;
+    final timeoutDurationInHours = this.timeoutDurationInHours;
+    return {
+      'inputDataConfig': inputDataConfig,
+      'jobArn': jobArn,
+      'modelId': modelId,
+      'outputDataConfig': outputDataConfig,
+      'roleArn': roleArn,
+      'submitTime': iso8601ToJson(submitTime),
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (jobExpirationTime != null)
+        'jobExpirationTime': iso8601ToJson(jobExpirationTime),
+      if (jobName != null) 'jobName': jobName,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': iso8601ToJson(lastModifiedTime),
+      if (message != null) 'message': message,
+      if (status != null) 'status': status.value,
+      if (timeoutDurationInHours != null)
+        'timeoutDurationInHours': timeoutDurationInHours,
     };
   }
 }
@@ -3539,21 +5087,6 @@ class GuardrailContentFilter {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html">Guardrails
 /// content filters</a>.
-///
-/// This data type is used in the following API operations:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax">CreateGuardrail
-/// request body</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax">UpdateGuardrail
-/// request body</a>
-/// </li>
-/// </ul>
 class GuardrailContentFilterConfig {
   /// The strength of the content filter to apply to prompts. As you increase the
   /// filter strength, the likelihood of filtering harmful content increases and
@@ -3645,27 +5178,130 @@ class GuardrailContentPolicy {
 }
 
 /// Contains details about how to handle harmful content.
-///
-/// This data type is used in the following API operations:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax">CreateGuardrail
-/// request body</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax">UpdateGuardrail
-/// request body</a>
-/// </li>
-/// </ul>
 class GuardrailContentPolicyConfig {
   /// Contains the type of the content filter and how strongly it should apply to
   /// prompts and model responses.
   final List<GuardrailContentFilterConfig> filtersConfig;
 
   GuardrailContentPolicyConfig({
+    required this.filtersConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filtersConfig = this.filtersConfig;
+    return {
+      'filtersConfig': filtersConfig,
+    };
+  }
+}
+
+/// The details for the guardrails contextual grounding filter.
+class GuardrailContextualGroundingFilter {
+  /// The threshold details for the guardrails contextual grounding filter.
+  final double threshold;
+
+  /// The filter type details for the guardrails contextual grounding filter.
+  final GuardrailContextualGroundingFilterType type;
+
+  GuardrailContextualGroundingFilter({
+    required this.threshold,
+    required this.type,
+  });
+
+  factory GuardrailContextualGroundingFilter.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailContextualGroundingFilter(
+      threshold: json['threshold'] as double,
+      type: GuardrailContextualGroundingFilterType.fromString(
+          (json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final threshold = this.threshold;
+    final type = this.type;
+    return {
+      'threshold': threshold,
+      'type': type.value,
+    };
+  }
+}
+
+/// The filter configuration details for the guardrails contextual grounding
+/// filter.
+class GuardrailContextualGroundingFilterConfig {
+  /// The threshold details for the guardrails contextual grounding filter.
+  final double threshold;
+
+  /// The filter details for the guardrails contextual grounding filter.
+  final GuardrailContextualGroundingFilterType type;
+
+  GuardrailContextualGroundingFilterConfig({
+    required this.threshold,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final threshold = this.threshold;
+    final type = this.type;
+    return {
+      'threshold': threshold,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailContextualGroundingFilterType {
+  grounding('GROUNDING'),
+  relevance('RELEVANCE'),
+  ;
+
+  final String value;
+
+  const GuardrailContextualGroundingFilterType(this.value);
+
+  static GuardrailContextualGroundingFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContextualGroundingFilterType'));
+}
+
+/// The details for the guardrails contextual grounding policy.
+class GuardrailContextualGroundingPolicy {
+  /// The filter details for the guardrails contextual grounding policy.
+  final List<GuardrailContextualGroundingFilter> filters;
+
+  GuardrailContextualGroundingPolicy({
+    required this.filters,
+  });
+
+  factory GuardrailContextualGroundingPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailContextualGroundingPolicy(
+      filters: (json['filters'] as List)
+          .nonNulls
+          .map((e) => GuardrailContextualGroundingFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      'filters': filters,
+    };
+  }
+}
+
+/// The policy configuration details for the guardrails contextual grounding
+/// policy.
+class GuardrailContextualGroundingPolicyConfig {
+  /// The filter configuration details for the guardrails contextual grounding
+  /// policy.
+  final List<GuardrailContextualGroundingFilterConfig> filtersConfig;
+
+  GuardrailContextualGroundingPolicyConfig({
     required this.filtersConfig,
   });
 
@@ -3695,7 +5331,7 @@ enum GuardrailFilterStrength {
 }
 
 /// The managed word list that was configured for the guardrail. (This is a list
-/// of words that are pre-defined and managed by Guardrails only.)
+/// of words that are pre-defined and managed by guardrails only.)
 class GuardrailManagedWords {
   /// ManagedWords$type The managed word type that was configured for the
   /// guardrail. (For now, we only offer profanity word list)
@@ -3755,7 +5391,7 @@ class GuardrailPiiEntity {
   /// The configured guardrail action when PII entity is detected.
   final GuardrailSensitiveInformationAction action;
 
-  /// The type of PII entity. For example, Social Security Number.
+  /// The type of PII entity. For exampvle, Social Security Number.
   final GuardrailPiiEntityType type;
 
   GuardrailPiiEntity({
@@ -3787,6 +5423,266 @@ class GuardrailPiiEntityConfig {
   final GuardrailSensitiveInformationAction action;
 
   /// Configure guardrail type when the PII entity is detected.
+  ///
+  /// The following PIIs are used to block or mask sensitive information:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>General</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ADDRESS</b>
+  ///
+  /// A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12,
+  /// Building 123". An address can include information such as the street,
+  /// building, location, city, state, country, county, zip code, precinct, and
+  /// neighborhood.
+  /// </li>
+  /// <li>
+  /// <b>AGE</b>
+  ///
+  /// An individual's age, including the quantity and unit of time. For example,
+  /// in the phrase "I am 40 years old," Guarrails recognizes "40 years" as an
+  /// age.
+  /// </li>
+  /// <li>
+  /// <b>NAME</b>
+  ///
+  /// An individual's name. This entity type does not include titles, such as Dr.,
+  /// Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that
+  /// are part of organizations or addresses. For example, guardrails recognizes
+  /// the "John Doe Organization" as an organization, and it recognizes "Jane Doe
+  /// Street" as an address.
+  /// </li>
+  /// <li>
+  /// <b>EMAIL</b>
+  ///
+  /// An email address, such as <i>marymajor@email.com</i>.
+  /// </li>
+  /// <li>
+  /// <b>PHONE</b>
+  ///
+  /// A phone number. This entity type also includes fax and pager numbers.
+  /// </li>
+  /// <li>
+  /// <b>USERNAME</b>
+  ///
+  /// A user name that identifies an account, such as a login name, screen name,
+  /// nick name, or handle.
+  /// </li>
+  /// <li>
+  /// <b>PASSWORD</b>
+  ///
+  /// An alphanumeric string that is used as a password, such as
+  /// "*<i>very20special#pass*</i>".
+  /// </li>
+  /// <li>
+  /// <b>DRIVER_ID</b>
+  ///
+  /// The number assigned to a driver's license, which is an official document
+  /// permitting an individual to operate one or more motorized vehicles on a
+  /// public road. A driver's license number consists of alphanumeric characters.
+  /// </li>
+  /// <li>
+  /// <b>LICENSE_PLATE</b>
+  ///
+  /// A license plate for a vehicle is issued by the state or country where the
+  /// vehicle is registered. The format for passenger vehicles is typically five
+  /// to eight digits, consisting of upper-case letters and numbers. The format
+  /// varies depending on the location of the issuing state or country.
+  /// </li>
+  /// <li>
+  /// <b>VEHICLE_IDENTIFICATION_NUMBER</b>
+  ///
+  /// A Vehicle Identification Number (VIN) uniquely identifies a vehicle. VIN
+  /// content and format are defined in the <i>ISO 3779</i> specification. Each
+  /// country has specific codes and formats for VINs.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Finance</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>REDIT_DEBIT_CARD_CVV</b>
+  ///
+  /// A three-digit card verification code (CVV) that is present on VISA,
+  /// MasterCard, and Discover credit and debit cards. For American Express credit
+  /// or debit cards, the CVV is a four-digit numeric code.
+  /// </li>
+  /// <li>
+  /// <b>CREDIT_DEBIT_CARD_EXPIRY</b>
+  ///
+  /// The expiration date for a credit or debit card. This number is usually four
+  /// digits long and is often formatted as <i>month/year</i> or <i>MM/YY</i>.
+  /// Guardrails recognizes expiration dates such as <i>01/21</i>, <i>01/2021</i>,
+  /// and <i>Jan 2021</i>.
+  /// </li>
+  /// <li>
+  /// <b>CREDIT_DEBIT_CARD_NUMBER</b>
+  ///
+  /// The number for a credit or debit card. These numbers can vary from 13 to 16
+  /// digits in length. However, Amazon Comprehend also recognizes credit or debit
+  /// card numbers when only the last four digits are present.
+  /// </li>
+  /// <li>
+  /// <b>PIN</b>
+  ///
+  /// A four-digit personal identification number (PIN) with which you can access
+  /// your bank account.
+  /// </li>
+  /// <li>
+  /// <b>INTERNATIONAL_BANK_ACCOUNT_NUMBER</b>
+  ///
+  /// An International Bank Account Number has specific formats in each country.
+  /// For more information, see <a
+  /// href="https://www.iban.com/structure">www.iban.com/structure</a>.
+  /// </li>
+  /// <li>
+  /// <b>SWIFT_CODE</b>
+  ///
+  /// A SWIFT code is a standard format of Bank Identifier Code (BIC) used to
+  /// specify a particular bank or branch. Banks use these codes for money
+  /// transfers such as international wire transfers.
+  ///
+  /// SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to
+  /// specific branches, while eight-digit codes (or 11-digit codes ending in
+  /// 'XXX') refer to the head or primary office.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>IT</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>IP_ADDRESS</b>
+  ///
+  /// An IPv4 address, such as <i>198.51.100.0</i>.
+  /// </li>
+  /// <li>
+  /// <b>MAC_ADDRESS</b>
+  ///
+  /// A <i>media access control</i> (MAC) address is a unique identifier assigned
+  /// to a network interface controller (NIC).
+  /// </li>
+  /// <li>
+  /// <b>URL</b>
+  ///
+  /// A web address, such as <i>www.example.com</i>.
+  /// </li>
+  /// <li>
+  /// <b>AWS_ACCESS_KEY</b>
+  ///
+  /// A unique identifier that's associated with a secret access key; you use the
+  /// access key ID and secret access key to sign programmatic Amazon Web Services
+  /// requests cryptographically.
+  /// </li>
+  /// <li>
+  /// <b>AWS_SECRET_KEY</b>
+  ///
+  /// A unique identifier that's associated with an access key. You use the access
+  /// key ID and secret access key to sign programmatic Amazon Web Services
+  /// requests cryptographically.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>USA specific</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>US_BANK_ACCOUNT_NUMBER</b>
+  ///
+  /// A US bank account number, which is typically 10 to 12 digits long.
+  /// </li>
+  /// <li>
+  /// <b>US_BANK_ROUTING_NUMBER</b>
+  ///
+  /// A US bank account routing number. These are typically nine digits long,
+  /// </li>
+  /// <li>
+  /// <b>US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER</b>
+  ///
+  /// A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number
+  /// that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN
+  /// can be formatted with a space or a dash after the third and forth digits.
+  /// </li>
+  /// <li>
+  /// <b>US_PASSPORT_NUMBER</b>
+  ///
+  /// A US passport number. Passport numbers range from six to nine alphanumeric
+  /// characters.
+  /// </li>
+  /// <li>
+  /// <b>US_SOCIAL_SECURITY_NUMBER</b>
+  ///
+  /// A US Social Security Number (SSN) is a nine-digit number that is issued to
+  /// US citizens, permanent residents, and temporary working residents.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Canada specific</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>CA_HEALTH_NUMBER</b>
+  ///
+  /// A Canadian Health Service Number is a 10-digit unique identifier, required
+  /// for individuals to access healthcare benefits.
+  /// </li>
+  /// <li>
+  /// <b>CA_SOCIAL_INSURANCE_NUMBER</b>
+  ///
+  /// A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier,
+  /// required for individuals to access government programs and benefits.
+  ///
+  /// The SIN is formatted as three groups of three digits, such as
+  /// <i>123-456-789</i>. A SIN can be validated through a simple check-digit
+  /// process called the <a
+  /// href="https://www.wikipedia.org/wiki/Luhn_algorithm">Luhn algorithm</a>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>UK Specific</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>UK_NATIONAL_HEALTH_SERVICE_NUMBER</b>
+  ///
+  /// A UK National Health Service Number is a 10-17 digit number, such as <i>485
+  /// 777 3456</i>. The current system formats the 10-digit number with spaces
+  /// after the third and sixth digits. The final digit is an error-detecting
+  /// checksum.
+  /// </li>
+  /// <li>
+  /// <b>UK_NATIONAL_INSURANCE_NUMBER</b>
+  ///
+  /// A UK National Insurance Number (NINO) provides individuals with access to
+  /// National Insurance (social security) benefits. It is also used for some
+  /// purposes in the UK tax system.
+  ///
+  /// The number is nine digits long and starts with two letters, followed by six
+  /// numbers and one letter. A NINO can be formatted with a space or a dash after
+  /// the two letters and after the second, forth, and sixth digits.
+  /// </li>
+  /// <li>
+  /// <b>UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER</b>
+  ///
+  /// A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a
+  /// taxpayer or a business.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Custom</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Regex filter</b> - You can use a regular expressions to define patterns
+  /// for a guardrail to recognize and act upon such as serial number, booking ID
+  /// etc..
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   final GuardrailPiiEntityType type;
 
   GuardrailPiiEntityConfig({
@@ -4167,21 +6063,6 @@ class GuardrailTopic {
 }
 
 /// Details about topics for the guardrail to identify and deny.
-///
-/// This data type is used in the following API operations:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax">CreateGuardrail
-/// request body</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax">UpdateGuardrail
-/// request body</a>
-/// </li>
-/// </ul>
 class GuardrailTopicConfig {
   /// A definition of the topic to deny.
   final String definition;
@@ -4254,21 +6135,6 @@ class GuardrailTopicPolicy {
 }
 
 /// Contains details about topics that the guardrail should identify and deny.
-///
-/// This data type is used in the following API operations:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax">CreateGuardrail
-/// request body</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax">UpdateGuardrail
-/// request body</a>
-/// </li>
-/// </ul>
 class GuardrailTopicPolicyConfig {
   /// A list of policies related to topics that the guardrail should deny.
   final List<GuardrailTopicConfig> topicsConfig;
@@ -4541,6 +6407,179 @@ class HumanWorkflowConfig {
   }
 }
 
+/// Information about tne imported model.
+class ImportedModelSummary {
+  /// Creation time of the imported model.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the imported model.
+  final String modelArn;
+
+  /// Name of the imported model.
+  final String modelName;
+
+  ImportedModelSummary({
+    required this.creationTime,
+    required this.modelArn,
+    required this.modelName,
+  });
+
+  factory ImportedModelSummary.fromJson(Map<String, dynamic> json) {
+    return ImportedModelSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      modelArn: json['modelArn'] as String,
+      modelName: json['modelName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final modelArn = this.modelArn;
+    final modelName = this.modelName;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'modelArn': modelArn,
+      'modelName': modelName,
+    };
+  }
+}
+
+/// Contains information about a model.
+class InferenceProfileModel {
+  /// The Amazon Resource Name (ARN) of the model.
+  final String? modelArn;
+
+  InferenceProfileModel({
+    this.modelArn,
+  });
+
+  factory InferenceProfileModel.fromJson(Map<String, dynamic> json) {
+    return InferenceProfileModel(
+      modelArn: json['modelArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    return {
+      if (modelArn != null) 'modelArn': modelArn,
+    };
+  }
+}
+
+enum InferenceProfileStatus {
+  active('ACTIVE'),
+  ;
+
+  final String value;
+
+  const InferenceProfileStatus(this.value);
+
+  static InferenceProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InferenceProfileStatus'));
+}
+
+/// Contains information about an inference profile.
+class InferenceProfileSummary {
+  /// The Amazon Resource Name (ARN) of the inference profile.
+  final String inferenceProfileArn;
+
+  /// The unique identifier of the inference profile.
+  final String inferenceProfileId;
+
+  /// The name of the inference profile.
+  final String inferenceProfileName;
+
+  /// A list of information about each model in the inference profile.
+  final List<InferenceProfileModel> models;
+
+  /// The status of the inference profile. <code>ACTIVE</code> means that the
+  /// inference profile is available to use.
+  final InferenceProfileStatus status;
+
+  /// The type of the inference profile. <code>SYSTEM_DEFINED</code> means that
+  /// the inference profile is defined by Amazon Bedrock.
+  final InferenceProfileType type;
+
+  /// The time at which the inference profile was created.
+  final DateTime? createdAt;
+
+  /// The description of the inference profile.
+  final String? description;
+
+  /// The time at which the inference profile was last updated.
+  final DateTime? updatedAt;
+
+  InferenceProfileSummary({
+    required this.inferenceProfileArn,
+    required this.inferenceProfileId,
+    required this.inferenceProfileName,
+    required this.models,
+    required this.status,
+    required this.type,
+    this.createdAt,
+    this.description,
+    this.updatedAt,
+  });
+
+  factory InferenceProfileSummary.fromJson(Map<String, dynamic> json) {
+    return InferenceProfileSummary(
+      inferenceProfileArn: json['inferenceProfileArn'] as String,
+      inferenceProfileId: json['inferenceProfileId'] as String,
+      inferenceProfileName: json['inferenceProfileName'] as String,
+      models: (json['models'] as List)
+          .nonNulls
+          .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: InferenceProfileStatus.fromString((json['status'] as String)),
+      type: InferenceProfileType.fromString((json['type'] as String)),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceProfileArn = this.inferenceProfileArn;
+    final inferenceProfileId = this.inferenceProfileId;
+    final inferenceProfileName = this.inferenceProfileName;
+    final models = this.models;
+    final status = this.status;
+    final type = this.type;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final updatedAt = this.updatedAt;
+    return {
+      'inferenceProfileArn': inferenceProfileArn,
+      'inferenceProfileId': inferenceProfileId,
+      'inferenceProfileName': inferenceProfileName,
+      'models': models,
+      'status': status.value,
+      'type': type.value,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (description != null) 'description': description,
+      if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+enum InferenceProfileType {
+  systemDefined('SYSTEM_DEFINED'),
+  ;
+
+  final String value;
+
+  const InferenceProfileType(this.value);
+
+  static InferenceProfileType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum InferenceProfileType'));
+}
+
 enum InferenceType {
   onDemand('ON_DEMAND'),
   provisioned('PROVISIONED'),
@@ -4560,7 +6599,9 @@ class ListCustomModelsResponse {
   /// Model summaries.
   final List<CustomModelSummary>? modelSummaries;
 
-  /// Continuation token for the next request to list the next set of results.
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
   final String? nextToken;
 
   ListCustomModelsResponse({
@@ -4681,11 +6722,118 @@ class ListGuardrailsResponse {
   }
 }
 
+class ListImportedModelsResponse {
+  /// Model summaries.
+  final List<ImportedModelSummary>? modelSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListImportedModelsResponse({
+    this.modelSummaries,
+    this.nextToken,
+  });
+
+  factory ListImportedModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListImportedModelsResponse(
+      modelSummaries: (json['modelSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ImportedModelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelSummaries = this.modelSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (modelSummaries != null) 'modelSummaries': modelSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListInferenceProfilesResponse {
+  /// A list of information about each inference profile that you can use.
+  final List<InferenceProfileSummary>? inferenceProfileSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListInferenceProfilesResponse({
+    this.inferenceProfileSummaries,
+    this.nextToken,
+  });
+
+  factory ListInferenceProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListInferenceProfilesResponse(
+      inferenceProfileSummaries: (json['inferenceProfileSummaries'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              InferenceProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inferenceProfileSummaries = this.inferenceProfileSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (inferenceProfileSummaries != null)
+        'inferenceProfileSummaries': inferenceProfileSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListModelCopyJobsResponse {
+  /// A list of information about each model copy job.
+  final List<ModelCopyJobSummary>? modelCopyJobSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListModelCopyJobsResponse({
+    this.modelCopyJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListModelCopyJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelCopyJobsResponse(
+      modelCopyJobSummaries: (json['modelCopyJobSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ModelCopyJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelCopyJobSummaries = this.modelCopyJobSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (modelCopyJobSummaries != null)
+        'modelCopyJobSummaries': modelCopyJobSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListModelCustomizationJobsResponse {
   /// Job summaries.
   final List<ModelCustomizationJobSummary>? modelCustomizationJobSummaries;
 
-  /// Page continuation token to use in the next request.
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
   final String? nextToken;
 
   ListModelCustomizationJobsResponse({
@@ -4712,6 +6860,79 @@ class ListModelCustomizationJobsResponse {
     return {
       if (modelCustomizationJobSummaries != null)
         'modelCustomizationJobSummaries': modelCustomizationJobSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListModelImportJobsResponse {
+  /// Import job summaries.
+  final List<ModelImportJobSummary>? modelImportJobSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  final String? nextToken;
+
+  ListModelImportJobsResponse({
+    this.modelImportJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListModelImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelImportJobsResponse(
+      modelImportJobSummaries: (json['modelImportJobSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => ModelImportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelImportJobSummaries = this.modelImportJobSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (modelImportJobSummaries != null)
+        'modelImportJobSummaries': modelImportJobSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListModelInvocationJobsResponse {
+  /// A list of items, each of which contains a summary about a batch inference
+  /// job.
+  final List<ModelInvocationJobSummary>? invocationJobSummaries;
+
+  /// If there are more results than can fit in the response, a
+  /// <code>nextToken</code> is returned. Use the <code>nextToken</code> in a
+  /// request to return the next batch of results.
+  final String? nextToken;
+
+  ListModelInvocationJobsResponse({
+    this.invocationJobSummaries,
+    this.nextToken,
+  });
+
+  factory ListModelInvocationJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelInvocationJobsResponse(
+      invocationJobSummaries: (json['invocationJobSummaries'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ModelInvocationJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invocationJobSummaries = this.invocationJobSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (invocationJobSummaries != null)
+        'invocationJobSummaries': invocationJobSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -4840,6 +7061,133 @@ class LoggingConfig {
   }
 }
 
+enum ModelCopyJobStatus {
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
+
+  final String value;
+
+  const ModelCopyJobStatus(this.value);
+
+  static ModelCopyJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelCopyJobStatus'));
+}
+
+/// Contains details about each model copy job.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListModelCopyJobs.html#API_ListModelCopyJobs_ResponseSyntax">ListModelCopyJobs
+/// response</a>
+/// </li>
+/// </ul>
+class ModelCopyJobSummary {
+  /// The time that the model copy job was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resoource Name (ARN) of the model copy job.
+  final String jobArn;
+
+  /// The unique identifier of the account that the model being copied originated
+  /// from.
+  final String sourceAccountId;
+
+  /// The Amazon Resource Name (ARN) of the original model being copied.
+  final String sourceModelArn;
+
+  /// The status of the model copy job.
+  final ModelCopyJobStatus status;
+
+  /// The Amazon Resource Name (ARN) of the copied model.
+  final String targetModelArn;
+
+  /// If a model fails to be copied, a message describing why the job failed is
+  /// included here.
+  final String? failureMessage;
+
+  /// The name of the original model being copied.
+  final String? sourceModelName;
+
+  /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the copied
+  /// model.
+  final String? targetModelKmsKeyArn;
+
+  /// The name of the copied model.
+  final String? targetModelName;
+
+  /// Tags associated with the copied model.
+  final List<Tag>? targetModelTags;
+
+  ModelCopyJobSummary({
+    required this.creationTime,
+    required this.jobArn,
+    required this.sourceAccountId,
+    required this.sourceModelArn,
+    required this.status,
+    required this.targetModelArn,
+    this.failureMessage,
+    this.sourceModelName,
+    this.targetModelKmsKeyArn,
+    this.targetModelName,
+    this.targetModelTags,
+  });
+
+  factory ModelCopyJobSummary.fromJson(Map<String, dynamic> json) {
+    return ModelCopyJobSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      jobArn: json['jobArn'] as String,
+      sourceAccountId: json['sourceAccountId'] as String,
+      sourceModelArn: json['sourceModelArn'] as String,
+      status: ModelCopyJobStatus.fromString((json['status'] as String)),
+      targetModelArn: json['targetModelArn'] as String,
+      failureMessage: json['failureMessage'] as String?,
+      sourceModelName: json['sourceModelName'] as String?,
+      targetModelKmsKeyArn: json['targetModelKmsKeyArn'] as String?,
+      targetModelName: json['targetModelName'] as String?,
+      targetModelTags: (json['targetModelTags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final jobArn = this.jobArn;
+    final sourceAccountId = this.sourceAccountId;
+    final sourceModelArn = this.sourceModelArn;
+    final status = this.status;
+    final targetModelArn = this.targetModelArn;
+    final failureMessage = this.failureMessage;
+    final sourceModelName = this.sourceModelName;
+    final targetModelKmsKeyArn = this.targetModelKmsKeyArn;
+    final targetModelName = this.targetModelName;
+    final targetModelTags = this.targetModelTags;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'jobArn': jobArn,
+      'sourceAccountId': sourceAccountId,
+      'sourceModelArn': sourceModelArn,
+      'status': status.value,
+      'targetModelArn': targetModelArn,
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (sourceModelName != null) 'sourceModelName': sourceModelName,
+      if (targetModelKmsKeyArn != null)
+        'targetModelKmsKeyArn': targetModelKmsKeyArn,
+      if (targetModelName != null) 'targetModelName': targetModelName,
+      if (targetModelTags != null) 'targetModelTags': targetModelTags,
+    };
+  }
+}
+
 enum ModelCustomization {
   fineTuning('FINE_TUNING'),
   continuedPreTraining('CONTINUED_PRE_TRAINING'),
@@ -4963,6 +7311,392 @@ class ModelCustomizationJobSummary {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
       if (lastModifiedTime != null)
         'lastModifiedTime': iso8601ToJson(lastModifiedTime),
+    };
+  }
+}
+
+/// Data source for the imported model.
+class ModelDataSource {
+  /// The Amazon S3 data source of the imported model.
+  final S3DataSource? s3DataSource;
+
+  ModelDataSource({
+    this.s3DataSource,
+  });
+
+  factory ModelDataSource.fromJson(Map<String, dynamic> json) {
+    return ModelDataSource(
+      s3DataSource: json['s3DataSource'] != null
+          ? S3DataSource.fromJson(json['s3DataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataSource = this.s3DataSource;
+    return {
+      if (s3DataSource != null) 's3DataSource': s3DataSource,
+    };
+  }
+}
+
+enum ModelImportJobStatus {
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  ;
+
+  final String value;
+
+  const ModelImportJobStatus(this.value);
+
+  static ModelImportJobStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ModelImportJobStatus'));
+}
+
+/// Information about the import job.
+class ModelImportJobSummary {
+  /// The time import job was created.
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the import job.
+  final String jobArn;
+
+  /// The name of the import job.
+  final String jobName;
+
+  /// The status of the imported job.
+  final ModelImportJobStatus status;
+
+  /// The time when import job ended.
+  final DateTime? endTime;
+
+  /// The Amazon resource Name (ARN) of the imported model.
+  final String? importedModelArn;
+
+  /// The name of the imported model.
+  final String? importedModelName;
+
+  /// The time when the import job was last modified.
+  final DateTime? lastModifiedTime;
+
+  ModelImportJobSummary({
+    required this.creationTime,
+    required this.jobArn,
+    required this.jobName,
+    required this.status,
+    this.endTime,
+    this.importedModelArn,
+    this.importedModelName,
+    this.lastModifiedTime,
+  });
+
+  factory ModelImportJobSummary.fromJson(Map<String, dynamic> json) {
+    return ModelImportJobSummary(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      jobArn: json['jobArn'] as String,
+      jobName: json['jobName'] as String,
+      status: ModelImportJobStatus.fromString((json['status'] as String)),
+      endTime: timeStampFromJson(json['endTime']),
+      importedModelArn: json['importedModelArn'] as String?,
+      importedModelName: json['importedModelName'] as String?,
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final jobArn = this.jobArn;
+    final jobName = this.jobName;
+    final status = this.status;
+    final endTime = this.endTime;
+    final importedModelArn = this.importedModelArn;
+    final importedModelName = this.importedModelName;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'jobArn': jobArn,
+      'jobName': jobName,
+      'status': status.value,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (importedModelArn != null) 'importedModelArn': importedModelArn,
+      if (importedModelName != null) 'importedModelName': importedModelName,
+      if (lastModifiedTime != null)
+        'lastModifiedTime': iso8601ToJson(lastModifiedTime),
+    };
+  }
+}
+
+/// Details about the location of the input to the batch inference job.
+class ModelInvocationJobInputDataConfig {
+  /// Contains the configuration of the S3 location of the input data.
+  final ModelInvocationJobS3InputDataConfig? s3InputDataConfig;
+
+  ModelInvocationJobInputDataConfig({
+    this.s3InputDataConfig,
+  });
+
+  factory ModelInvocationJobInputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ModelInvocationJobInputDataConfig(
+      s3InputDataConfig: json['s3InputDataConfig'] != null
+          ? ModelInvocationJobS3InputDataConfig.fromJson(
+              json['s3InputDataConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3InputDataConfig = this.s3InputDataConfig;
+    return {
+      if (s3InputDataConfig != null) 's3InputDataConfig': s3InputDataConfig,
+    };
+  }
+}
+
+/// Contains the configuration of the S3 location of the output data.
+class ModelInvocationJobOutputDataConfig {
+  /// Contains the configuration of the S3 location of the output data.
+  final ModelInvocationJobS3OutputDataConfig? s3OutputDataConfig;
+
+  ModelInvocationJobOutputDataConfig({
+    this.s3OutputDataConfig,
+  });
+
+  factory ModelInvocationJobOutputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ModelInvocationJobOutputDataConfig(
+      s3OutputDataConfig: json['s3OutputDataConfig'] != null
+          ? ModelInvocationJobS3OutputDataConfig.fromJson(
+              json['s3OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3OutputDataConfig = this.s3OutputDataConfig;
+    return {
+      if (s3OutputDataConfig != null) 's3OutputDataConfig': s3OutputDataConfig,
+    };
+  }
+}
+
+/// Contains the configuration of the S3 location of the output data.
+class ModelInvocationJobS3InputDataConfig {
+  /// The S3 location of the input data.
+  final String s3Uri;
+
+  /// The format of the input data.
+  final S3InputFormat? s3InputFormat;
+
+  ModelInvocationJobS3InputDataConfig({
+    required this.s3Uri,
+    this.s3InputFormat,
+  });
+
+  factory ModelInvocationJobS3InputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ModelInvocationJobS3InputDataConfig(
+      s3Uri: json['s3Uri'] as String,
+      s3InputFormat:
+          (json['s3InputFormat'] as String?)?.let(S3InputFormat.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final s3InputFormat = this.s3InputFormat;
+    return {
+      's3Uri': s3Uri,
+      if (s3InputFormat != null) 's3InputFormat': s3InputFormat.value,
+    };
+  }
+}
+
+/// Contains the configuration of the S3 location of the output data.
+class ModelInvocationJobS3OutputDataConfig {
+  /// The S3 location of the output data.
+  final String s3Uri;
+
+  /// The unique identifier of the key that encrypts the S3 location of the output
+  /// data.
+  final String? s3EncryptionKeyId;
+
+  ModelInvocationJobS3OutputDataConfig({
+    required this.s3Uri,
+    this.s3EncryptionKeyId,
+  });
+
+  factory ModelInvocationJobS3OutputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ModelInvocationJobS3OutputDataConfig(
+      s3Uri: json['s3Uri'] as String,
+      s3EncryptionKeyId: json['s3EncryptionKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final s3EncryptionKeyId = this.s3EncryptionKeyId;
+    return {
+      's3Uri': s3Uri,
+      if (s3EncryptionKeyId != null) 's3EncryptionKeyId': s3EncryptionKeyId,
+    };
+  }
+}
+
+enum ModelInvocationJobStatus {
+  submitted('Submitted'),
+  inProgress('InProgress'),
+  completed('Completed'),
+  failed('Failed'),
+  stopping('Stopping'),
+  stopped('Stopped'),
+  partiallyCompleted('PartiallyCompleted'),
+  expired('Expired'),
+  validating('Validating'),
+  scheduled('Scheduled'),
+  ;
+
+  final String value;
+
+  const ModelInvocationJobStatus(this.value);
+
+  static ModelInvocationJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ModelInvocationJobStatus'));
+}
+
+/// A summary of a batch inference job.
+class ModelInvocationJobSummary {
+  /// Details about the location of the input to the batch inference job.
+  final ModelInvocationJobInputDataConfig inputDataConfig;
+
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  final String jobArn;
+
+  /// The name of the batch inference job.
+  final String jobName;
+
+  /// The unique identifier of the foundation model used for model inference.
+  final String modelId;
+
+  /// Details about the location of the output of the batch inference job.
+  final ModelInvocationJobOutputDataConfig outputDataConfig;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to carry
+  /// out and manage batch inference. You can use the console to create a default
+  /// service role or follow the steps at <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html">Create
+  /// a service role for batch inference</a>.
+  final String roleArn;
+
+  /// The time at which the batch inference job was submitted.
+  final DateTime submitTime;
+
+  /// A unique, case-sensitive identifier to ensure that the API request completes
+  /// no more than one time. If this token matches a previous request, Amazon
+  /// Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  final String? clientRequestToken;
+
+  /// The time at which the batch inference job ended.
+  final DateTime? endTime;
+
+  /// The time at which the batch inference job times or timed out.
+  final DateTime? jobExpirationTime;
+
+  /// The time at which the batch inference job was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// If the batch inference job failed, this field contains a message describing
+  /// why the job failed.
+  final String? message;
+
+  /// The status of the batch inference job.
+  final ModelInvocationJobStatus? status;
+
+  /// The number of hours after which the batch inference job was set to time out.
+  final int? timeoutDurationInHours;
+
+  ModelInvocationJobSummary({
+    required this.inputDataConfig,
+    required this.jobArn,
+    required this.jobName,
+    required this.modelId,
+    required this.outputDataConfig,
+    required this.roleArn,
+    required this.submitTime,
+    this.clientRequestToken,
+    this.endTime,
+    this.jobExpirationTime,
+    this.lastModifiedTime,
+    this.message,
+    this.status,
+    this.timeoutDurationInHours,
+  });
+
+  factory ModelInvocationJobSummary.fromJson(Map<String, dynamic> json) {
+    return ModelInvocationJobSummary(
+      inputDataConfig: ModelInvocationJobInputDataConfig.fromJson(
+          json['inputDataConfig'] as Map<String, dynamic>),
+      jobArn: json['jobArn'] as String,
+      jobName: json['jobName'] as String,
+      modelId: json['modelId'] as String,
+      outputDataConfig: ModelInvocationJobOutputDataConfig.fromJson(
+          json['outputDataConfig'] as Map<String, dynamic>),
+      roleArn: json['roleArn'] as String,
+      submitTime: nonNullableTimeStampFromJson(json['submitTime'] as Object),
+      clientRequestToken: json['clientRequestToken'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      jobExpirationTime: timeStampFromJson(json['jobExpirationTime']),
+      lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
+      message: json['message'] as String?,
+      status:
+          (json['status'] as String?)?.let(ModelInvocationJobStatus.fromString),
+      timeoutDurationInHours: json['timeoutDurationInHours'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputDataConfig = this.inputDataConfig;
+    final jobArn = this.jobArn;
+    final jobName = this.jobName;
+    final modelId = this.modelId;
+    final outputDataConfig = this.outputDataConfig;
+    final roleArn = this.roleArn;
+    final submitTime = this.submitTime;
+    final clientRequestToken = this.clientRequestToken;
+    final endTime = this.endTime;
+    final jobExpirationTime = this.jobExpirationTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final message = this.message;
+    final status = this.status;
+    final timeoutDurationInHours = this.timeoutDurationInHours;
+    return {
+      'inputDataConfig': inputDataConfig,
+      'jobArn': jobArn,
+      'jobName': jobName,
+      'modelId': modelId,
+      'outputDataConfig': outputDataConfig,
+      'roleArn': roleArn,
+      'submitTime': iso8601ToJson(submitTime),
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (jobExpirationTime != null)
+        'jobExpirationTime': iso8601ToJson(jobExpirationTime),
+      if (lastModifiedTime != null)
+        'lastModifiedTime': iso8601ToJson(lastModifiedTime),
+      if (message != null) 'message': message,
+      if (status != null) 'status': status.value,
+      if (timeoutDurationInHours != null)
+        'timeoutDurationInHours': timeoutDurationInHours,
     };
   }
 }
@@ -5189,6 +7923,43 @@ class S3Config {
   }
 }
 
+/// The Amazon S3 data source of the imported job.
+class S3DataSource {
+  /// The URI of the Amazon S3 data source.
+  final String s3Uri;
+
+  S3DataSource({
+    required this.s3Uri,
+  });
+
+  factory S3DataSource.fromJson(Map<String, dynamic> json) {
+    return S3DataSource(
+      s3Uri: json['s3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      's3Uri': s3Uri,
+    };
+  }
+}
+
+enum S3InputFormat {
+  jsonl('JSONL'),
+  ;
+
+  final String value;
+
+  const S3InputFormat(this.value);
+
+  static S3InputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum S3InputFormat'));
+}
+
 enum SortByProvisionedModels {
   creationTime('CreationTime'),
   ;
@@ -5261,6 +8032,18 @@ class StopModelCustomizationJobResponse {
 
   factory StopModelCustomizationJobResponse.fromJson(Map<String, dynamic> _) {
     return StopModelCustomizationJobResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopModelInvocationJobResponse {
+  StopModelInvocationJobResponse();
+
+  factory StopModelInvocationJobResponse.fromJson(Map<String, dynamic> _) {
+    return StopModelInvocationJobResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -5369,7 +8152,7 @@ class UntagResourceResponse {
 }
 
 class UpdateGuardrailResponse {
-  /// The ARN of the guardrail that was created.
+  /// The ARN of the guardrail.
   final String guardrailArn;
 
   /// The unique identifier of the guardrail

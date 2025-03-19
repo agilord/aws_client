@@ -5704,6 +5704,7 @@ enum CloudWatchRegion {
   apSoutheast_4('ap-southeast-4'),
   ilCentral_1('il-central-1'),
   caWest_1('ca-west-1'),
+  apSoutheast_5('ap-southeast-5'),
   ;
 
   final String value;
@@ -10228,6 +10229,7 @@ enum ResourceRecordSetRegion {
   apSoutheast_4('ap-southeast-4'),
   ilCentral_1('il-central-1'),
   caWest_1('ca-west-1'),
+  apSoutheast_5('ap-southeast-5'),
   ;
 
   final String value;
@@ -11384,6 +11386,7 @@ enum VPCRegion {
   apSoutheast_4('ap-southeast-4'),
   ilCentral_1('il-central-1'),
   caWest_1('ca-west-1'),
+  apSoutheast_5('ap-southeast-5'),
   ;
 
   final String value;

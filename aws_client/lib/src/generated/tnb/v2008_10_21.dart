@@ -314,7 +314,7 @@ class TelcoNetworkBuilder {
   }
 
   /// Gets the details of a network function instance, including the
-  /// instantation state and metadata from the function package descriptor in
+  /// instantiation state and metadata from the function package descriptor in
   /// the network function package.
   ///
   /// A network function instance is a function in a function package .
@@ -645,8 +645,9 @@ class TelcoNetworkBuilder {
   /// Parameter [tags] :
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the
-  /// tags are transferred to the network operation that is created. Use tags to
-  /// search and filter your resources or track your Amazon Web Services costs.
+  /// tags are only applied to the network operation that is created. These tags
+  /// are not applied to the network instance. Use tags to search and filter
+  /// your resources or track your Amazon Web Services costs.
   Future<InstantiateSolNetworkInstanceOutput> instantiateSolNetworkInstance({
     required String nsInstanceId,
     Document? additionalParamsForNs,
@@ -807,9 +808,14 @@ class TelcoNetworkBuilder {
   ///
   /// Parameter [nextToken] :
   /// The token for the next page of results.
+  ///
+  /// Parameter [nsInstanceId] :
+  /// Network instance id filter, to retrieve network operations associated to a
+  /// network instance.
   Future<ListSolNetworkOperationsOutput> listSolNetworkOperations({
     int? maxResults,
     String? nextToken,
+    String? nsInstanceId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -820,6 +826,7 @@ class TelcoNetworkBuilder {
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
+      if (nsInstanceId != null) 'nsInstanceId': [nsInstanceId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1027,8 +1034,9 @@ class TelcoNetworkBuilder {
   /// Parameter [tags] :
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the
-  /// tags are transferred to the network operation that is created. Use tags to
-  /// search and filter your resources or track your Amazon Web Services costs.
+  /// tags are only applied to the network operation that is created. These tags
+  /// are not applied to the network instance. Use tags to search and filter
+  /// your resources or track your Amazon Web Services costs.
   Future<TerminateSolNetworkInstanceOutput> terminateSolNetworkInstance({
     required String nsInstanceId,
     Map<String, String>? tags,
@@ -1120,6 +1128,9 @@ class TelcoNetworkBuilder {
   /// that can be deployed and on which life-cycle operations (like terminate,
   /// update, and delete) can be performed.
   ///
+  /// Choose the <i>updateType</i> parameter to target the necessary update of
+  /// the network instance.
+  ///
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
@@ -1133,25 +1144,48 @@ class TelcoNetworkBuilder {
   /// Parameter [updateType] :
   /// The type of update.
   ///
+  /// <ul>
+  /// <li>
+  /// Use the <code>MODIFY_VNF_INFORMATION</code> update type, to update a
+  /// specific network function configuration, in the network instance.
+  /// </li>
+  /// <li>
+  /// Use the <code>UPDATE_NS</code> update type, to update the network instance
+  /// to a new network service descriptor.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [modifyVnfInfoData] :
   /// Identifies the network function information parameters and/or the
   /// configurable properties of the network function to be modified.
   ///
+  /// Include this property only if the update type is
+  /// <code>MODIFY_VNF_INFORMATION</code>.
+  ///
   /// Parameter [tags] :
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the
-  /// tags are transferred to the network operation that is created. Use tags to
-  /// search and filter your resources or track your Amazon Web Services costs.
+  /// tags are only applied to the network operation that is created. These tags
+  /// are not applied to the network instance. Use tags to search and filter
+  /// your resources or track your Amazon Web Services costs.
+  ///
+  /// Parameter [updateNs] :
+  /// Identifies the network service descriptor and the configurable properties
+  /// of the descriptor, to be used for the update.
+  ///
+  /// Include this property only if the update type is <code>UPDATE_NS</code>.
   Future<UpdateSolNetworkInstanceOutput> updateSolNetworkInstance({
     required String nsInstanceId,
     required UpdateSolNetworkType updateType,
     UpdateSolNetworkModify? modifyVnfInfoData,
     Map<String, String>? tags,
+    UpdateSolNetworkServiceData? updateNs,
   }) async {
     final $payload = <String, dynamic>{
       'updateType': updateType.value,
       if (modifyVnfInfoData != null) 'modifyVnfInfoData': modifyVnfInfoData,
       if (tags != null) 'tags': tags,
+      if (updateNs != null) 'updateNs': updateNs,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1483,6 +1517,10 @@ enum DescriptorContentType {
 
 class Document {
   Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
 
   Map<String, dynamic> toJson() {
     return {};
@@ -2032,9 +2070,28 @@ class GetSolNetworkOperationMetadata {
   /// The date that the resource was last modified.
   final DateTime lastModified;
 
+  /// Metadata related to the network operation occurrence for network
+  /// instantiation. This is populated only if the lcmOperationType is
+  /// <code>INSTANTIATE</code>.
+  final InstantiateMetadata? instantiateMetadata;
+
+  /// Metadata related to the network operation occurrence for network function
+  /// updates in a network instance. This is populated only if the
+  /// lcmOperationType is <code>UPDATE</code> and the updateType is
+  /// <code>MODIFY_VNF_INFORMATION</code>.
+  final ModifyVnfInfoMetadata? modifyVnfInfoMetadata;
+
+  /// Metadata related to the network operation occurrence for network instance
+  /// updates. This is populated only if the lcmOperationType is
+  /// <code>UPDATE</code> and the updateType is <code>UPDATE_NS</code>.
+  final UpdateNsMetadata? updateNsMetadata;
+
   GetSolNetworkOperationMetadata({
     required this.createdAt,
     required this.lastModified,
+    this.instantiateMetadata,
+    this.modifyVnfInfoMetadata,
+    this.updateNsMetadata,
   });
 
   factory GetSolNetworkOperationMetadata.fromJson(Map<String, dynamic> json) {
@@ -2042,15 +2099,35 @@ class GetSolNetworkOperationMetadata {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       lastModified:
           nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      instantiateMetadata: json['instantiateMetadata'] != null
+          ? InstantiateMetadata.fromJson(
+              json['instantiateMetadata'] as Map<String, dynamic>)
+          : null,
+      modifyVnfInfoMetadata: json['modifyVnfInfoMetadata'] != null
+          ? ModifyVnfInfoMetadata.fromJson(
+              json['modifyVnfInfoMetadata'] as Map<String, dynamic>)
+          : null,
+      updateNsMetadata: json['updateNsMetadata'] != null
+          ? UpdateNsMetadata.fromJson(
+              json['updateNsMetadata'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
     final lastModified = this.lastModified;
+    final instantiateMetadata = this.instantiateMetadata;
+    final modifyVnfInfoMetadata = this.modifyVnfInfoMetadata;
+    final updateNsMetadata = this.updateNsMetadata;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'lastModified': iso8601ToJson(lastModified),
+      if (instantiateMetadata != null)
+        'instantiateMetadata': instantiateMetadata,
+      if (modifyVnfInfoMetadata != null)
+        'modifyVnfInfoMetadata': modifyVnfInfoMetadata,
+      if (updateNsMetadata != null) 'updateNsMetadata': updateNsMetadata,
     };
   }
 }
@@ -2085,6 +2162,10 @@ class GetSolNetworkOperationOutput {
   /// All tasks associated with this operation occurrence.
   final List<GetSolNetworkOperationTaskDetails>? tasks;
 
+  /// Type of the update. Only present if the network operation lcmOperationType
+  /// is <code>UPDATE</code>.
+  final UpdateSolNetworkType? updateType;
+
   GetSolNetworkOperationOutput({
     required this.arn,
     this.error,
@@ -2095,6 +2176,7 @@ class GetSolNetworkOperationOutput {
     this.operationState,
     this.tags,
     this.tasks,
+    this.updateType,
   });
 
   factory GetSolNetworkOperationOutput.fromJson(Map<String, dynamic> json) {
@@ -2120,6 +2202,8 @@ class GetSolNetworkOperationOutput {
           .map((e) => GetSolNetworkOperationTaskDetails.fromJson(
               e as Map<String, dynamic>))
           .toList(),
+      updateType:
+          (json['updateType'] as String?)?.let(UpdateSolNetworkType.fromString),
     );
   }
 
@@ -2133,6 +2217,7 @@ class GetSolNetworkOperationOutput {
     final operationState = this.operationState;
     final tags = this.tags;
     final tasks = this.tasks;
+    final updateType = this.updateType;
     return {
       'arn': arn,
       if (error != null) 'error': error,
@@ -2143,6 +2228,7 @@ class GetSolNetworkOperationOutput {
       if (operationState != null) 'operationState': operationState.value,
       if (tags != null) 'tags': tags,
       if (tasks != null) 'tasks': tasks,
+      if (updateType != null) 'updateType': updateType.value,
     };
   }
 }
@@ -2506,14 +2592,50 @@ class GetSolVnfcResourceInfoMetadata {
   }
 }
 
+/// Metadata related to the configuration properties used during instantiation
+/// of the network instance.
+class InstantiateMetadata {
+  /// The network service descriptor used for instantiating the network instance.
+  final String nsdInfoId;
+
+  /// The configurable properties used during instantiation.
+  final Document? additionalParamsForNs;
+
+  InstantiateMetadata({
+    required this.nsdInfoId,
+    this.additionalParamsForNs,
+  });
+
+  factory InstantiateMetadata.fromJson(Map<String, dynamic> json) {
+    return InstantiateMetadata(
+      nsdInfoId: json['nsdInfoId'] as String,
+      additionalParamsForNs: json['additionalParamsForNs'] != null
+          ? Document.fromJson(
+              json['additionalParamsForNs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsdInfoId = this.nsdInfoId;
+    final additionalParamsForNs = this.additionalParamsForNs;
+    return {
+      'nsdInfoId': nsdInfoId,
+      if (additionalParamsForNs != null)
+        'additionalParamsForNs': additionalParamsForNs,
+    };
+  }
+}
+
 class InstantiateSolNetworkInstanceOutput {
   /// The identifier of the network operation.
   final String nsLcmOpOccId;
 
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the tags
-  /// are transferred to the network operation that is created. Use tags to search
-  /// and filter your resources or track your Amazon Web Services costs.
+  /// are only applied to the network operation that is created. These tags are
+  /// not applied to the network instance. Use tags to search and filter your
+  /// resources or track your Amazon Web Services costs.
   final Map<String, String>? tags;
 
   InstantiateSolNetworkInstanceOutput({
@@ -3065,6 +3187,10 @@ class ListSolNetworkOperationsInfo {
   /// Metadata related to this network operation.
   final ListSolNetworkOperationsMetadata? metadata;
 
+  /// Type of the update. Only present if the network operation lcmOperationType
+  /// is <code>UPDATE</code>.
+  final UpdateSolNetworkType? updateType;
+
   ListSolNetworkOperationsInfo({
     required this.arn,
     required this.id,
@@ -3073,6 +3199,7 @@ class ListSolNetworkOperationsInfo {
     required this.operationState,
     this.error,
     this.metadata,
+    this.updateType,
   });
 
   factory ListSolNetworkOperationsInfo.fromJson(Map<String, dynamic> json) {
@@ -3091,6 +3218,8 @@ class ListSolNetworkOperationsInfo {
           ? ListSolNetworkOperationsMetadata.fromJson(
               json['metadata'] as Map<String, dynamic>)
           : null,
+      updateType:
+          (json['updateType'] as String?)?.let(UpdateSolNetworkType.fromString),
     );
   }
 
@@ -3102,6 +3231,7 @@ class ListSolNetworkOperationsInfo {
     final operationState = this.operationState;
     final error = this.error;
     final metadata = this.metadata;
+    final updateType = this.updateType;
     return {
       'arn': arn,
       'id': id,
@@ -3110,6 +3240,7 @@ class ListSolNetworkOperationsInfo {
       'operationState': operationState.value,
       if (error != null) 'error': error,
       if (metadata != null) 'metadata': metadata,
+      if (updateType != null) 'updateType': updateType.value,
     };
   }
 }
@@ -3125,9 +3256,21 @@ class ListSolNetworkOperationsMetadata {
   /// The date that the resource was last modified.
   final DateTime lastModified;
 
+  /// The network service descriptor id used for the operation.
+  ///
+  /// Only present if the updateType is <code>UPDATE_NS</code>.
+  final String? nsdInfoId;
+
+  /// The network function id used for the operation.
+  ///
+  /// Only present if the updateType is <code>MODIFY_VNF_INFO</code>.
+  final String? vnfInstanceId;
+
   ListSolNetworkOperationsMetadata({
     required this.createdAt,
     required this.lastModified,
+    this.nsdInfoId,
+    this.vnfInstanceId,
   });
 
   factory ListSolNetworkOperationsMetadata.fromJson(Map<String, dynamic> json) {
@@ -3135,15 +3278,21 @@ class ListSolNetworkOperationsMetadata {
       createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
       lastModified:
           nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      nsdInfoId: json['nsdInfoId'] as String?,
+      vnfInstanceId: json['vnfInstanceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdAt = this.createdAt;
     final lastModified = this.lastModified;
+    final nsdInfoId = this.nsdInfoId;
+    final vnfInstanceId = this.vnfInstanceId;
     return {
       'createdAt': iso8601ToJson(createdAt),
       'lastModified': iso8601ToJson(lastModified),
+      if (nsdInfoId != null) 'nsdInfoId': nsdInfoId,
+      if (vnfInstanceId != null) 'vnfInstanceId': vnfInstanceId,
     };
   }
 }
@@ -3391,6 +3540,39 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// Metadata related to the configuration properties used during update of a
+/// specific network function in a network instance.
+class ModifyVnfInfoMetadata {
+  /// The configurable properties used during update of the network function
+  /// instance.
+  final Document vnfConfigurableProperties;
+
+  /// The network function instance that was updated in the network instance.
+  final String vnfInstanceId;
+
+  ModifyVnfInfoMetadata({
+    required this.vnfConfigurableProperties,
+    required this.vnfInstanceId,
+  });
+
+  factory ModifyVnfInfoMetadata.fromJson(Map<String, dynamic> json) {
+    return ModifyVnfInfoMetadata(
+      vnfConfigurableProperties: Document.fromJson(
+          json['vnfConfigurableProperties'] as Map<String, dynamic>),
+      vnfInstanceId: json['vnfInstanceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vnfConfigurableProperties = this.vnfConfigurableProperties;
+    final vnfInstanceId = this.vnfInstanceId;
+    return {
+      'vnfConfigurableProperties': vnfConfigurableProperties,
+      'vnfInstanceId': vnfInstanceId,
+    };
+  }
+}
+
 /// Metadata for network package artifacts.
 ///
 /// Artifacts are the contents of the package descriptor file and the state of
@@ -3441,10 +3623,13 @@ enum NsLcmOperationState {
 enum NsState {
   instantiated('INSTANTIATED'),
   notInstantiated('NOT_INSTANTIATED'),
+  updated('UPDATED'),
   impaired('IMPAIRED'),
+  updateFailed('UPDATE_FAILED'),
   stopped('STOPPED'),
   deleted('DELETED'),
   instantiateInProgress('INSTANTIATE_IN_PROGRESS'),
+  intentToUpdateInProgress('INTENT_TO_UPDATE_IN_PROGRESS'),
   updateInProgress('UPDATE_IN_PROGRESS'),
   terminateInProgress('TERMINATE_IN_PROGRESS'),
   ;
@@ -3801,8 +3986,9 @@ class TerminateSolNetworkInstanceOutput {
 
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the tags
-  /// are transferred to the network operation that is created. Use tags to search
-  /// and filter your resources or track your Amazon Web Services costs.
+  /// are only applied to the network operation that is created. These tags are
+  /// not applied to the network instance. Use tags to search and filter your
+  /// resources or track your Amazon Web Services costs.
   final Map<String, String>? tags;
 
   TerminateSolNetworkInstanceOutput({
@@ -3871,6 +4057,41 @@ class UntagResourceOutput {
   }
 }
 
+/// Metadata related to the configuration properties used during update of a
+/// network instance.
+class UpdateNsMetadata {
+  /// The network service descriptor used for updating the network instance.
+  final String nsdInfoId;
+
+  /// The configurable properties used during update.
+  final Document? additionalParamsForNs;
+
+  UpdateNsMetadata({
+    required this.nsdInfoId,
+    this.additionalParamsForNs,
+  });
+
+  factory UpdateNsMetadata.fromJson(Map<String, dynamic> json) {
+    return UpdateNsMetadata(
+      nsdInfoId: json['nsdInfoId'] as String,
+      additionalParamsForNs: json['additionalParamsForNs'] != null
+          ? Document.fromJson(
+              json['additionalParamsForNs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsdInfoId = this.nsdInfoId;
+    final additionalParamsForNs = this.additionalParamsForNs;
+    return {
+      'nsdInfoId': nsdInfoId,
+      if (additionalParamsForNs != null)
+        'additionalParamsForNs': additionalParamsForNs,
+    };
+  }
+}
+
 class UpdateSolFunctionPackageOutput {
   /// Operational state of the function package.
   final OperationalState operationalState;
@@ -3900,8 +4121,9 @@ class UpdateSolNetworkInstanceOutput {
 
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
   /// tag consists of a key and an optional value. When you use this API, the tags
-  /// are transferred to the network operation that is created. Use tags to search
-  /// and filter your resources or track your Amazon Web Services costs.
+  /// are only applied to the network operation that is created. These tags are
+  /// not applied to the network instance. Use tags to search and filter your
+  /// resources or track your Amazon Web Services costs.
   final Map<String, String>? tags;
 
   UpdateSolNetworkInstanceOutput({
@@ -3979,8 +4201,35 @@ class UpdateSolNetworkPackageOutput {
   }
 }
 
+/// Information parameters and/or the configurable properties for a network
+/// descriptor used for update.
+class UpdateSolNetworkServiceData {
+  /// ID of the network service descriptor.
+  final String nsdInfoId;
+
+  /// Values for the configurable properties declared in the network service
+  /// descriptor.
+  final Document? additionalParamsForNs;
+
+  UpdateSolNetworkServiceData({
+    required this.nsdInfoId,
+    this.additionalParamsForNs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final nsdInfoId = this.nsdInfoId;
+    final additionalParamsForNs = this.additionalParamsForNs;
+    return {
+      'nsdInfoId': nsdInfoId,
+      if (additionalParamsForNs != null)
+        'additionalParamsForNs': additionalParamsForNs,
+    };
+  }
+}
+
 enum UpdateSolNetworkType {
   modifyVnfInformation('MODIFY_VNF_INFORMATION'),
+  updateNs('UPDATE_NS'),
   ;
 
   final String value;

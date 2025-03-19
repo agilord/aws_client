@@ -644,6 +644,43 @@ class Glue {
     return BatchGetWorkflowsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Annotate datapoints over time for a specific data quality statistic.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNumberLimitExceededException].
+  ///
+  /// Parameter [inclusionAnnotations] :
+  /// A list of <code>DatapointInclusionAnnotation</code>'s.
+  ///
+  /// Parameter [clientToken] :
+  /// Client Token.
+  Future<BatchPutDataQualityStatisticAnnotationResponse>
+      batchPutDataQualityStatisticAnnotation({
+    required List<DatapointInclusionAnnotation> inclusionAnnotations,
+    String? clientToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchPutDataQualityStatisticAnnotation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InclusionAnnotations': inclusionAnnotations,
+        if (clientToken != null) 'ClientToken': clientToken,
+      },
+    );
+
+    return BatchPutDataQualityStatisticAnnotationResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Stops one or more job runs for a specified job definition.
   ///
   /// May throw [InvalidInputException].
@@ -1240,6 +1277,10 @@ class Glue {
   /// a UUID) to avoid creating or starting multiple instances of the same
   /// resource.
   ///
+  /// Parameter [dataQualitySecurityConfiguration] :
+  /// The name of the security configuration created with the data quality
+  /// encryption option.
+  ///
   /// Parameter [description] :
   /// A description of the data quality ruleset.
   ///
@@ -1252,6 +1293,7 @@ class Glue {
     required String name,
     required String ruleset,
     String? clientToken,
+    String? dataQualitySecurityConfiguration,
     String? description,
     Map<String, String>? tags,
     DataQualityTargetTable? targetTable,
@@ -1270,6 +1312,8 @@ class Glue {
         'Name': name,
         'Ruleset': ruleset,
         if (clientToken != null) 'ClientToken': clientToken,
+        if (dataQualitySecurityConfiguration != null)
+          'DataQualitySecurityConfiguration': dataQualitySecurityConfiguration,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
         if (targetTable != null) 'TargetTable': targetTable,
@@ -1617,6 +1661,16 @@ class Glue {
   /// When the <code>JobMode</code> field is missing or null,
   /// <code>SCRIPT</code> is assigned as the default value.
   ///
+  /// Parameter [jobRunQueuingEnabled] :
+  /// Specifies whether job run queuing is enabled for the job runs for this
+  /// job.
+  ///
+  /// A value of true means job run queuing is enabled for the job runs. If
+  /// false or not populated, the job runs will not be considered for queueing.
+  ///
+  /// If this field does not match the value set in the job run, then the value
+  /// from the job run field will be used.
+  ///
   /// Parameter [logUri] :
   /// This field is reserved for future use.
   ///
@@ -1769,6 +1823,7 @@ class Glue {
     ExecutionProperty? executionProperty,
     String? glueVersion,
     JobMode? jobMode,
+    bool? jobRunQueuingEnabled,
     String? logUri,
     String? maintenanceWindow,
     double? maxCapacity,
@@ -1812,6 +1867,8 @@ class Glue {
         if (executionProperty != null) 'ExecutionProperty': executionProperty,
         if (glueVersion != null) 'GlueVersion': glueVersion,
         if (jobMode != null) 'JobMode': jobMode.value,
+        if (jobRunQueuingEnabled != null)
+          'JobRunQueuingEnabled': jobRunQueuingEnabled,
         if (logUri != null) 'LogUri': logUri,
         if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
         if (maxCapacity != null) 'MaxCapacity': maxCapacity,
@@ -2794,6 +2851,54 @@ class Glue {
     );
 
     return CreateTriggerResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an Glue usage profile.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [configuration] :
+  /// A <code>ProfileConfiguration</code> object specifying the job and session
+  /// values for the profile.
+  ///
+  /// Parameter [name] :
+  /// The name of the usage profile.
+  ///
+  /// Parameter [description] :
+  /// A description of the usage profile.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags applied to the usage profile.
+  Future<CreateUsageProfileResponse> createUsageProfile({
+    required ProfileConfiguration configuration,
+    required String name,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateUsageProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Configuration': configuration,
+        'Name': name,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateUsageProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new function definition in the Data Catalog.
@@ -3826,6 +3931,34 @@ class Glue {
     return DeleteTriggerResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the Glue specified usage profile.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the usage profile to delete.
+  Future<void> deleteUsageProfile({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteUsageProfile'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+  }
+
   /// Deletes an existing function definition from the Data Catalog.
   ///
   /// May throw [EntityNotFoundException].
@@ -4574,6 +4707,77 @@ class Glue {
     return GetDataCatalogEncryptionSettingsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieve the training status of the model along with more information
+  /// (CompletedOn, StartedOn, FailureReason).
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [profileId] :
+  /// The Profile ID.
+  ///
+  /// Parameter [statisticId] :
+  /// The Statistic ID.
+  Future<GetDataQualityModelResponse> getDataQualityModel({
+    required String profileId,
+    String? statisticId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetDataQualityModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProfileId': profileId,
+        if (statisticId != null) 'StatisticId': statisticId,
+      },
+    );
+
+    return GetDataQualityModelResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve a statistic's predictions for a given Profile ID.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [profileId] :
+  /// The Profile ID.
+  ///
+  /// Parameter [statisticId] :
+  /// The Statistic ID.
+  Future<GetDataQualityModelResultResponse> getDataQualityModelResult({
+    required String profileId,
+    required String statisticId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetDataQualityModelResult'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProfileId': profileId,
+        'StatisticId': statisticId,
+      },
+    );
+
+    return GetDataQualityModelResultResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the result of a data quality rule evaluation.
   ///
   /// May throw [InvalidInputException].
@@ -4745,6 +4949,11 @@ class Glue {
   /// May throw [OperationTimeoutException].
   /// May throw [GlueEncryptionException].
   ///
+  /// Parameter [attributesToGet] :
+  /// Specifies the database fields returned by the <code>GetDatabases</code>
+  /// call. This parameter doesn’t accept an empty list. The request must
+  /// include the <code>NAME</code>.
+  ///
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog from which to retrieve <code>Databases</code>.
   /// If none is provided, the Amazon Web Services account ID is used by
@@ -4776,6 +4985,7 @@ class Glue {
   /// </li>
   /// </ul>
   Future<GetDatabasesResponse> getDatabases({
+    List<DatabaseAttributes>? attributesToGet,
     String? catalogId,
     int? maxResults,
     String? nextToken,
@@ -4798,6 +5008,8 @@ class Glue {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (attributesToGet != null)
+          'AttributesToGet': attributesToGet.map((e) => e.value).toList(),
         if (catalogId != null) 'CatalogId': catalogId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -5008,7 +5220,8 @@ class Glue {
     return GetJobBookmarkResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the metadata for a given job run.
+  /// Retrieves the metadata for a given job run. Job run history is accessible
+  /// for 90 days for your workflow and job run.
   ///
   /// May throw [InvalidInputException].
   /// May throw [EntityNotFoundException].
@@ -6218,6 +6431,10 @@ class Glue {
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the Amazon Web Services account ID is used by default.
   ///
+  /// Parameter [includeStatusDetails] :
+  /// Specifies whether to include status details related to a request to create
+  /// or update an Glue Data Catalog view.
+  ///
   /// Parameter [queryAsOfTime] :
   /// The time as of when to read the table contents. If not set, the most
   /// recent transaction commit time will be used. Cannot be specified along
@@ -6229,6 +6446,7 @@ class Glue {
     required String databaseName,
     required String name,
     String? catalogId,
+    bool? includeStatusDetails,
     DateTime? queryAsOfTime,
     String? transactionId,
   }) async {
@@ -6246,6 +6464,8 @@ class Glue {
         'DatabaseName': databaseName,
         'Name': name,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (includeStatusDetails != null)
+          'IncludeStatusDetails': includeStatusDetails,
         if (queryAsOfTime != null)
           'QueryAsOfTime': unixTimestampToJson(queryAsOfTime),
         if (transactionId != null) 'TransactionId': transactionId,
@@ -6428,6 +6648,23 @@ class Glue {
   /// The database in the catalog whose tables to list. For Hive compatibility,
   /// this name is entirely lowercase.
   ///
+  /// Parameter [attributesToGet] :
+  /// Specifies the table fields returned by the <code>GetTables</code> call.
+  /// This parameter doesn’t accept an empty list. The request must include
+  /// <code>NAME</code>.
+  ///
+  /// The following are the valid combinations of values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NAME</code> - Names of all tables in the database.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>, <code>TABLE_TYPE</code> - Names of all tables and the
+  /// table types.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog where the tables reside. If none is provided,
   /// the Amazon Web Services account ID is used by default.
@@ -6435,6 +6672,10 @@ class Glue {
   /// Parameter [expression] :
   /// A regular expression pattern. If present, only those tables whose names
   /// match the pattern are returned.
+  ///
+  /// Parameter [includeStatusDetails] :
+  /// Specifies whether to include status details related to a request to create
+  /// or update an Glue Data Catalog view.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of tables to return in a single response.
@@ -6451,8 +6692,10 @@ class Glue {
   /// The transaction ID at which to read the table contents.
   Future<GetTablesResponse> getTables({
     required String databaseName,
+    List<TableAttributes>? attributesToGet,
     String? catalogId,
     String? expression,
+    bool? includeStatusDetails,
     int? maxResults,
     String? nextToken,
     DateTime? queryAsOfTime,
@@ -6476,8 +6719,12 @@ class Glue {
       headers: headers,
       payload: {
         'DatabaseName': databaseName,
+        if (attributesToGet != null)
+          'AttributesToGet': attributesToGet.map((e) => e.value).toList(),
         if (catalogId != null) 'CatalogId': catalogId,
         if (expression != null) 'Expression': expression,
+        if (includeStatusDetails != null)
+          'IncludeStatusDetails': includeStatusDetails,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (queryAsOfTime != null)
@@ -6990,6 +7237,37 @@ class Glue {
     return GetUnfilteredTableMetadataResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves information about the specified Glue usage profile.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the usage profile to retrieve.
+  Future<GetUsageProfileResponse> getUsageProfile({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetUsageProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return GetUsageProfileResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a specified function definition from the Data Catalog.
   ///
   /// May throw [EntityNotFoundException].
@@ -7131,7 +7409,8 @@ class Glue {
     return GetWorkflowResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the metadata for a given workflow run.
+  /// Retrieves the metadata for a given workflow run. Job run history is
+  /// accessible for 90 days for your workflow and job run.
   ///
   /// May throw [InvalidInputException].
   /// May throw [EntityNotFoundException].
@@ -7727,6 +8006,117 @@ class Glue {
     return ListDataQualityRulesetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieve annotations for a data quality statistic.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this request.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token to retrieve the next set of results.
+  ///
+  /// Parameter [profileId] :
+  /// The Profile ID.
+  ///
+  /// Parameter [statisticId] :
+  /// The Statistic ID.
+  ///
+  /// Parameter [timestampFilter] :
+  /// A timestamp filter.
+  Future<ListDataQualityStatisticAnnotationsResponse>
+      listDataQualityStatisticAnnotations({
+    int? maxResults,
+    String? nextToken,
+    String? profileId,
+    String? statisticId,
+    TimestampFilter? timestampFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListDataQualityStatisticAnnotations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (profileId != null) 'ProfileId': profileId,
+        if (statisticId != null) 'StatisticId': statisticId,
+        if (timestampFilter != null) 'TimestampFilter': timestampFilter,
+      },
+    );
+
+    return ListDataQualityStatisticAnnotationsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves a list of data quality statistics.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this request.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token to request the next page of results.
+  ///
+  /// Parameter [profileId] :
+  /// The Profile ID.
+  ///
+  /// Parameter [statisticId] :
+  /// The Statistic ID.
+  ///
+  /// Parameter [timestampFilter] :
+  /// A timestamp filter.
+  Future<ListDataQualityStatisticsResponse> listDataQualityStatistics({
+    int? maxResults,
+    String? nextToken,
+    String? profileId,
+    String? statisticId,
+    TimestampFilter? timestampFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListDataQualityStatistics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (profileId != null) 'ProfileId': profileId,
+        if (statisticId != null) 'StatisticId': statisticId,
+        if (timestampFilter != null) 'TimestampFilter': timestampFilter,
+      },
+    );
+
+    return ListDataQualityStatisticsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the names of all <code>DevEndpoint</code> resources in this
   /// Amazon Web Services account, or the resources with the specified tag. This
   /// operation allows you to see which resources are available in your account,
@@ -8268,6 +8658,47 @@ class Glue {
     return ListTriggersResponse.fromJson(jsonResponse.body);
   }
 
+  /// List all the Glue usage profiles.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of usage profiles to return in a single response.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, included if this is a continuation call.
+  Future<ListUsageProfilesResponse> listUsageProfiles({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListUsageProfiles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListUsageProfilesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists names of workflows created in the account.
   ///
   /// May throw [InvalidInputException].
@@ -8339,6 +8770,38 @@ class Glue {
       payload: {
         'DataCatalogEncryptionSettings': dataCatalogEncryptionSettings,
         if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+  }
+
+  /// Annotate all datapoints for a Profile.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [inclusionAnnotation] :
+  /// The inclusion annotation value to apply to the profile.
+  ///
+  /// Parameter [profileId] :
+  /// The ID of the data quality monitoring profile to annotate.
+  Future<void> putDataQualityProfileAnnotation({
+    required InclusionAnnotationValue inclusionAnnotation,
+    required String profileId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutDataQualityProfileAnnotation'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InclusionAnnotation': inclusionAnnotation.value,
+        'ProfileId': profileId,
       },
     );
   }
@@ -8863,6 +9326,10 @@ class Glue {
   /// <code>customer-link</code> and <code>xx-link-yy</code> are returned, but
   /// <code>xxlinkyy</code> is not returned.
   ///
+  /// Parameter [includeStatusDetails] :
+  /// Specifies whether to include status details related to a request to create
+  /// or update an Glue Data Catalog view.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of tables to return in a single response.
   ///
@@ -8896,6 +9363,7 @@ class Glue {
   Future<SearchTablesResponse> searchTables({
     String? catalogId,
     List<PropertyPredicate>? filters,
+    bool? includeStatusDetails,
     int? maxResults,
     String? nextToken,
     ResourceShareType? resourceShareType,
@@ -8921,6 +9389,8 @@ class Glue {
       payload: {
         if (catalogId != null) 'CatalogId': catalogId,
         if (filters != null) 'Filters': filters,
+        if (includeStatusDetails != null)
+          'IncludeStatusDetails': includeStatusDetails,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceShareType != null)
@@ -9134,6 +9604,10 @@ class Glue {
   /// Parameter [createdRulesetName] :
   /// A name for the ruleset.
   ///
+  /// Parameter [dataQualitySecurityConfiguration] :
+  /// The name of the security configuration created with the data quality
+  /// encryption option.
+  ///
   /// Parameter [numberOfWorkers] :
   /// The number of <code>G.1X</code> workers to be used in the run. The default
   /// is 5.
@@ -9148,6 +9622,7 @@ class Glue {
     required String role,
     String? clientToken,
     String? createdRulesetName,
+    String? dataQualitySecurityConfiguration,
     int? numberOfWorkers,
     int? timeout,
   }) async {
@@ -9173,6 +9648,8 @@ class Glue {
         if (clientToken != null) 'ClientToken': clientToken,
         if (createdRulesetName != null)
           'CreatedRulesetName': createdRulesetName,
+        if (dataQualitySecurityConfiguration != null)
+          'DataQualitySecurityConfiguration': dataQualitySecurityConfiguration,
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
         if (timeout != null) 'Timeout': timeout,
       },
@@ -9445,6 +9922,12 @@ class Glue {
   /// Parameter [jobRunId] :
   /// The ID of a previous <code>JobRun</code> to retry.
   ///
+  /// Parameter [jobRunQueuingEnabled] :
+  /// Specifies whether job run queuing is enabled for the job run.
+  ///
+  /// A value of true means job run queuing is enabled for the job run. If false
+  /// or not populated, the job run will not be considered for queueing.
+  ///
   /// Parameter [maxCapacity] :
   /// For Glue version 1.0 or earlier jobs, using the standard worker type, the
   /// number of Glue data processing units (DPUs) that can be allocated when
@@ -9560,6 +10043,7 @@ class Glue {
     Map<String, String>? arguments,
     ExecutionClass? executionClass,
     String? jobRunId,
+    bool? jobRunQueuingEnabled,
     double? maxCapacity,
     NotificationProperty? notificationProperty,
     int? numberOfWorkers,
@@ -9589,6 +10073,8 @@ class Glue {
         if (arguments != null) 'Arguments': arguments,
         if (executionClass != null) 'ExecutionClass': executionClass.value,
         if (jobRunId != null) 'JobRunId': jobRunId,
+        if (jobRunQueuingEnabled != null)
+          'JobRunQueuingEnabled': jobRunQueuingEnabled,
         if (maxCapacity != null) 'MaxCapacity': maxCapacity,
         if (notificationProperty != null)
           'NotificationProperty': notificationProperty,
@@ -11116,6 +11602,10 @@ class Glue {
   /// The ID of the Data Catalog where the table resides. If none is provided,
   /// the Amazon Web Services account ID is used by default.
   ///
+  /// Parameter [force] :
+  /// A flag that can be set to true to ignore matching storage descriptor and
+  /// subobject matching requirements.
+  ///
   /// Parameter [skipArchive] :
   /// By default, <code>UpdateTable</code> always creates an archived version of
   /// the table before updating it. However, if <code>skipArchive</code> is set
@@ -11126,13 +11616,18 @@ class Glue {
   ///
   /// Parameter [versionId] :
   /// The version ID at which to update the table contents.
+  ///
+  /// Parameter [viewUpdateAction] :
+  /// The operation to be performed when updating the view.
   Future<void> updateTable({
     required String databaseName,
     required TableInput tableInput,
     String? catalogId,
+    bool? force,
     bool? skipArchive,
     String? transactionId,
     String? versionId,
+    ViewUpdateAction? viewUpdateAction,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -11148,9 +11643,12 @@ class Glue {
         'DatabaseName': databaseName,
         'TableInput': tableInput,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (force != null) 'Force': force,
         if (skipArchive != null) 'SkipArchive': skipArchive,
         if (transactionId != null) 'TransactionId': transactionId,
         if (versionId != null) 'VersionId': versionId,
+        if (viewUpdateAction != null)
+          'ViewUpdateAction': viewUpdateAction.value,
       },
     );
   }
@@ -11239,6 +11737,49 @@ class Glue {
     );
 
     return UpdateTriggerResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Update an Glue usage profile.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [configuration] :
+  /// A <code>ProfileConfiguration</code> object specifying the job and session
+  /// values for the profile.
+  ///
+  /// Parameter [name] :
+  /// The name of the usage profile.
+  ///
+  /// Parameter [description] :
+  /// A description of the usage profile.
+  Future<UpdateUsageProfileResponse> updateUsageProfile({
+    required ProfileConfiguration configuration,
+    required String name,
+    String? description,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateUsageProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Configuration': configuration,
+        'Name': name,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return UpdateUsageProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing function definition in the Data Catalog.
@@ -11892,6 +12433,32 @@ class AmazonRedshiftTarget {
   }
 }
 
+/// A failed annotation.
+class AnnotationError {
+  /// The reason why the annotation failed.
+  final String? failureReason;
+
+  /// The Profile ID for the failed annotation.
+  final String? profileId;
+
+  /// The Statistic ID for the failed annotation.
+  final String? statisticId;
+
+  AnnotationError({
+    this.failureReason,
+    this.profileId,
+    this.statisticId,
+  });
+
+  factory AnnotationError.fromJson(Map<String, dynamic> json) {
+    return AnnotationError(
+      failureReason: json['FailureReason'] as String?,
+      profileId: json['ProfileId'] as String?,
+      statisticId: json['StatisticId'] as String?,
+    );
+  }
+}
+
 /// Specifies a transform that maps data property keys in the data source to
 /// data property keys in the data target. You can rename keys, modify the data
 /// types for keys, and choose which keys to drop from the dataset.
@@ -12230,11 +12797,16 @@ class BasicCatalogTarget {
   /// already exist in the Data Catalog.
   final String table;
 
+  /// The partition keys used to distribute data across multiple partitions or
+  /// shards based on a specific key or set of key.
+  final List<List<String>>? partitionKeys;
+
   BasicCatalogTarget({
     required this.database,
     required this.inputs,
     required this.name,
     required this.table,
+    this.partitionKeys,
   });
 
   factory BasicCatalogTarget.fromJson(Map<String, dynamic> json) {
@@ -12244,6 +12816,10 @@ class BasicCatalogTarget {
           (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
       name: json['Name'] as String,
       table: json['Table'] as String,
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
     );
   }
 
@@ -12252,11 +12828,13 @@ class BasicCatalogTarget {
     final inputs = this.inputs;
     final name = this.name;
     final table = this.table;
+    final partitionKeys = this.partitionKeys;
     return {
       'Database': database,
       'Inputs': inputs,
       'Name': name,
       'Table': table,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
     };
   }
 }
@@ -12697,6 +13275,25 @@ class BatchGetWorkflowsResponse {
       workflows: (json['Workflows'] as List?)
           ?.nonNulls
           .map((e) => Workflow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class BatchPutDataQualityStatisticAnnotationResponse {
+  /// A list of <code>AnnotationError</code>'s.
+  final List<AnnotationError>? failedInclusionAnnotations;
+
+  BatchPutDataQualityStatisticAnnotationResponse({
+    this.failedInclusionAnnotations,
+  });
+
+  factory BatchPutDataQualityStatisticAnnotationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchPutDataQualityStatisticAnnotationResponse(
+      failedInclusionAnnotations: (json['FailedInclusionAnnotations'] as List?)
+          ?.nonNulls
+          .map((e) => AnnotationError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -15256,6 +15853,92 @@ class Condition {
   }
 }
 
+/// Condition expression defined in the Glue Studio data preparation recipe
+/// node.
+class ConditionExpression {
+  /// The condition of the condition expression.
+  final String condition;
+
+  /// The target column of the condition expressions.
+  final String targetColumn;
+
+  /// The value of the condition expression.
+  final String? value;
+
+  ConditionExpression({
+    required this.condition,
+    required this.targetColumn,
+    this.value,
+  });
+
+  factory ConditionExpression.fromJson(Map<String, dynamic> json) {
+    return ConditionExpression(
+      condition: json['Condition'] as String,
+      targetColumn: json['TargetColumn'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final targetColumn = this.targetColumn;
+    final value = this.value;
+    return {
+      'Condition': condition,
+      'TargetColumn': targetColumn,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Specifies the values that an admin sets for each job or session parameter
+/// configured in a Glue usage profile.
+class ConfigurationObject {
+  /// A list of allowed values for the parameter.
+  final List<String>? allowedValues;
+
+  /// A default value for the parameter.
+  final String? defaultValue;
+
+  /// A maximum allowed value for the parameter.
+  final String? maxValue;
+
+  /// A minimum allowed value for the parameter.
+  final String? minValue;
+
+  ConfigurationObject({
+    this.allowedValues,
+    this.defaultValue,
+    this.maxValue,
+    this.minValue,
+  });
+
+  factory ConfigurationObject.fromJson(Map<String, dynamic> json) {
+    return ConfigurationObject(
+      allowedValues: (json['AllowedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      defaultValue: json['DefaultValue'] as String?,
+      maxValue: json['MaxValue'] as String?,
+      minValue: json['MinValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final defaultValue = this.defaultValue;
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minValue != null) 'MinValue': minValue,
+    };
+  }
+}
+
 /// The confusion matrix shows you what your transform is predicting accurately
 /// and what types of errors it is making.
 ///
@@ -15501,6 +16184,25 @@ class Connection {
   /// href="https://kafka.apache.org/documentation/#security_sasl_kerberos_clientconfig">Kafka
   /// Documentation: Configuring Kafka Brokers</a>.
   /// </li>
+  /// <li>
+  /// <code>ROLE_ARN</code> - The role to be used for running queries.
+  /// </li>
+  /// <li>
+  /// <code>REGION</code> - The Amazon Web Services Region where queries will be
+  /// run.
+  /// </li>
+  /// <li>
+  /// <code>WORKGROUP_NAME</code> - The name of an Amazon Redshift serverless
+  /// workgroup or Amazon Athena workgroup in which queries will run.
+  /// </li>
+  /// <li>
+  /// <code>CLUSTER_IDENTIFIER</code> - The cluster identifier of an Amazon
+  /// Redshift cluster in which queries will run.
+  /// </li>
+  /// <li>
+  /// <code>DATABASE</code> - The Amazon Redshift database that you are connecting
+  /// to.
+  /// </li>
   /// </ul>
   final Map<ConnectionPropertyKey, String>? connectionProperties;
 
@@ -15686,6 +16388,14 @@ class ConnectionInput {
   /// configured.
   /// </li>
   /// </ul> </li>
+  /// <li>
+  /// <code>VIEW_VALIDATION_REDSHIFT</code> - Designates a connection used for
+  /// view validation by Amazon Redshift.
+  /// </li>
+  /// <li>
+  /// <code>VIEW_VALIDATION_ATHENA</code> - Designates a connection used for view
+  /// validation by Amazon Athena.
+  /// </li>
   /// <li>
   /// <code>NETWORK</code> - Designates a network connection to a data source
   /// within an Amazon Virtual Private Cloud environment (Amazon VPC).
@@ -15889,6 +16599,10 @@ enum ConnectionPropertyKey {
   kafkaSaslGssapiService('KAFKA_SASL_GSSAPI_SERVICE'),
   kafkaSaslGssapiPrincipal('KAFKA_SASL_GSSAPI_PRINCIPAL'),
   roleArn('ROLE_ARN'),
+  region('REGION'),
+  workgroupName('WORKGROUP_NAME'),
+  clusterIdentifier('CLUSTER_IDENTIFIER'),
+  database('DATABASE'),
   ;
 
   final String value;
@@ -15926,6 +16640,8 @@ enum ConnectionType {
   marketplace('MARKETPLACE'),
   custom('CUSTOM'),
   salesforce('SALESFORCE'),
+  viewValidationRedshift('VIEW_VALIDATION_REDSHIFT'),
+  viewValidationAthena('VIEW_VALIDATION_ATHENA'),
   ;
 
   final String value;
@@ -17288,6 +18004,21 @@ class CreateTriggerResponse {
   }
 }
 
+class CreateUsageProfileResponse {
+  /// The name of the usage profile that was created.
+  final String? name;
+
+  CreateUsageProfileResponse({
+    this.name,
+  });
+
+  factory CreateUsageProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUsageProfileResponse(
+      name: json['Name'] as String?,
+    );
+  }
+}
+
 class CreateUserDefinedFunctionResponse {
   CreateUserDefinedFunctionResponse();
 
@@ -17556,6 +18287,21 @@ class CustomEntityType {
   }
 }
 
+enum DQCompositeRuleEvaluationMethod {
+  column('COLUMN'),
+  row('ROW'),
+  ;
+
+  final String value;
+
+  const DQCompositeRuleEvaluationMethod(this.value);
+
+  static DQCompositeRuleEvaluationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DQCompositeRuleEvaluationMethod'));
+}
+
 /// Options to configure how your data quality evaluation results are published.
 class DQResultsPublishingOptions {
   /// Enable metrics for your data quality results.
@@ -17777,11 +18523,15 @@ class DataQualityEvaluationRunAdditionalRunOptions {
   /// Whether or not to enable CloudWatch metrics.
   final bool? cloudWatchMetricsEnabled;
 
+  /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+  final DQCompositeRuleEvaluationMethod? compositeRuleEvaluationMethod;
+
   /// Prefix for Amazon S3 to store results.
   final String? resultsS3Prefix;
 
   DataQualityEvaluationRunAdditionalRunOptions({
     this.cloudWatchMetricsEnabled,
+    this.compositeRuleEvaluationMethod,
     this.resultsS3Prefix,
   });
 
@@ -17789,16 +18539,22 @@ class DataQualityEvaluationRunAdditionalRunOptions {
       Map<String, dynamic> json) {
     return DataQualityEvaluationRunAdditionalRunOptions(
       cloudWatchMetricsEnabled: json['CloudWatchMetricsEnabled'] as bool?,
+      compositeRuleEvaluationMethod:
+          (json['CompositeRuleEvaluationMethod'] as String?)
+              ?.let(DQCompositeRuleEvaluationMethod.fromString),
       resultsS3Prefix: json['ResultsS3Prefix'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
+    final compositeRuleEvaluationMethod = this.compositeRuleEvaluationMethod;
     final resultsS3Prefix = this.resultsS3Prefix;
     return {
       if (cloudWatchMetricsEnabled != null)
         'CloudWatchMetricsEnabled': cloudWatchMetricsEnabled,
+      if (compositeRuleEvaluationMethod != null)
+        'CompositeRuleEvaluationMethod': compositeRuleEvaluationMethod.value,
       if (resultsS3Prefix != null) 'ResultsS3Prefix': resultsS3Prefix,
     };
   }
@@ -17837,6 +18593,22 @@ class DataQualityMetricValues {
       upperLimit: json['UpperLimit'] as double?,
     );
   }
+}
+
+enum DataQualityModelStatus {
+  running('RUNNING'),
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  ;
+
+  final String value;
+
+  const DataQualityModelStatus(this.value);
+
+  static DataQualityModelStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DataQualityModelStatus'));
 }
 
 /// Describes the observation generated after evaluating the rules and
@@ -17893,6 +18665,9 @@ class DataQualityResult {
   /// observations generated after evaluating the rules and analyzers.
   final List<DataQualityObservation>? observations;
 
+  /// The Profile ID for the data quality result.
+  final String? profileId;
+
   /// A unique result ID for the data quality result.
   final String? resultId;
 
@@ -17921,6 +18696,7 @@ class DataQualityResult {
     this.jobName,
     this.jobRunId,
     this.observations,
+    this.profileId,
     this.resultId,
     this.ruleResults,
     this.rulesetEvaluationRunId,
@@ -17948,6 +18724,7 @@ class DataQualityResult {
           .map(
               (e) => DataQualityObservation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      profileId: json['ProfileId'] as String?,
       resultId: json['ResultId'] as String?,
       ruleResults: (json['RuleResults'] as List?)
           ?.nonNulls
@@ -18116,6 +18893,9 @@ class DataQualityRuleResult {
   /// A map of metrics associated with the evaluation of the rule.
   final Map<String, double>? evaluatedMetrics;
 
+  /// The evaluated rule.
+  final String? evaluatedRule;
+
   /// An evaluation message.
   final String? evaluationMessage;
 
@@ -18128,6 +18908,7 @@ class DataQualityRuleResult {
   DataQualityRuleResult({
     this.description,
     this.evaluatedMetrics,
+    this.evaluatedRule,
     this.evaluationMessage,
     this.name,
     this.result,
@@ -18138,6 +18919,7 @@ class DataQualityRuleResult {
       description: json['Description'] as String?,
       evaluatedMetrics: (json['EvaluatedMetrics'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as double)),
+      evaluatedRule: json['EvaluatedRule'] as String?,
       evaluationMessage: json['EvaluationMessage'] as String?,
       name: json['Name'] as String?,
       result: (json['Result'] as String?)
@@ -18467,6 +19249,20 @@ class Database {
   }
 }
 
+enum DatabaseAttributes {
+  name('NAME'),
+  ;
+
+  final String value;
+
+  const DatabaseAttributes(this.value);
+
+  static DatabaseAttributes fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum DatabaseAttributes'));
+}
+
 /// A structure that describes a target database for resource linking.
 class DatabaseIdentifier {
   /// The ID of the Data Catalog in which the database resides.
@@ -18560,6 +19356,36 @@ class DatabaseInput {
       if (locationUri != null) 'LocationUri': locationUri,
       if (parameters != null) 'Parameters': parameters,
       if (targetDatabase != null) 'TargetDatabase': targetDatabase,
+    };
+  }
+}
+
+/// An Inclusion Annotation.
+class DatapointInclusionAnnotation {
+  /// The inclusion annotation value to apply to the statistic.
+  final InclusionAnnotationValue? inclusionAnnotation;
+
+  /// The ID of the data quality profile the statistic belongs to.
+  final String? profileId;
+
+  /// The Statistic ID.
+  final String? statisticId;
+
+  DatapointInclusionAnnotation({
+    this.inclusionAnnotation,
+    this.profileId,
+    this.statisticId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inclusionAnnotation = this.inclusionAnnotation;
+    final profileId = this.profileId;
+    final statisticId = this.statisticId;
+    return {
+      if (inclusionAnnotation != null)
+        'InclusionAnnotation': inclusionAnnotation.value,
+      if (profileId != null) 'ProfileId': profileId,
+      if (statisticId != null) 'StatisticId': statisticId,
     };
   }
 }
@@ -19015,6 +19841,14 @@ class DeleteTriggerResponse {
     return DeleteTriggerResponse(
       name: json['Name'] as String?,
     );
+  }
+}
+
+class DeleteUsageProfileResponse {
+  DeleteUsageProfileResponse();
+
+  factory DeleteUsageProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUsageProfileResponse();
   }
 }
 
@@ -21299,6 +22133,61 @@ class GetDataCatalogEncryptionSettingsResponse {
   }
 }
 
+class GetDataQualityModelResponse {
+  /// The timestamp when the data quality model training completed.
+  final DateTime? completedOn;
+
+  /// The training failure reason.
+  final String? failureReason;
+
+  /// The timestamp when the data quality model training started.
+  final DateTime? startedOn;
+
+  /// The training status of the data quality model.
+  final DataQualityModelStatus? status;
+
+  GetDataQualityModelResponse({
+    this.completedOn,
+    this.failureReason,
+    this.startedOn,
+    this.status,
+  });
+
+  factory GetDataQualityModelResponse.fromJson(Map<String, dynamic> json) {
+    return GetDataQualityModelResponse(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      failureReason: json['FailureReason'] as String?,
+      startedOn: timeStampFromJson(json['StartedOn']),
+      status:
+          (json['Status'] as String?)?.let(DataQualityModelStatus.fromString),
+    );
+  }
+}
+
+class GetDataQualityModelResultResponse {
+  /// The timestamp when the data quality model training completed.
+  final DateTime? completedOn;
+
+  /// A list of <code>StatisticModelResult</code>
+  final List<StatisticModelResult>? model;
+
+  GetDataQualityModelResultResponse({
+    this.completedOn,
+    this.model,
+  });
+
+  factory GetDataQualityModelResultResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDataQualityModelResultResponse(
+      completedOn: timeStampFromJson(json['CompletedOn']),
+      model: (json['Model'] as List?)
+          ?.nonNulls
+          .map((e) => StatisticModelResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class GetDataQualityResultResponse {
   /// A list of <code>DataQualityAnalyzerResult</code> objects representing the
   /// results for each analyzer.
@@ -21325,6 +22214,9 @@ class GetDataQualityResultResponse {
   /// A list of <code>DataQualityObservation</code> objects representing the
   /// observations generated after evaluating the rules and analyzers.
   final List<DataQualityObservation>? observations;
+
+  /// The Profile ID for the data quality result.
+  final String? profileId;
 
   /// A unique result ID for the data quality result.
   final String? resultId;
@@ -21354,6 +22246,7 @@ class GetDataQualityResultResponse {
     this.jobName,
     this.jobRunId,
     this.observations,
+    this.profileId,
     this.resultId,
     this.ruleResults,
     this.rulesetEvaluationRunId,
@@ -21381,6 +22274,7 @@ class GetDataQualityResultResponse {
           .map(
               (e) => DataQualityObservation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      profileId: json['ProfileId'] as String?,
       resultId: json['ResultId'] as String?,
       ruleResults: (json['RuleResults'] as List?)
           ?.nonNulls
@@ -21400,6 +22294,10 @@ class GetDataQualityRuleRecommendationRunResponse {
 
   /// The name of the ruleset that was created by the run.
   final String? createdRulesetName;
+
+  /// The name of the security configuration created with the data quality
+  /// encryption option.
+  final String? dataQualitySecurityConfiguration;
 
   /// The data source (an Glue table) associated with this run.
   final DataSource? dataSource;
@@ -21443,6 +22341,7 @@ class GetDataQualityRuleRecommendationRunResponse {
   GetDataQualityRuleRecommendationRunResponse({
     this.completedOn,
     this.createdRulesetName,
+    this.dataQualitySecurityConfiguration,
     this.dataSource,
     this.errorString,
     this.executionTime,
@@ -21461,6 +22360,8 @@ class GetDataQualityRuleRecommendationRunResponse {
     return GetDataQualityRuleRecommendationRunResponse(
       completedOn: timeStampFromJson(json['CompletedOn']),
       createdRulesetName: json['CreatedRulesetName'] as String?,
+      dataQualitySecurityConfiguration:
+          json['DataQualitySecurityConfiguration'] as String?,
       dataSource: json['DataSource'] != null
           ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
           : null,
@@ -21512,7 +22413,8 @@ class GetDataQualityRulesetEvaluationRunResponse {
   /// An IAM role supplied to encrypt the results of the run.
   final String? role;
 
-  /// A list of ruleset names for the run.
+  /// A list of ruleset names for the run. Currently, this parameter takes only
+  /// one Ruleset name.
   final List<String>? rulesetNames;
 
   /// The unique run identifier associated with this run.
@@ -21587,6 +22489,10 @@ class GetDataQualityRulesetResponse {
   /// A timestamp. The time and date that this data quality ruleset was created.
   final DateTime? createdOn;
 
+  /// The name of the security configuration created with the data quality
+  /// encryption option.
+  final String? dataQualitySecurityConfiguration;
+
   /// A description of the ruleset.
   final String? description;
 
@@ -21610,6 +22516,7 @@ class GetDataQualityRulesetResponse {
 
   GetDataQualityRulesetResponse({
     this.createdOn,
+    this.dataQualitySecurityConfiguration,
     this.description,
     this.lastModifiedOn,
     this.name,
@@ -21621,6 +22528,8 @@ class GetDataQualityRulesetResponse {
   factory GetDataQualityRulesetResponse.fromJson(Map<String, dynamic> json) {
     return GetDataQualityRulesetResponse(
       createdOn: timeStampFromJson(json['CreatedOn']),
+      dataQualitySecurityConfiguration:
+          json['DataQualitySecurityConfiguration'] as String?,
       description: json['Description'] as String?,
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
       name: json['Name'] as String?,
@@ -22875,6 +23784,45 @@ class GetUnfilteredTableMetadataResponse {
   }
 }
 
+class GetUsageProfileResponse {
+  /// A <code>ProfileConfiguration</code> object specifying the job and session
+  /// values for the profile.
+  final ProfileConfiguration? configuration;
+
+  /// The date and time when the usage profile was created.
+  final DateTime? createdOn;
+
+  /// A description of the usage profile.
+  final String? description;
+
+  /// The date and time when the usage profile was last modified.
+  final DateTime? lastModifiedOn;
+
+  /// The name of the usage profile.
+  final String? name;
+
+  GetUsageProfileResponse({
+    this.configuration,
+    this.createdOn,
+    this.description,
+    this.lastModifiedOn,
+    this.name,
+  });
+
+  factory GetUsageProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetUsageProfileResponse(
+      configuration: json['Configuration'] != null
+          ? ProfileConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      description: json['Description'] as String?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      name: json['Name'] as String?,
+    );
+  }
+}
+
 class GetUserDefinedFunctionResponse {
   /// The requested function definition.
   final UserDefinedFunction? userDefinedFunction;
@@ -23527,6 +24475,21 @@ class ImportLabelsTaskRunProperties {
   }
 }
 
+enum InclusionAnnotationValue {
+  include('INCLUDE'),
+  exclude('EXCLUDE'),
+  ;
+
+  final String value;
+
+  const InclusionAnnotationValue(this.value);
+
+  static InclusionAnnotationValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InclusionAnnotationValue'));
+}
+
 enum JDBCConnectionType {
   sqlserver('sqlserver'),
   mysql('mysql'),
@@ -24040,6 +25003,15 @@ class Job {
   /// is assigned as the default value.
   final JobMode? jobMode;
 
+  /// Specifies whether job run queuing is enabled for the job runs for this job.
+  ///
+  /// A value of true means job run queuing is enabled for the job runs. If false
+  /// or not populated, the job runs will not be considered for queueing.
+  ///
+  /// If this field does not match the value set in the job run, then the value
+  /// from the job run field will be used.
+  final bool? jobRunQueuingEnabled;
+
   /// The last point in time when this job definition was modified.
   final DateTime? lastModifiedOn;
 
@@ -24104,6 +25076,9 @@ class Job {
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   final int? numberOfWorkers;
+
+  /// The name of an Glue usage profile associated with the job.
+  final String? profileName;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
   /// job.
@@ -24193,6 +25168,7 @@ class Job {
     this.executionProperty,
     this.glueVersion,
     this.jobMode,
+    this.jobRunQueuingEnabled,
     this.lastModifiedOn,
     this.logUri,
     this.maintenanceWindow,
@@ -24202,6 +25178,7 @@ class Job {
     this.nonOverridableArguments,
     this.notificationProperty,
     this.numberOfWorkers,
+    this.profileName,
     this.role,
     this.securityConfiguration,
     this.sourceControlDetails,
@@ -24235,6 +25212,7 @@ class Job {
           : null,
       glueVersion: json['GlueVersion'] as String?,
       jobMode: (json['JobMode'] as String?)?.let(JobMode.fromString),
+      jobRunQueuingEnabled: json['JobRunQueuingEnabled'] as bool?,
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
       logUri: json['LogUri'] as String?,
       maintenanceWindow: json['MaintenanceWindow'] as String?,
@@ -24249,6 +25227,7 @@ class Job {
               json['NotificationProperty'] as Map<String, dynamic>)
           : null,
       numberOfWorkers: json['NumberOfWorkers'] as int?,
+      profileName: json['ProfileName'] as String?,
       role: json['Role'] as String?,
       securityConfiguration: json['SecurityConfiguration'] as String?,
       sourceControlDetails: json['SourceControlDetails'] != null
@@ -24561,6 +25540,12 @@ class JobRun {
   /// The name of the job definition being used in this run.
   final String? jobName;
 
+  /// Specifies whether job run queuing is enabled for the job run.
+  ///
+  /// A value of true means job run queuing is enabled for the job run. If false
+  /// or not populated, the job run will not be considered for queueing.
+  final bool? jobRunQueuingEnabled;
+
   /// The current state of the job run. For more information about the statuses of
   /// jobs that have terminated abnormally, see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/job-run-statuses.html">Glue
@@ -24635,12 +25620,22 @@ class JobRun {
   /// <code>JobRunId</code> specified in the <code>StartJobRun</code> action.
   final String? previousRunId;
 
+  /// The name of an Glue usage profile associated with the job run.
+  final String? profileName;
+
   /// The name of the <code>SecurityConfiguration</code> structure to be used with
   /// this job run.
   final String? securityConfiguration;
 
   /// The date and time at which this job run was started.
   final DateTime? startedOn;
+
+  /// This field holds details that pertain to the state of a job run. The field
+  /// is nullable.
+  ///
+  /// For example, when a job run is in a WAITING state as a result of job run
+  /// queuing, the field has the reason why the job run is in that state.
+  final String? stateDetail;
 
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
   /// job run can consume resources before it is terminated and enters
@@ -24723,6 +25718,7 @@ class JobRun {
     this.id,
     this.jobMode,
     this.jobName,
+    this.jobRunQueuingEnabled,
     this.jobRunState,
     this.lastModifiedOn,
     this.logGroupName,
@@ -24732,8 +25728,10 @@ class JobRun {
     this.numberOfWorkers,
     this.predecessorRuns,
     this.previousRunId,
+    this.profileName,
     this.securityConfiguration,
     this.startedOn,
+    this.stateDetail,
     this.timeout,
     this.triggerName,
     this.workerType,
@@ -24755,6 +25753,7 @@ class JobRun {
       id: json['Id'] as String?,
       jobMode: (json['JobMode'] as String?)?.let(JobMode.fromString),
       jobName: json['JobName'] as String?,
+      jobRunQueuingEnabled: json['JobRunQueuingEnabled'] as bool?,
       jobRunState:
           (json['JobRunState'] as String?)?.let(JobRunState.fromString),
       lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
@@ -24771,8 +25770,10 @@ class JobRun {
           .map((e) => Predecessor.fromJson(e as Map<String, dynamic>))
           .toList(),
       previousRunId: json['PreviousRunId'] as String?,
+      profileName: json['ProfileName'] as String?,
       securityConfiguration: json['SecurityConfiguration'] as String?,
       startedOn: timeStampFromJson(json['StartedOn']),
+      stateDetail: json['StateDetail'] as String?,
       timeout: json['Timeout'] as int?,
       triggerName: json['TriggerName'] as String?,
       workerType: (json['WorkerType'] as String?)?.let(WorkerType.fromString),
@@ -24905,6 +25906,15 @@ class JobUpdate {
   /// When the <code>JobMode</code> field is missing or null, <code>SCRIPT</code>
   /// is assigned as the default value.
   final JobMode? jobMode;
+
+  /// Specifies whether job run queuing is enabled for the job runs for this job.
+  ///
+  /// A value of true means job run queuing is enabled for the job runs. If false
+  /// or not populated, the job runs will not be considered for queueing.
+  ///
+  /// If this field does not match the value set in the job run, then the value
+  /// from the job run field will be used.
+  final bool? jobRunQueuingEnabled;
 
   /// This field is reserved for future use.
   final String? logUri;
@@ -25052,6 +26062,7 @@ class JobUpdate {
     this.executionProperty,
     this.glueVersion,
     this.jobMode,
+    this.jobRunQueuingEnabled,
     this.logUri,
     this.maintenanceWindow,
     this.maxCapacity,
@@ -25077,6 +26088,7 @@ class JobUpdate {
     final executionProperty = this.executionProperty;
     final glueVersion = this.glueVersion;
     final jobMode = this.jobMode;
+    final jobRunQueuingEnabled = this.jobRunQueuingEnabled;
     final logUri = this.logUri;
     final maintenanceWindow = this.maintenanceWindow;
     final maxCapacity = this.maxCapacity;
@@ -25101,6 +26113,8 @@ class JobUpdate {
       if (executionProperty != null) 'ExecutionProperty': executionProperty,
       if (glueVersion != null) 'GlueVersion': glueVersion,
       if (jobMode != null) 'JobMode': jobMode.value,
+      if (jobRunQueuingEnabled != null)
+        'JobRunQueuingEnabled': jobRunQueuingEnabled,
       if (logUri != null) 'LogUri': logUri,
       if (maintenanceWindow != null) 'MaintenanceWindow': maintenanceWindow,
       if (maxCapacity != null) 'MaxCapacity': maxCapacity,
@@ -26103,6 +27117,54 @@ class ListDataQualityRulesetsResponse {
   }
 }
 
+class ListDataQualityStatisticAnnotationsResponse {
+  /// A list of <code>StatisticAnnotation</code> applied to the Statistic
+  final List<StatisticAnnotation>? annotations;
+
+  /// A pagination token to retrieve the next set of results.
+  final String? nextToken;
+
+  ListDataQualityStatisticAnnotationsResponse({
+    this.annotations,
+    this.nextToken,
+  });
+
+  factory ListDataQualityStatisticAnnotationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDataQualityStatisticAnnotationsResponse(
+      annotations: (json['Annotations'] as List?)
+          ?.nonNulls
+          .map((e) => StatisticAnnotation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+}
+
+class ListDataQualityStatisticsResponse {
+  /// A pagination token to request the next page of results.
+  final String? nextToken;
+
+  /// A <code>StatisticSummaryList</code>.
+  final List<StatisticSummary>? statistics;
+
+  ListDataQualityStatisticsResponse({
+    this.nextToken,
+    this.statistics,
+  });
+
+  factory ListDataQualityStatisticsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDataQualityStatisticsResponse(
+      nextToken: json['NextToken'] as String?,
+      statistics: (json['Statistics'] as List?)
+          ?.nonNulls
+          .map((e) => StatisticSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class ListDevEndpointsResponse {
   /// The names of all the <code>DevEndpoint</code>s in the account, or the
   /// <code>DevEndpoint</code>s with the specified tags.
@@ -26362,6 +27424,30 @@ class ListTriggersResponse {
       triggerNames: (json['TriggerNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+class ListUsageProfilesResponse {
+  /// A continuation token, present if the current list segment is not the last.
+  final String? nextToken;
+
+  /// A list of usage profile (<code>UsageProfileDefinition</code>) objects.
+  final List<UsageProfileDefinition>? profiles;
+
+  ListUsageProfilesResponse({
+    this.nextToken,
+    this.profiles,
+  });
+
+  factory ListUsageProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsageProfilesResponse(
+      nextToken: json['NextToken'] as String?,
+      profiles: (json['Profiles'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => UsageProfileDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -27050,10 +28136,14 @@ class MetricBasedObservation {
   /// on the data quality metric value.
   final List<String>? newRules;
 
+  /// The Statistic ID.
+  final String? statisticId;
+
   MetricBasedObservation({
     this.metricName,
     this.metricValues,
     this.newRules,
+    this.statisticId,
   });
 
   factory MetricBasedObservation.fromJson(Map<String, dynamic> json) {
@@ -27067,6 +28157,7 @@ class MetricBasedObservation {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      statisticId: json['StatisticId'] as String?,
     );
   }
 }
@@ -28441,6 +29532,43 @@ enum PrincipalType {
               throw Exception('$value is not known in enum PrincipalType'));
 }
 
+/// Specifies the job and session values that an admin configures in an Glue
+/// usage profile.
+class ProfileConfiguration {
+  /// A key-value map of configuration parameters for Glue jobs.
+  final Map<String, ConfigurationObject>? jobConfiguration;
+
+  /// A key-value map of configuration parameters for Glue sessions.
+  final Map<String, ConfigurationObject>? sessionConfiguration;
+
+  ProfileConfiguration({
+    this.jobConfiguration,
+    this.sessionConfiguration,
+  });
+
+  factory ProfileConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProfileConfiguration(
+      jobConfiguration: (json['JobConfiguration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ConfigurationObject.fromJson(e as Map<String, dynamic>))),
+      sessionConfiguration:
+          (json['SessionConfiguration'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(
+                  k, ConfigurationObject.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobConfiguration = this.jobConfiguration;
+    final sessionConfiguration = this.sessionConfiguration;
+    return {
+      if (jobConfiguration != null) 'JobConfiguration': jobConfiguration,
+      if (sessionConfiguration != null)
+        'SessionConfiguration': sessionConfiguration,
+    };
+  }
+}
+
 /// Defines a property predicate.
 class PropertyPredicate {
   /// The comparator used to compare this property to others.
@@ -28476,6 +29604,16 @@ class PutDataCatalogEncryptionSettingsResponse {
   factory PutDataCatalogEncryptionSettingsResponse.fromJson(
       Map<String, dynamic> _) {
     return PutDataCatalogEncryptionSettingsResponse();
+  }
+}
+
+/// Left blank.
+class PutDataQualityProfileAnnotationResponse {
+  PutDataQualityProfileAnnotationResponse();
+
+  factory PutDataQualityProfileAnnotationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutDataQualityProfileAnnotationResponse();
   }
 }
 
@@ -28653,12 +29791,16 @@ class Recipe {
   final String name;
 
   /// A reference to the DataBrew recipe used by the node.
-  final RecipeReference recipeReference;
+  final RecipeReference? recipeReference;
+
+  /// Transform steps used in the recipe node.
+  final List<RecipeStep>? recipeSteps;
 
   Recipe({
     required this.inputs,
     required this.name,
-    required this.recipeReference,
+    this.recipeReference,
+    this.recipeSteps,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
@@ -28666,8 +29808,14 @@ class Recipe {
       inputs:
           (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
       name: json['Name'] as String,
-      recipeReference: RecipeReference.fromJson(
-          json['RecipeReference'] as Map<String, dynamic>),
+      recipeReference: json['RecipeReference'] != null
+          ? RecipeReference.fromJson(
+              json['RecipeReference'] as Map<String, dynamic>)
+          : null,
+      recipeSteps: (json['RecipeSteps'] as List?)
+          ?.nonNulls
+          .map((e) => RecipeStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -28675,10 +29823,43 @@ class Recipe {
     final inputs = this.inputs;
     final name = this.name;
     final recipeReference = this.recipeReference;
+    final recipeSteps = this.recipeSteps;
     return {
       'Inputs': inputs,
       'Name': name,
-      'RecipeReference': recipeReference,
+      if (recipeReference != null) 'RecipeReference': recipeReference,
+      if (recipeSteps != null) 'RecipeSteps': recipeSteps,
+    };
+  }
+}
+
+/// Actions defined in the Glue Studio data preparation recipe node.
+class RecipeAction {
+  /// The operation of the recipe action.
+  final String operation;
+
+  /// The parameters of the recipe action.
+  final Map<String, String>? parameters;
+
+  RecipeAction({
+    required this.operation,
+    this.parameters,
+  });
+
+  factory RecipeAction.fromJson(Map<String, dynamic> json) {
+    return RecipeAction(
+      operation: json['Operation'] as String,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operation = this.operation;
+    final parameters = this.parameters;
+    return {
+      'Operation': operation,
+      if (parameters != null) 'Parameters': parameters,
     };
   }
 }
@@ -28709,6 +29890,40 @@ class RecipeReference {
     return {
       'RecipeArn': recipeArn,
       'RecipeVersion': recipeVersion,
+    };
+  }
+}
+
+/// A recipe step used in a Glue Studio data preparation recipe node.
+class RecipeStep {
+  /// The transformation action of the recipe step.
+  final RecipeAction action;
+
+  /// The condition expressions for the recipe step.
+  final List<ConditionExpression>? conditionExpressions;
+
+  RecipeStep({
+    required this.action,
+    this.conditionExpressions,
+  });
+
+  factory RecipeStep.fromJson(Map<String, dynamic> json) {
+    return RecipeStep(
+      action: RecipeAction.fromJson(json['Action'] as Map<String, dynamic>),
+      conditionExpressions: (json['ConditionExpressions'] as List?)
+          ?.nonNulls
+          .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final conditionExpressions = this.conditionExpressions;
+    return {
+      'Action': action,
+      if (conditionExpressions != null)
+        'ConditionExpressions': conditionExpressions,
     };
   }
 }
@@ -29156,6 +30371,21 @@ class ResetJobBookmarkResponse {
   }
 }
 
+enum ResourceAction {
+  update('UPDATE'),
+  create('CREATE'),
+  ;
+
+  final String value;
+
+  const ResourceAction(this.value);
+
+  static ResourceAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceAction'));
+}
+
 enum ResourceShareType {
   foreign('FOREIGN'),
   all('ALL'),
@@ -29170,6 +30400,24 @@ enum ResourceShareType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum ResourceShareType'));
+}
+
+enum ResourceState {
+  queued('QUEUED'),
+  inProgress('IN_PROGRESS'),
+  success('SUCCESS'),
+  stopped('STOPPED'),
+  failed('FAILED'),
+  ;
+
+  final String value;
+
+  const ResourceState(this.value);
+
+  static ResourceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ResourceState'));
 }
 
 enum ResourceType {
@@ -29236,6 +30484,27 @@ class ResumeWorkflowRunResponse {
     return ResumeWorkflowRunResponse(
       nodeIds:
           (json['NodeIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      runId: json['RunId'] as String?,
+    );
+  }
+}
+
+/// A run identifier.
+class RunIdentifier {
+  /// The Job Run ID.
+  final String? jobRunId;
+
+  /// The Run ID.
+  final String? runId;
+
+  RunIdentifier({
+    this.jobRunId,
+    this.runId,
+  });
+
+  factory RunIdentifier.fromJson(Map<String, dynamic> json) {
+    return RunIdentifier(
+      jobRunId: json['JobRunId'] as String?,
       runId: json['RunId'] as String?,
     );
   }
@@ -31373,6 +32642,9 @@ class Session {
   /// session.
   final int? numberOfWorkers;
 
+  /// The name of an Glue usage profile associated with the session.
+  final String? profileName;
+
   /// The code execution progress of the session.
   final double? progress;
 
@@ -31407,6 +32679,7 @@ class Session {
     this.idleTimeout,
     this.maxCapacity,
     this.numberOfWorkers,
+    this.profileName,
     this.progress,
     this.role,
     this.securityConfiguration,
@@ -31436,6 +32709,7 @@ class Session {
       idleTimeout: json['IdleTimeout'] as int?,
       maxCapacity: json['MaxCapacity'] as double?,
       numberOfWorkers: json['NumberOfWorkers'] as int?,
+      profileName: json['ProfileName'] as String?,
       progress: json['Progress'] as double?,
       role: json['Role'] as String?,
       securityConfiguration: json['SecurityConfiguration'] as String?,
@@ -32668,6 +33942,208 @@ enum StatementState {
               throw Exception('$value is not known in enum StatementState'));
 }
 
+/// A Statistic Annotation.
+class StatisticAnnotation {
+  /// The inclusion annotation applied to the statistic.
+  final TimestampedInclusionAnnotation? inclusionAnnotation;
+
+  /// The Profile ID.
+  final String? profileId;
+
+  /// The Statistic ID.
+  final String? statisticId;
+
+  /// The timestamp when the annotated statistic was recorded.
+  final DateTime? statisticRecordedOn;
+
+  StatisticAnnotation({
+    this.inclusionAnnotation,
+    this.profileId,
+    this.statisticId,
+    this.statisticRecordedOn,
+  });
+
+  factory StatisticAnnotation.fromJson(Map<String, dynamic> json) {
+    return StatisticAnnotation(
+      inclusionAnnotation: json['InclusionAnnotation'] != null
+          ? TimestampedInclusionAnnotation.fromJson(
+              json['InclusionAnnotation'] as Map<String, dynamic>)
+          : null,
+      profileId: json['ProfileId'] as String?,
+      statisticId: json['StatisticId'] as String?,
+      statisticRecordedOn: timeStampFromJson(json['StatisticRecordedOn']),
+    );
+  }
+}
+
+enum StatisticEvaluationLevel {
+  dataset('Dataset'),
+  column('Column'),
+  multicolumn('Multicolumn'),
+  ;
+
+  final String value;
+
+  const StatisticEvaluationLevel(this.value);
+
+  static StatisticEvaluationLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StatisticEvaluationLevel'));
+}
+
+/// The statistic model result.
+class StatisticModelResult {
+  /// The actual value.
+  final double? actualValue;
+
+  /// The date.
+  final DateTime? date;
+
+  /// The inclusion annotation.
+  final InclusionAnnotationValue? inclusionAnnotation;
+
+  /// The lower bound.
+  final double? lowerBound;
+
+  /// The predicted value.
+  final double? predictedValue;
+
+  /// The upper bound.
+  final double? upperBound;
+
+  StatisticModelResult({
+    this.actualValue,
+    this.date,
+    this.inclusionAnnotation,
+    this.lowerBound,
+    this.predictedValue,
+    this.upperBound,
+  });
+
+  factory StatisticModelResult.fromJson(Map<String, dynamic> json) {
+    return StatisticModelResult(
+      actualValue: json['ActualValue'] as double?,
+      date: timeStampFromJson(json['Date']),
+      inclusionAnnotation: (json['InclusionAnnotation'] as String?)
+          ?.let(InclusionAnnotationValue.fromString),
+      lowerBound: json['LowerBound'] as double?,
+      predictedValue: json['PredictedValue'] as double?,
+      upperBound: json['UpperBound'] as double?,
+    );
+  }
+}
+
+/// Summary information about a statistic.
+class StatisticSummary {
+  /// The list of columns referenced by the statistic.
+  final List<String>? columnsReferenced;
+
+  /// The value of the statistic.
+  final double? doubleValue;
+
+  /// The evaluation level of the statistic. Possible values:
+  /// <code>Dataset</code>, <code>Column</code>, <code>Multicolumn</code>.
+  final StatisticEvaluationLevel? evaluationLevel;
+
+  /// The inclusion annotation for the statistic.
+  final TimestampedInclusionAnnotation? inclusionAnnotation;
+
+  /// The Profile ID.
+  final String? profileId;
+
+  /// The timestamp when the statistic was recorded.
+  final DateTime? recordedOn;
+
+  /// The list of datasets referenced by the statistic.
+  final List<String>? referencedDatasets;
+
+  /// The Run Identifier
+  final RunIdentifier? runIdentifier;
+
+  /// The Statistic ID.
+  final String? statisticId;
+
+  /// The name of the statistic.
+  final String? statisticName;
+
+  /// A <code>StatisticPropertiesMap</code>, which contains a
+  /// <code>NameString</code> and <code>DescriptionString</code>
+  final Map<String, String>? statisticProperties;
+
+  StatisticSummary({
+    this.columnsReferenced,
+    this.doubleValue,
+    this.evaluationLevel,
+    this.inclusionAnnotation,
+    this.profileId,
+    this.recordedOn,
+    this.referencedDatasets,
+    this.runIdentifier,
+    this.statisticId,
+    this.statisticName,
+    this.statisticProperties,
+  });
+
+  factory StatisticSummary.fromJson(Map<String, dynamic> json) {
+    return StatisticSummary(
+      columnsReferenced: (json['ColumnsReferenced'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      doubleValue: json['DoubleValue'] as double?,
+      evaluationLevel: (json['EvaluationLevel'] as String?)
+          ?.let(StatisticEvaluationLevel.fromString),
+      inclusionAnnotation: json['InclusionAnnotation'] != null
+          ? TimestampedInclusionAnnotation.fromJson(
+              json['InclusionAnnotation'] as Map<String, dynamic>)
+          : null,
+      profileId: json['ProfileId'] as String?,
+      recordedOn: timeStampFromJson(json['RecordedOn']),
+      referencedDatasets: (json['ReferencedDatasets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      runIdentifier: json['RunIdentifier'] != null
+          ? RunIdentifier.fromJson(
+              json['RunIdentifier'] as Map<String, dynamic>)
+          : null,
+      statisticId: json['StatisticId'] as String?,
+      statisticName: json['StatisticName'] as String?,
+      statisticProperties:
+          (json['StatisticProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
+/// A structure containing information about an asynchronous change to a table.
+class StatusDetails {
+  /// A <code>Table</code> object representing the requested changes.
+  final Table? requestedChange;
+
+  /// A list of <code>ViewValidation</code> objects that contain information for
+  /// an analytical engine to validate a view.
+  final List<ViewValidation>? viewValidations;
+
+  StatusDetails({
+    this.requestedChange,
+    this.viewValidations,
+  });
+
+  factory StatusDetails.fromJson(Map<String, dynamic> json) {
+    return StatusDetails(
+      requestedChange: json['RequestedChange'] != null
+          ? Table.fromJson(json['RequestedChange'] as Map<String, dynamic>)
+          : null,
+      viewValidations: (json['ViewValidations'] as List?)
+          ?.nonNulls
+          .map((e) => ViewValidation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 class StopColumnStatisticsTaskRunResponse {
   StopColumnStatisticsTaskRunResponse();
 
@@ -33032,6 +34508,7 @@ class Table {
 
   /// The retention time for this table.
   final int? retention;
+  final TableStatus? status;
 
   /// A storage descriptor containing information about the physical storage of
   /// this table.
@@ -33089,6 +34566,7 @@ class Table {
     this.parameters,
     this.partitionKeys,
     this.retention,
+    this.status,
     this.storageDescriptor,
     this.tableType,
     this.targetTable,
@@ -33124,6 +34602,9 @@ class Table {
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
       retention: json['Retention'] as int?,
+      status: json['Status'] != null
+          ? TableStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
       storageDescriptor: json['StorageDescriptor'] != null
           ? StorageDescriptor.fromJson(
               json['StorageDescriptor'] as Map<String, dynamic>)
@@ -33143,6 +34624,21 @@ class Table {
       viewOriginalText: json['ViewOriginalText'] as String?,
     );
   }
+}
+
+enum TableAttributes {
+  name('NAME'),
+  tableType('TABLE_TYPE'),
+  ;
+
+  final String value;
+
+  const TableAttributes(this.value);
+
+  static TableAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TableAttributes'));
 }
 
 /// An error record for table operations.
@@ -33269,6 +34765,10 @@ class TableInput {
   /// resource linking.
   final TableIdentifier? targetTable;
 
+  /// A structure that contains all the information that defines the view,
+  /// including the dialect or dialects for the view, and the query.
+  final ViewDefinitionInput? viewDefinition;
+
   /// Included for Apache Hive compatibility. Not used in the normal course of
   /// Glue operations.
   final String? viewExpandedText;
@@ -33290,6 +34790,7 @@ class TableInput {
     this.storageDescriptor,
     this.tableType,
     this.targetTable,
+    this.viewDefinition,
     this.viewExpandedText,
     this.viewOriginalText,
   });
@@ -33306,6 +34807,7 @@ class TableInput {
     final storageDescriptor = this.storageDescriptor;
     final tableType = this.tableType;
     final targetTable = this.targetTable;
+    final viewDefinition = this.viewDefinition;
     final viewExpandedText = this.viewExpandedText;
     final viewOriginalText = this.viewOriginalText;
     return {
@@ -33322,6 +34824,7 @@ class TableInput {
       if (storageDescriptor != null) 'StorageDescriptor': storageDescriptor,
       if (tableType != null) 'TableType': tableType,
       if (targetTable != null) 'TargetTable': targetTable,
+      if (viewDefinition != null) 'ViewDefinition': viewDefinition,
       if (viewExpandedText != null) 'ViewExpandedText': viewExpandedText,
       if (viewOriginalText != null) 'ViewOriginalText': viewOriginalText,
     };
@@ -33463,6 +34966,70 @@ enum TableOptimizerType {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum TableOptimizerType'));
+}
+
+/// A structure containing information about the state of an asynchronous change
+/// to a table.
+class TableStatus {
+  /// Indicates which action was called on the table, currently only
+  /// <code>CREATE</code> or <code>UPDATE</code>.
+  final ResourceAction? action;
+
+  /// A <code>StatusDetails</code> object with information about the requested
+  /// change.
+  final StatusDetails? details;
+
+  /// An error that will only appear when the state is "FAILED". This is a parent
+  /// level exception message, there may be different <code>Error</code>s for each
+  /// dialect.
+  final ErrorDetail? error;
+
+  /// An ISO 8601 formatted date string indicating the time that the change was
+  /// initiated.
+  final DateTime? requestTime;
+
+  /// The ARN of the user who requested the asynchronous change.
+  final String? requestedBy;
+
+  /// A generic status for the change in progress, such as QUEUED, IN_PROGRESS,
+  /// SUCCESS, or FAILED.
+  final ResourceState? state;
+
+  /// An ISO 8601 formatted date string indicating the time that the state was
+  /// last updated.
+  final DateTime? updateTime;
+
+  /// The ARN of the user to last manually alter the asynchronous change
+  /// (requesting cancellation, etc).
+  final String? updatedBy;
+
+  TableStatus({
+    this.action,
+    this.details,
+    this.error,
+    this.requestTime,
+    this.requestedBy,
+    this.state,
+    this.updateTime,
+    this.updatedBy,
+  });
+
+  factory TableStatus.fromJson(Map<String, dynamic> json) {
+    return TableStatus(
+      action: (json['Action'] as String?)?.let(ResourceAction.fromString),
+      details: json['Details'] != null
+          ? StatusDetails.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+      error: json['Error'] != null
+          ? ErrorDetail.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      requestTime: timeStampFromJson(json['RequestTime']),
+      requestedBy: json['RequestedBy'] as String?,
+      state: (json['State'] as String?)?.let(ResourceState.fromString),
+      updateTime: timeStampFromJson(json['UpdateTime']),
+      updatedBy: json['UpdatedBy'] as String?,
+    );
+  }
 }
 
 /// Specifies a version of a table.
@@ -33780,6 +35347,53 @@ enum TaskType {
   static TaskType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum TaskType'));
+}
+
+/// A timestamp filter.
+class TimestampFilter {
+  /// The timestamp after which statistics should be included in the results.
+  final DateTime? recordedAfter;
+
+  /// The timestamp before which statistics should be included in the results.
+  final DateTime? recordedBefore;
+
+  TimestampFilter({
+    this.recordedAfter,
+    this.recordedBefore,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recordedAfter = this.recordedAfter;
+    final recordedBefore = this.recordedBefore;
+    return {
+      if (recordedAfter != null)
+        'RecordedAfter': unixTimestampToJson(recordedAfter),
+      if (recordedBefore != null)
+        'RecordedBefore': unixTimestampToJson(recordedBefore),
+    };
+  }
+}
+
+/// A timestamped inclusion annotation.
+class TimestampedInclusionAnnotation {
+  /// The timestamp when the inclusion annotation was last modified.
+  final DateTime? lastModifiedOn;
+
+  /// The inclusion annotation value.
+  final InclusionAnnotationValue? value;
+
+  TimestampedInclusionAnnotation({
+    this.lastModifiedOn,
+    this.value,
+  });
+
+  factory TimestampedInclusionAnnotation.fromJson(Map<String, dynamic> json) {
+    return TimestampedInclusionAnnotation(
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      value:
+          (json['Value'] as String?)?.let(InclusionAnnotationValue.fromString),
+    );
+  }
 }
 
 /// Specifies the parameters in the config file of the dynamic transform.
@@ -34819,6 +36433,21 @@ class UpdateTriggerResponse {
   }
 }
 
+class UpdateUsageProfileResponse {
+  /// The name of the usage profile that was updated.
+  final String? name;
+
+  UpdateUsageProfileResponse({
+    this.name,
+  });
+
+  factory UpdateUsageProfileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUsageProfileResponse(
+      name: json['Name'] as String?,
+    );
+  }
+}
+
 class UpdateUserDefinedFunctionResponse {
   UpdateUserDefinedFunctionResponse();
 
@@ -34914,6 +36543,37 @@ class UpsertRedshiftTargetOptions {
       if (tableLocation != null) 'TableLocation': tableLocation,
       if (upsertKeys != null) 'UpsertKeys': upsertKeys,
     };
+  }
+}
+
+/// Describes an Glue usage profile.
+class UsageProfileDefinition {
+  /// The date and time when the usage profile was created.
+  final DateTime? createdOn;
+
+  /// A description of the usage profile.
+  final String? description;
+
+  /// The date and time when the usage profile was last modified.
+  final DateTime? lastModifiedOn;
+
+  /// The name of the usage profile.
+  final String? name;
+
+  UsageProfileDefinition({
+    this.createdOn,
+    this.description,
+    this.lastModifiedOn,
+    this.name,
+  });
+
+  factory UsageProfileDefinition.fromJson(Map<String, dynamic> json) {
+    return UsageProfileDefinition(
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      description: json['Description'] as String?,
+      lastModifiedOn: timeStampFromJson(json['LastModifiedOn']),
+      name: json['Name'] as String?,
+    );
   }
 }
 
@@ -35054,6 +36714,46 @@ class ViewDefinition {
   }
 }
 
+/// A structure containing details for creating or updating an Glue view.
+class ViewDefinitionInput {
+  /// The definer of a view in SQL.
+  final String? definer;
+
+  /// You can set this flag as true to instruct the engine not to push
+  /// user-provided operations into the logical plan of the view during query
+  /// planning. However, setting this flag does not guarantee that the engine will
+  /// comply. Refer to the engine's documentation to understand the guarantees
+  /// provided, if any.
+  final bool? isProtected;
+
+  /// A list of structures that contains the dialect of the view, and the query
+  /// that defines the view.
+  final List<ViewRepresentationInput>? representations;
+
+  /// A list of base table ARNs that make up the view.
+  final List<String>? subObjects;
+
+  ViewDefinitionInput({
+    this.definer,
+    this.isProtected,
+    this.representations,
+    this.subObjects,
+  });
+
+  Map<String, dynamic> toJson() {
+    final definer = this.definer;
+    final isProtected = this.isProtected;
+    final representations = this.representations;
+    final subObjects = this.subObjects;
+    return {
+      if (definer != null) 'Definer': definer,
+      if (isProtected != null) 'IsProtected': isProtected,
+      if (representations != null) 'Representations': representations,
+      if (subObjects != null) 'SubObjects': subObjects,
+    };
+  }
+}
+
 enum ViewDialect {
   redshift('REDSHIFT'),
   athena('ATHENA'),
@@ -35082,6 +36782,10 @@ class ViewRepresentation {
   /// can be queried in their respective query engines.
   final bool? isStale;
 
+  /// The name of the connection to be used to validate the specific
+  /// representation of the view.
+  final String? validationConnection;
+
   /// The expanded SQL for the view. This SQL is used by engines while processing
   /// a query on a view. Engines may perform operations during view creation to
   /// transform <code>ViewOriginalText</code> to <code>ViewExpandedText</code>.
@@ -35107,6 +36811,7 @@ class ViewRepresentation {
     this.dialect,
     this.dialectVersion,
     this.isStale,
+    this.validationConnection,
     this.viewExpandedText,
     this.viewOriginalText,
   });
@@ -35116,8 +36821,118 @@ class ViewRepresentation {
       dialect: (json['Dialect'] as String?)?.let(ViewDialect.fromString),
       dialectVersion: json['DialectVersion'] as String?,
       isStale: json['IsStale'] as bool?,
+      validationConnection: json['ValidationConnection'] as String?,
       viewExpandedText: json['ViewExpandedText'] as String?,
       viewOriginalText: json['ViewOriginalText'] as String?,
+    );
+  }
+}
+
+/// A structure containing details of a representation to update or create a
+/// Lake Formation view.
+class ViewRepresentationInput {
+  /// A parameter that specifies the engine type of a specific representation.
+  final ViewDialect? dialect;
+
+  /// A parameter that specifies the version of the engine of a specific
+  /// representation.
+  final String? dialectVersion;
+
+  /// The name of the connection to be used to validate the specific
+  /// representation of the view.
+  final String? validationConnection;
+
+  /// A string that represents the SQL query that describes the view with expanded
+  /// resource ARNs
+  final String? viewExpandedText;
+
+  /// A string that represents the original SQL query that describes the view.
+  final String? viewOriginalText;
+
+  ViewRepresentationInput({
+    this.dialect,
+    this.dialectVersion,
+    this.validationConnection,
+    this.viewExpandedText,
+    this.viewOriginalText,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dialect = this.dialect;
+    final dialectVersion = this.dialectVersion;
+    final validationConnection = this.validationConnection;
+    final viewExpandedText = this.viewExpandedText;
+    final viewOriginalText = this.viewOriginalText;
+    return {
+      if (dialect != null) 'Dialect': dialect.value,
+      if (dialectVersion != null) 'DialectVersion': dialectVersion,
+      if (validationConnection != null)
+        'ValidationConnection': validationConnection,
+      if (viewExpandedText != null) 'ViewExpandedText': viewExpandedText,
+      if (viewOriginalText != null) 'ViewOriginalText': viewOriginalText,
+    };
+  }
+}
+
+enum ViewUpdateAction {
+  add('ADD'),
+  replace('REPLACE'),
+  addOrReplace('ADD_OR_REPLACE'),
+  drop('DROP'),
+  ;
+
+  final String value;
+
+  const ViewUpdateAction(this.value);
+
+  static ViewUpdateAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ViewUpdateAction'));
+}
+
+/// A structure that contains information for an analytical engine to validate a
+/// view, prior to persisting the view metadata. Used in the case of direct
+/// <code>UpdateTable</code> or <code>CreateTable</code> API calls.
+class ViewValidation {
+  /// The dialect of the query engine.
+  final ViewDialect? dialect;
+
+  /// The version of the dialect of the query engine. For example, 3.0.0.
+  final String? dialectVersion;
+
+  /// An error associated with the validation.
+  final ErrorDetail? error;
+
+  /// The state of the validation.
+  final ResourceState? state;
+
+  /// The time of the last update.
+  final DateTime? updateTime;
+
+  /// The <code>SELECT</code> query that defines the view, as provided by the
+  /// customer.
+  final String? viewValidationText;
+
+  ViewValidation({
+    this.dialect,
+    this.dialectVersion,
+    this.error,
+    this.state,
+    this.updateTime,
+    this.viewValidationText,
+  });
+
+  factory ViewValidation.fromJson(Map<String, dynamic> json) {
+    return ViewValidation(
+      dialect: (json['Dialect'] as String?)?.let(ViewDialect.fromString),
+      dialectVersion: json['DialectVersion'] as String?,
+      error: json['Error'] != null
+          ? ErrorDetail.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.let(ResourceState.fromString),
+      updateTime: timeStampFromJson(json['UpdateTime']),
+      viewValidationText: json['ViewValidationText'] as String?,
     );
   }
 }
@@ -35606,6 +37421,14 @@ class NoScheduleException extends _s.GenericAwsException {
       : super(type: type, code: 'NoScheduleException', message: message);
 }
 
+class OperationNotSupportedException extends _s.GenericAwsException {
+  OperationNotSupportedException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OperationNotSupportedException',
+            message: message);
+}
+
 class OperationTimeoutException extends _s.GenericAwsException {
   OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
@@ -35714,6 +37537,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       MLTransformNotReadyException(type: type, message: message),
   'NoScheduleException': (type, message) =>
       NoScheduleException(type: type, message: message),
+  'OperationNotSupportedException': (type, message) =>
+      OperationNotSupportedException(type: type, message: message),
   'OperationTimeoutException': (type, message) =>
       OperationTimeoutException(type: type, message: message),
   'PermissionTypeMismatchException': (type, message) =>

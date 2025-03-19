@@ -20,13 +20,13 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// MemoryDB for Redis is a fully managed, Redis-compatible, in-memory database
-/// that delivers ultra-fast performance and Multi-AZ durability for modern
+/// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that
+/// delivers ultra-fast performance and Multi-AZ durability for modern
 /// applications built using microservices architectures. MemoryDB stores the
 /// entire database in-memory, enabling low latency and high throughput data
-/// access. It is compatible with Redis, a popular open source data store,
-/// enabling you to leverage Redis’ flexible and friendly data structures, APIs,
-/// and commands.
+/// access. It is compatible with Redis OSS, a popular open source data store,
+/// enabling you to leverage Redis OSS’ flexible and friendly data structures,
+/// APIs, and commands.
 class MemoryDB {
   final _s.JsonProtocol _protocol;
   MemoryDB({
@@ -245,7 +245,7 @@ class MemoryDB {
   /// An optional description of the cluster.
   ///
   /// Parameter [engineVersion] :
-  /// The version number of the Redis engine to be used for the cluster.
+  /// The version number of the Redis OSS engine to be used for the cluster.
   ///
   /// Parameter [kmsKeyId] :
   /// The ID of the KMS key used to encrypt the cluster.
@@ -651,6 +651,11 @@ class MemoryDB {
   }
 
   /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+  /// <note>
+  /// <code>CreateSnapshot</code> permission is required to create a final
+  /// snapshot. Without this permission, the API call will fail with an
+  /// <code>Access Denied</code> exception.
+  /// </note>
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
@@ -913,7 +918,7 @@ class MemoryDB {
     return DescribeClustersResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of the available Redis engine versions.
+  /// Returns a list of the available Redis OSS engine versions.
   ///
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
@@ -924,7 +929,7 @@ class MemoryDB {
   /// or engine and major version combination is to be returned.
   ///
   /// Parameter [engineVersion] :
-  /// The Redis engine version
+  /// The Redis OSS engine version
   ///
   /// Parameter [maxResults] :
   /// The maximum number of records to include in the response. If more records
@@ -2445,10 +2450,10 @@ class Cluster {
   /// A description of the cluster
   final String? description;
 
-  /// The Redis engine patch version used by the cluster
+  /// The Redis OSS engine patch version used by the cluster
   final String? enginePatchVersion;
 
-  /// The Redis engine version used by the cluster
+  /// The Redis OSS engine version used by the cluster
   final String? engineVersion;
 
   /// The ID of the KMS key used to encrypt the cluster
@@ -2650,7 +2655,7 @@ class ClusterConfiguration {
   /// The description of the cluster configuration
   final String? description;
 
-  /// The Redis engine version used by the cluster
+  /// The Redis OSS engine version used by the cluster
   final String? engineVersion;
 
   /// The specified maintenance window for the cluster
@@ -3608,7 +3613,7 @@ class Endpoint {
   }
 }
 
-/// Provides details of the Redis engine version
+/// Provides details of the Redis OSS engine version
 class EngineVersionInfo {
   /// The patched engine version
   final String? enginePatchVersion;

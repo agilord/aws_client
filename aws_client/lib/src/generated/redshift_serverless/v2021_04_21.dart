@@ -346,7 +346,7 @@ class RedshiftServerless {
   /// scheduler, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
   /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
-  /// Cluster Management Guide
+  /// Management Guide
   ///
   /// Parameter [schedule] :
   /// The schedule for a one-time (at timestamp format) or recurring (cron
@@ -597,6 +597,7 @@ class RedshiftServerless {
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [TooManyTagsException].
+  /// May throw [Ipv6CidrBlockNotFoundException].
   ///
   /// Parameter [namespaceName] :
   /// The name of the namespace to associate with the workgroup.
@@ -625,6 +626,10 @@ class RedshiftServerless {
   /// (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   /// through your VPC instead of over the internet.
   ///
+  /// Parameter [ipAddressType] :
+  /// The IP address type that the workgroup supports. Possible values are
+  /// <code>ipv4</code> and <code>dualstack</code>.
+  ///
   /// Parameter [maxCapacity] :
   /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   /// serve queries. The max capacity is specified in RPUs.
@@ -651,6 +656,7 @@ class RedshiftServerless {
     int? baseCapacity,
     List<ConfigParameter>? configParameters,
     bool? enhancedVpcRouting,
+    String? ipAddressType,
     int? maxCapacity,
     int? port,
     bool? publiclyAccessible,
@@ -675,6 +681,7 @@ class RedshiftServerless {
         if (configParameters != null) 'configParameters': configParameters,
         if (enhancedVpcRouting != null)
           'enhancedVpcRouting': enhancedVpcRouting,
+        if (ipAddressType != null) 'ipAddressType': ipAddressType,
         if (maxCapacity != null) 'maxCapacity': maxCapacity,
         if (port != null) 'port': port,
         if (publiclyAccessible != null)
@@ -2561,7 +2568,7 @@ class RedshiftServerless {
   /// scheduler, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
   /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
-  /// Cluster Management Guide
+  /// Management Guide
   ///
   /// Parameter [schedule] :
   /// The schedule for a one-time (at timestamp format) or recurring (cron
@@ -2752,6 +2759,7 @@ class RedshiftServerless {
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [ValidationException].
+  /// May throw [Ipv6CidrBlockNotFoundException].
   ///
   /// Parameter [workgroupName] :
   /// The name of the workgroup to update. You can't update the name of a
@@ -2777,6 +2785,10 @@ class RedshiftServerless {
   /// (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   /// through your VPC.
   ///
+  /// Parameter [ipAddressType] :
+  /// The IP address type that the workgroup supports. Possible values are
+  /// <code>ipv4</code> and <code>dualstack</code>.
+  ///
   /// Parameter [maxCapacity] :
   /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   /// serve queries. The max capacity is specified in RPUs.
@@ -2799,6 +2811,7 @@ class RedshiftServerless {
     int? baseCapacity,
     List<ConfigParameter>? configParameters,
     bool? enhancedVpcRouting,
+    String? ipAddressType,
     int? maxCapacity,
     int? port,
     bool? publiclyAccessible,
@@ -2821,6 +2834,7 @@ class RedshiftServerless {
         if (configParameters != null) 'configParameters': configParameters,
         if (enhancedVpcRouting != null)
           'enhancedVpcRouting': enhancedVpcRouting,
+        if (ipAddressType != null) 'ipAddressType': ipAddressType,
         if (maxCapacity != null) 'maxCapacity': maxCapacity,
         if (port != null) 'port': port,
         if (publiclyAccessible != null)
@@ -4407,6 +4421,9 @@ class NetworkInterface {
   /// The availability Zone.
   final String? availabilityZone;
 
+  /// The IPv6 address of the network interface within the subnet.
+  final String? ipv6Address;
+
   /// The unique identifier of the network interface.
   final String? networkInterfaceId;
 
@@ -4418,6 +4435,7 @@ class NetworkInterface {
 
   NetworkInterface({
     this.availabilityZone,
+    this.ipv6Address,
     this.networkInterfaceId,
     this.privateIpAddress,
     this.subnetId,
@@ -4426,6 +4444,7 @@ class NetworkInterface {
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
       availabilityZone: json['availabilityZone'] as String?,
+      ipv6Address: json['ipv6Address'] as String?,
       networkInterfaceId: json['networkInterfaceId'] as String?,
       privateIpAddress: json['privateIpAddress'] as String?,
       subnetId: json['subnetId'] as String?,
@@ -4434,11 +4453,13 @@ class NetworkInterface {
 
   Map<String, dynamic> toJson() {
     final availabilityZone = this.availabilityZone;
+    final ipv6Address = this.ipv6Address;
     final networkInterfaceId = this.networkInterfaceId;
     final privateIpAddress = this.privateIpAddress;
     final subnetId = this.subnetId;
     return {
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (ipv6Address != null) 'ipv6Address': ipv6Address,
       if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
       if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
       if (subnetId != null) 'subnetId': subnetId,
@@ -4777,7 +4798,7 @@ class ScheduledActionResponse {
   /// role to use with the Amazon Redshift scheduler, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
   /// Identity-Based Policies for Amazon Redshift</a> in the Amazon Redshift
-  /// Cluster Management Guide
+  /// Management Guide
   final String? roleArn;
 
   /// The schedule for a one-time (at timestamp format) or recurring (cron format)
@@ -5861,6 +5882,10 @@ class Workgroup {
   /// through your VPC.
   final bool? enhancedVpcRouting;
 
+  /// The IP address type that the workgroup supports. Possible values are
+  /// <code>ipv4</code> and <code>dualstack</code>.
+  final String? ipAddressType;
+
   /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve
   /// queries. The max capacity is specified in RPUs.
   final int? maxCapacity;
@@ -5916,6 +5941,7 @@ class Workgroup {
     this.customDomainName,
     this.endpoint,
     this.enhancedVpcRouting,
+    this.ipAddressType,
     this.maxCapacity,
     this.namespaceName,
     this.patchVersion,
@@ -5950,6 +5976,7 @@ class Workgroup {
           ? Endpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
           : null,
       enhancedVpcRouting: json['enhancedVpcRouting'] as bool?,
+      ipAddressType: json['ipAddressType'] as String?,
       maxCapacity: json['maxCapacity'] as int?,
       namespaceName: json['namespaceName'] as String?,
       patchVersion: json['patchVersion'] as String?,
@@ -5982,6 +6009,7 @@ class Workgroup {
     final customDomainName = this.customDomainName;
     final endpoint = this.endpoint;
     final enhancedVpcRouting = this.enhancedVpcRouting;
+    final ipAddressType = this.ipAddressType;
     final maxCapacity = this.maxCapacity;
     final namespaceName = this.namespaceName;
     final patchVersion = this.patchVersion;
@@ -6007,6 +6035,7 @@ class Workgroup {
       if (customDomainName != null) 'customDomainName': customDomainName,
       if (endpoint != null) 'endpoint': endpoint,
       if (enhancedVpcRouting != null) 'enhancedVpcRouting': enhancedVpcRouting,
+      if (ipAddressType != null) 'ipAddressType': ipAddressType,
       if (maxCapacity != null) 'maxCapacity': maxCapacity,
       if (namespaceName != null) 'namespaceName': namespaceName,
       if (patchVersion != null) 'patchVersion': patchVersion,
@@ -6068,6 +6097,14 @@ class InvalidPaginationException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidPaginationException', message: message);
 }
 
+class Ipv6CidrBlockNotFoundException extends _s.GenericAwsException {
+  Ipv6CidrBlockNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'Ipv6CidrBlockNotFoundException',
+            message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
@@ -6107,6 +6144,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'InvalidPaginationException': (type, message) =>
       InvalidPaginationException(type: type, message: message),
+  'Ipv6CidrBlockNotFoundException': (type, message) =>
+      Ipv6CidrBlockNotFoundException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>

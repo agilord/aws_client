@@ -276,10 +276,13 @@ class ACM {
     return GetAccountConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves an Amazon-issued certificate and its certificate chain. The
-  /// chain consists of the certificate of the issuing CA and the intermediate
-  /// certificates of any other subordinate CAs. All of the certificates are
-  /// base64 encoded. You can use <a
+  /// Retrieves a certificate and its certificate chain. The certificate may be
+  /// either a public or private certificate issued using the ACM
+  /// <code>RequestCertificate</code> action, or a certificate imported into ACM
+  /// using the <code>ImportCertificate</code> action. The chain consists of the
+  /// certificate of the issuing CA and the intermediate certificates of any
+  /// other subordinate CAs. All of the certificates are base64 encoded. You can
+  /// use <a
   /// href="https://wiki.openssl.org/index.php/Command_Line_Utilities">OpenSSL</a>
   /// to decode the certificates and inspect individual fields.
   ///
@@ -344,14 +347,6 @@ class ACM {
   /// </li>
   /// <li>
   /// The private key must be no larger than 5 KB (5,120 bytes).
-  /// </li>
-  /// <li>
-  /// If the certificate you are importing is not self-signed, you must enter
-  /// its certificate chain.
-  /// </li>
-  /// <li>
-  /// If a certificate chain is included, the issuer must be the subject of one
-  /// of the certificates in the chain.
   /// </li>
   /// <li>
   /// The certificate, private key, and certificate chain must be PEM-encoded.
@@ -451,11 +446,16 @@ class ACM {
     return ImportCertificateResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves a list of certificate ARNs and domain names. You can request
-  /// that only certificates that match a specific status be listed. You can
-  /// also filter by specific attributes of the certificate. Default filtering
-  /// returns only <code>RSA_2048</code> certificates. For more information, see
-  /// <a>Filters</a>.
+  /// Retrieves a list of certificate ARNs and domain names. By default, the API
+  /// returns RSA_2048 certificates. To return all certificates in the account,
+  /// include the <code>keyType</code> filter with the values <code>[RSA_1024,
+  /// RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1,
+  /// EC_secp521r1]</code>.
+  ///
+  /// In addition to <code>keyType</code>, you can also filter by the
+  /// <code>CertificateStatuses</code>, <code>keyUsage</code>, and
+  /// <code>extendedKeyUsage</code> attributes on the certificate. For more
+  /// information, see <a>Filters</a>.
   ///
   /// May throw [InvalidArgsException].
   /// May throw [ValidationException].
@@ -776,12 +776,34 @@ class ACM {
   /// certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are
   /// smaller, offering security comparable to RSA keys but with greater
   /// computing efficiency. However, ECDSA is not supported by all network
-  /// clients. Some AWS services may require RSA keys, or only support ECDSA
-  /// keys of a particular size, while others allow the use of either RSA and
-  /// ECDSA keys to ensure that compatibility is not broken. Check the
-  /// requirements for the AWS service where you plan to deploy your
-  /// certificate.
+  /// clients. Some Amazon Web Services services may require RSA keys, or only
+  /// support ECDSA keys of a particular size, while others allow the use of
+  /// either RSA and ECDSA keys to ensure that compatibility is not broken.
+  /// Check the requirements for the Amazon Web Services service where you plan
+  /// to deploy your certificate. For more information about selecting an
+  /// algorithm, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate.html#algorithms">Key
+  /// algorithms</a>.
+  /// <note>
+  /// Algorithms supported for an ACM certificate request include:
   ///
+  /// <ul>
+  /// <li>
+  /// <code>RSA_2048</code>
+  /// </li>
+  /// <li>
+  /// <code>EC_prime256v1</code>
+  /// </li>
+  /// <li>
+  /// <code>EC_secp384r1</code>
+  /// </li>
+  /// </ul>
+  /// Other listed algorithms are for imported certificates only.
+  /// </note> <note>
+  /// When you request a private PKI certificate signed by a CA from Amazon Web
+  /// Services Private CA, the specified signing algorithm family (RSA or ECDSA)
+  /// must match the algorithm family of the CA's secret key.
+  /// </note>
   /// Default: RSA_2048
   ///
   /// Parameter [options] :
@@ -1313,14 +1335,12 @@ class CertificateSummary {
   /// and consists of a name and an object identifier (OID).
   final List<ExtendedKeyUsageName>? extendedKeyUsages;
 
-  /// When called by <a
-  /// href="https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html">ListCertificates</a>,
-  /// indicates whether the full list of subject alternative names has been
-  /// included in the response. If false, the response includes all of the subject
-  /// alternative names included in the certificate. If true, the response only
-  /// includes the first 100 subject alternative names included in the
-  /// certificate. To display the full list of subject alternative names, use <a
-  /// href="https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html">DescribeCertificate</a>.
+  /// When called by <a>ListCertificates</a>, indicates whether the full list of
+  /// subject alternative names has been included in the response. If false, the
+  /// response includes all of the subject alternative names included in the
+  /// certificate. If true, the response only includes the first 100 subject
+  /// alternative names included in the certificate. To display the full list of
+  /// subject alternative names, use <a>DescribeCertificate</a>.
   final bool? hasAdditionalSubjectAlternativeNames;
 
   /// The date and time when the certificate was imported. This value exists only
@@ -1380,12 +1400,9 @@ class CertificateSummary {
   /// names include the canonical domain name (CN) of the certificate and
   /// additional domain names that can be used to connect to the website.
   ///
-  /// When called by <a
-  /// href="https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html">ListCertificates</a>,
-  /// this parameter will only return the first 100 subject alternative names
-  /// included in the certificate. To display the full list of subject alternative
-  /// names, use <a
-  /// href="https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html">DescribeCertificate</a>.
+  /// When called by <a>ListCertificates</a>, this parameter will only return the
+  /// first 100 subject alternative names included in the certificate. To display
+  /// the full list of subject alternative names, use <a>DescribeCertificate</a>.
   final List<String>? subjectAlternativeNameSummaries;
 
   /// The source of the certificate. For certificates provided by ACM, this value
@@ -1559,10 +1576,10 @@ class DomainValidation {
   /// <code>PENDING_VALIDATION</code>
   /// </li>
   /// <li>
-  /// <code/>SUCCESS
+  /// <code>SUCCESS</code>
   /// </li>
   /// <li>
-  /// <code/>FAILED
+  /// <code>FAILED</code>
   /// </li>
   /// </ul>
   final DomainStatus? validationStatus;

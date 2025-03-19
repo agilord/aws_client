@@ -25,7 +25,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon Data Firehose is a fully managed service that delivers real-time
 /// streaming data to destinations such as Amazon Simple Storage Service (Amazon
 /// S3), Amazon OpenSearch Service, Amazon Redshift, Splunk, and various other
-/// supportd destinations.
+/// supported destinations.
 class Firehose {
   final _s.JsonProtocol _protocol;
   Firehose({
@@ -188,6 +188,11 @@ class Firehose {
   /// Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint
   /// destination. You can specify only one destination.
   ///
+  /// Parameter [icebergDestinationConfiguration] :
+  /// Configure Apache Iceberg Tables destination.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  ///
   /// Parameter [kinesisStreamSourceConfiguration] :
   /// When a Kinesis data stream is used as the source for the delivery stream,
   /// a <a>KinesisStreamSourceConfiguration</a> containing the Kinesis data
@@ -248,6 +253,7 @@ class Firehose {
         elasticsearchDestinationConfiguration,
     ExtendedS3DestinationConfiguration? extendedS3DestinationConfiguration,
     HttpEndpointDestinationConfiguration? httpEndpointDestinationConfiguration,
+    IcebergDestinationConfiguration? icebergDestinationConfiguration,
     KinesisStreamSourceConfiguration? kinesisStreamSourceConfiguration,
     MSKSourceConfiguration? mSKSourceConfiguration,
     RedshiftDestinationConfiguration? redshiftDestinationConfiguration,
@@ -288,6 +294,8 @@ class Firehose {
         if (httpEndpointDestinationConfiguration != null)
           'HttpEndpointDestinationConfiguration':
               httpEndpointDestinationConfiguration,
+        if (icebergDestinationConfiguration != null)
+          'IcebergDestinationConfiguration': icebergDestinationConfiguration,
         if (kinesisStreamSourceConfiguration != null)
           'KinesisStreamSourceConfiguration': kinesisStreamSourceConfiguration,
         if (mSKSourceConfiguration != null)
@@ -777,7 +785,7 @@ class Firehose {
   /// <code>CUSTOMER_MANAGED_CMK</code>, Firehose creates a grant that enables
   /// it to use the new CMK to encrypt and decrypt data and to manage the grant.
   ///
-  /// For the KMS grant creation to be successful, Firehose APIs
+  /// For the KMS grant creation to be successful, the Firehose API operations
   /// <code>StartDeliveryStreamEncryption</code> and
   /// <code>CreateDeliveryStream</code> should not be called with session
   /// credentials that are more than 6 hours old.
@@ -1052,6 +1060,11 @@ class Firehose {
   /// Parameter [httpEndpointDestinationUpdate] :
   /// Describes an update to the specified HTTP endpoint destination.
   ///
+  /// Parameter [icebergDestinationUpdate] :
+  /// Describes an update for a destination in Apache Iceberg Tables.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  ///
   /// Parameter [redshiftDestinationUpdate] :
   /// Describes an update for a destination in Amazon Redshift.
   ///
@@ -1059,7 +1072,7 @@ class Firehose {
   /// [Deprecated] Describes an update for a destination in Amazon S3.
   ///
   /// Parameter [snowflakeDestinationUpdate] :
-  /// Update to the Snowflake destination condiguration settings
+  /// Update to the Snowflake destination configuration settings.
   ///
   /// Parameter [splunkDestinationUpdate] :
   /// Describes an update for a destination in Splunk.
@@ -1074,6 +1087,7 @@ class Firehose {
     ElasticsearchDestinationUpdate? elasticsearchDestinationUpdate,
     ExtendedS3DestinationUpdate? extendedS3DestinationUpdate,
     HttpEndpointDestinationUpdate? httpEndpointDestinationUpdate,
+    IcebergDestinationUpdate? icebergDestinationUpdate,
     RedshiftDestinationUpdate? redshiftDestinationUpdate,
     S3DestinationUpdate? s3DestinationUpdate,
     SnowflakeDestinationUpdate? snowflakeDestinationUpdate,
@@ -1105,6 +1119,8 @@ class Firehose {
           'ExtendedS3DestinationUpdate': extendedS3DestinationUpdate,
         if (httpEndpointDestinationUpdate != null)
           'HttpEndpointDestinationUpdate': httpEndpointDestinationUpdate,
+        if (icebergDestinationUpdate != null)
+          'IcebergDestinationUpdate': icebergDestinationUpdate,
         if (redshiftDestinationUpdate != null)
           'RedshiftDestinationUpdate': redshiftDestinationUpdate,
         if (s3DestinationUpdate != null)
@@ -1968,6 +1984,36 @@ class BufferingHints {
   }
 }
 
+/// Describes the containers where the destination Apache Iceberg Tables are
+/// persisted.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class CatalogConfiguration {
+  /// Specifies the Glue catalog ARN indentifier of the destination Apache Iceberg
+  /// Tables. You must specify the ARN in the format
+  /// <code>arn:aws:glue:region:account-id:catalog</code>.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? catalogARN;
+
+  CatalogConfiguration({
+    this.catalogARN,
+  });
+
+  factory CatalogConfiguration.fromJson(Map<String, dynamic> json) {
+    return CatalogConfiguration(
+      catalogARN: json['CatalogARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogARN = this.catalogARN;
+    return {
+      if (catalogARN != null) 'CatalogARN': catalogARN,
+    };
+  }
+}
+
 /// Describes the Amazon CloudWatch logging options for your delivery stream.
 class CloudWatchLoggingOptions {
   /// Enables or disables CloudWatch logging.
@@ -2682,6 +2728,11 @@ class DestinationDescription {
   /// Describes the specified HTTP endpoint destination.
   final HttpEndpointDestinationDescription? httpEndpointDestinationDescription;
 
+  /// Describes a destination in Apache Iceberg Tables.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final IcebergDestinationDescription? icebergDestinationDescription;
+
   /// The destination in Amazon Redshift.
   final RedshiftDestinationDescription? redshiftDestinationDescription;
 
@@ -2701,6 +2752,7 @@ class DestinationDescription {
     this.elasticsearchDestinationDescription,
     this.extendedS3DestinationDescription,
     this.httpEndpointDestinationDescription,
+    this.icebergDestinationDescription,
     this.redshiftDestinationDescription,
     this.s3DestinationDescription,
     this.snowflakeDestinationDescription,
@@ -2740,6 +2792,11 @@ class DestinationDescription {
                   json['HttpEndpointDestinationDescription']
                       as Map<String, dynamic>)
               : null,
+      icebergDestinationDescription:
+          json['IcebergDestinationDescription'] != null
+              ? IcebergDestinationDescription.fromJson(
+                  json['IcebergDestinationDescription'] as Map<String, dynamic>)
+              : null,
       redshiftDestinationDescription: json['RedshiftDestinationDescription'] !=
               null
           ? RedshiftDestinationDescription.fromJson(
@@ -2774,6 +2831,7 @@ class DestinationDescription {
         this.extendedS3DestinationDescription;
     final httpEndpointDestinationDescription =
         this.httpEndpointDestinationDescription;
+    final icebergDestinationDescription = this.icebergDestinationDescription;
     final redshiftDestinationDescription = this.redshiftDestinationDescription;
     final s3DestinationDescription = this.s3DestinationDescription;
     final snowflakeDestinationDescription =
@@ -2795,6 +2853,8 @@ class DestinationDescription {
       if (httpEndpointDestinationDescription != null)
         'HttpEndpointDestinationDescription':
             httpEndpointDestinationDescription,
+      if (icebergDestinationDescription != null)
+        'IcebergDestinationDescription': icebergDestinationDescription,
       if (redshiftDestinationDescription != null)
         'RedshiftDestinationDescription': redshiftDestinationDescription,
       if (s3DestinationDescription != null)
@@ -2803,6 +2863,68 @@ class DestinationDescription {
         'SnowflakeDestinationDescription': snowflakeDestinationDescription,
       if (splunkDestinationDescription != null)
         'SplunkDestinationDescription': splunkDestinationDescription,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Apache Iceberg Tables.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DestinationTableConfiguration {
+  /// The name of the Apache Iceberg database.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String destinationDatabaseName;
+
+  /// Specifies the name of the Apache Iceberg Table.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String destinationTableName;
+
+  /// The table specific S3 error output prefix. All the errors that occurred
+  /// while delivering to this table will be prefixed with this value in S3
+  /// destination.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? s3ErrorOutputPrefix;
+
+  /// A list of unique keys for a given Apache Iceberg table. Firehose will use
+  /// these for running Create/Update/Delete operations on the given Iceberg
+  /// table.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? uniqueKeys;
+
+  DestinationTableConfiguration({
+    required this.destinationDatabaseName,
+    required this.destinationTableName,
+    this.s3ErrorOutputPrefix,
+    this.uniqueKeys,
+  });
+
+  factory DestinationTableConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationTableConfiguration(
+      destinationDatabaseName: json['DestinationDatabaseName'] as String,
+      destinationTableName: json['DestinationTableName'] as String,
+      s3ErrorOutputPrefix: json['S3ErrorOutputPrefix'] as String?,
+      uniqueKeys: (json['UniqueKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDatabaseName = this.destinationDatabaseName;
+    final destinationTableName = this.destinationTableName;
+    final s3ErrorOutputPrefix = this.s3ErrorOutputPrefix;
+    final uniqueKeys = this.uniqueKeys;
+    return {
+      'DestinationDatabaseName': destinationDatabaseName,
+      'DestinationTableName': destinationTableName,
+      if (s3ErrorOutputPrefix != null)
+        'S3ErrorOutputPrefix': s3ErrorOutputPrefix,
+      if (uniqueKeys != null) 'UniqueKeys': uniqueKeys,
     };
   }
 }
@@ -4096,8 +4218,8 @@ class HttpEndpointDestinationConfiguration {
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The configuration of the requeste sent to the HTTP endpoint specified as the
-  /// destination.
+  /// The configuration of the request sent to the HTTP endpoint that is specified
+  /// as the destination.
   final HttpEndpointRequestConfiguration? requestConfiguration;
 
   /// Describes the retry behavior in case Firehose is unable to deliver data to
@@ -4115,6 +4237,10 @@ class HttpEndpointDestinationConfiguration {
   /// to the specified HTTP endpoint destination (<code>FailedDataOnly</code>).
   final HttpEndpointS3BackupMode? s3BackupMode;
 
+  /// The configuration that defines how you access secrets for HTTP Endpoint
+  /// destination.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   HttpEndpointDestinationConfiguration({
     required this.endpointConfiguration,
     required this.s3Configuration,
@@ -4125,6 +4251,7 @@ class HttpEndpointDestinationConfiguration {
     this.retryOptions,
     this.roleARN,
     this.s3BackupMode,
+    this.secretsManagerConfiguration,
   });
 
   Map<String, dynamic> toJson() {
@@ -4137,6 +4264,7 @@ class HttpEndpointDestinationConfiguration {
     final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       'EndpointConfiguration': endpointConfiguration,
       'S3Configuration': s3Configuration,
@@ -4150,6 +4278,8 @@ class HttpEndpointDestinationConfiguration {
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -4189,6 +4319,10 @@ class HttpEndpointDestinationDescription {
   final HttpEndpointS3BackupMode? s3BackupMode;
   final S3DestinationDescription? s3DestinationDescription;
 
+  /// The configuration that defines how you access secrets for HTTP Endpoint
+  /// destination.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   HttpEndpointDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -4199,6 +4333,7 @@ class HttpEndpointDestinationDescription {
     this.roleARN,
     this.s3BackupMode,
     this.s3DestinationDescription,
+    this.secretsManagerConfiguration,
   });
 
   factory HttpEndpointDestinationDescription.fromJson(
@@ -4235,6 +4370,10 @@ class HttpEndpointDestinationDescription {
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
           : null,
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4248,6 +4387,7 @@ class HttpEndpointDestinationDescription {
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
     final s3DestinationDescription = this.s3DestinationDescription;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
@@ -4263,6 +4403,8 @@ class HttpEndpointDestinationDescription {
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3DestinationDescription != null)
         'S3DestinationDescription': s3DestinationDescription,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -4302,6 +4444,10 @@ class HttpEndpointDestinationUpdate {
   final HttpEndpointS3BackupMode? s3BackupMode;
   final S3DestinationUpdate? s3Update;
 
+  /// The configuration that defines how you access secrets for HTTP Endpoint
+  /// destination.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   HttpEndpointDestinationUpdate({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -4312,6 +4458,7 @@ class HttpEndpointDestinationUpdate {
     this.roleARN,
     this.s3BackupMode,
     this.s3Update,
+    this.secretsManagerConfiguration,
   });
 
   Map<String, dynamic> toJson() {
@@ -4324,6 +4471,7 @@ class HttpEndpointDestinationUpdate {
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
     final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
@@ -4338,6 +4486,8 @@ class HttpEndpointDestinationUpdate {
       if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -4421,6 +4571,277 @@ enum HttpEndpointS3BackupMode {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum HttpEndpointS3BackupMode'));
+}
+
+/// Specifies the destination configure settings for Apache Iceberg Table.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class IcebergDestinationConfiguration {
+  /// Configuration describing where the destination Apache Iceberg Tables are
+  /// persisted.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final CatalogConfiguration catalogConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the Apache Iceberg tables role.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+  final BufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg tables.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
+
+  /// Describes how Firehose will backup records. Currently,Firehose only supports
+  /// <code>FailedDataOnly</code> for preview.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final IcebergS3BackupMode? s3BackupMode;
+
+  IcebergDestinationConfiguration({
+    required this.catalogConfiguration,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final catalogConfiguration = this.catalogConfiguration;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'CatalogConfiguration': catalogConfiguration,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+    };
+  }
+}
+
+/// Describes a destination in Apache Iceberg Tables.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class IcebergDestinationDescription {
+  final BufferingHints? bufferingHints;
+
+  /// Configuration describing where the destination Iceberg tables are persisted.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final CatalogConfiguration? catalogConfiguration;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg tables.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? roleARN;
+
+  /// Describes how Firehose will backup records. Currently,Firehose only supports
+  /// <code>FailedDataOnly</code> for preview.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final IcebergS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+
+  IcebergDestinationDescription({
+    this.bufferingHints,
+    this.catalogConfiguration,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+  });
+
+  factory IcebergDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return IcebergDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? BufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      catalogConfiguration: json['CatalogConfiguration'] != null
+          ? CatalogConfiguration.fromJson(
+              json['CatalogConfiguration'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      destinationTableConfigurationList:
+          (json['DestinationTableConfigurationList'] as List?)
+              ?.nonNulls
+              .map((e) => DestinationTableConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(IcebergS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final catalogConfiguration = this.catalogConfiguration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (catalogConfiguration != null)
+        'CatalogConfiguration': catalogConfiguration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
+    };
+  }
+}
+
+/// Describes an update for a destination in Apache Iceberg Tables.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class IcebergDestinationUpdate {
+  final BufferingHints? bufferingHints;
+
+  /// Configuration describing where the destination Iceberg tables are persisted.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final CatalogConfiguration? catalogConfiguration;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg tables.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? roleARN;
+
+  /// Describes how Firehose will backup records. Currently,Firehose only supports
+  /// <code>FailedDataOnly</code> for preview.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final IcebergS3BackupMode? s3BackupMode;
+  final S3DestinationConfiguration? s3Configuration;
+
+  IcebergDestinationUpdate({
+    this.bufferingHints,
+    this.catalogConfiguration,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3Configuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final catalogConfiguration = this.catalogConfiguration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (catalogConfiguration != null)
+        'CatalogConfiguration': catalogConfiguration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+    };
+  }
+}
+
+enum IcebergS3BackupMode {
+  failedDataOnly('FailedDataOnly'),
+  allData('AllData'),
+  ;
+
+  final String value;
+
+  const IcebergS3BackupMode(this.value);
+
+  static IcebergS3BackupMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum IcebergS3BackupMode'));
 }
 
 /// Specifies the deserializer you want to use to convert the format of the
@@ -4648,20 +5069,33 @@ class MSKSourceConfiguration {
   /// The topic name within the Amazon MSK cluster.
   final String topicName;
 
+  /// The start date and time in UTC for the offset position within your MSK topic
+  /// from where Firehose begins to read. By default, this is set to timestamp
+  /// when Firehose becomes Active.
+  ///
+  /// If you want to create a Firehose stream with Earliest start position from
+  /// SDK or CLI, you need to set the <code>ReadFromTimestamp</code> parameter to
+  /// Epoch (1970-01-01T00:00:00Z).
+  final DateTime? readFromTimestamp;
+
   MSKSourceConfiguration({
     required this.authenticationConfiguration,
     required this.mSKClusterARN,
     required this.topicName,
+    this.readFromTimestamp,
   });
 
   Map<String, dynamic> toJson() {
     final authenticationConfiguration = this.authenticationConfiguration;
     final mSKClusterARN = this.mSKClusterARN;
     final topicName = this.topicName;
+    final readFromTimestamp = this.readFromTimestamp;
     return {
       'AuthenticationConfiguration': authenticationConfiguration,
       'MSKClusterARN': mSKClusterARN,
       'TopicName': topicName,
+      if (readFromTimestamp != null)
+        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
     };
   }
 }
@@ -4679,6 +5113,15 @@ class MSKSourceDescription {
   /// The ARN of the Amazon MSK cluster.
   final String? mSKClusterARN;
 
+  /// The start date and time in UTC for the offset position within your MSK topic
+  /// from where Firehose begins to read. By default, this is set to timestamp
+  /// when Firehose becomes Active.
+  ///
+  /// If you want to create a Firehose stream with Earliest start position from
+  /// SDK or CLI, you need to set the <code>ReadFromTimestampUTC</code> parameter
+  /// to Epoch (1970-01-01T00:00:00Z).
+  final DateTime? readFromTimestamp;
+
   /// The topic name within the Amazon MSK cluster.
   final String? topicName;
 
@@ -4686,6 +5129,7 @@ class MSKSourceDescription {
     this.authenticationConfiguration,
     this.deliveryStartTimestamp,
     this.mSKClusterARN,
+    this.readFromTimestamp,
     this.topicName,
   });
 
@@ -4697,6 +5141,7 @@ class MSKSourceDescription {
           : null,
       deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
       mSKClusterARN: json['MSKClusterARN'] as String?,
+      readFromTimestamp: timeStampFromJson(json['ReadFromTimestamp']),
       topicName: json['TopicName'] as String?,
     );
   }
@@ -4705,6 +5150,7 @@ class MSKSourceDescription {
     final authenticationConfiguration = this.authenticationConfiguration;
     final deliveryStartTimestamp = this.deliveryStartTimestamp;
     final mSKClusterARN = this.mSKClusterARN;
+    final readFromTimestamp = this.readFromTimestamp;
     final topicName = this.topicName;
     return {
       if (authenticationConfiguration != null)
@@ -4712,6 +5158,8 @@ class MSKSourceDescription {
       if (deliveryStartTimestamp != null)
         'DeliveryStartTimestamp': unixTimestampToJson(deliveryStartTimestamp),
       if (mSKClusterARN != null) 'MSKClusterARN': mSKClusterARN,
+      if (readFromTimestamp != null)
+        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
       if (topicName != null) 'TopicName': topicName,
     };
   }
@@ -4992,7 +5440,7 @@ enum ParquetCompression {
 
 /// A serializer to use for converting data to the Parquet format before storing
 /// it in Amazon S3. For more information, see <a
-/// href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>.
+/// href="https://parquet.apache.org/docs/">Apache Parquet</a>.
 class ParquetSerDe {
   /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
   /// intend to copy the data from Amazon S3 to HDFS before querying. The default
@@ -5371,9 +5819,6 @@ class RedshiftDestinationConfiguration {
   /// The <code>COPY</code> command.
   final CopyCommand copyCommand;
 
-  /// The user password.
-  final String password;
-
   /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5390,11 +5835,11 @@ class RedshiftDestinationConfiguration {
   /// S3 bucket doesn't support these compression formats.
   final S3DestinationConfiguration s3Configuration;
 
-  /// The name of the user.
-  final String username;
-
   /// The CloudWatch logging options for your delivery stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The user password.
+  final String? password;
 
   /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
@@ -5411,47 +5856,57 @@ class RedshiftDestinationConfiguration {
   /// enabled, you can't update the delivery stream to disable it.
   final RedshiftS3BackupMode? s3BackupMode;
 
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// The name of the user.
+  final String? username;
+
   RedshiftDestinationConfiguration({
     required this.clusterJDBCURL,
     required this.copyCommand,
-    required this.password,
     required this.roleARN,
     required this.s3Configuration,
-    required this.username,
     this.cloudWatchLoggingOptions,
+    this.password,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupConfiguration,
     this.s3BackupMode,
+    this.secretsManagerConfiguration,
+    this.username,
   });
 
   Map<String, dynamic> toJson() {
     final clusterJDBCURL = this.clusterJDBCURL;
     final copyCommand = this.copyCommand;
-    final password = this.password;
     final roleARN = this.roleARN;
     final s3Configuration = this.s3Configuration;
-    final username = this.username;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final password = this.password;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final s3BackupConfiguration = this.s3BackupConfiguration;
     final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final username = this.username;
     return {
       'ClusterJDBCURL': clusterJDBCURL,
       'CopyCommand': copyCommand,
-      'Password': password,
       'RoleARN': roleARN,
       'S3Configuration': s3Configuration,
-      'Username': username,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (password != null) 'Password': password,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupConfiguration != null)
         'S3BackupConfiguration': s3BackupConfiguration,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (username != null) 'Username': username,
     };
   }
 }
@@ -5473,9 +5928,6 @@ class RedshiftDestinationDescription {
   /// The Amazon S3 destination.
   final S3DestinationDescription s3DestinationDescription;
 
-  /// The name of the user.
-  final String username;
-
   /// The Amazon CloudWatch logging options for your delivery stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
@@ -5492,17 +5944,24 @@ class RedshiftDestinationDescription {
   /// The Amazon S3 backup mode.
   final RedshiftS3BackupMode? s3BackupMode;
 
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// The name of the user.
+  final String? username;
+
   RedshiftDestinationDescription({
     required this.clusterJDBCURL,
     required this.copyCommand,
     required this.roleARN,
     required this.s3DestinationDescription,
-    required this.username,
     this.cloudWatchLoggingOptions,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupDescription,
     this.s3BackupMode,
+    this.secretsManagerConfiguration,
+    this.username,
   });
 
   factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
@@ -5513,7 +5972,6 @@ class RedshiftDestinationDescription {
       roleARN: json['RoleARN'] as String,
       s3DestinationDescription: S3DestinationDescription.fromJson(
           json['S3DestinationDescription'] as Map<String, dynamic>),
-      username: json['Username'] as String,
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
           ? CloudWatchLoggingOptions.fromJson(
               json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
@@ -5532,6 +5990,11 @@ class RedshiftDestinationDescription {
           : null,
       s3BackupMode: (json['S3BackupMode'] as String?)
           ?.let(RedshiftS3BackupMode.fromString),
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
+      username: json['Username'] as String?,
     );
   }
 
@@ -5540,18 +6003,18 @@ class RedshiftDestinationDescription {
     final copyCommand = this.copyCommand;
     final roleARN = this.roleARN;
     final s3DestinationDescription = this.s3DestinationDescription;
-    final username = this.username;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final s3BackupDescription = this.s3BackupDescription;
     final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final username = this.username;
     return {
       'ClusterJDBCURL': clusterJDBCURL,
       'CopyCommand': copyCommand,
       'RoleARN': roleARN,
       'S3DestinationDescription': s3DestinationDescription,
-      'Username': username,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (processingConfiguration != null)
@@ -5560,6 +6023,9 @@ class RedshiftDestinationDescription {
       if (s3BackupDescription != null)
         'S3BackupDescription': s3BackupDescription,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (username != null) 'Username': username,
     };
   }
 }
@@ -5607,6 +6073,9 @@ class RedshiftDestinationUpdate {
   /// doesn't support these compression formats.
   final S3DestinationUpdate? s3Update;
 
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   /// The name of the user.
   final String? username;
 
@@ -5621,6 +6090,7 @@ class RedshiftDestinationUpdate {
     this.s3BackupMode,
     this.s3BackupUpdate,
     this.s3Update,
+    this.secretsManagerConfiguration,
     this.username,
   });
 
@@ -5635,6 +6105,7 @@ class RedshiftDestinationUpdate {
     final s3BackupMode = this.s3BackupMode;
     final s3BackupUpdate = this.s3BackupUpdate;
     final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     final username = this.username;
     return {
       if (cloudWatchLoggingOptions != null)
@@ -5649,6 +6120,8 @@ class RedshiftDestinationUpdate {
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
       if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
       if (username != null) 'Username': username,
     };
   }
@@ -6080,6 +6553,55 @@ class SchemaConfiguration {
   }
 }
 
+/// The structure that defines how Firehose accesses the secret.
+class SecretsManagerConfiguration {
+  /// Specifies whether you want to use the the secrets manager feature. When set
+  /// as <code>True</code> the secrets manager configuration overwrites the
+  /// existing secrets in the destination configuration. When it's set to
+  /// <code>False</code> Firehose falls back to the credentials in the destination
+  /// configuration.
+  final bool enabled;
+
+  /// Specifies the role that Firehose assumes when calling the Secrets Manager
+  /// API operation. When you provide the role, it overrides any destination
+  /// specific role defined in the destination configuration. If you do not
+  /// provide the then we use the destination specific role. This parameter is
+  /// required for Splunk.
+  final String? roleARN;
+
+  /// The ARN of the secret that stores your credentials. It must be in the same
+  /// region as the Firehose stream and the role. The secret ARN can reside in a
+  /// different account than the delivery stream and role as Firehose supports
+  /// cross-account secret access. This parameter is required when <b>Enabled</b>
+  /// is set to <code>True</code>.
+  final String? secretARN;
+
+  SecretsManagerConfiguration({
+    required this.enabled,
+    this.roleARN,
+    this.secretARN,
+  });
+
+  factory SecretsManagerConfiguration.fromJson(Map<String, dynamic> json) {
+    return SecretsManagerConfiguration(
+      enabled: json['Enabled'] as bool,
+      roleARN: json['RoleARN'] as String?,
+      secretARN: json['SecretARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final roleARN = this.roleARN;
+    final secretARN = this.secretARN;
+    return {
+      'Enabled': enabled,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (secretARN != null) 'SecretARN': secretARN,
+    };
+  }
+}
+
 /// The serializer that you want Firehose to use to convert data to the target
 /// format before writing it to Amazon S3. Firehose supports two types of
 /// serializers: the <a
@@ -6124,6 +6646,40 @@ class Serializer {
   }
 }
 
+/// Describes the buffering to perform before delivering data to the Snowflake
+/// destination. If you do not specify any value, Firehose uses the default
+/// values.
+class SnowflakeBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 0.
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 1.
+  final int? sizeInMBs;
+
+  SnowflakeBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory SnowflakeBufferingHints.fromJson(Map<String, dynamic> json) {
+    return SnowflakeBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
 enum SnowflakeDataLoadingOption {
   jsonMapping('JSON_MAPPING'),
   variantContentMapping('VARIANT_CONTENT_MAPPING'),
@@ -6151,12 +6707,6 @@ class SnowflakeDestinationConfiguration {
   /// All data in Snowflake is maintained in databases.
   final String database;
 
-  /// The private key used to encrypt your Snowflake client. For information, see
-  /// <a
-  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
-  /// Key Pair Authentication &amp; Key Rotation</a>.
-  final String privateKey;
-
   /// The Amazon Resource Name (ARN) of the Snowflake role
   final String roleARN;
   final S3DestinationConfiguration s3Configuration;
@@ -6169,8 +6719,10 @@ class SnowflakeDestinationConfiguration {
   /// collections of columns and rows.
   final String table;
 
-  /// User login name for the Snowflake account.
-  final String user;
+  /// Describes the buffering to perform before delivering data to the Snowflake
+  /// destination. If you do not specify any value, Firehose uses the default
+  /// values.
+  final SnowflakeBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The name of the record content column
@@ -6189,6 +6741,12 @@ class SnowflakeDestinationConfiguration {
 
   /// The name of the record metadata column
   final String? metaDataColumnName;
+
+  /// The private key used to encrypt your Snowflake client. For information, see
+  /// <a
+  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
+  /// Key Pair Authentication &amp; Key Rotation</a>.
+  final String? privateKey;
   final ProcessingConfiguration? processingConfiguration;
 
   /// The time period where Firehose will retry sending data to the chosen HTTP
@@ -6197,6 +6755,9 @@ class SnowflakeDestinationConfiguration {
 
   /// Choose an S3 backup mode
   final SnowflakeS3BackupMode? s3BackupMode;
+
+  /// The configuration that defines how you access secrets for Snowflake.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
 
   /// Optionally configure a Snowflake role. Otherwise the default user role will
   /// be used.
@@ -6209,55 +6770,61 @@ class SnowflakeDestinationConfiguration {
   /// PrivateLink &amp; Snowflake</a>
   final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
 
+  /// User login name for the Snowflake account.
+  final String? user;
+
   SnowflakeDestinationConfiguration({
     required this.accountUrl,
     required this.database,
-    required this.privateKey,
     required this.roleARN,
     required this.s3Configuration,
     required this.schema,
     required this.table,
-    required this.user,
+    this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.contentColumnName,
     this.dataLoadingOption,
     this.keyPassphrase,
     this.metaDataColumnName,
+    this.privateKey,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupMode,
+    this.secretsManagerConfiguration,
     this.snowflakeRoleConfiguration,
     this.snowflakeVpcConfiguration,
+    this.user,
   });
 
   Map<String, dynamic> toJson() {
     final accountUrl = this.accountUrl;
     final database = this.database;
-    final privateKey = this.privateKey;
     final roleARN = this.roleARN;
     final s3Configuration = this.s3Configuration;
     final schema = this.schema;
     final table = this.table;
-    final user = this.user;
+    final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final contentColumnName = this.contentColumnName;
     final dataLoadingOption = this.dataLoadingOption;
     final keyPassphrase = this.keyPassphrase;
     final metaDataColumnName = this.metaDataColumnName;
+    final privateKey = this.privateKey;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
     final snowflakeVpcConfiguration = this.snowflakeVpcConfiguration;
+    final user = this.user;
     return {
       'AccountUrl': accountUrl,
       'Database': database,
-      'PrivateKey': privateKey,
       'RoleARN': roleARN,
       'S3Configuration': s3Configuration,
       'Schema': schema,
       'Table': table,
-      'User': user,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (contentColumnName != null) 'ContentColumnName': contentColumnName,
@@ -6265,14 +6832,18 @@ class SnowflakeDestinationConfiguration {
         'DataLoadingOption': dataLoadingOption.value,
       if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
       if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
+      if (privateKey != null) 'PrivateKey': privateKey,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
       if (snowflakeRoleConfiguration != null)
         'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
       if (snowflakeVpcConfiguration != null)
         'SnowflakeVpcConfiguration': snowflakeVpcConfiguration,
+      if (user != null) 'User': user,
     };
   }
 }
@@ -6284,6 +6855,11 @@ class SnowflakeDestinationDescription {
   /// identifier</a>. Note that the protocol (https://) and port number are
   /// optional.
   final String? accountUrl;
+
+  /// Describes the buffering to perform before delivering data to the Snowflake
+  /// destination. If you do not specify any value, Firehose uses the default
+  /// values.
+  final SnowflakeBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The name of the record content column
@@ -6316,6 +6892,9 @@ class SnowflakeDestinationDescription {
   /// of database objects, such as tables and views
   final String? schema;
 
+  /// The configuration that defines how you access secrets for Snowflake.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   /// Optionally configure a Snowflake role. Otherwise the default user role will
   /// be used.
   final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
@@ -6336,6 +6915,7 @@ class SnowflakeDestinationDescription {
 
   SnowflakeDestinationDescription({
     this.accountUrl,
+    this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.contentColumnName,
     this.dataLoadingOption,
@@ -6347,6 +6927,7 @@ class SnowflakeDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
     this.schema,
+    this.secretsManagerConfiguration,
     this.snowflakeRoleConfiguration,
     this.snowflakeVpcConfiguration,
     this.table,
@@ -6356,6 +6937,10 @@ class SnowflakeDestinationDescription {
   factory SnowflakeDestinationDescription.fromJson(Map<String, dynamic> json) {
     return SnowflakeDestinationDescription(
       accountUrl: json['AccountUrl'] as String?,
+      bufferingHints: json['BufferingHints'] != null
+          ? SnowflakeBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
           ? CloudWatchLoggingOptions.fromJson(
               json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
@@ -6381,6 +6966,10 @@ class SnowflakeDestinationDescription {
               json['S3DestinationDescription'] as Map<String, dynamic>)
           : null,
       schema: json['Schema'] as String?,
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
       snowflakeRoleConfiguration: json['SnowflakeRoleConfiguration'] != null
           ? SnowflakeRoleConfiguration.fromJson(
               json['SnowflakeRoleConfiguration'] as Map<String, dynamic>)
@@ -6396,6 +6985,7 @@ class SnowflakeDestinationDescription {
 
   Map<String, dynamic> toJson() {
     final accountUrl = this.accountUrl;
+    final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final contentColumnName = this.contentColumnName;
     final dataLoadingOption = this.dataLoadingOption;
@@ -6407,12 +6997,14 @@ class SnowflakeDestinationDescription {
     final s3BackupMode = this.s3BackupMode;
     final s3DestinationDescription = this.s3DestinationDescription;
     final schema = this.schema;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
     final snowflakeVpcConfiguration = this.snowflakeVpcConfiguration;
     final table = this.table;
     final user = this.user;
     return {
       if (accountUrl != null) 'AccountUrl': accountUrl,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (contentColumnName != null) 'ContentColumnName': contentColumnName,
@@ -6428,6 +7020,8 @@ class SnowflakeDestinationDescription {
       if (s3DestinationDescription != null)
         'S3DestinationDescription': s3DestinationDescription,
       if (schema != null) 'Schema': schema,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
       if (snowflakeRoleConfiguration != null)
         'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
       if (snowflakeVpcConfiguration != null)
@@ -6445,6 +7039,10 @@ class SnowflakeDestinationUpdate {
   /// identifier</a>. Note that the protocol (https://) and port number are
   /// optional.
   final String? accountUrl;
+
+  /// Describes the buffering to perform before delivering data to the Snowflake
+  /// destination.
+  final SnowflakeBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The name of the content metadata column
@@ -6503,6 +7101,9 @@ class SnowflakeDestinationUpdate {
   /// of database objects, such as tables and views
   final String? schema;
 
+  /// Describes the Secrets Manager configuration in Snowflake.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   /// Optionally configure a Snowflake role. Otherwise the default user role will
   /// be used.
   final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
@@ -6516,6 +7117,7 @@ class SnowflakeDestinationUpdate {
 
   SnowflakeDestinationUpdate({
     this.accountUrl,
+    this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.contentColumnName,
     this.dataLoadingOption,
@@ -6529,6 +7131,7 @@ class SnowflakeDestinationUpdate {
     this.s3BackupMode,
     this.s3Update,
     this.schema,
+    this.secretsManagerConfiguration,
     this.snowflakeRoleConfiguration,
     this.table,
     this.user,
@@ -6536,6 +7139,7 @@ class SnowflakeDestinationUpdate {
 
   Map<String, dynamic> toJson() {
     final accountUrl = this.accountUrl;
+    final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final contentColumnName = this.contentColumnName;
     final dataLoadingOption = this.dataLoadingOption;
@@ -6549,11 +7153,13 @@ class SnowflakeDestinationUpdate {
     final s3BackupMode = this.s3BackupMode;
     final s3Update = this.s3Update;
     final schema = this.schema;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
     final table = this.table;
     final user = this.user;
     return {
       if (accountUrl != null) 'AccountUrl': accountUrl,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (contentColumnName != null) 'ContentColumnName': contentColumnName,
@@ -6570,6 +7176,8 @@ class SnowflakeDestinationUpdate {
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
       if (schema != null) 'Schema': schema,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
       if (snowflakeRoleConfiguration != null)
         'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
       if (table != null) 'Table': table,
@@ -6773,10 +7381,6 @@ class SplunkDestinationConfiguration {
   /// This type can be either "Raw" or "Event."
   final HECEndpointType hECEndpointType;
 
-  /// This is a GUID that you obtain from your Splunk cluster when you create a
-  /// new HEC endpoint.
-  final String hECToken;
-
   /// The configuration for the backup Amazon S3 location.
   final S3DestinationConfiguration s3Configuration;
 
@@ -6792,6 +7396,10 @@ class SplunkDestinationConfiguration {
   /// either tries to send the data again or considers it an error, based on your
   /// retry settings.
   final int? hECAcknowledgmentTimeoutInSeconds;
+
+  /// This is a GUID that you obtain from your Splunk cluster when you create a
+  /// new HEC endpoint.
+  final String? hECToken;
 
   /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
@@ -6812,45 +7420,52 @@ class SplunkDestinationConfiguration {
   /// <code>FailedEventsOnly</code>.
   final SplunkS3BackupMode? s3BackupMode;
 
+  /// The configuration that defines how you access secrets for Splunk.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   SplunkDestinationConfiguration({
     required this.hECEndpoint,
     required this.hECEndpointType,
-    required this.hECToken,
     required this.s3Configuration,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
     this.hECAcknowledgmentTimeoutInSeconds,
+    this.hECToken,
     this.processingConfiguration,
     this.retryOptions,
     this.s3BackupMode,
+    this.secretsManagerConfiguration,
   });
 
   Map<String, dynamic> toJson() {
     final hECEndpoint = this.hECEndpoint;
     final hECEndpointType = this.hECEndpointType;
-    final hECToken = this.hECToken;
     final s3Configuration = this.s3Configuration;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final hECAcknowledgmentTimeoutInSeconds =
         this.hECAcknowledgmentTimeoutInSeconds;
+    final hECToken = this.hECToken;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       'HECEndpoint': hECEndpoint,
       'HECEndpointType': hECEndpointType.value,
-      'HECToken': hECToken,
       'S3Configuration': s3Configuration,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
       if (hECAcknowledgmentTimeoutInSeconds != null)
         'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
+      if (hECToken != null) 'HECToken': hECToken,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -6898,6 +7513,9 @@ class SplunkDestinationDescription {
   /// The Amazon S3 destination.&gt;
   final S3DestinationDescription? s3DestinationDescription;
 
+  /// The configuration that defines how you access secrets for Splunk.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   SplunkDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -6909,6 +7527,7 @@ class SplunkDestinationDescription {
     this.retryOptions,
     this.s3BackupMode,
     this.s3DestinationDescription,
+    this.secretsManagerConfiguration,
   });
 
   factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) {
@@ -6941,6 +7560,10 @@ class SplunkDestinationDescription {
           ? S3DestinationDescription.fromJson(
               json['S3DestinationDescription'] as Map<String, dynamic>)
           : null,
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -6956,6 +7579,7 @@ class SplunkDestinationDescription {
     final retryOptions = this.retryOptions;
     final s3BackupMode = this.s3BackupMode;
     final s3DestinationDescription = this.s3DestinationDescription;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
@@ -6971,6 +7595,8 @@ class SplunkDestinationDescription {
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3DestinationDescription != null)
         'S3DestinationDescription': s3DestinationDescription,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -7022,6 +7648,9 @@ class SplunkDestinationUpdate {
   /// Your update to the configuration of the backup Amazon S3 location.
   final S3DestinationUpdate? s3Update;
 
+  /// The configuration that defines how you access secrets for Splunk.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
   SplunkDestinationUpdate({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -7033,6 +7662,7 @@ class SplunkDestinationUpdate {
     this.retryOptions,
     this.s3BackupMode,
     this.s3Update,
+    this.secretsManagerConfiguration,
   });
 
   Map<String, dynamic> toJson() {
@@ -7047,6 +7677,7 @@ class SplunkDestinationUpdate {
     final retryOptions = this.retryOptions;
     final s3BackupMode = this.s3BackupMode;
     final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
@@ -7061,6 +7692,8 @@ class SplunkDestinationUpdate {
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }

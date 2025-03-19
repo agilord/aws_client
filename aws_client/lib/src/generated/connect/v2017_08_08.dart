@@ -20,6 +20,18 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Operations_Amazon_Connect_Service.html">Amazon
+/// Connect actions</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Types_Amazon_Connect_Service.html">Amazon
+/// Connect data types</a>
+/// </li>
+/// </ul>
 /// Amazon Connect is a cloud-based contact center solution that you use to set
 /// up and manage a customer contact center and provide reliable customer
 /// engagement at any scale.
@@ -602,7 +614,7 @@ class Connect {
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   ///
   /// Parameter [key] :
-  /// A valid security key in PEM format.
+  /// A valid security key in PEM format as a String.
   Future<AssociateSecurityKeyResponse> associateSecurityKey({
     required String instanceId,
     required String key,
@@ -1040,7 +1052,7 @@ class Connect {
   /// The unique identifier of the attached file resource.
   ///
   /// Parameter [instanceId] :
-  /// The unique identifier of the Connect instance.
+  /// The unique identifier of the Amazon Connect instance.
   Future<void> completeAttachedFileUpload({
     required String associatedResourceArn,
     required String fileId,
@@ -1385,6 +1397,11 @@ class Connect {
   /// Service (Amazon S3) or Amazon Kinesis. It also does not allow for any
   /// configurations on features, such as Contact Lens for Amazon Connect.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html">Create
+  /// an Amazon Connect instance</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  ///
   /// Amazon Connect enforces a limit on the total number of instances that you
   /// can create or delete in 30 days. If you exceed this limit, you will get an
   /// error message indicating there has been an excessive number of attempts at
@@ -1714,7 +1731,11 @@ class Connect {
   }
 
   /// Creates a new predefined attribute for the specified Amazon Connect
-  /// instance.
+  /// instance. <i>Predefined attributes</i> are attributes in an Amazon Connect
+  /// instance that can be used to route contacts to an agent or pools of agents
+  /// within a queue. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html">Create
+  /// predefined attributes for routing contacts to agents</a>.
   ///
   /// May throw [DuplicateResourceException].
   /// May throw [InvalidRequestException].
@@ -2099,6 +2120,14 @@ class Connect {
   }
 
   /// Creates a security profile.
+  ///
+  /// For information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -2999,7 +3028,10 @@ class Connect {
   /// This API is in preview release for Amazon Connect and is subject to
   /// change.
   ///
-  /// Deletes the Amazon Connect instance.
+  /// Deletes the Amazon Connect instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/delete-connect-instance.html">Delete
+  /// your Amazon Connect instance</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
   ///
   /// Amazon Connect enforces a limit on the total number of instances that you
   /// can create or delete in 30 days. If you exceed this limit, you will get an
@@ -3110,7 +3142,8 @@ class Connect {
     );
   }
 
-  /// Deletes a queue.
+  /// Deletes a queue. It isn't possible to delete a queue by using the Amazon
+  /// Connect admin website.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -3576,6 +3609,39 @@ class Connect {
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
+  /// change. To request access to this API, contact Amazon Web Services
+  /// Support.
+  ///
+  /// Describes the target authentication profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [authenticationProfileId] :
+  /// A unique identifier for the authentication profile.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  Future<DescribeAuthenticationProfileResponse> describeAuthenticationProfile({
+    required String authenticationProfileId,
+    required String instanceId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/authentication-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(authenticationProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAuthenticationProfileResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
   /// change.
   ///
   /// Describes the specified contact.
@@ -3939,7 +4005,11 @@ class Connect {
   }
 
   /// Describes a predefined attribute for the specified Amazon Connect
-  /// instance.
+  /// instance. <i>Predefined attributes</i> are attributes in an Amazon Connect
+  /// instance that can be used to route contacts to an agent or pools of agents
+  /// within a queue. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html">Create
+  /// predefined attributes for routing contacts to agents</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -4115,7 +4185,15 @@ class Connect {
     return DescribeRuleResponse.fromJson(response);
   }
 
-  /// Gets basic information about the security profle.
+  /// Gets basic information about the security profile.
+  ///
+  /// For information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -5580,6 +5658,9 @@ class Connect {
   /// Agents
   /// </li>
   /// <li>
+  /// Campaigns
+  /// </li>
+  /// <li>
   /// Channels
   /// </li>
   /// <li>
@@ -5601,6 +5682,9 @@ class Connect {
   /// At least one filter must be passed from queues, routing profiles, agents,
   /// or user hierarchy groups.
   ///
+  /// For metrics for outbound campaigns analytics, you can also use campaigns
+  /// to satisfy at least one filter requirement.
+  ///
   /// To filter by phone number, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html">Create
   /// a historical metrics report</a> in the <i>Amazon Connect Administrator
@@ -5616,11 +5700,13 @@ class Connect {
   /// <code>AGENT_HIERARCHY_LEVEL_TWO</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_THREE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_FOUR</code> |
-  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> | <code>CASE_TEMPLATE_ARN</code> |
-  /// <code>CASE_STATUS</code> | <code>CHANNEL</code> |
+  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> |
+  /// <code>ANSWERING_MACHINE_DETECTION_STATUS</code> | <code>CAMPAIGN</code> |
+  /// <code>CASE_TEMPLATE_ARN</code> | <code>CASE_STATUS</code> |
+  /// <code>CHANNEL</code> |
   /// <code>contact/segmentAttributes/connect:Subtype</code> |
-  /// <code>FEATURE</code> | <code>FLOW_TYPE</code> |
-  /// <code>FLOWS_NEXT_RESOURCE_ID</code> |
+  /// <code>DISCONNECT_REASON</code> | <code>FEATURE</code> |
+  /// <code>FLOW_TYPE</code> | <code>FLOWS_NEXT_RESOURCE_ID</code> |
   /// <code>FLOWS_NEXT_RESOURCE_QUEUE_ID</code> |
   /// <code>FLOWS_OUTCOME_TYPE</code> | <code>FLOWS_RESOURCE_ID</code> |
   /// <code>INITIATION_METHOD</code> | <code>RESOURCE_PUBLISHED_TIMESTAMP</code>
@@ -5663,6 +5749,11 @@ class Connect {
   /// </li>
   /// </ul>
   /// This filter is available only for contact record-driven metrics.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-outbound-campaigns_Campaign.html">Campaign</a>
+  /// ARNs are valid <code>filterValues</code> for the <code>CAMPAIGN</code>
+  /// filter key.
   /// </li>
   /// </ul>
   ///
@@ -5867,6 +5958,17 @@ class Connect {
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical">Average
   /// conversation duration</a>
+  /// </dd> <dt>AVG_DIALS_PER_MINUTE</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics.
+  ///
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Campaign, Agent, Queue, Routing Profile
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-dials-historical">Average
+  /// dials per minute</a>
   /// </dd> <dt>AVG_FLOW_TIME</dt> <dd>
   /// Unit: Seconds
   ///
@@ -6050,6 +6152,47 @@ class Connect {
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical">Average
   /// customer talk time</a>
+  /// </dd> <dt>AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics.
+  ///
+  /// Unit: Seconds
+  ///
+  /// Valid groupings and filters: Campaign
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-wait-time-historical">Average
+  /// wait time after customer connection</a>
+  /// </dd> <dt>CAMPAIGN_CONTACTS_ABANDONED_AFTER_X</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics.
+  ///
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Campaign, Agent
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>GT</code> (for <i>Greater than</i>).
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-historical">Campaign
+  /// contacts abandoned after X</a>
+  /// </dd> <dt>CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics.
+  ///
+  /// Unit: Percent
+  ///
+  /// Valid groupings and filters: Campaign, Agent
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>GT</code> (for <i>Greater than</i>).
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-rate-historical">Campaign
+  /// contacts abandoned after X rate</a>
   /// </dd> <dt>CASES_CREATED</dt> <dd>
   /// Unit: Count
   ///
@@ -6058,53 +6201,8 @@ class Connect {
   /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
   ///
   /// UI name: <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##cases-created-historical">Cases
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-created-historical">Cases
   /// created</a>
-  /// </dd> <dt>CONTACTS_ABANDONED</dt> <dd>
-  /// Unit: Count
-  ///
-  /// Metric filter:
-  ///
-  /// <ul>
-  /// <li>
-  /// Valid values: <code>API</code>| <code>Incoming</code> |
-  /// <code>Outbound</code> | <code>Transfer</code> | <code>Callback</code> |
-  /// <code>Queue_Transfer</code>| <code>Disconnect</code>
-  /// </li>
-  /// </ul>
-  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy, contact/segmentAttributes/connect:Subtype,
-  /// RoutingStepExpression, Q in Connect
-  ///
-  /// UI name: <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-historical">Contact
-  /// abandoned</a>
-  /// </dd> <dt>CONTACTS_ABANDONED_IN_X</dt> <dd>
-  /// Unit: Count
-  ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile,
-  /// contact/segmentAttributes/connect:Subtype, Q in Connect
-  ///
-  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
-  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
-  /// enter <code>LT</code> (for "Less than").
-  ///
-  /// UI name: <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical">Contacts
-  /// abandoned in X seconds</a>
-  /// </dd> <dt>CONTACTS_ANSWERED_IN_X</dt> <dd>
-  /// Unit: Count
-  ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile,
-  /// contact/segmentAttributes/connect:Subtype, Q in Connect
-  ///
-  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
-  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
-  /// enter <code>LT</code> (for "Less than").
-  ///
-  /// UI name: <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical">Contacts
-  /// answered in X seconds</a>
   /// </dd> <dt>CONTACTS_CREATED</dt> <dd>
   /// Unit: Count
   ///
@@ -6216,6 +6314,18 @@ class Connect {
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical">Contacts
   /// queued (enqueue timestamp)</a>
+  /// </dd> <dt>CONTACTS_REMOVED_FROM_QUEUE_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-removed-historical">Contacts
+  /// removed from queue in X seconds</a>
   /// </dd> <dt>CONTACTS_RESOLVED_IN_X</dt> <dd>
   /// Unit: Count
   ///
@@ -6269,6 +6379,39 @@ class Connect {
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical">Current
   /// cases</a>
+  /// </dd> <dt>DELIVERY_ATTEMPTS</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics.
+  ///
+  /// Unit: Count
+  ///
+  /// Valid metric filter key: <code>ANSWERING_MACHINE_DETECTION_STATUS</code>,
+  /// <code>DISCONNECT_REASON</code>
+  ///
+  /// Valid groupings and filters: Campaign, Agent, Queue, Routing Profile,
+  /// Answering Machine Detection Status, Disconnect Reason
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempts-historical">Delivery
+  /// attempts</a>
+  /// </dd> <dt>DELIVERY_ATTEMPT_DISPOSITION_RATE</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics, and with the answering machine detection enabled.
+  ///
+  /// Unit: Percent
+  ///
+  /// Valid metric filter key: <code>ANSWERING_MACHINE_DETECTION_STATUS</code>,
+  /// <code>DISCONNECT_REASON</code>
+  ///
+  /// Valid groupings and filters: Campaign, Agent, Answering Machine Detection
+  /// Status, Disconnect Reason
+  /// <note>
+  /// Answering Machine Detection Status and Disconnect Reason are valid filters
+  /// but not valid groupings.
+  /// </note>
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempt-disposition-rate-historical">Delivery
+  /// attempt disposition rate</a>
   /// </dd> <dt>FLOWS_OUTCOME</dt> <dd>
   /// Unit: Count
   ///
@@ -6292,6 +6435,17 @@ class Connect {
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-started-historical">Flows
   /// started</a>
+  /// </dd> <dt>HUMAN_ANSWERED_CALLS</dt> <dd>
+  /// This metric is available only for contacts analyzed by outbound campaigns
+  /// analytics, and with the answering machine detection enabled.
+  ///
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Campaign, Agent
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#human-answered-historical">Human
+  /// answered</a>
   /// </dd> <dt>MAX_FLOW_TIME</dt> <dd>
   /// Unit: Seconds
   ///
@@ -6340,13 +6494,15 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, RoutingStepExpression
   ///
-  /// UI name: Not available
+  /// UI name: This metric is available in Real-time Metrics UI but not on the
+  /// Historical Metrics UI.
   /// </dd> <dt>PERCENT_CONTACTS_STEP_JOINED</dt> <dd>
   /// Unit: Percent
   ///
   /// Valid groupings and filters: Queue, RoutingStepExpression
   ///
-  /// UI name: Not available
+  /// UI name: This metric is available in Real-time Metrics UI but not on the
+  /// Historical Metrics UI.
   /// </dd> <dt>PERCENT_FLOWS_OUTCOME</dt> <dd>
   /// Unit: Percent
   ///
@@ -6429,7 +6585,7 @@ class Connect {
   /// Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS
   ///
   /// UI name: <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historicall">Cases
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historical">Cases
   /// resolved</a>
   /// </dd> <dt>SERVICE_LEVEL</dt> <dd>
   /// You can include up to 20 SERVICE_LEVEL metrics in a request.
@@ -6450,7 +6606,8 @@ class Connect {
   ///
   /// Valid groupings and filters: Queue, RoutingStepExpression
   ///
-  /// UI name: Not available
+  /// UI name: This metric is available in Real-time Metrics UI but not on the
+  /// Historical Metrics UI.
   /// </dd> <dt>SUM_AFTER_CONTACT_WORK_TIME</dt> <dd>
   /// Unit: Seconds
   ///
@@ -6477,7 +6634,52 @@ class Connect {
   /// <note>
   /// The <code>Negate</code> key in Metric Level Filters is not applicable for
   /// this metric.
-  /// </note> </dd> <dt>SUM_CONTACT_FLOW_TIME</dt> <dd>
+  /// </note> </dd> <dt>CONTACTS_ABANDONED</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Metric filter:
+  ///
+  /// <ul>
+  /// <li>
+  /// Valid values: <code>API</code>| <code>Incoming</code> |
+  /// <code>Outbound</code> | <code>Transfer</code> | <code>Callback</code> |
+  /// <code>Queue_Transfer</code>| <code>Disconnect</code>
+  /// </li>
+  /// </ul>
+  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  /// Hierarchy, contact/segmentAttributes/connect:Subtype,
+  /// RoutingStepExpression, Q in Connect
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-historical">Contact
+  /// abandoned</a>
+  /// </dd> <dt>SUM_CONTACTS_ABANDONED_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-abandoned-x-historical">Contacts
+  /// abandoned in X seconds</a>
+  /// </dd> <dt>SUM_CONTACTS_ANSWERED_IN_X</dt> <dd>
+  /// Unit: Count
+  ///
+  /// Valid groupings and filters: Queue, Channel, Routing Profile,
+  /// contact/segmentAttributes/connect:Subtype, Q in Connect
+  ///
+  /// Threshold: For <code>ThresholdValue</code>, enter any whole number from 1
+  /// to 604800 (inclusive), in seconds. For <code>Comparison</code>, you must
+  /// enter <code>LT</code> (for "Less than").
+  ///
+  /// UI name: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-answered-x-historical">Contacts
+  /// answered in X seconds</a>
+  /// </dd> <dt>SUM_CONTACT_FLOW_TIME</dt> <dd>
   /// Unit: Seconds
   ///
   /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
@@ -6489,8 +6691,7 @@ class Connect {
   /// </dd> <dt>SUM_CONTACT_TIME_AGENT</dt> <dd>
   /// Unit: Seconds
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
   ///
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-on-contact-time-historical">Agent
@@ -6509,8 +6710,7 @@ class Connect {
   /// </dd> <dt>SUM_ERROR_STATUS_TIME_AGENT</dt> <dd>
   /// Unit: Seconds
   ///
-  /// Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  /// Hierarchy
+  /// Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy
   ///
   /// UI name: <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#error-status-time-historical">Error
@@ -6611,14 +6811,17 @@ class Connect {
   /// <code>AGENT_HIERARCHY_LEVEL_TWO</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_THREE</code> |
   /// <code>AGENT_HIERARCHY_LEVEL_FOUR</code> |
-  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> | <code>CASE_TEMPLATE_ARN</code> |
-  /// <code>CASE_STATUS</code> | <code>CHANNEL</code> |
+  /// <code>AGENT_HIERARCHY_LEVEL_FIVE</code> |
+  /// <code>ANSWERING_MACHINE_DETECTION_STATUS</code> | <code>CAMPAIGN</code> |
+  /// <code>CASE_TEMPLATE_ARN</code> | <code>CASE_STATUS</code> |
+  /// <code>CHANNEL</code> |
   /// <code>contact/segmentAttributes/connect:Subtype</code> |
-  /// <code>FLOWS_RESOURCE_ID</code> | <code>FLOWS_MODULE_RESOURCE_ID</code> |
-  /// <code>FLOW_TYPE</code> | <code>FLOWS_OUTCOME_TYPE</code> |
-  /// <code>INITIATION_METHOD</code> | <code>Q_CONNECT_ENABLED</code> |
-  /// <code>QUEUE</code> | <code>RESOURCE_PUBLISHED_TIMESTAMP</code> |
-  /// <code>ROUTING_PROFILE</code> | <code>ROUTING_STEP_EXPRESSION</code>
+  /// <code>DISCONNECT_REASON</code> | <code>FLOWS_RESOURCE_ID</code> |
+  /// <code>FLOWS_MODULE_RESOURCE_ID</code> | <code>FLOW_TYPE</code> |
+  /// <code>FLOWS_OUTCOME_TYPE</code> | <code>INITIATION_METHOD</code> |
+  /// <code>Q_CONNECT_ENABLED</code> | <code>QUEUE</code> |
+  /// <code>RESOURCE_PUBLISHED_TIMESTAMP</code> | <code>ROUTING_PROFILE</code> |
+  /// <code>ROUTING_STEP_EXPRESSION</code>
   ///
   /// Parameter [interval] :
   /// The interval period and timezone to apply to returned metrics.
@@ -6813,6 +7016,29 @@ class Connect {
   /// Pinpoint, into an Amazon Connect instance. You can call this API only in
   /// the same Amazon Web Services Region where the Amazon Connect instance was
   /// created.
+  /// <important>
+  /// Call the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html">DescribePhoneNumber</a>
+  /// API to verify the status of a previous <code>ImportPhoneNumber</code>
+  /// operation.
+  /// </important>
+  /// If you plan to claim or import numbers and then release numbers
+  /// frequently, contact us for a service quota exception. Otherwise, it is
+  /// possible you will be blocked from claiming and releasing any more numbers
+  /// until up to 180 days past the oldest number released has expired.
+  ///
+  /// By default you can claim or import and then release up to 200% of your
+  /// maximum number of active phone numbers. If you claim or import and then
+  /// release phone numbers using the UI or API during a rolling 180 day cycle
+  /// that exceeds 200% of your phone number service level quota, you will be
+  /// blocked from claiming or importing any more numbers until 180 days past
+  /// the oldest number released has expired.
+  ///
+  /// For example, if you already have 99 claimed or imported numbers and a
+  /// service level quota of 99 phone numbers, and in any 180 day period you
+  /// release 99, claim 99, and then release 99, you will have exceeded the 200%
+  /// limit. At that point you are blocked from claiming any more numbers until
+  /// you open an Amazon Web Services Support ticket.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -7022,6 +7248,56 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return ListApprovedOriginsResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change. To request access to this API, contact Amazon Web Services
+  /// Support.
+  ///
+  /// Provides summary information about the authentication profiles in a
+  /// specified Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListAuthenticationProfilesResponse> listAuthenticationProfiles({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/authentication-profiles-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAuthenticationProfilesResponse.fromJson(response);
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
@@ -8019,6 +8295,11 @@ class Connect {
   }
 
   /// Lists predefined attributes for the specified Amazon Connect instance.
+  /// <i>Predefined attributes</i> are attributes in an Amazon Connect instance
+  /// that can be used to route contacts to an agent or pools of agents within a
+  /// queue. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html">Create
+  /// predefined attributes for routing contacts to agents</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -8593,6 +8874,14 @@ class Connect {
 
   /// Lists the permissions granted to a security profile.
   ///
+  /// For information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -8646,7 +8935,11 @@ class Connect {
   ///
   /// For more information about security profiles, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
-  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>.
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -9514,6 +9807,60 @@ class Connect {
     );
   }
 
+  /// Searches AgentStatuses in an Amazon Connect instance, with optional
+  /// filtering.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return agent statuses.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchAgentStatusesResponse> searchAgentStatuses({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    AgentStatusSearchCriteria? searchCriteria,
+    AgentStatusSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-agent-statuses',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchAgentStatusesResponse.fromJson(response);
+  }
+
   /// Searches for available phone numbers that you can claim to your Amazon
   /// Connect instance or traffic distribution group. If the provided
   /// <code>TargetArn</code> is a traffic distribution group, you can call this
@@ -9819,7 +10166,12 @@ class Connect {
     return SearchHoursOfOperationsResponse.fromJson(response);
   }
 
-  /// Predefined attributes that meet certain criteria.
+  /// Searches predefined attributes that meet certain criteria. <i>Predefined
+  /// attributes</i> are attributes in an Amazon Connect instance that can be
+  /// used to route contacts to an agent or pools of agents within a queue. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html">Create
+  /// predefined attributes for routing contacts to agents</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -10061,6 +10413,34 @@ class Connect {
   /// The list of resource types to be used to search tags from. If not provided
   /// or if any empty list is provided, this API will search from all supported
   /// resource types.
+  /// <p class="title"> <b>Supported resource types</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// AGENT
+  /// </li>
+  /// <li>
+  /// ROUTING_PROFILE
+  /// </li>
+  /// <li>
+  /// STANDARD_QUEUE
+  /// </li>
+  /// <li>
+  /// SECURITY_PROFILE
+  /// </li>
+  /// <li>
+  /// OPERATING_HOURS
+  /// </li>
+  /// <li>
+  /// PROMPT
+  /// </li>
+  /// <li>
+  /// CONTACT_FLOW
+  /// </li>
+  /// <li>
+  /// FLOW_MODULE
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [searchCriteria] :
   /// The search criteria to be used to return tags.
@@ -10157,6 +10537,14 @@ class Connect {
   /// Searches security profiles in an Amazon Connect instance, with optional
   /// filtering.
   ///
+  /// For information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -10215,6 +10603,65 @@ class Connect {
       exceptionFnMap: _exceptionFns,
     );
     return SearchSecurityProfilesResponse.fromJson(response);
+  }
+
+  /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional
+  /// filtering.
+  /// <important>
+  /// The UserHierarchyGroup with <code>"LevelId": "0"</code> is the foundation
+  /// for building levels on top of an instance. It is not user-definable, nor
+  /// is it visible in the UI.
+  /// </important>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can find the instanceId
+  /// in the ARN of the instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [searchCriteria] :
+  /// The search criteria to be used to return UserHierarchyGroups.
+  ///
+  /// Parameter [searchFilter] :
+  /// Filters to be applied to search results.
+  Future<SearchUserHierarchyGroupsResponse> searchUserHierarchyGroups({
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    UserHierarchyGroupSearchCriteria? searchCriteria,
+    UserHierarchyGroupSearchFilter? searchFilter,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'InstanceId': instanceId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (searchCriteria != null) 'SearchCriteria': searchCriteria,
+      if (searchFilter != null) 'SearchFilter': searchFilter,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/search-user-hierarchy-groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchUserHierarchyGroupsResponse.fromJson(response);
   }
 
   /// Searches users in an Amazon Connect instance, with optional filtering.
@@ -10411,9 +10858,9 @@ class Connect {
   /// Provides a pre-signed Amazon S3 URL in response for uploading your
   /// content.
   /// <important>
-  /// You may only use this API to upload attachments to a <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Connect
-  /// Case</a>.
+  /// You may only use this API to upload attachments to an <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html">Amazon
+  /// Connect Case</a>.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -10441,7 +10888,7 @@ class Connect {
   /// The use case for the file.
   ///
   /// Parameter [instanceId] :
-  /// The unique identifier of the Connect instance.
+  /// The unique identifier of the Amazon Connect instance.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -10535,9 +10982,21 @@ class Connect {
   /// 400 error, your account may not support the ability to configure custom
   /// chat durations. For more information, contact Amazon Web Services Support.
   ///
-  /// For more information about chat, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat.html">Chat</a>
-  /// in the <i>Amazon Connect Administrator Guide</i>.
+  /// For more information about chat, see the following topics in the <i>Amazon
+  /// Connect Administrator Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html">Concepts:
+  /// Web and mobile messaging capabilities in Amazon Connect</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Amazon
+  /// Connect Chat security best practices</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -10809,6 +11268,22 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-message-streaming.html">Enable
   /// real-time chat message streaming</a> in the <i>Amazon Connect
   /// Administrator Guide</i>.
+  ///
+  /// For more information about chat, see the following topics in the <i>Amazon
+  /// Connect Administrator Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html">Concepts:
+  /// Web and mobile messaging capabilities in Amazon Connect</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat">Amazon
+  /// Connect Chat security best practices</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -11211,9 +11686,9 @@ class Connect {
   /// Parameter [contactFlowId] :
   /// The identifier of the flow for the call. To see the ContactFlowId in the
   /// Amazon Connect admin website, on the navigation menu go to <b>Routing</b>,
-  /// <b>Contact Flows</b>. Choose the flow. On the flow page, under the name of
-  /// the flow, choose <b>Show additional flow information</b>. The
-  /// ContactFlowId is the last part of the ARN, shown here in bold:
+  /// <b>Flows</b>. Choose the flow. On the flow page, under the name of the
+  /// flow, choose <b>Show additional flow information</b>. The ContactFlowId is
+  /// the last part of the ARN, shown here in bold:
   ///
   /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
   ///
@@ -11831,6 +12306,85 @@ class Connect {
   }
 
   /// This API is in preview release for Amazon Connect and is subject to
+  /// change. To request access to this API, contact Amazon Web Services
+  /// Support.
+  ///
+  /// Updates the selected authentication profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [authenticationProfileId] :
+  /// A unique identifier for the authentication profile.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance. You can <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
+  /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
+  ///
+  /// Parameter [allowedIps] :
+  /// A list of IP address range strings that are allowed to access the
+  /// instance. For more information on how to configure IP addresses, see<a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts">Configure
+  /// session timeouts</a> in the <i>Amazon Connect Administrator Guide</i>.
+  ///
+  /// Parameter [blockedIps] :
+  /// A list of IP address range strings that are blocked from accessing the
+  /// instance. For more information on how to configure IP addresses, For more
+  /// information on how to configure IP addresses, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac">Configure
+  /// IP-based access control</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  ///
+  /// Parameter [description] :
+  /// The description for the authentication profile.
+  ///
+  /// Parameter [name] :
+  /// The name for the authentication profile.
+  ///
+  /// Parameter [periodicSessionDuration] :
+  /// The short lived session duration configuration for users logged in to
+  /// Amazon Connect, in minutes. This value determines the maximum possible
+  /// time before an agent is authenticated. For more information, For more
+  /// information on how to configure IP addresses, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts">Configure
+  /// session timeouts</a> in the <i>Amazon Connect Administrator Guide</i>.
+  Future<void> updateAuthenticationProfile({
+    required String authenticationProfileId,
+    required String instanceId,
+    List<String>? allowedIps,
+    List<String>? blockedIps,
+    String? description,
+    String? name,
+    int? periodicSessionDuration,
+  }) async {
+    _s.validateNumRange(
+      'periodicSessionDuration',
+      periodicSessionDuration,
+      10,
+      60,
+    );
+    final $payload = <String, dynamic>{
+      if (allowedIps != null) 'AllowedIps': allowedIps,
+      if (blockedIps != null) 'BlockedIps': blockedIps,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (periodicSessionDuration != null)
+        'PeriodicSessionDuration': periodicSessionDuration,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/authentication-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(authenticationProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
   /// change.
   ///
   /// Adds or updates user-defined contact information associated with the
@@ -12280,11 +12834,16 @@ class Connect {
   /// Contacts are routed to agents on a first-come, first-serve basis. This
   /// means that changing their amount of time in queue compared to others also
   /// changes their position in queue.
+  ///
+  /// Parameter [routingCriteria] :
+  /// Updates the routing criteria on the contact. These properties can be used
+  /// to change how a&#x2028; contact is routed within the queue.
   Future<void> updateContactRoutingData({
     required String contactId,
     required String instanceId,
     int? queuePriority,
     int? queueTimeAdjustmentSeconds,
+    RoutingCriteriaInput? routingCriteria,
   }) async {
     _s.validateNumRange(
       'queuePriority',
@@ -12296,6 +12855,7 @@ class Connect {
       if (queuePriority != null) 'QueuePriority': queuePriority,
       if (queueTimeAdjustmentSeconds != null)
         'QueueTimeAdjustmentSeconds': queueTimeAdjustmentSeconds,
+      if (routingCriteria != null) 'RoutingCriteria': routingCriteria,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -12742,6 +13302,11 @@ class Connect {
   }
 
   /// Updates a predefined attribute for the specified Amazon Connect instance.
+  /// <i>Predefined attributes</i> are attributes in an Amazon Connect instance
+  /// that can be used to route contacts to an agent or pools of agents within a
+  /// queue. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html">Create
+  /// predefined attributes for routing contacts to agents</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -13387,6 +13952,14 @@ class Connect {
   }
 
   /// Updates a security profile.
+  ///
+  /// For information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>. For a
+  /// mapping of the API name and user interface name of the security profile
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html">List
+  /// of security profile permissions</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -14478,6 +15051,78 @@ class AgentStatusReference {
   }
 }
 
+/// The search criteria to be used to return agent statuses.
+class AgentStatusSearchCriteria {
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>,&#x2028;&#x2028; <code>description</code>,
+  /// <code>state</code>, <code>type</code>, <code>displayOrder</code>,&#x2028;
+  /// and <code>resourceID</code>.
+  /// </note>
+  final List<AgentStatusSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<AgentStatusSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>,&#x2028;&#x2028; <code>description</code>,
+  /// <code>state</code>, <code>type</code>, <code>displayOrder</code>,&#x2028;
+  /// and <code>resourceID</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  AgentStatusSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class AgentStatusSearchFilter {
+  /// An object that can be used to specify Tag conditions inside the
+  /// <code>SearchFilter</code>. This accepts an <code>OR</code> of
+  /// <code>AND</code> (List of List) input where:
+  ///
+  /// <ul>
+  /// <li>
+  /// The top level list specifies conditions that need to be applied with
+  /// <code>OR</code> operator.
+  /// </li>
+  /// <li>
+  /// The inner list specifies conditions that need to be applied with
+  /// <code>AND</code> operator.
+  /// </li>
+  /// </ul>
+  final ControlPlaneAttributeFilter? attributeFilter;
+
+  AgentStatusSearchFilter({
+    this.attributeFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeFilter = this.attributeFilter;
+    return {
+      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+    };
+  }
+}
+
 enum AgentStatusState {
   enabled('ENABLED'),
   disabled('DISABLED'),
@@ -14566,6 +15211,34 @@ enum AgentStatusType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum AgentStatusType'));
+}
+
+/// Can be used to define a list of preferred agents to target the contact to
+/// within the queue.&#x2028; Note that agents must have the queue in their
+/// routing profile in order to be offered the&#x2028; contact.
+class AgentsCriteria {
+  /// An object to specify a list of agents, by user ID.
+  final List<String>? agentIds;
+
+  AgentsCriteria({
+    this.agentIds,
+  });
+
+  factory AgentsCriteria.fromJson(Map<String, dynamic> json) {
+    return AgentsCriteria(
+      agentIds: (json['AgentIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentIds = this.agentIds;
+    return {
+      if (agentIds != null) 'AgentIds': agentIds,
+    };
+  }
 }
 
 /// Information about the capabilities enabled for participants of the contact.
@@ -15160,6 +15833,9 @@ class AttributeCondition {
   /// The operator of the condition.
   final String? comparisonOperator;
 
+  /// An object to define <code>AgentsCriteria</code>.
+  final MatchCriteria? matchCriteria;
+
   /// The name of predefined attribute.
   final String? name;
 
@@ -15171,6 +15847,7 @@ class AttributeCondition {
 
   AttributeCondition({
     this.comparisonOperator,
+    this.matchCriteria,
     this.name,
     this.proficiencyLevel,
     this.value,
@@ -15179,6 +15856,10 @@ class AttributeCondition {
   factory AttributeCondition.fromJson(Map<String, dynamic> json) {
     return AttributeCondition(
       comparisonOperator: json['ComparisonOperator'] as String?,
+      matchCriteria: json['MatchCriteria'] != null
+          ? MatchCriteria.fromJson(
+              json['MatchCriteria'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       proficiencyLevel: json['ProficiencyLevel'] as double?,
       value: json['Value'] as String?,
@@ -15187,11 +15868,13 @@ class AttributeCondition {
 
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
+    final matchCriteria = this.matchCriteria;
     final name = this.name;
     final proficiencyLevel = this.proficiencyLevel;
     final value = this.value;
     return {
       if (comparisonOperator != null) 'ComparisonOperator': comparisonOperator,
+      if (matchCriteria != null) 'MatchCriteria': matchCriteria,
       if (name != null) 'Name': name,
       if (proficiencyLevel != null) 'ProficiencyLevel': proficiencyLevel,
       if (value != null) 'Value': value,
@@ -15259,6 +15942,210 @@ class AudioQualityMetricsInfo {
       if (potentialQualityIssues != null)
         'PotentialQualityIssues': potentialQualityIssues,
       if (qualityScore != null) 'QualityScore': qualityScore,
+    };
+  }
+}
+
+/// This API is in preview release for Amazon Connect and is subject to change.
+/// To request access to this API, contact Amazon Web Services Support.
+///
+/// Information about an authentication profile. An authentication profile is a
+/// resource that stores the authentication settings for users in your contact
+/// center. You use authentication profiles to set up IP address range
+/// restrictions and session timeouts. For more information, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html">Set
+/// IP address restrictions or session timeouts</a>.
+class AuthenticationProfile {
+  /// A list of IP address range strings that are allowed to access the Amazon
+  /// Connect instance. For more information about how to configure IP addresses,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac">Configure
+  /// IP address based access control</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  final List<String>? allowedIps;
+
+  /// The Amazon Resource Name (ARN) for the authentication profile.
+  final String? arn;
+
+  /// A list of IP address range strings that are blocked from accessing the
+  /// Amazon Connect instance. For more information about how to configure IP
+  /// addresses, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac">Configure
+  /// IP address based access control</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  final List<String>? blockedIps;
+
+  /// The timestamp when the authentication profile was created.
+  final DateTime? createdTime;
+
+  /// The description for the authentication profile.
+  final String? description;
+
+  /// A unique identifier for the authentication profile.
+  final String? id;
+
+  /// Shows whether the authentication profile is the default authentication
+  /// profile for the Amazon Connect instance. The default authentication profile
+  /// applies to all agents in an Amazon Connect instance, unless overridden by
+  /// another authentication profile.
+  final bool? isDefault;
+
+  /// The Amazon Web Services Region where the authentication profile was last
+  /// modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when the authentication profile was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The long lived session duration for users logged in to Amazon Connect, in
+  /// minutes. After this time period, users must log in again. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts">Configure
+  /// the session duration</a> in the <i>Amazon Connect Administrator Guide</i>.
+  final int? maxSessionDuration;
+
+  /// The name for the authentication profile.
+  final String? name;
+
+  /// The short lived session duration configuration for users logged in to Amazon
+  /// Connect, in minutes. This value determines the maximum possible time before
+  /// an agent is authenticated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts">Configure
+  /// the session duration</a> in the <i>Amazon Connect Administrator Guide</i>.
+  final int? periodicSessionDuration;
+
+  AuthenticationProfile({
+    this.allowedIps,
+    this.arn,
+    this.blockedIps,
+    this.createdTime,
+    this.description,
+    this.id,
+    this.isDefault,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.maxSessionDuration,
+    this.name,
+    this.periodicSessionDuration,
+  });
+
+  factory AuthenticationProfile.fromJson(Map<String, dynamic> json) {
+    return AuthenticationProfile(
+      allowedIps: (json['AllowedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      arn: json['Arn'] as String?,
+      blockedIps: (json['BlockedIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      isDefault: json['IsDefault'] as bool?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      maxSessionDuration: json['MaxSessionDuration'] as int?,
+      name: json['Name'] as String?,
+      periodicSessionDuration: json['PeriodicSessionDuration'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedIps = this.allowedIps;
+    final arn = this.arn;
+    final blockedIps = this.blockedIps;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final isDefault = this.isDefault;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final maxSessionDuration = this.maxSessionDuration;
+    final name = this.name;
+    final periodicSessionDuration = this.periodicSessionDuration;
+    return {
+      if (allowedIps != null) 'AllowedIps': allowedIps,
+      if (arn != null) 'Arn': arn,
+      if (blockedIps != null) 'BlockedIps': blockedIps,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (maxSessionDuration != null) 'MaxSessionDuration': maxSessionDuration,
+      if (name != null) 'Name': name,
+      if (periodicSessionDuration != null)
+        'PeriodicSessionDuration': periodicSessionDuration,
+    };
+  }
+}
+
+/// This API is in preview release for Amazon Connect and is subject to change.
+/// To request access to this API, contact Amazon Web Services Support.
+///
+/// A summary of a given authentication profile.
+class AuthenticationProfileSummary {
+  /// The Amazon Resource Name (ARN) of the authentication profile summary.
+  final String? arn;
+
+  /// The unique identifier of the authentication profile.
+  final String? id;
+
+  /// Shows whether the authentication profile is the default authentication
+  /// profile for the Amazon Connect instance. The default authentication profile
+  /// applies to all agents in an Amazon Connect instance, unless overridden by
+  /// another authentication profile.
+  final bool? isDefault;
+
+  /// The Amazon Web Services Region when the authentication profile summary was
+  /// last modified.
+  final String? lastModifiedRegion;
+
+  /// The timestamp when the authentication profile summary was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the authentication profile summary.
+  final String? name;
+
+  AuthenticationProfileSummary({
+    this.arn,
+    this.id,
+    this.isDefault,
+    this.lastModifiedRegion,
+    this.lastModifiedTime,
+    this.name,
+  });
+
+  factory AuthenticationProfileSummary.fromJson(Map<String, dynamic> json) {
+    return AuthenticationProfileSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      isDefault: json['IsDefault'] as bool?,
+      lastModifiedRegion: json['LastModifiedRegion'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final isDefault = this.isDefault;
+    final lastModifiedRegion = this.lastModifiedRegion;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (lastModifiedRegion != null) 'LastModifiedRegion': lastModifiedRegion,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -15875,6 +16762,24 @@ class ClaimedPhoneNumberSummary {
   }
 }
 
+/// A list of conditions which would be applied together with an
+/// <code>AND</code> condition.
+class CommonAttributeAndCondition {
+  /// A leaf node condition which can be used to specify a tag condition.
+  final List<TagCondition>? tagConditions;
+
+  CommonAttributeAndCondition({
+    this.tagConditions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagConditions = this.tagConditions;
+    return {
+      if (tagConditions != null) 'TagConditions': tagConditions,
+    };
+  }
+}
+
 enum Comparison {
   lt('LT'),
   ;
@@ -15898,6 +16803,34 @@ class CompleteAttachedFileUploadResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// A leaf node condition which can be used to specify a ProficiencyName,
+/// ProficiencyValue and ProficiencyLimit.
+class Condition {
+  /// A leaf node condition which can be used to specify a numeric condition.
+  final NumberCondition? numberCondition;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code> and&#x2028; <code>value</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  Condition({
+    this.numberCondition,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final numberCondition = this.numberCondition;
+    final stringCondition = this.stringCondition;
+    return {
+      if (numberCondition != null) 'NumberCondition': numberCondition,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
   }
 }
 
@@ -17020,6 +17953,48 @@ enum ContactState {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum ContactState'));
+}
+
+/// An object that can be used to specify Tag conditions inside the
+/// <code>SearchFilter</code>. This accepts an <code>OR</code> or
+/// <code>AND</code> (List of List) input where:
+///
+/// <ul>
+/// <li>
+/// The top level list specifies conditions that need to be applied with
+/// <code>OR</code> operator.
+/// </li>
+/// <li>
+/// The inner list specifies conditions that need to be applied with
+/// <code>AND</code> operator.
+/// </li>
+/// </ul>
+class ControlPlaneAttributeFilter {
+  /// A list of conditions which would be applied together with an
+  /// <code>AND</code> condition.
+  final CommonAttributeAndCondition? andCondition;
+
+  /// A list of conditions which would be applied together with an <code>OR</code>
+  /// condition.
+  final List<CommonAttributeAndCondition>? orConditions;
+  final TagCondition? tagCondition;
+
+  ControlPlaneAttributeFilter({
+    this.andCondition,
+    this.orConditions,
+    this.tagCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andCondition = this.andCondition;
+    final orConditions = this.orConditions;
+    final tagCondition = this.tagCondition;
+    return {
+      if (andCondition != null) 'AndCondition': andCondition,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (tagCondition != null) 'TagCondition': tagCondition,
+    };
+  }
 }
 
 /// An object that can be used to specify Tag conditions inside the
@@ -18442,6 +19417,33 @@ class DescribeAgentStatusResponse {
   }
 }
 
+class DescribeAuthenticationProfileResponse {
+  /// The authentication profile object being described.
+  final AuthenticationProfile? authenticationProfile;
+
+  DescribeAuthenticationProfileResponse({
+    this.authenticationProfile,
+  });
+
+  factory DescribeAuthenticationProfileResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAuthenticationProfileResponse(
+      authenticationProfile: json['AuthenticationProfile'] != null
+          ? AuthenticationProfile.fromJson(
+              json['AuthenticationProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfile = this.authenticationProfile;
+    return {
+      if (authenticationProfile != null)
+        'AuthenticationProfile': authenticationProfile,
+    };
+  }
+}
+
 class DescribeContactEvaluationResponse {
   /// Information about the evaluation form completed for a specific contact.
   final Evaluation evaluation;
@@ -18625,8 +19627,19 @@ class DescribeInstanceResponse {
   /// The name of the instance.
   final Instance? instance;
 
+  /// Status information about the replication process. This field is included
+  /// only when you are using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html">ReplicateInstance</a>
+  /// API to replicate an Amazon Connect instance across Amazon Web Services
+  /// Regions. For information about replicating Amazon Connect instances, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html">Create
+  /// a replica of your existing Amazon Connect instance</a> in the <i>Amazon
+  /// Connect Administrator Guide</i>.
+  final ReplicationConfiguration? replicationConfiguration;
+
   DescribeInstanceResponse({
     this.instance,
+    this.replicationConfiguration,
   });
 
   factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) {
@@ -18634,13 +19647,20 @@ class DescribeInstanceResponse {
       instance: json['Instance'] != null
           ? Instance.fromJson(json['Instance'] as Map<String, dynamic>)
           : null,
+      replicationConfiguration: json['ReplicationConfiguration'] != null
+          ? ReplicationConfiguration.fromJson(
+              json['ReplicationConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final instance = this.instance;
+    final replicationConfiguration = this.replicationConfiguration;
     return {
       if (instance != null) 'Instance': instance,
+      if (replicationConfiguration != null)
+        'ReplicationConfiguration': replicationConfiguration,
     };
   }
 }
@@ -21039,7 +22059,7 @@ class FieldValueUnion {
   /// A Boolean number value type.
   final bool? booleanValue;
 
-  /// a Double number value type.
+  /// A Double number value type.
   final double? doubleValue;
 
   /// An empty value.
@@ -23021,6 +24041,25 @@ enum InstanceAttributeType {
           throw Exception('$value is not known in enum InstanceAttributeType'));
 }
 
+enum InstanceReplicationStatus {
+  instanceReplicationComplete('INSTANCE_REPLICATION_COMPLETE'),
+  instanceReplicationInProgress('INSTANCE_REPLICATION_IN_PROGRESS'),
+  instanceReplicationFailed('INSTANCE_REPLICATION_FAILED'),
+  instanceReplicaDeleting('INSTANCE_REPLICA_DELETING'),
+  instanceReplicationDeletionFailed('INSTANCE_REPLICATION_DELETION_FAILED'),
+  resourceReplicationNotStarted('RESOURCE_REPLICATION_NOT_STARTED'),
+  ;
+
+  final String value;
+
+  const InstanceReplicationStatus(this.value);
+
+  static InstanceReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum InstanceReplicationStatus'));
+}
+
 enum InstanceStatus {
   creationInProgress('CREATION_IN_PROGRESS'),
   active('ACTIVE'),
@@ -23750,6 +24789,44 @@ class ListApprovedOriginsResponse {
   }
 }
 
+class ListAuthenticationProfilesResponse {
+  /// A summary of a given authentication profile.
+  final List<AuthenticationProfileSummary>? authenticationProfileSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListAuthenticationProfilesResponse({
+    this.authenticationProfileSummaryList,
+    this.nextToken,
+  });
+
+  factory ListAuthenticationProfilesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAuthenticationProfilesResponse(
+      authenticationProfileSummaryList:
+          (json['AuthenticationProfileSummaryList'] as List?)
+              ?.nonNulls
+              .map((e) => AuthenticationProfileSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfileSummaryList =
+        this.authenticationProfileSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (authenticationProfileSummaryList != null)
+        'AuthenticationProfileSummaryList': authenticationProfileSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListBotsResponse {
   /// The names and Amazon Web Services Regions of the Amazon Lex or Amazon Lex V2
   /// bots associated with the specified instance.
@@ -23780,6 +24857,31 @@ class ListBotsResponse {
     return {
       if (lexBots != null) 'LexBots': lexBots,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A leaf node condition which can be used to specify a List condition to
+/// search users with attributes included in Lists like Proficiencies.
+class ListCondition {
+  /// A list of Condition objects which would be applied together with an AND
+  /// condition.
+  final List<Condition>? conditions;
+
+  /// The type of target list that will be used to filter the users.
+  final TargetListType? targetListType;
+
+  ListCondition({
+    this.conditions,
+    this.targetListType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
+    final targetListType = this.targetListType;
+    return {
+      if (conditions != null) 'Conditions': conditions,
+      if (targetListType != null) 'TargetListType': targetListType.value,
     };
   }
 }
@@ -25367,6 +26469,32 @@ class ListViewsResponse {
   }
 }
 
+/// An object to define AgentsCriteria.
+class MatchCriteria {
+  /// An object to define agentIds.
+  final AgentsCriteria? agentsCriteria;
+
+  MatchCriteria({
+    this.agentsCriteria,
+  });
+
+  factory MatchCriteria.fromJson(Map<String, dynamic> json) {
+    return MatchCriteria(
+      agentsCriteria: json['AgentsCriteria'] != null
+          ? AgentsCriteria.fromJson(
+              json['AgentsCriteria'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentsCriteria = this.agentsCriteria;
+    return {
+      if (agentsCriteria != null) 'AgentsCriteria': agentsCriteria,
+    };
+  }
+}
+
 /// Contains information about which channels are supported, and how many
 /// contacts an agent can have on a channel simultaneously.
 class MediaConcurrency {
@@ -25940,6 +27068,65 @@ class NotificationRecipientType {
     return {
       if (userIds != null) 'UserIds': userIds,
       if (userTags != null) 'UserTags': userTags,
+    };
+  }
+}
+
+enum NumberComparisonType {
+  greaterOrEqual('GREATER_OR_EQUAL'),
+  greater('GREATER'),
+  lesserOrEqual('LESSER_OR_EQUAL'),
+  lesser('LESSER'),
+  equal('EQUAL'),
+  notEqual('NOT_EQUAL'),
+  range('RANGE'),
+  ;
+
+  final String value;
+
+  const NumberComparisonType(this.value);
+
+  static NumberComparisonType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum NumberComparisonType'));
+}
+
+/// A leaf node condition which can be used to specify a numeric condition.
+/// <note>
+/// The currently supported value for <code>FieldName</code> is
+/// <code>limit</code>.
+/// </note>
+class NumberCondition {
+  /// The type of comparison to be made when evaluating the number condition.
+  final NumberComparisonType? comparisonType;
+
+  /// The name of the field in the number condition.
+  final String? fieldName;
+
+  /// The maxValue to be used while evaluating the number condition.
+  final int? maxValue;
+
+  /// The minValue to be used while evaluating the number condition.
+  final int? minValue;
+
+  NumberCondition({
+    this.comparisonType,
+    this.fieldName,
+    this.maxValue,
+    this.minValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final comparisonType = this.comparisonType;
+    final fieldName = this.fieldName;
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    return {
+      if (comparisonType != null) 'ComparisonType': comparisonType.value,
+      if (fieldName != null) 'FieldName': fieldName,
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minValue != null) 'MinValue': minValue,
     };
   }
 }
@@ -27966,6 +29153,41 @@ class RealTimeContactAnalysisPointOfInterest {
   }
 }
 
+enum RealTimeContactAnalysisPostContactSummaryFailureCode {
+  quotaExceeded('QUOTA_EXCEEDED'),
+  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
+  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
+  invalidAnalysisConfiguration('INVALID_ANALYSIS_CONFIGURATION'),
+  internalError('INTERNAL_ERROR'),
+  ;
+
+  final String value;
+
+  const RealTimeContactAnalysisPostContactSummaryFailureCode(this.value);
+
+  static RealTimeContactAnalysisPostContactSummaryFailureCode fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RealTimeContactAnalysisPostContactSummaryFailureCode'));
+}
+
+enum RealTimeContactAnalysisPostContactSummaryStatus {
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
+
+  final String value;
+
+  const RealTimeContactAnalysisPostContactSummaryStatus(this.value);
+
+  static RealTimeContactAnalysisPostContactSummaryStatus fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RealTimeContactAnalysisPostContactSummaryStatus'));
+}
+
 /// Segment containing list of attachments.
 class RealTimeContactAnalysisSegmentAttachments {
   /// List of objects describing an individual attachment.
@@ -28154,6 +29376,72 @@ class RealTimeContactAnalysisSegmentIssues {
   }
 }
 
+/// Information about the post-contact summary for a real-time contact segment.
+class RealTimeContactAnalysisSegmentPostContactSummary {
+  /// Whether the summary was successfully COMPLETED or FAILED to be generated.
+  final RealTimeContactAnalysisPostContactSummaryStatus status;
+
+  /// The content of the summary.
+  final String? content;
+
+  /// If the summary failed to be generated, one of the following failure codes
+  /// occurs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached
+  /// your service quota.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: The conversation needs to
+  /// have at least one turn from both the participants in order to generate the
+  /// summary.
+  /// </li>
+  /// <li>
+  /// <code>FAILED_SAFETY_GUIDELINES</code>: The generated summary cannot be
+  /// provided because it failed to meet system safety guidelines.
+  /// </li>
+  /// <li>
+  /// <code>INVALID_ANALYSIS_CONFIGURATION</code>: This code occurs when, for
+  /// example, you're using a <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#supported-languages-contact-lens">language</a>
+  /// that isn't supported by generative AI-powered post-contact summaries.
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_ERROR</code>: Internal system error.
+  /// </li>
+  /// </ul>
+  final RealTimeContactAnalysisPostContactSummaryFailureCode? failureCode;
+
+  RealTimeContactAnalysisSegmentPostContactSummary({
+    required this.status,
+    this.content,
+    this.failureCode,
+  });
+
+  factory RealTimeContactAnalysisSegmentPostContactSummary.fromJson(
+      Map<String, dynamic> json) {
+    return RealTimeContactAnalysisSegmentPostContactSummary(
+      status: RealTimeContactAnalysisPostContactSummaryStatus.fromString(
+          (json['Status'] as String)),
+      content: json['Content'] as String?,
+      failureCode: (json['FailureCode'] as String?)?.let(
+          RealTimeContactAnalysisPostContactSummaryFailureCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final content = this.content;
+    final failureCode = this.failureCode;
+    return {
+      'Status': status.value,
+      if (content != null) 'Content': content,
+      if (failureCode != null) 'FailureCode': failureCode.value,
+    };
+  }
+}
+
 /// The analyzed transcript segment.
 class RealTimeContactAnalysisSegmentTranscript {
   /// The content of the transcript. Can be redacted.
@@ -28249,6 +29537,7 @@ enum RealTimeContactAnalysisSegmentType {
   issues('Issues'),
   event('Event'),
   attachments('Attachments'),
+  postContactSummary('PostContactSummary'),
   ;
 
   final String value;
@@ -28454,6 +29743,9 @@ class RealtimeContactAnalysisSegment {
   final RealTimeContactAnalysisSegmentCategories? categories;
   final RealTimeContactAnalysisSegmentEvent? event;
   final RealTimeContactAnalysisSegmentIssues? issues;
+
+  /// Information about the post-contact summary.
+  final RealTimeContactAnalysisSegmentPostContactSummary? postContactSummary;
   final RealTimeContactAnalysisSegmentTranscript? transcript;
 
   RealtimeContactAnalysisSegment({
@@ -28461,6 +29753,7 @@ class RealtimeContactAnalysisSegment {
     this.categories,
     this.event,
     this.issues,
+    this.postContactSummary,
     this.transcript,
   });
 
@@ -28482,6 +29775,10 @@ class RealtimeContactAnalysisSegment {
           ? RealTimeContactAnalysisSegmentIssues.fromJson(
               json['Issues'] as Map<String, dynamic>)
           : null,
+      postContactSummary: json['PostContactSummary'] != null
+          ? RealTimeContactAnalysisSegmentPostContactSummary.fromJson(
+              json['PostContactSummary'] as Map<String, dynamic>)
+          : null,
       transcript: json['Transcript'] != null
           ? RealTimeContactAnalysisSegmentTranscript.fromJson(
               json['Transcript'] as Map<String, dynamic>)
@@ -28494,12 +29791,14 @@ class RealtimeContactAnalysisSegment {
     final categories = this.categories;
     final event = this.event;
     final issues = this.issues;
+    final postContactSummary = this.postContactSummary;
     final transcript = this.transcript;
     return {
       if (attachments != null) 'Attachments': attachments,
       if (categories != null) 'Categories': categories,
       if (event != null) 'Event': event,
       if (issues != null) 'Issues': issues,
+      if (postContactSummary != null) 'PostContactSummary': postContactSummary,
       if (transcript != null) 'Transcript': transcript,
     };
   }
@@ -28698,6 +29997,116 @@ class ReplicateInstanceResponse {
   }
 }
 
+/// Details about the status of the replication of a source Amazon Connect
+/// instance across Amazon Web Services Regions. Use these details to understand
+/// the general status of a given replication. For information about why a
+/// replication process may fail, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html#why-replicateinstance-fails">Why
+/// a ReplicateInstance call fails</a> in the <i>Create a replica of your
+/// existing Amazon Connect instance</i> topic in the <i>Amazon Connect
+/// Administrator Guide</i>.
+class ReplicationConfiguration {
+  /// The URL that is used to sign-in to your Amazon Connect instance according to
+  /// your traffic distribution group configuration. For more information about
+  /// sign-in and traffic distribution groups, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html">Important
+  /// things to know</a> in the <i>Create traffic distribution groups</i> topic in
+  /// the <i>Amazon Connect Administrator Guide</i>.
+  final String? globalSignInEndpoint;
+
+  /// A list of replication status summaries. The summaries contain details about
+  /// the replication of configuration information for Amazon Connect resources,
+  /// for each Amazon Web Services Region.
+  final List<ReplicationStatusSummary>? replicationStatusSummaryList;
+
+  /// The Amazon Web Services Region where the source Amazon Connect instance was
+  /// created. This is the Region where the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html">ReplicateInstance</a>
+  /// API was called to start the replication process.
+  final String? sourceRegion;
+
+  ReplicationConfiguration({
+    this.globalSignInEndpoint,
+    this.replicationStatusSummaryList,
+    this.sourceRegion,
+  });
+
+  factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReplicationConfiguration(
+      globalSignInEndpoint: json['GlobalSignInEndpoint'] as String?,
+      replicationStatusSummaryList:
+          (json['ReplicationStatusSummaryList'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  ReplicationStatusSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      sourceRegion: json['SourceRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalSignInEndpoint = this.globalSignInEndpoint;
+    final replicationStatusSummaryList = this.replicationStatusSummaryList;
+    final sourceRegion = this.sourceRegion;
+    return {
+      if (globalSignInEndpoint != null)
+        'GlobalSignInEndpoint': globalSignInEndpoint,
+      if (replicationStatusSummaryList != null)
+        'ReplicationStatusSummaryList': replicationStatusSummaryList,
+      if (sourceRegion != null) 'SourceRegion': sourceRegion,
+    };
+  }
+}
+
+/// Status information about the replication process, where you use the <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_ReplicateInstance.html">ReplicateInstance</a>
+/// API to create a replica of your Amazon Connect instance in another Amazon
+/// Web Services Region. For more information, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html">Set
+/// up Amazon Connect Global Resiliency</a> in the <i>Amazon Connect
+/// Administrator Guide</i>.
+class ReplicationStatusSummary {
+  /// The Amazon Web Services Region. This can be either the source or the replica
+  /// Region, depending where it appears in the summary list.
+  final String? region;
+
+  /// The state of the replication.
+  final InstanceReplicationStatus? replicationStatus;
+
+  /// A description of the replication status. Use this information to resolve any
+  /// issues that are preventing the successful replication of your Amazon Connect
+  /// instance to another Region.
+  final String? replicationStatusReason;
+
+  ReplicationStatusSummary({
+    this.region,
+    this.replicationStatus,
+    this.replicationStatusReason,
+  });
+
+  factory ReplicationStatusSummary.fromJson(Map<String, dynamic> json) {
+    return ReplicationStatusSummary(
+      region: json['Region'] as String?,
+      replicationStatus: (json['ReplicationStatus'] as String?)
+          ?.let(InstanceReplicationStatus.fromString),
+      replicationStatusReason: json['ReplicationStatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final replicationStatus = this.replicationStatus;
+    final replicationStatusReason = this.replicationStatusReason;
+    return {
+      if (region != null) 'Region': region,
+      if (replicationStatus != null)
+        'ReplicationStatus': replicationStatus.value,
+      if (replicationStatusReason != null)
+        'ReplicationStatusReason': replicationStatusReason,
+    };
+  }
+}
+
 /// Information about a required field.
 class RequiredFieldInfo {
   /// The unique identifier for the field.
@@ -28810,6 +30219,71 @@ class RoutingCriteria {
         'ActivationTimestamp': unixTimestampToJson(activationTimestamp),
       if (index != null) 'Index': index,
       if (steps != null) 'Steps': steps,
+    };
+  }
+}
+
+/// An object to define the RoutingCriteria.
+class RoutingCriteriaInput {
+  /// When Amazon Connect does not find an available agent meeting the
+  /// requirements in a step for&#x2028; a given step duration, the routing
+  /// criteria will move on to the next step sequentially until a&#x2028; join is
+  /// completed with an agent. When all steps are exhausted, the contact will be
+  /// offered to any agent in the queue.
+  final List<RoutingCriteriaInputStep>? steps;
+
+  RoutingCriteriaInput({
+    this.steps,
+  });
+
+  Map<String, dynamic> toJson() {
+    final steps = this.steps;
+    return {
+      if (steps != null) 'Steps': steps,
+    };
+  }
+}
+
+/// Step defines the list of agents to be routed or route based on the agent
+/// requirements such as ProficiencyLevel, Name, or Value.
+class RoutingCriteriaInputStep {
+  /// An object to specify the expiration of a routing step.
+  final RoutingCriteriaInputStepExpiry? expiry;
+
+  /// A tagged union to specify expression for a routing step.
+  final Expression? expression;
+
+  RoutingCriteriaInputStep({
+    this.expiry,
+    this.expression,
+  });
+
+  Map<String, dynamic> toJson() {
+    final expiry = this.expiry;
+    final expression = this.expression;
+    return {
+      if (expiry != null) 'Expiry': expiry,
+      if (expression != null) 'Expression': expression,
+    };
+  }
+}
+
+/// Specify whether this routing criteria step should apply for only a limited
+/// amount of time,&#x2028; or if it should never expire.
+class RoutingCriteriaInputStepExpiry {
+  /// The number of seconds that the contact will be routed only to agents
+  /// matching this routing&#x2028; step, if expiry was configured for this
+  /// routing step.
+  final int? durationInSeconds;
+
+  RoutingCriteriaInputStepExpiry({
+    this.durationInSeconds,
+  });
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
     };
   }
 }
@@ -29649,6 +31123,47 @@ class S3Config {
   }
 }
 
+class SearchAgentStatusesResponse {
+  /// The search criteria to be used to return agent statuses.
+  final List<AgentStatus>? agentStatuses;
+
+  /// The total number of agent statuses which matched your search query.
+  final int? approximateTotalCount;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  SearchAgentStatusesResponse({
+    this.agentStatuses,
+    this.approximateTotalCount,
+    this.nextToken,
+  });
+
+  factory SearchAgentStatusesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchAgentStatusesResponse(
+      agentStatuses: (json['AgentStatuses'] as List?)
+          ?.nonNulls
+          .map((e) => AgentStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentStatuses = this.agentStatuses;
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    return {
+      if (agentStatuses != null) 'AgentStatuses': agentStatuses,
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class SearchAvailablePhoneNumbersResponse {
   /// A list of available phone numbers that you can claim to your Amazon Connect
   /// instance or traffic distribution group.
@@ -29731,7 +31246,7 @@ class SearchContactFlowsResponse {
   /// The total number of contact flows which matched your search query.
   final int? approximateTotalCount;
 
-  /// Information about the contact flows.
+  /// Information about the flows.
   final List<ContactFlow>? contactFlows;
 
   /// If there are additional results, this is the token for the next set of
@@ -29892,7 +31407,7 @@ class SearchCriteria {
   /// The search criteria based on user-defined contact attributes that have been
   /// configured for contact search. For more information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html">Search
-  /// by customer contact attributes</a> in the <i>Amazon Connect Administrator
+  /// by custom contact attributes</a> in the <i>Amazon Connect Administrator
   /// Guide</i>.
   /// <important>
   /// To use <code>SearchableContactAttributes</code> in a search request, the
@@ -30256,6 +31771,49 @@ class SearchSecurityProfilesResponse {
         'ApproximateTotalCount': approximateTotalCount,
       if (nextToken != null) 'NextToken': nextToken,
       if (securityProfiles != null) 'SecurityProfiles': securityProfiles,
+    };
+  }
+}
+
+class SearchUserHierarchyGroupsResponse {
+  /// The total number of userHierarchyGroups which matched your search query.
+  final int? approximateTotalCount;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Information about the userHierarchyGroups.
+  final List<HierarchyGroup>? userHierarchyGroups;
+
+  SearchUserHierarchyGroupsResponse({
+    this.approximateTotalCount,
+    this.nextToken,
+    this.userHierarchyGroups,
+  });
+
+  factory SearchUserHierarchyGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SearchUserHierarchyGroupsResponse(
+      approximateTotalCount: json['ApproximateTotalCount'] as int?,
+      nextToken: json['NextToken'] as String?,
+      userHierarchyGroups: (json['UserHierarchyGroups'] as List?)
+          ?.nonNulls
+          .map((e) => HierarchyGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateTotalCount = this.approximateTotalCount;
+    final nextToken = this.nextToken;
+    final userHierarchyGroups = this.userHierarchyGroups;
+    return {
+      if (approximateTotalCount != null)
+        'ApproximateTotalCount': approximateTotalCount,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (userHierarchyGroups != null)
+        'UserHierarchyGroups': userHierarchyGroups,
     };
   }
 }
@@ -30959,7 +32517,7 @@ enum SingleSelectQuestionRuleCategoryAutomationCondition {
               '$value is not known in enum SingleSelectQuestionRuleCategoryAutomationCondition'));
 }
 
-/// A structure that defineds the field name to sort by and a sort order.
+/// A structure that defines the field name to sort by and a sort order.
 class Sort {
   /// The name of the field on which to sort.
   final SortableFieldName fieldName;
@@ -31429,10 +32987,6 @@ enum StringComparisonType {
 }
 
 /// A leaf node condition which can be used to specify a string condition.
-/// <note>
-/// The currently supported values for <code>FieldName</code> are
-/// <code>name</code> and <code>description</code>.
-/// </note>
 class StringCondition {
   /// The type of comparison to be made when evaluating the string condition.
   final StringComparisonType? comparisonType;
@@ -31691,6 +33245,20 @@ class TagSet {
       if (value != null) 'value': value,
     };
   }
+}
+
+enum TargetListType {
+  proficiencies('PROFICIENCIES'),
+  ;
+
+  final String value;
+
+  const TargetListType(this.value);
+
+  static TargetListType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TargetListType'));
 }
 
 /// Information about the task action.
@@ -32089,7 +33657,8 @@ class Threshold {
 
 /// Contains information about the threshold for service level metrics.
 class ThresholdV2 {
-  /// The type of comparison. Only "less than" (LT) comparisons are supported.
+  /// The type of comparison. Only "less than" (LT) and "greater than" (GT)
+  /// comparisons are supported.
   final String? comparison;
 
   /// The threshold value to compare.
@@ -33370,6 +34939,69 @@ class UserDataFilters {
   }
 }
 
+/// The search criteria to be used to return userHierarchyGroup.
+class UserHierarchyGroupSearchCriteria {
+  /// A list of conditions which would be applied together with an AND condition.
+  final List<UserHierarchyGroupSearchCriteria>? andConditions;
+
+  /// A list of conditions which would be applied together with an OR condition.
+  final List<UserHierarchyGroupSearchCriteria>? orConditions;
+
+  /// A leaf node condition which can be used to specify a string condition.
+  /// <note>
+  /// The currently supported values for <code>FieldName</code> are
+  /// <code>name</code>,&#x2028;&#x2028; <code>parentId</code>,
+  /// <code>levelId</code>, and <code>resourceID</code>.
+  /// </note>
+  final StringCondition? stringCondition;
+
+  UserHierarchyGroupSearchCriteria({
+    this.andConditions,
+    this.orConditions,
+    this.stringCondition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andConditions = this.andConditions;
+    final orConditions = this.orConditions;
+    final stringCondition = this.stringCondition;
+    return {
+      if (andConditions != null) 'AndConditions': andConditions,
+      if (orConditions != null) 'OrConditions': orConditions,
+      if (stringCondition != null) 'StringCondition': stringCondition,
+    };
+  }
+}
+
+/// Filters to be applied to search results.
+class UserHierarchyGroupSearchFilter {
+  /// An object that can be used to specify Tag conditions inside the
+  /// SearchFilter. This accepts an OR or AND (List of List) input where:
+  ///
+  /// <ul>
+  /// <li>
+  /// The top level list specifies conditions that need to be applied with
+  /// <code>OR</code> operator.
+  /// </li>
+  /// <li>
+  /// The inner list specifies conditions that need to be applied with
+  /// <code>AND</code> operator.
+  /// </li>
+  /// </ul>
+  final ControlPlaneAttributeFilter? attributeFilter;
+
+  UserHierarchyGroupSearchFilter({
+    this.attributeFilter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeFilter = this.attributeFilter;
+    return {
+      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+    };
+  }
+}
+
 /// Contains information about the identity of a user.
 /// <note>
 /// For Amazon Connect instances that are created with the
@@ -33658,6 +35290,10 @@ class UserSearchCriteria {
   /// condition.
   final HierarchyGroupCondition? hierarchyGroupCondition;
 
+  /// A leaf node condition which can be used to specify a List condition to
+  /// search users with attributes included in Lists like Proficiencies.
+  final ListCondition? listCondition;
+
   /// A list of conditions which would be applied together with an <code>OR</code>
   /// condition.
   final List<UserSearchCriteria>? orConditions;
@@ -33673,6 +35309,7 @@ class UserSearchCriteria {
   UserSearchCriteria({
     this.andConditions,
     this.hierarchyGroupCondition,
+    this.listCondition,
     this.orConditions,
     this.stringCondition,
   });
@@ -33680,12 +35317,14 @@ class UserSearchCriteria {
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final hierarchyGroupCondition = this.hierarchyGroupCondition;
+    final listCondition = this.listCondition;
     final orConditions = this.orConditions;
     final stringCondition = this.stringCondition;
     return {
       if (andConditions != null) 'AndConditions': andConditions,
       if (hierarchyGroupCondition != null)
         'HierarchyGroupCondition': hierarchyGroupCondition,
+      if (listCondition != null) 'ListCondition': listCondition,
       if (orConditions != null) 'OrConditions': orConditions,
       if (stringCondition != null) 'StringCondition': stringCondition,
     };
@@ -34346,6 +35985,16 @@ enum VocabularyLanguageCode {
   zhCn('zh-CN'),
   enNz('en-NZ'),
   enZa('en-ZA'),
+  caEs('ca-ES'),
+  daDk('da-DK'),
+  fiFi('fi-FI'),
+  idId('id-ID'),
+  msMy('ms-MY'),
+  nlNl('nl-NL'),
+  noNo('no-NO'),
+  plPl('pl-PL'),
+  svSe('sv-SE'),
+  tlPh('tl-PH'),
   ;
 
   final String value;

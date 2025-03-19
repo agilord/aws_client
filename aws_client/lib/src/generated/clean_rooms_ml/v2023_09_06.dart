@@ -1302,6 +1302,10 @@ class AudienceExportJobSummary {
 /// Defines the Amazon S3 bucket where the seed audience for the generating
 /// audience is stored.
 class AudienceGenerationJobDataSource {
+  /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed
+  /// audience is stored.
+  final String roleArn;
+
   /// Defines the Amazon S3 bucket where the seed audience for the generating
   /// audience is stored. A valid data source is a JSON line file in the following
   /// format:
@@ -1311,31 +1315,38 @@ class AudienceGenerationJobDataSource {
   /// <code>{"user_id": "222222"}</code>
   ///
   /// <code>...</code>
-  final S3ConfigMap dataSource;
+  final S3ConfigMap? dataSource;
 
-  /// The ARN of the IAM role that can read the Amazon S3 bucket where the
-  /// training data is stored.
-  final String roleArn;
+  /// The protected SQL query parameters.
+  final ProtectedQuerySQLParameters? sqlParameters;
 
   AudienceGenerationJobDataSource({
-    required this.dataSource,
     required this.roleArn,
+    this.dataSource,
+    this.sqlParameters,
   });
 
   factory AudienceGenerationJobDataSource.fromJson(Map<String, dynamic> json) {
     return AudienceGenerationJobDataSource(
-      dataSource:
-          S3ConfigMap.fromJson(json['dataSource'] as Map<String, dynamic>),
       roleArn: json['roleArn'] as String,
+      dataSource: json['dataSource'] != null
+          ? S3ConfigMap.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+      sqlParameters: json['sqlParameters'] != null
+          ? ProtectedQuerySQLParameters.fromJson(
+              json['sqlParameters'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
     final roleArn = this.roleArn;
+    final dataSource = this.dataSource;
+    final sqlParameters = this.sqlParameters;
     return {
-      'dataSource': dataSource,
       'roleArn': roleArn,
+      if (dataSource != null) 'dataSource': dataSource,
+      if (sqlParameters != null) 'sqlParameters': sqlParameters,
     };
   }
 }
@@ -1601,11 +1612,14 @@ class AudienceSize {
   }
 }
 
-/// Configure the list of audience output sizes that can be created. A request
-/// to <a>StartAudienceGenerationJob</a> that uses this configured audience
-/// model must have an <code>audienceSize</code> selected from this list. You
-/// can use the <code>ABSOLUTE</code> <a>AudienceSize</a> to configure out
-/// audience sizes using the count of identifiers in the output. You can use the
+/// Returns the relevance scores at these audience sizes when used in the
+/// <a>GetAudienceGenerationJob</a> for a specified audience generation job and
+/// configured audience model.
+///
+/// Specifies the list of allowed <code>audienceSize</code> values when used in
+/// the <a>StartAudienceExportJob</a> for an audience generation job. You can
+/// use the <code>ABSOLUTE</code> <a>AudienceSize</a> to configure out audience
+/// sizes using the count of identifiers in the output. You can use the
 /// <code>Percentage</code> <a>AudienceSize</a> to configure sizes in the range
 /// 1-100 percent.
 class AudienceSizeConfig {
@@ -2040,6 +2054,10 @@ class GetAudienceGenerationJobResponse {
   /// the generated audience.
   final AudienceQualityMetrics? metrics;
 
+  /// The unique identifier of the protected query for this audience generation
+  /// job.
+  final String? protectedQueryIdentifier;
+
   /// The seed audience that was used for this audience generation job. This field
   /// will be null if the account calling the API is the account that started this
   /// audience generation job.
@@ -2065,6 +2083,7 @@ class GetAudienceGenerationJobResponse {
     this.description,
     this.includeSeedInOutput,
     this.metrics,
+    this.protectedQueryIdentifier,
     this.seedAudience,
     this.startedBy,
     this.statusDetails,
@@ -2087,6 +2106,7 @@ class GetAudienceGenerationJobResponse {
           ? AudienceQualityMetrics.fromJson(
               json['metrics'] as Map<String, dynamic>)
           : null,
+      protectedQueryIdentifier: json['protectedQueryIdentifier'] as String?,
       seedAudience: json['seedAudience'] != null
           ? AudienceGenerationJobDataSource.fromJson(
               json['seedAudience'] as Map<String, dynamic>)
@@ -2112,6 +2132,7 @@ class GetAudienceGenerationJobResponse {
     final description = this.description;
     final includeSeedInOutput = this.includeSeedInOutput;
     final metrics = this.metrics;
+    final protectedQueryIdentifier = this.protectedQueryIdentifier;
     final seedAudience = this.seedAudience;
     final startedBy = this.startedBy;
     final statusDetails = this.statusDetails;
@@ -2128,6 +2149,8 @@ class GetAudienceGenerationJobResponse {
       if (includeSeedInOutput != null)
         'includeSeedInOutput': includeSeedInOutput,
       if (metrics != null) 'metrics': metrics,
+      if (protectedQueryIdentifier != null)
+        'protectedQueryIdentifier': protectedQueryIdentifier,
       if (seedAudience != null) 'seedAudience': seedAudience,
       if (startedBy != null) 'startedBy': startedBy,
       if (statusDetails != null) 'statusDetails': statusDetails,
@@ -2738,6 +2761,46 @@ enum PolicyExistenceCondition {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum PolicyExistenceCondition'));
+}
+
+/// The parameters for the SQL type Protected Query.
+class ProtectedQuerySQLParameters {
+  /// The Amazon Resource Name (ARN) associated with the analysis template within
+  /// a collaboration.
+  final String? analysisTemplateArn;
+
+  /// The protected query SQL parameters.
+  final Map<String, String>? parameters;
+
+  /// The query string to be submitted.
+  final String? queryString;
+
+  ProtectedQuerySQLParameters({
+    this.analysisTemplateArn,
+    this.parameters,
+    this.queryString,
+  });
+
+  factory ProtectedQuerySQLParameters.fromJson(Map<String, dynamic> json) {
+    return ProtectedQuerySQLParameters(
+      analysisTemplateArn: json['analysisTemplateArn'] as String?,
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      queryString: json['queryString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisTemplateArn = this.analysisTemplateArn;
+    final parameters = this.parameters;
+    final queryString = this.queryString;
+    return {
+      if (analysisTemplateArn != null)
+        'analysisTemplateArn': analysisTemplateArn,
+      if (parameters != null) 'parameters': parameters,
+      if (queryString != null) 'queryString': queryString,
+    };
+  }
 }
 
 class PutConfiguredAudienceModelPolicyResponse {

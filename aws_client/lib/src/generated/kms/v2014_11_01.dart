@@ -1116,9 +1116,14 @@ class Kms {
   /// pair, or an SM2 key pair (China Regions only). The private key in an
   /// asymmetric KMS key never leaves KMS unencrypted. However, you can use the
   /// <a>GetPublicKey</a> operation to download the public key so it can be used
-  /// outside of KMS. KMS keys with RSA or SM2 key pairs can be used to encrypt
-  /// or decrypt data or sign and verify messages (but not both). KMS keys with
-  /// ECC key pairs can be used only to sign and verify messages. For
+  /// outside of KMS. Each KMS key can have only one key usage. KMS keys with
+  /// RSA key pairs can be used to encrypt and decrypt data or sign and verify
+  /// messages (but not both). KMS keys with NIST-recommended ECC key pairs can
+  /// be used to sign and verify messages or derive shared secrets (but not
+  /// both). KMS keys with <code>ECC_SECG_P256K1</code> can be used only to sign
+  /// and verify messages. KMS keys with SM2 key pairs (China Regions only) can
+  /// be used to either encrypt and decrypt data, sign and verify messages, or
+  /// derive shared secrets (you must choose one key usage type). For
   /// information about asymmetric KMS keys, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Asymmetric
   /// KMS keys</a> in the <i>Key Management Service Developer Guide</i>.
@@ -1402,7 +1407,8 @@ class Kms {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Asymmetric RSA key pairs
+  /// Asymmetric RSA key pairs (encryption and decryption -or- signing and
+  /// verification)
   ///
   /// <ul>
   /// <li>
@@ -1416,7 +1422,8 @@ class Kms {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Asymmetric NIST-recommended elliptic curve key pairs
+  /// Asymmetric NIST-recommended elliptic curve key pairs (signing and
+  /// verification -or- deriving shared secrets)
   ///
   /// <ul>
   /// <li>
@@ -1430,7 +1437,7 @@ class Kms {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Other asymmetric elliptic curve key pairs
+  /// Other asymmetric elliptic curve key pairs (signing and verification)
   ///
   /// <ul>
   /// <li>
@@ -1439,11 +1446,12 @@ class Kms {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// SM2 key pairs (China Regions only)
+  /// SM2 key pairs (encryption and decryption -or- signing and verification
+  /// -or- deriving shared secrets)
   ///
   /// <ul>
   /// <li>
-  /// <code>SM2</code>
+  /// <code>SM2</code> (China Regions only)
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -1467,16 +1475,21 @@ class Kms {
   /// For HMAC KMS keys (symmetric), specify <code>GENERATE_VERIFY_MAC</code>.
   /// </li>
   /// <li>
-  /// For asymmetric KMS keys with RSA key material, specify
+  /// For asymmetric KMS keys with RSA key pairs, specify
   /// <code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>.
   /// </li>
   /// <li>
-  /// For asymmetric KMS keys with ECC key material, specify
-  /// <code>SIGN_VERIFY</code>.
+  /// For asymmetric KMS keys with NIST-recommended elliptic curve key pairs,
+  /// specify <code>SIGN_VERIFY</code> or <code>KEY_AGREEMENT</code>.
   /// </li>
   /// <li>
-  /// For asymmetric KMS keys with SM2 key material (China Regions only),
-  /// specify <code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>.
+  /// For asymmetric KMS keys with <code>ECC_SECG_P256K1</code> key pairs
+  /// specify <code>SIGN_VERIFY</code>.
+  /// </li>
+  /// <li>
+  /// For asymmetric KMS keys with SM2 key pairs (China Regions only), specify
+  /// <code>ENCRYPT_DECRYPT</code>, <code>SIGN_VERIFY</code>, or
+  /// <code>KEY_AGREEMENT</code>.
   /// </li>
   /// </ul>
   ///
@@ -2227,6 +2240,258 @@ class Kms {
         'KeyId': keyId,
       },
     );
+  }
+
+  /// Derives a shared secret using a key agreement algorithm.
+  /// <note>
+  /// You must use an asymmetric NIST-recommended elliptic curve (ECC) or SM2
+  /// (China Regions only) KMS key pair with a <code>KeyUsage</code> value of
+  /// <code>KEY_AGREEMENT</code> to call DeriveSharedSecret.
+  /// </note>
+  /// DeriveSharedSecret uses the <a
+  /// href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#page=60">Elliptic
+  /// Curve Cryptography Cofactor Diffie-Hellman Primitive</a> (ECDH) to
+  /// establish a key agreement between two peers by deriving a shared secret
+  /// from their elliptic curve public-private key pairs. You can use the raw
+  /// shared secret that DeriveSharedSecret returns to derive a symmetric key
+  /// that can encrypt and decrypt data that is sent between the two peers, or
+  /// that can generate and verify HMACs. KMS recommends that you follow <a
+  /// href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf">NIST
+  /// recommendations for key derivation</a> when using the raw shared secret to
+  /// derive a symmetric key.
+  ///
+  /// The following workflow demonstrates how to establish key agreement over an
+  /// insecure communication channel using DeriveSharedSecret.
+  /// <ol>
+  /// <li>
+  /// <b>Alice</b> calls <a>CreateKey</a> to create an asymmetric KMS key pair
+  /// with a <code>KeyUsage</code> value of <code>KEY_AGREEMENT</code>.
+  ///
+  /// The asymmetric KMS key must use a NIST-recommended elliptic curve (ECC) or
+  /// SM2 (China Regions only) key spec.
+  /// </li>
+  /// <li>
+  /// <b>Bob</b> creates an elliptic curve key pair.
+  ///
+  /// Bob can call <a>CreateKey</a> to create an asymmetric KMS key pair or
+  /// generate a key pair outside of KMS. Bob's key pair must use the same
+  /// NIST-recommended elliptic curve (ECC) or SM2 (China Regions ony) curve as
+  /// Alice.
+  /// </li>
+  /// <li>
+  /// Alice and Bob <b>exchange their public keys</b> through an insecure
+  /// communication channel (like the internet).
+  ///
+  /// Use <a>GetPublicKey</a> to download the public key of your asymmetric KMS
+  /// key pair.
+  /// <note>
+  /// KMS strongly recommends verifying that the public key you receive came
+  /// from the expected party before using it to derive a shared secret.
+  /// </note> </li>
+  /// <li>
+  /// <b>Alice</b> calls DeriveSharedSecret.
+  ///
+  /// KMS uses the private key from the KMS key pair generated in <b>Step 1</b>,
+  /// Bob's public key, and the Elliptic Curve Cryptography Cofactor
+  /// Diffie-Hellman Primitive to derive the shared secret. The private key in
+  /// your KMS key pair never leaves KMS unencrypted. DeriveSharedSecret returns
+  /// the raw shared secret.
+  /// </li>
+  /// <li>
+  /// <b>Bob</b> uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman
+  /// Primitive to calculate the same raw secret using his private key and
+  /// Alice's public key.
+  /// </li> </ol>
+  /// To derive a shared secret you must provide a key agreement algorithm, the
+  /// private key of the caller's asymmetric NIST-recommended elliptic curve or
+  /// SM2 (China Regions only) KMS key pair, and the public key from your peer's
+  /// NIST-recommended elliptic curve or SM2 (China Regions only) key pair. The
+  /// public key can be from another asymmetric KMS key pair or from a key pair
+  /// generated outside of KMS, but both key pairs must be on the same elliptic
+  /// curve.
+  ///
+  /// The KMS key that you use for this operation must be in a compatible key
+  /// state. For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">Key
+  /// states of KMS keys</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a KMS key in
+  /// a different Amazon Web Services account, specify the key ARN or alias ARN
+  /// in the value of the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DeriveSharedSecret</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GetPublicKey</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeKey</a>
+  /// </li>
+  /// </ul>
+  /// <b>Eventual consistency</b>: The KMS API follows an eventual consistency
+  /// model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html">KMS
+  /// eventual consistency</a>.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [DisabledException].
+  /// May throw [KeyUnavailableException].
+  /// May throw [DependencyTimeoutException].
+  /// May throw [InvalidGrantTokenException].
+  /// May throw [InvalidKeyUsageException].
+  /// May throw [KMSInternalException].
+  /// May throw [KMSInvalidStateException].
+  /// May throw [DryRunOperationException].
+  ///
+  /// Parameter [keyAgreementAlgorithm] :
+  /// Specifies the key agreement algorithm used to derive the shared secret.
+  /// The only valid value is <code>ECDH</code>.
+  ///
+  /// Parameter [keyId] :
+  /// Identifies an asymmetric NIST-recommended ECC or SM2 (China Regions only)
+  /// KMS key. KMS uses the private key in the specified key pair to derive the
+  /// shared secret. The key usage of the KMS key must be
+  /// <code>KEY_AGREEMENT</code>. To find the <code>KeyUsage</code> of a KMS
+  /// key, use the <a>DescribeKey</a> operation.
+  ///
+  /// To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN.
+  /// When using an alias name, prefix it with <code>"alias/"</code>. To specify
+  /// a KMS key in a different Amazon Web Services account, you must use the key
+  /// ARN or alias ARN.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Alias name: <code>alias/ExampleAlias</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a KMS key, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
+  /// <a>ListAliases</a>.
+  ///
+  /// Parameter [publicKey] :
+  /// Specifies the public key in your peer's NIST-recommended elliptic curve
+  /// (ECC) or SM2 (China Regions only) key pair.
+  ///
+  /// The public key must be a DER-encoded X.509 public key, also known as
+  /// <code>SubjectPublicKeyInfo</code> (SPKI), as defined in <a
+  /// href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>.
+  ///
+  /// <a>GetPublicKey</a> returns the public key of an asymmetric KMS key pair
+  /// in the required DER-encoded format.
+  /// <note>
+  /// If you use <a
+  /// href="https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html">Amazon
+  /// Web Services CLI version 1</a>, you must provide the DER-encoded X.509
+  /// public key in a file. Otherwise, the Amazon Web Services CLI
+  /// Base64-encodes the public key a second time, resulting in a
+  /// <code>ValidationException</code>.
+  /// </note>
+  /// You can specify the public key as binary data in a file using fileb
+  /// (<code>fileb://&lt;path-to-file&gt;</code>) or in-line using a Base64
+  /// encoded string.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks if your request will succeed. <code>DryRun</code> is an optional
+  /// parameter.
+  ///
+  /// To learn more about how to use this parameter, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html">Testing
+  /// your KMS API calls</a> in the <i>Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [grantTokens] :
+  /// A list of grant tokens.
+  ///
+  /// Use a grant token when your permission to call this operation comes from a
+  /// new grant that has not yet achieved <i>eventual consistency</i>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token">Grant
+  /// token</a> and <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token">Using
+  /// a grant token</a> in the <i>Key Management Service Developer Guide</i>.
+  ///
+  /// Parameter [recipient] :
+  /// A signed <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc">attestation
+  /// document</a> from an Amazon Web Services Nitro enclave and the encryption
+  /// algorithm to use with the enclave's public key. The only valid encryption
+  /// algorithm is <code>RSAES_OAEP_SHA_256</code>.
+  ///
+  /// This parameter only supports attestation documents for Amazon Web Services
+  /// Nitro Enclaves. To call DeriveSharedSecret for an Amazon Web Services
+  /// Nitro Enclaves, use the <a
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk">Amazon
+  /// Web Services Nitro Enclaves SDK</a> to generate the attestation document
+  /// and then use the Recipient parameter from any Amazon Web Services SDK to
+  /// provide the attestation document for the enclave.
+  ///
+  /// When you use this parameter, instead of returning a plaintext copy of the
+  /// shared secret, KMS encrypts the plaintext shared secret under the public
+  /// key in the attestation document, and returns the resulting ciphertext in
+  /// the <code>CiphertextForRecipient</code> field in the response. This
+  /// ciphertext can be decrypted only with the private key in the enclave. The
+  /// <code>CiphertextBlob</code> field in the response contains the encrypted
+  /// shared secret derived from the KMS key specified by the <code>KeyId</code>
+  /// parameter and public key specified by the <code>PublicKey</code>
+  /// parameter. The <code>SharedSecret</code> field in the response is null or
+  /// empty.
+  ///
+  /// For information about the interaction between KMS and Amazon Web Services
+  /// Nitro Enclaves, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html">How
+  /// Amazon Web Services Nitro Enclaves uses KMS</a> in the <i>Key Management
+  /// Service Developer Guide</i>.
+  Future<DeriveSharedSecretResponse> deriveSharedSecret({
+    required KeyAgreementAlgorithmSpec keyAgreementAlgorithm,
+    required String keyId,
+    required Uint8List publicKey,
+    bool? dryRun,
+    List<String>? grantTokens,
+    RecipientInfo? recipient,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TrentService.DeriveSharedSecret'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'KeyAgreementAlgorithm': keyAgreementAlgorithm.value,
+        'KeyId': keyId,
+        'PublicKey': base64Encode(publicKey),
+        if (dryRun != null) 'DryRun': dryRun,
+        if (grantTokens != null) 'GrantTokens': grantTokens,
+        if (recipient != null) 'Recipient': recipient,
+      },
+    );
+
+    return DeriveSharedSecretResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets information about <a
@@ -3817,9 +4082,12 @@ class Kms {
   /// algorithm is <code>RSAES_OAEP_SHA_256</code>.
   ///
   /// This parameter only supports attestation documents for Amazon Web Services
-  /// Nitro Enclaves. To include this parameter, use the <a
+  /// Nitro Enclaves. To call DeriveSharedSecret for an Amazon Web Services
+  /// Nitro Enclaves, use the <a
   /// href="https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk">Amazon
-  /// Web Services Nitro Enclaves SDK</a> or any Amazon Web Services SDK.
+  /// Web Services Nitro Enclaves SDK</a> to generate the attestation document
+  /// and then use the Recipient parameter from any Amazon Web Services SDK to
+  /// provide the attestation document for the enclave.
   ///
   /// When you use this parameter, instead of returning a plaintext copy of the
   /// private data key, KMS encrypts the plaintext private data key under the
@@ -4775,8 +5043,7 @@ class Kms {
   ///
   /// <ul>
   /// <li>
-  /// The public key (or "wrapping key") of an asymmetric key pair that KMS
-  /// generates.
+  /// The public key (or "wrapping key") of an RSA key pair that KMS generates.
   ///
   /// You will use this public key to encrypt ("wrap") your key material while
   /// it's in transit to KMS.
@@ -4872,7 +5139,7 @@ class Kms {
   /// <a>DescribeKey</a>.
   ///
   /// Parameter [wrappingAlgorithm] :
-  /// The algorithm you will use with the asymmetric public key
+  /// The algorithm you will use with the RSA public key
   /// (<code>PublicKey</code>) in the response to protect your key material
   /// during import. For more information, see <a
   /// href="kms/latest/developerguide/importing-keys-get-public-key-and-token.html#select-wrapping-algorithm">Select
@@ -4882,18 +5149,11 @@ class Kms {
   /// For RSA_AES wrapping algorithms, you encrypt your key material with an AES
   /// key that you generate, then encrypt your AES key with the RSA public key
   /// from KMS. For RSAES wrapping algorithms, you encrypt your key material
-  /// directly with the RSA public key from KMS. For SM2PKE wrapping algorithms,
-  /// you encrypt your key material directly with the SM2 public key from KMS.
+  /// directly with the RSA public key from KMS.
   ///
   /// The wrapping algorithms that you can use depend on the type of key
   /// material that you are importing. To import an RSA private key, you must
-  /// use an RSA_AES wrapping algorithm, except in China Regions, where you must
-  /// use the SM2PKE wrapping algorithm to import an RSA private key.
-  ///
-  /// The SM2PKE wrapping algorithm is available only in China Regions. The
-  /// <code>RSA_AES_KEY_WRAP_SHA_256</code> and
-  /// <code>RSA_AES_KEY_WRAP_SHA_1</code> wrapping algorithms are not supported
-  /// in China Regions.
+  /// use an RSA_AES wrapping algorithm.
   ///
   /// <ul>
   /// <li>
@@ -4922,24 +5182,18 @@ class Kms {
   /// <b>RSAES_PKCS1_V1_5</b> (Deprecated) — As of October 10, 2023, KMS does
   /// not support the RSAES_PKCS1_V1_5 wrapping algorithm.
   /// </li>
-  /// <li>
-  /// <b>SM2PKE</b> (China Regions only) — supported for wrapping RSA, ECC, and
-  /// SM2 key material.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [wrappingKeySpec] :
-  /// The type of public key to return in the response. You will use this
+  /// The type of RSA public key to return in the response. You will use this
   /// wrapping key with the specified wrapping algorithm to protect your key
   /// material during import.
   ///
-  /// Use the longest wrapping key that is practical.
+  /// Use the longest RSA wrapping key that is practical.
   ///
   /// You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521
   /// private key. Instead, use an RSA_AES wrapping algorithm or choose a longer
   /// RSA public key.
-  ///
-  /// The SM2 wrapping key spec is available only in China Regions.
   Future<GetParametersForImportResponse> getParametersForImport({
     required String keyId,
     required AlgorithmSpec wrappingAlgorithm,
@@ -4996,7 +5250,8 @@ class Kms {
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_GetPublicKey.html#KMS-GetPublicKey-response-KeyUsage">KeyUsage</a>:
-  /// Whether the key is used for encryption or signing.
+  /// Whether the key is used for encryption, signing, or deriving a shared
+  /// secret.
   /// </li>
   /// <li>
   /// <a
@@ -9700,6 +9955,82 @@ class DeleteCustomKeyStoreResponse {
   }
 }
 
+class DeriveSharedSecretResponse {
+  /// The plaintext shared secret encrypted with the public key in the attestation
+  /// document.
+  ///
+  /// This field is included in the response only when the <code>Recipient</code>
+  /// parameter in the request includes a valid attestation document from an
+  /// Amazon Web Services Nitro enclave. For information about the interaction
+  /// between KMS and Amazon Web Services Nitro Enclaves, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html">How
+  /// Amazon Web Services Nitro Enclaves uses KMS</a> in the <i>Key Management
+  /// Service Developer Guide</i>.
+  final Uint8List? ciphertextForRecipient;
+
+  /// Identifies the key agreement algorithm used to derive the shared secret.
+  final KeyAgreementAlgorithmSpec? keyAgreementAlgorithm;
+
+  /// Identifies the KMS key used to derive the shared secret.
+  final String? keyId;
+
+  /// The source of the key material for the specified KMS key.
+  ///
+  /// When this value is <code>AWS_KMS</code>, KMS created the key material. When
+  /// this value is <code>EXTERNAL</code>, the key material was imported or the
+  /// KMS key doesn't have any key material.
+  ///
+  /// The only valid values for DeriveSharedSecret are <code>AWS_KMS</code> and
+  /// <code>EXTERNAL</code>. DeriveSharedSecret does not support KMS keys with a
+  /// <code>KeyOrigin</code> value of <code>AWS_CLOUDHSM</code> or
+  /// <code>EXTERNAL_KEY_STORE</code>.
+  final OriginType? keyOrigin;
+
+  /// The raw secret derived from the specified key agreement algorithm, private
+  /// key in the asymmetric KMS key, and your peer's public key.
+  ///
+  /// If the response includes the <code>CiphertextForRecipient</code> field, the
+  /// <code>SharedSecret</code> field is null or empty.
+  final Uint8List? sharedSecret;
+
+  DeriveSharedSecretResponse({
+    this.ciphertextForRecipient,
+    this.keyAgreementAlgorithm,
+    this.keyId,
+    this.keyOrigin,
+    this.sharedSecret,
+  });
+
+  factory DeriveSharedSecretResponse.fromJson(Map<String, dynamic> json) {
+    return DeriveSharedSecretResponse(
+      ciphertextForRecipient:
+          _s.decodeNullableUint8List(json['CiphertextForRecipient'] as String?),
+      keyAgreementAlgorithm: (json['KeyAgreementAlgorithm'] as String?)
+          ?.let(KeyAgreementAlgorithmSpec.fromString),
+      keyId: json['KeyId'] as String?,
+      keyOrigin: (json['KeyOrigin'] as String?)?.let(OriginType.fromString),
+      sharedSecret: _s.decodeNullableUint8List(json['SharedSecret'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ciphertextForRecipient = this.ciphertextForRecipient;
+    final keyAgreementAlgorithm = this.keyAgreementAlgorithm;
+    final keyId = this.keyId;
+    final keyOrigin = this.keyOrigin;
+    final sharedSecret = this.sharedSecret;
+    return {
+      if (ciphertextForRecipient != null)
+        'CiphertextForRecipient': base64Encode(ciphertextForRecipient),
+      if (keyAgreementAlgorithm != null)
+        'KeyAgreementAlgorithm': keyAgreementAlgorithm.value,
+      if (keyId != null) 'KeyId': keyId,
+      if (keyOrigin != null) 'KeyOrigin': keyOrigin.value,
+      if (sharedSecret != null) 'SharedSecret': base64Encode(sharedSecret),
+    };
+  }
+}
+
 class DescribeCustomKeyStoresResponse {
   /// Contains metadata about each custom key store.
   final List<CustomKeyStoresListEntry>? customKeyStores;
@@ -10348,6 +10679,11 @@ class GetPublicKeyResponse {
   /// the public key is <code>ENCRYPT_DECRYPT</code>.
   final List<EncryptionAlgorithmSpec>? encryptionAlgorithms;
 
+  /// The key agreement algorithm used to derive a shared secret. This field is
+  /// present only when the KMS key has a <code>KeyUsage</code> value of
+  /// <code>KEY_AGREEMENT</code>.
+  final List<KeyAgreementAlgorithmSpec>? keyAgreementAlgorithms;
+
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the asymmetric KMS key from which the public key was downloaded.
@@ -10356,11 +10692,13 @@ class GetPublicKeyResponse {
   /// The type of the of the public key that was downloaded.
   final KeySpec? keySpec;
 
-  /// The permitted use of the public key. Valid values are
-  /// <code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>.
+  /// The permitted use of the public key. Valid values for asymmetric key pairs
+  /// are <code>ENCRYPT_DECRYPT</code>, <code>SIGN_VERIFY</code>, and
+  /// <code>KEY_AGREEMENT</code>.
   ///
-  /// This information is critical. If a public key with <code>SIGN_VERIFY</code>
-  /// key usage encrypts data outside of KMS, the ciphertext cannot be decrypted.
+  /// This information is critical. For example, if a public key with
+  /// <code>SIGN_VERIFY</code> key usage encrypts data outside of KMS, the
+  /// ciphertext cannot be decrypted.
   final KeyUsageType? keyUsage;
 
   /// The exported public key.
@@ -10382,6 +10720,7 @@ class GetPublicKeyResponse {
   GetPublicKeyResponse({
     this.customerMasterKeySpec,
     this.encryptionAlgorithms,
+    this.keyAgreementAlgorithms,
     this.keyId,
     this.keySpec,
     this.keyUsage,
@@ -10397,6 +10736,10 @@ class GetPublicKeyResponse {
           ?.nonNulls
           .map((e) => EncryptionAlgorithmSpec.fromString((e as String)))
           .toList(),
+      keyAgreementAlgorithms: (json['KeyAgreementAlgorithms'] as List?)
+          ?.nonNulls
+          .map((e) => KeyAgreementAlgorithmSpec.fromString((e as String)))
+          .toList(),
       keyId: json['KeyId'] as String?,
       keySpec: (json['KeySpec'] as String?)?.let(KeySpec.fromString),
       keyUsage: (json['KeyUsage'] as String?)?.let(KeyUsageType.fromString),
@@ -10411,6 +10754,7 @@ class GetPublicKeyResponse {
   Map<String, dynamic> toJson() {
     final customerMasterKeySpec = this.customerMasterKeySpec;
     final encryptionAlgorithms = this.encryptionAlgorithms;
+    final keyAgreementAlgorithms = this.keyAgreementAlgorithms;
     final keyId = this.keyId;
     final keySpec = this.keySpec;
     final keyUsage = this.keyUsage;
@@ -10422,6 +10766,9 @@ class GetPublicKeyResponse {
       if (encryptionAlgorithms != null)
         'EncryptionAlgorithms':
             encryptionAlgorithms.map((e) => e.value).toList(),
+      if (keyAgreementAlgorithms != null)
+        'KeyAgreementAlgorithms':
+            keyAgreementAlgorithms.map((e) => e.value).toList(),
       if (keyId != null) 'KeyId': keyId,
       if (keySpec != null) 'KeySpec': keySpec.value,
       if (keyUsage != null) 'KeyUsage': keyUsage.value,
@@ -10624,6 +10971,7 @@ enum GrantOperation {
   generateDataKeyPairWithoutPlaintext('GenerateDataKeyPairWithoutPlaintext'),
   generateMac('GenerateMac'),
   verifyMac('VerifyMac'),
+  deriveSharedSecret('DeriveSharedSecret'),
   ;
 
   final String value;
@@ -10646,6 +10994,20 @@ class ImportKeyMaterialResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
+}
+
+enum KeyAgreementAlgorithmSpec {
+  ecdh('ECDH'),
+  ;
+
+  final String value;
+
+  const KeyAgreementAlgorithmSpec(this.value);
+
+  static KeyAgreementAlgorithmSpec fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum KeyAgreementAlgorithmSpec'));
 }
 
 enum KeyEncryptionMechanism {
@@ -10778,6 +11140,9 @@ class KeyMetadata {
   /// is omitted.
   final ExpirationModelType? expirationModel;
 
+  /// The key agreement algorithm used to derive a shared secret.
+  final List<KeyAgreementAlgorithmSpec>? keyAgreementAlgorithms;
+
   /// The manager of the KMS key. KMS keys in your Amazon Web Services account are
   /// either customer managed or Amazon Web Services managed. For more information
   /// about the difference, see <a
@@ -10902,6 +11267,7 @@ class KeyMetadata {
     this.enabled,
     this.encryptionAlgorithms,
     this.expirationModel,
+    this.keyAgreementAlgorithms,
     this.keyManager,
     this.keySpec,
     this.keyState,
@@ -10935,6 +11301,10 @@ class KeyMetadata {
           .toList(),
       expirationModel: (json['ExpirationModel'] as String?)
           ?.let(ExpirationModelType.fromString),
+      keyAgreementAlgorithms: (json['KeyAgreementAlgorithms'] as List?)
+          ?.nonNulls
+          .map((e) => KeyAgreementAlgorithmSpec.fromString((e as String)))
+          .toList(),
       keyManager:
           (json['KeyManager'] as String?)?.let(KeyManagerType.fromString),
       keySpec: (json['KeySpec'] as String?)?.let(KeySpec.fromString),
@@ -10976,6 +11346,7 @@ class KeyMetadata {
     final enabled = this.enabled;
     final encryptionAlgorithms = this.encryptionAlgorithms;
     final expirationModel = this.expirationModel;
+    final keyAgreementAlgorithms = this.keyAgreementAlgorithms;
     final keyManager = this.keyManager;
     final keySpec = this.keySpec;
     final keyState = this.keyState;
@@ -11006,6 +11377,9 @@ class KeyMetadata {
         'EncryptionAlgorithms':
             encryptionAlgorithms.map((e) => e.value).toList(),
       if (expirationModel != null) 'ExpirationModel': expirationModel.value,
+      if (keyAgreementAlgorithms != null)
+        'KeyAgreementAlgorithms':
+            keyAgreementAlgorithms.map((e) => e.value).toList(),
       if (keyManager != null) 'KeyManager': keyManager.value,
       if (keySpec != null) 'KeySpec': keySpec.value,
       if (keyState != null) 'KeyState': keyState.value,
@@ -11076,6 +11450,7 @@ enum KeyUsageType {
   signVerify('SIGN_VERIFY'),
   encryptDecrypt('ENCRYPT_DECRYPT'),
   generateVerifyMac('GENERATE_VERIFY_MAC'),
+  keyAgreement('KEY_AGREEMENT'),
   ;
 
   final String value;

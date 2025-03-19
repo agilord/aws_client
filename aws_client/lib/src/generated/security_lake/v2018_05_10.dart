@@ -417,7 +417,7 @@ class SecurityLake {
   /// supported Amazon Web Services.
   ///
   /// Parameter [subscriberIdentity] :
-  /// The AWS identity used to access your data.
+  /// The Amazon Web Services identity used to access your data.
   ///
   /// Parameter [subscriberName] :
   /// The name of your Security Lake subscriber account.
@@ -3068,7 +3068,7 @@ class SubscriberResource {
   /// The subscriber ID of the Amazon Security Lake subscriber account.
   final String subscriberId;
 
-  /// The AWS identity used to access your data.
+  /// The Amazon Web Services identity used to access your data.
   final AwsIdentity subscriberIdentity;
 
   /// The name of your Amazon Security Lake subscriber account.
@@ -3086,9 +3086,9 @@ class SubscriberResource {
   /// The date and time when the subscriber was created.
   final DateTime? createdAt;
 
-  /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource
-  /// share. Before accepting the RAM resource share invitation, you can view
-  /// details related to the RAM resource share.
+  /// The Amazon Resource Name (ARN) which uniquely defines the Amazon Web
+  /// Services RAM resource share. Before accepting the RAM resource share
+  /// invitation, you can view details related to the RAM resource share.
   ///
   /// This field is available only for Lake Formation subscribers created after
   /// March 8, 2023.

@@ -51,14 +51,63 @@ class BedrockRuntime {
     _protocol.close();
   }
 
+  /// The action to apply a guardrail.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [content] :
+  /// The content details used in the request to apply the guardrail.
+  ///
+  /// Parameter [guardrailIdentifier] :
+  /// The guardrail identifier used in the request to apply the guardrail.
+  ///
+  /// Parameter [guardrailVersion] :
+  /// The guardrail version used in the request to apply the guardrail.
+  ///
+  /// Parameter [source] :
+  /// The source of data used in the request to apply the guardrail.
+  Future<ApplyGuardrailResponse> applyGuardrail({
+    required List<GuardrailContentBlock> content,
+    required String guardrailIdentifier,
+    required String guardrailVersion,
+    required GuardrailContentSource source,
+  }) async {
+    final $payload = <String, dynamic>{
+      'content': content,
+      'source': source.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/guardrail/${Uri.encodeComponent(guardrailIdentifier)}/version/${Uri.encodeComponent(guardrailVersion)}/apply',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ApplyGuardrailResponse.fromJson(response);
+  }
+
   /// Sends messages to the specified Amazon Bedrock model.
   /// <code>Converse</code> provides a consistent interface that works with all
   /// models that support messages. This allows you to write code once and use
-  /// it with different models. Should a model have unique inference parameters,
-  /// you can also pass those unique parameters to the model. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html">Run
-  /// inference</a> in the Bedrock User Guide.
+  /// it with different models. If a model has unique inference parameters, you
+  /// can also pass those unique parameters to the model.
+  ///
+  /// Amazon Bedrock doesn't store any text, images, or documents that you
+  /// provide as content. The data is only used to generate the response.
+  ///
+  /// For information about the Converse API, see <i>Use the Converse API</i> in
+  /// the <i>Amazon Bedrock User Guide</i>. To use a guardrail, see <i>Use a
+  /// guardrail with the Converse API</i> in the <i>Amazon Bedrock User
+  /// Guide</i>. To use a tool with a model, see <i>Tool use (Function
+  /// calling)</i> in the <i>Amazon Bedrock User Guide</i>
+  ///
+  /// For example code, see <i>Converse API examples</i> in the <i>Amazon
+  /// Bedrock User Guide</i>.
   ///
   /// This operation requires permission for the
   /// <code>bedrock:InvokeModel</code> action.
@@ -68,6 +117,7 @@ class BedrockRuntime {
   /// May throw [ThrottlingException].
   /// May throw [ModelTimeoutException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ValidationException].
   /// May throw [ModelNotReadyException].
   /// May throw [ModelErrorException].
@@ -78,8 +128,8 @@ class BedrockRuntime {
   /// Parameter [modelId] :
   /// The identifier for the model that you want to call.
   ///
-  /// The <code>modelId</code> to provide depends on the type of model that you
-  /// use:
+  /// The <code>modelId</code> to provide depends on the type of model or
+  /// throughput that you use:
   ///
   /// <ul>
   /// <li>
@@ -87,6 +137,13 @@ class BedrockRuntime {
   /// model IDs for base models, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns">Amazon
   /// Bedrock base model IDs (on-demand throughput)</a> in the Amazon Bedrock
+  /// User Guide.
+  /// </li>
+  /// <li>
+  /// If you use an inference profile, specify the inference profile ID or its
+  /// ARN. For a list of inference profile IDs, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html">Supported
+  /// Regions and models for cross-region inference</a> in the Amazon Bedrock
   /// User Guide.
   /// </li>
   /// <li>
@@ -104,6 +161,9 @@ class BedrockRuntime {
   /// a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
   /// </li>
   /// </ul>
+  /// The Converse API doesn't support <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">imported
+  /// models</a>.
   ///
   /// Parameter [additionalModelRequestFields] :
   /// Additional inference parameters that the model supports, beyond the base
@@ -115,7 +175,7 @@ class BedrockRuntime {
   /// Parameter [additionalModelResponseFieldPaths] :
   /// Additional model parameters field paths to return in the response.
   /// <code>Converse</code> returns the requested fields as a JSON Pointer
-  /// object in the <code>additionalModelResultFields</code> field. The
+  /// object in the <code>additionalModelResponseFields</code> field. The
   /// following is example JSON for
   /// <code>additionalModelResponseFieldPaths</code>.
   ///
@@ -129,6 +189,10 @@ class BedrockRuntime {
   /// structured JSON Pointer with a <code>400</code> error code. if the JSON
   /// Pointer is valid, but the requested field is not in the model response, it
   /// is ignored by <code>Converse</code>.
+  ///
+  /// Parameter [guardrailConfig] :
+  /// Configuration information for a guardrail that you want to use in the
+  /// request.
   ///
   /// Parameter [inferenceConfig] :
   /// Inference parameters to pass to the model. <code>Converse</code> supports
@@ -151,6 +215,7 @@ class BedrockRuntime {
     required String modelId,
     Document? additionalModelRequestFields,
     List<String>? additionalModelResponseFieldPaths,
+    GuardrailConfiguration? guardrailConfig,
     InferenceConfiguration? inferenceConfig,
     List<SystemContentBlock>? system,
     ToolConfiguration? toolConfig,
@@ -161,6 +226,7 @@ class BedrockRuntime {
         'additionalModelRequestFields': additionalModelRequestFields,
       if (additionalModelResponseFieldPaths != null)
         'additionalModelResponseFieldPaths': additionalModelResponseFieldPaths,
+      if (guardrailConfig != null) 'guardrailConfig': guardrailConfig,
       if (inferenceConfig != null) 'inferenceConfig': inferenceConfig,
       if (system != null) 'system': system,
       if (toolConfig != null) 'toolConfig': toolConfig,
@@ -179,17 +245,27 @@ class BedrockRuntime {
   /// API that works with all Amazon Bedrock models that support messages. This
   /// allows you to write code once and use it with different models. Should a
   /// model have unique inference parameters, you can also pass those unique
-  /// parameters to the model. For more information, see <a
-  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html">Run
-  /// inference</a> in the Bedrock User Guide.
+  /// parameters to the model.
   ///
   /// To find out if a model supports streaming, call <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html">GetFoundationModel</a>
   /// and check the <code>responseStreamingSupported</code> field in the
   /// response.
+  /// <note>
+  /// The CLI doesn't support streaming operations in Amazon Bedrock, including
+  /// <code>ConverseStream</code>.
+  /// </note>
+  /// Amazon Bedrock doesn't store any text, images, or documents that you
+  /// provide as content. The data is only used to generate the response.
   ///
-  /// For example code, see <i>Invoke model with streaming code example</i> in
-  /// the <i>Amazon Bedrock User Guide</i>.
+  /// For information about the Converse API, see <i>Use the Converse API</i> in
+  /// the <i>Amazon Bedrock User Guide</i>. To use a guardrail, see <i>Use a
+  /// guardrail with the Converse API</i> in the <i>Amazon Bedrock User
+  /// Guide</i>. To use a tool with a model, see <i>Tool use (Function
+  /// calling)</i> in the <i>Amazon Bedrock User Guide</i>
+  ///
+  /// For example code, see <i>Conversation streaming example</i> in the
+  /// <i>Amazon Bedrock User Guide</i>.
   ///
   /// This operation requires permission for the
   /// <code>bedrock:InvokeModelWithResponseStream</code> action.
@@ -199,6 +275,7 @@ class BedrockRuntime {
   /// May throw [ThrottlingException].
   /// May throw [ModelTimeoutException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ValidationException].
   /// May throw [ModelNotReadyException].
   /// May throw [ModelErrorException].
@@ -209,8 +286,8 @@ class BedrockRuntime {
   /// Parameter [modelId] :
   /// The ID for the model.
   ///
-  /// The <code>modelId</code> to provide depends on the type of model that you
-  /// use:
+  /// The <code>modelId</code> to provide depends on the type of model or
+  /// throughput that you use:
   ///
   /// <ul>
   /// <li>
@@ -218,6 +295,13 @@ class BedrockRuntime {
   /// model IDs for base models, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns">Amazon
   /// Bedrock base model IDs (on-demand throughput)</a> in the Amazon Bedrock
+  /// User Guide.
+  /// </li>
+  /// <li>
+  /// If you use an inference profile, specify the inference profile ID or its
+  /// ARN. For a list of inference profile IDs, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html">Supported
+  /// Regions and models for cross-region inference</a> in the Amazon Bedrock
   /// User Guide.
   /// </li>
   /// <li>
@@ -235,6 +319,9 @@ class BedrockRuntime {
   /// a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
   /// </li>
   /// </ul>
+  /// The Converse API doesn't support <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">imported
+  /// models</a>.
   ///
   /// Parameter [additionalModelRequestFields] :
   /// Additional inference parameters that the model supports, beyond the base
@@ -244,7 +331,7 @@ class BedrockRuntime {
   /// Parameter [additionalModelResponseFieldPaths] :
   /// Additional model parameters field paths to return in the response.
   /// <code>ConverseStream</code> returns the requested fields as a JSON Pointer
-  /// object in the <code>additionalModelResultFields</code> field. The
+  /// object in the <code>additionalModelResponseFields</code> field. The
   /// following is example JSON for
   /// <code>additionalModelResponseFieldPaths</code>.
   ///
@@ -258,6 +345,10 @@ class BedrockRuntime {
   /// structured JSON Pointer with a <code>400</code> error code. if the JSON
   /// Pointer is valid, but the requested field is not in the model response, it
   /// is ignored by <code>ConverseStream</code>.
+  ///
+  /// Parameter [guardrailConfig] :
+  /// Configuration information for a guardrail that you want to use in the
+  /// request.
   ///
   /// Parameter [inferenceConfig] :
   /// Inference parameters to pass to the model. <code>ConverseStream</code>
@@ -279,6 +370,7 @@ class BedrockRuntime {
     required String modelId,
     Document? additionalModelRequestFields,
     List<String>? additionalModelResponseFieldPaths,
+    GuardrailStreamConfiguration? guardrailConfig,
     InferenceConfiguration? inferenceConfig,
     List<SystemContentBlock>? system,
     ToolConfiguration? toolConfig,
@@ -289,6 +381,7 @@ class BedrockRuntime {
         'additionalModelRequestFields': additionalModelRequestFields,
       if (additionalModelResponseFieldPaths != null)
         'additionalModelResponseFieldPaths': additionalModelResponseFieldPaths,
+      if (guardrailConfig != null) 'guardrailConfig': guardrailConfig,
       if (inferenceConfig != null) 'inferenceConfig': inferenceConfig,
       if (system != null) 'system': system,
       if (toolConfig != null) 'toolConfig': toolConfig,
@@ -320,6 +413,7 @@ class BedrockRuntime {
   /// May throw [ThrottlingException].
   /// May throw [ModelTimeoutException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ValidationException].
   /// May throw [ModelNotReadyException].
   /// May throw [ServiceQuotaExceededException].
@@ -327,8 +421,9 @@ class BedrockRuntime {
   ///
   /// Parameter [body] :
   /// The prompt and inference parameters in the format specified in the
-  /// <code>contentType</code> in the header. To see the format and content of
-  /// the request and response bodies for different models, refer to <a
+  /// <code>contentType</code> in the header. You must provide the body in JSON
+  /// format. To see the format and content of the request and response bodies
+  /// for different models, refer to <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
   /// parameters</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html">Run
@@ -362,6 +457,14 @@ class BedrockRuntime {
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html">Use
   /// a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
   /// </li>
+  /// <li>
+  /// If you use an <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">imported
+  /// model</a>, specify the ARN of the imported model. You can get the model
+  /// ARN from a successful call to <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html">CreateModelImportJob</a>
+  /// or from the Imported models page in the Amazon Bedrock console.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [accept] :
@@ -369,7 +472,7 @@ class BedrockRuntime {
   /// value is <code>application/json</code>.
   ///
   /// Parameter [contentType] :
-  /// The MIME type of the input data in the request. The default value is
+  /// The MIME type of the input data in the request. You must specify
   /// <code>application/json</code>.
   ///
   /// Parameter [guardrailIdentifier] :
@@ -441,7 +544,8 @@ class BedrockRuntime {
   /// and check the <code>responseStreamingSupported</code> field in the
   /// response.
   /// <note>
-  /// The CLI doesn't support <code>InvokeModelWithResponseStream</code>.
+  /// The CLI doesn't support streaming operations in Amazon Bedrock, including
+  /// <code>InvokeModelWithResponseStream</code>.
   /// </note>
   /// For example code, see <i>Invoke model with streaming code example</i> in
   /// the <i>Amazon Bedrock User Guide</i>.
@@ -454,6 +558,7 @@ class BedrockRuntime {
   /// May throw [ThrottlingException].
   /// May throw [ModelTimeoutException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ModelStreamErrorException].
   /// May throw [ValidationException].
   /// May throw [ModelNotReadyException].
@@ -462,8 +567,9 @@ class BedrockRuntime {
   ///
   /// Parameter [body] :
   /// The prompt and inference parameters in the format specified in the
-  /// <code>contentType</code> in the header. To see the format and content of
-  /// the request and response bodies for different models, refer to <a
+  /// <code>contentType</code> in the header. You must provide the body in JSON
+  /// format. To see the format and content of the request and response bodies
+  /// for different models, refer to <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
   /// parameters</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html">Run
@@ -497,6 +603,14 @@ class BedrockRuntime {
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html">Use
   /// a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
   /// </li>
+  /// <li>
+  /// If you use an <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html">imported
+  /// model</a>, specify the ARN of the imported model. You can get the model
+  /// ARN from a successful call to <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html">CreateModelImportJob</a>
+  /// or from the Imported models page in the Amazon Bedrock console.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [accept] :
@@ -504,7 +618,7 @@ class BedrockRuntime {
   /// value is <code>application/json</code>.
   ///
   /// Parameter [contentType] :
-  /// The MIME type of the input data in the request. The default value is
+  /// The MIME type of the input data in the request. You must specify
   /// <code>application/json</code>.
   ///
   /// Parameter [guardrailIdentifier] :
@@ -570,7 +684,8 @@ class BedrockRuntime {
   }
 }
 
-/// The model must request at least one tool (no text is generated).
+/// The model must request at least one tool (no text is generated). For
+/// example, <code>{"any" : {}}</code>.
 class AnyToolChoice {
   AnyToolChoice();
 
@@ -579,8 +694,58 @@ class AnyToolChoice {
   }
 }
 
-/// The Model automatically decides if a tool should be called or to whether to
-/// generate text instead.
+class ApplyGuardrailResponse {
+  /// The action taken in the response from the guardrail.
+  final GuardrailAction action;
+
+  /// The assessment details in the response from the guardrail.
+  final List<GuardrailAssessment> assessments;
+
+  /// The output details in the response from the guardrail.
+  final List<GuardrailOutputContent> outputs;
+
+  /// The usage details in the response from the guardrail.
+  final GuardrailUsage usage;
+
+  ApplyGuardrailResponse({
+    required this.action,
+    required this.assessments,
+    required this.outputs,
+    required this.usage,
+  });
+
+  factory ApplyGuardrailResponse.fromJson(Map<String, dynamic> json) {
+    return ApplyGuardrailResponse(
+      action: GuardrailAction.fromString((json['action'] as String)),
+      assessments: (json['assessments'] as List)
+          .nonNulls
+          .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputs: (json['outputs'] as List)
+          .nonNulls
+          .map(
+              (e) => GuardrailOutputContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      usage: GuardrailUsage.fromJson(json['usage'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final assessments = this.assessments;
+    final outputs = this.outputs;
+    final usage = this.usage;
+    return {
+      'action': action.value,
+      'assessments': assessments,
+      'outputs': outputs,
+      'usage': usage,
+    };
+  }
+}
+
+/// The Model automatically decides if a tool should be called or whether to
+/// generate text instead. For example, <code>{"auto" : {}}</code>.
 class AutoToolChoice {
   AutoToolChoice();
 
@@ -589,8 +754,24 @@ class AutoToolChoice {
   }
 }
 
-/// A block of content for a message.
+/// A block of content for a message that you pass to, or receive from, a model
+/// with the <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
+/// API operations.
 class ContentBlock {
+  /// A document to include in the message.
+  final DocumentBlock? document;
+
+  /// Contains the content to assess with the guardrail. If you don't specify
+  /// <code>guardContent</code> in a call to the Converse API, the guardrail (if
+  /// passed in the Converse API) assesses the entire message.
+  ///
+  /// For more information, see <i>Use a guardrail with the Converse API</i> in
+  /// the <i>Amazon Bedrock User Guide</i>. <pre><code> &lt;/p&gt; </code></pre>
+  final GuardrailConverseContentBlock? guardContent;
+
   /// Image to include in the message.
   /// <note>
   /// This field is only supported by Anthropic Claude 3 models.
@@ -607,6 +788,8 @@ class ContentBlock {
   final ToolUseBlock? toolUse;
 
   ContentBlock({
+    this.document,
+    this.guardContent,
     this.image,
     this.text,
     this.toolResult,
@@ -615,6 +798,13 @@ class ContentBlock {
 
   factory ContentBlock.fromJson(Map<String, dynamic> json) {
     return ContentBlock(
+      document: json['document'] != null
+          ? DocumentBlock.fromJson(json['document'] as Map<String, dynamic>)
+          : null,
+      guardContent: json['guardContent'] != null
+          ? GuardrailConverseContentBlock.fromJson(
+              json['guardContent'] as Map<String, dynamic>)
+          : null,
       image: json['image'] != null
           ? ImageBlock.fromJson(json['image'] as Map<String, dynamic>)
           : null,
@@ -629,11 +819,15 @@ class ContentBlock {
   }
 
   Map<String, dynamic> toJson() {
+    final document = this.document;
+    final guardContent = this.guardContent;
     final image = this.image;
     final text = this.text;
     final toolResult = this.toolResult;
     final toolUse = this.toolUse;
     return {
+      if (document != null) 'document': document,
+      if (guardContent != null) 'guardContent': guardContent,
       if (image != null) 'image': image,
       if (text != null) 'text': text,
       if (toolResult != null) 'toolResult': toolResult,
@@ -865,12 +1059,16 @@ class ConverseResponse {
   /// Additional fields in the response that are unique to the model.
   final Document? additionalModelResponseFields;
 
+  /// A trace object that contains information about the Guardrail behavior.
+  final ConverseTrace? trace;
+
   ConverseResponse({
     required this.metrics,
     required this.output,
     required this.stopReason,
     required this.usage,
     this.additionalModelResponseFields,
+    this.trace,
   });
 
   factory ConverseResponse.fromJson(Map<String, dynamic> json) {
@@ -885,6 +1083,9 @@ class ConverseResponse {
               ? Document.fromJson(
                   json['additionalModelResponseFields'] as Map<String, dynamic>)
               : null,
+      trace: json['trace'] != null
+          ? ConverseTrace.fromJson(json['trace'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -894,6 +1095,7 @@ class ConverseResponse {
     final stopReason = this.stopReason;
     final usage = this.usage;
     final additionalModelResponseFields = this.additionalModelResponseFields;
+    final trace = this.trace;
     return {
       'metrics': metrics,
       'output': output,
@@ -901,6 +1103,7 @@ class ConverseResponse {
       'usage': usage,
       if (additionalModelResponseFields != null)
         'additionalModelResponseFields': additionalModelResponseFields,
+      if (trace != null) 'trace': trace,
     };
   }
 }
@@ -913,9 +1116,15 @@ class ConverseStreamMetadataEvent {
   /// Usage information for the conversation stream event.
   final TokenUsage usage;
 
+  /// The trace object in the response from <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
+  /// that contains information about the guardrail behavior.
+  final ConverseStreamTrace? trace;
+
   ConverseStreamMetadataEvent({
     required this.metrics,
     required this.usage,
+    this.trace,
   });
 
   factory ConverseStreamMetadataEvent.fromJson(Map<String, dynamic> json) {
@@ -923,15 +1132,20 @@ class ConverseStreamMetadataEvent {
       metrics: ConverseStreamMetrics.fromJson(
           json['metrics'] as Map<String, dynamic>),
       usage: TokenUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      trace: json['trace'] != null
+          ? ConverseStreamTrace.fromJson(json['trace'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final metrics = this.metrics;
     final usage = this.usage;
+    final trace = this.trace;
     return {
       'metrics': metrics,
       'usage': usage,
+      if (trace != null) 'trace': trace,
     };
   }
 }
@@ -985,6 +1199,9 @@ class ConverseStreamOutput {
   /// A streaming error occurred. Retry your request.
   final ModelStreamErrorException? modelStreamErrorException;
 
+  /// The service isn't currently available. Try again later.
+  final ServiceUnavailableException? serviceUnavailableException;
+
   /// The number of requests exceeds the limit. Resubmit your request later.
   final ThrottlingException? throttlingException;
 
@@ -1001,6 +1218,7 @@ class ConverseStreamOutput {
     this.messageStop,
     this.metadata,
     this.modelStreamErrorException,
+    this.serviceUnavailableException,
     this.throttlingException,
     this.validationException,
   });
@@ -1039,6 +1257,10 @@ class ConverseStreamOutput {
           ? ModelStreamErrorException.fromJson(
               json['modelStreamErrorException'] as Map<String, dynamic>)
           : null,
+      serviceUnavailableException: json['serviceUnavailableException'] != null
+          ? ServiceUnavailableException.fromJson(
+              json['serviceUnavailableException'] as Map<String, dynamic>)
+          : null,
       throttlingException: json['throttlingException'] != null
           ? ThrottlingException.fromJson(
               json['throttlingException'] as Map<String, dynamic>)
@@ -1059,6 +1281,7 @@ class ConverseStreamOutput {
     final messageStop = this.messageStop;
     final metadata = this.metadata;
     final modelStreamErrorException = this.modelStreamErrorException;
+    final serviceUnavailableException = this.serviceUnavailableException;
     final throttlingException = this.throttlingException;
     final validationException = this.validationException;
     return {
@@ -1072,6 +1295,8 @@ class ConverseStreamOutput {
       if (metadata != null) 'metadata': metadata,
       if (modelStreamErrorException != null)
         'modelStreamErrorException': modelStreamErrorException,
+      if (serviceUnavailableException != null)
+        'serviceUnavailableException': serviceUnavailableException,
       if (throttlingException != null)
         'throttlingException': throttlingException,
       if (validationException != null)
@@ -1096,6 +1321,62 @@ class ConverseStreamResponse {
   }
 }
 
+/// The trace object in a response from <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>.
+/// Currently, you can only trace guardrails.
+class ConverseStreamTrace {
+  /// The guardrail trace object.
+  final GuardrailTraceAssessment? guardrail;
+
+  ConverseStreamTrace({
+    this.guardrail,
+  });
+
+  factory ConverseStreamTrace.fromJson(Map<String, dynamic> json) {
+    return ConverseStreamTrace(
+      guardrail: json['guardrail'] != null
+          ? GuardrailTraceAssessment.fromJson(
+              json['guardrail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final guardrail = this.guardrail;
+    return {
+      if (guardrail != null) 'guardrail': guardrail,
+    };
+  }
+}
+
+/// The trace object in a response from <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>.
+/// Currently, you can only trace guardrails.
+class ConverseTrace {
+  /// The guardrail trace object.
+  final GuardrailTraceAssessment? guardrail;
+
+  ConverseTrace({
+    this.guardrail,
+  });
+
+  factory ConverseTrace.fromJson(Map<String, dynamic> json) {
+    return ConverseTrace(
+      guardrail: json['guardrail'] != null
+          ? GuardrailTraceAssessment.fromJson(
+              json['guardrail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final guardrail = this.guardrail;
+    return {
+      if (guardrail != null) 'guardrail': guardrail,
+    };
+  }
+}
+
 class Document {
   Document();
 
@@ -1105,6 +1386,1217 @@ class Document {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// A document to include in a message.
+class DocumentBlock {
+  /// The format of a document, or its extension.
+  final DocumentFormat format;
+
+  /// A name for the document. The name can only contain the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Alphanumeric characters
+  /// </li>
+  /// <li>
+  /// Whitespace characters (no more than one in a row)
+  /// </li>
+  /// <li>
+  /// Hyphens
+  /// </li>
+  /// <li>
+  /// Parentheses
+  /// </li>
+  /// <li>
+  /// Square brackets
+  /// </li>
+  /// </ul> <note>
+  /// This field is vulnerable to prompt injections, because the model might
+  /// inadvertently interpret it as instructions. Therefore, we recommend that you
+  /// specify a neutral name.
+  /// </note>
+  final String name;
+
+  /// Contains the content of the document.
+  final DocumentSource source;
+
+  DocumentBlock({
+    required this.format,
+    required this.name,
+    required this.source,
+  });
+
+  factory DocumentBlock.fromJson(Map<String, dynamic> json) {
+    return DocumentBlock(
+      format: DocumentFormat.fromString((json['format'] as String)),
+      name: json['name'] as String,
+      source: DocumentSource.fromJson(json['source'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final name = this.name;
+    final source = this.source;
+    return {
+      'format': format.value,
+      'name': name,
+      'source': source,
+    };
+  }
+}
+
+enum DocumentFormat {
+  pdf('pdf'),
+  csv('csv'),
+  doc('doc'),
+  docx('docx'),
+  xls('xls'),
+  xlsx('xlsx'),
+  html('html'),
+  txt('txt'),
+  md('md'),
+  ;
+
+  final String value;
+
+  const DocumentFormat(this.value);
+
+  static DocumentFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DocumentFormat'));
+}
+
+/// Contains the content of a document.
+class DocumentSource {
+  /// The raw bytes for the document. If you use an Amazon Web Services SDK, you
+  /// don't need to encode the bytes in base64.
+  final Uint8List? bytes;
+
+  DocumentSource({
+    this.bytes,
+  });
+
+  factory DocumentSource.fromJson(Map<String, dynamic> json) {
+    return DocumentSource(
+      bytes: _s.decodeNullableUint8List(json['bytes'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    return {
+      if (bytes != null) 'bytes': base64Encode(bytes),
+    };
+  }
+}
+
+enum GuardrailAction {
+  none('NONE'),
+  guardrailIntervened('GUARDRAIL_INTERVENED'),
+  ;
+
+  final String value;
+
+  const GuardrailAction(this.value);
+
+  static GuardrailAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GuardrailAction'));
+}
+
+/// A behavior assessment of the guardrail policies used in a call to the
+/// Converse API.
+class GuardrailAssessment {
+  /// The content policy.
+  final GuardrailContentPolicyAssessment? contentPolicy;
+
+  /// The contextual grounding policy used for the guardrail assessment.
+  final GuardrailContextualGroundingPolicyAssessment? contextualGroundingPolicy;
+
+  /// The sensitive information policy.
+  final GuardrailSensitiveInformationPolicyAssessment?
+      sensitiveInformationPolicy;
+
+  /// The topic policy.
+  final GuardrailTopicPolicyAssessment? topicPolicy;
+
+  /// The word policy.
+  final GuardrailWordPolicyAssessment? wordPolicy;
+
+  GuardrailAssessment({
+    this.contentPolicy,
+    this.contextualGroundingPolicy,
+    this.sensitiveInformationPolicy,
+    this.topicPolicy,
+    this.wordPolicy,
+  });
+
+  factory GuardrailAssessment.fromJson(Map<String, dynamic> json) {
+    return GuardrailAssessment(
+      contentPolicy: json['contentPolicy'] != null
+          ? GuardrailContentPolicyAssessment.fromJson(
+              json['contentPolicy'] as Map<String, dynamic>)
+          : null,
+      contextualGroundingPolicy: json['contextualGroundingPolicy'] != null
+          ? GuardrailContextualGroundingPolicyAssessment.fromJson(
+              json['contextualGroundingPolicy'] as Map<String, dynamic>)
+          : null,
+      sensitiveInformationPolicy: json['sensitiveInformationPolicy'] != null
+          ? GuardrailSensitiveInformationPolicyAssessment.fromJson(
+              json['sensitiveInformationPolicy'] as Map<String, dynamic>)
+          : null,
+      topicPolicy: json['topicPolicy'] != null
+          ? GuardrailTopicPolicyAssessment.fromJson(
+              json['topicPolicy'] as Map<String, dynamic>)
+          : null,
+      wordPolicy: json['wordPolicy'] != null
+          ? GuardrailWordPolicyAssessment.fromJson(
+              json['wordPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentPolicy = this.contentPolicy;
+    final contextualGroundingPolicy = this.contextualGroundingPolicy;
+    final sensitiveInformationPolicy = this.sensitiveInformationPolicy;
+    final topicPolicy = this.topicPolicy;
+    final wordPolicy = this.wordPolicy;
+    return {
+      if (contentPolicy != null) 'contentPolicy': contentPolicy,
+      if (contextualGroundingPolicy != null)
+        'contextualGroundingPolicy': contextualGroundingPolicy,
+      if (sensitiveInformationPolicy != null)
+        'sensitiveInformationPolicy': sensitiveInformationPolicy,
+      if (topicPolicy != null) 'topicPolicy': topicPolicy,
+      if (wordPolicy != null) 'wordPolicy': wordPolicy,
+    };
+  }
+}
+
+/// Configuration information for a guardrail that you use with the <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
+/// operation.
+class GuardrailConfiguration {
+  /// The identifier for the guardrail.
+  final String guardrailIdentifier;
+
+  /// The version of the guardrail.
+  final String guardrailVersion;
+
+  /// The trace behavior for the guardrail.
+  final GuardrailTrace? trace;
+
+  GuardrailConfiguration({
+    required this.guardrailIdentifier,
+    required this.guardrailVersion,
+    this.trace,
+  });
+
+  Map<String, dynamic> toJson() {
+    final guardrailIdentifier = this.guardrailIdentifier;
+    final guardrailVersion = this.guardrailVersion;
+    final trace = this.trace;
+    return {
+      'guardrailIdentifier': guardrailIdentifier,
+      'guardrailVersion': guardrailVersion,
+      if (trace != null) 'trace': trace.value,
+    };
+  }
+}
+
+/// The content block to be evaluated by the guardrail.
+class GuardrailContentBlock {
+  /// Text within content block to be evaluated by the guardrail.
+  final GuardrailTextBlock? text;
+
+  GuardrailContentBlock({
+    this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// The content filter for a guardrail.
+class GuardrailContentFilter {
+  /// The guardrail action.
+  final GuardrailContentPolicyAction action;
+
+  /// The guardrail confidence.
+  final GuardrailContentFilterConfidence confidence;
+
+  /// The guardrail type.
+  final GuardrailContentFilterType type;
+
+  GuardrailContentFilter({
+    required this.action,
+    required this.confidence,
+    required this.type,
+  });
+
+  factory GuardrailContentFilter.fromJson(Map<String, dynamic> json) {
+    return GuardrailContentFilter(
+      action:
+          GuardrailContentPolicyAction.fromString((json['action'] as String)),
+      confidence: GuardrailContentFilterConfidence.fromString(
+          (json['confidence'] as String)),
+      type: GuardrailContentFilterType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final confidence = this.confidence;
+    final type = this.type;
+    return {
+      'action': action.value,
+      'confidence': confidence.value,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailContentFilterConfidence {
+  none('NONE'),
+  low('LOW'),
+  medium('MEDIUM'),
+  high('HIGH'),
+  ;
+
+  final String value;
+
+  const GuardrailContentFilterConfidence(this.value);
+
+  static GuardrailContentFilterConfidence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentFilterConfidence'));
+}
+
+enum GuardrailContentFilterType {
+  insults('INSULTS'),
+  hate('HATE'),
+  sexual('SEXUAL'),
+  violence('VIOLENCE'),
+  misconduct('MISCONDUCT'),
+  promptAttack('PROMPT_ATTACK'),
+  ;
+
+  final String value;
+
+  const GuardrailContentFilterType(this.value);
+
+  static GuardrailContentFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentFilterType'));
+}
+
+enum GuardrailContentPolicyAction {
+  blocked('BLOCKED'),
+  ;
+
+  final String value;
+
+  const GuardrailContentPolicyAction(this.value);
+
+  static GuardrailContentPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentPolicyAction'));
+}
+
+/// An assessment of a content policy for a guardrail.
+class GuardrailContentPolicyAssessment {
+  /// The content policy filters.
+  final List<GuardrailContentFilter> filters;
+
+  GuardrailContentPolicyAssessment({
+    required this.filters,
+  });
+
+  factory GuardrailContentPolicyAssessment.fromJson(Map<String, dynamic> json) {
+    return GuardrailContentPolicyAssessment(
+      filters: (json['filters'] as List)
+          .nonNulls
+          .map(
+              (e) => GuardrailContentFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      'filters': filters,
+    };
+  }
+}
+
+enum GuardrailContentQualifier {
+  groundingSource('grounding_source'),
+  query('query'),
+  guardContent('guard_content'),
+  ;
+
+  final String value;
+
+  const GuardrailContentQualifier(this.value);
+
+  static GuardrailContentQualifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentQualifier'));
+}
+
+enum GuardrailContentSource {
+  input('INPUT'),
+  output('OUTPUT'),
+  ;
+
+  final String value;
+
+  const GuardrailContentSource(this.value);
+
+  static GuardrailContentSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContentSource'));
+}
+
+/// The details for the guardrails contextual grounding filter.
+class GuardrailContextualGroundingFilter {
+  /// The action performed by the guardrails contextual grounding filter.
+  final GuardrailContextualGroundingPolicyAction action;
+
+  /// The score generated by contextual grounding filter.
+  final double score;
+
+  /// The threshold used by contextual grounding filter to determine whether the
+  /// content is grounded or not.
+  final double threshold;
+
+  /// The contextual grounding filter type.
+  final GuardrailContextualGroundingFilterType type;
+
+  GuardrailContextualGroundingFilter({
+    required this.action,
+    required this.score,
+    required this.threshold,
+    required this.type,
+  });
+
+  factory GuardrailContextualGroundingFilter.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailContextualGroundingFilter(
+      action: GuardrailContextualGroundingPolicyAction.fromString(
+          (json['action'] as String)),
+      score: json['score'] as double,
+      threshold: json['threshold'] as double,
+      type: GuardrailContextualGroundingFilterType.fromString(
+          (json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final score = this.score;
+    final threshold = this.threshold;
+    final type = this.type;
+    return {
+      'action': action.value,
+      'score': score,
+      'threshold': threshold,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailContextualGroundingFilterType {
+  grounding('GROUNDING'),
+  relevance('RELEVANCE'),
+  ;
+
+  final String value;
+
+  const GuardrailContextualGroundingFilterType(this.value);
+
+  static GuardrailContextualGroundingFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContextualGroundingFilterType'));
+}
+
+enum GuardrailContextualGroundingPolicyAction {
+  blocked('BLOCKED'),
+  none('NONE'),
+  ;
+
+  final String value;
+
+  const GuardrailContextualGroundingPolicyAction(this.value);
+
+  static GuardrailContextualGroundingPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailContextualGroundingPolicyAction'));
+}
+
+/// The policy assessment details for the guardrails contextual grounding
+/// filter.
+class GuardrailContextualGroundingPolicyAssessment {
+  /// The filter details for the guardrails contextual grounding filter.
+  final List<GuardrailContextualGroundingFilter>? filters;
+
+  GuardrailContextualGroundingPolicyAssessment({
+    this.filters,
+  });
+
+  factory GuardrailContextualGroundingPolicyAssessment.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailContextualGroundingPolicyAssessment(
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map((e) => GuardrailContextualGroundingFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      if (filters != null) 'filters': filters,
+    };
+  }
+}
+
+/// <p/>
+/// A content block for selective guarding with the <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
+/// API operations.
+class GuardrailConverseContentBlock {
+  /// The text to guard.
+  final GuardrailConverseTextBlock? text;
+
+  GuardrailConverseContentBlock({
+    this.text,
+  });
+
+  factory GuardrailConverseContentBlock.fromJson(Map<String, dynamic> json) {
+    return GuardrailConverseContentBlock(
+      text: json['text'] != null
+          ? GuardrailConverseTextBlock.fromJson(
+              json['text'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+enum GuardrailConverseContentQualifier {
+  groundingSource('grounding_source'),
+  query('query'),
+  guardContent('guard_content'),
+  ;
+
+  final String value;
+
+  const GuardrailConverseContentQualifier(this.value);
+
+  static GuardrailConverseContentQualifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailConverseContentQualifier'));
+}
+
+/// A text block that contains text that you want to assess with a guardrail.
+/// For more information, see <a>GuardrailConverseContentBlock</a>.
+class GuardrailConverseTextBlock {
+  /// The text that you want to guard.
+  final String text;
+
+  /// The qualifier details for the guardrails contextual grounding filter.
+  final List<GuardrailConverseContentQualifier>? qualifiers;
+
+  GuardrailConverseTextBlock({
+    required this.text,
+    this.qualifiers,
+  });
+
+  factory GuardrailConverseTextBlock.fromJson(Map<String, dynamic> json) {
+    return GuardrailConverseTextBlock(
+      text: json['text'] as String,
+      qualifiers: (json['qualifiers'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              GuardrailConverseContentQualifier.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final qualifiers = this.qualifiers;
+    return {
+      'text': text,
+      if (qualifiers != null)
+        'qualifiers': qualifiers.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A custom word configured in a guardrail.
+class GuardrailCustomWord {
+  /// The action for the custom word.
+  final GuardrailWordPolicyAction action;
+
+  /// The match for the custom word.
+  final String match;
+
+  GuardrailCustomWord({
+    required this.action,
+    required this.match,
+  });
+
+  factory GuardrailCustomWord.fromJson(Map<String, dynamic> json) {
+    return GuardrailCustomWord(
+      action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
+      match: json['match'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    return {
+      'action': action.value,
+      'match': match,
+    };
+  }
+}
+
+/// A managed word configured in a guardrail.
+class GuardrailManagedWord {
+  /// The action for the managed word.
+  final GuardrailWordPolicyAction action;
+
+  /// The match for the managed word.
+  final String match;
+
+  /// The type for the managed word.
+  final GuardrailManagedWordType type;
+
+  GuardrailManagedWord({
+    required this.action,
+    required this.match,
+    required this.type,
+  });
+
+  factory GuardrailManagedWord.fromJson(Map<String, dynamic> json) {
+    return GuardrailManagedWord(
+      action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
+      match: json['match'] as String,
+      type: GuardrailManagedWordType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    final type = this.type;
+    return {
+      'action': action.value,
+      'match': match,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailManagedWordType {
+  profanity('PROFANITY'),
+  ;
+
+  final String value;
+
+  const GuardrailManagedWordType(this.value);
+
+  static GuardrailManagedWordType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailManagedWordType'));
+}
+
+/// The output content produced by the guardrail.
+class GuardrailOutputContent {
+  /// The specific text for the output content produced by the guardrail.
+  final String? text;
+
+  GuardrailOutputContent({
+    this.text,
+  });
+
+  factory GuardrailOutputContent.fromJson(Map<String, dynamic> json) {
+    return GuardrailOutputContent(
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// A Personally Identifiable Information (PII) entity configured in a
+/// guardrail.
+class GuardrailPiiEntityFilter {
+  /// The PII entity filter action.
+  final GuardrailSensitiveInformationPolicyAction action;
+
+  /// The PII entity filter match.
+  final String match;
+
+  /// The PII entity filter type.
+  final GuardrailPiiEntityType type;
+
+  GuardrailPiiEntityFilter({
+    required this.action,
+    required this.match,
+    required this.type,
+  });
+
+  factory GuardrailPiiEntityFilter.fromJson(Map<String, dynamic> json) {
+    return GuardrailPiiEntityFilter(
+      action: GuardrailSensitiveInformationPolicyAction.fromString(
+          (json['action'] as String)),
+      match: json['match'] as String,
+      type: GuardrailPiiEntityType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    final type = this.type;
+    return {
+      'action': action.value,
+      'match': match,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailPiiEntityType {
+  address('ADDRESS'),
+  age('AGE'),
+  awsAccessKey('AWS_ACCESS_KEY'),
+  awsSecretKey('AWS_SECRET_KEY'),
+  caHealthNumber('CA_HEALTH_NUMBER'),
+  caSocialInsuranceNumber('CA_SOCIAL_INSURANCE_NUMBER'),
+  creditDebitCardCvv('CREDIT_DEBIT_CARD_CVV'),
+  creditDebitCardExpiry('CREDIT_DEBIT_CARD_EXPIRY'),
+  creditDebitCardNumber('CREDIT_DEBIT_CARD_NUMBER'),
+  driverId('DRIVER_ID'),
+  email('EMAIL'),
+  internationalBankAccountNumber('INTERNATIONAL_BANK_ACCOUNT_NUMBER'),
+  ipAddress('IP_ADDRESS'),
+  licensePlate('LICENSE_PLATE'),
+  macAddress('MAC_ADDRESS'),
+  name('NAME'),
+  password('PASSWORD'),
+  phone('PHONE'),
+  pin('PIN'),
+  swiftCode('SWIFT_CODE'),
+  ukNationalHealthServiceNumber('UK_NATIONAL_HEALTH_SERVICE_NUMBER'),
+  ukNationalInsuranceNumber('UK_NATIONAL_INSURANCE_NUMBER'),
+  ukUniqueTaxpayerReferenceNumber('UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER'),
+  url('URL'),
+  username('USERNAME'),
+  usBankAccountNumber('US_BANK_ACCOUNT_NUMBER'),
+  usBankRoutingNumber('US_BANK_ROUTING_NUMBER'),
+  usIndividualTaxIdentificationNumber(
+      'US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER'),
+  usPassportNumber('US_PASSPORT_NUMBER'),
+  usSocialSecurityNumber('US_SOCIAL_SECURITY_NUMBER'),
+  vehicleIdentificationNumber('VEHICLE_IDENTIFICATION_NUMBER'),
+  ;
+
+  final String value;
+
+  const GuardrailPiiEntityType(this.value);
+
+  static GuardrailPiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailPiiEntityType'));
+}
+
+/// A Regex filter configured in a guardrail.
+class GuardrailRegexFilter {
+  /// The region filter action.
+  final GuardrailSensitiveInformationPolicyAction action;
+
+  /// The regesx filter match.
+  final String? match;
+
+  /// The regex filter name.
+  final String? name;
+
+  /// The regex query.
+  final String? regex;
+
+  GuardrailRegexFilter({
+    required this.action,
+    this.match,
+    this.name,
+    this.regex,
+  });
+
+  factory GuardrailRegexFilter.fromJson(Map<String, dynamic> json) {
+    return GuardrailRegexFilter(
+      action: GuardrailSensitiveInformationPolicyAction.fromString(
+          (json['action'] as String)),
+      match: json['match'] as String?,
+      name: json['name'] as String?,
+      regex: json['regex'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    final name = this.name;
+    final regex = this.regex;
+    return {
+      'action': action.value,
+      if (match != null) 'match': match,
+      if (name != null) 'name': name,
+      if (regex != null) 'regex': regex,
+    };
+  }
+}
+
+enum GuardrailSensitiveInformationPolicyAction {
+  anonymized('ANONYMIZED'),
+  blocked('BLOCKED'),
+  ;
+
+  final String value;
+
+  const GuardrailSensitiveInformationPolicyAction(this.value);
+
+  static GuardrailSensitiveInformationPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailSensitiveInformationPolicyAction'));
+}
+
+/// The assessment for aPersonally Identifiable Information (PII) policy.
+class GuardrailSensitiveInformationPolicyAssessment {
+  /// The PII entities in the assessment.
+  final List<GuardrailPiiEntityFilter> piiEntities;
+
+  /// The regex queries in the assessment.
+  final List<GuardrailRegexFilter> regexes;
+
+  GuardrailSensitiveInformationPolicyAssessment({
+    required this.piiEntities,
+    required this.regexes,
+  });
+
+  factory GuardrailSensitiveInformationPolicyAssessment.fromJson(
+      Map<String, dynamic> json) {
+    return GuardrailSensitiveInformationPolicyAssessment(
+      piiEntities: (json['piiEntities'] as List)
+          .nonNulls
+          .map((e) =>
+              GuardrailPiiEntityFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      regexes: (json['regexes'] as List)
+          .nonNulls
+          .map((e) => GuardrailRegexFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final piiEntities = this.piiEntities;
+    final regexes = this.regexes;
+    return {
+      'piiEntities': piiEntities,
+      'regexes': regexes,
+    };
+  }
+}
+
+/// Configuration information for a guardrail that you use with the
+/// <a>ConverseStream</a> action.
+class GuardrailStreamConfiguration {
+  /// The identifier for the guardrail.
+  final String guardrailIdentifier;
+
+  /// The version of the guardrail.
+  final String guardrailVersion;
+
+  /// The processing mode.
+  ///
+  /// The processing mode. For more information, see <i>Configure streaming
+  /// response behavior</i> in the <i>Amazon Bedrock User Guide</i>.
+  final GuardrailStreamProcessingMode? streamProcessingMode;
+
+  /// The trace behavior for the guardrail.
+  final GuardrailTrace? trace;
+
+  GuardrailStreamConfiguration({
+    required this.guardrailIdentifier,
+    required this.guardrailVersion,
+    this.streamProcessingMode,
+    this.trace,
+  });
+
+  Map<String, dynamic> toJson() {
+    final guardrailIdentifier = this.guardrailIdentifier;
+    final guardrailVersion = this.guardrailVersion;
+    final streamProcessingMode = this.streamProcessingMode;
+    final trace = this.trace;
+    return {
+      'guardrailIdentifier': guardrailIdentifier,
+      'guardrailVersion': guardrailVersion,
+      if (streamProcessingMode != null)
+        'streamProcessingMode': streamProcessingMode.value,
+      if (trace != null) 'trace': trace.value,
+    };
+  }
+}
+
+enum GuardrailStreamProcessingMode {
+  sync('sync'),
+  async('async'),
+  ;
+
+  final String value;
+
+  const GuardrailStreamProcessingMode(this.value);
+
+  static GuardrailStreamProcessingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailStreamProcessingMode'));
+}
+
+/// The text block to be evaluated by the guardrail.
+class GuardrailTextBlock {
+  /// The input text details to be evaluated by the guardrail.
+  final String text;
+
+  /// The qualifiers describing the text block.
+  final List<GuardrailContentQualifier>? qualifiers;
+
+  GuardrailTextBlock({
+    required this.text,
+    this.qualifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final qualifiers = this.qualifiers;
+    return {
+      'text': text,
+      if (qualifiers != null)
+        'qualifiers': qualifiers.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Information about a topic guardrail.
+class GuardrailTopic {
+  /// The action the guardrail should take when it intervenes on a topic.
+  final GuardrailTopicPolicyAction action;
+
+  /// The name for the guardrail.
+  final String name;
+
+  /// The type behavior that the guardrail should perform when the model detects
+  /// the topic.
+  final GuardrailTopicType type;
+
+  GuardrailTopic({
+    required this.action,
+    required this.name,
+    required this.type,
+  });
+
+  factory GuardrailTopic.fromJson(Map<String, dynamic> json) {
+    return GuardrailTopic(
+      action: GuardrailTopicPolicyAction.fromString((json['action'] as String)),
+      name: json['name'] as String,
+      type: GuardrailTopicType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'action': action.value,
+      'name': name,
+      'type': type.value,
+    };
+  }
+}
+
+enum GuardrailTopicPolicyAction {
+  blocked('BLOCKED'),
+  ;
+
+  final String value;
+
+  const GuardrailTopicPolicyAction(this.value);
+
+  static GuardrailTopicPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailTopicPolicyAction'));
+}
+
+/// A behavior assessment of a topic policy.
+class GuardrailTopicPolicyAssessment {
+  /// The topics in the assessment.
+  final List<GuardrailTopic> topics;
+
+  GuardrailTopicPolicyAssessment({
+    required this.topics,
+  });
+
+  factory GuardrailTopicPolicyAssessment.fromJson(Map<String, dynamic> json) {
+    return GuardrailTopicPolicyAssessment(
+      topics: (json['topics'] as List)
+          .nonNulls
+          .map((e) => GuardrailTopic.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topics = this.topics;
+    return {
+      'topics': topics,
+    };
+  }
+}
+
+enum GuardrailTopicType {
+  deny('DENY'),
+  ;
+
+  final String value;
+
+  const GuardrailTopicType(this.value);
+
+  static GuardrailTopicType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum GuardrailTopicType'));
+}
+
+enum GuardrailTrace {
+  enabled('enabled'),
+  disabled('disabled'),
+  ;
+
+  final String value;
+
+  const GuardrailTrace(this.value);
+
+  static GuardrailTrace fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum GuardrailTrace'));
+}
+
+/// A Top level guardrail trace object. For more information, see
+/// <a>ConverseTrace</a>.
+class GuardrailTraceAssessment {
+  /// The input assessment.
+  final Map<String, GuardrailAssessment>? inputAssessment;
+
+  /// The output from the model.
+  final List<String>? modelOutput;
+
+  /// the output assessments.
+  final Map<String, List<GuardrailAssessment>>? outputAssessments;
+
+  GuardrailTraceAssessment({
+    this.inputAssessment,
+    this.modelOutput,
+    this.outputAssessments,
+  });
+
+  factory GuardrailTraceAssessment.fromJson(Map<String, dynamic> json) {
+    return GuardrailTraceAssessment(
+      inputAssessment: (json['inputAssessment'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k, GuardrailAssessment.fromJson(e as Map<String, dynamic>))),
+      modelOutput: (json['modelOutput'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      outputAssessments: (json['outputAssessments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .nonNulls
+                  .map((e) =>
+                      GuardrailAssessment.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputAssessment = this.inputAssessment;
+    final modelOutput = this.modelOutput;
+    final outputAssessments = this.outputAssessments;
+    return {
+      if (inputAssessment != null) 'inputAssessment': inputAssessment,
+      if (modelOutput != null) 'modelOutput': modelOutput,
+      if (outputAssessments != null) 'outputAssessments': outputAssessments,
+    };
+  }
+}
+
+/// The details on the use of the guardrail.
+class GuardrailUsage {
+  /// The content policy units processed by the guardrail.
+  final int contentPolicyUnits;
+
+  /// The contextual grounding policy units processed by the guardrail.
+  final int contextualGroundingPolicyUnits;
+
+  /// The sensitive information policy free units processed by the guardrail.
+  final int sensitiveInformationPolicyFreeUnits;
+
+  /// The sensitive information policy units processed by the guardrail.
+  final int sensitiveInformationPolicyUnits;
+
+  /// The topic policy units processed by the guardrail.
+  final int topicPolicyUnits;
+
+  /// The word policy units processed by the guardrail.
+  final int wordPolicyUnits;
+
+  GuardrailUsage({
+    required this.contentPolicyUnits,
+    required this.contextualGroundingPolicyUnits,
+    required this.sensitiveInformationPolicyFreeUnits,
+    required this.sensitiveInformationPolicyUnits,
+    required this.topicPolicyUnits,
+    required this.wordPolicyUnits,
+  });
+
+  factory GuardrailUsage.fromJson(Map<String, dynamic> json) {
+    return GuardrailUsage(
+      contentPolicyUnits: json['contentPolicyUnits'] as int,
+      contextualGroundingPolicyUnits:
+          json['contextualGroundingPolicyUnits'] as int,
+      sensitiveInformationPolicyFreeUnits:
+          json['sensitiveInformationPolicyFreeUnits'] as int,
+      sensitiveInformationPolicyUnits:
+          json['sensitiveInformationPolicyUnits'] as int,
+      topicPolicyUnits: json['topicPolicyUnits'] as int,
+      wordPolicyUnits: json['wordPolicyUnits'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentPolicyUnits = this.contentPolicyUnits;
+    final contextualGroundingPolicyUnits = this.contextualGroundingPolicyUnits;
+    final sensitiveInformationPolicyFreeUnits =
+        this.sensitiveInformationPolicyFreeUnits;
+    final sensitiveInformationPolicyUnits =
+        this.sensitiveInformationPolicyUnits;
+    final topicPolicyUnits = this.topicPolicyUnits;
+    final wordPolicyUnits = this.wordPolicyUnits;
+    return {
+      'contentPolicyUnits': contentPolicyUnits,
+      'contextualGroundingPolicyUnits': contextualGroundingPolicyUnits,
+      'sensitiveInformationPolicyFreeUnits':
+          sensitiveInformationPolicyFreeUnits,
+      'sensitiveInformationPolicyUnits': sensitiveInformationPolicyUnits,
+      'topicPolicyUnits': topicPolicyUnits,
+      'wordPolicyUnits': wordPolicyUnits,
+    };
+  }
+}
+
+enum GuardrailWordPolicyAction {
+  blocked('BLOCKED'),
+  ;
+
+  final String value;
+
+  const GuardrailWordPolicyAction(this.value);
+
+  static GuardrailWordPolicyAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GuardrailWordPolicyAction'));
+}
+
+/// The word policy assessment.
+class GuardrailWordPolicyAssessment {
+  /// Custom words in the assessment.
+  final List<GuardrailCustomWord> customWords;
+
+  /// Managed word lists in the assessment.
+  final List<GuardrailManagedWord> managedWordLists;
+
+  GuardrailWordPolicyAssessment({
+    required this.customWords,
+    required this.managedWordLists,
+  });
+
+  factory GuardrailWordPolicyAssessment.fromJson(Map<String, dynamic> json) {
+    return GuardrailWordPolicyAssessment(
+      customWords: (json['customWords'] as List)
+          .nonNulls
+          .map((e) => GuardrailCustomWord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      managedWordLists: (json['managedWordLists'] as List)
+          .nonNulls
+          .map((e) => GuardrailManagedWord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customWords = this.customWords;
+    final managedWordLists = this.managedWordLists;
+    return {
+      'customWords': customWords,
+      'managedWordLists': managedWordLists,
+    };
   }
 }
 
@@ -1157,7 +2649,7 @@ enum ImageFormat {
 /// The source for an image.
 class ImageSource {
   /// The raw image bytes for the image. If you use an AWS SDK, you don't need to
-  /// base64 encode the image bytes.
+  /// encode the image bytes in base64.
   final Uint8List? bytes;
 
   ImageSource({
@@ -1197,19 +2689,7 @@ class InferenceConfiguration {
   /// value is the maximum allowed value for the model that you are using. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
-  /// parameters for foundatio{ "messages": [ { "role": "user", "content": [ {
-  /// "text": "what's the weather in Queens, NY and Austin, TX?" } ] }, { "role":
-  /// "assistant", "content": [ { "toolUse": { "toolUseId": "1", "name":
-  /// "get_weather", "input": { "city": "Queens", "state": "NY" } } }, {
-  /// "toolUse": { "toolUseId": "2", "name": "get_weather", "input": { "city":
-  /// "Austin", "state": "TX" } } } ] }, { "role": "user", "content": [ {
-  /// "toolResult": { "toolUseId": "2", "content": [ { "json": { "weather": "40" }
-  /// } ] } }, { "text": "..." }, { "toolResult": { "toolUseId": "1", "content": [
-  /// { "text": "result text" } ] } } ] } ], "toolConfig": { "tools": [ { "name":
-  /// "get_weather", "description": "Get weather", "inputSchema": { "type":
-  /// "object", "properties": { "city": { "type": "string", "description": "City
-  /// of location" }, "state": { "type": "string", "description": "State of
-  /// location" } }, "required": ["city", "state"] } } ] } } n models</a>.
+  /// parameters for foundation models</a>.
   final int? maxTokens;
 
   /// A list of stop sequences. A stop sequence is a sequence of characters that
@@ -1331,12 +2811,32 @@ class InvokeModelWithResponseStreamResponse {
   }
 }
 
-/// A message in the <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Message.html">Message</a>
-/// field. Use to send a message in a call to <a
-/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>.
+/// A message input, or returned from, a call to <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>.
 class Message {
-  /// The message content.
+  /// The message content. Note the following restrictions:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can include up to 20 images. Each image's size, height, and width must
+  /// be no more than 3.75 MB, 8000 px, and 8000 px, respectively.
+  /// </li>
+  /// <li>
+  /// You can include up to five documents. Each document's size must be no more
+  /// than 4.5 MB.
+  /// </li>
+  /// <li>
+  /// If you include a <code>ContentBlock</code> with a <code>document</code>
+  /// field in the array, you must also include a <code>ContentBlock</code> with a
+  /// <code>text</code> field.
+  /// </li>
+  /// <li>
+  /// You can only include images and documents if the <code>role</code> is
+  /// <code>user</code>.
+  /// </li>
+  /// </ul>
   final List<ContentBlock> content;
 
   /// The role that the message plays in the message.
@@ -1521,9 +3021,12 @@ class ResponseStream {
   /// The request took too long to process. Processing time exceeded the model
   /// timeout length.
   final ModelTimeoutException? modelTimeoutException;
+  final ServiceUnavailableException? serviceUnavailableException;
 
-  /// The number or frequency of requests exceeds the limit. Resubmit your request
-  /// later.
+  /// Your request was throttled because of service-wide limitations. Resubmit
+  /// your request later or in a different region. You can also purchase <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
+  /// Throughput</a> to increase the rate or number of tokens you can process.
   final ThrottlingException? throttlingException;
 
   /// Input validation failed. Check your request parameters and retry the
@@ -1535,6 +3038,7 @@ class ResponseStream {
     this.internalServerException,
     this.modelStreamErrorException,
     this.modelTimeoutException,
+    this.serviceUnavailableException,
     this.throttlingException,
     this.validationException,
   });
@@ -1556,6 +3060,10 @@ class ResponseStream {
           ? ModelTimeoutException.fromJson(
               json['modelTimeoutException'] as Map<String, dynamic>)
           : null,
+      serviceUnavailableException: json['serviceUnavailableException'] != null
+          ? ServiceUnavailableException.fromJson(
+              json['serviceUnavailableException'] as Map<String, dynamic>)
+          : null,
       throttlingException: json['throttlingException'] != null
           ? ThrottlingException.fromJson(
               json['throttlingException'] as Map<String, dynamic>)
@@ -1572,6 +3080,7 @@ class ResponseStream {
     final internalServerException = this.internalServerException;
     final modelStreamErrorException = this.modelStreamErrorException;
     final modelTimeoutException = this.modelTimeoutException;
+    final serviceUnavailableException = this.serviceUnavailableException;
     final throttlingException = this.throttlingException;
     final validationException = this.validationException;
     return {
@@ -1582,6 +3091,8 @@ class ResponseStream {
         'modelStreamErrorException': modelStreamErrorException,
       if (modelTimeoutException != null)
         'modelTimeoutException': modelTimeoutException,
+      if (serviceUnavailableException != null)
+        'serviceUnavailableException': serviceUnavailableException,
       if (throttlingException != null)
         'throttlingException': throttlingException,
       if (validationException != null)
@@ -1590,7 +3101,30 @@ class ResponseStream {
   }
 }
 
-/// The model must request a specific tool.
+/// The service isn't currently available. Try again later.
+class ServiceUnavailableException implements _s.AwsException {
+  final String? message;
+
+  ServiceUnavailableException({
+    this.message,
+  });
+
+  factory ServiceUnavailableException.fromJson(Map<String, dynamic> json) {
+    return ServiceUnavailableException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The model must request a specific tool. For example, <code>{"tool" : {"name"
+/// : "Your tool name"}}</code>.
 /// <note>
 /// This field is only supported by Anthropic Claude 3 models.
 /// </note>
@@ -1615,6 +3149,7 @@ enum StopReason {
   toolUse('tool_use'),
   maxTokens('max_tokens'),
   stopSequence('stop_sequence'),
+  guardrailIntervened('guardrail_intervened'),
   contentFiltered('content_filtered'),
   ;
 
@@ -1627,24 +3162,40 @@ enum StopReason {
       orElse: () => throw Exception('$value is not known in enum StopReason'));
 }
 
-/// A system content block
+/// A system content block.
 class SystemContentBlock {
+  /// A content block to assess with the guardrail. Use with the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html">Converse</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html">ConverseStream</a>
+  /// API operations.
+  ///
+  /// For more information, see <i>Use a guardrail with the Converse API</i> in
+  /// the <i>Amazon Bedrock User Guide</i>.
+  final GuardrailConverseContentBlock? guardContent;
+
   /// A system prompt for the model.
   final String? text;
 
   SystemContentBlock({
+    this.guardContent,
     this.text,
   });
 
   Map<String, dynamic> toJson() {
+    final guardContent = this.guardContent;
     final text = this.text;
     return {
+      if (guardContent != null) 'guardContent': guardContent,
       if (text != null) 'text': text,
     };
   }
 }
 
-/// The number of requests exceeds the limit. Resubmit your request later.
+/// Your request was throttled because of service-wide limitations. Resubmit
+/// your request later or in a different region. You can also purchase <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html">Provisioned
+/// Throughput</a> to increase the rate or number of tokens you can process.
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -1703,7 +3254,10 @@ class TokenUsage {
   }
 }
 
-/// Information about a tool that you can use with the Converse API.
+/// Information about a tool that you can use with the Converse API. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Tool
+/// use (function calling)</a> in the Amazon Bedrock User Guide.
 class Tool {
   /// The specfication for the tool.
   final ToolSpecification? toolSpec;
@@ -1720,16 +3274,20 @@ class Tool {
   }
 }
 
-/// Forces a model to use a tool.
+/// Determines which tools the model should request in a call to
+/// <code>Converse</code> or <code>ConverseStream</code>.
+/// <code>ToolChoice</code> is only supported by Anthropic Claude 3 models and
+/// by Mistral AI Mistral Large.
 class ToolChoice {
   /// The model must request at least one tool (no text is generated).
   final AnyToolChoice? any;
 
-  /// The Model automatically decides if a tool should be called or to whether to
-  /// generate text instead.
+  /// (Default). The Model automatically decides if a tool should be called or
+  /// whether to generate text instead.
   final AutoToolChoice? auto;
 
-  /// The Model must request the specified tool.
+  /// The Model must request the specified tool. Only supported by Anthropic
+  /// Claude 3 models.
   final SpecificToolChoice? tool;
 
   ToolChoice({
@@ -1750,7 +3308,10 @@ class ToolChoice {
   }
 }
 
-/// Configuration information for the tools that you pass to a model.
+/// Configuration information for the tools that you pass to a model. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html">Tool
+/// use (function calling)</a> in the Amazon Bedrock User Guide.
 /// <note>
 /// This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere
 /// Command R+, and Mistral Large models.
@@ -1844,6 +3405,9 @@ class ToolResultBlock {
 
 /// The tool result content block.
 class ToolResultContentBlock {
+  /// A tool result that is a document.
+  final DocumentBlock? document;
+
   /// A tool result that is an image.
   /// <note>
   /// This field is only supported by Anthropic Claude 3 models.
@@ -1857,6 +3421,7 @@ class ToolResultContentBlock {
   final String? text;
 
   ToolResultContentBlock({
+    this.document,
     this.image,
     this.json,
     this.text,
@@ -1864,6 +3429,9 @@ class ToolResultContentBlock {
 
   factory ToolResultContentBlock.fromJson(Map<String, dynamic> json) {
     return ToolResultContentBlock(
+      document: json['document'] != null
+          ? DocumentBlock.fromJson(json['document'] as Map<String, dynamic>)
+          : null,
       image: json['image'] != null
           ? ImageBlock.fromJson(json['image'] as Map<String, dynamic>)
           : null,
@@ -1875,10 +3443,12 @@ class ToolResultContentBlock {
   }
 
   Map<String, dynamic> toJson() {
+    final document = this.document;
     final image = this.image;
     final json = this.json;
     final text = this.text;
     return {
+      if (document != null) 'document': document,
       if (image != null) 'image': image,
       if (json != null) 'json': json,
       if (text != null) 'text': text,
@@ -2104,6 +3674,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ServiceUnavailableException': (type, message) =>
+      ServiceUnavailableException(message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(message: message),
   'ValidationException': (type, message) =>

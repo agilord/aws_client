@@ -258,7 +258,9 @@ class SecretsManager {
   ///
   /// <b>Required permissions: </b> <code>secretsmanager:CreateSecret</code>. If
   /// you include tags in the secret, you also need
-  /// <code>secretsmanager:TagResource</code>. For more information, see <a
+  /// <code>secretsmanager:TagResource</code>. To add replica Regions, you must
+  /// also have <code>secretsmanager:ReplicateSecretToRegions</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
   /// IAM policy actions for Secrets Manager</a> and <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
@@ -267,6 +269,15 @@ class SecretsManager {
   /// To encrypt the secret with a KMS key other than
   /// <code>aws/secretsmanager</code>, you need <code>kms:GenerateDataKey</code>
   /// and <code>kms:Decrypt</code> permission to the key.
+  /// <important>
+  /// When you enter commands in a command shell, there is a risk of the command
+  /// history being accessed or utilities having access to your command
+  /// parameters. This is a concern if the command includes the value of a
+  /// secret. Learn how to <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html">Mitigate
+  /// the risks of using command-line tools to store Secrets Manager
+  /// secrets</a>.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -371,6 +382,10 @@ class SecretsManager {
   ///
   /// This parameter is not available in the Secrets Manager console.
   ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
+  ///
   /// Parameter [secretString] :
   /// The text data to encrypt and store in this new version of the secret. We
   /// recommend you use a JSON structure of key/value pairs for your secret
@@ -384,6 +399,10 @@ class SecretsManager {
   /// <code>SecretString</code> parameter. The Secrets Manager console stores
   /// the information as a JSON structure of key/value pairs that a Lambda
   /// rotation function can parse.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
   ///
   /// Parameter [tags] :
   /// A list of tags to attach to the secret. Each tag is a key and value pair
@@ -862,7 +881,8 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// The ARN or name of the secret to retrieve.
+  /// The ARN or name of the secret to retrieve. To retrieve a secret from
+  /// another account, you must use an ARN.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
   /// partial ARN. See <a
@@ -1218,8 +1238,9 @@ class SecretsManager {
   ///
   /// Secrets Manager generates a CloudTrail log entry when you call this
   /// action. Do not include sensitive information in request parameters except
-  /// <code>SecretBinary</code> or <code>SecretString</code> because it might be
-  /// logged. For more information, see <a
+  /// <code>SecretBinary</code>, <code>SecretString</code>, or
+  /// <code>RotationToken</code> because it might be logged. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html">Logging
   /// Secrets Manager events with CloudTrail</a>.
   ///
@@ -1229,6 +1250,15 @@ class SecretsManager {
   /// IAM policy actions for Secrets Manager</a> and <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and access control in Secrets Manager</a>.
+  /// <important>
+  /// When you enter commands in a command shell, there is a risk of the command
+  /// history being accessed or utilities having access to your command
+  /// parameters. This is a concern if the command includes the value of a
+  /// secret. Learn how to <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html">Mitigate
+  /// the risks of using command-line tools to store Secrets Manager
+  /// secrets</a>.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1290,6 +1320,20 @@ class SecretsManager {
   /// </ul>
   /// This value becomes the <code>VersionId</code> of the new version.
   ///
+  /// Parameter [rotationToken] :
+  /// A unique identifier that indicates the source of the request. For
+  /// cross-account rotation (when you rotate a secret in one account by using a
+  /// Lambda rotation function in another account) and the Lambda rotation
+  /// function assumes an IAM role to call Secrets Manager, Secrets Manager
+  /// validates the identity with the rotation token. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">How
+  /// rotation works</a>.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
+  ///
   /// Parameter [secretBinary] :
   /// The binary data to encrypt and store in the new version of the secret. To
   /// use this parameter in the command-line tools, we recommend that you store
@@ -1301,6 +1345,10 @@ class SecretsManager {
   ///
   /// You can't access this value from the Secrets Manager console.
   ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
+  ///
   /// Parameter [secretString] :
   /// The text to encrypt and store in the new version of the secret.
   ///
@@ -1309,6 +1357,10 @@ class SecretsManager {
   ///
   /// We recommend you create the secret string as JSON key/value pairs, as
   /// shown in the example.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
   ///
   /// Parameter [versionStages] :
   /// A list of staging labels to attach to this version of the secret. Secrets
@@ -1328,6 +1380,7 @@ class SecretsManager {
   Future<PutSecretValueResponse> putSecretValue({
     required String secretId,
     String? clientRequestToken,
+    String? rotationToken,
     Uint8List? secretBinary,
     String? secretString,
     List<String>? versionStages,
@@ -1346,6 +1399,7 @@ class SecretsManager {
         'SecretId': secretId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (rotationToken != null) 'RotationToken': rotationToken,
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
         if (versionStages != null) 'VersionStages': versionStages,
@@ -1599,7 +1653,7 @@ class SecretsManager {
   /// For secrets that use a Lambda rotation function to rotate, if you don't
   /// immediately rotate the secret, Secrets Manager tests the rotation
   /// configuration by running the <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code">
   /// <code>testSecret</code> step</a> of the Lambda rotation function. The test
   /// creates an <code>AWSPENDING</code> version of the secret and then removes
   /// it.
@@ -1884,10 +1938,19 @@ class SecretsManager {
   /// key, you must also have <code>kms:GenerateDataKey</code>,
   /// <code>kms:Encrypt</code>, and <code>kms:Decrypt</code> permissions on the
   /// key. If you change the KMS key and you don't have <code>kms:Encrypt</code>
-  /// permission to the new key, Secrets Manager does not re-ecrypt existing
+  /// permission to the new key, Secrets Manager does not re-encrypt existing
   /// secret versions with the new key. For more information, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html">
   /// Secret encryption and decryption</a>.
+  /// <important>
+  /// When you enter commands in a command shell, there is a risk of the command
+  /// history being accessed or utilities having access to your command
+  /// parameters. This is a concern if the command includes the value of a
+  /// secret. Learn how to <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html">Mitigate
+  /// the risks of using command-line tools to store Secrets Manager
+  /// secrets</a>.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1937,7 +2000,7 @@ class SecretsManager {
   /// encrypt new secret versions as well as any existing versions with the
   /// staging labels <code>AWSCURRENT</code>, <code>AWSPENDING</code>, or
   /// <code>AWSPREVIOUS</code>. If you don't have <code>kms:Encrypt</code>
-  /// permission to the new key, Secrets Manager does not re-ecrypt existing
+  /// permission to the new key, Secrets Manager does not re-encrypt existing
   /// secret versions with the new key. For more information about versions and
   /// staging labels, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">Concepts:
@@ -1975,6 +2038,10 @@ class SecretsManager {
   ///
   /// You can't access this parameter in the Secrets Manager console.
   ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
+  ///
   /// Parameter [secretString] :
   /// The text data to encrypt and store in the new version of the secret. We
   /// recommend you use a JSON structure of key/value pairs for your secret
@@ -1982,6 +2049,10 @@ class SecretsManager {
   ///
   /// Either <code>SecretBinary</code> or <code>SecretString</code> must have a
   /// value, but not both.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
   Future<UpdateSecretResponse> updateSecret({
     required String secretId,
     String? clientRequestToken,
@@ -2163,7 +2234,8 @@ class SecretsManager {
   /// policy examples</a>.
   ///
   /// Parameter [secretId] :
-  /// This field is reserved for internal use.
+  /// The ARN or name of the secret with the resource-based policy you want to
+  /// validate.
   Future<ValidateResourcePolicyResponse> validateResourcePolicy({
     required String resourcePolicy,
     String? secretId,
@@ -2528,7 +2600,8 @@ class DescribeSecretResponse {
   /// </ul>
   final List<ReplicationStatusType>? replicationStatus;
 
-  /// Specifies whether automatic rotation is turned on for this secret.
+  /// Specifies whether automatic rotation is turned on for this secret. If the
+  /// secret has never been configured for rotation, Secrets Manager returns null.
   ///
   /// To turn on rotation, use <a>RotateSecret</a>. To turn off rotation, use
   /// <a>CancelRotateSecret</a>.
@@ -2835,6 +2908,10 @@ class GetSecretValueResponse {
   /// If the secret was created by using the Secrets Manager console, or if the
   /// secret value was originally provided as a string, then this field is
   /// omitted. The secret value appears in <code>SecretString</code> instead.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
   final Uint8List? secretBinary;
 
   /// The decrypted secret value, if the secret value was originally provided as a
@@ -2842,6 +2919,10 @@ class GetSecretValueResponse {
   ///
   /// If this secret was created by using the console, then Secrets Manager stores
   /// the information as a JSON structure of key/value pairs.
+  ///
+  /// Sensitive: This field contains sensitive information, so the service does
+  /// not include it in CloudTrail log entries. If you create your own log
+  /// entries, you must also avoid logging the information in this field.
   final String? secretString;
 
   /// The unique identifier of this version of the secret.

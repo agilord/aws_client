@@ -50,6 +50,65 @@ class Account {
     _protocol.close();
   }
 
+  /// Accepts the request that originated from <a>StartPrimaryEmailUpdate</a> to
+  /// update the primary email address (also known as the root user email
+  /// address) for the specified account.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>.
+  /// </note>
+  ///
+  /// Parameter [otp] :
+  /// The OTP code sent to the <code>PrimaryEmail</code> specified on the
+  /// <code>StartPrimaryEmailUpdate</code> API call.
+  ///
+  /// Parameter [primaryEmail] :
+  /// The new primary email address for use with the specified account. This
+  /// must match the <code>PrimaryEmail</code> from the
+  /// <code>StartPrimaryEmailUpdate</code> API call.
+  Future<AcceptPrimaryEmailUpdateResponse> acceptPrimaryEmailUpdate({
+    required String accountId,
+    required String otp,
+    required String primaryEmail,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountId': accountId,
+      'Otp': otp,
+      'PrimaryEmail': primaryEmail,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/acceptPrimaryEmailUpdate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AcceptPrimaryEmailUpdateResponse.fromJson(response);
+  }
+
   /// Deletes the specified alternate contact from an Amazon Web Services
   /// account.
   ///
@@ -119,6 +178,10 @@ class Account {
   }
 
   /// Disables (opts-out) a particular Region for an account.
+  /// <note>
+  /// The act of disabling a Region will remove all IAM access to any resources
+  /// that reside in that Region.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -142,7 +205,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -200,7 +263,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -324,7 +387,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -356,6 +419,49 @@ class Account {
     return GetContactInformationResponse.fromJson(response);
   }
 
+  /// Retrieves the primary email address for the specified account.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>.
+  /// </note>
+  Future<GetPrimaryEmailResponse> getPrimaryEmail({
+    required String accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getPrimaryEmail',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPrimaryEmailResponse.fromJson(response);
+  }
+
   /// Retrieves the opt-in status of a particular Region.
   ///
   /// May throw [ValidationException].
@@ -376,7 +482,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -427,7 +533,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -608,7 +714,7 @@ class Account {
   /// the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
-  /// account ID must also be a member account in the same organization. The
+  /// account ID must be a member account in the same organization. The
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
@@ -639,6 +745,80 @@ class Account {
       requestUri: '/putContactInformation',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Starts the process to update the primary email address for the specified
+  /// account.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>.
+  /// </note>
+  ///
+  /// Parameter [primaryEmail] :
+  /// The new primary email address (also known as the root user email address)
+  /// to use in the specified account.
+  Future<StartPrimaryEmailUpdateResponse> startPrimaryEmailUpdate({
+    required String accountId,
+    required String primaryEmail,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountId': accountId,
+      'PrimaryEmail': primaryEmail,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/startPrimaryEmailUpdate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartPrimaryEmailUpdateResponse.fromJson(response);
+  }
+}
+
+class AcceptPrimaryEmailUpdateResponse {
+  /// Retrieves the status of the accepted primary email update request.
+  final PrimaryEmailUpdateStatus? status;
+
+  AcceptPrimaryEmailUpdateResponse({
+    this.status,
+  });
+
+  factory AcceptPrimaryEmailUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return AcceptPrimaryEmailUpdateResponse(
+      status:
+          (json['Status'] as String?)?.let(PrimaryEmailUpdateStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
   }
 }
 
@@ -747,8 +927,12 @@ class ContactInformation {
   /// The district or county of the primary contact address, if any.
   final String? districtOrCounty;
 
-  /// The state or region of the primary contact address. This field is required
-  /// in selected countries.
+  /// The state or region of the primary contact address. If the mailing address
+  /// is within the United States (US), the value in this field can be either a
+  /// two character state code (for example, <code>NJ</code>) or the full state
+  /// name (for example, <code>New Jersey</code>). This field is required in the
+  /// following countries: <code>US</code>, <code>CA</code>, <code>GB</code>,
+  /// <code>DE</code>, <code>JP</code>, <code>IN</code>, and <code>BR</code>.
   final String? stateOrRegion;
 
   /// The URL of the website associated with the primary contact information, if
@@ -868,6 +1052,28 @@ class GetContactInformationResponse {
   }
 }
 
+class GetPrimaryEmailResponse {
+  /// Retrieves the primary email address associated with the specified account.
+  final String? primaryEmail;
+
+  GetPrimaryEmailResponse({
+    this.primaryEmail,
+  });
+
+  factory GetPrimaryEmailResponse.fromJson(Map<String, dynamic> json) {
+    return GetPrimaryEmailResponse(
+      primaryEmail: json['PrimaryEmail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final primaryEmail = this.primaryEmail;
+    return {
+      if (primaryEmail != null) 'PrimaryEmail': primaryEmail,
+    };
+  }
+}
+
 class GetRegionOptStatusResponse {
   /// The Region code that was passed in.
   final String? regionName;
@@ -935,6 +1141,21 @@ class ListRegionsResponse {
   }
 }
 
+enum PrimaryEmailUpdateStatus {
+  pending('PENDING'),
+  accepted('ACCEPTED'),
+  ;
+
+  final String value;
+
+  const PrimaryEmailUpdateStatus(this.value);
+
+  static PrimaryEmailUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PrimaryEmailUpdateStatus'));
+}
+
 /// This is a structure that expresses the Region for a given account,
 /// consisting of a name and opt-in status.
 class Region {
@@ -984,6 +1205,29 @@ enum RegionOptStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum RegionOptStatus'));
+}
+
+class StartPrimaryEmailUpdateResponse {
+  /// The status of the primary email update request.
+  final PrimaryEmailUpdateStatus? status;
+
+  StartPrimaryEmailUpdateResponse({
+    this.status,
+  });
+
+  factory StartPrimaryEmailUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return StartPrimaryEmailUpdateResponse(
+      status:
+          (json['Status'] as String?)?.let(PrimaryEmailUpdateStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

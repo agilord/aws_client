@@ -502,6 +502,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the budget.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [farmId] :
   /// The farm ID to include in this budget.
@@ -518,6 +523,11 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the budget.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   Future<CreateBudgetResponse> createBudget({
     required List<BudgetActionToAdd> actions,
     required double approximateDollarLimit,
@@ -570,6 +580,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the farm.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [clientToken] :
   /// The unique token which the server uses to recognize retries of the same
@@ -577,6 +592,11 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the farm.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [kmsKeyArn] :
   /// The ARN of the KMS key to use on the farm.
@@ -629,6 +649,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the fleet.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [farmId] :
   /// The farm ID of the farm to connect to the fleet.
@@ -645,6 +670,11 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the fleet.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [minWorkerCount] :
   /// The minimum number of workers for the fleet.
@@ -698,8 +728,11 @@ class DeadlineCloud {
     return CreateFleetResponse.fromJson(response);
   }
 
-  /// Creates a job. A job is a render submission submitted by a user. It
-  /// contains specific job properties outlined as steps and tasks.
+  /// Creates a job. A job is a set of instructions that AWS Deadline Cloud uses
+  /// to schedule and run work on available workers. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/deadline-cloud/latest/userguide/deadline-cloud-jobs.html">Deadline
+  /// Cloud jobs</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerErrorException].
@@ -712,7 +745,9 @@ class DeadlineCloud {
   /// The farm ID of the farm to connect to the job.
   ///
   /// Parameter [priority] :
-  /// The priority of the job on a scale of 1 to 100. The highest priority is 1.
+  /// The priority of the job on a scale of 0 to 100. The highest priority
+  /// (first scheduled) is 100. When two jobs have the same priority, the oldest
+  /// job is scheduled first.
   ///
   /// Parameter [queueId] :
   /// The ID of the queue that the job is submitted to.
@@ -736,7 +771,7 @@ class DeadlineCloud {
   /// <code>FAILED</code>.
   ///
   /// Parameter [maxRetriesPerTask] :
-  /// The maximum number of retries for a job.
+  /// The maximum number of retries for each task.
   ///
   /// Parameter [parameters] :
   /// The parameters for the job.
@@ -745,9 +780,8 @@ class DeadlineCloud {
   /// The storage profile ID for the storage profile to connect to the job.
   ///
   /// Parameter [targetTaskRunStatus] :
-  /// The initial status of the job's tasks when they are created. Tasks that
-  /// are created with a <code>SUSPENDED</code> status will not run until you
-  /// update their status.
+  /// The initial job status when it is created. Jobs that are created with a
+  /// <code>SUSPENDED</code> status will not run until manually requeued.
   Future<CreateJobResponse> createJob({
     required String farmId,
     required int priority,
@@ -874,6 +908,11 @@ class DeadlineCloud {
   /// Parameter [displayName] :
   /// The name that you give the monitor that is displayed in the Deadline Cloud
   /// console.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [identityCenterInstanceArn] :
   /// The Amazon Resource Name (ARN) of the IAM Identity Center instance that
@@ -930,6 +969,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the queue.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [farmId] :
   /// The farm ID of the farm to connect to the queue.
@@ -946,6 +990,11 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the queue.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [jobAttachmentSettings] :
   /// The job attachment settings for the queue. These are the Amazon S3 bucket
@@ -1113,6 +1162,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the storage profile.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [farmId] :
   /// The farm ID of the farm to connect to the storage profile.
@@ -1357,6 +1411,10 @@ class DeadlineCloud {
   }
 
   /// Deletes a queue.
+  /// <important>
+  /// You can't recover the jobs in a queue if you delete the queue. Deleting
+  /// the queue also deletes the jobs in that queue.
+  /// </important>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerErrorException].
@@ -2385,6 +2443,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display names of a list of fleets.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return. Use this parameter with
@@ -2825,8 +2888,7 @@ class DeadlineCloud {
   /// the beginning.
   ///
   /// Parameter [principalId] :
-  /// The principal ID. This filter is only valid when using Nimble Studio
-  /// credentials and should match the user ID in the credentials of the caller.
+  /// The principal IDs to include in the list of queues.
   ///
   /// Parameter [status] :
   /// The status of the queues listed.
@@ -3726,8 +3788,11 @@ class DeadlineCloud {
 
   /// Starts an asynchronous request for getting aggregated statistics about
   /// queues and farms. Get the statistics using the
-  /// <code>GetSessionsStatisticsAggregation</code> operation. Statistics are
-  /// available for 1 hour after you call the
+  /// <code>GetSessionsStatisticsAggregation</code> operation. You can only have
+  /// one running aggregation for your Deadline Cloud farm. Call the
+  /// <code>GetSessionsStatisticsAggregation</code> operation and check the
+  /// <code>status</code> field to see if an aggregation is running. Statistics
+  /// are available for 1 hour after you call the
   /// <code>StartSessionsStatisticsAggregation</code> operation.
   ///
   /// May throw [AccessDeniedException].
@@ -3880,9 +3945,19 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the budget to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [displayName] :
   /// The display name of the budget to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [schedule] :
   /// The schedule to update.
@@ -3953,9 +4028,19 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the farm to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [displayName] :
   /// The display name of the farm to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   Future<void> updateFarm({
     required String farmId,
     String? description,
@@ -3997,9 +4082,19 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the fleet to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [displayName] :
   /// The display name of the fleet to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [maxWorkerCount] :
   /// The maximum number of workers in the fleet.
@@ -4055,6 +4150,13 @@ class DeadlineCloud {
 
   /// Updates a job.
   ///
+  /// When you change the status of the job to <code>ARCHIVED</code>, the job
+  /// can't be scheduled or archived.
+  /// <important>
+  /// An archived jobs and its steps and tasks are deleted after 120 days. The
+  /// job can't be recovered.
+  /// </important>
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ResourceNotFoundException].
@@ -4076,7 +4178,12 @@ class DeadlineCloud {
   /// request.
   ///
   /// Parameter [lifecycleStatus] :
-  /// The status of a job in its lifecycle.
+  /// The status of a job in its lifecycle. When you change the status of the
+  /// job to <code>ARCHIVED</code>, the job can't be scheduled or archived.
+  /// <important>
+  /// An archived jobs and its steps and tasks are deleted after 120 days. The
+  /// job can't be recovered.
+  /// </important>
   ///
   /// Parameter [maxFailedTasksCount] :
   /// The number of task failures before the job stops running and is marked as
@@ -4155,6 +4262,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The new value to use for the monitor's display name.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the new IAM role to use with the
@@ -4210,9 +4322,19 @@ class DeadlineCloud {
   ///
   /// Parameter [description] :
   /// The description of the queue to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [displayName] :
   /// The display name of the queue to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [jobAttachmentSettings] :
   /// The job attachment settings to update for the queue.
@@ -4497,6 +4619,11 @@ class DeadlineCloud {
   ///
   /// Parameter [displayName] :
   /// The display name of the storage profile to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   ///
   /// Parameter [fileSystemLocationsToAdd] :
   /// The file system location names to add.
@@ -5322,6 +5449,11 @@ class BudgetActionToAdd {
   final BudgetActionType type;
 
   /// A description for the budget action to add.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   BudgetActionToAdd({
@@ -5435,6 +5567,11 @@ class BudgetSummary {
   final String createdBy;
 
   /// The display name of the budget summary to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The status of the budget.
@@ -5457,6 +5594,11 @@ class BudgetSummary {
   final ConsumedUsages usages;
 
   /// The description of the budget summary.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The date and time the resource was updated.
@@ -6682,6 +6824,11 @@ class FarmSummary {
   final String createdBy;
 
   /// The display name of the farm.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID.
@@ -7073,6 +7220,11 @@ class FleetSummary {
   final String createdBy;
 
   /// The display name of the fleet summary to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID.
@@ -7195,6 +7347,11 @@ class GetBudgetResponse {
   final String createdBy;
 
   /// The display name of the budget.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The budget schedule.
@@ -7220,6 +7377,11 @@ class GetBudgetResponse {
   final ConsumedUsages usages;
 
   /// The description of the budget.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The date and time the queue stopped.
@@ -7315,6 +7477,11 @@ class GetFarmResponse {
   final String createdBy;
 
   /// The display name of the farm.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID of the farm to get.
@@ -7324,6 +7491,11 @@ class GetFarmResponse {
   final String kmsKeyArn;
 
   /// The description of the farm.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The date and time the resource was updated.
@@ -7389,6 +7561,11 @@ class GetFleetResponse {
   final String createdBy;
 
   /// The display name of the fleet.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID of the farm in the fleet.
@@ -7421,6 +7598,11 @@ class GetFleetResponse {
   final FleetCapabilities? capabilities;
 
   /// The description of the fleet.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The number of target workers in the fleet.
@@ -7602,6 +7784,11 @@ class GetJobResponse {
   final Attachments? attachments;
 
   /// The description of the job.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The date and time the resource ended running.
@@ -7822,6 +8009,11 @@ class GetMonitorResponse {
   final String createdBy;
 
   /// The name used to identify the monitor on the Deadline Cloud console.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the
@@ -8067,6 +8259,11 @@ class GetQueueResponse {
   final DefaultQueueBudgetAction defaultBudgetAction;
 
   /// The display name of the queue.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID for the queue.
@@ -8098,6 +8295,11 @@ class GetQueueResponse {
   final QueueBlockedReason? blockedReason;
 
   /// The description of the queue.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The job attachment settings for the queue.
@@ -8410,7 +8612,15 @@ class GetSessionResponse {
 }
 
 class GetSessionsStatisticsAggregationResponse {
-  /// The status of the aggregated results.
+  /// The status of the aggregated results. An aggregation may fail or time out if
+  /// the results are too large. If this happens, you can call the
+  /// <code>StartSessionsStatisticsAggregation</code> operation after you reduce
+  /// the aggregation time frame, reduce the number of queues or fleets in the
+  /// aggregation, or increase the period length.
+  ///
+  /// If you call the <code>StartSessionsStatisticsAggregation </code> operation
+  /// when the status is <code>IN_PROGRESS</code>, you will receive a
+  /// <code>ThrottlingException</code>.
   final SessionsStatisticsAggregationStatus status;
 
   /// If Deadline Cloud returns <code>nextToken</code>, then there are more
@@ -8490,6 +8700,11 @@ class GetStepResponse {
   final DependencyCounts? dependencyCounts;
 
   /// The description of the step.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   /// The date and time the resource ended running.
@@ -8617,6 +8832,11 @@ class GetStepResponse {
 
 class GetStorageProfileForQueueResponse {
   /// The display name of the storage profile connected to a queue.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The operating system of the storage profile in the queue.
@@ -8672,6 +8892,11 @@ class GetStorageProfileResponse {
   final String createdBy;
 
   /// The display name of the storage profile.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The operating system (OS) for the storage profile.
@@ -9636,7 +9861,7 @@ class JobSearchSummary {
   /// The task status to start with on the job.
   final JobTargetTaskRunStatus? targetTaskRunStatus;
 
-  /// task run status for the job.
+  /// The task run status for the job.
   ///
   /// <ul>
   /// <li>
@@ -11256,6 +11481,11 @@ class MonitorSummary {
   final String createdBy;
 
   /// The name of the monitor that displays on the Deadline Cloud console.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the
@@ -11795,6 +12025,11 @@ class QueueSummary {
   final DefaultQueueBudgetAction defaultBudgetAction;
 
   /// The display name of the queue summary to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The farm ID.
@@ -11880,6 +12115,11 @@ class ResponseBudgetAction {
   final BudgetActionType type;
 
   /// The budget action description.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String? description;
 
   ResponseBudgetAction({
@@ -13667,6 +13907,11 @@ enum StorageProfileOperatingSystemFamily {
 /// The details of a storage profile.
 class StorageProfileSummary {
   /// The display name of the storage profile summary to update.
+  /// <important>
+  /// This field can store any content. Escape or encode this content before
+  /// displaying it on a webpage or any other system that might interpret the
+  /// content of this field.
+  /// </important>
   final String displayName;
 
   /// The operating system (OS) family.

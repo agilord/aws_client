@@ -473,7 +473,8 @@ class Omics {
     return CreateReferenceStoreResponse.fromJson(response);
   }
 
-  /// Creates a run group.
+  /// You can optionally create a run group to limit the compute resources for
+  /// the runs that you add to the group.
   ///
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
@@ -485,16 +486,19 @@ class Omics {
   /// May throw [RequestTimeoutException].
   ///
   /// Parameter [maxCpus] :
-  /// The maximum number of CPUs to use in the group.
+  /// The maximum number of CPUs that can run concurrently across all active
+  /// runs in the run group.
   ///
   /// Parameter [maxDuration] :
-  /// A maximum run time for the group in minutes.
+  /// The maximum time for each run (in minutes). If a run exceeds the maximum
+  /// run time, the run fails automatically.
   ///
   /// Parameter [maxGpus] :
-  /// The maximum GPUs that can be used by a run group.
+  /// The maximum number of GPUs that can run concurrently across all active
+  /// runs in the run group.
   ///
   /// Parameter [maxRuns] :
-  /// The maximum number of concurrent runs for the group.
+  /// The maximum number of runs that can be running at the same time.
   ///
   /// Parameter [name] :
   /// A name for the group.
@@ -623,10 +627,10 @@ class Omics {
   ///
   /// <ul>
   /// <li>
-  /// Healthomics variant stores
+  /// HealthOmics variant stores
   /// </li>
   /// <li>
-  /// Healthomics annotation stores
+  /// HealthOmics annotation stores
   /// </li>
   /// <li>
   /// Private workflows
@@ -756,7 +760,7 @@ class Omics {
   /// each request.
   ///
   /// Parameter [storageCapacity] :
-  /// The storage capacity for the workflow in gibibytes.
+  /// The default storage capacity for the workflow runs, in gibibytes.
   ///
   /// Parameter [tags] :
   /// Tags for the workflow.
@@ -5736,6 +5740,9 @@ class GetReadSetMetadataResponse {
   /// The read set's status.
   final ReadSetStatus status;
 
+  /// The read set's creation job ID.
+  final String? creationJobId;
+
   /// The creation type of the read set.
   final CreationType? creationType;
 
@@ -5775,6 +5782,7 @@ class GetReadSetMetadataResponse {
     required this.id,
     required this.sequenceStoreId,
     required this.status,
+    this.creationJobId,
     this.creationType,
     this.description,
     this.etag,
@@ -5796,6 +5804,7 @@ class GetReadSetMetadataResponse {
       id: json['id'] as String,
       sequenceStoreId: json['sequenceStoreId'] as String,
       status: ReadSetStatus.fromString((json['status'] as String)),
+      creationJobId: json['creationJobId'] as String?,
       creationType:
           (json['creationType'] as String?)?.let(CreationType.fromString),
       description: json['description'] as String?,
@@ -5824,6 +5833,7 @@ class GetReadSetMetadataResponse {
     final id = this.id;
     final sequenceStoreId = this.sequenceStoreId;
     final status = this.status;
+    final creationJobId = this.creationJobId;
     final creationType = this.creationType;
     final description = this.description;
     final etag = this.etag;
@@ -5841,6 +5851,7 @@ class GetReadSetMetadataResponse {
       'id': id,
       'sequenceStoreId': sequenceStoreId,
       'status': status.value,
+      if (creationJobId != null) 'creationJobId': creationJobId,
       if (creationType != null) 'creationType': creationType.value,
       if (description != null) 'description': description,
       if (etag != null) 'etag': etag,
@@ -5968,6 +5979,12 @@ class GetReferenceMetadataResponse {
   /// When the reference was updated.
   final DateTime updateTime;
 
+  /// The reference's creation job ID.
+  final String? creationJobId;
+
+  /// The reference's creation type.
+  final ReferenceCreationType? creationType;
+
   /// The reference's description.
   final String? description;
 
@@ -5987,6 +6004,8 @@ class GetReferenceMetadataResponse {
     required this.md5,
     required this.referenceStoreId,
     required this.updateTime,
+    this.creationJobId,
+    this.creationType,
     this.description,
     this.files,
     this.name,
@@ -6002,6 +6021,9 @@ class GetReferenceMetadataResponse {
       md5: json['md5'] as String,
       referenceStoreId: json['referenceStoreId'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      creationJobId: json['creationJobId'] as String?,
+      creationType: (json['creationType'] as String?)
+          ?.let(ReferenceCreationType.fromString),
       description: json['description'] as String?,
       files: json['files'] != null
           ? ReferenceFiles.fromJson(json['files'] as Map<String, dynamic>)
@@ -6018,6 +6040,8 @@ class GetReferenceMetadataResponse {
     final md5 = this.md5;
     final referenceStoreId = this.referenceStoreId;
     final updateTime = this.updateTime;
+    final creationJobId = this.creationJobId;
+    final creationType = this.creationType;
     final description = this.description;
     final files = this.files;
     final name = this.name;
@@ -6029,6 +6053,8 @@ class GetReferenceMetadataResponse {
       'md5': md5,
       'referenceStoreId': referenceStoreId,
       'updateTime': iso8601ToJson(updateTime),
+      if (creationJobId != null) 'creationJobId': creationJobId,
+      if (creationType != null) 'creationType': creationType.value,
       if (description != null) 'description': description,
       if (files != null) 'files': files,
       if (name != null) 'name': name,
@@ -6898,7 +6924,7 @@ class GetWorkflowResponse {
   /// The workflow's status message.
   final String? statusMessage;
 
-  /// The workflow's storage capacity in gibibytes.
+  /// The workflow's default run storage capacity in gibibytes.
   final int? storageCapacity;
 
   /// The workflow's tags.
@@ -7109,6 +7135,9 @@ class ImportReadSetSourceItem {
   /// The source's name.
   final String? name;
 
+  /// The source's read set ID.
+  final String? readSetId;
+
   /// The source's genome reference ARN.
   final String? referenceArn;
 
@@ -7127,6 +7156,7 @@ class ImportReadSetSourceItem {
     this.description,
     this.generatedFrom,
     this.name,
+    this.readSetId,
     this.referenceArn,
     this.statusMessage,
     this.tags,
@@ -7143,6 +7173,7 @@ class ImportReadSetSourceItem {
       description: json['description'] as String?,
       generatedFrom: json['generatedFrom'] as String?,
       name: json['name'] as String?,
+      readSetId: json['readSetId'] as String?,
       referenceArn: json['referenceArn'] as String?,
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -7159,6 +7190,7 @@ class ImportReadSetSourceItem {
     final description = this.description;
     final generatedFrom = this.generatedFrom;
     final name = this.name;
+    final readSetId = this.readSetId;
     final referenceArn = this.referenceArn;
     final statusMessage = this.statusMessage;
     final tags = this.tags;
@@ -7171,6 +7203,7 @@ class ImportReadSetSourceItem {
       if (description != null) 'description': description,
       if (generatedFrom != null) 'generatedFrom': generatedFrom,
       if (name != null) 'name': name,
+      if (readSetId != null) 'readSetId': readSetId,
       if (referenceArn != null) 'referenceArn': referenceArn,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
@@ -7278,6 +7311,9 @@ class ImportReferenceSourceItem {
   /// The source's name.
   final String? name;
 
+  /// The source's reference ID.
+  final String? referenceId;
+
   /// The source file's location in Amazon S3.
   final String? sourceFile;
 
@@ -7291,6 +7327,7 @@ class ImportReferenceSourceItem {
     required this.status,
     this.description,
     this.name,
+    this.referenceId,
     this.sourceFile,
     this.statusMessage,
     this.tags,
@@ -7302,6 +7339,7 @@ class ImportReferenceSourceItem {
           ReferenceImportJobItemStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       name: json['name'] as String?,
+      referenceId: json['referenceId'] as String?,
       sourceFile: json['sourceFile'] as String?,
       statusMessage: json['statusMessage'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -7313,6 +7351,7 @@ class ImportReferenceSourceItem {
     final status = this.status;
     final description = this.description;
     final name = this.name;
+    final referenceId = this.referenceId;
     final sourceFile = this.sourceFile;
     final statusMessage = this.statusMessage;
     final tags = this.tags;
@@ -7320,6 +7359,7 @@ class ImportReferenceSourceItem {
       'status': status.value,
       if (description != null) 'description': description,
       if (name != null) 'name': name,
+      if (referenceId != null) 'referenceId': referenceId,
       if (sourceFile != null) 'sourceFile': sourceFile,
       if (statusMessage != null) 'statusMessage': statusMessage,
       if (tags != null) 'tags': tags,
@@ -8839,6 +8879,20 @@ class ReadSetUploadPartListItem {
         'lastUpdatedTime': iso8601ToJson(lastUpdatedTime),
     };
   }
+}
+
+enum ReferenceCreationType {
+  import('IMPORT'),
+  ;
+
+  final String value;
+
+  const ReferenceCreationType(this.value);
+
+  static ReferenceCreationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ReferenceCreationType'));
 }
 
 enum ReferenceFile {

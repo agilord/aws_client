@@ -751,13 +751,12 @@ class Iam {
   /// You get all of this information from the OIDC IdP you want to use to
   /// access Amazon Web Services.
   /// <note>
-  /// Amazon Web Services secures communication with some OIDC identity
-  /// providers (IdPs) through our library of trusted root certificate
-  /// authorities (CAs) instead of using a certificate thumbprint to verify your
-  /// IdP server certificate. In these cases, your legacy thumbprint remains in
-  /// your configuration, but is no longer used for validation. These OIDC IdPs
-  /// include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
-  /// bucket to host a JSON Web Key Set (JWKS) endpoint.
+  /// Amazon Web Services secures communication with OIDC identity providers
+  /// (IdPs) using our library of trusted root certificate authorities (CAs) to
+  /// verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your
+  /// OIDC IdP relies on a certificate that is not signed by one of these
+  /// trusted CAs, only then we secure communication using the thumbprints set
+  /// in the IdP's configuration.
   /// </note> <note>
   /// The trust for the OIDC provider is derived from the IAM provider that this
   /// operation creates. Therefore, it is best to limit access to the
@@ -4685,9 +4684,9 @@ class Iam {
   /// Lists the account alias associated with the Amazon Web Services account
   /// (Note: you can have only one). For information about using an Amazon Web
   /// Services account alias, see <a
-  /// href="https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html">Creating,
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias">Creating,
   /// deleting, and listing an Amazon Web Services account alias</a> in the
-  /// <i>Amazon Web Services Sign-In User Guide</i>.
+  /// <i>IAM User Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -9956,13 +9955,12 @@ class Iam {
   /// specifies the OIDC provider as a principal fails until the certificate
   /// thumbprint is updated.
   /// <note>
-  /// Amazon Web Services secures communication with some OIDC identity
-  /// providers (IdPs) through our library of trusted root certificate
-  /// authorities (CAs) instead of using a certificate thumbprint to verify your
-  /// IdP server certificate. In these cases, your legacy thumbprint remains in
-  /// your configuration, but is no longer used for validation. These OIDC IdPs
-  /// include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3
-  /// bucket to host a JSON Web Key Set (JWKS) endpoint.
+  /// Amazon Web Services secures communication with OIDC identity providers
+  /// (IdPs) using our library of trusted root certificate authorities (CAs) to
+  /// verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If your
+  /// OIDC IdP relies on a certificate that is not signed by one of these
+  /// trusted CAs, only then we secure communication using the thumbprints set
+  /// in the IdP's configuration.
   /// </note> <note>
   /// Trust for the OIDC provider is derived from the provider certificate and
   /// is validated by the thumbprint. Therefore, it is best to limit access to
@@ -10990,24 +10988,6 @@ class AccessKey {
 /// This data type is used as a response element in the
 /// <a>GetAccessKeyLastUsed</a> operation.
 class AccessKeyLastUsed {
-  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
-  /// date-time format</a>, when the access key was most recently used. This field
-  /// is null in the following situations:
-  ///
-  /// <ul>
-  /// <li>
-  /// The user does not have an access key.
-  /// </li>
-  /// <li>
-  /// An access key exists but has not been used since IAM began tracking this
-  /// information.
-  /// </li>
-  /// <li>
-  /// There is no sign-in data associated with the user.
-  /// </li>
-  /// </ul>
-  final DateTime lastUsedDate;
-
   /// The Amazon Web Services Region where this access key was most recently used.
   /// The value for this field is "N/A" in the following situations:
   ///
@@ -11046,27 +11026,45 @@ class AccessKeyLastUsed {
   /// </ul>
   final String serviceName;
 
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when the access key was most recently used. This field
+  /// is null in the following situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// The user does not have an access key.
+  /// </li>
+  /// <li>
+  /// An access key exists but has not been used since IAM began tracking this
+  /// information.
+  /// </li>
+  /// <li>
+  /// There is no sign-in data associated with the user.
+  /// </li>
+  /// </ul>
+  final DateTime? lastUsedDate;
+
   AccessKeyLastUsed({
-    required this.lastUsedDate,
     required this.region,
     required this.serviceName,
+    this.lastUsedDate,
   });
   factory AccessKeyLastUsed.fromXml(_s.XmlElement elem) {
     return AccessKeyLastUsed(
-      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate')!,
       region: _s.extractXmlStringValue(elem, 'Region')!,
       serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastUsedDate = this.lastUsedDate;
     final region = this.region;
     final serviceName = this.serviceName;
+    final lastUsedDate = this.lastUsedDate;
     return {
-      'LastUsedDate': iso8601ToJson(lastUsedDate),
       'Region': region,
       'ServiceName': serviceName,
+      if (lastUsedDate != null) 'LastUsedDate': iso8601ToJson(lastUsedDate),
     };
   }
 }

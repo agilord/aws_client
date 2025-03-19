@@ -53,6 +53,83 @@ class QuickSight {
     _protocol.close();
   }
 
+  /// Creates new reviewed answers for a Q Topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [answers] :
+  /// The definition of the Answers to be created.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that you want to create a
+  /// reviewed answer in.
+  ///
+  /// Parameter [topicId] :
+  /// The ID for the topic reviewed answer that you want to create. This ID is
+  /// unique per Amazon Web Services Region for each Amazon Web Services
+  /// account.
+  Future<BatchCreateTopicReviewedAnswerResponse>
+      batchCreateTopicReviewedAnswer({
+    required List<CreateTopicReviewedAnswer> answers,
+    required String awsAccountId,
+    required String topicId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Answers': answers,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topics/${Uri.encodeComponent(topicId)}/batch-create-reviewed-answers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchCreateTopicReviewedAnswerResponse.fromJson(response);
+  }
+
+  /// Deletes reviewed answers for Q Topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that you want to delete a
+  /// reviewed answers in.
+  ///
+  /// Parameter [topicId] :
+  /// The ID for the topic reviewed answer that you want to delete. This ID is
+  /// unique per Amazon Web Services Region for each Amazon Web Services
+  /// account.
+  ///
+  /// Parameter [answerIds] :
+  /// The Answer IDs of the Answers to be deleted.
+  Future<BatchDeleteTopicReviewedAnswerResponse>
+      batchDeleteTopicReviewedAnswer({
+    required String awsAccountId,
+    required String topicId,
+    List<String>? answerIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (answerIds != null) 'AnswerIds': answerIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topics/${Uri.encodeComponent(topicId)}/batch-delete-reviewed-answers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteTopicReviewedAnswerResponse.fromJson(response);
+  }
+
   /// Cancels an ongoing ingestion of data into SPICE.
   ///
   /// May throw [AccessDeniedException].
@@ -850,6 +927,7 @@ class QuickSight {
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceExistsException].
   /// May throw [ThrottlingException].
+  /// May throw [CustomerManagedKeyUnavailableException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
@@ -6167,6 +6245,36 @@ class QuickSight {
     return ListTopicRefreshSchedulesResponse.fromJson(response);
   }
 
+  /// Lists all reviewed answers for a Q Topic.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the Amazon Web Services account that containd the reviewed
+  /// answers that you want listed.
+  ///
+  /// Parameter [topicId] :
+  /// The ID for the topic that contains the reviewed answer that you want to
+  /// list. This ID is unique per Amazon Web Services Region for each Amazon Web
+  /// Services account.
+  Future<ListTopicReviewedAnswersResponse> listTopicReviewedAnswers({
+    required String awsAccountId,
+    required String topicId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/topics/${Uri.encodeComponent(topicId)}/reviewed-answers',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTopicReviewedAnswersResponse.fromJson(response);
+  }
+
   /// Lists all of the topics within an account.
   ///
   /// May throw [AccessDeniedException].
@@ -8058,6 +8166,7 @@ class QuickSight {
   /// May throw [InvalidParameterValueException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [CustomerManagedKeyUnavailableException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
@@ -9640,6 +9749,85 @@ class AdHocFilteringOption {
   }
 }
 
+/// The definition of an Agg function.
+class AggFunction {
+  /// The aggregation of an Agg function.
+  final AggType? aggregation;
+
+  /// The aggregation parameters for an Agg function.
+  final Map<String, String>? aggregationFunctionParameters;
+
+  /// The period of an Agg function.
+  final TopicTimeGranularity? period;
+
+  /// The period field for an Agg function.
+  final String? periodField;
+
+  AggFunction({
+    this.aggregation,
+    this.aggregationFunctionParameters,
+    this.period,
+    this.periodField,
+  });
+
+  factory AggFunction.fromJson(Map<String, dynamic> json) {
+    return AggFunction(
+      aggregation: (json['Aggregation'] as String?)?.let(AggType.fromString),
+      aggregationFunctionParameters:
+          (json['AggregationFunctionParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      period: (json['Period'] as String?)?.let(TopicTimeGranularity.fromString),
+      periodField: json['PeriodField'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregation = this.aggregation;
+    final aggregationFunctionParameters = this.aggregationFunctionParameters;
+    final period = this.period;
+    final periodField = this.periodField;
+    return {
+      if (aggregation != null) 'Aggregation': aggregation.value,
+      if (aggregationFunctionParameters != null)
+        'AggregationFunctionParameters': aggregationFunctionParameters,
+      if (period != null) 'Period': period.value,
+      if (periodField != null) 'PeriodField': periodField,
+    };
+  }
+}
+
+enum AggType {
+  sum('SUM'),
+  min('MIN'),
+  max('MAX'),
+  count('COUNT'),
+  average('AVERAGE'),
+  distinctCount('DISTINCT_COUNT'),
+  stdev('STDEV'),
+  stdevp('STDEVP'),
+  $var('VAR'),
+  varp('VARP'),
+  percentile('PERCENTILE'),
+  median('MEDIAN'),
+  ptdSum('PTD_SUM'),
+  ptdMin('PTD_MIN'),
+  ptdMax('PTD_MAX'),
+  ptdCount('PTD_COUNT'),
+  ptdDistinctCount('PTD_DISTINCT_COUNT'),
+  ptdAverage('PTD_AVERAGE'),
+  column('COLUMN'),
+  custom('CUSTOM'),
+  ;
+
+  final String value;
+
+  const AggType(this.value);
+
+  static AggType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum AggType'));
+}
+
 /// An aggregation function aggregates values from a dimension or measure.
 ///
 /// This is a union type structure. For this structure to be valid, only one of
@@ -9724,6 +9912,37 @@ class AggregationFunction {
         'DateAggregationFunction': dateAggregationFunction.value,
       if (numericalAggregationFunction != null)
         'NumericalAggregationFunction': numericalAggregationFunction,
+    };
+  }
+}
+
+/// The definition of an <code>AggregationPartitionBy</code>.
+class AggregationPartitionBy {
+  /// The field Name for an <code>AggregationPartitionBy</code>.
+  final String? fieldName;
+
+  /// The <code>TimeGranularity</code> for an <code>AggregationPartitionBy</code>.
+  final TimeGranularity? timeGranularity;
+
+  AggregationPartitionBy({
+    this.fieldName,
+    this.timeGranularity,
+  });
+
+  factory AggregationPartitionBy.fromJson(Map<String, dynamic> json) {
+    return AggregationPartitionBy(
+      fieldName: json['FieldName'] as String?,
+      timeGranularity:
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final timeGranularity = this.timeGranularity;
+    return {
+      if (fieldName != null) 'FieldName': fieldName,
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
     };
   }
 }
@@ -10000,6 +10219,7 @@ class AnalysisDefinition {
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html">Parameters
   /// in Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide</i>.
   final List<ParameterDeclaration>? parameterDeclarations;
+  final QueryExecutionOptions? queryExecutionOptions;
 
   /// An array of sheet definitions for an analysis. Each
   /// <code>SheetDefinition</code> provides detailed information about a sheet
@@ -10014,6 +10234,7 @@ class AnalysisDefinition {
     this.filterGroups,
     this.options,
     this.parameterDeclarations,
+    this.queryExecutionOptions,
     this.sheets,
   });
 
@@ -10048,6 +10269,10 @@ class AnalysisDefinition {
           ?.nonNulls
           .map((e) => ParameterDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      queryExecutionOptions: json['QueryExecutionOptions'] != null
+          ? QueryExecutionOptions.fromJson(
+              json['QueryExecutionOptions'] as Map<String, dynamic>)
+          : null,
       sheets: (json['Sheets'] as List?)
           ?.nonNulls
           .map((e) => SheetDefinition.fromJson(e as Map<String, dynamic>))
@@ -10063,6 +10288,7 @@ class AnalysisDefinition {
     final filterGroups = this.filterGroups;
     final options = this.options;
     final parameterDeclarations = this.parameterDeclarations;
+    final queryExecutionOptions = this.queryExecutionOptions;
     final sheets = this.sheets;
     return {
       'DataSetIdentifierDeclarations': dataSetIdentifierDeclarations,
@@ -10074,6 +10300,8 @@ class AnalysisDefinition {
       if (options != null) 'Options': options,
       if (parameterDeclarations != null)
         'ParameterDeclarations': parameterDeclarations,
+      if (queryExecutionOptions != null)
+        'QueryExecutionOptions': queryExecutionOptions,
       if (sheets != null) 'Sheets': sheets,
     };
   }
@@ -10346,6 +10574,44 @@ class AnalysisSummary {
   }
 }
 
+/// The definition of the Anchor.
+class Anchor {
+  /// The <code>AnchorType</code> for the Anchor.
+  final AnchorType? anchorType;
+
+  /// The offset of the Anchor.
+  final int? offset;
+
+  /// The <code>TimeGranularity</code> of the Anchor.
+  final TimeGranularity? timeGranularity;
+
+  Anchor({
+    this.anchorType,
+    this.offset,
+    this.timeGranularity,
+  });
+
+  factory Anchor.fromJson(Map<String, dynamic> json) {
+    return Anchor(
+      anchorType: (json['AnchorType'] as String?)?.let(AnchorType.fromString),
+      offset: json['Offset'] as int?,
+      timeGranularity:
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anchorType = this.anchorType;
+    final offset = this.offset;
+    final timeGranularity = this.timeGranularity;
+    return {
+      if (anchorType != null) 'AnchorType': anchorType.value,
+      if (offset != null) 'Offset': offset,
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
+    };
+  }
+}
+
 /// The date configuration of the filter.
 class AnchorDateConfiguration {
   /// The options for the date configuration. Choose one of the options below:
@@ -10397,6 +10663,19 @@ enum AnchorOption {
               throw Exception('$value is not known in enum AnchorOption'));
 }
 
+enum AnchorType {
+  today('TODAY'),
+  ;
+
+  final String value;
+
+  const AnchorType(this.value);
+
+  static AnchorType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum AnchorType'));
+}
+
 /// Information about the dashboard that you want to embed.
 class AnonymousUserDashboardEmbeddingConfiguration {
   /// The dashboard ID for the dashboard that you want the user to see first. This
@@ -10408,14 +10687,84 @@ class AnonymousUserDashboardEmbeddingConfiguration {
   /// fail with <code>InvalidParameterValueException</code>.
   final String initialDashboardId;
 
+  /// A list of all disabled features of a specified anonymous dashboard.
+  final List<AnonymousUserDashboardEmbeddingConfigurationDisabledFeature>?
+      disabledFeatures;
+
+  /// A list of all enabled features of a specified anonymous dashboard.
+  final List<AnonymousUserDashboardEmbeddingConfigurationEnabledFeature>?
+      enabledFeatures;
+
+  /// The feature configuration for an embedded dashboard.
+  final AnonymousUserDashboardFeatureConfigurations? featureConfigurations;
+
   AnonymousUserDashboardEmbeddingConfiguration({
     required this.initialDashboardId,
+    this.disabledFeatures,
+    this.enabledFeatures,
+    this.featureConfigurations,
   });
 
   Map<String, dynamic> toJson() {
     final initialDashboardId = this.initialDashboardId;
+    final disabledFeatures = this.disabledFeatures;
+    final enabledFeatures = this.enabledFeatures;
+    final featureConfigurations = this.featureConfigurations;
     return {
       'InitialDashboardId': initialDashboardId,
+      if (disabledFeatures != null)
+        'DisabledFeatures': disabledFeatures.map((e) => e.value).toList(),
+      if (enabledFeatures != null)
+        'EnabledFeatures': enabledFeatures.map((e) => e.value).toList(),
+      if (featureConfigurations != null)
+        'FeatureConfigurations': featureConfigurations,
+    };
+  }
+}
+
+enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature {
+  sharedView('SHARED_VIEW'),
+  ;
+
+  final String value;
+
+  const AnonymousUserDashboardEmbeddingConfigurationDisabledFeature(this.value);
+
+  static AnonymousUserDashboardEmbeddingConfigurationDisabledFeature fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature'));
+}
+
+enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature {
+  sharedView('SHARED_VIEW'),
+  ;
+
+  final String value;
+
+  const AnonymousUserDashboardEmbeddingConfigurationEnabledFeature(this.value);
+
+  static AnonymousUserDashboardEmbeddingConfigurationEnabledFeature fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature'));
+}
+
+/// The feature configuration for an embedded dashboard.
+class AnonymousUserDashboardFeatureConfigurations {
+  /// The shared view settings of an embedded dashboard.
+  final SharedViewConfigurations? sharedView;
+
+  AnonymousUserDashboardFeatureConfigurations({
+    this.sharedView,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sharedView = this.sharedView;
+    return {
+      if (sharedView != null) 'SharedView': sharedView,
     };
   }
 }
@@ -14146,6 +14495,138 @@ enum BaseMapStyleType {
               throw Exception('$value is not known in enum BaseMapStyleType'));
 }
 
+class BatchCreateTopicReviewedAnswerResponse {
+  /// The definition of Answers that are invalid and not created.
+  final List<InvalidTopicReviewedAnswer>? invalidAnswers;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The definition of Answers that are successfully created.
+  final List<SucceededTopicReviewedAnswer>? succeededAnswers;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? topicArn;
+
+  /// The ID for the topic reviewed answer that you want to create. This ID is
+  /// unique per Amazon Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  BatchCreateTopicReviewedAnswerResponse({
+    this.invalidAnswers,
+    this.requestId,
+    this.status,
+    this.succeededAnswers,
+    this.topicArn,
+    this.topicId,
+  });
+
+  factory BatchCreateTopicReviewedAnswerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateTopicReviewedAnswerResponse(
+      invalidAnswers: (json['InvalidAnswers'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              InvalidTopicReviewedAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      succeededAnswers: (json['SucceededAnswers'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SucceededTopicReviewedAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topicArn: json['TopicArn'] as String?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidAnswers = this.invalidAnswers;
+    final requestId = this.requestId;
+    final status = this.status;
+    final succeededAnswers = this.succeededAnswers;
+    final topicArn = this.topicArn;
+    final topicId = this.topicId;
+    return {
+      if (invalidAnswers != null) 'InvalidAnswers': invalidAnswers,
+      if (requestId != null) 'RequestId': requestId,
+      if (succeededAnswers != null) 'SucceededAnswers': succeededAnswers,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+class BatchDeleteTopicReviewedAnswerResponse {
+  /// The definition of Answers that are invalid and not deleted.
+  final List<InvalidTopicReviewedAnswer>? invalidAnswers;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The definition of Answers that are successfully deleted.
+  final List<SucceededTopicReviewedAnswer>? succeededAnswers;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? topicArn;
+
+  /// The ID of the topic reviewed answer that you want to delete. This ID is
+  /// unique per Amazon Web Services Region for each Amazon Web Services account.
+  final String? topicId;
+
+  BatchDeleteTopicReviewedAnswerResponse({
+    this.invalidAnswers,
+    this.requestId,
+    this.status,
+    this.succeededAnswers,
+    this.topicArn,
+    this.topicId,
+  });
+
+  factory BatchDeleteTopicReviewedAnswerResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteTopicReviewedAnswerResponse(
+      invalidAnswers: (json['InvalidAnswers'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              InvalidTopicReviewedAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      succeededAnswers: (json['SucceededAnswers'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SucceededTopicReviewedAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topicArn: json['TopicArn'] as String?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidAnswers = this.invalidAnswers;
+    final requestId = this.requestId;
+    final status = this.status;
+    final succeededAnswers = this.succeededAnswers;
+    final topicArn = this.topicArn;
+    final topicId = this.topicId;
+    return {
+      if (invalidAnswers != null) 'InvalidAnswers': invalidAnswers,
+      if (requestId != null) 'RequestId': requestId,
+      if (succeededAnswers != null) 'SucceededAnswers': succeededAnswers,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
 /// The parameters that are required to connect to a Google BigQuery data
 /// source.
 class BigQueryParameters {
@@ -14241,6 +14722,10 @@ class BodySectionConfiguration {
   /// The configuration of a page break for a section.
   final SectionPageBreakConfiguration? pageBreakConfiguration;
 
+  /// Describes the configurations that are required to declare a section as
+  /// repeating.
+  final BodySectionRepeatConfiguration? repeatConfiguration;
+
   /// The style options of a body section.
   final SectionStyle? style;
 
@@ -14248,6 +14733,7 @@ class BodySectionConfiguration {
     required this.content,
     required this.sectionId,
     this.pageBreakConfiguration,
+    this.repeatConfiguration,
     this.style,
   });
 
@@ -14260,6 +14746,10 @@ class BodySectionConfiguration {
           ? SectionPageBreakConfiguration.fromJson(
               json['PageBreakConfiguration'] as Map<String, dynamic>)
           : null,
+      repeatConfiguration: json['RepeatConfiguration'] != null
+          ? BodySectionRepeatConfiguration.fromJson(
+              json['RepeatConfiguration'] as Map<String, dynamic>)
+          : null,
       style: json['Style'] != null
           ? SectionStyle.fromJson(json['Style'] as Map<String, dynamic>)
           : null,
@@ -14270,12 +14760,15 @@ class BodySectionConfiguration {
     final content = this.content;
     final sectionId = this.sectionId;
     final pageBreakConfiguration = this.pageBreakConfiguration;
+    final repeatConfiguration = this.repeatConfiguration;
     final style = this.style;
     return {
       'Content': content,
       'SectionId': sectionId,
       if (pageBreakConfiguration != null)
         'PageBreakConfiguration': pageBreakConfiguration,
+      if (repeatConfiguration != null)
+        'RepeatConfiguration': repeatConfiguration,
       if (style != null) 'Style': style,
     };
   }
@@ -14303,6 +14796,222 @@ class BodySectionContent {
     final layout = this.layout;
     return {
       if (layout != null) 'Layout': layout,
+    };
+  }
+}
+
+/// Describes the <b>Category</b> dataset column and constraints for the dynamic
+/// values used to repeat the contents of a section.
+class BodySectionDynamicCategoryDimensionConfiguration {
+  final ColumnIdentifier column;
+
+  /// Number of values to use from the column for repetition.
+  final int? limit;
+
+  /// Sort criteria on the column values that you use for repetition.
+  final List<ColumnSort>? sortByMetrics;
+
+  BodySectionDynamicCategoryDimensionConfiguration({
+    required this.column,
+    this.limit,
+    this.sortByMetrics,
+  });
+
+  factory BodySectionDynamicCategoryDimensionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return BodySectionDynamicCategoryDimensionConfiguration(
+      column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
+      limit: json['Limit'] as int?,
+      sortByMetrics: (json['SortByMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnSort.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final limit = this.limit;
+    final sortByMetrics = this.sortByMetrics;
+    return {
+      'Column': column,
+      if (limit != null) 'Limit': limit,
+      if (sortByMetrics != null) 'SortByMetrics': sortByMetrics,
+    };
+  }
+}
+
+/// Describes the <b>Numeric</b> dataset column and constraints for the dynamic
+/// values used to repeat the contents of a section.
+class BodySectionDynamicNumericDimensionConfiguration {
+  final ColumnIdentifier column;
+
+  /// Number of values to use from the column for repetition.
+  final int? limit;
+
+  /// Sort criteria on the column values that you use for repetition.
+  final List<ColumnSort>? sortByMetrics;
+
+  BodySectionDynamicNumericDimensionConfiguration({
+    required this.column,
+    this.limit,
+    this.sortByMetrics,
+  });
+
+  factory BodySectionDynamicNumericDimensionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return BodySectionDynamicNumericDimensionConfiguration(
+      column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
+      limit: json['Limit'] as int?,
+      sortByMetrics: (json['SortByMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnSort.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final limit = this.limit;
+    final sortByMetrics = this.sortByMetrics;
+    return {
+      'Column': column,
+      if (limit != null) 'Limit': limit,
+      if (sortByMetrics != null) 'SortByMetrics': sortByMetrics,
+    };
+  }
+}
+
+/// Describes the configurations that are required to declare a section as
+/// repeating.
+class BodySectionRepeatConfiguration {
+  /// List of <code>BodySectionRepeatDimensionConfiguration</code> values that
+  /// describe the dataset column and constraints for the column used to repeat
+  /// the contents of a section.
+  final List<BodySectionRepeatDimensionConfiguration>? dimensionConfigurations;
+
+  /// List of visuals to exclude from repetition in repeating sections. The
+  /// visuals will render identically, and ignore the repeating configurations in
+  /// all repeating instances.
+  final List<String>? nonRepeatingVisuals;
+
+  /// Page break configuration to apply for each repeating instance.
+  final BodySectionRepeatPageBreakConfiguration? pageBreakConfiguration;
+
+  BodySectionRepeatConfiguration({
+    this.dimensionConfigurations,
+    this.nonRepeatingVisuals,
+    this.pageBreakConfiguration,
+  });
+
+  factory BodySectionRepeatConfiguration.fromJson(Map<String, dynamic> json) {
+    return BodySectionRepeatConfiguration(
+      dimensionConfigurations: (json['DimensionConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => BodySectionRepeatDimensionConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nonRepeatingVisuals: (json['NonRepeatingVisuals'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      pageBreakConfiguration: json['PageBreakConfiguration'] != null
+          ? BodySectionRepeatPageBreakConfiguration.fromJson(
+              json['PageBreakConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    final nonRepeatingVisuals = this.nonRepeatingVisuals;
+    final pageBreakConfiguration = this.pageBreakConfiguration;
+    return {
+      if (dimensionConfigurations != null)
+        'DimensionConfigurations': dimensionConfigurations,
+      if (nonRepeatingVisuals != null)
+        'NonRepeatingVisuals': nonRepeatingVisuals,
+      if (pageBreakConfiguration != null)
+        'PageBreakConfiguration': pageBreakConfiguration,
+    };
+  }
+}
+
+/// Describes the dataset column and constraints for the dynamic values used to
+/// repeat the contents of a section. The dataset column is either
+/// <b>Category</b> or <b>Numeric</b> column configuration
+class BodySectionRepeatDimensionConfiguration {
+  /// Describes the <b>Category</b> dataset column and constraints around the
+  /// dynamic values that will be used in repeating the section contents.
+  final BodySectionDynamicCategoryDimensionConfiguration?
+      dynamicCategoryDimensionConfiguration;
+
+  /// Describes the <b>Numeric</b> dataset column and constraints around the
+  /// dynamic values used to repeat the contents of a section.
+  final BodySectionDynamicNumericDimensionConfiguration?
+      dynamicNumericDimensionConfiguration;
+
+  BodySectionRepeatDimensionConfiguration({
+    this.dynamicCategoryDimensionConfiguration,
+    this.dynamicNumericDimensionConfiguration,
+  });
+
+  factory BodySectionRepeatDimensionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return BodySectionRepeatDimensionConfiguration(
+      dynamicCategoryDimensionConfiguration:
+          json['DynamicCategoryDimensionConfiguration'] != null
+              ? BodySectionDynamicCategoryDimensionConfiguration.fromJson(
+                  json['DynamicCategoryDimensionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      dynamicNumericDimensionConfiguration:
+          json['DynamicNumericDimensionConfiguration'] != null
+              ? BodySectionDynamicNumericDimensionConfiguration.fromJson(
+                  json['DynamicNumericDimensionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dynamicCategoryDimensionConfiguration =
+        this.dynamicCategoryDimensionConfiguration;
+    final dynamicNumericDimensionConfiguration =
+        this.dynamicNumericDimensionConfiguration;
+    return {
+      if (dynamicCategoryDimensionConfiguration != null)
+        'DynamicCategoryDimensionConfiguration':
+            dynamicCategoryDimensionConfiguration,
+      if (dynamicNumericDimensionConfiguration != null)
+        'DynamicNumericDimensionConfiguration':
+            dynamicNumericDimensionConfiguration,
+    };
+  }
+}
+
+/// The page break configuration to apply for each repeating instance.
+class BodySectionRepeatPageBreakConfiguration {
+  final SectionAfterPageBreak? after;
+
+  BodySectionRepeatPageBreakConfiguration({
+    this.after,
+  });
+
+  factory BodySectionRepeatPageBreakConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return BodySectionRepeatPageBreakConfiguration(
+      after: json['After'] != null
+          ? SectionAfterPageBreak.fromJson(
+              json['After'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final after = this.after;
+    return {
+      if (after != null) 'After': after,
     };
   }
 }
@@ -15339,6 +16048,47 @@ enum CategoryFilterType {
           throw Exception('$value is not known in enum CategoryFilterType'));
 }
 
+/// A <code>CategoryInnerFilter</code> filters text values for the
+/// <code>NestedFilter</code>.
+class CategoryInnerFilter {
+  final ColumnIdentifier column;
+  final CategoryFilterConfiguration configuration;
+  final DefaultFilterControlConfiguration? defaultFilterControlConfiguration;
+
+  CategoryInnerFilter({
+    required this.column,
+    required this.configuration,
+    this.defaultFilterControlConfiguration,
+  });
+
+  factory CategoryInnerFilter.fromJson(Map<String, dynamic> json) {
+    return CategoryInnerFilter(
+      column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
+      configuration: CategoryFilterConfiguration.fromJson(
+          json['Configuration'] as Map<String, dynamic>),
+      defaultFilterControlConfiguration:
+          json['DefaultFilterControlConfiguration'] != null
+              ? DefaultFilterControlConfiguration.fromJson(
+                  json['DefaultFilterControlConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final configuration = this.configuration;
+    final defaultFilterControlConfiguration =
+        this.defaultFilterControlConfiguration;
+    return {
+      'Column': column,
+      'Configuration': configuration,
+      if (defaultFilterControlConfiguration != null)
+        'DefaultFilterControlConfiguration': defaultFilterControlConfiguration,
+    };
+  }
+}
+
 /// A structure that represents the cell value synonym.
 class CellValueSynonym {
   /// The cell value.
@@ -15499,6 +16249,37 @@ class CollectiveConstant {
     final valueList = this.valueList;
     return {
       if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// The definition for a <code>CollectiveConstantEntry</code>.
+class CollectiveConstantEntry {
+  /// The <code>ConstantType</code> of a <code>CollectiveConstantEntry</code>.
+  final ConstantType? constantType;
+
+  /// The value of a <code>CollectiveConstantEntry</code>.
+  final String? value;
+
+  CollectiveConstantEntry({
+    this.constantType,
+    this.value,
+  });
+
+  factory CollectiveConstantEntry.fromJson(Map<String, dynamic> json) {
+    return CollectiveConstantEntry(
+      constantType:
+          (json['ConstantType'] as String?)?.let(ConstantType.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constantType = this.constantType;
+    final value = this.value;
+    return {
+      if (constantType != null) 'ConstantType': constantType.value,
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -16737,6 +17518,29 @@ enum ComparisonMethod {
               throw Exception('$value is not known in enum ComparisonMethod'));
 }
 
+enum ComparisonMethodType {
+  diff('DIFF'),
+  percDiff('PERC_DIFF'),
+  diffAsPerc('DIFF_AS_PERC'),
+  popCurrentDiffAsPerc('POP_CURRENT_DIFF_AS_PERC'),
+  popCurrentDiff('POP_CURRENT_DIFF'),
+  popOvertimeDiffAsPerc('POP_OVERTIME_DIFF_AS_PERC'),
+  popOvertimeDiff('POP_OVERTIME_DIFF'),
+  percentOfTotal('PERCENT_OF_TOTAL'),
+  runningSum('RUNNING_SUM'),
+  movingAverage('MOVING_AVERAGE'),
+  ;
+
+  final String value;
+
+  const ComparisonMethodType(this.value);
+
+  static ComparisonMethodType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ComparisonMethodType'));
+}
+
 /// The computation union that is used in an insight visual.
 ///
 /// This is a union type structure. For this structure to be valid, only one of
@@ -17240,6 +18044,98 @@ class ContributionAnalysisDefault {
     return {
       'ContributorDimensions': contributorDimensions,
       'MeasureFieldId': measureFieldId,
+    };
+  }
+}
+
+enum ContributionAnalysisDirection {
+  increase('INCREASE'),
+  decrease('DECREASE'),
+  neutral('NEUTRAL'),
+  ;
+
+  final String value;
+
+  const ContributionAnalysisDirection(this.value);
+
+  static ContributionAnalysisDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContributionAnalysisDirection'));
+}
+
+/// The definition for the <code>ContributionAnalysisFactor</code>.
+class ContributionAnalysisFactor {
+  /// The field name of the <code>ContributionAnalysisFactor</code>.
+  final String? fieldName;
+
+  ContributionAnalysisFactor({
+    this.fieldName,
+  });
+
+  factory ContributionAnalysisFactor.fromJson(Map<String, dynamic> json) {
+    return ContributionAnalysisFactor(
+      fieldName: json['FieldName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    return {
+      if (fieldName != null) 'FieldName': fieldName,
+    };
+  }
+}
+
+enum ContributionAnalysisSortType {
+  absoluteDifference('ABSOLUTE_DIFFERENCE'),
+  contributionPercentage('CONTRIBUTION_PERCENTAGE'),
+  deviationFromExpected('DEVIATION_FROM_EXPECTED'),
+  percentageDifference('PERCENTAGE_DIFFERENCE'),
+  ;
+
+  final String value;
+
+  const ContributionAnalysisSortType(this.value);
+
+  static ContributionAnalysisSortType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContributionAnalysisSortType'));
+}
+
+/// The definition for the <code>ContributionAnalysisTimeRanges</code>.
+class ContributionAnalysisTimeRanges {
+  /// The end range for the <code>ContributionAnalysisTimeRanges</code>.
+  final TopicIRFilterOption? endRange;
+
+  /// The start range for the <code>ContributionAnalysisTimeRanges</code>.
+  final TopicIRFilterOption? startRange;
+
+  ContributionAnalysisTimeRanges({
+    this.endRange,
+    this.startRange,
+  });
+
+  factory ContributionAnalysisTimeRanges.fromJson(Map<String, dynamic> json) {
+    return ContributionAnalysisTimeRanges(
+      endRange: json['EndRange'] != null
+          ? TopicIRFilterOption.fromJson(
+              json['EndRange'] as Map<String, dynamic>)
+          : null,
+      startRange: json['StartRange'] != null
+          ? TopicIRFilterOption.fromJson(
+              json['StartRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endRange = this.endRange;
+    final startRange = this.startRange;
+    return {
+      if (endRange != null) 'EndRange': endRange,
+      if (startRange != null) 'StartRange': startRange,
     };
   }
 }
@@ -18311,6 +19207,54 @@ class CreateTopicResponse {
       if (refreshArn != null) 'RefreshArn': refreshArn,
       if (requestId != null) 'RequestId': requestId,
       if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
+/// The definition for a <code>CreateTopicReviewedAnswer</code>.
+class CreateTopicReviewedAnswer {
+  /// The answer ID for the <code>CreateTopicReviewedAnswer</code>.
+  final String answerId;
+
+  /// The Dataset arn for the <code>CreateTopicReviewedAnswer</code>.
+  final String datasetArn;
+
+  /// The Question to be created.
+  final String question;
+
+  /// The Mir for the <code>CreateTopicReviewedAnswer</code>.
+  final TopicIR? mir;
+
+  /// The <code>PrimaryVisual</code> for the
+  /// <code>CreateTopicReviewedAnswer</code>.
+  final TopicVisual? primaryVisual;
+
+  /// The template for the <code>CreateTopicReviewedAnswer</code>.
+  final TopicTemplate? template;
+
+  CreateTopicReviewedAnswer({
+    required this.answerId,
+    required this.datasetArn,
+    required this.question,
+    this.mir,
+    this.primaryVisual,
+    this.template,
+  });
+
+  Map<String, dynamic> toJson() {
+    final answerId = this.answerId;
+    final datasetArn = this.datasetArn;
+    final question = this.question;
+    final mir = this.mir;
+    final primaryVisual = this.primaryVisual;
+    final template = this.template;
+    return {
+      'AnswerId': answerId,
+      'DatasetArn': datasetArn,
+      'Question': question,
+      if (mir != null) 'Mir': mir,
+      if (primaryVisual != null) 'PrimaryVisual': primaryVisual,
+      if (template != null) 'Template': template,
     };
   }
 }
@@ -22712,8 +23656,16 @@ class DateTimeParameterDeclaration {
 
 /// The display options of a control.
 class DateTimePickerControlDisplayOptions {
+  /// The date icon visibility of the
+  /// <code>DateTimePickerControlDisplayOptions</code>.
+  final Visibility? dateIconVisibility;
+
   /// Customize how dates are formatted in controls.
   final String? dateTimeFormat;
+
+  /// The helper text visibility of the
+  /// <code>DateTimePickerControlDisplayOptions</code>.
+  final Visibility? helperTextVisibility;
 
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -22722,7 +23674,9 @@ class DateTimePickerControlDisplayOptions {
   final LabelOptions? titleOptions;
 
   DateTimePickerControlDisplayOptions({
+    this.dateIconVisibility,
     this.dateTimeFormat,
+    this.helperTextVisibility,
     this.infoIconLabelOptions,
     this.titleOptions,
   });
@@ -22730,7 +23684,11 @@ class DateTimePickerControlDisplayOptions {
   factory DateTimePickerControlDisplayOptions.fromJson(
       Map<String, dynamic> json) {
     return DateTimePickerControlDisplayOptions(
+      dateIconVisibility:
+          (json['DateIconVisibility'] as String?)?.let(Visibility.fromString),
       dateTimeFormat: json['DateTimeFormat'] as String?,
+      helperTextVisibility:
+          (json['HelperTextVisibility'] as String?)?.let(Visibility.fromString),
       infoIconLabelOptions: json['InfoIconLabelOptions'] != null
           ? SheetControlInfoIconLabelOptions.fromJson(
               json['InfoIconLabelOptions'] as Map<String, dynamic>)
@@ -22742,11 +23700,17 @@ class DateTimePickerControlDisplayOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final dateIconVisibility = this.dateIconVisibility;
     final dateTimeFormat = this.dateTimeFormat;
+    final helperTextVisibility = this.helperTextVisibility;
     final infoIconLabelOptions = this.infoIconLabelOptions;
     final titleOptions = this.titleOptions;
     return {
+      if (dateIconVisibility != null)
+        'DateIconVisibility': dateIconVisibility.value,
       if (dateTimeFormat != null) 'DateTimeFormat': dateTimeFormat,
+      if (helperTextVisibility != null)
+        'HelperTextVisibility': helperTextVisibility.value,
       if (infoIconLabelOptions != null)
         'InfoIconLabelOptions': infoIconLabelOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
@@ -28916,6 +29880,10 @@ class Filter {
   /// text filters</a> in the <i>Amazon QuickSight User Guide</i>.
   final CategoryFilter? categoryFilter;
 
+  /// A <code>NestedFilter</code> filters data with a subset of data that is
+  /// defined by the nested inner filter.
+  final NestedFilter? nestedFilter;
+
   /// A <code>NumericEqualityFilter</code> filters numeric values that equal or do
   /// not equal a given numeric value.
   final NumericEqualityFilter? numericEqualityFilter;
@@ -28942,6 +29910,7 @@ class Filter {
 
   Filter({
     this.categoryFilter,
+    this.nestedFilter,
     this.numericEqualityFilter,
     this.numericRangeFilter,
     this.relativeDatesFilter,
@@ -28955,6 +29924,9 @@ class Filter {
       categoryFilter: json['CategoryFilter'] != null
           ? CategoryFilter.fromJson(
               json['CategoryFilter'] as Map<String, dynamic>)
+          : null,
+      nestedFilter: json['NestedFilter'] != null
+          ? NestedFilter.fromJson(json['NestedFilter'] as Map<String, dynamic>)
           : null,
       numericEqualityFilter: json['NumericEqualityFilter'] != null
           ? NumericEqualityFilter.fromJson(
@@ -28985,6 +29957,7 @@ class Filter {
 
   Map<String, dynamic> toJson() {
     final categoryFilter = this.categoryFilter;
+    final nestedFilter = this.nestedFilter;
     final numericEqualityFilter = this.numericEqualityFilter;
     final numericRangeFilter = this.numericRangeFilter;
     final relativeDatesFilter = this.relativeDatesFilter;
@@ -28993,6 +29966,7 @@ class Filter {
     final topBottomFilter = this.topBottomFilter;
     return {
       if (categoryFilter != null) 'CategoryFilter': categoryFilter,
+      if (nestedFilter != null) 'NestedFilter': nestedFilter,
       if (numericEqualityFilter != null)
         'NumericEqualityFilter': numericEqualityFilter,
       if (numericRangeFilter != null) 'NumericRangeFilter': numericRangeFilter,
@@ -29001,6 +29975,46 @@ class Filter {
       if (timeEqualityFilter != null) 'TimeEqualityFilter': timeEqualityFilter,
       if (timeRangeFilter != null) 'TimeRangeFilter': timeRangeFilter,
       if (topBottomFilter != null) 'TopBottomFilter': topBottomFilter,
+    };
+  }
+}
+
+/// The definition for the <code>FilterAggMetrics</code>.
+class FilterAggMetrics {
+  /// The function for the <code>FilterAggMetrics</code>.
+  final AggType? function;
+
+  /// The metric operand of the <code>FilterAggMetrics</code>.
+  final Identifier? metricOperand;
+
+  /// The sort direction for <code>FilterAggMetrics</code>.
+  final TopicSortDirection? sortDirection;
+
+  FilterAggMetrics({
+    this.function,
+    this.metricOperand,
+    this.sortDirection,
+  });
+
+  factory FilterAggMetrics.fromJson(Map<String, dynamic> json) {
+    return FilterAggMetrics(
+      function: (json['Function'] as String?)?.let(AggType.fromString),
+      metricOperand: json['MetricOperand'] != null
+          ? Identifier.fromJson(json['MetricOperand'] as Map<String, dynamic>)
+          : null,
+      sortDirection: (json['SortDirection'] as String?)
+          ?.let(TopicSortDirection.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final function = this.function;
+    final metricOperand = this.metricOperand;
+    final sortDirection = this.sortDirection;
+    return {
+      if (function != null) 'Function': function.value,
+      if (metricOperand != null) 'MetricOperand': metricOperand,
+      if (sortDirection != null) 'SortDirection': sortDirection.value,
     };
   }
 }
@@ -33871,6 +34885,29 @@ enum Icon {
           orElse: () => throw Exception('$value is not known in enum Icon'));
 }
 
+/// The definition for the identifier.
+class Identifier {
+  /// The identity of the identifier.
+  final String identity;
+
+  Identifier({
+    required this.identity,
+  });
+
+  factory Identifier.fromJson(Map<String, dynamic> json) {
+    return Identifier(
+      identity: json['Identity'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identity = this.identity;
+    return {
+      'Identity': identity,
+    };
+  }
+}
+
 /// The parameters for an IAM Identity Center configuration.
 class IdentityCenterConfiguration {
   /// A Boolean option that controls whether Trusted Identity Propagation should
@@ -34176,6 +35213,35 @@ enum IngestionType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum IngestionType'));
+}
+
+/// The <code>InnerFilter</code> defines the subset of data to be used with the
+/// <code>NestedFilter</code>.
+class InnerFilter {
+  /// A <code>CategoryInnerFilter</code> filters text values for the
+  /// <code>NestedFilter</code>.
+  final CategoryInnerFilter? categoryInnerFilter;
+
+  InnerFilter({
+    this.categoryInnerFilter,
+  });
+
+  factory InnerFilter.fromJson(Map<String, dynamic> json) {
+    return InnerFilter(
+      categoryInnerFilter: json['CategoryInnerFilter'] != null
+          ? CategoryInnerFilter.fromJson(
+              json['CategoryInnerFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryInnerFilter = this.categoryInnerFilter;
+    return {
+      if (categoryInnerFilter != null)
+        'CategoryInnerFilter': categoryInnerFilter,
+    };
+  }
 }
 
 /// Metadata for a column that is used as the input of a transform operation.
@@ -34608,6 +35674,37 @@ class IntegerValueWhenUnsetConfiguration {
       if (customValue != null) 'CustomValue': customValue,
       if (valueWhenUnsetOption != null)
         'ValueWhenUnsetOption': valueWhenUnsetOption.value,
+    };
+  }
+}
+
+/// The definition for a <code>InvalidTopicReviewedAnswer</code>.
+class InvalidTopicReviewedAnswer {
+  /// The answer ID for the <code>InvalidTopicReviewedAnswer</code>.
+  final String? answerId;
+
+  /// The error that is returned for the <code>InvalidTopicReviewedAnswer</code>.
+  final ReviewedAnswerErrorCode? error;
+
+  InvalidTopicReviewedAnswer({
+    this.answerId,
+    this.error,
+  });
+
+  factory InvalidTopicReviewedAnswer.fromJson(Map<String, dynamic> json) {
+    return InvalidTopicReviewedAnswer(
+      answerId: json['AnswerId'] as String?,
+      error:
+          (json['Error'] as String?)?.let(ReviewedAnswerErrorCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerId = this.answerId;
+    final error = this.error;
+    return {
+      if (answerId != null) 'AnswerId': answerId,
+      if (error != null) 'Error': error.value,
     };
   }
 }
@@ -37827,6 +38924,60 @@ class ListTopicRefreshSchedulesResponse {
   }
 }
 
+class ListTopicReviewedAnswersResponse {
+  /// The definition of all Answers in the topic.
+  final List<TopicReviewedAnswer>? answers;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  /// The Amazon Resource Name (ARN) of the topic.
+  final String? topicArn;
+
+  /// The ID for the topic that contains the reviewed answer that you want to
+  /// list. This ID is unique per Amazon Web Services Region for each Amazon Web
+  /// Services account.
+  final String? topicId;
+
+  ListTopicReviewedAnswersResponse({
+    this.answers,
+    this.requestId,
+    this.status,
+    this.topicArn,
+    this.topicId,
+  });
+
+  factory ListTopicReviewedAnswersResponse.fromJson(Map<String, dynamic> json) {
+    return ListTopicReviewedAnswersResponse(
+      answers: (json['Answers'] as List?)
+          ?.nonNulls
+          .map((e) => TopicReviewedAnswer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+      topicArn: json['TopicArn'] as String?,
+      topicId: json['TopicId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answers = this.answers;
+    final requestId = this.requestId;
+    final status = this.status;
+    final topicArn = this.topicArn;
+    final topicId = this.topicId;
+    return {
+      if (answers != null) 'Answers': answers,
+      if (requestId != null) 'RequestId': requestId,
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicId != null) 'TopicId': topicId,
+    };
+  }
+}
+
 class ListTopicsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -38870,6 +40021,29 @@ class NamedEntityDefinitionMetric {
   }
 }
 
+/// The definition for a <code>NamedEntityRef</code>.
+class NamedEntityRef {
+  /// The <code>NamedEntityName</code> for the <code>NamedEntityRef</code>.
+  final String? namedEntityName;
+
+  NamedEntityRef({
+    this.namedEntityName,
+  });
+
+  factory NamedEntityRef.fromJson(Map<String, dynamic> json) {
+    return NamedEntityRef(
+      namedEntityName: json['NamedEntityName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namedEntityName = this.namedEntityName;
+    return {
+      if (namedEntityName != null) 'NamedEntityName': namedEntityName,
+    };
+  }
+}
+
 enum NamedFilterAggType {
   noAggregation('NO_AGGREGATION'),
   sum('SUM'),
@@ -39108,6 +40282,55 @@ enum NegativeValueDisplayMode {
               '$value is not known in enum NegativeValueDisplayMode'));
 }
 
+/// A <code>NestedFilter</code> filters data with a subset of data that is
+/// defined by the nested inner filter.
+class NestedFilter {
+  /// The column that the filter is applied to.
+  final ColumnIdentifier column;
+
+  /// An identifier that uniquely identifies a filter within a dashboard,
+  /// analysis, or template.
+  final String filterId;
+
+  /// A boolean condition to include or exclude the subset that is defined by the
+  /// values of the nested inner filter.
+  final bool includeInnerSet;
+
+  /// The <code>InnerFilter</code> defines the subset of data to be used with the
+  /// <code>NestedFilter</code>.
+  final InnerFilter innerFilter;
+
+  NestedFilter({
+    required this.column,
+    required this.filterId,
+    required this.includeInnerSet,
+    required this.innerFilter,
+  });
+
+  factory NestedFilter.fromJson(Map<String, dynamic> json) {
+    return NestedFilter(
+      column: ColumnIdentifier.fromJson(json['Column'] as Map<String, dynamic>),
+      filterId: json['FilterId'] as String,
+      includeInnerSet: json['IncludeInnerSet'] as bool,
+      innerFilter:
+          InnerFilter.fromJson(json['InnerFilter'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final filterId = this.filterId;
+    final includeInnerSet = this.includeInnerSet;
+    final innerFilter = this.innerFilter;
+    return {
+      'Column': column,
+      'FilterId': filterId,
+      'IncludeInnerSet': includeInnerSet,
+      'InnerFilter': innerFilter,
+    };
+  }
+}
+
 /// The structure that contains information about a network interface.
 class NetworkInterface {
   /// The availability zone that the network interface resides in.
@@ -39242,6 +40465,22 @@ class NewDefaultValues {
       if (stringStaticValues != null) 'StringStaticValues': stringStaticValues,
     };
   }
+}
+
+enum NullFilterOption {
+  allValues('ALL_VALUES'),
+  nonNullsOnly('NON_NULLS_ONLY'),
+  nullsOnly('NULLS_ONLY'),
+  ;
+
+  final String value;
+
+  const NullFilterOption(this.value);
+
+  static NullFilterOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum NullFilterOption'));
 }
 
 /// The options that determine the null value format configuration.
@@ -43121,6 +44360,46 @@ class PutDataSetRefreshPropertiesResponse {
   }
 }
 
+enum QueryExecutionMode {
+  auto('AUTO'),
+  manual('MANUAL'),
+  ;
+
+  final String value;
+
+  const QueryExecutionMode(this.value);
+
+  static QueryExecutionMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum QueryExecutionMode'));
+}
+
+/// A structure that describes the query execution options.
+class QueryExecutionOptions {
+  /// A structure that describes the query execution mode.
+  final QueryExecutionMode? queryExecutionMode;
+
+  QueryExecutionOptions({
+    this.queryExecutionMode,
+  });
+
+  factory QueryExecutionOptions.fromJson(Map<String, dynamic> json) {
+    return QueryExecutionOptions(
+      queryExecutionMode: (json['QueryExecutionMode'] as String?)
+          ?.let(QueryExecutionMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryExecutionMode = this.queryExecutionMode;
+    return {
+      if (queryExecutionMode != null)
+        'QueryExecutionMode': queryExecutionMode.value,
+    };
+  }
+}
+
 /// Information about a queued dataset SPICE ingestion.
 class QueueInfo {
   /// The ID of the ongoing ingestion. The queued ingestion is waiting for the
@@ -44595,17 +45874,23 @@ class RegisteredCustomerManagedKey {
 
 /// The feature configurations of an embedded Amazon QuickSight console.
 class RegisteredUserConsoleFeatureConfigurations {
+  /// The shared view settings of an embedded dashboard.
+  final SharedViewConfigurations? sharedView;
+
   /// The state persistence configurations of an embedded Amazon QuickSight
   /// console.
   final StatePersistenceConfigurations? statePersistence;
 
   RegisteredUserConsoleFeatureConfigurations({
+    this.sharedView,
     this.statePersistence,
   });
 
   Map<String, dynamic> toJson() {
+    final sharedView = this.sharedView;
     final statePersistence = this.statePersistence;
     return {
+      if (sharedView != null) 'SharedView': sharedView,
       if (statePersistence != null) 'StatePersistence': statePersistence,
     };
   }
@@ -44646,19 +45931,25 @@ class RegisteredUserDashboardFeatureConfigurations {
   /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
   final BookmarksConfigurations? bookmarks;
 
+  /// The shared view settings of an embedded dashboard.
+  final SharedViewConfigurations? sharedView;
+
   /// The state persistence settings of an embedded dashboard.
   final StatePersistenceConfigurations? statePersistence;
 
   RegisteredUserDashboardFeatureConfigurations({
     this.bookmarks,
+    this.sharedView,
     this.statePersistence,
   });
 
   Map<String, dynamic> toJson() {
     final bookmarks = this.bookmarks;
+    final sharedView = this.sharedView;
     final statePersistence = this.statePersistence;
     return {
       if (bookmarks != null) 'Bookmarks': bookmarks,
+      if (sharedView != null) 'SharedView': sharedView,
       if (statePersistence != null) 'StatePersistence': statePersistence,
     };
   }
@@ -45319,6 +46610,26 @@ class RestoreAnalysisResponse {
       if (requestId != null) 'RequestId': requestId,
     };
   }
+}
+
+enum ReviewedAnswerErrorCode {
+  internalError('INTERNAL_ERROR'),
+  missingAnswer('MISSING_ANSWER'),
+  datasetDoesNotExist('DATASET_DOES_NOT_EXIST'),
+  invalidDatasetArn('INVALID_DATASET_ARN'),
+  duplicatedAnswer('DUPLICATED_ANSWER'),
+  invalidData('INVALID_DATA'),
+  missingRequiredFields('MISSING_REQUIRED_FIELDS'),
+  ;
+
+  final String value;
+
+  const ReviewedAnswerErrorCode(this.value);
+
+  static ReviewedAnswerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ReviewedAnswerErrorCode'));
 }
 
 enum Role {
@@ -47482,6 +48793,23 @@ class ShapeConditionalFormat {
   }
 }
 
+/// The shared view settings of an embedded dashboard.
+class SharedViewConfigurations {
+  /// The shared view settings of an embedded dashboard.
+  final bool enabled;
+
+  SharedViewConfigurations({
+    required this.enabled,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
+    };
+  }
+}
+
 enum SharingModel {
   account('ACCOUNT'),
   namespace('NAMESPACE'),
@@ -48278,6 +49606,36 @@ class SliderControlDisplayOptions {
       if (infoIconLabelOptions != null)
         'InfoIconLabelOptions': infoIconLabelOptions,
       if (titleOptions != null) 'TitleOptions': titleOptions,
+    };
+  }
+}
+
+/// The definition for the slot.
+class Slot {
+  /// The slot ID of the slot.
+  final String? slotId;
+
+  /// The visual ID for the slot.
+  final String? visualId;
+
+  Slot({
+    this.slotId,
+    this.visualId,
+  });
+
+  factory Slot.fromJson(Map<String, dynamic> json) {
+    return Slot(
+      slotId: json['SlotId'] as String?,
+      visualId: json['VisualId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final slotId = this.slotId;
+    final visualId = this.visualId;
+    return {
+      if (slotId != null) 'SlotId': slotId,
+      if (visualId != null) 'VisualId': visualId,
     };
   }
 }
@@ -49807,6 +51165,29 @@ class SubtotalOptions {
       if (totalCellStyle != null) 'TotalCellStyle': totalCellStyle,
       if (totalsVisibility != null) 'TotalsVisibility': totalsVisibility.value,
       if (valueCellStyle != null) 'ValueCellStyle': valueCellStyle,
+    };
+  }
+}
+
+/// The definition for a <code>SucceededTopicReviewedAnswer</code>.
+class SucceededTopicReviewedAnswer {
+  /// The answer ID for the <code>SucceededTopicReviewedAnswer</code>.
+  final String? answerId;
+
+  SucceededTopicReviewedAnswer({
+    this.answerId,
+  });
+
+  factory SucceededTopicReviewedAnswer.fromJson(Map<String, dynamic> json) {
+    return SucceededTopicReviewedAnswer(
+      answerId: json['AnswerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerId = this.answerId;
+    return {
+      if (answerId != null) 'AnswerId': answerId,
     };
   }
 }
@@ -51617,6 +52998,7 @@ class TemplateVersionDefinition {
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html">Parameters
   /// in Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide</i>.
   final List<ParameterDeclaration>? parameterDeclarations;
+  final QueryExecutionOptions? queryExecutionOptions;
 
   /// An array of sheet definitions for a template.
   final List<SheetDefinition>? sheets;
@@ -51629,6 +53011,7 @@ class TemplateVersionDefinition {
     this.filterGroups,
     this.options,
     this.parameterDeclarations,
+    this.queryExecutionOptions,
     this.sheets,
   });
 
@@ -51661,6 +53044,10 @@ class TemplateVersionDefinition {
           ?.nonNulls
           .map((e) => ParameterDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
+      queryExecutionOptions: json['QueryExecutionOptions'] != null
+          ? QueryExecutionOptions.fromJson(
+              json['QueryExecutionOptions'] as Map<String, dynamic>)
+          : null,
       sheets: (json['Sheets'] as List?)
           ?.nonNulls
           .map((e) => SheetDefinition.fromJson(e as Map<String, dynamic>))
@@ -51676,6 +53063,7 @@ class TemplateVersionDefinition {
     final filterGroups = this.filterGroups;
     final options = this.options;
     final parameterDeclarations = this.parameterDeclarations;
+    final queryExecutionOptions = this.queryExecutionOptions;
     final sheets = this.sheets;
     return {
       'DataSetConfigurations': dataSetConfigurations,
@@ -51687,6 +53075,8 @@ class TemplateVersionDefinition {
       if (options != null) 'Options': options,
       if (parameterDeclarations != null)
         'ParameterDeclarations': parameterDeclarations,
+      if (queryExecutionOptions != null)
+        'QueryExecutionOptions': queryExecutionOptions,
       if (sheets != null) 'Sheets': sheets,
     };
   }
@@ -53714,6 +55104,62 @@ class TopicColumn {
   }
 }
 
+/// The definition for a <code>TopicConstantValue</code>.
+class TopicConstantValue {
+  /// The constant type of a <code>TopicConstantValue</code>.
+  final ConstantType? constantType;
+
+  /// The maximum for the <code>TopicConstantValue</code>.
+  final String? maximum;
+
+  /// The minimum for the <code>TopicConstantValue</code>.
+  final String? minimum;
+
+  /// The value of the <code>TopicConstantValue</code>.
+  final String? value;
+
+  /// The value list of the <code>TopicConstantValue</code>.
+  final List<CollectiveConstantEntry>? valueList;
+
+  TopicConstantValue({
+    this.constantType,
+    this.maximum,
+    this.minimum,
+    this.value,
+    this.valueList,
+  });
+
+  factory TopicConstantValue.fromJson(Map<String, dynamic> json) {
+    return TopicConstantValue(
+      constantType:
+          (json['ConstantType'] as String?)?.let(ConstantType.fromString),
+      maximum: json['Maximum'] as String?,
+      minimum: json['Minimum'] as String?,
+      value: json['Value'] as String?,
+      valueList: (json['ValueList'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CollectiveConstantEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constantType = this.constantType;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final value = this.value;
+    final valueList = this.valueList;
+    return {
+      if (constantType != null) 'ConstantType': constantType.value,
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+      if (value != null) 'Value': value,
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
 /// A filter used to restrict data based on a range of dates or times.
 class TopicDateRangeFilter {
   /// The constant used in a date range filter.
@@ -53914,6 +55360,562 @@ class TopicFilter {
         'NumericEqualityFilter': numericEqualityFilter,
       if (numericRangeFilter != null) 'NumericRangeFilter': numericRangeFilter,
       if (relativeDateFilter != null) 'RelativeDateFilter': relativeDateFilter,
+    };
+  }
+}
+
+/// The definition for a <code>TopicIR</code>.
+class TopicIR {
+  /// The contribution analysis for the <code>TopicIR</code>.
+  final TopicIRContributionAnalysis? contributionAnalysis;
+
+  /// The filters for the <code>TopicIR</code>.
+  final List<List<TopicIRFilterOption>>? filters;
+
+  /// The GroupBy list for the <code>TopicIR</code>.
+  final List<TopicIRGroupBy>? groupByList;
+
+  /// The metrics for the <code>TopicIR</code>.
+  final List<TopicIRMetric>? metrics;
+
+  /// The sort for the <code>TopicIR</code>.
+  final TopicSortClause? sort;
+
+  /// The visual for the <code>TopicIR</code>.
+  final VisualOptions? visual;
+
+  TopicIR({
+    this.contributionAnalysis,
+    this.filters,
+    this.groupByList,
+    this.metrics,
+    this.sort,
+    this.visual,
+  });
+
+  factory TopicIR.fromJson(Map<String, dynamic> json) {
+    return TopicIR(
+      contributionAnalysis: json['ContributionAnalysis'] != null
+          ? TopicIRContributionAnalysis.fromJson(
+              json['ContributionAnalysis'] as Map<String, dynamic>)
+          : null,
+      filters: (json['Filters'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List)
+              .nonNulls
+              .map((e) =>
+                  TopicIRFilterOption.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+      groupByList: (json['GroupByList'] as List?)
+          ?.nonNulls
+          .map((e) => TopicIRGroupBy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metrics: (json['Metrics'] as List?)
+          ?.nonNulls
+          .map((e) => TopicIRMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sort: json['Sort'] != null
+          ? TopicSortClause.fromJson(json['Sort'] as Map<String, dynamic>)
+          : null,
+      visual: json['Visual'] != null
+          ? VisualOptions.fromJson(json['Visual'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributionAnalysis = this.contributionAnalysis;
+    final filters = this.filters;
+    final groupByList = this.groupByList;
+    final metrics = this.metrics;
+    final sort = this.sort;
+    final visual = this.visual;
+    return {
+      if (contributionAnalysis != null)
+        'ContributionAnalysis': contributionAnalysis,
+      if (filters != null) 'Filters': filters,
+      if (groupByList != null) 'GroupByList': groupByList,
+      if (metrics != null) 'Metrics': metrics,
+      if (sort != null) 'Sort': sort,
+      if (visual != null) 'Visual': visual,
+    };
+  }
+}
+
+/// The definition of a <code>TopicIRComparisonMethod</code>.
+class TopicIRComparisonMethod {
+  /// The period for the <code>TopicIRComparisonMethod</code>.
+  final TopicTimeGranularity? period;
+
+  /// The type for the <code>TopicIRComparisonMethod</code>.
+  final ComparisonMethodType? type;
+
+  /// The window size for the <code>TopicIRComparisonMethod</code>.
+  final int? windowSize;
+
+  TopicIRComparisonMethod({
+    this.period,
+    this.type,
+    this.windowSize,
+  });
+
+  factory TopicIRComparisonMethod.fromJson(Map<String, dynamic> json) {
+    return TopicIRComparisonMethod(
+      period: (json['Period'] as String?)?.let(TopicTimeGranularity.fromString),
+      type: (json['Type'] as String?)?.let(ComparisonMethodType.fromString),
+      windowSize: json['WindowSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final period = this.period;
+    final type = this.type;
+    final windowSize = this.windowSize;
+    return {
+      if (period != null) 'Period': period.value,
+      if (type != null) 'Type': type.value,
+      if (windowSize != null) 'WindowSize': windowSize,
+    };
+  }
+}
+
+/// The definition for a <code>TopicIRContributionAnalysis</code>.
+class TopicIRContributionAnalysis {
+  /// The direction for the <code>TopicIRContributionAnalysis</code>.
+  final ContributionAnalysisDirection? direction;
+
+  /// The factors for a <code>TopicIRContributionAnalysis</code>.
+  final List<ContributionAnalysisFactor>? factors;
+
+  /// The sort type for the <code>TopicIRContributionAnalysis</code>.
+  final ContributionAnalysisSortType? sortType;
+
+  /// The time ranges for the <code>TopicIRContributionAnalysis</code>.
+  final ContributionAnalysisTimeRanges? timeRanges;
+
+  TopicIRContributionAnalysis({
+    this.direction,
+    this.factors,
+    this.sortType,
+    this.timeRanges,
+  });
+
+  factory TopicIRContributionAnalysis.fromJson(Map<String, dynamic> json) {
+    return TopicIRContributionAnalysis(
+      direction: (json['Direction'] as String?)
+          ?.let(ContributionAnalysisDirection.fromString),
+      factors: (json['Factors'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ContributionAnalysisFactor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sortType: (json['SortType'] as String?)
+          ?.let(ContributionAnalysisSortType.fromString),
+      timeRanges: json['TimeRanges'] != null
+          ? ContributionAnalysisTimeRanges.fromJson(
+              json['TimeRanges'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final direction = this.direction;
+    final factors = this.factors;
+    final sortType = this.sortType;
+    final timeRanges = this.timeRanges;
+    return {
+      if (direction != null) 'Direction': direction.value,
+      if (factors != null) 'Factors': factors,
+      if (sortType != null) 'SortType': sortType.value,
+      if (timeRanges != null) 'TimeRanges': timeRanges,
+    };
+  }
+}
+
+enum TopicIRFilterFunction {
+  contains('CONTAINS'),
+  exact('EXACT'),
+  startsWith('STARTS_WITH'),
+  endsWith('ENDS_WITH'),
+  containsString('CONTAINS_STRING'),
+  previous('PREVIOUS'),
+  $this('THIS'),
+  last('LAST'),
+  next('NEXT'),
+  now('NOW'),
+  ;
+
+  final String value;
+
+  const TopicIRFilterFunction(this.value);
+
+  static TopicIRFilterFunction fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TopicIRFilterFunction'));
+}
+
+/// The definition for a <code>TopicIRFilterOption</code>.
+class TopicIRFilterOption {
+  /// The agg metrics for the <code>TopicIRFilterOption</code>.
+  final List<FilterAggMetrics>? aggMetrics;
+
+  /// The aggregation for the <code>TopicIRFilterOption</code>.
+  final AggType? aggregation;
+
+  /// The aggregation function parameters for the
+  /// <code>TopicIRFilterOption</code>.
+  final Map<String, String>? aggregationFunctionParameters;
+
+  /// The <code>AggregationPartitionBy</code> for the
+  /// <code>TopicIRFilterOption</code>.
+  final List<AggregationPartitionBy>? aggregationPartitionBy;
+
+  /// The anchor for the <code>TopicIRFilterOption</code>.
+  final Anchor? anchor;
+
+  /// The constant for the <code>TopicIRFilterOption</code>.
+  final TopicConstantValue? constant;
+
+  /// The filter class for the <code>TopicIRFilterOption</code>.
+  final FilterClass? filterClass;
+
+  /// The filter type for the <code>TopicIRFilterOption</code>.
+  final TopicIRFilterType? filterType;
+
+  /// The function for the <code>TopicIRFilterOption</code>.
+  final TopicIRFilterFunction? function;
+
+  /// The inclusive for the <code>TopicIRFilterOption</code>.
+  final bool? inclusive;
+
+  /// The inverse for the <code>TopicIRFilterOption</code>.
+  final bool? inverse;
+
+  /// The last next offset for the <code>TopicIRFilterOption</code>.
+  final TopicConstantValue? lastNextOffset;
+
+  /// The null filter for the <code>TopicIRFilterOption</code>.
+  final NullFilterOption? nullFilter;
+
+  /// The operand field for the <code>TopicIRFilterOption</code>.
+  final Identifier? operandField;
+
+  /// The range for the <code>TopicIRFilterOption</code>.
+  final TopicConstantValue? range;
+
+  /// The sort direction for the <code>TopicIRFilterOption</code>.
+  final TopicSortDirection? sortDirection;
+
+  /// The time granularity for the <code>TopicIRFilterOption</code>.
+  final TimeGranularity? timeGranularity;
+
+  /// The <code>TopBottomLimit</code> for the <code>TopicIRFilterOption</code>.
+  final TopicConstantValue? topBottomLimit;
+
+  TopicIRFilterOption({
+    this.aggMetrics,
+    this.aggregation,
+    this.aggregationFunctionParameters,
+    this.aggregationPartitionBy,
+    this.anchor,
+    this.constant,
+    this.filterClass,
+    this.filterType,
+    this.function,
+    this.inclusive,
+    this.inverse,
+    this.lastNextOffset,
+    this.nullFilter,
+    this.operandField,
+    this.range,
+    this.sortDirection,
+    this.timeGranularity,
+    this.topBottomLimit,
+  });
+
+  factory TopicIRFilterOption.fromJson(Map<String, dynamic> json) {
+    return TopicIRFilterOption(
+      aggMetrics: (json['AggMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => FilterAggMetrics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      aggregation: (json['Aggregation'] as String?)?.let(AggType.fromString),
+      aggregationFunctionParameters:
+          (json['AggregationFunctionParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      aggregationPartitionBy: (json['AggregationPartitionBy'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AggregationPartitionBy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      anchor: json['Anchor'] != null
+          ? Anchor.fromJson(json['Anchor'] as Map<String, dynamic>)
+          : null,
+      constant: json['Constant'] != null
+          ? TopicConstantValue.fromJson(
+              json['Constant'] as Map<String, dynamic>)
+          : null,
+      filterClass:
+          (json['FilterClass'] as String?)?.let(FilterClass.fromString),
+      filterType:
+          (json['FilterType'] as String?)?.let(TopicIRFilterType.fromString),
+      function:
+          (json['Function'] as String?)?.let(TopicIRFilterFunction.fromString),
+      inclusive: json['Inclusive'] as bool?,
+      inverse: json['Inverse'] as bool?,
+      lastNextOffset: json['LastNextOffset'] != null
+          ? TopicConstantValue.fromJson(
+              json['LastNextOffset'] as Map<String, dynamic>)
+          : null,
+      nullFilter:
+          (json['NullFilter'] as String?)?.let(NullFilterOption.fromString),
+      operandField: json['OperandField'] != null
+          ? Identifier.fromJson(json['OperandField'] as Map<String, dynamic>)
+          : null,
+      range: json['Range'] != null
+          ? TopicConstantValue.fromJson(json['Range'] as Map<String, dynamic>)
+          : null,
+      sortDirection: (json['SortDirection'] as String?)
+          ?.let(TopicSortDirection.fromString),
+      timeGranularity:
+          (json['TimeGranularity'] as String?)?.let(TimeGranularity.fromString),
+      topBottomLimit: json['TopBottomLimit'] != null
+          ? TopicConstantValue.fromJson(
+              json['TopBottomLimit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggMetrics = this.aggMetrics;
+    final aggregation = this.aggregation;
+    final aggregationFunctionParameters = this.aggregationFunctionParameters;
+    final aggregationPartitionBy = this.aggregationPartitionBy;
+    final anchor = this.anchor;
+    final constant = this.constant;
+    final filterClass = this.filterClass;
+    final filterType = this.filterType;
+    final function = this.function;
+    final inclusive = this.inclusive;
+    final inverse = this.inverse;
+    final lastNextOffset = this.lastNextOffset;
+    final nullFilter = this.nullFilter;
+    final operandField = this.operandField;
+    final range = this.range;
+    final sortDirection = this.sortDirection;
+    final timeGranularity = this.timeGranularity;
+    final topBottomLimit = this.topBottomLimit;
+    return {
+      if (aggMetrics != null) 'AggMetrics': aggMetrics,
+      if (aggregation != null) 'Aggregation': aggregation.value,
+      if (aggregationFunctionParameters != null)
+        'AggregationFunctionParameters': aggregationFunctionParameters,
+      if (aggregationPartitionBy != null)
+        'AggregationPartitionBy': aggregationPartitionBy,
+      if (anchor != null) 'Anchor': anchor,
+      if (constant != null) 'Constant': constant,
+      if (filterClass != null) 'FilterClass': filterClass.value,
+      if (filterType != null) 'FilterType': filterType.value,
+      if (function != null) 'Function': function.value,
+      if (inclusive != null) 'Inclusive': inclusive,
+      if (inverse != null) 'Inverse': inverse,
+      if (lastNextOffset != null) 'LastNextOffset': lastNextOffset,
+      if (nullFilter != null) 'NullFilter': nullFilter.value,
+      if (operandField != null) 'OperandField': operandField,
+      if (range != null) 'Range': range,
+      if (sortDirection != null) 'SortDirection': sortDirection.value,
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
+      if (topBottomLimit != null) 'TopBottomLimit': topBottomLimit,
+    };
+  }
+}
+
+enum TopicIRFilterType {
+  categoryFilter('CATEGORY_FILTER'),
+  numericEqualityFilter('NUMERIC_EQUALITY_FILTER'),
+  numericRangeFilter('NUMERIC_RANGE_FILTER'),
+  dateRangeFilter('DATE_RANGE_FILTER'),
+  relativeDateFilter('RELATIVE_DATE_FILTER'),
+  topBottomFilter('TOP_BOTTOM_FILTER'),
+  equals('EQUALS'),
+  rankLimitFilter('RANK_LIMIT_FILTER'),
+  acceptAllFilter('ACCEPT_ALL_FILTER'),
+  ;
+
+  final String value;
+
+  const TopicIRFilterType(this.value);
+
+  static TopicIRFilterType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum TopicIRFilterType'));
+}
+
+/// The definition for a <code>TopicIRGroupBy</code>.
+class TopicIRGroupBy {
+  /// The display format for the <code>TopicIRGroupBy</code>.
+  final DisplayFormat? displayFormat;
+  final DisplayFormatOptions? displayFormatOptions;
+
+  /// The field name for the <code>TopicIRGroupBy</code>.
+  final Identifier? fieldName;
+
+  /// The named entity for the <code>TopicIRGroupBy</code>.
+  final NamedEntityRef? namedEntity;
+
+  /// The sort for the <code>TopicIRGroupBy</code>.
+  final TopicSortClause? sort;
+
+  /// The time granularity for the <code>TopicIRGroupBy</code>.
+  final TopicTimeGranularity? timeGranularity;
+
+  TopicIRGroupBy({
+    this.displayFormat,
+    this.displayFormatOptions,
+    this.fieldName,
+    this.namedEntity,
+    this.sort,
+    this.timeGranularity,
+  });
+
+  factory TopicIRGroupBy.fromJson(Map<String, dynamic> json) {
+    return TopicIRGroupBy(
+      displayFormat:
+          (json['DisplayFormat'] as String?)?.let(DisplayFormat.fromString),
+      displayFormatOptions: json['DisplayFormatOptions'] != null
+          ? DisplayFormatOptions.fromJson(
+              json['DisplayFormatOptions'] as Map<String, dynamic>)
+          : null,
+      fieldName: json['FieldName'] != null
+          ? Identifier.fromJson(json['FieldName'] as Map<String, dynamic>)
+          : null,
+      namedEntity: json['NamedEntity'] != null
+          ? NamedEntityRef.fromJson(json['NamedEntity'] as Map<String, dynamic>)
+          : null,
+      sort: json['Sort'] != null
+          ? TopicSortClause.fromJson(json['Sort'] as Map<String, dynamic>)
+          : null,
+      timeGranularity: (json['TimeGranularity'] as String?)
+          ?.let(TopicTimeGranularity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayFormat = this.displayFormat;
+    final displayFormatOptions = this.displayFormatOptions;
+    final fieldName = this.fieldName;
+    final namedEntity = this.namedEntity;
+    final sort = this.sort;
+    final timeGranularity = this.timeGranularity;
+    return {
+      if (displayFormat != null) 'DisplayFormat': displayFormat.value,
+      if (displayFormatOptions != null)
+        'DisplayFormatOptions': displayFormatOptions,
+      if (fieldName != null) 'FieldName': fieldName,
+      if (namedEntity != null) 'NamedEntity': namedEntity,
+      if (sort != null) 'Sort': sort,
+      if (timeGranularity != null) 'TimeGranularity': timeGranularity.value,
+    };
+  }
+}
+
+/// The definition for a <code>TopicIRMetric</code>.
+class TopicIRMetric {
+  /// The calculated field references for the <code>TopicIRMetric</code>.
+  final List<Identifier>? calculatedFieldReferences;
+
+  /// The comparison method for the <code>TopicIRMetric</code>.
+  final TopicIRComparisonMethod? comparisonMethod;
+
+  /// The display format for the <code>TopicIRMetric</code>.
+  final DisplayFormat? displayFormat;
+  final DisplayFormatOptions? displayFormatOptions;
+
+  /// The expression for the <code>TopicIRMetric</code>.
+  final String? expression;
+
+  /// The function for the <code>TopicIRMetric</code>.
+  final AggFunction? function;
+
+  /// The metric ID for the <code>TopicIRMetric</code>.
+  final Identifier? metricId;
+
+  /// The named entity for the <code>TopicIRMetric</code>.
+  final NamedEntityRef? namedEntity;
+
+  /// The operands for the <code>TopicIRMetric</code>.
+  final List<Identifier>? operands;
+
+  TopicIRMetric({
+    this.calculatedFieldReferences,
+    this.comparisonMethod,
+    this.displayFormat,
+    this.displayFormatOptions,
+    this.expression,
+    this.function,
+    this.metricId,
+    this.namedEntity,
+    this.operands,
+  });
+
+  factory TopicIRMetric.fromJson(Map<String, dynamic> json) {
+    return TopicIRMetric(
+      calculatedFieldReferences: (json['CalculatedFieldReferences'] as List?)
+          ?.nonNulls
+          .map((e) => Identifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      comparisonMethod: json['ComparisonMethod'] != null
+          ? TopicIRComparisonMethod.fromJson(
+              json['ComparisonMethod'] as Map<String, dynamic>)
+          : null,
+      displayFormat:
+          (json['DisplayFormat'] as String?)?.let(DisplayFormat.fromString),
+      displayFormatOptions: json['DisplayFormatOptions'] != null
+          ? DisplayFormatOptions.fromJson(
+              json['DisplayFormatOptions'] as Map<String, dynamic>)
+          : null,
+      expression: json['Expression'] as String?,
+      function: json['Function'] != null
+          ? AggFunction.fromJson(json['Function'] as Map<String, dynamic>)
+          : null,
+      metricId: json['MetricId'] != null
+          ? Identifier.fromJson(json['MetricId'] as Map<String, dynamic>)
+          : null,
+      namedEntity: json['NamedEntity'] != null
+          ? NamedEntityRef.fromJson(json['NamedEntity'] as Map<String, dynamic>)
+          : null,
+      operands: (json['Operands'] as List?)
+          ?.nonNulls
+          .map((e) => Identifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final calculatedFieldReferences = this.calculatedFieldReferences;
+    final comparisonMethod = this.comparisonMethod;
+    final displayFormat = this.displayFormat;
+    final displayFormatOptions = this.displayFormatOptions;
+    final expression = this.expression;
+    final function = this.function;
+    final metricId = this.metricId;
+    final namedEntity = this.namedEntity;
+    final operands = this.operands;
+    return {
+      if (calculatedFieldReferences != null)
+        'CalculatedFieldReferences': calculatedFieldReferences,
+      if (comparisonMethod != null) 'ComparisonMethod': comparisonMethod,
+      if (displayFormat != null) 'DisplayFormat': displayFormat.value,
+      if (displayFormatOptions != null)
+        'DisplayFormatOptions': displayFormatOptions,
+      if (expression != null) 'Expression': expression,
+      if (function != null) 'Function': function,
+      if (metricId != null) 'MetricId': metricId,
+      if (namedEntity != null) 'NamedEntity': namedEntity,
+      if (operands != null) 'Operands': operands,
     };
   }
 }
@@ -54356,6 +56358,77 @@ enum TopicRelativeDateFilterFunction {
               '$value is not known in enum TopicRelativeDateFilterFunction'));
 }
 
+/// The deinition for a <code>TopicReviewedAnswer</code>.
+class TopicReviewedAnswer {
+  /// The answer ID of the reviewed answer.
+  final String answerId;
+
+  /// The Dataset ARN for the <code>TopicReviewedAnswer</code>.
+  final String datasetArn;
+
+  /// The question for the <code>TopicReviewedAnswer</code>.
+  final String question;
+
+  /// The Amazon Resource Name (ARN) of the reviewed answer.
+  final String? arn;
+
+  /// The mir for the <code>TopicReviewedAnswer</code>.
+  final TopicIR? mir;
+
+  /// The primary visual for the <code>TopicReviewedAnswer</code>.
+  final TopicVisual? primaryVisual;
+
+  /// The template for the <code>TopicReviewedAnswer</code>.
+  final TopicTemplate? template;
+
+  TopicReviewedAnswer({
+    required this.answerId,
+    required this.datasetArn,
+    required this.question,
+    this.arn,
+    this.mir,
+    this.primaryVisual,
+    this.template,
+  });
+
+  factory TopicReviewedAnswer.fromJson(Map<String, dynamic> json) {
+    return TopicReviewedAnswer(
+      answerId: json['AnswerId'] as String,
+      datasetArn: json['DatasetArn'] as String,
+      question: json['Question'] as String,
+      arn: json['Arn'] as String?,
+      mir: json['Mir'] != null
+          ? TopicIR.fromJson(json['Mir'] as Map<String, dynamic>)
+          : null,
+      primaryVisual: json['PrimaryVisual'] != null
+          ? TopicVisual.fromJson(json['PrimaryVisual'] as Map<String, dynamic>)
+          : null,
+      template: json['Template'] != null
+          ? TopicTemplate.fromJson(json['Template'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerId = this.answerId;
+    final datasetArn = this.datasetArn;
+    final question = this.question;
+    final arn = this.arn;
+    final mir = this.mir;
+    final primaryVisual = this.primaryVisual;
+    final template = this.template;
+    return {
+      'AnswerId': answerId,
+      'DatasetArn': datasetArn,
+      'Question': question,
+      if (arn != null) 'Arn': arn,
+      if (mir != null) 'Mir': mir,
+      if (primaryVisual != null) 'PrimaryVisual': primaryVisual,
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
 enum TopicScheduleType {
   hourly('HOURLY'),
   daily('DAILY'),
@@ -54406,6 +56479,54 @@ class TopicSingularFilterConstant {
   }
 }
 
+/// The definition for a <code>TopicSortClause</code>.
+class TopicSortClause {
+  /// The operand for a <code>TopicSortClause</code>.
+  final Identifier? operand;
+
+  /// The sort direction for the <code>TopicSortClause</code>.
+  final TopicSortDirection? sortDirection;
+
+  TopicSortClause({
+    this.operand,
+    this.sortDirection,
+  });
+
+  factory TopicSortClause.fromJson(Map<String, dynamic> json) {
+    return TopicSortClause(
+      operand: json['Operand'] != null
+          ? Identifier.fromJson(json['Operand'] as Map<String, dynamic>)
+          : null,
+      sortDirection: (json['SortDirection'] as String?)
+          ?.let(TopicSortDirection.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operand = this.operand;
+    final sortDirection = this.sortDirection;
+    return {
+      if (operand != null) 'Operand': operand,
+      if (sortDirection != null) 'SortDirection': sortDirection.value,
+    };
+  }
+}
+
+enum TopicSortDirection {
+  ascending('ASCENDING'),
+  descending('DESCENDING'),
+  ;
+
+  final String value;
+
+  const TopicSortDirection(this.value);
+
+  static TopicSortDirection fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum TopicSortDirection'));
+}
+
 /// A topic summary.
 class TopicSummary {
   /// The Amazon Resource Name (ARN) of the topic.
@@ -54453,6 +56574,39 @@ class TopicSummary {
   }
 }
 
+/// The definition for a <code>TopicTemplate</code>.
+class TopicTemplate {
+  /// The slots for the <code>TopicTemplate</code>.
+  final List<Slot>? slots;
+
+  /// The template type for the <code>TopicTemplate</code>.
+  final String? templateType;
+
+  TopicTemplate({
+    this.slots,
+    this.templateType,
+  });
+
+  factory TopicTemplate.fromJson(Map<String, dynamic> json) {
+    return TopicTemplate(
+      slots: (json['Slots'] as List?)
+          ?.nonNulls
+          .map((e) => Slot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      templateType: json['TemplateType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final slots = this.slots;
+    final templateType = this.templateType;
+    return {
+      if (slots != null) 'Slots': slots,
+      if (templateType != null) 'TemplateType': templateType,
+    };
+  }
+}
+
 enum TopicTimeGranularity {
   second('SECOND'),
   minute('MINUTE'),
@@ -54487,6 +56641,55 @@ enum TopicUserExperienceVersion {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum TopicUserExperienceVersion'));
+}
+
+/// The definition for a <code>TopicVisual</code>.
+class TopicVisual {
+  /// The ir for the <code>TopicVisual</code>.
+  final TopicIR? ir;
+
+  /// The role for the <code>TopicVisual</code>.
+  final VisualRole? role;
+
+  /// The supporting visuals for the <code>TopicVisual</code>.
+  final List<TopicVisual>? supportingVisuals;
+
+  /// The visual ID for the <code>TopicVisual</code>.
+  final String? visualId;
+
+  TopicVisual({
+    this.ir,
+    this.role,
+    this.supportingVisuals,
+    this.visualId,
+  });
+
+  factory TopicVisual.fromJson(Map<String, dynamic> json) {
+    return TopicVisual(
+      ir: json['Ir'] != null
+          ? TopicIR.fromJson(json['Ir'] as Map<String, dynamic>)
+          : null,
+      role: (json['Role'] as String?)?.let(VisualRole.fromString),
+      supportingVisuals: (json['SupportingVisuals'] as List?)
+          ?.nonNulls
+          .map((e) => TopicVisual.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      visualId: json['VisualId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ir = this.ir;
+    final role = this.role;
+    final supportingVisuals = this.supportingVisuals;
+    final visualId = this.visualId;
+    return {
+      if (ir != null) 'Ir': ir,
+      if (role != null) 'Role': role.value,
+      if (supportingVisuals != null) 'SupportingVisuals': supportingVisuals,
+      if (visualId != null) 'VisualId': visualId,
+    };
+  }
 }
 
 /// The total aggregation computation configuration.
@@ -58299,6 +60502,29 @@ class VisualMenuOption {
   }
 }
 
+/// The definition for a <code>VisualOptions</code>.
+class VisualOptions {
+  /// The type for a <code>VisualOptions</code>.
+  final String? type;
+
+  VisualOptions({
+    this.type,
+  });
+
+  factory VisualOptions.fromJson(Map<String, dynamic> json) {
+    return VisualOptions(
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'type': type,
+    };
+  }
+}
+
 /// The visual display options for the visual palette.
 class VisualPalette {
   /// The chart color options for the visual palette.
@@ -58330,6 +60556,23 @@ class VisualPalette {
       if (colorMap != null) 'ColorMap': colorMap,
     };
   }
+}
+
+enum VisualRole {
+  primary('PRIMARY'),
+  complimentary('COMPLIMENTARY'),
+  multiIntent('MULTI_INTENT'),
+  fallback('FALLBACK'),
+  fragment('FRAGMENT'),
+  ;
+
+  final String value;
+
+  const VisualRole(this.value);
+
+  static VisualRole fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum VisualRole'));
 }
 
 /// The subtitle label options for a visual.
@@ -59361,6 +61604,14 @@ class ConflictException extends _s.GenericAwsException {
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+class CustomerManagedKeyUnavailableException extends _s.GenericAwsException {
+  CustomerManagedKeyUnavailableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CustomerManagedKeyUnavailableException',
+            message: message);
+}
+
 class DomainNotWhitelistedException extends _s.GenericAwsException {
   DomainNotWhitelistedException({String? type, String? message})
       : super(
@@ -59471,6 +61722,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConcurrentUpdatingException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'CustomerManagedKeyUnavailableException': (type, message) =>
+      CustomerManagedKeyUnavailableException(type: type, message: message),
   'DomainNotWhitelistedException': (type, message) =>
       DomainNotWhitelistedException(type: type, message: message),
   'IdentityTypeNotSupportedException': (type, message) =>

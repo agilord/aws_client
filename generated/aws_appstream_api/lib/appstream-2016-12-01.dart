@@ -898,6 +898,27 @@ class AppStream {
   /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
+  /// stream.graphics.g5.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.16xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g5.24xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-pro.4xlarge
   /// </li>
   /// <li>
@@ -944,7 +965,7 @@ class AppStream {
   /// connected to their previous session. Otherwise, they are connected to a
   /// new session with a new streaming instance.
   ///
-  /// Specify a value between 60 and 360000.
+  /// Specify a value between 60 and 36000.
   ///
   /// Parameter [displayName] :
   /// The fleet name to display.
@@ -998,7 +1019,7 @@ class AppStream {
   /// disconnected.
   ///
   /// To prevent users from being disconnected due to inactivity, specify a
-  /// value of 0. Otherwise, specify a value between 60 and 3600. The default
+  /// value of 0. Otherwise, specify a value between 60 and 36000. The default
   /// value is 0.
   /// <note>
   /// If you enable this feature, we recommend that you specify a value that
@@ -1598,6 +1619,73 @@ class AppStream {
     return CreateStreamingURLResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates custom branding that customizes the appearance of the streaming
+  /// application catalog page.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [faviconS3Location] :
+  /// The S3 location of the favicon. The favicon enables users to recognize
+  /// their application streaming site in a browser full of tabs or bookmarks.
+  /// It is displayed at the top of the browser tab for the application
+  /// streaming site during users' streaming sessions.
+  ///
+  /// Parameter [organizationLogoS3Location] :
+  /// The organization logo that appears on the streaming application catalog
+  /// page.
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack for the theme.
+  ///
+  /// Parameter [themeStyling] :
+  /// The color theme that is applied to website links, text, and buttons. These
+  /// colors are also applied as accents in the background for the streaming
+  /// application catalog page.
+  ///
+  /// Parameter [titleText] :
+  /// The title that is displayed at the top of the browser tab during users'
+  /// application streaming sessions.
+  ///
+  /// Parameter [footerLinks] :
+  /// The links that are displayed in the footer of the streaming application
+  /// catalog page. These links are helpful resources for users, such as the
+  /// organization's IT support and product marketing sites.
+  Future<CreateThemeForStackResult> createThemeForStack({
+    required S3Location faviconS3Location,
+    required S3Location organizationLogoS3Location,
+    required String stackName,
+    required ThemeStyling themeStyling,
+    required String titleText,
+    List<ThemeFooterLink>? footerLinks,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.CreateThemeForStack'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FaviconS3Location': faviconS3Location,
+        'OrganizationLogoS3Location': organizationLogoS3Location,
+        'StackName': stackName,
+        'ThemeStyling': themeStyling.value,
+        'TitleText': titleText,
+        if (footerLinks != null) 'FooterLinks': footerLinks,
+      },
+    );
+
+    return CreateThemeForStackResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new image with the latest Windows operating system updates,
   /// driver updates, and AppStream 2.0 agent software.
   ///
@@ -2067,6 +2155,34 @@ class AppStream {
       headers: headers,
       payload: {
         'Name': name,
+      },
+    );
+  }
+
+  /// Deletes custom branding that customizes the appearance of the streaming
+  /// application catalog page.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack for the theme.
+  Future<void> deleteThemeForStack({
+    required String stackName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DeleteThemeForStack'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StackName': stackName,
       },
     );
   }
@@ -2710,6 +2826,36 @@ class AppStream {
     );
 
     return DescribeStacksResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes the theme for a specified stack. A theme
+  /// is custom branding that customizes the appearance of the streaming
+  /// application catalog page.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack for the theme.
+  Future<DescribeThemeForStackResult> describeThemeForStack({
+    required String stackName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.DescribeThemeForStack'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StackName': stackName,
+      },
+    );
+
+    return DescribeThemeForStackResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes one or more usage report subscriptions.
@@ -3900,7 +4046,7 @@ class AppStream {
   /// connected to their previous session. Otherwise, they are connected to a
   /// new session with a new streaming instance.
   ///
-  /// Specify a value between 60 and 360000.
+  /// Specify a value between 60 and 36000.
   ///
   /// Parameter [displayName] :
   /// The fleet name to display.
@@ -3941,7 +4087,7 @@ class AppStream {
   /// disconnected.
   ///
   /// To prevent users from being disconnected due to inactivity, specify a
-  /// value of 0. Otherwise, specify a value between 60 and 3600. The default
+  /// value of 0. Otherwise, specify a value between 60 and 36000. The default
   /// value is 0.
   /// <note>
   /// If you enable this feature, we recommend that you specify a value that
@@ -4353,6 +4499,86 @@ class AppStream {
     );
 
     return UpdateStackResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates custom branding that customizes the appearance of the streaming
+  /// application catalog page.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidAccountStatusException].
+  /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [stackName] :
+  /// The name of the stack for the theme.
+  ///
+  /// Parameter [attributesToDelete] :
+  /// The attributes to delete.
+  ///
+  /// Parameter [faviconS3Location] :
+  /// The S3 location of the favicon. The favicon enables users to recognize
+  /// their application streaming site in a browser full of tabs or bookmarks.
+  /// It is displayed at the top of the browser tab for the application
+  /// streaming site during users' streaming sessions.
+  ///
+  /// Parameter [footerLinks] :
+  /// The links that are displayed in the footer of the streaming application
+  /// catalog page. These links are helpful resources for users, such as the
+  /// organization's IT support and product marketing sites.
+  ///
+  /// Parameter [organizationLogoS3Location] :
+  /// The organization logo that appears on the streaming application catalog
+  /// page.
+  ///
+  /// Parameter [state] :
+  /// Specifies whether custom branding should be applied to catalog page or
+  /// not.
+  ///
+  /// Parameter [themeStyling] :
+  /// The color theme that is applied to website links, text, and buttons. These
+  /// colors are also applied as accents in the background for the streaming
+  /// application catalog page.
+  ///
+  /// Parameter [titleText] :
+  /// The title that is displayed at the top of the browser tab during users'
+  /// application streaming sessions.
+  Future<UpdateThemeForStackResult> updateThemeForStack({
+    required String stackName,
+    List<ThemeAttribute>? attributesToDelete,
+    S3Location? faviconS3Location,
+    List<ThemeFooterLink>? footerLinks,
+    S3Location? organizationLogoS3Location,
+    ThemeState? state,
+    ThemeStyling? themeStyling,
+    String? titleText,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PhotonAdminProxyService.UpdateThemeForStack'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StackName': stackName,
+        if (attributesToDelete != null)
+          'AttributesToDelete': attributesToDelete.map((e) => e.value).toList(),
+        if (faviconS3Location != null) 'FaviconS3Location': faviconS3Location,
+        if (footerLinks != null) 'FooterLinks': footerLinks,
+        if (organizationLogoS3Location != null)
+          'OrganizationLogoS3Location': organizationLogoS3Location,
+        if (state != null) 'State': state.value,
+        if (themeStyling != null) 'ThemeStyling': themeStyling.value,
+        if (titleText != null) 'TitleText': titleText,
+      },
+    );
+
+    return UpdateThemeForStackResult.fromJson(jsonResponse.body);
   }
 }
 
@@ -5425,6 +5651,23 @@ class CreateStreamingURLResult {
   }
 }
 
+class CreateThemeForStackResult {
+  /// The theme object that contains the metadata of the custom branding.
+  final Theme? theme;
+
+  CreateThemeForStackResult({
+    this.theme,
+  });
+
+  factory CreateThemeForStackResult.fromJson(Map<String, dynamic> json) {
+    return CreateThemeForStackResult(
+      theme: json['Theme'] != null
+          ? Theme.fromJson(json['Theme'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class CreateUpdatedImageResult {
   /// Indicates whether a new image can be created.
   final bool? canUpdateImage;
@@ -5578,6 +5821,14 @@ class DeleteStackResult {
 
   factory DeleteStackResult.fromJson(Map<String, dynamic> _) {
     return DeleteStackResult();
+  }
+}
+
+class DeleteThemeForStackResult {
+  DeleteThemeForStackResult();
+
+  factory DeleteThemeForStackResult.fromJson(Map<String, dynamic> _) {
+    return DeleteThemeForStackResult();
   }
 }
 
@@ -5924,6 +6175,23 @@ class DescribeStacksResult {
   }
 }
 
+class DescribeThemeForStackResult {
+  /// The theme object that contains the metadata of the custom branding.
+  final Theme? theme;
+
+  DescribeThemeForStackResult({
+    this.theme,
+  });
+
+  factory DescribeThemeForStackResult.fromJson(Map<String, dynamic> json) {
+    return DescribeThemeForStackResult(
+      theme: json['Theme'] != null
+          ? Theme.fromJson(json['Theme'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class DescribeUsageReportSubscriptionsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6131,6 +6399,21 @@ class DomainJoinInfo {
             organizationalUnitDistinguishedName,
     };
   }
+}
+
+enum DynamicAppProvidersEnabled {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const DynamicAppProvidersEnabled(this.value);
+
+  static DynamicAppProvidersEnabled fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DynamicAppProvidersEnabled'));
 }
 
 class EnableUserResult {
@@ -6437,7 +6720,7 @@ class Fleet {
   /// connected to their previous session. Otherwise, they are connected to a new
   /// session with a new streaming instance.
   ///
-  /// Specify a value between 60 and 360000.
+  /// Specify a value between 60 and 36000.
   final int? disconnectTimeoutInSeconds;
 
   /// The fleet name to display.
@@ -6491,7 +6774,7 @@ class Fleet {
   /// <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are disconnected.
   ///
   /// To prevent users from being disconnected due to inactivity, specify a value
-  /// of 0. Otherwise, specify a value between 60 and 3600. The default value is
+  /// of 0. Otherwise, specify a value between 60 and 36000. The default value is
   /// 0.
   /// <note>
   /// If you enable this feature, we recommend that you specify a value that
@@ -6773,6 +7056,10 @@ class Image {
   /// The image name to display.
   final String? displayName;
 
+  /// Indicates whether dynamic app providers are enabled within an AppStream 2.0
+  /// image or not.
+  final DynamicAppProvidersEnabled? dynamicAppProvidersEnabled;
+
   /// The name of the image builder that was used to create the private image. If
   /// the image is shared, this value is null.
   final String? imageBuilderName;
@@ -6786,6 +7073,13 @@ class Image {
   /// The permissions to provide to the destination AWS account for the specified
   /// image.
   final ImagePermissions? imagePermissions;
+
+  /// Indicates whether the image is shared with another account ID.
+  final ImageSharedWithOthers? imageSharedWithOthers;
+
+  /// Indicates whether the image is using the latest AppStream 2.0 agent version
+  /// or not.
+  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
 
   /// The operating system platform of the image.
   final PlatformType? platform;
@@ -6802,6 +7096,38 @@ class Image {
   /// The reason why the last state change occurred.
   final ImageStateChangeReason? stateChangeReason;
 
+  /// The supported instances families that determine which image a customer can
+  /// use when the customer launches a fleet or image builder. The following
+  /// instances families are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// General Purpose
+  /// </li>
+  /// <li>
+  /// Compute Optimized
+  /// </li>
+  /// <li>
+  /// Memory Optimized
+  /// </li>
+  /// <li>
+  /// Graphics
+  /// </li>
+  /// <li>
+  /// Graphics Design
+  /// </li>
+  /// <li>
+  /// Graphics Pro
+  /// </li>
+  /// <li>
+  /// Graphics G4
+  /// </li>
+  /// <li>
+  /// Graphics G5
+  /// </li>
+  /// </ul>
+  final List<String>? supportedInstanceFamilies;
+
   /// Indicates whether the image is public or private.
   final VisibilityType? visibility;
 
@@ -6814,14 +7140,18 @@ class Image {
     this.createdTime,
     this.description,
     this.displayName,
+    this.dynamicAppProvidersEnabled,
     this.imageBuilderName,
     this.imageBuilderSupported,
     this.imageErrors,
     this.imagePermissions,
+    this.imageSharedWithOthers,
+    this.latestAppstreamAgentVersion,
     this.platform,
     this.publicBaseImageReleasedDate,
     this.state,
     this.stateChangeReason,
+    this.supportedInstanceFamilies,
     this.visibility,
   });
 
@@ -6838,6 +7168,9 @@ class Image {
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
+      dynamicAppProvidersEnabled:
+          (json['DynamicAppProvidersEnabled'] as String?)
+              ?.let(DynamicAppProvidersEnabled.fromString),
       imageBuilderName: json['ImageBuilderName'] as String?,
       imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
       imageErrors: (json['ImageErrors'] as List?)
@@ -6848,6 +7181,11 @@ class Image {
           ? ImagePermissions.fromJson(
               json['ImagePermissions'] as Map<String, dynamic>)
           : null,
+      imageSharedWithOthers: (json['ImageSharedWithOthers'] as String?)
+          ?.let(ImageSharedWithOthers.fromString),
+      latestAppstreamAgentVersion:
+          (json['LatestAppstreamAgentVersion'] as String?)
+              ?.let(LatestAppstreamAgentVersion.fromString),
       platform: (json['Platform'] as String?)?.let(PlatformType.fromString),
       publicBaseImageReleasedDate:
           timeStampFromJson(json['PublicBaseImageReleasedDate']),
@@ -6856,6 +7194,10 @@ class Image {
           ? ImageStateChangeReason.fromJson(
               json['StateChangeReason'] as Map<String, dynamic>)
           : null,
+      supportedInstanceFamilies: (json['SupportedInstanceFamilies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       visibility:
           (json['Visibility'] as String?)?.let(VisibilityType.fromString),
     );
@@ -7020,6 +7362,10 @@ class ImageBuilder {
   /// </li>
   /// </ul>
   final String? instanceType;
+
+  /// Indicates whether the image builder is using the latest AppStream 2.0 agent
+  /// version or not.
+  final LatestAppstreamAgentVersion? latestAppstreamAgentVersion;
   final NetworkAccessConfiguration? networkAccessConfiguration;
 
   /// The operating system platform of the image builder.
@@ -7048,6 +7394,7 @@ class ImageBuilder {
     this.imageArn,
     this.imageBuilderErrors,
     this.instanceType,
+    this.latestAppstreamAgentVersion,
     this.networkAccessConfiguration,
     this.platform,
     this.state,
@@ -7079,6 +7426,9 @@ class ImageBuilder {
           .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
           .toList(),
       instanceType: json['InstanceType'] as String?,
+      latestAppstreamAgentVersion:
+          (json['LatestAppstreamAgentVersion'] as String?)
+              ?.let(LatestAppstreamAgentVersion.fromString),
       networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
           ? NetworkAccessConfiguration.fromJson(
               json['NetworkAccessConfiguration'] as Map<String, dynamic>)
@@ -7187,6 +7537,21 @@ class ImagePermissions {
   }
 }
 
+enum ImageSharedWithOthers {
+  $true('TRUE'),
+  $false('FALSE'),
+  ;
+
+  final String value;
+
+  const ImageSharedWithOthers(this.value);
+
+  static ImageSharedWithOthers fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ImageSharedWithOthers'));
+}
+
 enum ImageState {
   pending('PENDING'),
   available('AVAILABLE'),
@@ -7267,6 +7632,21 @@ class LastReportGenerationExecutionError {
       errorMessage: json['ErrorMessage'] as String?,
     );
   }
+}
+
+enum LatestAppstreamAgentVersion {
+  $true('TRUE'),
+  $false('FALSE'),
+  ;
+
+  final String value;
+
+  const LatestAppstreamAgentVersion(this.value);
+
+  static LatestAppstreamAgentVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum LatestAppstreamAgentVersion'));
 }
 
 class ListAssociatedFleetsResult {
@@ -7427,6 +7807,7 @@ enum PlatformType {
   windowsServer_2019('WINDOWS_SERVER_2019'),
   windowsServer_2022('WINDOWS_SERVER_2022'),
   amazonLinux2('AMAZON_LINUX2'),
+  rhel8('RHEL8'),
   ;
 
   final String value;
@@ -8108,6 +8489,139 @@ class TagResourceResponse {
   }
 }
 
+/// The custom branding theme, which might include a custom logo, website links,
+/// and other branding to display to users.
+class Theme {
+  /// The time the theme was created.
+  final DateTime? createdTime;
+
+  /// The stack that has the custom branding theme.
+  final String? stackName;
+
+  /// The state of the theme.
+  final ThemeState? state;
+
+  /// The URL of the icon that displays at the top of a user's browser tab during
+  /// streaming sessions.
+  final String? themeFaviconURL;
+
+  /// The website links that display in the catalog page footer.
+  final List<ThemeFooterLink>? themeFooterLinks;
+
+  /// The URL of the logo that displays in the catalog page header.
+  final String? themeOrganizationLogoURL;
+
+  /// The color that is used for the website links, text, buttons, and catalog
+  /// page background.
+  final ThemeStyling? themeStyling;
+
+  /// The browser tab page title.
+  final String? themeTitleText;
+
+  Theme({
+    this.createdTime,
+    this.stackName,
+    this.state,
+    this.themeFaviconURL,
+    this.themeFooterLinks,
+    this.themeOrganizationLogoURL,
+    this.themeStyling,
+    this.themeTitleText,
+  });
+
+  factory Theme.fromJson(Map<String, dynamic> json) {
+    return Theme(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      stackName: json['StackName'] as String?,
+      state: (json['State'] as String?)?.let(ThemeState.fromString),
+      themeFaviconURL: json['ThemeFaviconURL'] as String?,
+      themeFooterLinks: (json['ThemeFooterLinks'] as List?)
+          ?.nonNulls
+          .map((e) => ThemeFooterLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      themeOrganizationLogoURL: json['ThemeOrganizationLogoURL'] as String?,
+      themeStyling:
+          (json['ThemeStyling'] as String?)?.let(ThemeStyling.fromString),
+      themeTitleText: json['ThemeTitleText'] as String?,
+    );
+  }
+}
+
+enum ThemeAttribute {
+  footerLinks('FOOTER_LINKS'),
+  ;
+
+  final String value;
+
+  const ThemeAttribute(this.value);
+
+  static ThemeAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThemeAttribute'));
+}
+
+/// The website links that display in the catalog page footer.
+class ThemeFooterLink {
+  /// The name of the websites that display in the catalog page footer.
+  final String? displayName;
+
+  /// The URL of the websites that display in the catalog page footer.
+  final String? footerLinkURL;
+
+  ThemeFooterLink({
+    this.displayName,
+    this.footerLinkURL,
+  });
+
+  factory ThemeFooterLink.fromJson(Map<String, dynamic> json) {
+    return ThemeFooterLink(
+      displayName: json['DisplayName'] as String?,
+      footerLinkURL: json['FooterLinkURL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final footerLinkURL = this.footerLinkURL;
+    return {
+      if (displayName != null) 'DisplayName': displayName,
+      if (footerLinkURL != null) 'FooterLinkURL': footerLinkURL,
+    };
+  }
+}
+
+enum ThemeState {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const ThemeState(this.value);
+
+  static ThemeState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum ThemeState'));
+}
+
+enum ThemeStyling {
+  lightBlue('LIGHT_BLUE'),
+  blue('BLUE'),
+  pink('PINK'),
+  red('RED'),
+  ;
+
+  final String value;
+
+  const ThemeStyling(this.value);
+
+  static ThemeStyling fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThemeStyling'));
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8221,6 +8735,23 @@ class UpdateStackResult {
     return UpdateStackResult(
       stack: json['Stack'] != null
           ? Stack.fromJson(json['Stack'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class UpdateThemeForStackResult {
+  /// The theme object that contains the metadata of the custom branding.
+  final Theme? theme;
+
+  UpdateThemeForStackResult({
+    this.theme,
+  });
+
+  factory UpdateThemeForStackResult.fromJson(Map<String, dynamic> json) {
+    return UpdateThemeForStackResult(
+      theme: json['Theme'] != null
+          ? Theme.fromJson(json['Theme'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -8395,9 +8926,6 @@ class UserSetting {
   /// This defaults to 20,971,520 (20 MB) when unspecified and the permission is
   /// <code>ENABLED</code>. This can't be specified when the permission is
   /// <code>DISABLED</code>.
-  ///
-  /// This can only be specified for AlwaysOn and OnDemand fleets. The attribute
-  /// is not supported on Elastic fleets.
   ///
   /// The value can be between 1 and 20,971,520 (20 MB).
   final int? maximumLength;

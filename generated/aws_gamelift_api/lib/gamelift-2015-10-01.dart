@@ -442,10 +442,14 @@ class GameLift {
   /// request. There is no default value. You can't change a build's operating
   /// system later.
   /// <note>
-  /// If you have active fleets using the Windows Server 2012 operating system,
-  /// you can continue to create new builds using this OS until October 10,
-  /// 2023, when Microsoft ends its support. All others must use Windows Server
-  /// 2016 when creating new Windows-based builds.
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a
+  /// href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon Linux 2
+  /// FAQs</a>. For game servers that are hosted on AL2 and use Amazon GameLift
+  /// server SDK 4.x., first update the game server build to server SDK 5.x, and
+  /// then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
   /// </note>
   ///
   /// Parameter [serverSdkVersion] :
@@ -608,6 +612,16 @@ class GameLift {
   /// Parameter [operatingSystem] :
   /// The platform that is used by containers in the container group definition.
   /// All containers in a group must run on the same operating system.
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a
+  /// href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon Linux 2
+  /// FAQs</a>. For game servers that are hosted on AL2 and use Amazon GameLift
+  /// server SDK 4.x., first update the game server build to server SDK 5.x, and
+  /// then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   ///
   /// Parameter [totalCpuLimit] :
   /// The maximum amount of CPU units to allocate to the container group. Set
@@ -958,15 +972,15 @@ class GameLift {
   ///
   /// Parameter [locations] :
   /// A set of remote locations to deploy additional instances to and manage as
-  /// part of the fleet. This parameter can only be used when creating fleets in
-  /// Amazon Web Services Regions that support multiple locations. You can add
-  /// any Amazon GameLift-supported Amazon Web Services Region as a remote
-  /// location, in the form of an Amazon Web Services Region code, such as
-  /// <code>us-west-2</code> or Local Zone code. To create a fleet with
-  /// instances in the home Region only, don't set this parameter.
-  ///
-  /// When using this parameter, Amazon GameLift requires you to include your
-  /// home location in the request.
+  /// a multi-location fleet. Use this parameter when creating a fleet in Amazon
+  /// Web Services Regions that support multiple locations. You can add any
+  /// Amazon Web Services Region or Local Zone that's supported by Amazon
+  /// GameLift. Provide a list of one or more Amazon Web Services Region codes,
+  /// such as <code>us-west-2</code>, or Local Zone names. When using this
+  /// parameter, Amazon GameLift requires you to include your home location in
+  /// the request. For a list of supported Regions and Local Zones, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting.
   ///
   /// Parameter [logPaths] :
   /// <b>This parameter is no longer used.</b> To specify where Amazon GameLift
@@ -1166,8 +1180,12 @@ class GameLift {
   /// up fleets</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Multi-location
-  /// fleets</a>
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-editing.html#fleets-update-locations">Update
+  /// fleet locations</a>
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting.
   ///
   /// May throw [InternalServiceException].
   /// May throw [InvalidRequestException].
@@ -1823,10 +1841,10 @@ class GameLift {
   /// A descriptive name for the custom location.
   ///
   /// Parameter [tags] :
-  /// A list of labels to assign to the new matchmaking configuration resource.
-  /// Tags are developer-defined key-value pairs. Tagging Amazon Web Services
-  /// resources are useful for resource management, access management and cost
-  /// allocation. For more information, see <a
+  /// A list of labels to assign to the new resource. Tags are developer-defined
+  /// key-value pairs. Tagging Amazon Web Services resources are useful for
+  /// resource management, access management, and cost allocation. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
   /// Tagging Amazon Web Services Resources</a> in the <i>Amazon Web Services
   /// General Rareference</i>.
@@ -3953,6 +3971,10 @@ class GameLift {
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
   /// up Amazon GameLift fleets</a>
   ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting
+  ///
   /// May throw [InternalServiceException].
   /// May throw [InvalidRequestException].
   /// May throw [UnauthorizedException].
@@ -4032,6 +4054,10 @@ class GameLift {
   /// up Amazon GameLift fleets</a>
   ///
   /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting
+  ///
+  /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet">GameLift
   /// metrics for fleets</a>
   ///
@@ -4088,6 +4114,10 @@ class GameLift {
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
   /// up Amazon GameLift fleets</a>
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting
   ///
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet">GameLift
@@ -5552,11 +5582,6 @@ class GameLift {
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-debug.html">Debug
   /// fleet issues</a>
   /// </li>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html">
-  /// Remotely connect to a container fleet</a>
-  /// </li>
   /// </ul>
   ///
   /// May throw [UnauthorizedException].
@@ -6835,11 +6860,13 @@ class GameLift {
   ///
   /// Parameter [ipAddress] :
   /// The IP address of the compute resource. Amazon GameLift requires either a
-  /// DNS name or IP address.
+  /// DNS name or IP address. When registering an Anywhere fleet, an IP address
+  /// is required.
   ///
   /// Parameter [location] :
   /// The name of a custom location to associate with the compute resource being
-  /// registered.
+  /// registered. This parameter is required when registering a compute for an
+  /// Anywhere fleet.
   Future<RegisterComputeOutput> registerCompute({
     required String computeName,
     required String fleetId,
@@ -9621,6 +9648,15 @@ class Build {
   /// Operating system that the game server binaries are built to run on. This
   /// value determines the type of fleet resources that you can use for this
   /// build.
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon
+  /// Linux 2 FAQs</a>. For game servers that are hosted on AL2 and use Amazon
+  /// GameLift server SDK 4.x., first update the game server build to server SDK
+  /// 5.x, and then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   final OperatingSystem? operatingSystem;
 
   /// The Amazon GameLift Server SDK version used to develop your game server.
@@ -9888,6 +9924,15 @@ class Compute {
   final String? location;
 
   /// The type of operating system on the compute resource.
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon
+  /// Linux 2 FAQs</a>. For game servers that are hosted on AL2 and use Amazon
+  /// GameLift server SDK 4.x., first update the game server build to server SDK
+  /// 5.x, and then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   final OperatingSystem? operatingSystem;
 
   /// The Amazon EC2 instance type that the fleet uses. For registered computes in
@@ -10524,6 +10569,15 @@ class ContainerGroupDefinition {
   final String? name;
 
   /// The platform required for all containers in the container group definition.
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon
+  /// Linux 2 FAQs</a>. For game servers that are hosted on AL2 and use Amazon
+  /// GameLift server SDK 4.x., first update the game server build to server SDK
+  /// 5.x, and then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   final ContainerOperatingSystem? operatingSystem;
 
   /// The method for deploying the container group across fleet instances. A
@@ -10839,7 +10893,7 @@ class ContainerGroupsConfiguration {
 /// </li>
 /// <li>
 /// If a desired number is set to a value higher than the calculated maximum,
-/// Amazon GameLift places the calculated maximum.
+/// fleet creation fails..
 /// </li>
 /// <li>
 /// If a desired number is set to a value lower than the calculated maximum,
@@ -12607,24 +12661,24 @@ class Event {
   /// </li>
   /// <li>
   /// FLEET_STATE_DOWNLOADING -- Fleet status changed from <code>NEW</code> to
-  /// <code>DOWNLOADING</code>. The compressed build has started downloading to a
-  /// fleet instance for installation.
+  /// <code>DOWNLOADING</code>. Amazon GameLift is downloading the compressed
+  /// build and running install scripts.
   /// </li>
   /// <li>
   /// FLEET_STATE_VALIDATING -- Fleet status changed from <code>DOWNLOADING</code>
-  /// to <code>VALIDATING</code>. Amazon GameLift has successfully downloaded the
-  /// build and is now validating the build files.
+  /// to <code>VALIDATING</code>. Amazon GameLift has successfully installed build
+  /// and is now validating the build files.
   /// </li>
   /// <li>
   /// FLEET_STATE_BUILDING -- Fleet status changed from <code>VALIDATING</code> to
   /// <code>BUILDING</code>. Amazon GameLift has successfully verified the build
-  /// files and is now running the installation scripts.
+  /// files and is now launching a fleet instance.
   /// </li>
   /// <li>
   /// FLEET_STATE_ACTIVATING -- Fleet status changed from <code>BUILDING</code> to
-  /// <code>ACTIVATING</code>. Amazon GameLift is trying to launch an instance and
-  /// test the connectivity between the build and the Amazon GameLift Service via
-  /// the Server SDK.
+  /// <code>ACTIVATING</code>. Amazon GameLift is launching a game server process
+  /// on the fleet instance and is testing its connectivity with the Amazon
+  /// GameLift service.
   /// </li>
   /// <li>
   /// FLEET_STATE_ACTIVE -- The fleet's status changed from
@@ -12645,19 +12699,28 @@ class Event {
   /// </li>
   /// <li>
   /// FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully
-  /// downloaded to an instance, and the build files are now being extracted from
-  /// the uploaded build and saved to an instance. Failure at this stage prevents
-  /// a fleet from moving to ACTIVE status. Logs for this stage display a list of
-  /// the files that are extracted and saved on the instance. Access the logs by
-  /// using the URL in <i>PreSignedLogUrl</i>.
+  /// downloaded to an instance, and Amazon GameLiftis now extracting the build
+  /// files from the uploaded build. Failure at this stage prevents a fleet from
+  /// moving to ACTIVE status. Logs for this stage display a list of the files
+  /// that are extracted and saved on the instance. Access the logs by using the
+  /// URL in <i>PreSignedLogUrl</i>.
   /// </li>
   /// <li>
   /// FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were
-  /// successfully extracted, and the GameLift is now running the build's install
-  /// script (if one is included). Failure in this stage prevents a fleet from
-  /// moving to ACTIVE status. Logs for this stage list the installation steps and
-  /// whether or not the install completed successfully. Access the logs by using
-  /// the URL in <i>PreSignedLogUrl</i>.
+  /// successfully extracted, and Amazon GameLift is now running the build's
+  /// install script (if one is included). Failure in this stage prevents a fleet
+  /// from moving to ACTIVE status. Logs for this stage list the installation
+  /// steps and whether or not the install completed successfully. Access the logs
+  /// by using the URL in <i>PreSignedLogUrl</i>.
+  /// </li>
+  /// <li>
+  /// FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were
+  /// successfully installed and validation of the installation will begin soon.
+  /// </li>
+  /// <li>
+  /// FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to
+  /// install the build files. This event indicates that the failure occurred
+  /// before Amazon GameLift could start validation.
   /// </li>
   /// <li>
   /// FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was
@@ -12893,6 +12956,8 @@ enum EventCode {
   fleetVpcPeeringDeleted('FLEET_VPC_PEERING_DELETED'),
   instanceInterrupted('INSTANCE_INTERRUPTED'),
   instanceRecycled('INSTANCE_RECYCLED'),
+  fleetCreationCompletedInstaller('FLEET_CREATION_COMPLETED_INSTALLER'),
+  fleetCreationFailedInstaller('FLEET_CREATION_FAILED_INSTALLER'),
   ;
 
   final String value;
@@ -13120,6 +13185,15 @@ class FleetAttributes {
   /// system is determined by the OS of the build or script that is deployed on
   /// this fleet. This attribute is used with fleets where
   /// <code>ComputeType</code> is "EC2" or "Container".
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon
+  /// Linux 2 FAQs</a>. For game servers that are hosted on AL2 and use Amazon
+  /// GameLift server SDK 4.x., first update the game server build to server SDK
+  /// 5.x, and then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   final OperatingSystem? operatingSystem;
   final ResourceCreationLimitPolicy? resourceCreationLimitPolicy;
 
@@ -13136,29 +13210,34 @@ class FleetAttributes {
   final String? scriptId;
 
   /// <b>This parameter is no longer used.</b> Server launch parameters are now
-  /// defined using the fleet's runtime configuration . Requests that use this
+  /// defined using the fleet's runtime configuration. Requests that use this
   /// parameter continue to be valid.
   final String? serverLaunchParameters;
 
   /// <b>This parameter is no longer used.</b> Server launch paths are now defined
   /// using the fleet's <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/RuntimeConfiguration.html">RuntimeConfiguration</a>
-  /// . Requests that use this parameter continue to be valid.
+  /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/RuntimeConfiguration.html">RuntimeConfiguration</a>.
+  /// Requests that use this parameter continue to be valid.
   final String? serverLaunchPath;
 
   /// Current status of the fleet. Possible fleet statuses include the following:
   ///
   /// <ul>
   /// <li>
-  /// NEW -- A new fleet has been defined and desired instances is set to 1.
+  /// NEW -- A new fleet resource has been defined and Amazon GameLift has started
+  /// creating the fleet. Desired instances is set to 1.
   /// </li>
   /// <li>
-  /// DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up
-  /// the new fleet, creating new instances with the game build or Realtime script
-  /// and starting server processes.
+  /// DOWNLOADING/VALIDATING/BUILDING -- Amazon GameLift is download the game
+  /// server build, running install scripts, and then validating the build files.
+  /// When complete, Amazon GameLift launches a fleet instance.
   /// </li>
   /// <li>
-  /// ACTIVE -- Hosts can now accept game sessions.
+  /// ACTIVATING -- Amazon GameLift is launching a game server process and testing
+  /// its connectivity with the Amazon GameLift service.
+  /// </li>
+  /// <li>
+  /// ACTIVE -- The fleet is now ready to host game sessions.
   /// </li>
   /// <li>
   /// ERROR -- An error occurred when downloading, validating, building, or
@@ -14915,6 +14994,15 @@ class Instance {
   final String? location;
 
   /// Operating system that is running on this EC2 instance.
+  /// <note>
+  /// Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+  /// details in the <a href="https://aws.amazon.com/amazon-linux-2/faqs/">Amazon
+  /// Linux 2 FAQs</a>. For game servers that are hosted on AL2 and use Amazon
+  /// GameLift server SDK 4.x., first update the game server build to server SDK
+  /// 5.x, and then deploy to AL2023 instances. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html">
+  /// Migrate to Amazon GameLift server SDK version 5.</a>
+  /// </note>
   final OperatingSystem? operatingSystem;
 
   /// Current status of the instance. Possible statuses include the following:
@@ -15519,7 +15607,10 @@ class LocationAttributes {
 /// A remote location where a multi-location fleet can deploy game servers for
 /// game hosting.
 class LocationConfiguration {
-  /// An Amazon Web Services Region code, such as <code>us-west-2</code>.
+  /// An Amazon Web Services Region code, such as <code>us-west-2</code>. For a
+  /// list of supported Regions and Local Zones, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html">
+  /// Amazon GameLift service locations</a> for managed hosting.
   final String location;
 
   LocationConfiguration({
@@ -15550,8 +15641,8 @@ enum LocationFilter {
 }
 
 /// Properties of a custom location for use in an Amazon GameLift Anywhere
-/// fleet. This data type is returned in response to a call to <a
-/// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation.html">https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateLocation.html</a>.
+/// fleet. This data type is returned in response to a call to
+/// <a>CreateLocation</a>.
 class LocationModel {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)

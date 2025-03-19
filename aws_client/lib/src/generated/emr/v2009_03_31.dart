@@ -7105,6 +7105,11 @@ class InstanceTypeConfig {
   /// each instance as defined by <code>InstanceType</code>.
   final EbsConfiguration? ebsConfiguration;
 
+  /// The priority at which Amazon EMR launches the Amazon EC2 instances with this
+  /// instance type. Priority starts at 0, which is the highest priority. Amazon
+  /// EMR considers the highest priority first.
+  final double? priority;
+
   /// The number of units that a provisioned instance of this type provides toward
   /// fulfilling the target capacities defined in <a>InstanceFleetConfig</a>. This
   /// value is 1 for a master instance fleet, and must be 1 or greater for core
@@ -7118,6 +7123,7 @@ class InstanceTypeConfig {
     this.configurations,
     this.customAmiId,
     this.ebsConfiguration,
+    this.priority,
     this.weightedCapacity,
   });
 
@@ -7129,6 +7135,7 @@ class InstanceTypeConfig {
     final configurations = this.configurations;
     final customAmiId = this.customAmiId;
     final ebsConfiguration = this.ebsConfiguration;
+    final priority = this.priority;
     final weightedCapacity = this.weightedCapacity;
     return {
       'InstanceType': instanceType,
@@ -7139,6 +7146,7 @@ class InstanceTypeConfig {
       if (configurations != null) 'Configurations': configurations,
       if (customAmiId != null) 'CustomAmiId': customAmiId,
       if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
+      if (priority != null) 'Priority': priority,
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }
@@ -7178,6 +7186,11 @@ class InstanceTypeSpecification {
   /// The Amazon EC2 instance type, for example <code>m3.xlarge</code>.
   final String? instanceType;
 
+  /// The priority at which Amazon EMR launches the Amazon EC2 instances with this
+  /// instance type. Priority starts at 0, which is the highest priority. Amazon
+  /// EMR considers the highest priority first.
+  final double? priority;
+
   /// The number of units that a provisioned instance of this type provides toward
   /// fulfilling the target capacities defined in <a>InstanceFleetConfig</a>.
   /// Capacity values represent performance characteristics such as vCPUs, memory,
@@ -7192,6 +7205,7 @@ class InstanceTypeSpecification {
     this.ebsBlockDevices,
     this.ebsOptimized,
     this.instanceType,
+    this.priority,
     this.weightedCapacity,
   });
 
@@ -7211,6 +7225,7 @@ class InstanceTypeSpecification {
           .toList(),
       ebsOptimized: json['EbsOptimized'] as bool?,
       instanceType: json['InstanceType'] as String?,
+      priority: json['Priority'] as double?,
       weightedCapacity: json['WeightedCapacity'] as int?,
     );
   }
@@ -7224,6 +7239,7 @@ class InstanceTypeSpecification {
     final ebsBlockDevices = this.ebsBlockDevices;
     final ebsOptimized = this.ebsOptimized;
     final instanceType = this.instanceType;
+    final priority = this.priority;
     final weightedCapacity = this.weightedCapacity;
     return {
       if (bidPrice != null) 'BidPrice': bidPrice,
@@ -7235,6 +7251,7 @@ class InstanceTypeSpecification {
       if (ebsBlockDevices != null) 'EbsBlockDevices': ebsBlockDevices,
       if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
       if (instanceType != null) 'InstanceType': instanceType,
+      if (priority != null) 'Priority': priority,
       if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }
@@ -8947,6 +8964,7 @@ enum OnDemandCapacityReservationUsageStrategy {
 
 enum OnDemandProvisioningAllocationStrategy {
   lowestPrice('lowest-price'),
+  prioritized('prioritized'),
   ;
 
   final String value;
@@ -8968,8 +8986,11 @@ enum OnDemandProvisioningAllocationStrategy {
 /// </note>
 class OnDemandProvisioningSpecification {
   /// Specifies the strategy to use in launching On-Demand instance fleets.
-  /// Currently, the only option is <code>lowest-price</code> (the default), which
-  /// launches the lowest price first.
+  /// Available options are <code>lowest-price</code> and
+  /// <code>prioritized</code>. <code>lowest-price</code> specifies to launch the
+  /// instances with the lowest price first, and <code>prioritized</code>
+  /// specifies that Amazon EMR should launch the instances with the highest
+  /// priority first. The default is <code>lowest-price</code>.
   final OnDemandProvisioningAllocationStrategy allocationStrategy;
 
   /// The launch specification for On-Demand instances in the instance fleet,
@@ -9963,6 +9984,7 @@ enum SpotProvisioningAllocationStrategy {
   priceCapacityOptimized('price-capacity-optimized'),
   lowestPrice('lowest-price'),
   diversified('diversified'),
+  capacityOptimizedPrioritized('capacity-optimized-prioritized'),
   ;
 
   final String value;
@@ -10005,9 +10027,10 @@ class SpotProvisioningSpecification {
   final int timeoutDurationMinutes;
 
   /// Specifies one of the following strategies to launch Spot Instance fleets:
-  /// <code>price-capacity-optimized</code>, <code>capacity-optimized</code>,
-  /// <code>lowest-price</code>, or <code>diversified</code>. For more information
-  /// on the provisioning strategies, see <a
+  /// <code>capacity-optimized</code>, <code>price-capacity-optimized</code>,
+  /// <code>lowest-price</code>, or <code>diversified</code>, and
+  /// <code>capacity-optimized-prioritized</code>. For more information on the
+  /// provisioning strategies, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html">Allocation
   /// strategies for Spot Instances</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.

@@ -20,17 +20,29 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Contact Lens for Amazon Connect enables you to analyze conversations between
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Operations_Amazon_Connect_Contact_Lens.html">Contact
+/// Lens actions</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Types_Amazon_Connect_Contact_Lens.html">Contact
+/// Lens data types</a>
+/// </li>
+/// </ul>
+/// Amazon Connect Contact Lens enables you to analyze conversations between
 /// customer and agents, by using speech transcription, natural language
 /// processing, and intelligent search capabilities. It performs sentiment
 /// analysis, detects issues, and enables you to automatically categorize
 /// contacts.
 ///
-/// Contact Lens for Amazon Connect provides both real-time and post-call
-/// analytics of customer-agent conversations. For more information, see <a
+/// Amazon Connect Contact Lens provides both real-time and post-call analytics
+/// of customer-agent conversations. For more information, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/analyze-conversations.html">Analyze
-/// conversations using Contact Lens</a> in the <i>Amazon Connect Administrator
-/// Guide</i>.
+/// conversations using speech analytics</a> in the <i>Amazon Connect
+/// Administrator Guide</i>.
 class ConnectContactLens {
   final _s.RestJsonProtocol _protocol;
   ConnectContactLens({
@@ -75,7 +87,7 @@ class ConnectContactLens {
   /// The identifier of the Amazon Connect instance.
   ///
   /// Parameter [maxResults] :
-  /// The maximimum number of results to return per page.
+  /// The maximum number of results to return per page.
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results. Use the value returned in the
@@ -307,16 +319,117 @@ class PointOfInterest {
   }
 }
 
+/// Information about the post-contact summary.
+class PostContactSummary {
+  /// Whether the summary was successfully COMPLETED or FAILED to be generated.
+  final PostContactSummaryStatus status;
+
+  /// The content of the summary.
+  final String? content;
+
+  /// If the summary failed to be generated, one of the following failure codes
+  /// occurs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>QUOTA_EXCEEDED</code>: The number of concurrent analytics jobs reached
+  /// your service quota.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_CONVERSATION_CONTENT</code>: The conversation needs to
+  /// have at least one turn from both the participants in order to generate the
+  /// summary.
+  /// </li>
+  /// <li>
+  /// <code>FAILED_SAFETY_GUIDELINES</code>: The generated summary cannot be
+  /// provided because it failed to meet system safety guidelines.
+  /// </li>
+  /// <li>
+  /// <code>INVALID_ANALYSIS_CONFIGURATION</code>: This code occurs when, for
+  /// example, you're using a <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#supported-languages-contact-lens">language</a>
+  /// that isn't supported by generative AI-powered post-contact summaries.
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_ERROR</code>: Internal system error.
+  /// </li>
+  /// </ul>
+  final PostContactSummaryFailureCode? failureCode;
+
+  PostContactSummary({
+    required this.status,
+    this.content,
+    this.failureCode,
+  });
+
+  factory PostContactSummary.fromJson(Map<String, dynamic> json) {
+    return PostContactSummary(
+      status: PostContactSummaryStatus.fromString((json['Status'] as String)),
+      content: json['Content'] as String?,
+      failureCode: (json['FailureCode'] as String?)
+          ?.let(PostContactSummaryFailureCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final content = this.content;
+    final failureCode = this.failureCode;
+    return {
+      'Status': status.value,
+      if (content != null) 'Content': content,
+      if (failureCode != null) 'FailureCode': failureCode.value,
+    };
+  }
+}
+
+enum PostContactSummaryFailureCode {
+  quotaExceeded('QUOTA_EXCEEDED'),
+  insufficientConversationContent('INSUFFICIENT_CONVERSATION_CONTENT'),
+  failedSafetyGuidelines('FAILED_SAFETY_GUIDELINES'),
+  invalidAnalysisConfiguration('INVALID_ANALYSIS_CONFIGURATION'),
+  internalError('INTERNAL_ERROR'),
+  ;
+
+  final String value;
+
+  const PostContactSummaryFailureCode(this.value);
+
+  static PostContactSummaryFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PostContactSummaryFailureCode'));
+}
+
+enum PostContactSummaryStatus {
+  failed('FAILED'),
+  completed('COMPLETED'),
+  ;
+
+  final String value;
+
+  const PostContactSummaryStatus(this.value);
+
+  static PostContactSummaryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PostContactSummaryStatus'));
+}
+
 /// An analyzed segment for a real-time analysis session.
 class RealtimeContactAnalysisSegment {
   /// The matched category rules.
   final Categories? categories;
+
+  /// Information about the post-contact summary.
+  final PostContactSummary? postContactSummary;
 
   /// The analyzed transcript.
   final Transcript? transcript;
 
   RealtimeContactAnalysisSegment({
     this.categories,
+    this.postContactSummary,
     this.transcript,
   });
 
@@ -324,6 +437,10 @@ class RealtimeContactAnalysisSegment {
     return RealtimeContactAnalysisSegment(
       categories: json['Categories'] != null
           ? Categories.fromJson(json['Categories'] as Map<String, dynamic>)
+          : null,
+      postContactSummary: json['PostContactSummary'] != null
+          ? PostContactSummary.fromJson(
+              json['PostContactSummary'] as Map<String, dynamic>)
           : null,
       transcript: json['Transcript'] != null
           ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
@@ -333,9 +450,11 @@ class RealtimeContactAnalysisSegment {
 
   Map<String, dynamic> toJson() {
     final categories = this.categories;
+    final postContactSummary = this.postContactSummary;
     final transcript = this.transcript;
     return {
       if (categories != null) 'Categories': categories,
+      if (postContactSummary != null) 'PostContactSummary': postContactSummary,
       if (transcript != null) 'Transcript': transcript,
     };
   }
@@ -371,13 +490,13 @@ class Transcript {
   /// The identifier of the transcript.
   final String id;
 
-  /// The identifier of the participant.
+  /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
   final String participantId;
 
   /// The role of participant. For example, is it a customer, agent, or system.
   final String participantRole;
 
-  /// The sentiment of the detected for this piece of transcript.
+  /// The sentiment detected for this piece of transcript.
   final SentimentValue sentiment;
 
   /// List of positions where issues were detected on the transcript.

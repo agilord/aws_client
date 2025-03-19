@@ -105,6 +105,10 @@ class WorkSpacesThinClient {
   /// The URL for the identity provider login (only for environments that use
   /// AppStream 2.0).
   ///
+  /// Parameter [deviceCreationTags] :
+  /// A map of the key-value pairs of the tag or tags to assign to the newly
+  /// created devices for this environment.
+  ///
   /// Parameter [kmsKeyArn] :
   /// The Amazon Resource Name (ARN) of the Key Management Service key to use to
   /// encrypt the environment.
@@ -129,6 +133,7 @@ class WorkSpacesThinClient {
     String? clientToken,
     String? desiredSoftwareSetId,
     String? desktopEndpoint,
+    Map<String, String>? deviceCreationTags,
     String? kmsKeyArn,
     MaintenanceWindow? maintenanceWindow,
     String? name,
@@ -142,6 +147,7 @@ class WorkSpacesThinClient {
       if (desiredSoftwareSetId != null)
         'desiredSoftwareSetId': desiredSoftwareSetId,
       if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
+      if (deviceCreationTags != null) 'deviceCreationTags': deviceCreationTags,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (name != null) 'name': name,
@@ -642,6 +648,10 @@ class WorkSpacesThinClient {
   /// The URL for the identity provider login (only for environments that use
   /// AppStream 2.0).
   ///
+  /// Parameter [deviceCreationTags] :
+  /// A map of the key-value pairs of the tag or tags to assign to the newly
+  /// created devices for this environment.
+  ///
   /// Parameter [maintenanceWindow] :
   /// A specification for a time window to apply software updates.
   ///
@@ -659,6 +669,7 @@ class WorkSpacesThinClient {
     String? desiredSoftwareSetId,
     String? desktopArn,
     String? desktopEndpoint,
+    Map<String, String>? deviceCreationTags,
     MaintenanceWindow? maintenanceWindow,
     String? name,
     SoftwareSetUpdateMode? softwareSetUpdateMode,
@@ -669,6 +680,7 @@ class WorkSpacesThinClient {
         'desiredSoftwareSetId': desiredSoftwareSetId,
       if (desktopArn != null) 'desktopArn': desktopArn,
       if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
+      if (deviceCreationTags != null) 'deviceCreationTags': deviceCreationTags,
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,
       if (name != null) 'name': name,
       if (softwareSetUpdateMode != null)
@@ -1192,6 +1204,10 @@ class Environment {
   /// The type of streaming desktop for the environment.
   final DesktopType? desktopType;
 
+  /// The tag keys and optional values for the newly created devices for this
+  /// environment.
+  final Map<String, String>? deviceCreationTags;
+
   /// The ID of the environment.
   final String? id;
 
@@ -1239,6 +1255,7 @@ class Environment {
     this.desktopArn,
     this.desktopEndpoint,
     this.desktopType,
+    this.deviceCreationTags,
     this.id,
     this.kmsKeyArn,
     this.maintenanceWindow,
@@ -1263,6 +1280,8 @@ class Environment {
       desktopEndpoint: json['desktopEndpoint'] as String?,
       desktopType:
           (json['desktopType'] as String?)?.let(DesktopType.fromString),
+      deviceCreationTags: (json['deviceCreationTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       id: json['id'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       maintenanceWindow: json['maintenanceWindow'] != null
@@ -1294,6 +1313,7 @@ class Environment {
     final desktopArn = this.desktopArn;
     final desktopEndpoint = this.desktopEndpoint;
     final desktopType = this.desktopType;
+    final deviceCreationTags = this.deviceCreationTags;
     final id = this.id;
     final kmsKeyArn = this.kmsKeyArn;
     final maintenanceWindow = this.maintenanceWindow;
@@ -1315,6 +1335,7 @@ class Environment {
       if (desktopArn != null) 'desktopArn': desktopArn,
       if (desktopEndpoint != null) 'desktopEndpoint': desktopEndpoint,
       if (desktopType != null) 'desktopType': desktopType.value,
+      if (deviceCreationTags != null) 'deviceCreationTags': deviceCreationTags,
       if (id != null) 'id': id,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (maintenanceWindow != null) 'maintenanceWindow': maintenanceWindow,

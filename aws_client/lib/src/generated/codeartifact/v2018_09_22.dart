@@ -65,9 +65,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <li>
 /// <b>Package</b>: A <i>package</i> is a bundle of software and the metadata
 /// required to resolve dependencies and install the software. CodeArtifact
-/// supports npm, PyPI, Maven, NuGet, Swift, Ruby, and generic package formats.
-/// For more information about the supported package formats and how to use
-/// CodeArtifact with them, see the <a
+/// supports npm, PyPI, Maven, NuGet, Swift, Ruby, Cargo, and generic package
+/// formats. For more information about the supported package formats and how to
+/// use CodeArtifact with them, see the <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/welcome.html">CodeArtifact
 /// User Guide</a>.
 ///
@@ -231,6 +231,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// format:
 ///
 /// <ul>
+/// <li>
+/// <code>cargo</code>
+/// </li>
 /// <li>
 /// <code>generic</code>
 /// </li>
@@ -414,6 +417,12 @@ class CodeArtifact {
   /// <li>
   /// <code>public:maven-clojars</code> - for the Clojars repository.
   /// </li>
+  /// <li>
+  /// <code>public:ruby-gems-org</code> - for RubyGems.org.
+  /// </li>
+  /// <li>
+  /// <code>public:crates-io</code> - for Crates.io.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [repository] :
@@ -524,8 +533,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -906,8 +916,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<DeletePackageResult> deletePackage({
@@ -1049,8 +1060,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<DeletePackageVersionsResult> deletePackageVersions({
@@ -1271,8 +1283,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<DescribePackageResult> describePackage({
@@ -1402,8 +1415,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<DescribePackageVersionResult> describePackageVersion({
@@ -1591,8 +1605,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -1694,8 +1709,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<GetAssociatedPackageGroupResult> getAssociatedPackageGroup({
@@ -1903,8 +1919,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -2014,8 +2031,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<GetPackageVersionReadmeResult> getPackageVersionReadme({
@@ -2050,6 +2068,9 @@ class CodeArtifact {
   /// repository has one endpoint for each package format:
   ///
   /// <ul>
+  /// <li>
+  /// <code>cargo</code>
+  /// </li>
   /// <li>
   /// <code>generic</code>
   /// </li>
@@ -2450,8 +2471,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -2544,26 +2566,16 @@ class CodeArtifact {
   /// <li>
   /// Maven
   /// </li>
-  /// <li>
-  /// Swift
-  /// </li>
-  /// <li>
-  /// generic
-  /// </li>
   /// </ul> </note>
   /// <ul>
   /// <li>
   /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm or Swift package version is its
-  /// <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// The namespace of a generic package is its <code>namespace</code>.
-  /// </li>
-  /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
+  /// Python and NuGet package versions do not contain a corresponding
   /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
@@ -2665,8 +2677,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -2773,8 +2786,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -3275,8 +3289,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   Future<PutPackageOriginConfigurationResult> putPackageOriginConfiguration({
@@ -3627,8 +3642,9 @@ class CodeArtifact {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   ///
@@ -3852,8 +3868,9 @@ class AssociatedPackage {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -4795,8 +4812,9 @@ class GetPackageVersionReadmeResult {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5107,8 +5125,9 @@ class ListPackageVersionAssetsResult {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5184,20 +5203,25 @@ class ListPackageVersionDependenciesResult {
   /// The namespace of the package version that contains the returned
   /// dependencies. The package component that specifies its namespace depends on
   /// its type. For example:
+  /// <note>
+  /// The namespace is required when listing dependencies from package versions of
+  /// the following formats:
   ///
+  /// <ul>
+  /// <li>
+  /// Maven
+  /// </li>
+  /// </ul> </note>
   /// <ul>
   /// <li>
   /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm or Swift package version is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// The namespace of a generic package is its <code>namespace</code>.
-  /// </li>
-  /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding component,
+  /// package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5296,8 +5320,9 @@ class ListPackageVersionsResult {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5560,8 +5585,9 @@ class PackageDependency {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5627,8 +5653,9 @@ class PackageDescription {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -5678,6 +5705,7 @@ enum PackageFormat {
   generic('generic'),
   ruby('ruby'),
   swift('swift'),
+  cargo('cargo'),
   ;
 
   final String value;
@@ -6162,8 +6190,9 @@ class PackageSummary {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -6245,8 +6274,9 @@ class PackageVersionDescription {
   /// The namespace of a generic package is its <code>namespace</code>.
   /// </li>
   /// <li>
-  /// Python, NuGet, and Ruby package versions do not contain a corresponding
-  /// component, package versions of those formats do not have a namespace.
+  /// Python, NuGet, Ruby, and Cargo package versions do not contain a
+  /// corresponding component, package versions of those formats do not have a
+  /// namespace.
   /// </li>
   /// </ul>
   final String? namespace;

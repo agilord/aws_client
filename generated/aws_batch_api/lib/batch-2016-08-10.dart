@@ -57,11 +57,9 @@ class Batch {
     _protocol.close();
   }
 
-  /// Cancels a job in an Batch job queue. Jobs that are in the
-  /// <code>SUBMITTED</code> or <code>PENDING</code> are canceled. A job
-  /// in<code>RUNNABLE</code> remains in <code>RUNNABLE</code> until it reaches
-  /// the head of the job queue. Then the job status is updated to
-  /// <code>FAILED</code>.
+  /// Cancels a job in an Batch job queue. Jobs that are in a
+  /// <code>SUBMITTED</code>, <code>PENDING</code>, or <code>RUNNABLE</code>
+  /// state are cancelled and the job status is updated to <code>FAILED</code>.
   /// <note>
   /// A <code>PENDING</code> job is canceled after all dependency jobs are
   /// completed. Therefore, it may take longer than expected to cancel a job in
@@ -233,6 +231,9 @@ class Batch {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
   /// Environments</a> in the <i>Batch User Guide</i>.
   ///
+  /// Parameter [context] :
+  /// Reserved.
+  ///
   /// Parameter [eksConfiguration] :
   /// The details for the Amazon EKS cluster that supports the compute
   /// environment.
@@ -323,6 +324,7 @@ class Batch {
     required String computeEnvironmentName,
     required CEType type,
     ComputeResource? computeResources,
+    String? context,
     EksConfiguration? eksConfiguration,
     String? serviceRole,
     CEState? state,
@@ -333,6 +335,7 @@ class Batch {
       'computeEnvironmentName': computeEnvironmentName,
       'type': type.value,
       if (computeResources != null) 'computeResources': computeResources,
+      if (context != null) 'context': context,
       if (eksConfiguration != null) 'eksConfiguration': eksConfiguration,
       if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.value,
@@ -1525,6 +1528,9 @@ class Batch {
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
   /// Environments</a> in the <i>Batch User Guide</i>.
   ///
+  /// Parameter [context] :
+  /// Reserved.
+  ///
   /// Parameter [serviceRole] :
   /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   /// make calls to other Amazon Web Services services on your behalf. For more
@@ -1597,6 +1603,7 @@ class Batch {
   Future<UpdateComputeEnvironmentResponse> updateComputeEnvironment({
     required String computeEnvironment,
     ComputeResourceUpdate? computeResources,
+    String? context,
     String? serviceRole,
     CEState? state,
     int? unmanagedvCpus,
@@ -1605,6 +1612,7 @@ class Batch {
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
       if (computeResources != null) 'computeResources': computeResources,
+      if (context != null) 'context': context,
       if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.value,
       if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
@@ -2125,6 +2133,9 @@ class ComputeEnvironmentDetail {
   /// <code>ECS</code> (default) or <code>EKS</code>.
   final OrchestrationType? containerOrchestrationType;
 
+  /// Reserved.
+  final String? context;
+
   /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the
   /// compute environment uses.
   final String? ecsClusterArn;
@@ -2204,6 +2215,7 @@ class ComputeEnvironmentDetail {
     required this.computeEnvironmentName,
     this.computeResources,
     this.containerOrchestrationType,
+    this.context,
     this.ecsClusterArn,
     this.eksConfiguration,
     this.serviceRole,
@@ -2228,6 +2240,7 @@ class ComputeEnvironmentDetail {
       containerOrchestrationType:
           (json['containerOrchestrationType'] as String?)
               ?.let(OrchestrationType.fromString),
+      context: json['context'] as String?,
       ecsClusterArn: json['ecsClusterArn'] as String?,
       eksConfiguration: json['eksConfiguration'] != null
           ? EksConfiguration.fromJson(
@@ -4856,6 +4869,9 @@ class EksAttemptDetail {
   /// The details for the final status of the containers for this job attempt.
   final List<EksAttemptContainerDetail>? containers;
 
+  /// The Amazon Resource Name (ARN) of the Amazon EKS cluster.
+  final String? eksClusterArn;
+
   /// The details for the init containers.
   final List<EksAttemptContainerDetail>? initContainers;
 
@@ -4881,6 +4897,7 @@ class EksAttemptDetail {
 
   EksAttemptDetail({
     this.containers,
+    this.eksClusterArn,
     this.initContainers,
     this.nodeName,
     this.podName,
@@ -4896,6 +4913,7 @@ class EksAttemptDetail {
           .map((e) =>
               EksAttemptContainerDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
+      eksClusterArn: json['eksClusterArn'] as String?,
       initContainers: (json['initContainers'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -8014,6 +8032,10 @@ class NodePropertyOverride {
   /// existing Amazon ECS resources of a job.
   final EcsPropertiesOverride? ecsPropertiesOverride;
 
+  /// An object that contains the properties that you want to replace for the
+  /// existing Amazon EKS resources of a job.
+  final EksPropertiesOverride? eksPropertiesOverride;
+
   /// An object that contains the instance types that you want to replace for the
   /// existing resources of a job.
   final List<String>? instanceTypes;
@@ -8022,6 +8044,7 @@ class NodePropertyOverride {
     required this.targetNodes,
     this.containerOverrides,
     this.ecsPropertiesOverride,
+    this.eksPropertiesOverride,
     this.instanceTypes,
   });
 
@@ -8029,12 +8052,15 @@ class NodePropertyOverride {
     final targetNodes = this.targetNodes;
     final containerOverrides = this.containerOverrides;
     final ecsPropertiesOverride = this.ecsPropertiesOverride;
+    final eksPropertiesOverride = this.eksPropertiesOverride;
     final instanceTypes = this.instanceTypes;
     return {
       'targetNodes': targetNodes,
       if (containerOverrides != null) 'containerOverrides': containerOverrides,
       if (ecsPropertiesOverride != null)
         'ecsPropertiesOverride': ecsPropertiesOverride,
+      if (eksPropertiesOverride != null)
+        'eksPropertiesOverride': eksPropertiesOverride,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
     };
   }
@@ -8061,6 +8087,10 @@ class NodeRangeProperty {
   /// multi-node parallel job.
   final EcsProperties? ecsProperties;
 
+  /// This is an object that represents the properties of the node range for a
+  /// multi-node parallel job.
+  final EksProperties? eksProperties;
+
   /// The instance types of the underlying host infrastructure of a multi-node
   /// parallel job.
   /// <note>
@@ -8075,6 +8105,7 @@ class NodeRangeProperty {
     required this.targetNodes,
     this.container,
     this.ecsProperties,
+    this.eksProperties,
     this.instanceTypes,
   });
 
@@ -8089,6 +8120,10 @@ class NodeRangeProperty {
           ? EcsProperties.fromJson(
               json['ecsProperties'] as Map<String, dynamic>)
           : null,
+      eksProperties: json['eksProperties'] != null
+          ? EksProperties.fromJson(
+              json['eksProperties'] as Map<String, dynamic>)
+          : null,
       instanceTypes: (json['instanceTypes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8100,11 +8135,13 @@ class NodeRangeProperty {
     final targetNodes = this.targetNodes;
     final container = this.container;
     final ecsProperties = this.ecsProperties;
+    final eksProperties = this.eksProperties;
     final instanceTypes = this.instanceTypes;
     return {
       'targetNodes': targetNodes,
       if (container != null) 'container': container,
       if (ecsProperties != null) 'ecsProperties': ecsProperties,
+      if (eksProperties != null) 'eksProperties': eksProperties,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
     };
   }

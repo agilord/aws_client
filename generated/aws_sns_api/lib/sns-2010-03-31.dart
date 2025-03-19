@@ -211,24 +211,22 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// For <code>ADM</code>, <code>PlatformPrincipal</code> is <code>client
-  /// id</code> and <code>PlatformCredential</code> is <code>client
-  /// secret</code>.
+  /// For ADM, <code>PlatformPrincipal</code> is <code>client id</code> and
+  /// <code>PlatformCredential</code> is <code>client secret</code>.
   /// </li>
   /// <li>
-  /// For <code>Baidu</code>, <code>PlatformPrincipal</code> is <code>API
-  /// key</code> and <code>PlatformCredential</code> is <code>secret key</code>.
+  /// For APNS and <code>APNS_SANDBOX</code> using certificate credentials,
+  /// <code>PlatformPrincipal</code> is <code>SSL certificate</code> and
+  /// <code>PlatformCredential</code> is <code>private key</code>.
   /// </li>
   /// <li>
-  /// For <code>APNS</code> and <code>APNS_SANDBOX</code> using certificate
-  /// credentials, <code>PlatformPrincipal</code> is <code>SSL
-  /// certificate</code> and <code>PlatformCredential</code> is <code>private
-  /// key</code>.
+  /// For APNS and <code>APNS_SANDBOX</code> using token credentials,
+  /// <code>PlatformPrincipal</code> is <code>signing key ID</code> and
+  /// <code>PlatformCredential</code> is <code>signing key</code>.
   /// </li>
   /// <li>
-  /// For <code>APNS</code> and <code>APNS_SANDBOX</code> using token
-  /// credentials, <code>PlatformPrincipal</code> is <code>signing key ID</code>
-  /// and <code>PlatformCredential</code> is <code>signing key</code>.
+  /// For Baidu, <code>PlatformPrincipal</code> is <code>API key</code> and
+  /// <code>PlatformCredential</code> is <code>secret key</code>.
   /// </li>
   /// <li>
   /// For GCM (Firebase Cloud Messaging) using key credentials, there is no
@@ -245,14 +243,13 @@ class SNS {
   /// service.json`</code>.
   /// </li>
   /// <li>
-  /// For <code>MPNS</code>, <code>PlatformPrincipal</code> is <code>TLS
-  /// certificate</code> and <code>PlatformCredential</code> is <code>private
-  /// key</code>.
+  /// For MPNS, <code>PlatformPrincipal</code> is <code>TLS certificate</code>
+  /// and <code>PlatformCredential</code> is <code>private key</code>.
   /// </li>
   /// <li>
-  /// For <code>WNS</code>, <code>PlatformPrincipal</code> is <code>Package
-  /// Security Identifier</code> and <code>PlatformCredential</code> is
-  /// <code>secret key</code>.
+  /// For WNS, <code>PlatformPrincipal</code> is <code>Package Security
+  /// Identifier</code> and <code>PlatformCredential</code> is <code>secret
+  /// key</code>.
   /// </li>
   /// </ul>
   /// You can use the returned <code>PlatformApplicationArn</code> as an
@@ -453,8 +450,8 @@ class SNS {
   /// Parameter [attributes] :
   /// A map of attributes with their corresponding values.
   ///
-  /// The following lists the names, descriptions, and values of the special
-  /// request parameters that the <code>CreateTopic</code> action uses:
+  /// The following lists names, descriptions, and values of the special request
+  /// parameters that the <code>CreateTopic</code> action uses:
   ///
   /// <ul>
   /// <li>
@@ -1512,9 +1509,8 @@ class SNS {
   /// delivered to email endpoints. This field will also be included, if
   /// present, in the standard JSON messages delivered to other endpoints.
   ///
-  /// Constraints: Subjects must be ASCII text that begins with a letter,
-  /// number, or punctuation mark; must not include line breaks or control
-  /// characters; and must be less than 100 characters long.
+  /// Constraints: Subjects must be UTF-8 text with no line breaks or control
+  /// characters, and less than 100 characters long.
   ///
   /// Parameter [targetArn] :
   /// If you don't specify a value for the <code>TargetArn</code> parameter, you
@@ -2117,8 +2113,8 @@ class SNS {
   /// dead-letter queue for further analysis or reprocessing.
   /// </li>
   /// </ul>
-  /// The following attribute applies only to Amazon Kinesis Data Firehose
-  /// delivery stream subscriptions:
+  /// The following attribute applies only to Amazon Data Firehose delivery
+  /// stream subscriptions:
   ///
   /// <ul>
   /// <li>
@@ -2127,17 +2123,16 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// Permission to write to the Kinesis Data Firehose delivery stream
+  /// Permission to write to the Firehose delivery stream
   /// </li>
   /// <li>
   /// Amazon SNS listed as a trusted entity
   /// </li>
   /// </ul>
-  /// Specifying a valid ARN for this attribute is required for Kinesis Data
-  /// Firehose delivery stream subscriptions. For more information, see <a
+  /// Specifying a valid ARN for this attribute is required for Firehose
+  /// delivery stream subscriptions. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html">Fanout
-  /// to Kinesis Data Firehose delivery streams</a> in the <i>Amazon SNS
-  /// Developer Guide</i>.
+  /// to Firehose delivery streams</a> in the <i>Amazon SNS Developer Guide</i>.
   /// </li>
   /// </ul>
   ///
@@ -2509,8 +2504,8 @@ class SNS {
   /// dead-letter queue for further analysis or reprocessing.
   /// </li>
   /// </ul>
-  /// The following attribute applies only to Amazon Kinesis Data Firehose
-  /// delivery stream subscriptions:
+  /// The following attribute applies only to Amazon Data Firehose delivery
+  /// stream subscriptions:
   ///
   /// <ul>
   /// <li>
@@ -2519,17 +2514,16 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// Permission to write to the Kinesis Data Firehose delivery stream
+  /// Permission to write to the Firehose delivery stream
   /// </li>
   /// <li>
   /// Amazon SNS listed as a trusted entity
   /// </li>
   /// </ul>
-  /// Specifying a valid ARN for this attribute is required for Kinesis Data
-  /// Firehose delivery stream subscriptions. For more information, see <a
+  /// Specifying a valid ARN for this attribute is required for Firehose
+  /// delivery stream subscriptions. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html">Fanout
-  /// to Kinesis Data Firehose delivery streams</a> in the <i>Amazon SNS
-  /// Developer Guide</i>.
+  /// to Firehose delivery streams</a> in the <i>Amazon SNS Developer Guide</i>.
   /// </li>
   /// </ul>
   /// The following attributes apply only to <a
@@ -3244,8 +3238,8 @@ class GetSubscriptionAttributesResponse {
   /// with.
   /// </li>
   /// </ul>
-  /// The following attribute applies only to Amazon Kinesis Data Firehose
-  /// delivery stream subscriptions:
+  /// The following attribute applies only to Amazon Data Firehose delivery stream
+  /// subscriptions:
   ///
   /// <ul>
   /// <li>
@@ -3254,17 +3248,16 @@ class GetSubscriptionAttributesResponse {
   ///
   /// <ul>
   /// <li>
-  /// Permission to write to the Kinesis Data Firehose delivery stream
+  /// Permission to write to the Firehose delivery stream
   /// </li>
   /// <li>
   /// Amazon SNS listed as a trusted entity
   /// </li>
   /// </ul>
-  /// Specifying a valid ARN for this attribute is required for Kinesis Data
-  /// Firehose delivery stream subscriptions. For more information, see <a
+  /// Specifying a valid ARN for this attribute is required for Firehose delivery
+  /// stream subscriptions. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html">Fanout
-  /// to Kinesis Data Firehose delivery streams</a> in the <i>Amazon SNS Developer
-  /// Guide</i>.
+  /// to Firehose delivery streams</a> in the <i>Amazon SNS Developer Guide</i>.
   /// </li>
   /// </ul>
   final Map<String, String>? attributes;

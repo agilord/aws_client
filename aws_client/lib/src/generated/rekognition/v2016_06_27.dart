@@ -843,10 +843,14 @@ class Rekognition {
   /// format manifest file. If you don't specify <code>datasetSource</code>, an
   /// empty dataset is created. To add labeled images to the dataset, You can
   /// use the console or call <a>UpdateDatasetEntries</a>.
+  ///
+  /// Parameter [tags] :
+  /// A set of tags (key-value pairs) that you want to attach to the dataset.
   Future<CreateDatasetResponse> createDataset({
     required DatasetType datasetType,
     required String projectArn,
     DatasetSource? datasetSource,
+    Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -862,6 +866,7 @@ class Rekognition {
         'DatasetType': datasetType.value,
         'ProjectArn': projectArn,
         if (datasetSource != null) 'DatasetSource': datasetSource,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -956,10 +961,14 @@ class Rekognition {
   /// Parameter [feature] :
   /// Specifies feature that is being customized. If no value is provided
   /// CUSTOM_LABELS is used as a default.
+  ///
+  /// Parameter [tags] :
+  /// A set of tags (key-value pairs) that you want to attach to the project.
   Future<CreateProjectResponse> createProject({
     required String projectName,
     ProjectAutoUpdate? autoUpdate,
     CustomizationFeature? feature,
+    Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -975,6 +984,7 @@ class Rekognition {
         'ProjectName': projectName,
         if (autoUpdate != null) 'AutoUpdate': autoUpdate.value,
         if (feature != null) 'Feature': feature.value,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3340,6 +3350,10 @@ class Rekognition {
   /// <code>GetlabelDetection</code> and populate the <code>NextToken</code>
   /// request parameter with the token value returned from the previous call to
   /// <code>GetLabelDetection</code>.
+  ///
+  /// If you are retrieving results while using the Amazon Simple Notification
+  /// Service, note that you will receive an "ERROR" notification if the job
+  /// encounters an issue.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
@@ -8914,8 +8928,8 @@ class DetectModerationLabelsResponse {
   /// Shows the results of the human in the loop evaluation.
   final HumanLoopActivationOutput? humanLoopActivationOutput;
 
-  /// Array of detected Moderation labels and the time, in milliseconds from the
-  /// start of the video, they were detected.
+  /// Array of detected Moderation labels. For video operations, this includes the
+  /// time, in milliseconds from the start of the video, they were detected.
   final List<ModerationLabel>? moderationLabels;
 
   /// Version number of the base moderation detection model that was used to

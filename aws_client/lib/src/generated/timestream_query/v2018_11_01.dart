@@ -792,6 +792,11 @@ class TimestreamQuery {
   ///
   /// Parameter [queryPricingModel] :
   /// The pricing model for queries in an account.
+  /// <note>
+  /// The <code>QueryPricingModel</code> parameter is used by several Timestream
+  /// operations; however, the <code>UpdateAccountSettings</code> API operation
+  /// doesn't recognize any values other than <code>COMPUTE_UNITS</code>.
+  /// </note>
   Future<UpdateAccountSettingsResponse> updateAccountSettings({
     int? maxQueryTCU,
     QueryPricingModel? queryPricingModel,

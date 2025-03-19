@@ -2197,13 +2197,18 @@ class InstanceTypeCapacity {
 class InstanceTypeItem {
   final String? instanceType;
 
+  /// The number of default VCPUs in an instance type.
+  final int? vCPUs;
+
   InstanceTypeItem({
     this.instanceType,
+    this.vCPUs,
   });
 
   factory InstanceTypeItem.fromJson(Map<String, dynamic> json) {
     return InstanceTypeItem(
       instanceType: json['InstanceType'] as String?,
+      vCPUs: json['VCPUs'] as int?,
     );
   }
 }

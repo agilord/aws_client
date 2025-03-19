@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+- Generate all the APIs with version v2.1692.0 of the AWS SDK
+- Add `ChecksumAlgorithm.crc64nvme` in `package:aws_client/s3_2006_03_01.dart`
+
 ## 0.6.1
 
 - Allow `package:intl` version 0.20.x

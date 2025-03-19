@@ -3484,10 +3484,10 @@ class Wafv2 {
     return PutManagedRuleSetVersionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches an IAM policy to the specified resource. Use this to share a rule
-  /// group across accounts.
+  /// Use this to share a rule group with other accounts.
   ///
-  /// You must be the owner of the rule group to perform this operation.
+  /// This action attaches an IAM policy to the specified resource. You must be
+  /// the owner of the rule group to perform this operation.
   ///
   /// This action is subject to the following restrictions:
   ///
@@ -3504,6 +3504,10 @@ class Wafv2 {
   /// The user making the request must be the owner of the rule group.
   /// </li>
   /// </ul>
+  /// If a rule group has been shared with your account, you can access it
+  /// through the call <code>GetRuleGroup</code>, and you can reference it in
+  /// <code>CreateWebACL</code> and <code>UpdateWebACL</code>. Rule groups that
+  /// are shared with you don't appear in your WAF console rule groups listing.
   ///
   /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInternalErrorException].
@@ -8719,6 +8723,10 @@ class JA3Fingerprint {
 ///
 /// Example JSON: <code>"JsonBody": { "MatchPattern": { "All": {} },
 /// "MatchScope": "ALL" }</code>
+///
+/// For additional information about this request component option, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body">JSON
+/// body</a> in the <i>WAF Developer Guide</i>.
 class JsonBody {
   /// The patterns to look for in the JSON body. WAF inspects the results of these
   /// pattern matches against the rule inspection criteria.
@@ -8754,24 +8762,13 @@ class JsonBody {
   /// </ul>
   /// If you don't provide this setting, WAF parses and evaluates the content only
   /// up to the first parsing failure that it encounters.
-  ///
-  /// WAF does its best to parse the entire JSON body, but might be forced to stop
-  /// for reasons such as invalid characters, duplicate keys, truncation, and any
-  /// content whose root node isn't an object or an array.
-  ///
-  /// WAF parses the JSON in the following examples as two valid key, value pairs:
-  ///
-  /// <ul>
-  /// <li>
-  /// Missing comma: <code>{"key1":"value1""key2":"value2"}</code>
-  /// </li>
-  /// <li>
-  /// Missing colon: <code>{"key1":"value1","key2""value2"}</code>
-  /// </li>
-  /// <li>
-  /// Extra colons: <code>{"key1"::"value1","key2""value2"}</code>
-  /// </li>
-  /// </ul>
+  /// <note>
+  /// WAF parsing doesn't fully validate the input JSON string, so parsing can
+  /// succeed even for invalid JSON. When parsing succeeds, WAF doesn't apply the
+  /// fallback behavior. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body">JSON
+  /// body</a> in the <i>WAF Developer Guide</i>.
+  /// </note>
   final BodyParsingFallbackBehavior? invalidFallbackBehavior;
 
   /// What WAF should do if the body is larger than WAF can inspect.

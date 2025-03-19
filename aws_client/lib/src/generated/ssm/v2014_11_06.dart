@@ -1490,24 +1490,26 @@ class Ssm {
   /// Parameter [rejectedPatchesAction] :
   /// The action for Patch Manager to take on patches included in the
   /// <code>RejectedPackages</code> list.
+  /// <dl> <dt>ALLOW_AS_DEPENDENCY</dt> <dd>
+  /// <b>Linux and macOS</b>: A package in the rejected patches list is
+  /// installed only if it is a dependency of another package. It is considered
+  /// compliant with the patch baseline, and its status is reported as
+  /// <code>INSTALLED_OTHER</code>. This is the default action if no option is
+  /// specified.
   ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>ALLOW_AS_DEPENDENCY</code> </b>: A package in the
-  /// <code>Rejected</code> patches list is installed only if it is a dependency
-  /// of another package. It is considered compliant with the patch baseline,
-  /// and its status is reported as <code>InstalledOther</code>. This is the
-  /// default action if no option is specified.
-  /// </li>
-  /// <li>
-  /// <b>BLOCK</b>: Packages in the <b>Rejected patches</b> list, and packages
-  /// that include them as dependencies, aren't installed by Patch Manager under
-  /// any circumstances. If a package was installed before it was added to the
-  /// <b>Rejected patches</b> list, or is installed outside of Patch Manager
-  /// afterward, it's considered noncompliant with the patch baseline and its
-  /// status is reported as <i>InstalledRejected</i>.
-  /// </li>
-  /// </ul>
+  /// <b>Windows Server</b>: Windows Server doesn't support the concept of
+  /// package dependencies. If a package in the rejected patches list and
+  /// already installed on the node, its status is reported as
+  /// <code>INSTALLED_OTHER</code>. Any package not already installed on the
+  /// node is skipped. This is the default action if no option is specified.
+  /// </dd> <dt>BLOCK</dt> <dd>
+  /// <b>All OSs</b>: Packages in the rejected patches list, and packages that
+  /// include them as dependencies, aren't installed by Patch Manager under any
+  /// circumstances. If a package was installed before it was added to the
+  /// rejected patches list, or is installed outside of Patch Manager afterward,
+  /// it's considered noncompliant with the patch baseline and its status is
+  /// reported as <code>INSTALLED_REJECTED</code>.
+  /// </dd> </dl>
   ///
   /// Parameter [sources] :
   /// Information about the patches to use to update the managed nodes,
@@ -3088,9 +3090,10 @@ class Ssm {
   /// for all your managed nodes. If you specify a node ID that isn't valid or a
   /// node that you don't own, you receive an error.
   /// <note>
-  /// The <code>IamRole</code> field returned for this API operation is the
-  /// Identity and Access Management (IAM) role assigned to on-premises managed
-  /// nodes. This operation does not return the IAM role for EC2 instances.
+  /// The <code>IamRole</code> field returned for this API operation is the role
+  /// assigned to an Amazon EC2 instance configured with a Systems Manager Quick
+  /// Setup host management configuration or the role assigned to an on-premises
+  /// managed node.
   /// </note>
   ///
   /// May throw [InternalServerError].
@@ -4345,6 +4348,9 @@ class Ssm {
   /// </dd> <dt>AMAZON_LINUX_2</dt> <dd>
   /// Valid properties: <code>PRODUCT</code> | <code>CLASSIFICATION</code> |
   /// <code>SEVERITY</code>
+  /// </dd> <dt>AMAZON_LINUX_2023</dt> <dd>
+  /// Valid properties: <code>PRODUCT</code> | <code>CLASSIFICATION</code> |
+  /// <code>SEVERITY</code>
   /// </dd> <dt>CENTOS</dt> <dd>
   /// Valid properties: <code>PRODUCT</code> | <code>CLASSIFICATION</code> |
   /// <code>SEVERITY</code>
@@ -4607,7 +4613,12 @@ class Ssm {
   }
 
   /// Returns detailed information about command execution for an invocation or
-  /// plugin.
+  /// plugin. The Run Command API follows an eventual consistency model, due to
+  /// the distributed nature of the system supporting the API. This means that
+  /// the result of an API command you run that affects your resources might not
+  /// be immediately visible to all subsequent commands you run. You should keep
+  /// this in mind when you carry out an API command that immediately follows a
+  /// previous API command.
   ///
   /// <code>GetCommandInvocation</code> only gives the execution status of a
   /// plugin in a document. To get the command execution status on a specific
@@ -10118,24 +10129,26 @@ class Ssm {
   /// Parameter [rejectedPatchesAction] :
   /// The action for Patch Manager to take on patches included in the
   /// <code>RejectedPackages</code> list.
+  /// <dl> <dt>ALLOW_AS_DEPENDENCY</dt> <dd>
+  /// <b>Linux and macOS</b>: A package in the rejected patches list is
+  /// installed only if it is a dependency of another package. It is considered
+  /// compliant with the patch baseline, and its status is reported as
+  /// <code>INSTALLED_OTHER</code>. This is the default action if no option is
+  /// specified.
   ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>ALLOW_AS_DEPENDENCY</code> </b>: A package in the
-  /// <code>Rejected</code> patches list is installed only if it is a dependency
-  /// of another package. It is considered compliant with the patch baseline,
-  /// and its status is reported as <code>InstalledOther</code>. This is the
-  /// default action if no option is specified.
-  /// </li>
-  /// <li>
-  /// <b>BLOCK</b>: Packages in the <b>Rejected patches</b> list, and packages
-  /// that include them as dependencies, aren't installed by Patch Manager under
-  /// any circumstances. If a package was installed before it was added to the
-  /// <b>Rejected patches</b> list, or is installed outside of Patch Manager
-  /// afterward, it's considered noncompliant with the patch baseline and its
-  /// status is reported as <i>InstalledRejected</i>.
-  /// </li>
-  /// </ul>
+  /// <b>Windows Server</b>: Windows Server doesn't support the concept of
+  /// package dependencies. If a package in the rejected patches list and
+  /// already installed on the node, its status is reported as
+  /// <code>INSTALLED_OTHER</code>. Any package not already installed on the
+  /// node is skipped. This is the default action if no option is specified.
+  /// </dd> <dt>BLOCK</dt> <dd>
+  /// <b>All OSs</b>: Packages in the rejected patches list, and packages that
+  /// include them as dependencies, aren't installed by Patch Manager under any
+  /// circumstances. If a package was installed before it was added to the
+  /// rejected patches list, or is installed outside of Patch Manager afterward,
+  /// it's considered noncompliant with the patch baseline and its status is
+  /// reported as <code>INSTALLED_REJECTED</code>.
+  /// </dd> </dl>
   ///
   /// Parameter [replace] :
   /// If True, then all fields that are required by the
@@ -18724,9 +18737,20 @@ class GetMaintenanceWindowTaskResult {
   /// priority. Tasks that have the same priority are scheduled in parallel.
   final int? priority;
 
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// service role to use to publish Amazon Simple Notification Service (Amazon
-  /// SNS) notifications for maintenance window Run Command tasks.
+  /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+  /// Services Systems Manager to assume when running a maintenance window task.
+  /// If you do not specify a service role ARN, Systems Manager uses a
+  /// service-linked role in your account. If no appropriate service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// However, for an improved security posture, we strongly recommend creating a
+  /// custom policy and custom service role for running your maintenance window
+  /// tasks. The policy can be crafted to provide only the permissions needed for
+  /// your particular maintenance window tasks. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html">Setting
+  /// up maintenance windows</a> in the in the <i>Amazon Web Services Systems
+  /// Manager User Guide</i>.
   final String? serviceRoleArn;
 
   /// The targets where the task should run.
@@ -19647,11 +19671,14 @@ class InstanceInformation {
   /// The IP address of the managed node.
   final String? iPAddress;
 
-  /// The Identity and Access Management (IAM) role assigned to the on-premises
-  /// Systems Manager managed node. This call doesn't return the IAM role for
-  /// Amazon Elastic Compute Cloud (Amazon EC2) instances. To retrieve the IAM
-  /// role for an EC2 instance, use the Amazon EC2 <code>DescribeInstances</code>
-  /// operation. For information, see <a
+  /// The role assigned to an Amazon EC2 instance configured with a Systems
+  /// Manager Quick Setup host management configuration or the role assigned to an
+  /// on-premises managed node.
+  ///
+  /// This call doesn't return the IAM role for <i>unmanaged</i> Amazon EC2
+  /// instances (instances not configured for Systems Manager). To retrieve the
+  /// role for an unmanaged instance, use the Amazon EC2
+  /// <code>DescribeInstances</code> operation. For information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
   /// in the <i>Amazon EC2 API Reference</i> or <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">describe-instances</a>
@@ -20301,7 +20328,7 @@ class InstanceProperty {
   /// The version of SSM Agent running on your managed node.
   final String? agentVersion;
 
-  /// The CPU architecture of the node. For example, x86_64.
+  /// The CPU architecture of the node. For example, <code>x86_64</code>.
   final String? architecture;
   final InstanceAggregatedAssociationOverview? associationOverview;
 
@@ -22522,9 +22549,20 @@ class MaintenanceWindowRunCommandParameters {
   /// The parameters for the <code>RUN_COMMAND</code> task execution.
   final Map<String, List<String>>? parameters;
 
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// service role to use to publish Amazon Simple Notification Service (Amazon
-  /// SNS) notifications for maintenance window Run Command tasks.
+  /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+  /// Services Systems Manager to assume when running a maintenance window task.
+  /// If you do not specify a service role ARN, Systems Manager uses a
+  /// service-linked role in your account. If no appropriate service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// However, for an improved security posture, we strongly recommend creating a
+  /// custom policy and custom service role for running your maintenance window
+  /// tasks. The policy can be crafted to provide only the permissions needed for
+  /// your particular maintenance window tasks. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html">Setting
+  /// up maintenance windows</a> in the in the <i>Amazon Web Services Systems
+  /// Manager User Guide</i>.
   final String? serviceRoleArn;
 
   /// If this time is reached and the command hasn't already started running, it
@@ -22791,9 +22829,20 @@ class MaintenanceWindowTask {
   /// parallel.
   final int? priority;
 
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// service role to use to publish Amazon Simple Notification Service (Amazon
-  /// SNS) notifications for maintenance window Run Command tasks.
+  /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+  /// Services Systems Manager to assume when running a maintenance window task.
+  /// If you do not specify a service role ARN, Systems Manager uses a
+  /// service-linked role in your account. If no appropriate service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// However, for an improved security posture, we strongly recommend creating a
+  /// custom policy and custom service role for running your maintenance window
+  /// tasks. The policy can be crafted to provide only the permissions needed for
+  /// your particular maintenance window tasks. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html">Setting
+  /// up maintenance windows</a> in the in the <i>Amazon Web Services Systems
+  /// Manager User Guide</i>.
   final String? serviceRoleArn;
 
   /// The targets (either managed nodes or tags). Managed nodes are specified
@@ -25229,9 +25278,9 @@ class PatchBaselineIdentity {
   /// The name of the patch baseline.
   final String? baselineName;
 
-  /// Whether this is the default baseline. Amazon Web Services Systems Manager
-  /// supports creating multiple default patch baselines. For example, you can
-  /// create a default patch baseline for each operating system.
+  /// Indicates whether this is the default baseline. Amazon Web Services Systems
+  /// Manager supports creating multiple default patch baselines. For example, you
+  /// can create a default patch baseline for each operating system.
   final bool? defaultBaseline;
 
   /// Defines the operating system the patch baseline applies to. The default
@@ -25639,15 +25688,26 @@ class PatchRule {
   /// The number of days after the release date of each patch matched by the rule
   /// that the patch is marked as approved in the patch baseline. For example, a
   /// value of <code>7</code> means that patches are approved seven days after
-  /// they are released. Not supported on Debian Server or Ubuntu Server.
+  /// they are released.
+  /// <note>
+  /// This parameter is marked as not required, but your request must include a
+  /// value for either <code>ApproveAfterDays</code> or
+  /// <code>ApproveUntilDate</code>.
+  /// </note>
+  /// Not supported for Debian Server or Ubuntu Server.
   final int? approveAfterDays;
 
   /// The cutoff date for auto approval of released patches. Any patches released
-  /// on or before this date are installed automatically. Not supported on Debian
-  /// Server or Ubuntu Server.
+  /// on or before this date are installed automatically.
   ///
   /// Enter dates in the format <code>YYYY-MM-DD</code>. For example,
   /// <code>2021-12-31</code>.
+  /// <note>
+  /// This parameter is marked as not required, but your request must include a
+  /// value for either <code>ApproveUntilDate</code> or
+  /// <code>ApproveAfterDays</code>.
+  /// </note>
+  /// Not supported for Debian Server or Ubuntu Server.
   final String? approveUntilDate;
 
   /// A compliance severity level for all approved patches in a patch baseline.
@@ -28662,9 +28722,20 @@ class UpdateMaintenanceWindowTaskResult {
   /// The updated priority value.
   final int? priority;
 
-  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
-  /// service role to use to publish Amazon Simple Notification Service (Amazon
-  /// SNS) notifications for maintenance window Run Command tasks.
+  /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+  /// Services Systems Manager to assume when running a maintenance window task.
+  /// If you do not specify a service role ARN, Systems Manager uses a
+  /// service-linked role in your account. If no appropriate service-linked role
+  /// for Systems Manager exists in your account, it is created when you run
+  /// <code>RegisterTaskWithMaintenanceWindow</code>.
+  ///
+  /// However, for an improved security posture, we strongly recommend creating a
+  /// custom policy and custom service role for running your maintenance window
+  /// tasks. The policy can be crafted to provide only the permissions needed for
+  /// your particular maintenance window tasks. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html">Setting
+  /// up maintenance windows</a> in the in the <i>Amazon Web Services Systems
+  /// Manager User Guide</i>.
   final String? serviceRoleArn;
 
   /// The updated target values.

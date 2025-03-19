@@ -2879,6 +2879,106 @@ class DocDB {
     return FailoverDBClusterResult.fromXml($result);
   }
 
+  /// Promotes the specified secondary DB cluster to be the primary DB cluster
+  /// in the global cluster when failing over a global cluster occurs.
+  ///
+  /// Use this operation to respond to an unplanned event, such as a regional
+  /// disaster in the primary region. Failing over can result in a loss of write
+  /// transaction data that wasn't replicated to the chosen secondary before the
+  /// failover event occurred. However, the recovery process that promotes a DB
+  /// instance on the chosen seconday DB cluster to be the primary writer DB
+  /// instance guarantees that the data is in a transactionally consistent
+  /// state.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The identifier of the Amazon DocumentDB global cluster to apply this
+  /// operation. The identifier is the unique key assigned by the user when the
+  /// cluster is created. In other words, it's the name of the global cluster.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must match the identifier of an existing global cluster.
+  /// </li>
+  /// <li>
+  /// Minimum length of 1. Maximum length of 255.
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  ///
+  /// Parameter [targetDbClusterIdentifier] :
+  /// The identifier of the secondary Amazon DocumentDB cluster that you want to
+  /// promote to the primary for the global cluster. Use the Amazon Resource
+  /// Name (ARN) for the identifier so that Amazon DocumentDB can locate the
+  /// cluster in its Amazon Web Services region.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must match the identifier of an existing secondary cluster.
+  /// </li>
+  /// <li>
+  /// Minimum length of 1. Maximum length of 255.
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  ///
+  /// Parameter [allowDataLoss] :
+  /// Specifies whether to allow data loss for this global cluster operation.
+  /// Allowing data loss triggers a global failover operation.
+  ///
+  /// If you don't specify <code>AllowDataLoss</code>, the global cluster
+  /// operation defaults to a switchover.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Can't be specified together with the <code>Switchover</code> parameter.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [switchover] :
+  /// Specifies whether to switch over this global database cluster.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Can't be specified together with the <code>AllowDataLoss</code> parameter.
+  /// </li>
+  /// </ul>
+  Future<FailoverGlobalClusterResult> failoverGlobalCluster({
+    required String globalClusterIdentifier,
+    required String targetDbClusterIdentifier,
+    bool? allowDataLoss,
+    bool? switchover,
+  }) async {
+    final $request = <String, String>{
+      'GlobalClusterIdentifier': globalClusterIdentifier,
+      'TargetDbClusterIdentifier': targetDbClusterIdentifier,
+      if (allowDataLoss != null) 'AllowDataLoss': allowDataLoss.toString(),
+      if (switchover != null) 'Switchover': switchover.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'FailoverGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'FailoverGlobalClusterResult',
+    );
+    return FailoverGlobalClusterResult.fromXml($result);
+  }
+
   /// Lists all tags on an Amazon DocumentDB resource.
   ///
   /// May throw [DBInstanceNotFoundFault].
@@ -6315,6 +6415,20 @@ class FailoverDBClusterResult {
   factory FailoverDBClusterResult.fromXml(_s.XmlElement elem) {
     return FailoverDBClusterResult(
       dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
+    );
+  }
+}
+
+class FailoverGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  FailoverGlobalClusterResult({
+    this.globalCluster,
+  });
+  factory FailoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return FailoverGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 }

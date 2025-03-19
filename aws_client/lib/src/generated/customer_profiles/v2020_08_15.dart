@@ -24,10 +24,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// contact center that has pre-built connectors powered by AppFlow that make it
 /// easy to combine customer information from third party applications, such as
 /// Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning
-/// (ERP), with contact history from your Amazon Connect contact center. If
-/// you're new to Amazon Connect, you might find it helpful to review the <a
-/// href="https://docs.aws.amazon.com/connect/latest/adminguide/">Amazon Connect
-/// Administrator Guide</a>.
+/// (ERP), with contact history from your Amazon Connect contact center.
 class CustomerProfiles {
   final _s.RestJsonProtocol _protocol;
   CustomerProfiles({
@@ -192,6 +189,17 @@ class CustomerProfiles {
   /// To prevent cross-service impersonation when you call this API, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html">Cross-service
   /// confused deputy prevention</a> for sample policies that you should apply.
+  /// <note>
+  /// It is not possible to associate a Customer Profiles domain with an Amazon
+  /// Connect Instance directly from the API. If you would like to create a
+  /// domain and associate a Customer Profiles domain, use the Amazon Connect
+  /// admin website. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1">Enable
+  /// Customer Profiles</a>.
+  ///
+  /// Each Amazon Connect instance can be associated with only one domain.
+  /// Multiple Amazon Connect instances can be associated with one domain.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
@@ -391,7 +399,7 @@ class CustomerProfiles {
   /// The unique name of the domain.
   ///
   /// Parameter [accountNumber] :
-  /// A unique account number that you have given to the customer.
+  /// An account number that you have given to the customer.
   ///
   /// Parameter [additionalInformation] :
   /// Any additional information relevant to the customer’s profile.
@@ -2179,6 +2187,9 @@ class CustomerProfiles {
   /// Parameter [keys] :
   /// A list of unique keys that can be used to map data to the profile.
   ///
+  /// Parameter [maxProfileObjectCount] :
+  /// The amount of profile object max count assigned to the object type
+  ///
   /// Parameter [sourceLastUpdatedTimestampFormat] :
   /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
   /// previously set up.
@@ -2204,6 +2215,7 @@ class CustomerProfiles {
     int? expirationDays,
     Map<String, ObjectTypeField>? fields,
     Map<String, List<ObjectTypeKey>>? keys,
+    int? maxProfileObjectCount,
     String? sourceLastUpdatedTimestampFormat,
     Map<String, String>? tags,
     String? templateId,
@@ -2214,6 +2226,12 @@ class CustomerProfiles {
       1,
       1098,
     );
+    _s.validateNumRange(
+      'maxProfileObjectCount',
+      maxProfileObjectCount,
+      1,
+      1152921504606846976,
+    );
     final $payload = <String, dynamic>{
       'Description': description,
       if (allowProfileCreation != null)
@@ -2222,6 +2240,8 @@ class CustomerProfiles {
       if (expirationDays != null) 'ExpirationDays': expirationDays,
       if (fields != null) 'Fields': fields,
       if (keys != null) 'Keys': keys,
+      if (maxProfileObjectCount != null)
+        'MaxProfileObjectCount': maxProfileObjectCount,
       if (sourceLastUpdatedTimestampFormat != null)
         'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,
@@ -2585,7 +2605,7 @@ class CustomerProfiles {
   /// The unique identifier of a customer profile.
   ///
   /// Parameter [accountNumber] :
-  /// A unique account number that you have given to the customer.
+  /// An account number that you have given to the customer.
   ///
   /// Parameter [additionalInformation] :
   /// Any additional information relevant to the customer’s profile.
@@ -5283,6 +5303,12 @@ class GetProfileObjectTypeResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime? lastUpdatedAt;
 
+  /// The amount of provisioned profile object max count available.
+  final int? maxAvailableProfileObjectCount;
+
+  /// The amount of profile object max count assigned to the object type.
+  final int? maxProfileObjectCount;
+
   /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
   /// previously set up.
   final String? sourceLastUpdatedTimestampFormat;
@@ -5303,6 +5329,8 @@ class GetProfileObjectTypeResponse {
     this.fields,
     this.keys,
     this.lastUpdatedAt,
+    this.maxAvailableProfileObjectCount,
+    this.maxProfileObjectCount,
     this.sourceLastUpdatedTimestampFormat,
     this.tags,
     this.templateId,
@@ -5325,6 +5353,9 @@ class GetProfileObjectTypeResponse {
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      maxAvailableProfileObjectCount:
+          json['MaxAvailableProfileObjectCount'] as int?,
+      maxProfileObjectCount: json['MaxProfileObjectCount'] as int?,
       sourceLastUpdatedTimestampFormat:
           json['SourceLastUpdatedTimestampFormat'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -5343,6 +5374,8 @@ class GetProfileObjectTypeResponse {
     final fields = this.fields;
     final keys = this.keys;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final maxAvailableProfileObjectCount = this.maxAvailableProfileObjectCount;
+    final maxProfileObjectCount = this.maxProfileObjectCount;
     final sourceLastUpdatedTimestampFormat =
         this.sourceLastUpdatedTimestampFormat;
     final tags = this.tags;
@@ -5359,6 +5392,10 @@ class GetProfileObjectTypeResponse {
       if (keys != null) 'Keys': keys,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (maxAvailableProfileObjectCount != null)
+        'MaxAvailableProfileObjectCount': maxAvailableProfileObjectCount,
+      if (maxProfileObjectCount != null)
+        'MaxProfileObjectCount': maxProfileObjectCount,
       if (sourceLastUpdatedTimestampFormat != null)
         'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,
@@ -6396,6 +6433,12 @@ class ListProfileObjectTypeItem {
   /// The timestamp of when the domain was most recently edited.
   final DateTime? lastUpdatedAt;
 
+  /// The amount of provisioned profile object max count available.
+  final int? maxAvailableProfileObjectCount;
+
+  /// The amount of profile object max count assigned to the object type.
+  final int? maxProfileObjectCount;
+
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
@@ -6404,6 +6447,8 @@ class ListProfileObjectTypeItem {
     required this.objectTypeName,
     this.createdAt,
     this.lastUpdatedAt,
+    this.maxAvailableProfileObjectCount,
+    this.maxProfileObjectCount,
     this.tags,
   });
 
@@ -6413,6 +6458,9 @@ class ListProfileObjectTypeItem {
       objectTypeName: json['ObjectTypeName'] as String,
       createdAt: timeStampFromJson(json['CreatedAt']),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      maxAvailableProfileObjectCount:
+          json['MaxAvailableProfileObjectCount'] as int?,
+      maxProfileObjectCount: json['MaxProfileObjectCount'] as int?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -6423,6 +6471,8 @@ class ListProfileObjectTypeItem {
     final objectTypeName = this.objectTypeName;
     final createdAt = this.createdAt;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final maxAvailableProfileObjectCount = this.maxAvailableProfileObjectCount;
+    final maxProfileObjectCount = this.maxProfileObjectCount;
     final tags = this.tags;
     return {
       'Description': description,
@@ -6430,6 +6480,10 @@ class ListProfileObjectTypeItem {
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (maxAvailableProfileObjectCount != null)
+        'MaxAvailableProfileObjectCount': maxAvailableProfileObjectCount,
+      if (maxProfileObjectCount != null)
+        'MaxProfileObjectCount': maxProfileObjectCount,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -7237,7 +7291,7 @@ enum PartyType {
 
 /// The standard profile of a customer.
 class Profile {
-  /// A unique account number that you have given to the customer.
+  /// An account number that you have given to the customer.
   final String? accountNumber;
 
   /// Any additional information relevant to the customer’s profile.
@@ -7618,6 +7672,12 @@ class PutProfileObjectTypeResponse {
   /// The timestamp of when the domain was most recently edited.
   final DateTime? lastUpdatedAt;
 
+  /// The amount of provisioned profile object max count available.
+  final int? maxAvailableProfileObjectCount;
+
+  /// The amount of profile object max count assigned to the object type.
+  final int? maxProfileObjectCount;
+
   /// The format of your <code>sourceLastUpdatedTimestamp</code> that was
   /// previously set up in fields that were parsed using <a
   /// href="https://docs.oracle.com/javase/10/docs/api/java/text/SimpleDateFormat.html">SimpleDateFormat</a>.
@@ -7641,6 +7701,8 @@ class PutProfileObjectTypeResponse {
     this.fields,
     this.keys,
     this.lastUpdatedAt,
+    this.maxAvailableProfileObjectCount,
+    this.maxProfileObjectCount,
     this.sourceLastUpdatedTimestampFormat,
     this.tags,
     this.templateId,
@@ -7663,6 +7725,9 @@ class PutProfileObjectTypeResponse {
               .map((e) => ObjectTypeKey.fromJson(e as Map<String, dynamic>))
               .toList())),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      maxAvailableProfileObjectCount:
+          json['MaxAvailableProfileObjectCount'] as int?,
+      maxProfileObjectCount: json['MaxProfileObjectCount'] as int?,
       sourceLastUpdatedTimestampFormat:
           json['SourceLastUpdatedTimestampFormat'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -7681,6 +7746,8 @@ class PutProfileObjectTypeResponse {
     final fields = this.fields;
     final keys = this.keys;
     final lastUpdatedAt = this.lastUpdatedAt;
+    final maxAvailableProfileObjectCount = this.maxAvailableProfileObjectCount;
+    final maxProfileObjectCount = this.maxProfileObjectCount;
     final sourceLastUpdatedTimestampFormat =
         this.sourceLastUpdatedTimestampFormat;
     final tags = this.tags;
@@ -7697,6 +7764,10 @@ class PutProfileObjectTypeResponse {
       if (keys != null) 'Keys': keys,
       if (lastUpdatedAt != null)
         'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (maxAvailableProfileObjectCount != null)
+        'MaxAvailableProfileObjectCount': maxAvailableProfileObjectCount,
+      if (maxProfileObjectCount != null)
+        'MaxProfileObjectCount': maxProfileObjectCount,
       if (sourceLastUpdatedTimestampFormat != null)
         'SourceLastUpdatedTimestampFormat': sourceLastUpdatedTimestampFormat,
       if (tags != null) 'Tags': tags,

@@ -5694,6 +5694,7 @@ enum FuotaDeviceStatus {
   memoryError('MemoryError'),
   mICError('MICError'),
   successful('Successful'),
+  deviceExistInConflictFuotaTask('Device_exist_in_conflict_fuota_task'),
   ;
 
   final String value;
@@ -9618,6 +9619,8 @@ enum MessageType {
 enum MetricName {
   deviceRSSI('DeviceRSSI'),
   deviceSNR('DeviceSNR'),
+  deviceRoamingRSSI('DeviceRoamingRSSI'),
+  deviceRoamingSNR('DeviceRoamingSNR'),
   deviceUplinkCount('DeviceUplinkCount'),
   deviceDownlinkCount('DeviceDownlinkCount'),
   deviceUplinkLostCount('DeviceUplinkLostCount'),

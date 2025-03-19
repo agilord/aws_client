@@ -226,16 +226,26 @@ class HealthImaging {
   ///
   /// Parameter [sourceImageSetId] :
   /// The source image set identifier.
+  ///
+  /// Parameter [force] :
+  /// Setting this flag will force the <code>CopyImageSet</code> operation, even
+  /// if Patient, Study, or Series level metadata are mismatched across the
+  /// <code>sourceImageSet</code> and <code>destinationImageSet</code>.
   Future<CopyImageSetResponse> copyImageSet({
     required CopyImageSetInformation copyImageSetInformation,
     required String datastoreId,
     required String sourceImageSetId,
+    bool? force,
   }) async {
+    final $query = <String, List<String>>{
+      if (force != null) 'force': [force.toString()],
+    };
     final response = await _protocol.send(
       payload: copyImageSetInformation,
       method: 'POST',
       requestUri:
           '/datastore/${Uri.encodeComponent(datastoreId)}/imageSet/${Uri.encodeComponent(sourceImageSetId)}/copyImageSet',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return CopyImageSetResponse.fromJson(response);
@@ -877,14 +887,30 @@ class HealthImaging {
   ///
   /// Parameter [updateImageSetMetadataUpdates] :
   /// Update image set metadata updates.
+  ///
+  /// Parameter [force] :
+  /// Setting this flag will force the <code>UpdateImageSetMetadata</code>
+  /// operation for the following attributes:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Tag.StudyInstanceUID</code>, <code>Tag.SeriesInstanceUID</code>,
+  /// <code>Tag.SOPInstanceUID</code>, and <code>Tag.StudyID</code>
+  /// </li>
+  /// <li>
+  /// Adding, removing, or updating private tags for an individual SOP Instance
+  /// </li>
+  /// </ul>
   Future<UpdateImageSetMetadataResponse> updateImageSetMetadata({
     required String datastoreId,
     required String imageSetId,
     required String latestVersionId,
     required MetadataUpdates updateImageSetMetadataUpdates,
+    bool? force,
   }) async {
     final $query = <String, List<String>>{
       'latestVersion': [latestVersionId],
+      if (force != null) 'force': [force.toString()],
     };
     final response = await _protocol.send(
       payload: updateImageSetMetadataUpdates,
@@ -1057,14 +1083,21 @@ class CopySourceImageSetInformation {
   /// The latest version identifier for the source image set.
   final String latestVersionId;
 
+  /// Contains <code>MetadataCopies</code> structure and wraps information related
+  /// to specific copy use cases. For example, when copying subsets.
+  final MetadataCopies? dICOMCopies;
+
   CopySourceImageSetInformation({
     required this.latestVersionId,
+    this.dICOMCopies,
   });
 
   Map<String, dynamic> toJson() {
     final latestVersionId = this.latestVersionId;
+    final dICOMCopies = this.dICOMCopies;
     return {
       'latestVersionId': latestVersionId,
+      if (dICOMCopies != null) 'DICOMCopies': dICOMCopies,
     };
   }
 }
@@ -1864,6 +1897,12 @@ class GetImageSetResponse {
   /// The error message thrown if an image set action fails.
   final String? message;
 
+  /// This object contains the details of any overrides used while creating a
+  /// specific image set version. If an image set was copied or updated using the
+  /// <code>force</code> flag, this object will contain the <code>forced</code>
+  /// flag.
+  final Overrides? overrides;
+
   /// The timestamp when image set properties were updated.
   final DateTime? updatedAt;
 
@@ -1877,6 +1916,7 @@ class GetImageSetResponse {
     this.imageSetArn,
     this.imageSetWorkflowStatus,
     this.message,
+    this.overrides,
     this.updatedAt,
   });
 
@@ -1893,6 +1933,9 @@ class GetImageSetResponse {
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
           ?.let(ImageSetWorkflowStatus.fromString),
       message: json['message'] as String?,
+      overrides: json['overrides'] != null
+          ? Overrides.fromJson(json['overrides'] as Map<String, dynamic>)
+          : null,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -1907,6 +1950,7 @@ class GetImageSetResponse {
     final imageSetArn = this.imageSetArn;
     final imageSetWorkflowStatus = this.imageSetWorkflowStatus;
     final message = this.message;
+    final overrides = this.overrides;
     final updatedAt = this.updatedAt;
     return {
       'datastoreId': datastoreId,
@@ -1919,6 +1963,7 @@ class GetImageSetResponse {
       if (imageSetWorkflowStatus != null)
         'imageSetWorkflowStatus': imageSetWorkflowStatus.value,
       if (message != null) 'message': message,
+      if (overrides != null) 'overrides': overrides,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -1964,6 +2009,11 @@ class ImageSetProperties {
   /// The error message thrown if an image set action fails.
   final String? message;
 
+  /// Contains details on overrides used when creating the returned version of an
+  /// image set. For example, if <code>forced</code> exists, the
+  /// <code>forced</code> flag was used when creating the image set.
+  final Overrides? overrides;
+
   /// The timestamp when the image set properties were updated.
   final DateTime? updatedAt;
 
@@ -1975,6 +2025,7 @@ class ImageSetProperties {
     this.createdAt,
     this.deletedAt,
     this.message,
+    this.overrides,
     this.updatedAt,
   });
 
@@ -1989,6 +2040,9 @@ class ImageSetProperties {
       createdAt: timeStampFromJson(json['createdAt']),
       deletedAt: timeStampFromJson(json['deletedAt']),
       message: json['message'] as String?,
+      overrides: json['overrides'] != null
+          ? Overrides.fromJson(json['overrides'] as Map<String, dynamic>)
+          : null,
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
@@ -2001,6 +2055,7 @@ class ImageSetProperties {
     final createdAt = this.createdAt;
     final deletedAt = this.deletedAt;
     final message = this.message;
+    final overrides = this.overrides;
     final updatedAt = this.updatedAt;
     return {
       'imageSetId': imageSetId,
@@ -2011,6 +2066,7 @@ class ImageSetProperties {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (deletedAt != null) 'deletedAt': unixTimestampToJson(deletedAt),
       if (message != null) 'message': message,
+      if (overrides != null) 'overrides': overrides,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
   }
@@ -2247,20 +2303,52 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// Contains copiable <code>Attributes</code> structure and wraps information
+/// related to specific copy use cases. For example, when copying subsets.
+class MetadataCopies {
+  /// The JSON string used to specify a subset of SOP Instances to copy from
+  /// source to destination image set.
+  final String copiableAttributes;
+
+  MetadataCopies({
+    required this.copiableAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final copiableAttributes = this.copiableAttributes;
+    return {
+      'copiableAttributes': copiableAttributes,
+    };
+  }
+}
+
 /// Contains DICOMUpdates.
 class MetadataUpdates {
   /// The object containing <code>removableAttributes</code> and
   /// <code>updatableAttributes</code>.
   final DICOMUpdates? dICOMUpdates;
 
+  /// Specifies the previous image set version ID to revert the current image set
+  /// back to.
+  /// <note>
+  /// You must provide either <code>revertToVersionId</code> or
+  /// <code>DICOMUpdates</code> in your request. A
+  /// <code>ValidationException</code> error is thrown if both parameters are
+  /// provided at the same time.
+  /// </note>
+  final String? revertToVersionId;
+
   MetadataUpdates({
     this.dICOMUpdates,
+    this.revertToVersionId,
   });
 
   Map<String, dynamic> toJson() {
     final dICOMUpdates = this.dICOMUpdates;
+    final revertToVersionId = this.revertToVersionId;
     return {
       if (dICOMUpdates != null) 'DICOMUpdates': dICOMUpdates,
+      if (revertToVersionId != null) 'revertToVersionId': revertToVersionId,
     };
   }
 }
@@ -2277,6 +2365,32 @@ enum Operator {
   static Operator fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum Operator'));
+}
+
+/// Specifies the overrides used in image set modification calls to
+/// <code>CopyImageSet</code> and <code>UpdateImageSetMetadata</code>.
+class Overrides {
+  /// Setting this flag will force the <code>CopyImageSet</code> and
+  /// <code>UpdateImageSetMetadata</code> operations, even if Patient, Study, or
+  /// Series level metadata are mismatched.
+  final bool? forced;
+
+  Overrides({
+    this.forced,
+  });
+
+  factory Overrides.fromJson(Map<String, dynamic> json) {
+    return Overrides(
+      forced: json['forced'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forced = this.forced;
+    return {
+      if (forced != null) 'forced': forced,
+    };
+  }
 }
 
 /// The search input attribute value.
