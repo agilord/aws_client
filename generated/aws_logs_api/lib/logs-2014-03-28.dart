@@ -308,6 +308,20 @@ class CloudWatchLogs {
   /// Parameter [deliverySourceName] :
   /// The name of the delivery source to use for this delivery.
   ///
+  /// Parameter [fieldDelimiter] :
+  /// The field delimiter to use between record fields when the final output
+  /// format of a delivery is in <code>Plain</code>, <code>W3C</code>, or
+  /// <code>Raw</code> format.
+  ///
+  /// Parameter [recordFields] :
+  /// The list of record fields to be delivered to the destination, in order. If
+  /// the delivery’s log source has mandatory fields, they must be included in
+  /// this list.
+  ///
+  /// Parameter [s3DeliveryConfiguration] :
+  /// This structure contains parameters that are valid only when the delivery’s
+  /// delivery destination is an S3 bucket.
+  ///
   /// Parameter [tags] :
   /// An optional list of key-value pairs to associate with the resource.
   ///
@@ -317,6 +331,9 @@ class CloudWatchLogs {
   Future<CreateDeliveryResponse> createDelivery({
     required String deliveryDestinationArn,
     required String deliverySourceName,
+    String? fieldDelimiter,
+    List<String>? recordFields,
+    S3DeliveryConfiguration? s3DeliveryConfiguration,
     Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
@@ -332,6 +349,10 @@ class CloudWatchLogs {
       payload: {
         'deliveryDestinationArn': deliveryDestinationArn,
         'deliverySourceName': deliverySourceName,
+        if (fieldDelimiter != null) 'fieldDelimiter': fieldDelimiter,
+        if (recordFields != null) 'recordFields': recordFields,
+        if (s3DeliveryConfiguration != null)
+          's3DeliveryConfiguration': s3DeliveryConfiguration,
         if (tags != null) 'tags': tags,
       },
     );
@@ -1322,6 +1343,78 @@ class CloudWatchLogs {
     return DescribeAccountPoliciesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Use this operation to return the valid and default values that are used
+  /// when creating delivery sources, delivery destinations, and deliveries. For
+  /// more information about deliveries, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [deliveryDestinationTypes] :
+  /// Use this parameter to filter the response to include only the
+  /// configuration templates that apply to the delivery destination types that
+  /// you specify here.
+  ///
+  /// Parameter [limit] :
+  /// Use this parameter to limit the number of configuration templates that are
+  /// returned in the response.
+  ///
+  /// Parameter [logTypes] :
+  /// Use this parameter to filter the response to include only the
+  /// configuration templates that apply to the log types that you specify here.
+  ///
+  /// Parameter [resourceTypes] :
+  /// Use this parameter to filter the response to include only the
+  /// configuration templates that apply to the resource types that you specify
+  /// here.
+  ///
+  /// Parameter [service] :
+  /// Use this parameter to filter the response to include only the
+  /// configuration templates that apply to the Amazon Web Services service that
+  /// you specify here.
+  Future<DescribeConfigurationTemplatesResponse>
+      describeConfigurationTemplates({
+    List<DeliveryDestinationType>? deliveryDestinationTypes,
+    int? limit,
+    List<String>? logTypes,
+    String? nextToken,
+    List<String>? resourceTypes,
+    String? service,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.DescribeConfigurationTemplates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (deliveryDestinationTypes != null)
+          'deliveryDestinationTypes':
+              deliveryDestinationTypes.map((e) => e.value).toList(),
+        if (limit != null) 'limit': limit,
+        if (logTypes != null) 'logTypes': logTypes,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (resourceTypes != null) 'resourceTypes': resourceTypes,
+        if (service != null) 'service': service,
+      },
+    );
+
+    return DescribeConfigurationTemplatesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list of the deliveries that have been created in the account.
   ///
   /// A <i>delivery</i> is a connection between a <a
@@ -2232,16 +2325,14 @@ class CloudWatchLogs {
   /// names starting with this prefix.
   ///
   /// If you specify a value for both <code>logStreamNamePrefix</code> and
-  /// <code>logStreamNames</code>, but the value for
-  /// <code>logStreamNamePrefix</code> does not match any log stream names
-  /// specified in <code>logStreamNames</code>, the action returns an
+  /// <code>logStreamNames</code>, the action returns an
   /// <code>InvalidParameterException</code> error.
   ///
   /// Parameter [logStreamNames] :
   /// Filters the results to only logs from the log streams in this list.
   ///
-  /// If you specify a value for both <code>logStreamNamePrefix</code> and
-  /// <code>logStreamNames</code>, the action returns an
+  /// If you specify a value for both <code>logStreamNames</code> and
+  /// <code>logStreamNamePrefix</code>, the action returns an
   /// <code>InvalidParameterException</code> error.
   ///
   /// Parameter [nextToken] :
@@ -3107,11 +3198,12 @@ class CloudWatchLogs {
   /// supported as logical destinations.
   /// </li>
   /// </ul>
-  /// Each account can have one account-level subscription filter policy. If you
-  /// are updating an existing filter, you must specify the correct name in
-  /// <code>PolicyName</code>. To perform a <code>PutAccountPolicy</code>
-  /// subscription filter operation for any destination except a Lambda
-  /// function, you must also have the <code>iam:PassRole</code> permission.
+  /// Each account can have one account-level subscription filter policy per
+  /// Region. If you are updating an existing filter, you must specify the
+  /// correct name in <code>PolicyName</code>. To perform a
+  /// <code>PutAccountPolicy</code> subscription filter operation for any
+  /// destination except a Lambda function, you must also have the
+  /// <code>iam:PassRole</code> permission.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [OperationAbortedException].
@@ -3209,7 +3301,7 @@ class CloudWatchLogs {
   /// of log events.
   /// </li>
   /// <li>
-  /// <b>Distribution</b>The method used to distribute log data to the
+  /// <b>Distribution</b> The method used to distribute log data to the
   /// destination. By default, log data is grouped by log stream, but the
   /// grouping can be set to <code>Random</code> for a more even distribution.
   /// This property is only applicable when the destination is an Kinesis Data
@@ -3613,10 +3705,13 @@ class CloudWatchLogs {
   ///
   /// <ul>
   /// <li>
+  /// For Amazon Bedrock, the valid value is <code>APPLICATION_LOGS</code>.
+  /// </li>
+  /// <li>
   /// For Amazon CodeWhisperer, the valid value is <code>EVENT_LOGS</code>.
   /// </li>
   /// <li>
-  /// For IAM Identity Centerr, the valid value is <code>ERROR_LOGS</code>.
+  /// For IAM Identity Center, the valid value is <code>ERROR_LOGS</code>.
   /// </li>
   /// <li>
   /// For Amazon WorkMail, the valid values are
@@ -3861,6 +3956,9 @@ class CloudWatchLogs {
   /// Parameter [logStreamName] :
   /// The name of the log stream.
   ///
+  /// Parameter [entity] :
+  /// Reserved for internal use.
+  ///
   /// Parameter [sequenceToken] :
   /// The sequence token obtained from the response of the previous
   /// <code>PutLogEvents</code> call.
@@ -3875,6 +3973,7 @@ class CloudWatchLogs {
     required List<InputLogEvent> logEvents,
     required String logGroupName,
     required String logStreamName,
+    Entity? entity,
     String? sequenceToken,
   }) async {
     final headers = <String, String>{
@@ -3891,6 +3990,7 @@ class CloudWatchLogs {
         'logEvents': logEvents,
         'logGroupName': logGroupName,
         'logStreamName': logStreamName,
+        if (entity != null) 'entity': entity,
         if (sequenceToken != null) 'sequenceToken': sequenceToken,
       },
     );
@@ -3905,6 +4005,15 @@ class CloudWatchLogs {
   ///
   /// The maximum number of metric filters that can be associated with a log
   /// group is 100.
+  ///
+  /// Using regular expressions to create metric filters is supported. For these
+  /// filters, there is a quotas of quota of two regular expression patterns
+  /// within a single filter pattern. There is also a quota of five regular
+  /// expression patterns per log group. For more information about using
+  /// regular expressions in metric filters, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">
+  /// Filter pattern syntax for metric filters, subscription filters, filter log
+  /// events, and Live Tail</a>.
   ///
   /// When you create a metric filter, you can also optionally assign a unit and
   /// dimensions to the metric that is created.
@@ -4201,6 +4310,15 @@ class CloudWatchLogs {
   /// If you are updating an existing filter, you must specify the correct name
   /// in <code>filterName</code>.
   ///
+  /// Using regular expressions to create subscription filters is supported. For
+  /// these filters, there is a quotas of quota of two regular expression
+  /// patterns within a single filter pattern. There is also a quota of five
+  /// regular expression patterns per log group. For more information about
+  /// using regular expressions in subscription filters, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">
+  /// Filter pattern syntax for metric filters, subscription filters, filter log
+  /// events, and Live Tail</a>.
+  ///
   /// To perform a <code>PutSubscriptionFilter</code> operation for any
   /// destination except a Lambda function, you must also have the
   /// <code>iam:PassRole</code> permission.
@@ -4330,12 +4448,12 @@ class CloudWatchLogs {
   /// </li>
   /// <li>
   /// A <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionStreamingException.html">SessionStreamingException</a>
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException">SessionStreamingException</a>
   /// object is returned if an unknown error occurs on the server side.
   /// </li>
   /// <li>
   /// A <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_SessionTimeoutException.html">SessionTimeoutException</a>
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException">SessionTimeoutException</a>
   /// object is returned when the session times out, after it has been kept open
   /// for three hours.
   /// </li>
@@ -4917,6 +5035,61 @@ class CloudWatchLogs {
     );
   }
 
+  /// Use this operation to update the configuration of a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html">delivery</a>
+  /// to change either the S3 path pattern or the format of the delivered logs.
+  /// You can't use this operation to change the source or destination of the
+  /// delivery.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the delivery to be updated by this request.
+  ///
+  /// Parameter [fieldDelimiter] :
+  /// The field delimiter to use between record fields when the final output
+  /// format of a delivery is in <code>Plain</code>, <code>W3C</code>, or
+  /// <code>Raw</code> format.
+  ///
+  /// Parameter [recordFields] :
+  /// The list of record fields to be delivered to the destination, in order. If
+  /// the delivery’s log source has mandatory fields, they must be included in
+  /// this list.
+  ///
+  /// Parameter [s3DeliveryConfiguration] :
+  /// This structure contains parameters that are valid only when the delivery’s
+  /// delivery destination is an S3 bucket.
+  Future<void> updateDeliveryConfiguration({
+    required String id,
+    String? fieldDelimiter,
+    List<String>? recordFields,
+    S3DeliveryConfiguration? s3DeliveryConfiguration,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Logs_20140328.UpdateDeliveryConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+        if (fieldDelimiter != null) 'fieldDelimiter': fieldDelimiter,
+        if (recordFields != null) 'recordFields': recordFields,
+        if (s3DeliveryConfiguration != null)
+          's3DeliveryConfiguration': s3DeliveryConfiguration,
+      },
+    );
+  }
+
   /// Updates an existing log anomaly detector.
   ///
   /// May throw [InvalidParameterException].
@@ -5264,6 +5437,155 @@ enum AnomalyDetectorStatus {
           throw Exception('$value is not known in enum AnomalyDetectorStatus'));
 }
 
+/// A structure containing information about the deafult settings and available
+/// settings that you can use to configure a <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html">delivery</a>
+/// or a <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeliveryDestination.html">delivery
+/// destination</a>.
+class ConfigurationTemplate {
+  /// The action permissions that a caller needs to have to be able to
+  /// successfully create a delivery source on the desired resource type when
+  /// calling <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html">PutDeliverySource</a>.
+  final String? allowedActionForAllowVendedLogsDeliveryForResource;
+
+  /// The valid values that a caller can use as field delimiters when calling <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html">UpdateDeliveryConfiguration</a>
+  /// on a delivery that delivers in <code>Plain</code>, <code>W3C</code>, or
+  /// <code>Raw</code> format.
+  final List<String>? allowedFieldDelimiters;
+
+  /// The allowed fields that a caller can use in the <code>recordFields</code>
+  /// parameter of a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html">UpdateDeliveryConfiguration</a>
+  /// operation.
+  final List<RecordField>? allowedFields;
+
+  /// The list of delivery destination output formats that are supported by this
+  /// log source.
+  final List<OutputFormat>? allowedOutputFormats;
+
+  /// The list of variable fields that can be used in the suffix path of a
+  /// delivery that delivers to an S3 bucket.
+  final List<String>? allowedSuffixPathFields;
+
+  /// A mapping that displays the default value of each property within a
+  /// delivery’s configuration, if it is not specified in the request.
+  final ConfigurationTemplateDeliveryConfigValues? defaultDeliveryConfigValues;
+
+  /// A string specifying which destination type this configuration template
+  /// applies to.
+  final DeliveryDestinationType? deliveryDestinationType;
+
+  /// A string specifying which log type this configuration template applies to.
+  final String? logType;
+
+  /// A string specifying which resource type this configuration template applies
+  /// to.
+  final String? resourceType;
+
+  /// A string specifying which service this configuration template applies to.
+  /// For more information about supported services see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html">Enable
+  /// logging from Amazon Web Services services.</a>.
+  final String? service;
+
+  ConfigurationTemplate({
+    this.allowedActionForAllowVendedLogsDeliveryForResource,
+    this.allowedFieldDelimiters,
+    this.allowedFields,
+    this.allowedOutputFormats,
+    this.allowedSuffixPathFields,
+    this.defaultDeliveryConfigValues,
+    this.deliveryDestinationType,
+    this.logType,
+    this.resourceType,
+    this.service,
+  });
+
+  factory ConfigurationTemplate.fromJson(Map<String, dynamic> json) {
+    return ConfigurationTemplate(
+      allowedActionForAllowVendedLogsDeliveryForResource:
+          json['allowedActionForAllowVendedLogsDeliveryForResource'] as String?,
+      allowedFieldDelimiters: (json['allowedFieldDelimiters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedFields: (json['allowedFields'] as List?)
+          ?.nonNulls
+          .map((e) => RecordField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      allowedOutputFormats: (json['allowedOutputFormats'] as List?)
+          ?.nonNulls
+          .map((e) => OutputFormat.fromString((e as String)))
+          .toList(),
+      allowedSuffixPathFields: (json['allowedSuffixPathFields'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      defaultDeliveryConfigValues: json['defaultDeliveryConfigValues'] != null
+          ? ConfigurationTemplateDeliveryConfigValues.fromJson(
+              json['defaultDeliveryConfigValues'] as Map<String, dynamic>)
+          : null,
+      deliveryDestinationType: (json['deliveryDestinationType'] as String?)
+          ?.let(DeliveryDestinationType.fromString),
+      logType: json['logType'] as String?,
+      resourceType: json['resourceType'] as String?,
+      service: json['service'] as String?,
+    );
+  }
+}
+
+/// This structure contains the default values that are used for each
+/// configuration parameter when you use <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+/// to create a deliver under the current service type, resource type, and log
+/// type.
+class ConfigurationTemplateDeliveryConfigValues {
+  /// The default field delimiter that is used in a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// operation when the field delimiter is not specified in that operation. The
+  /// field delimiter is used only when the final output delivery is in
+  /// <code>Plain</code>, <code>W3C</code>, or <code>Raw</code> format.
+  final String? fieldDelimiter;
+
+  /// The default record fields that will be delivered when a list of record
+  /// fields is not provided in a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// operation.
+  final List<String>? recordFields;
+
+  /// The delivery parameters that are used when you create a delivery to a
+  /// delivery destination that is an S3 Bucket.
+  final S3DeliveryConfiguration? s3DeliveryConfiguration;
+
+  ConfigurationTemplateDeliveryConfigValues({
+    this.fieldDelimiter,
+    this.recordFields,
+    this.s3DeliveryConfiguration,
+  });
+
+  factory ConfigurationTemplateDeliveryConfigValues.fromJson(
+      Map<String, dynamic> json) {
+    return ConfigurationTemplateDeliveryConfigValues(
+      fieldDelimiter: json['fieldDelimiter'] as String?,
+      recordFields: (json['recordFields'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      s3DeliveryConfiguration: json['s3DeliveryConfiguration'] != null
+          ? S3DeliveryConfiguration.fromJson(
+              json['s3DeliveryConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class CreateDeliveryResponse {
   /// A structure that contains information about the delivery that you just
   /// created.
@@ -5370,8 +5692,20 @@ class Delivery {
   /// The name of the delivery source that is associated with this delivery.
   final String? deliverySourceName;
 
+  /// The field delimiter that is used between record fields when the final output
+  /// format of a delivery is in <code>Plain</code>, <code>W3C</code>, or
+  /// <code>Raw</code> format.
+  final String? fieldDelimiter;
+
   /// The unique ID that identifies this delivery in your account.
   final String? id;
+
+  /// The record fields used in this delivery.
+  final List<String>? recordFields;
+
+  /// This structure contains delivery configurations that apply only when the
+  /// delivery destination resource is an S3 bucket.
+  final S3DeliveryConfiguration? s3DeliveryConfiguration;
 
   /// The tags that have been assigned to this delivery.
   final Map<String, String>? tags;
@@ -5381,7 +5715,10 @@ class Delivery {
     this.deliveryDestinationArn,
     this.deliveryDestinationType,
     this.deliverySourceName,
+    this.fieldDelimiter,
     this.id,
+    this.recordFields,
+    this.s3DeliveryConfiguration,
     this.tags,
   });
 
@@ -5392,7 +5729,16 @@ class Delivery {
       deliveryDestinationType: (json['deliveryDestinationType'] as String?)
           ?.let(DeliveryDestinationType.fromString),
       deliverySourceName: json['deliverySourceName'] as String?,
+      fieldDelimiter: json['fieldDelimiter'] as String?,
       id: json['id'] as String?,
+      recordFields: (json['recordFields'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      s3DeliveryConfiguration: json['s3DeliveryConfiguration'] != null
+          ? S3DeliveryConfiguration.fromJson(
+              json['s3DeliveryConfiguration'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5630,6 +5976,29 @@ class DescribeAccountPoliciesResponse {
           ?.nonNulls
           .map((e) => AccountPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+}
+
+class DescribeConfigurationTemplatesResponse {
+  /// An array of objects, where each object describes one configuration template
+  /// that matches the filters that you specified in the request.
+  final List<ConfigurationTemplate>? configurationTemplates;
+  final String? nextToken;
+
+  DescribeConfigurationTemplatesResponse({
+    this.configurationTemplates,
+    this.nextToken,
+  });
+
+  factory DescribeConfigurationTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConfigurationTemplatesResponse(
+      configurationTemplates: (json['configurationTemplates'] as List?)
+          ?.nonNulls
+          .map((e) => ConfigurationTemplate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 }
@@ -5958,6 +6327,49 @@ enum Distribution {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum Distribution'));
+}
+
+/// Reserved for internal use.
+class Entity {
+  /// Reserved for internal use.
+  final Map<String, String>? attributes;
+
+  /// Reserved for internal use.
+  final Map<String, String>? keyAttributes;
+
+  Entity({
+    this.attributes,
+    this.keyAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final keyAttributes = this.keyAttributes;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (keyAttributes != null) 'keyAttributes': keyAttributes,
+    };
+  }
+}
+
+enum EntityRejectionErrorType {
+  invalidEntity('InvalidEntity'),
+  invalidTypeValue('InvalidTypeValue'),
+  invalidKeyAttributes('InvalidKeyAttributes'),
+  invalidAttributes('InvalidAttributes'),
+  entitySizeTooLarge('EntitySizeTooLarge'),
+  unsupportedLogGroupType('UnsupportedLogGroupType'),
+  missingRequiredFields('MissingRequiredFields'),
+  ;
+
+  final String value;
+
+  const EntityRejectionErrorType(this.value);
+
+  static EntityRejectionErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum EntityRejectionErrorType'));
 }
 
 enum EvaluationFrequency {
@@ -7214,7 +7626,7 @@ class OutputLogEvent {
   }
 }
 
-/// A tructures that contains information about one pattern token related to an
+/// A structure that contains information about one pattern token related to an
 /// anomaly.
 ///
 /// For more information about patterns and tokens, see <a
@@ -7415,17 +7827,25 @@ class PutLogEventsResponse {
   /// </important>
   final String? nextSequenceToken;
 
+  /// Reserved for internal use.
+  final RejectedEntityInfo? rejectedEntityInfo;
+
   /// The rejected events.
   final RejectedLogEventsInfo? rejectedLogEventsInfo;
 
   PutLogEventsResponse({
     this.nextSequenceToken,
+    this.rejectedEntityInfo,
     this.rejectedLogEventsInfo,
   });
 
   factory PutLogEventsResponse.fromJson(Map<String, dynamic> json) {
     return PutLogEventsResponse(
       nextSequenceToken: json['nextSequenceToken'] as String?,
+      rejectedEntityInfo: json['rejectedEntityInfo'] != null
+          ? RejectedEntityInfo.fromJson(
+              json['rejectedEntityInfo'] as Map<String, dynamic>)
+          : null,
       rejectedLogEventsInfo: json['rejectedLogEventsInfo'] != null
           ? RejectedLogEventsInfo.fromJson(
               json['rejectedLogEventsInfo'] as Map<String, dynamic>)
@@ -7596,6 +8016,54 @@ enum QueryStatus {
       orElse: () => throw Exception('$value is not known in enum QueryStatus'));
 }
 
+/// A structure that represents a valid record field header and whether it is
+/// mandatory.
+class RecordField {
+  /// If this is <code>true</code>, the record field must be present in the
+  /// <code>recordFields</code> parameter provided to a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html">UpdateDeliveryConfiguration</a>
+  /// operation.
+  final bool? mandatory;
+
+  /// The name to use when specifying this record field in a <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html">CreateDelivery</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html">UpdateDeliveryConfiguration</a>
+  /// operation.
+  final String? name;
+
+  RecordField({
+    this.mandatory,
+    this.name,
+  });
+
+  factory RecordField.fromJson(Map<String, dynamic> json) {
+    return RecordField(
+      mandatory: json['mandatory'] as bool?,
+      name: json['name'] as String?,
+    );
+  }
+}
+
+/// Reserved for internal use.
+class RejectedEntityInfo {
+  /// Reserved for internal use.
+  final EntityRejectionErrorType errorType;
+
+  RejectedEntityInfo({
+    required this.errorType,
+  });
+
+  factory RejectedEntityInfo.fromJson(Map<String, dynamic> json) {
+    return RejectedEntityInfo(
+      errorType:
+          EntityRejectionErrorType.fromString((json['errorType'] as String)),
+    );
+  }
+}
+
 /// Represents the rejected events.
 class RejectedLogEventsInfo {
   /// The expired log events.
@@ -7674,6 +8142,43 @@ class ResultField {
       field: json['field'] as String?,
       value: json['value'] as String?,
     );
+  }
+}
+
+/// This structure contains delivery configurations that apply only when the
+/// delivery destination resource is an S3 bucket.
+class S3DeliveryConfiguration {
+  /// This parameter causes the S3 objects that contain delivered logs to use a
+  /// prefix structure that allows for integration with Apache Hive.
+  final bool? enableHiveCompatiblePath;
+
+  /// This string allows re-configuring the S3 object prefix to contain either
+  /// static or variable sections. The valid variables to use in the suffix path
+  /// will vary by each log source. See
+  /// ConfigurationTemplate$allowedSuffixPathFields for more info on what values
+  /// are supported in the suffix path for each log source.
+  final String? suffixPath;
+
+  S3DeliveryConfiguration({
+    this.enableHiveCompatiblePath,
+    this.suffixPath,
+  });
+
+  factory S3DeliveryConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DeliveryConfiguration(
+      enableHiveCompatiblePath: json['enableHiveCompatiblePath'] as bool?,
+      suffixPath: json['suffixPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableHiveCompatiblePath = this.enableHiveCompatiblePath;
+    final suffixPath = this.suffixPath;
+    return {
+      if (enableHiveCompatiblePath != null)
+        'enableHiveCompatiblePath': enableHiveCompatiblePath,
+      if (suffixPath != null) 'suffixPath': suffixPath,
+    };
   }
 }
 
@@ -8027,6 +8532,14 @@ class TestMetricFilterResponse {
               MetricFilterMatchRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+}
+
+class UpdateDeliveryConfigurationResponse {
+  UpdateDeliveryConfigurationResponse();
+
+  factory UpdateDeliveryConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeliveryConfigurationResponse();
   }
 }
 

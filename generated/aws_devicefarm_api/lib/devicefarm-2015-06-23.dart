@@ -621,16 +621,7 @@ class DeviceFarm {
   /// APPIUM_WEB_RUBY_TEST_PACKAGE
   /// </li>
   /// <li>
-  /// CALABASH_TEST_PACKAGE
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR_TEST_PACKAGE
   /// </li>
   /// <li>
   /// XCTEST_TEST_PACKAGE
@@ -1173,10 +1164,6 @@ class DeviceFarm {
   /// BUILTIN_FUZZ.
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android
-  /// app, interacting with it and capturing screenshots at the same time.
-  /// </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT.
   /// </li>
   /// <li>
@@ -1207,16 +1194,7 @@ class DeviceFarm {
   /// APPIUM_WEB_RUBY.
   /// </li>
   /// <li>
-  /// CALABASH.
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION.
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION.
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR.
   /// </li>
   /// <li>
   /// XCTEST.
@@ -2791,16 +2769,7 @@ class DeviceFarm {
   /// APPIUM_WEB_RUBY_TEST_PACKAGE
   /// </li>
   /// <li>
-  /// CALABASH_TEST_PACKAGE
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR_TEST_PACKAGE
   /// </li>
   /// <li>
   /// XCTEST_TEST_PACKAGE
@@ -3857,21 +3826,6 @@ class Artifact {
   /// test.
   /// </li>
   /// <li>
-  /// CALABASH_JSON_OUTPUT
-  /// </li>
-  /// <li>
-  /// CALABASH_PRETTY_OUTPUT
-  /// </li>
-  /// <li>
-  /// CALABASH_STANDARD_OUTPUT
-  /// </li>
-  /// <li>
-  /// CALABASH_JAVA_XML_OUTPUT
-  /// </li>
-  /// <li>
-  /// AUTOMATION_OUTPUT
-  /// </li>
-  /// <li>
   /// APPIUM_SERVER_OUTPUT
   /// </li>
   /// <li>
@@ -3885,12 +3839,6 @@ class Artifact {
   /// </li>
   /// <li>
   /// APPIUM_PYTHON_XML_OUTPUT
-  /// </li>
-  /// <li>
-  /// EXPLORER_EVENT_LOG
-  /// </li>
-  /// <li>
-  /// EXPLORER_SUMMARY_LOG
   /// </li>
   /// <li>
   /// APPLICATION_CRASH_REPORT
@@ -5882,10 +5830,6 @@ class Job {
   /// BUILTIN_FUZZ
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android
-  /// app, interacting with it and capturing screenshots at the same time.
-  /// </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT
   /// </li>
   /// <li>
@@ -5916,16 +5860,7 @@ class Job {
   /// APPIUM_WEB_RUBY
   /// </li>
   /// <li>
-  /// CALABASH
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR
   /// </li>
   /// <li>
   /// XCTEST
@@ -7773,12 +7708,6 @@ class Run {
   /// BUILTIN_FUZZ
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER
-  /// <note>
-  /// For Android, an app explorer that traverses an Android app, interacting with
-  /// it and capturing screenshots at the same time.
-  /// </note> </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT
   /// </li>
   /// <li>
@@ -7809,16 +7738,7 @@ class Run {
   /// APPIUM_WEB_RUBY
   /// </li>
   /// <li>
-  /// CALABASH
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR
   /// </li>
   /// <li>
   /// XCTEST
@@ -8157,10 +8077,6 @@ class ScheduleRunTest {
   /// BUILTIN_FUZZ
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android
-  /// app, interacting with it and capturing screenshots at the same time.
-  /// </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT
   /// </li>
   /// <li>
@@ -8191,16 +8107,7 @@ class ScheduleRunTest {
   /// APPIUM_WEB_RUBY
   /// </li>
   /// <li>
-  /// CALABASH
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR
   /// </li>
   /// <li>
   /// XCTEST
@@ -8223,17 +8130,6 @@ class ScheduleRunTest {
   /// <li>
   /// <code>app_performance_monitoring</code>: Performance monitoring is enabled
   /// by default. Set this parameter to false to disable it.
-  /// </li>
-  /// </ul>
-  /// For Calabash tests:
-  ///
-  /// <ul>
-  /// <li>
-  /// profile: A cucumber profile (for example, <code>my_profile_name</code>).
-  /// </li>
-  /// <li>
-  /// tags: You can limit execution to features or scenarios that have (or don't
-  /// have) certain tags (for example, @smoke or @smoke,~@wip).
   /// </li>
   /// </ul>
   /// For Appium tests (all types):
@@ -8271,18 +8167,6 @@ class ScheduleRunTest {
   /// <li>
   /// seed: A seed to use for randomizing the UI fuzz test. Using the same seed
   /// value between tests ensures identical event sequences.
-  /// </li>
-  /// </ul>
-  /// For Explorer tests:
-  ///
-  /// <ul>
-  /// <li>
-  /// username: A user name to use if the Explorer encounters a login form. If not
-  /// supplied, no user name is inserted.
-  /// </li>
-  /// <li>
-  /// password: A password to use if the Explorer encounters a login form. If not
-  /// supplied, no password is inserted.
   /// </li>
   /// </ul>
   /// For Instrumentation:
@@ -8323,25 +8207,6 @@ class ScheduleRunTest {
   /// <li>
   /// Running multiple tests:
   /// <code>LoginTests/testValid,LoginTests/testInvalid</code>
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// For UIAutomator:
-  ///
-  /// <ul>
-  /// <li>
-  /// filter: A test filter string. Examples:
-  ///
-  /// <ul>
-  /// <li>
-  /// Running a single test case: <code>com.android.abc.Test1</code>
-  /// </li>
-  /// <li>
-  /// Running a single test: <code>com.android.abc.Test1#smoke</code>
-  /// </li>
-  /// <li>
-  /// Running multiple tests:
-  /// <code>com.android.abc.Test1,com.android.abc.Test2</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -8532,12 +8397,6 @@ class Suite {
   /// BUILTIN_FUZZ
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER
-  /// <note>
-  /// Only available for Android; an app explorer that traverses an Android app,
-  /// interacting with it and capturing screenshots at the same time.
-  /// </note> </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT
   /// </li>
   /// <li>
@@ -8568,16 +8427,7 @@ class Suite {
   /// APPIUM_WEB_RUBY
   /// </li>
   /// <li>
-  /// CALABASH
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR
   /// </li>
   /// <li>
   /// XCTEST
@@ -8766,12 +8616,6 @@ class Test {
   /// BUILTIN_FUZZ
   /// </li>
   /// <li>
-  /// BUILTIN_EXPLORER
-  /// <note>
-  /// For Android, an app explorer that traverses an Android app, interacting with
-  /// it and capturing screenshots at the same time.
-  /// </note> </li>
-  /// <li>
   /// APPIUM_JAVA_JUNIT
   /// </li>
   /// <li>
@@ -8802,16 +8646,7 @@ class Test {
   /// APPIUM_WEB_RUBY
   /// </li>
   /// <li>
-  /// CALABASH
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR
   /// </li>
   /// <li>
   /// XCTEST
@@ -9099,8 +8934,6 @@ class TestGridVpcConfig {
 
 enum TestType {
   builtinFuzz('BUILTIN_FUZZ'),
-  builtinExplorer('BUILTIN_EXPLORER'),
-  webPerformanceProfile('WEB_PERFORMANCE_PROFILE'),
   appiumJavaJunit('APPIUM_JAVA_JUNIT'),
   appiumJavaTestng('APPIUM_JAVA_TESTNG'),
   appiumPython('APPIUM_PYTHON'),
@@ -9111,14 +8944,9 @@ enum TestType {
   appiumWebPython('APPIUM_WEB_PYTHON'),
   appiumWebNode('APPIUM_WEB_NODE'),
   appiumWebRuby('APPIUM_WEB_RUBY'),
-  calabash('CALABASH'),
   instrumentation('INSTRUMENTATION'),
-  uiautomation('UIAUTOMATION'),
-  uiautomator('UIAUTOMATOR'),
   xctest('XCTEST'),
   xctestUi('XCTEST_UI'),
-  remoteAccessRecord('REMOTE_ACCESS_RECORD'),
-  remoteAccessReplay('REMOTE_ACCESS_REPLAY'),
   ;
 
   final String value;
@@ -9429,16 +9257,7 @@ class Upload {
   /// APPIUM_WEB_RUBY_TEST_PACKAGE
   /// </li>
   /// <li>
-  /// CALABASH_TEST_PACKAGE
-  /// </li>
-  /// <li>
   /// INSTRUMENTATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATION_TEST_PACKAGE
-  /// </li>
-  /// <li>
-  /// UIAUTOMATOR_TEST_PACKAGE
   /// </li>
   /// <li>
   /// XCTEST_TEST_PACKAGE

@@ -2550,9 +2550,10 @@ class StorageGateway {
     return DescribeGatewayInformationOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns your gateway's weekly maintenance start time including the day and
-  /// time of the week. Note that values are in terms of the gateway's time
-  /// zone.
+  /// Returns your gateway's maintenance window schedule information, with
+  /// values for monthly or weekly cadence, specific day and time to begin
+  /// maintenance, and which types of updates to apply. Time values returned are
+  /// for the gateway's time zone.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -4475,9 +4476,9 @@ class StorageGateway {
     return UpdateFileSystemAssociationOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates a gateway's metadata, which includes the gateway's name and time
-  /// zone. To specify which gateway to update, use the Amazon Resource Name
-  /// (ARN) of the gateway in your request.
+  /// Updates a gateway's metadata, which includes the gateway's name, time
+  /// zone, and metadata cache size. To specify which gateway to update, use the
+  /// Amazon Resource Name (ARN) of the gateway in your request.
   /// <note>
   /// For gateways activated after September 2, 2015, the gateway's ARN contains
   /// the gateway ID rather than the gateway name. However, changing the name of
@@ -4496,7 +4497,12 @@ class StorageGateway {
   /// is Amazon CloudWatch Logs?</a>
   ///
   /// Parameter [gatewayCapacity] :
-  /// Specifies the size of the gateway's metadata cache.
+  /// Specifies the size of the gateway's metadata cache. This setting impacts
+  /// gateway performance and hardware recommendations. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html">Performance
+  /// guidance for gateways with multiple file shares</a> in the <i>Amazon S3
+  /// File Gateway User Guide</i>.
   ///
   /// Parameter [gatewayTimezone] :
   /// A value that indicates the time zone of the gateway.
@@ -4571,12 +4577,37 @@ class StorageGateway {
     return UpdateGatewaySoftwareNowOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates a gateway's weekly maintenance start time information, including
-  /// day and time of the week. The maintenance time is the time in your
-  /// gateway's time zone.
+  /// Updates a gateway's maintenance window schedule, with settings for monthly
+  /// or weekly cadence, specific day and time to begin maintenance, and which
+  /// types of updates to apply. Time configuration uses the gateway's time
+  /// zone. You can pass values for a complete maintenance schedule, or update
+  /// policy, or both. Previous values will persist for whichever setting you
+  /// choose not to modify. If an incomplete or invalid maintenance schedule is
+  /// passed, the entire request will be rejected with an error and no changes
+  /// will occur.
+  ///
+  /// A complete maintenance schedule must include values for <i>both</i>
+  /// <code>MinuteOfHour</code> and <code>HourOfDay</code>, and <i>either</i>
+  /// <code>DayOfMonth</code> <i>or</i> <code>DayOfWeek</code>.
+  /// <note>
+  /// We recommend keeping maintenance updates turned on, except in specific use
+  /// cases where the brief disruptions caused by updating the gateway could
+  /// critically impact your deployment.
+  /// </note>
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  ///
+  /// Parameter [dayOfMonth] :
+  /// The day of the month component of the maintenance start time represented
+  /// as an ordinal number from 1 to 28, where 1 represents the first day of the
+  /// month. It is not possible to set the maintenance schedule to start on days
+  /// 29 through 31.
+  ///
+  /// Parameter [dayOfWeek] :
+  /// The day of the week component of the maintenance start time week
+  /// represented as an ordinal number from 0 to 6, where 0 represents Sunday
+  /// and 6 represents Saturday.
   ///
   /// Parameter [hourOfDay] :
   /// The hour component of the maintenance start time represented as <i>hh</i>,
@@ -4588,36 +4619,25 @@ class StorageGateway {
   /// <i>mm</i>, where <i>mm</i> is the minute (00 to 59). The minute of the
   /// hour is in the time zone of the gateway.
   ///
-  /// Parameter [dayOfMonth] :
-  /// The day of the month component of the maintenance start time represented
-  /// as an ordinal number from 1 to 28, where 1 represents the first day of the
-  /// month and 28 represents the last day of the month.
+  /// Parameter [softwareUpdatePreferences] :
+  /// A set of variables indicating the software update preferences for the
+  /// gateway.
   ///
-  /// Parameter [dayOfWeek] :
-  /// The day of the week component of the maintenance start time week
-  /// represented as an ordinal number from 0 to 6, where 0 represents Sunday
-  /// and 6 Saturday.
+  /// Includes <code>AutomaticUpdatePolicy</code> field with the following
+  /// inputs:
+  ///
+  /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
+  ///
+  /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway
+  /// maintenance updates.
   Future<UpdateMaintenanceStartTimeOutput> updateMaintenanceStartTime({
     required String gatewayARN,
-    required int hourOfDay,
-    required int minuteOfHour,
     int? dayOfMonth,
     int? dayOfWeek,
+    int? hourOfDay,
+    int? minuteOfHour,
+    SoftwareUpdatePreferences? softwareUpdatePreferences,
   }) async {
-    _s.validateNumRange(
-      'hourOfDay',
-      hourOfDay,
-      0,
-      23,
-      isRequired: true,
-    );
-    _s.validateNumRange(
-      'minuteOfHour',
-      minuteOfHour,
-      0,
-      59,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'dayOfMonth',
       dayOfMonth,
@@ -4629,6 +4649,18 @@ class StorageGateway {
       dayOfWeek,
       0,
       6,
+    );
+    _s.validateNumRange(
+      'hourOfDay',
+      hourOfDay,
+      0,
+      23,
+    );
+    _s.validateNumRange(
+      'minuteOfHour',
+      minuteOfHour,
+      0,
+      59,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4642,10 +4674,12 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'HourOfDay': hourOfDay,
-        'MinuteOfHour': minuteOfHour,
         if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
         if (dayOfWeek != null) 'DayOfWeek': dayOfWeek,
+        if (hourOfDay != null) 'HourOfDay': hourOfDay,
+        if (minuteOfHour != null) 'MinuteOfHour': minuteOfHour,
+        if (softwareUpdatePreferences != null)
+          'SoftwareUpdatePreferences': softwareUpdatePreferences,
       },
     );
 
@@ -5142,12 +5176,16 @@ class StorageGateway {
     return UpdateSMBLocalGroupsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates the SMB security strategy on a file gateway. This action is only
-  /// supported in file gateways.
+  /// Updates the SMB security strategy level for an Amazon S3 file gateway.
+  /// This action is only supported for Amazon S3 file gateways.
   /// <note>
-  /// This API is called Security level in the User Guide.
+  /// For information about configuring this setting using the Amazon Web
+  /// Services console, see <a
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/security-strategy.html">Setting
+  /// a security level for your gateway</a> in the <i>Amazon S3 File Gateway
+  /// User Guide</i>.
   ///
-  /// A higher security level can affect performance of the gateway.
+  /// A higher security strategy level can affect performance of the gateway.
   /// </note>
   ///
   /// May throw [InvalidGatewayRequestException].
@@ -5156,21 +5194,27 @@ class StorageGateway {
   /// Parameter [sMBSecurityStrategy] :
   /// Specifies the type of security strategy.
   ///
-  /// ClientSpecified: if you use this option, requests are established based on
-  /// what is negotiated by the client. This option is recommended when you want
-  /// to maximize compatibility across different clients in your environment.
-  /// Supported only in S3 File Gateway.
+  /// <code>ClientSpecified</code>: If you choose this option, requests are
+  /// established based on what is negotiated by the client. This option is
+  /// recommended when you want to maximize compatibility across different
+  /// clients in your environment. Supported only for S3 File Gateway.
   ///
-  /// MandatorySigning: if you use this option, file gateway only allows
-  /// connections from SMBv2 or SMBv3 clients that have signing enabled. This
-  /// option works with SMB clients on Microsoft Windows Vista, Windows Server
-  /// 2008 or newer.
+  /// <code>MandatorySigning</code>: If you choose this option, File Gateway
+  /// only allows connections from SMBv2 or SMBv3 clients that have signing
+  /// enabled. This option works with SMB clients on Microsoft Windows Vista,
+  /// Windows Server 2008 or newer.
   ///
-  /// MandatoryEncryption: if you use this option, file gateway only allows
-  /// connections from SMBv3 clients that have encryption enabled. This option
-  /// is highly recommended for environments that handle sensitive data. This
-  /// option works with SMB clients on Microsoft Windows 8, Windows Server 2012
-  /// or newer.
+  /// <code>MandatoryEncryption</code>: If you choose this option, File Gateway
+  /// only allows connections from SMBv3 clients that have encryption enabled.
+  /// This option is recommended for environments that handle sensitive data.
+  /// This option works with SMB clients on Microsoft Windows 8, Windows Server
+  /// 2012 or newer.
+  ///
+  /// <code>MandatoryEncryptionNoAes128</code>: If you choose this option, File
+  /// Gateway only allows connections from SMBv3 clients that use 256-bit AES
+  /// encryption algorithms. 128-bit algorithms are not allowed. This option is
+  /// recommended for environments that handle sensitive data. It works with SMB
+  /// clients on Microsoft Windows 8, Windows Server 2012, or later.
   Future<UpdateSMBSecurityStrategyOutput> updateSMBSecurityStrategy({
     required String gatewayARN,
     required SMBSecurityStrategy sMBSecurityStrategy,
@@ -5573,6 +5617,21 @@ class AutomaticTapeCreationRule {
       if (worm != null) 'Worm': worm,
     };
   }
+}
+
+enum AutomaticUpdatePolicy {
+  allVersions('ALL_VERSIONS'),
+  emergencyVersionsOnly('EMERGENCY_VERSIONS_ONLY'),
+  ;
+
+  final String value;
+
+  const AutomaticUpdatePolicy(this.value);
+
+  static AutomaticUpdatePolicy fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AutomaticUpdatePolicy'));
 }
 
 enum AvailabilityMonitorTestStatus {
@@ -6643,6 +6702,9 @@ class DescribeGatewayInformationOutput {
 ///
 /// <ul>
 /// <li>
+/// <a>DescribeMaintenanceStartTimeOutput$SoftwareUpdatePreferences</a>
+/// </li>
+/// <li>
 /// <a>DescribeMaintenanceStartTimeOutput$DayOfMonth</a>
 /// </li>
 /// <li>
@@ -6661,7 +6723,8 @@ class DescribeGatewayInformationOutput {
 class DescribeMaintenanceStartTimeOutput {
   /// The day of the month component of the maintenance start time represented as
   /// an ordinal number from 1 to 28, where 1 represents the first day of the
-  /// month and 28 represents the last day of the month.
+  /// month. It is not possible to set the maintenance schedule to start on days
+  /// 29 through 31.
   final int? dayOfMonth;
 
   /// An ordinal number between 0 and 6 that represents the day of the week, where
@@ -6680,6 +6743,17 @@ class DescribeMaintenanceStartTimeOutput {
   /// time zone of the gateway.
   final int? minuteOfHour;
 
+  /// A set of variables indicating the software update preferences for the
+  /// gateway.
+  ///
+  /// Includes <code>AutomaticUpdatePolicy</code> field with the following inputs:
+  ///
+  /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
+  ///
+  /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance
+  /// updates.
+  final SoftwareUpdatePreferences? softwareUpdatePreferences;
+
   /// A value that indicates the time zone that is set for the gateway. The start
   /// time and day of week specified should be in the time zone of the gateway.
   final String? timezone;
@@ -6690,6 +6764,7 @@ class DescribeMaintenanceStartTimeOutput {
     this.gatewayARN,
     this.hourOfDay,
     this.minuteOfHour,
+    this.softwareUpdatePreferences,
     this.timezone,
   });
 
@@ -6701,6 +6776,10 @@ class DescribeMaintenanceStartTimeOutput {
       gatewayARN: json['GatewayARN'] as String?,
       hourOfDay: json['HourOfDay'] as int?,
       minuteOfHour: json['MinuteOfHour'] as int?,
+      softwareUpdatePreferences: json['SoftwareUpdatePreferences'] != null
+          ? SoftwareUpdatePreferences.fromJson(
+              json['SoftwareUpdatePreferences'] as Map<String, dynamic>)
+          : null,
       timezone: json['Timezone'] as String?,
     );
   }
@@ -6808,24 +6887,24 @@ class DescribeSMBSettingsOutput {
   /// in your environment. Supported only for S3 File Gateway.
   /// </li>
   /// <li>
-  /// <code>MandatorySigning</code>: If you use this option, File Gateway only
+  /// <code>MandatorySigning</code>: If you choose this option, File Gateway only
   /// allows connections from SMBv2 or SMBv3 clients that have signing turned on.
   /// This option works with SMB clients on Microsoft Windows Vista, Windows
   /// Server 2008, or later.
   /// </li>
   /// <li>
-  /// <code>MandatoryEncryption</code>: If you use this option, File Gateway only
-  /// allows connections from SMBv3 clients that have encryption turned on. Both
-  /// 256-bit and 128-bit algorithms are allowed. This option is recommended for
-  /// environments that handle sensitive data. It works with SMB clients on
+  /// <code>MandatoryEncryption</code>: If you choose this option, File Gateway
+  /// only allows connections from SMBv3 clients that have encryption turned on.
+  /// Both 256-bit and 128-bit algorithms are allowed. This option is recommended
+  /// for environments that handle sensitive data. It works with SMB clients on
   /// Microsoft Windows 8, Windows Server 2012, or later.
   /// </li>
   /// <li>
-  /// <code>EnforceEncryption</code>: If you use this option, File Gateway only
-  /// allows connections from SMBv3 clients that use 256-bit AES encryption
-  /// algorithms. 128-bit algorithms are not allowed. This option is recommended
-  /// for environments that handle sensitive data. It works with SMB clients on
-  /// Microsoft Windows 8, Windows Server 2012, or later.
+  /// <code>MandatoryEncryptionNoAes128</code>: If you choose this option, File
+  /// Gateway only allows connections from SMBv3 clients that use 256-bit AES
+  /// encryption algorithms. 128-bit algorithms are not allowed. This option is
+  /// recommended for environments that handle sensitive data. It works with SMB
+  /// clients on Microsoft Windows 8, Windows Server 2012, or later.
   /// </li>
   /// </ul>
   final SMBSecurityStrategy? sMBSecurityStrategy;
@@ -8829,6 +8908,37 @@ class ShutdownGatewayOutput {
     return ShutdownGatewayOutput(
       gatewayARN: json['GatewayARN'] as String?,
     );
+  }
+}
+
+/// A set of variables indicating the software update preferences for the
+/// gateway.
+class SoftwareUpdatePreferences {
+  /// Indicates the automatic update policy for a gateway.
+  ///
+  /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
+  ///
+  /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance
+  /// updates.
+  final AutomaticUpdatePolicy? automaticUpdatePolicy;
+
+  SoftwareUpdatePreferences({
+    this.automaticUpdatePolicy,
+  });
+
+  factory SoftwareUpdatePreferences.fromJson(Map<String, dynamic> json) {
+    return SoftwareUpdatePreferences(
+      automaticUpdatePolicy: (json['AutomaticUpdatePolicy'] as String?)
+          ?.let(AutomaticUpdatePolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticUpdatePolicy = this.automaticUpdatePolicy;
+    return {
+      if (automaticUpdatePolicy != null)
+        'AutomaticUpdatePolicy': automaticUpdatePolicy.value,
+    };
   }
 }
 

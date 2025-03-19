@@ -170,10 +170,8 @@ class SESV2 {
   /// Create an event destination. <i>Events</i> include message sends,
   /// deliveries, opens, clicks, bounces, and complaints. <i>Event
   /// destinations</i> are places that you can send information about these
-  /// events to. For example, you can send event data to Amazon SNS to receive
-  /// notifications when you receive bounces or complaints, or you can use
-  /// Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term
-  /// storage.
+  /// events to. For example, you can send event data to Amazon EventBridge and
+  /// associate a rule to send the event to the specified target.
   ///
   /// A single configuration set can include more than one event destination.
   ///
@@ -720,9 +718,8 @@ class SESV2 {
   /// <i>Events</i> include message sends, deliveries, opens, clicks, bounces,
   /// and complaints. <i>Event destinations</i> are places that you can send
   /// information about these events to. For example, you can send event data to
-  /// Amazon SNS to receive notifications when you receive bounces or
-  /// complaints, or you can use Amazon Kinesis Data Firehose to stream data to
-  /// Amazon S3 for long-term storage.
+  /// Amazon EventBridge and associate a rule to send the event to the specified
+  /// target.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
@@ -1021,9 +1018,8 @@ class SESV2 {
   /// <i>Events</i> include message sends, deliveries, opens, clicks, bounces,
   /// and complaints. <i>Event destinations</i> are places that you can send
   /// information about these events to. For example, you can send event data to
-  /// Amazon SNS to receive notifications when you receive bounces or
-  /// complaints, or you can use Amazon Kinesis Data Firehose to stream data to
-  /// Amazon S3 for long-term storage.
+  /// Amazon EventBridge and associate a rule to send the event to the specified
+  /// target.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
@@ -2108,9 +2104,6 @@ class SESV2 {
   /// Parameter [mailType] :
   /// The type of email your account will send.
   ///
-  /// Parameter [useCaseDescription] :
-  /// A description of the types of email that you plan to send.
-  ///
   /// Parameter [websiteURL] :
   /// The URL of your website. This information helps us better understand the
   /// type of content that you plan to send.
@@ -2134,23 +2127,26 @@ class SESV2 {
   /// access. When your account has production access, you can send email to any
   /// address. The sending quota and maximum sending rate for your account vary
   /// based on your specific use case.
+  ///
+  /// Parameter [useCaseDescription] :
+  /// A description of the types of email that you plan to send.
   Future<void> putAccountDetails({
     required MailType mailType,
-    required String useCaseDescription,
     required String websiteURL,
     List<String>? additionalContactEmailAddresses,
     ContactLanguage? contactLanguage,
     bool? productionAccessEnabled,
+    String? useCaseDescription,
   }) async {
     final $payload = <String, dynamic>{
       'MailType': mailType.value,
-      'UseCaseDescription': useCaseDescription,
       'WebsiteURL': websiteURL,
       if (additionalContactEmailAddresses != null)
         'AdditionalContactEmailAddresses': additionalContactEmailAddresses,
       if (contactLanguage != null) 'ContactLanguage': contactLanguage.value,
       if (productionAccessEnabled != null)
         'ProductionAccessEnabled': productionAccessEnabled,
+      if (useCaseDescription != null) 'UseCaseDescription': useCaseDescription,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3275,9 +3271,8 @@ class SESV2 {
   /// <i>Events</i> include message sends, deliveries, opens, clicks, bounces,
   /// and complaints. <i>Event destinations</i> are places that you can send
   /// information about these events to. For example, you can send event data to
-  /// Amazon SNS to receive notifications when you receive bounces or
-  /// complaints, or you can use Amazon Kinesis Data Firehose to stream data to
-  /// Amazon S3 for long-term storage.
+  /// Amazon EventBridge and associate a rule to send the event to the specified
+  /// target.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
@@ -5762,6 +5757,32 @@ enum EngagementEventType {
           throw Exception('$value is not known in enum EngagementEventType'));
 }
 
+/// An object that defines an Amazon EventBridge destination for email events.
+/// You can use Amazon EventBridge to send notifications when certain email
+/// events occur.
+class EventBridgeDestination {
+  /// The Amazon Resource Name (ARN) of the Amazon EventBridge bus to publish
+  /// email events to. Only the default bus is supported.
+  final String eventBusArn;
+
+  EventBridgeDestination({
+    required this.eventBusArn,
+  });
+
+  factory EventBridgeDestination.fromJson(Map<String, dynamic> json) {
+    return EventBridgeDestination(
+      eventBusArn: json['EventBusArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventBusArn = this.eventBusArn;
+    return {
+      'EventBusArn': eventBusArn,
+    };
+  }
+}
+
 /// In the Amazon SES API v2, <i>events</i> include message sends, deliveries,
 /// opens, clicks, bounces, complaints and delivery delays. <i>Event
 /// destinations</i> are places that you can send information about these events
@@ -5846,6 +5867,11 @@ class EventDestination {
   /// destination is disabled, events aren't sent to the specified destinations.
   final bool? enabled;
 
+  /// An object that defines an Amazon EventBridge destination for email events.
+  /// You can use Amazon EventBridge to send notifications when certain email
+  /// events occur.
+  final EventBridgeDestination? eventBridgeDestination;
+
   /// An object that defines an Amazon Kinesis Data Firehose destination for email
   /// events. You can use Amazon Kinesis Data Firehose to stream data to other
   /// services, such as Amazon S3 and Amazon Redshift.
@@ -5860,7 +5886,7 @@ class EventDestination {
   final PinpointDestination? pinpointDestination;
 
   /// An object that defines an Amazon SNS destination for email events. You can
-  /// use Amazon SNS to send notification when certain email events occur.
+  /// use Amazon SNS to send notifications when certain email events occur.
   final SnsDestination? snsDestination;
 
   EventDestination({
@@ -5868,6 +5894,7 @@ class EventDestination {
     required this.name,
     this.cloudWatchDestination,
     this.enabled,
+    this.eventBridgeDestination,
     this.kinesisFirehoseDestination,
     this.pinpointDestination,
     this.snsDestination,
@@ -5885,6 +5912,10 @@ class EventDestination {
               json['CloudWatchDestination'] as Map<String, dynamic>)
           : null,
       enabled: json['Enabled'] as bool?,
+      eventBridgeDestination: json['EventBridgeDestination'] != null
+          ? EventBridgeDestination.fromJson(
+              json['EventBridgeDestination'] as Map<String, dynamic>)
+          : null,
       kinesisFirehoseDestination: json['KinesisFirehoseDestination'] != null
           ? KinesisFirehoseDestination.fromJson(
               json['KinesisFirehoseDestination'] as Map<String, dynamic>)
@@ -5919,6 +5950,11 @@ class EventDestinationDefinition {
   /// destination is disabled, events aren't sent to the specified destinations.
   final bool? enabled;
 
+  /// An object that defines an Amazon EventBridge destination for email events.
+  /// You can use Amazon EventBridge to send notifications when certain email
+  /// events occur.
+  final EventBridgeDestination? eventBridgeDestination;
+
   /// An object that defines an Amazon Kinesis Data Firehose destination for email
   /// events. You can use Amazon Kinesis Data Firehose to stream data to other
   /// services, such as Amazon S3 and Amazon Redshift.
@@ -5937,12 +5973,13 @@ class EventDestinationDefinition {
   final PinpointDestination? pinpointDestination;
 
   /// An object that defines an Amazon SNS destination for email events. You can
-  /// use Amazon SNS to send notification when certain email events occur.
+  /// use Amazon SNS to send notifications when certain email events occur.
   final SnsDestination? snsDestination;
 
   EventDestinationDefinition({
     this.cloudWatchDestination,
     this.enabled,
+    this.eventBridgeDestination,
     this.kinesisFirehoseDestination,
     this.matchingEventTypes,
     this.pinpointDestination,
@@ -5952,6 +5989,7 @@ class EventDestinationDefinition {
   Map<String, dynamic> toJson() {
     final cloudWatchDestination = this.cloudWatchDestination;
     final enabled = this.enabled;
+    final eventBridgeDestination = this.eventBridgeDestination;
     final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
     final matchingEventTypes = this.matchingEventTypes;
     final pinpointDestination = this.pinpointDestination;
@@ -5960,6 +5998,8 @@ class EventDestinationDefinition {
       if (cloudWatchDestination != null)
         'CloudWatchDestination': cloudWatchDestination,
       if (enabled != null) 'Enabled': enabled,
+      if (eventBridgeDestination != null)
+        'EventBridgeDestination': eventBridgeDestination,
       if (kinesisFirehoseDestination != null)
         'KinesisFirehoseDestination': kinesisFirehoseDestination,
       if (matchingEventTypes != null)
@@ -9677,7 +9717,7 @@ class SendingOptions {
 }
 
 /// An object that defines an Amazon SNS destination for email events. You can
-/// use Amazon SNS to send notification when certain email events occur.
+/// use Amazon SNS to send notifications when certain email events occur.
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email
   /// events to. For more information about Amazon SNS topics, see the <a

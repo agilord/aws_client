@@ -3,10 +3,10 @@
 **Generated Dart library from API specification**
 
 *About the service:*
-For more information about AWS CloudHSM, see <a
-href="https://aws.amazon.com/cloudhsm/">AWS CloudHSM</a> and the <a
-href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
-User Guide</a>.
+For more information about CloudHSM, see <a
+href="https://aws.amazon.com/cloudhsm/">CloudHSM</a> and the <a
+href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/"> CloudHSM User
+Guide</a>.
 
 ## Links
 

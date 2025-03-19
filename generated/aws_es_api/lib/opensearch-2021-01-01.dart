@@ -299,6 +299,9 @@ class OpenSearchService {
   /// across the domains owned by an account within an Amazon Web Services
   /// Region.
   ///
+  /// Parameter [aIMLOptions] :
+  /// Options for all machine learning features for the specified domain.
+  ///
   /// Parameter [accessPolicies] :
   /// Identity and Access Management (IAM) policy document specifying the access
   /// policies for the new domain.
@@ -411,6 +414,7 @@ class OpenSearchService {
   /// your Amazon OpenSearch Service domains using a VPC</a>.
   Future<CreateDomainResponse> createDomain({
     required String domainName,
+    AIMLOptionsInput? aIMLOptions,
     String? accessPolicies,
     Map<String, String>? advancedOptions,
     AdvancedSecurityOptionsInput? advancedSecurityOptions,
@@ -432,6 +436,7 @@ class OpenSearchService {
   }) async {
     final $payload = <String, dynamic>{
       'DomainName': domainName,
+      if (aIMLOptions != null) 'AIMLOptions': aIMLOptions,
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
       if (advancedSecurityOptions != null)
@@ -2288,7 +2293,7 @@ class OpenSearchService {
   /// A new description of the data source.
   ///
   /// Parameter [status] :
-  /// The status of the data source update request.
+  /// The status of the data source update.
   Future<UpdateDataSourceResponse> updateDataSource({
     required DataSourceType dataSourceType,
     required String domainName,
@@ -2323,6 +2328,9 @@ class OpenSearchService {
   ///
   /// Parameter [domainName] :
   /// The name of the domain that you're updating.
+  ///
+  /// Parameter [aIMLOptions] :
+  /// Options for all machine learning features for the specified domain.
   ///
   /// Parameter [accessPolicies] :
   /// Identity and Access Management (IAM) access policy as a JSON-formatted
@@ -2433,6 +2441,7 @@ class OpenSearchService {
   /// your Amazon OpenSearch Service domains using a VPC</a>.
   Future<UpdateDomainConfigResponse> updateDomainConfig({
     required String domainName,
+    AIMLOptionsInput? aIMLOptions,
     String? accessPolicies,
     Map<String, String>? advancedOptions,
     AdvancedSecurityOptionsInput? advancedSecurityOptions,
@@ -2453,6 +2462,7 @@ class OpenSearchService {
     VPCOptions? vPCOptions,
   }) async {
     final $payload = <String, dynamic>{
+      if (aIMLOptions != null) 'AIMLOptions': aIMLOptions,
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
       if (advancedSecurityOptions != null)
@@ -2692,6 +2702,75 @@ class OpenSearchService {
       exceptionFnMap: _exceptionFns,
     );
     return UpgradeDomainResponse.fromJson(response);
+  }
+}
+
+/// Container for parameters required to enable all machine learning features.
+class AIMLOptionsInput {
+  /// Container for parameters required for natural language query generation on
+  /// the specified domain.
+  final NaturalLanguageQueryGenerationOptionsInput?
+      naturalLanguageQueryGenerationOptions;
+
+  AIMLOptionsInput({
+    this.naturalLanguageQueryGenerationOptions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final naturalLanguageQueryGenerationOptions =
+        this.naturalLanguageQueryGenerationOptions;
+    return {
+      if (naturalLanguageQueryGenerationOptions != null)
+        'NaturalLanguageQueryGenerationOptions':
+            naturalLanguageQueryGenerationOptions,
+    };
+  }
+}
+
+/// Container for parameters representing the state of machine learning features
+/// on the specified domain.
+class AIMLOptionsOutput {
+  /// Container for parameters required for natural language query generation on
+  /// the specified domain.
+  final NaturalLanguageQueryGenerationOptionsOutput?
+      naturalLanguageQueryGenerationOptions;
+
+  AIMLOptionsOutput({
+    this.naturalLanguageQueryGenerationOptions,
+  });
+
+  factory AIMLOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return AIMLOptionsOutput(
+      naturalLanguageQueryGenerationOptions:
+          json['NaturalLanguageQueryGenerationOptions'] != null
+              ? NaturalLanguageQueryGenerationOptionsOutput.fromJson(
+                  json['NaturalLanguageQueryGenerationOptions']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+}
+
+/// The status of machine learning options on the specified domain.
+class AIMLOptionsStatus {
+  /// Machine learning options on the specified domain.
+  final AIMLOptionsOutput? options;
+  final OptionStatus? status;
+
+  AIMLOptionsStatus({
+    this.options,
+    this.status,
+  });
+
+  factory AIMLOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return AIMLOptionsStatus(
+      options: json['Options'] != null
+          ? AIMLOptionsOutput.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? OptionStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
   }
 }
 
@@ -2952,6 +3031,10 @@ class AdvancedSecurityOptions {
   /// True if the internal user database is enabled.
   final bool? internalUserDatabaseEnabled;
 
+  /// Container for information about the JWT configuration of the Amazon
+  /// OpenSearch Service.
+  final JWTOptionsOutput? jWTOptions;
+
   /// Container for information about the SAML configuration for OpenSearch
   /// Dashboards.
   final SAMLOptionsOutput? sAMLOptions;
@@ -2961,6 +3044,7 @@ class AdvancedSecurityOptions {
     this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
+    this.jWTOptions,
     this.sAMLOptions,
   });
 
@@ -2971,6 +3055,10 @@ class AdvancedSecurityOptions {
       anonymousAuthEnabled: json['AnonymousAuthEnabled'] as bool?,
       enabled: json['Enabled'] as bool?,
       internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
+      jWTOptions: json['JWTOptions'] != null
+          ? JWTOptionsOutput.fromJson(
+              json['JWTOptions'] as Map<String, dynamic>)
+          : null,
       sAMLOptions: json['SAMLOptions'] != null
           ? SAMLOptionsOutput.fromJson(
               json['SAMLOptions'] as Map<String, dynamic>)
@@ -2996,6 +3084,10 @@ class AdvancedSecurityOptionsInput {
   /// True to enable the internal user database.
   final bool? internalUserDatabaseEnabled;
 
+  /// Container for information about the JWT configuration of the Amazon
+  /// OpenSearch Service.
+  final JWTOptionsInput? jWTOptions;
+
   /// Container for information about the master user.
   final MasterUserOptions? masterUserOptions;
 
@@ -3007,6 +3099,7 @@ class AdvancedSecurityOptionsInput {
     this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
+    this.jWTOptions,
     this.masterUserOptions,
     this.sAMLOptions,
   });
@@ -3015,6 +3108,7 @@ class AdvancedSecurityOptionsInput {
     final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
     final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
+    final jWTOptions = this.jWTOptions;
     final masterUserOptions = this.masterUserOptions;
     final sAMLOptions = this.sAMLOptions;
     return {
@@ -3023,6 +3117,7 @@ class AdvancedSecurityOptionsInput {
       if (enabled != null) 'Enabled': enabled,
       if (internalUserDatabaseEnabled != null)
         'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
+      if (jWTOptions != null) 'JWTOptions': jWTOptions,
       if (masterUserOptions != null) 'MasterUserOptions': masterUserOptions,
       if (sAMLOptions != null) 'SAMLOptions': sAMLOptions,
     };
@@ -5012,6 +5107,9 @@ class DissociatePackageResponse {
 
 /// Container for the configuration of an OpenSearch Service domain.
 class DomainConfig {
+  /// Container for parameters required to enable all machine learning features.
+  final AIMLOptionsStatus? aIMLOptions;
+
   /// Specifies the access policies for the domain.
   final AccessPoliciesStatus? accessPolicies;
 
@@ -5080,6 +5178,7 @@ class DomainConfig {
   final VPCDerivedInfoStatus? vPCOptions;
 
   DomainConfig({
+    this.aIMLOptions,
     this.accessPolicies,
     this.advancedOptions,
     this.advancedSecurityOptions,
@@ -5103,6 +5202,10 @@ class DomainConfig {
 
   factory DomainConfig.fromJson(Map<String, dynamic> json) {
     return DomainConfig(
+      aIMLOptions: json['AIMLOptions'] != null
+          ? AIMLOptionsStatus.fromJson(
+              json['AIMLOptions'] as Map<String, dynamic>)
+          : null,
       accessPolicies: json['AccessPolicies'] != null
           ? AccessPoliciesStatus.fromJson(
               json['AccessPolicies'] as Map<String, dynamic>)
@@ -5585,6 +5688,9 @@ class DomainStatus {
   /// same account within an Amazon Web Services Region.
   final String domainName;
 
+  /// Container for parameters required to enable all machine learning features.
+  final AIMLOptionsOutput? aIMLOptions;
+
   /// Identity and Access Management (IAM) policy document specifying the access
   /// policies for the domain.
   final String? accessPolicies;
@@ -5702,6 +5808,7 @@ class DomainStatus {
     required this.clusterConfig,
     required this.domainId,
     required this.domainName,
+    this.aIMLOptions,
     this.accessPolicies,
     this.advancedOptions,
     this.advancedSecurityOptions,
@@ -5739,6 +5846,10 @@ class DomainStatus {
           ClusterConfig.fromJson(json['ClusterConfig'] as Map<String, dynamic>),
       domainId: json['DomainId'] as String,
       domainName: json['DomainName'] as String,
+      aIMLOptions: json['AIMLOptions'] != null
+          ? AIMLOptionsOutput.fromJson(
+              json['AIMLOptions'] as Map<String, dynamic>)
+          : null,
       accessPolicies: json['AccessPolicies'] as String?,
       advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -6189,7 +6300,7 @@ class GetDataSourceResponse {
   /// The name of the data source.
   final String? name;
 
-  /// The status of the data source response.
+  /// The status of the data source.
   final DataSourceStatus? status;
 
   GetDataSourceResponse({
@@ -6616,6 +6727,73 @@ class InstanceTypeDetails {
       instanceType: (json['InstanceType'] as String?)
           ?.let(OpenSearchPartitionInstanceType.fromString),
       warmEnabled: json['WarmEnabled'] as bool?,
+    );
+  }
+}
+
+/// The JWT authentication and authorization configuration for an Amazon
+/// OpenSearch Service domain.
+class JWTOptionsInput {
+  /// True to enable JWT authentication and authorization for a domain.
+  final bool? enabled;
+
+  /// Element of the JWT assertion used by the cluster to verify JWT signatures.
+  final String? publicKey;
+
+  /// Element of the JWT assertion to use for roles.
+  final String? rolesKey;
+
+  /// Element of the JWT assertion to use for the user name.
+  final String? subjectKey;
+
+  JWTOptionsInput({
+    this.enabled,
+    this.publicKey,
+    this.rolesKey,
+    this.subjectKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final publicKey = this.publicKey;
+    final rolesKey = this.rolesKey;
+    final subjectKey = this.subjectKey;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (publicKey != null) 'PublicKey': publicKey,
+      if (rolesKey != null) 'RolesKey': rolesKey,
+      if (subjectKey != null) 'SubjectKey': subjectKey,
+    };
+  }
+}
+
+/// Describes the JWT options configured for the domain.
+class JWTOptionsOutput {
+  /// True if JWT use is enabled.
+  final bool? enabled;
+
+  /// The key used to verify the signature of incoming JWT requests.
+  final String? publicKey;
+
+  /// The key used for matching the JWT roles attribute.
+  final String? rolesKey;
+
+  /// The key used for matching the JWT subject attribute.
+  final String? subjectKey;
+
+  JWTOptionsOutput({
+    this.enabled,
+    this.publicKey,
+    this.rolesKey,
+    this.subjectKey,
+  });
+
+  factory JWTOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return JWTOptionsOutput(
+      enabled: json['Enabled'] as bool?,
+      publicKey: json['PublicKey'] as String?,
+      rolesKey: json['RolesKey'] as String?,
+      subjectKey: json['SubjectKey'] as String?,
     );
   }
 }
@@ -7188,6 +7366,87 @@ class ModifyingProperties {
       pendingValue: json['PendingValue'] as String?,
       valueType:
           (json['ValueType'] as String?)?.let(PropertyValueType.fromString),
+    );
+  }
+}
+
+enum NaturalLanguageQueryGenerationCurrentState {
+  notEnabled('NOT_ENABLED'),
+  enableComplete('ENABLE_COMPLETE'),
+  enableInProgress('ENABLE_IN_PROGRESS'),
+  enableFailed('ENABLE_FAILED'),
+  disableComplete('DISABLE_COMPLETE'),
+  disableInProgress('DISABLE_IN_PROGRESS'),
+  disableFailed('DISABLE_FAILED'),
+  ;
+
+  final String value;
+
+  const NaturalLanguageQueryGenerationCurrentState(this.value);
+
+  static NaturalLanguageQueryGenerationCurrentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NaturalLanguageQueryGenerationCurrentState'));
+}
+
+enum NaturalLanguageQueryGenerationDesiredState {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const NaturalLanguageQueryGenerationDesiredState(this.value);
+
+  static NaturalLanguageQueryGenerationDesiredState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum NaturalLanguageQueryGenerationDesiredState'));
+}
+
+/// Container for parameters required to enable the natural language query
+/// generation feature.
+class NaturalLanguageQueryGenerationOptionsInput {
+  /// The desired state of the natural language query generation feature. Valid
+  /// values are ENABLED and DISABLED.
+  final NaturalLanguageQueryGenerationDesiredState? desiredState;
+
+  NaturalLanguageQueryGenerationOptionsInput({
+    this.desiredState,
+  });
+
+  Map<String, dynamic> toJson() {
+    final desiredState = this.desiredState;
+    return {
+      if (desiredState != null) 'DesiredState': desiredState.value,
+    };
+  }
+}
+
+/// Container for parameters representing the state of the natural language
+/// query generation feature on the specified domain.
+class NaturalLanguageQueryGenerationOptionsOutput {
+  /// The current state of the natural language query generation feature,
+  /// indicating completion, in progress, or failure.
+  final NaturalLanguageQueryGenerationCurrentState? currentState;
+
+  /// The desired state of the natural language query generation feature. Valid
+  /// values are ENABLED and DISABLED.
+  final NaturalLanguageQueryGenerationDesiredState? desiredState;
+
+  NaturalLanguageQueryGenerationOptionsOutput({
+    this.currentState,
+    this.desiredState,
+  });
+
+  factory NaturalLanguageQueryGenerationOptionsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return NaturalLanguageQueryGenerationOptionsOutput(
+      currentState: (json['CurrentState'] as String?)
+          ?.let(NaturalLanguageQueryGenerationCurrentState.fromString),
+      desiredState: (json['DesiredState'] as String?)
+          ?.let(NaturalLanguageQueryGenerationDesiredState.fromString),
     );
   }
 }

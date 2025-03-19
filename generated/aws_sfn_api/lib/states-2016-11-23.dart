@@ -20,8 +20,8 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-/// Step Functions is a service that lets you coordinate the components of
-/// distributed applications and microservices using visual workflows.
+/// Step Functions coordinates the components of distributed applications and
+/// microservices using visual workflows.
 class SFN {
   final _s.JsonProtocol _protocol;
   SFN({
@@ -71,8 +71,12 @@ class SFN {
   /// </note>
   ///
   /// May throw [ActivityLimitExceeded].
+  /// May throw [ActivityAlreadyExists].
   /// May throw [InvalidName].
   /// May throw [TooManyTags].
+  /// May throw [InvalidEncryptionConfiguration].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the activity to create. This name must be unique for your
@@ -104,6 +108,9 @@ class SFN {
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
   /// A-Z, a-z, - and _.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// Settings to configure server-side encryption.
+  ///
   /// Parameter [tags] :
   /// The list of tags to add to a resource.
   ///
@@ -118,6 +125,7 @@ class SFN {
   /// symbols: <code>_ . : / = + - @</code>.
   Future<CreateActivityOutput> createActivity({
     required String name,
+    EncryptionConfiguration? encryptionConfiguration,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -132,6 +140,8 @@ class SFN {
       headers: headers,
       payload: {
         'name': name,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
         if (tags != null) 'tags': tags,
       },
     );
@@ -151,6 +161,12 @@ class SFN {
   /// If you set the <code>publish</code> parameter of this API action to
   /// <code>true</code>, it publishes version <code>1</code> as the first
   /// revision of the state machine.
+  ///
+  /// For additional control over security, you can encrypt your data using a
+  /// <b>customer-managed key</b> for Step Functions state machines. You can
+  /// configure a symmetric KMS key and data key reuse period when creating or
+  /// updating a <b>State Machine</b>. The execution history and state machine
+  /// definition will be encrypted with the key applied to the State Machine.
   /// <note>
   /// This operation is eventually consistent. The results are best effort and
   /// may not reflect very recent updates and changes.
@@ -159,13 +175,14 @@ class SFN {
   /// won’t create a duplicate resource if it was already created.
   /// <code>CreateStateMachine</code>'s idempotency check is based on the state
   /// machine <code>name</code>, <code>definition</code>, <code>type</code>,
-  /// <code>LoggingConfiguration</code>, and <code>TracingConfiguration</code>.
-  /// The check is also based on the <code>publish</code> and
-  /// <code>versionDescription</code> parameters. If a following request has a
-  /// different <code>roleArn</code> or <code>tags</code>, Step Functions will
-  /// ignore these differences and treat it as an idempotent request of the
-  /// previous. In this case, <code>roleArn</code> and <code>tags</code> will
-  /// not be updated, even if they are different.
+  /// <code>LoggingConfiguration</code>, <code>TracingConfiguration</code>, and
+  /// <code>EncryptionConfiguration</code> The check is also based on the
+  /// <code>publish</code> and <code>versionDescription</code> parameters. If a
+  /// following request has a different <code>roleArn</code> or
+  /// <code>tags</code>, Step Functions will ignore these differences and treat
+  /// it as an idempotent request of the previous. In this case,
+  /// <code>roleArn</code> and <code>tags</code> will not be updated, even if
+  /// they are different.
   /// </note>
   ///
   /// May throw [InvalidArn].
@@ -180,6 +197,9 @@ class SFN {
   /// May throw [TooManyTags].
   /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InvalidEncryptionConfiguration].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [definition] :
   /// The Amazon States Language definition of the state machine. See <a
@@ -214,6 +234,9 @@ class SFN {
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role to use for this state
   /// machine.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// Settings to configure server-side encryption.
   ///
   /// Parameter [loggingConfiguration] :
   /// Defines what execution history events are logged and where they are
@@ -260,6 +283,7 @@ class SFN {
     required String definition,
     required String name,
     required String roleArn,
+    EncryptionConfiguration? encryptionConfiguration,
     LoggingConfiguration? loggingConfiguration,
     bool? publish,
     List<Tag>? tags,
@@ -281,6 +305,8 @@ class SFN {
         'definition': definition,
         'name': name,
         'roleArn': roleArn,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
         if (loggingConfiguration != null)
           'loggingConfiguration': loggingConfiguration,
         if (publish != null) 'publish': publish,
@@ -635,11 +661,22 @@ class SFN {
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution to describe.
+  ///
+  /// Parameter [includedData] :
+  /// If your state machine definition is encrypted with a KMS key, callers must
+  /// have <code>kms:Decrypt</code> permission to decrypt the definition.
+  /// Alternatively, you can call DescribeStateMachine API with
+  /// <code>includedData = METADATA_ONLY</code> to get a successful response
+  /// without the encrypted definition.
   Future<DescribeExecutionOutput> describeExecution({
     required String executionArn,
+    IncludedData? includedData,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -653,6 +690,7 @@ class SFN {
       headers: headers,
       payload: {
         'executionArn': executionArn,
+        if (includedData != null) 'includedData': includedData.value,
       },
     );
 
@@ -739,6 +777,9 @@ class SFN {
   ///
   /// May throw [InvalidArn].
   /// May throw [StateMachineDoesNotExist].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine for which you want the
@@ -748,8 +789,23 @@ class SFN {
   /// that version. The version ARN is a combination of state machine ARN and
   /// the version number separated by a colon (:). For example,
   /// <code>stateMachineARN:1</code>.
+  ///
+  /// Parameter [includedData] :
+  /// If your state machine definition is encrypted with a KMS key, callers must
+  /// have <code>kms:Decrypt</code> permission to decrypt the definition.
+  /// Alternatively, you can call the API with <code>includedData =
+  /// METADATA_ONLY</code> to get a successful response without the encrypted
+  /// definition.
+  /// <note>
+  /// When calling a labelled ARN for an encrypted state machine, the
+  /// <code>includedData = METADATA_ONLY</code> parameter will not apply because
+  /// Step Functions needs to decrypt the entire state machine definition to get
+  /// the Distributed Map state’s definition. In this case, the API caller needs
+  /// to have <code>kms:Decrypt</code> permission.
+  /// </note>
   Future<DescribeStateMachineOutput> describeStateMachine({
     required String stateMachineArn,
+    IncludedData? includedData,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -763,6 +819,7 @@ class SFN {
       headers: headers,
       payload: {
         'stateMachineArn': stateMachineArn,
+        if (includedData != null) 'includedData': includedData.value,
       },
     );
 
@@ -828,13 +885,24 @@ class SFN {
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution you want state machine
   /// information for.
+  ///
+  /// Parameter [includedData] :
+  /// If your state machine definition is encrypted with a KMS key, callers must
+  /// have <code>kms:Decrypt</code> permission to decrypt the definition.
+  /// Alternatively, you can call the API with <code>includedData =
+  /// METADATA_ONLY</code> to get a successful response without the encrypted
+  /// definition.
   Future<DescribeStateMachineForExecutionOutput>
       describeStateMachineForExecution({
     required String executionArn,
+    IncludedData? includedData,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -848,6 +916,7 @@ class SFN {
       headers: headers,
       payload: {
         'executionArn': executionArn,
+        if (includedData != null) 'includedData': includedData.value,
       },
     );
 
@@ -878,6 +947,9 @@ class SFN {
   /// May throw [ActivityDoesNotExist].
   /// May throw [ActivityWorkerLimitExceeded].
   /// May throw [InvalidArn].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [activityArn] :
   /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from
@@ -927,6 +999,9 @@ class SFN {
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
   /// May throw [InvalidToken].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution.
@@ -1695,9 +1770,20 @@ class SFN {
   /// run</a> pattern to report that the task identified by the
   /// <code>taskToken</code> failed.
   ///
+  /// For an execution with encryption enabled, Step Functions will encrypt the
+  /// error and cause fields using the KMS key for the execution role.
+  ///
+  /// A caller can mark a task as fail without using any KMS permissions in the
+  /// execution role if the caller provides a null value for both
+  /// <code>error</code> and <code>cause</code> fields because no data needs to
+  /// be encrypted.
+  ///
   /// May throw [TaskDoesNotExist].
   /// May throw [InvalidToken].
   /// May throw [TaskTimedOut].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [taskToken] :
   /// The token that represents this task. Task tokens are generated by Step
@@ -1798,6 +1884,9 @@ class SFN {
   /// May throw [InvalidOutput].
   /// May throw [InvalidToken].
   /// May throw [TaskTimedOut].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [output] :
   /// The JSON output of the task. Length constraints apply to the payload size,
@@ -1896,6 +1985,9 @@ class SFN {
   /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineDeleting].
   /// May throw [ValidationException].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
@@ -2034,9 +2126,19 @@ class SFN {
   /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineDeleting].
   /// May throw [StateMachineTypeNotSupported].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
+  ///
+  /// Parameter [includedData] :
+  /// If your state machine definition is encrypted with a KMS key, callers must
+  /// have <code>kms:Decrypt</code> permission to decrypt the definition.
+  /// Alternatively, you can call the API with <code>includedData =
+  /// METADATA_ONLY</code> to get a successful response without the encrypted
+  /// definition.
   ///
   /// Parameter [input] :
   /// The string that contains the JSON input data for the execution, for
@@ -2058,6 +2160,7 @@ class SFN {
   /// request payload.
   Future<StartSyncExecutionOutput> startSyncExecution({
     required String stateMachineArn,
+    IncludedData? includedData,
     String? input,
     String? name,
     String? traceHeader,
@@ -2074,6 +2177,7 @@ class SFN {
       headers: headers,
       payload: {
         'stateMachineArn': stateMachineArn,
+        if (includedData != null) 'includedData': includedData.value,
         if (input != null) 'input': input,
         if (name != null) 'name': name,
         if (traceHeader != null) 'traceHeader': traceHeader,
@@ -2087,9 +2191,20 @@ class SFN {
   ///
   /// This API action is not supported by <code>EXPRESS</code> state machines.
   ///
+  /// For an execution with encryption enabled, Step Functions will encrypt the
+  /// error and cause fields using the KMS key for the execution role.
+  ///
+  /// A caller can stop an execution without using any KMS permissions in the
+  /// execution role if the caller provides a null value for both
+  /// <code>error</code> and <code>cause</code> fields because no data needs to
+  /// be encrypted.
+  ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
   /// May throw [ValidationException].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsInvalidStateException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution to stop.
@@ -2425,11 +2540,13 @@ class SFN {
   }
 
   /// Updates an existing state machine by modifying its
-  /// <code>definition</code>, <code>roleArn</code>, or
-  /// <code>loggingConfiguration</code>. Running executions will continue to use
-  /// the previous <code>definition</code> and <code>roleArn</code>. You must
-  /// include at least one of <code>definition</code> or <code>roleArn</code> or
-  /// you will receive a <code>MissingRequiredParameter</code> error.
+  /// <code>definition</code>, <code>roleArn</code>,
+  /// <code>loggingConfiguration</code>, or
+  /// <code>EncryptionConfiguration</code>. Running executions will continue to
+  /// use the previous <code>definition</code> and <code>roleArn</code>. You
+  /// must include at least one of <code>definition</code> or
+  /// <code>roleArn</code> or you will receive a
+  /// <code>MissingRequiredParameter</code> error.
   ///
   /// A qualified state machine ARN refers to a <i>Distributed Map state</i>
   /// defined within a state machine. For example, the qualified state machine
@@ -2497,6 +2614,9 @@ class SFN {
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [ValidationException].
+  /// May throw [InvalidEncryptionConfiguration].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine.
@@ -2505,6 +2625,9 @@ class SFN {
   /// The Amazon States Language definition of the state machine. See <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
   /// States Language</a>.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// Settings to configure server-side encryption.
   ///
   /// Parameter [loggingConfiguration] :
   /// Use the <code>LoggingConfiguration</code> data type to set CloudWatch Logs
@@ -2529,6 +2652,7 @@ class SFN {
   Future<UpdateStateMachineOutput> updateStateMachine({
     required String stateMachineArn,
     String? definition,
+    EncryptionConfiguration? encryptionConfiguration,
     LoggingConfiguration? loggingConfiguration,
     bool? publish,
     String? roleArn,
@@ -2548,6 +2672,8 @@ class SFN {
       payload: {
         'stateMachineArn': stateMachineArn,
         if (definition != null) 'definition': definition,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
         if (loggingConfiguration != null)
           'loggingConfiguration': loggingConfiguration,
         if (publish != null) 'publish': publish,
@@ -2680,13 +2806,36 @@ class SFN {
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
   /// States Language</a> (ASL).
   ///
+  /// Parameter [maxResults] :
+  /// The maximum number of diagnostics that are returned per call. The default
+  /// and maximum value is 100. Setting the value to 0 will also use the default
+  /// of 100.
+  ///
+  /// If the number of diagnostics returned in the response exceeds
+  /// <code>maxResults</code>, the value of the <code>truncated</code> field in
+  /// the response will be set to <code>true</code>.
+  ///
+  /// Parameter [severity] :
+  /// Minimum level of diagnostics to return. <code>ERROR</code> returns only
+  /// <code>ERROR</code> diagnostics, whereas <code>WARNING</code> returns both
+  /// <code>WARNING</code> and <code>ERROR</code> diagnostics. The default is
+  /// <code>ERROR</code>.
+  ///
   /// Parameter [type] :
   /// The target type of state machine for this definition. The default is
   /// <code>STANDARD</code>.
   Future<ValidateStateMachineDefinitionOutput> validateStateMachineDefinition({
     required String definition,
+    int? maxResults,
+    ValidateStateMachineDefinitionSeverity? severity,
     StateMachineType? type,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.ValidateStateMachineDefinition'
@@ -2699,6 +2848,8 @@ class SFN {
       headers: headers,
       payload: {
         'definition': definition,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (severity != null) 'severity': severity.value,
         if (type != null) 'type': type.value,
       },
     );
@@ -3104,10 +3255,14 @@ class DescribeActivityOutput {
   /// A-Z, a-z, - and _.
   final String name;
 
+  /// Settings for configured server-side encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
   DescribeActivityOutput({
     required this.activityArn,
     required this.creationDate,
     required this.name,
+    this.encryptionConfiguration,
   });
 
   factory DescribeActivityOutput.fromJson(Map<String, dynamic> json) {
@@ -3116,6 +3271,10 @@ class DescribeActivityOutput {
       creationDate:
           nonNullableTimeStampFromJson(json['creationDate'] as Object),
       name: json['name'] as String,
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -3497,6 +3656,9 @@ class DescribeStateMachineForExecutionOutput {
   /// updated. For a newly created state machine, this is the creation date.
   final DateTime updateDate;
 
+  /// Settings to configure server-side encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
   /// A user-defined or an auto-generated string that identifies a
   /// <code>Map</code> state. This ﬁeld is returned only if the
   /// <code>executionArn</code> is a child workflow execution that was started by
@@ -3528,6 +3690,7 @@ class DescribeStateMachineForExecutionOutput {
     required this.roleArn,
     required this.stateMachineArn,
     required this.updateDate,
+    this.encryptionConfiguration,
     this.label,
     this.loggingConfiguration,
     this.mapRunArn,
@@ -3543,6 +3706,10 @@ class DescribeStateMachineForExecutionOutput {
       roleArn: json['roleArn'] as String,
       stateMachineArn: json['stateMachineArn'] as String,
       updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
       label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
@@ -3568,6 +3735,9 @@ class DescribeStateMachineOutput {
   /// The Amazon States Language definition of the state machine. See <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
   /// States Language</a>.
+  ///
+  /// If called with <code>includedData = METADATA_ONLY</code>, the returned
+  /// definition will be <code>{}</code>.
   final String definition;
 
   /// The name of the state machine.
@@ -3615,6 +3785,9 @@ class DescribeStateMachineOutput {
   /// The description of the state machine version.
   final String? description;
 
+  /// Settings to configure server-side encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
   /// A user-defined or an auto-generated string that identifies a
   /// <code>Map</code> state. This parameter is present only if the
   /// <code>stateMachineArn</code> specified in input is a qualified state machine
@@ -3643,6 +3816,7 @@ class DescribeStateMachineOutput {
     required this.stateMachineArn,
     required this.type,
     this.description,
+    this.encryptionConfiguration,
     this.label,
     this.loggingConfiguration,
     this.revisionId,
@@ -3660,6 +3834,10 @@ class DescribeStateMachineOutput {
       stateMachineArn: json['stateMachineArn'] as String,
       type: StateMachineType.fromString((json['type'] as String)),
       description: json['description'] as String?,
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
       label: json['label'] as String?,
       loggingConfiguration: json['loggingConfiguration'] != null
           ? LoggingConfiguration.fromJson(
@@ -3673,6 +3851,82 @@ class DescribeStateMachineOutput {
           : null,
     );
   }
+}
+
+/// Settings to configure server-side encryption.
+///
+/// For additional control over security, you can encrypt your data using a
+/// <b>customer-managed key</b> for Step Functions state machines and
+/// activities. You can configure a symmetric KMS key and data key reuse period
+/// when creating or updating a <b>State Machine</b>, and when creating an
+/// <b>Activity</b>. The execution history and state machine definition will be
+/// encrypted with the key applied to the State Machine. Activity inputs will be
+/// encrypted with the key applied to the Activity.
+/// <note>
+/// Step Functions automatically enables encryption at rest using Amazon Web
+/// Services owned keys at no charge. However, KMS charges apply when using a
+/// customer managed key. For more information about pricing, see <a
+/// href="https://aws.amazon.com/kms/pricing/">Key Management Service
+/// pricing</a>.
+/// </note>
+/// For more information on KMS, see <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/overview.html">What
+/// is Key Management Service?</a>
+class EncryptionConfiguration {
+  /// Encryption type
+  final EncryptionType type;
+
+  /// Maximum duration that Step Functions will reuse data keys. When the period
+  /// expires, Step Functions will call <code>GenerateDataKey</code>. Only applies
+  /// to customer managed keys.
+  final int? kmsDataKeyReusePeriodSeconds;
+
+  /// An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to
+  /// encrypt data. To specify a KMS key in a different Amazon Web Services
+  /// account, you must use the key ARN or alias ARN.
+  final String? kmsKeyId;
+
+  EncryptionConfiguration({
+    required this.type,
+    this.kmsDataKeyReusePeriodSeconds,
+    this.kmsKeyId,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      type: EncryptionType.fromString((json['type'] as String)),
+      kmsDataKeyReusePeriodSeconds:
+          json['kmsDataKeyReusePeriodSeconds'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final kmsDataKeyReusePeriodSeconds = this.kmsDataKeyReusePeriodSeconds;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'type': type.value,
+      if (kmsDataKeyReusePeriodSeconds != null)
+        'kmsDataKeyReusePeriodSeconds': kmsDataKeyReusePeriodSeconds,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+enum EncryptionType {
+  awsOwnedKey('AWS_OWNED_KEY'),
+  customerManagedKmsKey('CUSTOMER_MANAGED_KMS_KEY'),
+  ;
+
+  final String value;
+
+  const EncryptionType(this.value);
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum EncryptionType'));
 }
 
 /// Contains details about an abort of an execution.
@@ -4454,6 +4708,21 @@ enum HistoryEventType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum HistoryEventType'));
+}
+
+enum IncludedData {
+  allData('ALL_DATA'),
+  metadataOnly('METADATA_ONLY'),
+  ;
+
+  final String value;
+
+  const IncludedData(this.value);
+
+  static IncludedData fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IncludedData'));
 }
 
 /// Contains additional details about the state's execution, including its input
@@ -6358,9 +6627,15 @@ class ValidateStateMachineDefinitionOutput {
   /// <code>FAIL</code> if the workflow definition does not pass verification.
   final ValidateStateMachineDefinitionResultCode result;
 
+  /// The result value will be <code>true</code> if the number of diagnostics
+  /// found in the workflow definition exceeds <code>maxResults</code>. When all
+  /// diagnostics results are returned, the value will be <code>false</code>.
+  final bool? truncated;
+
   ValidateStateMachineDefinitionOutput({
     required this.diagnostics,
     required this.result,
+    this.truncated,
   });
 
   factory ValidateStateMachineDefinitionOutput.fromJson(
@@ -6373,6 +6648,7 @@ class ValidateStateMachineDefinitionOutput {
           .toList(),
       result: ValidateStateMachineDefinitionResultCode.fromString(
           (json['result'] as String)),
+      truncated: json['truncated'] as bool?,
     );
   }
 }
@@ -6394,6 +6670,7 @@ enum ValidateStateMachineDefinitionResultCode {
 
 enum ValidateStateMachineDefinitionSeverity {
   error('ERROR'),
+  warning('WARNING'),
   ;
 
   final String value;
@@ -6404,6 +6681,11 @@ enum ValidateStateMachineDefinitionSeverity {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum ValidateStateMachineDefinitionSeverity'));
+}
+
+class ActivityAlreadyExists extends _s.GenericAwsException {
+  ActivityAlreadyExists({String? type, String? message})
+      : super(type: type, code: 'ActivityAlreadyExists', message: message);
 }
 
 class ActivityDoesNotExist extends _s.GenericAwsException {
@@ -6457,6 +6739,14 @@ class InvalidDefinition extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidDefinition', message: message);
 }
 
+class InvalidEncryptionConfiguration extends _s.GenericAwsException {
+  InvalidEncryptionConfiguration({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidEncryptionConfiguration',
+            message: message);
+}
+
 class InvalidExecutionInput extends _s.GenericAwsException {
   InvalidExecutionInput({String? type, String? message})
       : super(type: type, code: 'InvalidExecutionInput', message: message);
@@ -6487,6 +6777,21 @@ class InvalidTracingConfiguration extends _s.GenericAwsException {
   InvalidTracingConfiguration({String? type, String? message})
       : super(
             type: type, code: 'InvalidTracingConfiguration', message: message);
+}
+
+class KmsAccessDeniedException extends _s.GenericAwsException {
+  KmsAccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'KmsAccessDeniedException', message: message);
+}
+
+class KmsInvalidStateException extends _s.GenericAwsException {
+  KmsInvalidStateException({String? type, String? message})
+      : super(type: type, code: 'KmsInvalidStateException', message: message);
+}
+
+class KmsThrottlingException extends _s.GenericAwsException {
+  KmsThrottlingException({String? type, String? message})
+      : super(type: type, code: 'KmsThrottlingException', message: message);
 }
 
 class MissingRequiredParameter extends _s.GenericAwsException {
@@ -6554,6 +6859,8 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ActivityAlreadyExists': (type, message) =>
+      ActivityAlreadyExists(type: type, message: message),
   'ActivityDoesNotExist': (type, message) =>
       ActivityDoesNotExist(type: type, message: message),
   'ActivityLimitExceeded': (type, message) =>
@@ -6573,6 +6880,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InvalidArn': (type, message) => InvalidArn(type: type, message: message),
   'InvalidDefinition': (type, message) =>
       InvalidDefinition(type: type, message: message),
+  'InvalidEncryptionConfiguration': (type, message) =>
+      InvalidEncryptionConfiguration(type: type, message: message),
   'InvalidExecutionInput': (type, message) =>
       InvalidExecutionInput(type: type, message: message),
   'InvalidLoggingConfiguration': (type, message) =>
@@ -6583,6 +6892,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InvalidToken': (type, message) => InvalidToken(type: type, message: message),
   'InvalidTracingConfiguration': (type, message) =>
       InvalidTracingConfiguration(type: type, message: message),
+  'KmsAccessDeniedException': (type, message) =>
+      KmsAccessDeniedException(type: type, message: message),
+  'KmsInvalidStateException': (type, message) =>
+      KmsInvalidStateException(type: type, message: message),
+  'KmsThrottlingException': (type, message) =>
+      KmsThrottlingException(type: type, message: message),
   'MissingRequiredParameter': (type, message) =>
       MissingRequiredParameter(type: type, message: message),
   'ResourceNotFound': (type, message) =>

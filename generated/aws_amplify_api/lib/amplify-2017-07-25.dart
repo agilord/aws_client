@@ -101,6 +101,9 @@ class Amplify {
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
   ///
+  /// Parameter [cacheConfig] :
+  /// The cache configuration for the Amplify app.
+  ///
   /// Parameter [customHeaders] :
   /// The custom HTTP headers for an Amplify app.
   ///
@@ -174,6 +177,7 @@ class Amplify {
     List<String>? autoBranchCreationPatterns,
     String? basicAuthCredentials,
     String? buildSpec,
+    CacheConfig? cacheConfig,
     String? customHeaders,
     List<CustomRule>? customRules,
     String? description,
@@ -198,6 +202,7 @@ class Amplify {
       if (basicAuthCredentials != null)
         'basicAuthCredentials': basicAuthCredentials,
       if (buildSpec != null) 'buildSpec': buildSpec,
+      if (cacheConfig != null) 'cacheConfig': cacheConfig,
       if (customHeaders != null) 'customHeaders': customHeaders,
       if (customRules != null) 'customRules': customRules,
       if (description != null) 'description': description,
@@ -1502,6 +1507,9 @@ class Amplify {
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
   ///
+  /// Parameter [cacheConfig] :
+  /// The cache configuration for the Amplify app.
+  ///
   /// Parameter [customHeaders] :
   /// The custom HTTP headers for an Amplify app.
   ///
@@ -1571,6 +1579,7 @@ class Amplify {
     List<String>? autoBranchCreationPatterns,
     String? basicAuthCredentials,
     String? buildSpec,
+    CacheConfig? cacheConfig,
     String? customHeaders,
     List<CustomRule>? customRules,
     String? description,
@@ -1594,6 +1603,7 @@ class Amplify {
       if (basicAuthCredentials != null)
         'basicAuthCredentials': basicAuthCredentials,
       if (buildSpec != null) 'buildSpec': buildSpec,
+      if (cacheConfig != null) 'cacheConfig': cacheConfig,
       if (customHeaders != null) 'customHeaders': customHeaders,
       if (customRules != null) 'customRules': customRules,
       if (description != null) 'description': description,
@@ -1909,6 +1919,11 @@ class App {
   /// Amplify app.
   final String? buildSpec;
 
+  /// The cache configuration for the Amplify app. If you don't specify the cache
+  /// configuration <code>type</code>, Amplify uses the default
+  /// <code>AMPLIFY_MANAGED</code> setting.
+  final CacheConfig? cacheConfig;
+
   /// Describes the custom HTTP headers for the Amplify app.
   final String? customHeaders;
 
@@ -1959,6 +1974,7 @@ class App {
     this.autoBranchCreationPatterns,
     this.basicAuthCredentials,
     this.buildSpec,
+    this.cacheConfig,
     this.customHeaders,
     this.customRules,
     this.enableAutoBranchCreation,
@@ -1995,6 +2011,9 @@ class App {
           .toList(),
       basicAuthCredentials: json['basicAuthCredentials'] as String?,
       buildSpec: json['buildSpec'] as String?,
+      cacheConfig: json['cacheConfig'] != null
+          ? CacheConfig.fromJson(json['cacheConfig'] as Map<String, dynamic>)
+          : null,
       customHeaders: json['customHeaders'] as String?,
       customRules: (json['customRules'] as List?)
           ?.nonNulls
@@ -2381,6 +2400,58 @@ class Branch {
   }
 }
 
+/// Describes the cache configuration for an Amplify app.
+///
+/// For more information about how Amplify applies an optimal cache
+/// configuration for your app based on the type of content that is being
+/// served, see <a
+/// href="https://docs.aws.amazon.com/amplify/latest/userguide/managing-cache-configuration">Managing
+/// cache configuration</a> in the <i>Amplify User guide</i>.
+class CacheConfig {
+  /// The type of cache configuration to use for an Amplify app.
+  ///
+  /// The <code>AMPLIFY_MANAGED</code> cache configuration automatically applies
+  /// an optimized cache configuration for your app based on its platform, routing
+  /// rules, and rewrite rules. This is the default setting.
+  ///
+  /// The <code>AMPLIFY_MANAGED_NO_COOKIES</code> cache configuration type is the
+  /// same as <code>AMPLIFY_MANAGED</code>, except that it excludes all cookies
+  /// from the cache key.
+  final CacheConfigType type;
+
+  CacheConfig({
+    required this.type,
+  });
+
+  factory CacheConfig.fromJson(Map<String, dynamic> json) {
+    return CacheConfig(
+      type: CacheConfigType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.value,
+    };
+  }
+}
+
+enum CacheConfigType {
+  amplifyManaged('AMPLIFY_MANAGED'),
+  amplifyManagedNoCookies('AMPLIFY_MANAGED_NO_COOKIES'),
+  ;
+
+  final String value;
+
+  const CacheConfigType(this.value);
+
+  static CacheConfigType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum CacheConfigType'));
+}
+
 /// Describes the current SSL/TLS certificate that is in use for the domain. If
 /// you are using <code>CreateDomainAssociation</code> to create a new domain
 /// association, <code>Certificate</code> describes the new certificate that you
@@ -2396,7 +2467,7 @@ class Certificate {
   /// Make sure you request (or import) the certificate in the US East (N.
   /// Virginia) Region (us-east-1). For more information about using ACM, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
-  /// certificates into Certificate Manager</a> in the <i>ACM User guide</i> .
+  /// certificates into Certificate Manager</a> in the <i>ACM User guide</i>.
   final CertificateType type;
 
   /// The DNS record for certificate verification.

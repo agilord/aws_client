@@ -724,6 +724,11 @@ class AppConfig {
   }
 
   /// Creates a new configuration in the AppConfig hosted configuration store.
+  /// If you're creating a feature flag, we recommend you familiarize yourself
+  /// with the JSON schema for feature flag data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags">Type
+  /// reference for AWS.AppConfig.FeatureFlags</a> in the <i>AppConfig User
+  /// Guide</i>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ServiceQuotaExceededException].
@@ -739,7 +744,11 @@ class AppConfig {
   /// The configuration profile ID.
   ///
   /// Parameter [content] :
-  /// The content of the configuration or the configuration data.
+  /// The configuration data, as bytes.
+  /// <note>
+  /// AppConfig accepts any type of data, including text formats like JSON or
+  /// TOML, or binary formats like protocol buffers or compressed data.
+  /// </note>
   ///
   /// Parameter [contentType] :
   /// A standard MIME type describing the format of the configuration content.
@@ -801,8 +810,7 @@ class AppConfig {
     );
   }
 
-  /// Deletes an application. Deleting an application does not delete a
-  /// configuration from a host.
+  /// Deletes an application.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -821,8 +829,12 @@ class AppConfig {
     );
   }
 
-  /// Deletes a configuration profile. Deleting a configuration profile does not
-  /// delete a configuration from a host.
+  /// Deletes a configuration profile.
+  ///
+  /// To prevent users from unintentionally deleting actively-used configuration
+  /// profiles, enable <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html">deletion
+  /// protection</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
@@ -835,21 +847,55 @@ class AppConfig {
   ///
   /// Parameter [configurationProfileId] :
   /// The ID of the configuration profile you want to delete.
+  ///
+  /// Parameter [deletionProtectionCheck] :
+  /// A parameter to configure deletion protection. If enabled, deletion
+  /// protection prevents a user from deleting a configuration profile if your
+  /// application has called either <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or for the configuration profile during the specified interval.
+  ///
+  /// This parameter supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BYPASS</code>: Instructs AppConfig to bypass the deletion protection
+  /// check and delete a configuration profile even if deletion protection would
+  /// have otherwise prevented it.
+  /// </li>
+  /// <li>
+  /// <code>APPLY</code>: Instructs the deletion protection check to run, even
+  /// if deletion protection is disabled at the account level.
+  /// <code>APPLY</code> also forces the deletion protection check to run
+  /// against resources created in the past hour, which are normally excluded
+  /// from deletion protection checks.
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT_DEFAULT</code>: The default setting, which instructs
+  /// AppConfig to implement the deletion protection value specified in the
+  /// <code>UpdateAccountSettings</code> API.
+  /// </li>
+  /// </ul>
   Future<void> deleteConfigurationProfile({
     required String applicationId,
     required String configurationProfileId,
+    DeletionProtectionCheck? deletionProtectionCheck,
   }) async {
+    final headers = <String, String>{
+      if (deletionProtectionCheck != null)
+        'x-amzn-deletion-protection-check': deletionProtectionCheck.value,
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// Deletes a deployment strategy. Deleting a deployment strategy does not
-  /// delete a configuration from a host.
+  /// Deletes a deployment strategy.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -869,8 +915,12 @@ class AppConfig {
     );
   }
 
-  /// Deletes an environment. Deleting an environment does not delete a
-  /// configuration from a host.
+  /// Deletes an environment.
+  ///
+  /// To prevent users from unintentionally deleting actively-used environments,
+  /// enable <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html">deletion
+  /// protection</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
@@ -882,15 +932,50 @@ class AppConfig {
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment that you want to delete.
+  ///
+  /// Parameter [deletionProtectionCheck] :
+  /// A parameter to configure deletion protection. If enabled, deletion
+  /// protection prevents a user from deleting an environment if your
+  /// application called either <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or in the environment during the specified interval.
+  ///
+  /// This parameter supports the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BYPASS</code>: Instructs AppConfig to bypass the deletion protection
+  /// check and delete a configuration profile even if deletion protection would
+  /// have otherwise prevented it.
+  /// </li>
+  /// <li>
+  /// <code>APPLY</code>: Instructs the deletion protection check to run, even
+  /// if deletion protection is disabled at the account level.
+  /// <code>APPLY</code> also forces the deletion protection check to run
+  /// against resources created in the past hour, which are normally excluded
+  /// from deletion protection checks.
+  /// </li>
+  /// <li>
+  /// <code>ACCOUNT_DEFAULT</code>: The default setting, which instructs
+  /// AppConfig to implement the deletion protection value specified in the
+  /// <code>UpdateAccountSettings</code> API.
+  /// </li>
+  /// </ul>
   Future<void> deleteEnvironment({
     required String applicationId,
     required String environmentId,
+    DeletionProtectionCheck? deletionProtectionCheck,
   }) async {
+    final headers = <String, String>{
+      if (deletionProtectionCheck != null)
+        'x-amzn-deletion-protection-check': deletionProtectionCheck.value,
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/applications/${Uri.encodeComponent(applicationId)}/environments/${Uri.encodeComponent(environmentId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -975,6 +1060,21 @@ class AppConfig {
     );
   }
 
+  /// Returns information about the status of the
+  /// <code>DeletionProtection</code> parameter.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [BadRequestException].
+  Future<AccountSettings> getAccountSettings() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AccountSettings.fromJson(response);
+  }
+
   /// Retrieves information about an application.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1009,8 +1109,8 @@ class AppConfig {
   /// APIs instead.
   /// </li>
   /// <li>
-  /// <code>GetConfiguration</code> is a priced call. For more information, see
-  /// <a href="https://aws.amazon.com/systems-manager/pricing/">Pricing</a>.
+  /// <a>GetConfiguration</a> is a priced call. For more information, see <a
+  /// href="https://aws.amazon.com/systems-manager/pricing/">Pricing</a>.
   /// </li>
   /// </ul> </important>
   ///
@@ -1038,27 +1138,26 @@ class AppConfig {
   ///
   /// Parameter [clientConfigurationVersion] :
   /// The configuration version returned in the most recent
-  /// <code>GetConfiguration</code> response.
+  /// <a>GetConfiguration</a> response.
   /// <important>
   /// AppConfig uses the value of the <code>ClientConfigurationVersion</code>
   /// parameter to identify the configuration version on your clients. If you
   /// don’t send <code>ClientConfigurationVersion</code> with each call to
-  /// <code>GetConfiguration</code>, your clients receive the current
-  /// configuration. You are charged each time your clients receive a
-  /// configuration.
+  /// <a>GetConfiguration</a>, your clients receive the current configuration.
+  /// You are charged each time your clients receive a configuration.
   ///
   /// To avoid excess charges, we recommend you use the <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html">StartConfigurationSession</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html">GetLatestConfiguration</a>
   /// APIs, which track the client configuration version on your behalf. If you
-  /// choose to continue using <code>GetConfiguration</code>, we recommend that
-  /// you include the <code>ClientConfigurationVersion</code> value with every
-  /// call to <code>GetConfiguration</code>. The value to use for
+  /// choose to continue using <a>GetConfiguration</a>, we recommend that you
+  /// include the <code>ClientConfigurationVersion</code> value with every call
+  /// to <a>GetConfiguration</a>. The value to use for
   /// <code>ClientConfigurationVersion</code> comes from the
   /// <code>ConfigurationVersion</code> attribute returned by
-  /// <code>GetConfiguration</code> when there is new or updated data, and
-  /// should be saved for subsequent calls to <code>GetConfiguration</code>.
+  /// <a>GetConfiguration</a> when there is new or updated data, and should be
+  /// saved for subsequent calls to <a>GetConfiguration</a>.
   /// </important>
   /// For more information about working with configurations, see <a
   /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
@@ -1855,6 +1954,34 @@ class AppConfig {
     );
   }
 
+  /// Updates the value of the <code>DeletionProtection</code> parameter.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [deletionProtection] :
+  /// A parameter to configure deletion protection. If enabled, deletion
+  /// protection prevents a user from deleting a configuration profile or an
+  /// environment if AppConfig has called either <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or for the configuration profile or from the environment during the
+  /// specified interval. Deletion protection is disabled by default. The
+  /// default interval for <code>ProtectionPeriodInMinutes</code> is 60.
+  Future<AccountSettings> updateAccountSettings({
+    DeletionProtectionSettings? deletionProtection,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AccountSettings.fromJson(response);
+  }
+
   /// Updates an application.
   ///
   /// May throw [BadRequestException].
@@ -2193,6 +2320,30 @@ class AppConfig {
           '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}/validators',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+class AccountSettings {
+  /// A parameter to configure deletion protection. If enabled, deletion
+  /// protection prevents a user from deleting a configuration profile or an
+  /// environment if AppConfig has called either <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or for the configuration profile or from the environment during the
+  /// specified interval. Deletion protection is disabled by default. The default
+  /// interval for <code>ProtectionPeriodInMinutes</code> is 60.
+  final DeletionProtectionSettings? deletionProtection;
+
+  AccountSettings({
+    this.deletionProtection,
+  });
+
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      deletionProtection: json['DeletionProtection'] != null
+          ? DeletionProtectionSettings.fromJson(
+              json['DeletionProtection'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2608,6 +2759,80 @@ class ConfigurationProfiles {
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
+  }
+}
+
+enum DeletionProtectionCheck {
+  accountDefault('ACCOUNT_DEFAULT'),
+  apply('APPLY'),
+  bypass('BYPASS'),
+  ;
+
+  final String value;
+
+  const DeletionProtectionCheck(this.value);
+
+  static DeletionProtectionCheck fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DeletionProtectionCheck'));
+}
+
+/// A parameter to configure deletion protection. If enabled, deletion
+/// protection prevents a user from deleting a configuration profile or an
+/// environment if AppConfig has called either <a
+/// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+/// or for the configuration profile or from the environment during the
+/// specified interval.
+///
+/// This setting uses the following default values:
+///
+/// <ul>
+/// <li>
+/// Deletion protection is disabled by default.
+/// </li>
+/// <li>
+/// The default interval specified by <code>ProtectionPeriodInMinutes</code> is
+/// 60.
+/// </li>
+/// <li>
+/// <code>DeletionProtectionCheck</code> skips configuration profiles and
+/// environments that were created in the past hour.
+/// </li>
+/// </ul>
+class DeletionProtectionSettings {
+  /// A parameter that indicates if deletion protection is enabled or not.
+  final bool? enabled;
+
+  /// The time interval during which AppConfig monitors for calls to <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// or for a configuration profile or from an environment. AppConfig returns an
+  /// error if a user calls or for the designated configuration profile or
+  /// environment. To bypass the error and delete a configuration profile or an
+  /// environment, specify <code>BYPASS</code> for the
+  /// <code>DeletionProtectionCheck</code> parameter for either or .
+  final int? protectionPeriodInMinutes;
+
+  DeletionProtectionSettings({
+    this.enabled,
+    this.protectionPeriodInMinutes,
+  });
+
+  factory DeletionProtectionSettings.fromJson(Map<String, dynamic> json) {
+    return DeletionProtectionSettings(
+      enabled: json['Enabled'] as bool?,
+      protectionPeriodInMinutes: json['ProtectionPeriodInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final protectionPeriodInMinutes = this.protectionPeriodInMinutes;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (protectionPeriodInMinutes != null)
+        'ProtectionPeriodInMinutes': protectionPeriodInMinutes,
+    };
   }
 }
 
@@ -3582,7 +3807,9 @@ enum TriggeredBy {
 /// your application configuration data, you provide a schema or an Amazon Web
 /// Services Lambda function that runs against the configuration. The
 /// configuration deployment or update can only proceed when the configuration
-/// data is valid.
+/// data is valid. For more information, see <a
+/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators">About
+/// validators</a> in the <i>AppConfig User Guide</i>.
 class Validator {
   /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
   /// Lambda function.

@@ -531,8 +531,10 @@ class MediaConvert {
     );
   }
 
-  /// Send an request with an empty body to the regional API endpoint to get
-  /// your account API endpoint.
+  /// Send a request with an empty body to the regional API endpoint to get your
+  /// account API endpoint. Note that DescribeEndpoints is no longer required.
+  /// We recommend that you send your requests directly to the regional endpoint
+  /// instead.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1003,6 +1005,73 @@ class MediaConvert {
       exceptionFnMap: _exceptionFns,
     );
     return PutPolicyResponse.fromJson(response);
+  }
+
+  /// Retrieve a JSON array that includes job details for up to twenty of your
+  /// most recent jobs. Optionally filter results further according to input
+  /// file, queue, or status. To retrieve the twenty next most recent jobs, use
+  /// the nextToken string returned with the array.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [inputFile] :
+  /// Optional. Provide your input file URL or your partial input file name. The
+  /// maximum length for an input file is 300 characters.
+  ///
+  /// Parameter [maxResults] :
+  /// Optional. Number of jobs, up to twenty, that will be returned at one time.
+  ///
+  /// Parameter [nextToken] :
+  /// Optional. Use this string, provided with the response to a previous
+  /// request, to request the next batch of jobs.
+  ///
+  /// Parameter [order] :
+  /// Optional. When you request lists of resources, you can specify whether
+  /// they are sorted in ASCENDING or DESCENDING order. Default varies by
+  /// resource.
+  ///
+  /// Parameter [queue] :
+  /// Optional. Provide a queue name, or a queue ARN, to return only jobs from
+  /// that queue.
+  ///
+  /// Parameter [status] :
+  /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE,
+  /// CANCELED, or ERROR.
+  Future<SearchJobsResponse> searchJobs({
+    String? inputFile,
+    int? maxResults,
+    String? nextToken,
+    Order? order,
+    String? queue,
+    JobStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final $query = <String, List<String>>{
+      if (inputFile != null) 'inputFile': [inputFile],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (order != null) 'order': [order.value],
+      if (queue != null) 'queue': [queue],
+      if (status != null) 'status': [status.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2017-08-29/search',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchJobsResponse.fromJson(response);
   }
 
   /// Add tags to a MediaConvert queue, preset, or job template. For information
@@ -5660,6 +5729,18 @@ class CmafGroupSettings {
   /// generation.
   final CmafCodecSpecification? codecSpecification;
 
+  /// Specify whether MediaConvert generates I-frame only video segments for DASH
+  /// trick play, also known as trick mode. When specified, the I-frame only video
+  /// segments are included within an additional AdaptationSet in your DASH output
+  /// manifest. To generate I-frame only video segments: Enter a name as a text
+  /// string, up to 256 character long. This name is appended to the end of this
+  /// output group's base filename, that you specify as part of your destination
+  /// URI, and used for the I-frame only video segment files. You may also include
+  /// format identifiers. For more information, see:
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs
+  /// To not generate I-frame only video segments: Leave blank.
+  final String? dashIFrameTrickPlayNameModifier;
+
   /// Specify how MediaConvert writes SegmentTimeline in your output DASH
   /// manifest. To write a SegmentTimeline in each video Representation: Keep the
   /// default value, Basic. To write a common SegmentTimeline in the video
@@ -5820,6 +5901,7 @@ class CmafGroupSettings {
     this.baseUrl,
     this.clientCache,
     this.codecSpecification,
+    this.dashIFrameTrickPlayNameModifier,
     this.dashManifestStyle,
     this.destination,
     this.destinationSettings,
@@ -5857,6 +5939,8 @@ class CmafGroupSettings {
           (json['clientCache'] as String?)?.let(CmafClientCache.fromString),
       codecSpecification: (json['codecSpecification'] as String?)
           ?.let(CmafCodecSpecification.fromString),
+      dashIFrameTrickPlayNameModifier:
+          json['dashIFrameTrickPlayNameModifier'] as String?,
       dashManifestStyle: (json['dashManifestStyle'] as String?)
           ?.let(DashManifestStyle.fromString),
       destination: json['destination'] as String?,
@@ -5915,6 +5999,8 @@ class CmafGroupSettings {
     final baseUrl = this.baseUrl;
     final clientCache = this.clientCache;
     final codecSpecification = this.codecSpecification;
+    final dashIFrameTrickPlayNameModifier =
+        this.dashIFrameTrickPlayNameModifier;
     final dashManifestStyle = this.dashManifestStyle;
     final destination = this.destination;
     final destinationSettings = this.destinationSettings;
@@ -5947,6 +6033,8 @@ class CmafGroupSettings {
       if (clientCache != null) 'clientCache': clientCache.value,
       if (codecSpecification != null)
         'codecSpecification': codecSpecification.value,
+      if (dashIFrameTrickPlayNameModifier != null)
+        'dashIFrameTrickPlayNameModifier': dashIFrameTrickPlayNameModifier,
       if (dashManifestStyle != null)
         'dashManifestStyle': dashManifestStyle.value,
       if (destination != null) 'destination': destination,
@@ -7582,6 +7670,18 @@ class DashIsoGroupSettings {
   /// URL than the manifest file.
   final String? baseUrl;
 
+  /// Specify whether MediaConvert generates I-frame only video segments for DASH
+  /// trick play, also known as trick mode. When specified, the I-frame only video
+  /// segments are included within an additional AdaptationSet in your DASH output
+  /// manifest. To generate I-frame only video segments: Enter a name as a text
+  /// string, up to 256 character long. This name is appended to the end of this
+  /// output group's base filename, that you specify as part of your destination
+  /// URI, and used for the I-frame only video segment files. You may also include
+  /// format identifiers. For more information, see:
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs
+  /// To not generate I-frame only video segments: Leave blank.
+  final String? dashIFrameTrickPlayNameModifier;
+
   /// Specify how MediaConvert writes SegmentTimeline in your output DASH
   /// manifest. To write a SegmentTimeline in each video Representation: Keep the
   /// default value, Basic. To write a common SegmentTimeline in the video
@@ -7716,6 +7816,7 @@ class DashIsoGroupSettings {
     this.additionalManifests,
     this.audioChannelConfigSchemeIdUri,
     this.baseUrl,
+    this.dashIFrameTrickPlayNameModifier,
     this.dashManifestStyle,
     this.destination,
     this.destinationSettings,
@@ -7747,6 +7848,8 @@ class DashIsoGroupSettings {
           (json['audioChannelConfigSchemeIdUri'] as String?)
               ?.let(DashIsoGroupAudioChannelConfigSchemeIdUri.fromString),
       baseUrl: json['baseUrl'] as String?,
+      dashIFrameTrickPlayNameModifier:
+          json['dashIFrameTrickPlayNameModifier'] as String?,
       dashManifestStyle: (json['dashManifestStyle'] as String?)
           ?.let(DashManifestStyle.fromString),
       destination: json['destination'] as String?,
@@ -7793,6 +7896,8 @@ class DashIsoGroupSettings {
     final additionalManifests = this.additionalManifests;
     final audioChannelConfigSchemeIdUri = this.audioChannelConfigSchemeIdUri;
     final baseUrl = this.baseUrl;
+    final dashIFrameTrickPlayNameModifier =
+        this.dashIFrameTrickPlayNameModifier;
     final dashManifestStyle = this.dashManifestStyle;
     final destination = this.destination;
     final destinationSettings = this.destinationSettings;
@@ -7818,6 +7923,8 @@ class DashIsoGroupSettings {
       if (audioChannelConfigSchemeIdUri != null)
         'audioChannelConfigSchemeIdUri': audioChannelConfigSchemeIdUri.value,
       if (baseUrl != null) 'baseUrl': baseUrl,
+      if (dashIFrameTrickPlayNameModifier != null)
+        'dashIFrameTrickPlayNameModifier': dashIFrameTrickPlayNameModifier,
       if (dashManifestStyle != null)
         'dashManifestStyle': dashManifestStyle.value,
       if (destination != null) 'destination': destination,
@@ -16319,25 +16426,63 @@ enum InputTimecodeSource {
 /// specify both. For more information, see
 /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
 class InputVideoGenerator {
-  /// Specify an integer value for Black video duration from 50 to 86400000 to
-  /// generate a black video input for that many milliseconds. Required when you
-  /// include Video generator.
+  /// Specify the number of audio channels to include in your video generator
+  /// input. MediaConvert creates these audio channels as silent audio within a
+  /// single audio track. Enter an integer from 1 to 32.
+  final int? channels;
+
+  /// Specify the duration, in milliseconds, for your video generator input.
+  /// Enter an integer from 50 to 86400000.
   final int? duration;
 
+  /// Specify the denominator of the fraction that represents the frame rate for
+  /// your video generator input. When you do, you must also specify a value for
+  /// Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when
+  /// you leave Frame rate numerator and Frame rate denominator blank.
+  final int? framerateDenominator;
+
+  /// Specify the numerator of the fraction that represents the frame rate for
+  /// your video generator input. When you do, you must also specify a value for
+  /// Frame rate denominator. MediaConvert uses a default frame rate of 29.97 when
+  /// you leave Frame rate numerator and Frame rate denominator blank.
+  final int? framerateNumerator;
+
+  /// Specify the audio sample rate, in Hz, for the silent audio in your video
+  /// generator input.
+  /// Enter an integer from 32000 to 48000.
+  final int? sampleRate;
+
   InputVideoGenerator({
+    this.channels,
     this.duration,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.sampleRate,
   });
 
   factory InputVideoGenerator.fromJson(Map<String, dynamic> json) {
     return InputVideoGenerator(
+      channels: json['channels'] as int?,
       duration: json['duration'] as int?,
+      framerateDenominator: json['framerateDenominator'] as int?,
+      framerateNumerator: json['framerateNumerator'] as int?,
+      sampleRate: json['sampleRate'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final channels = this.channels;
     final duration = this.duration;
+    final framerateDenominator = this.framerateDenominator;
+    final framerateNumerator = this.framerateNumerator;
+    final sampleRate = this.sampleRate;
     return {
+      if (channels != null) 'channels': channels,
       if (duration != null) 'duration': duration,
+      if (framerateDenominator != null)
+        'framerateDenominator': framerateDenominator,
+      if (framerateNumerator != null) 'framerateNumerator': framerateNumerator,
+      if (sampleRate != null) 'sampleRate': sampleRate,
     };
   }
 }
@@ -23683,6 +23828,29 @@ class SccDestinationSettings {
     return {
       if (framerate != null) 'framerate': framerate.value,
     };
+  }
+}
+
+class SearchJobsResponse {
+  /// List of jobs.
+  final List<Job>? jobs;
+
+  /// Use this string to request the next batch of jobs.
+  final String? nextToken;
+
+  SearchJobsResponse({
+    this.jobs,
+    this.nextToken,
+  });
+
+  factory SearchJobsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchJobsResponse(
+      jobs: (json['jobs'] as List?)
+          ?.nonNulls
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
   }
 }
 

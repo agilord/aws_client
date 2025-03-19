@@ -1432,12 +1432,12 @@ class Personalize {
   }
 
   /// <important>
-  /// After you create a solution, you can’t change its configuration. By
-  /// default, all new solutions use automatic training. With automatic
-  /// training, you incur training costs while your solution is active. You
-  /// can't stop automatic training for a solution. To avoid unnecessary costs,
-  /// make sure to delete the solution when you are finished. For information
-  /// about training costs, see <a
+  /// By default, all new solutions use automatic training. With automatic
+  /// training, you incur training costs while your solution is active. To avoid
+  /// unnecessary costs, when you are finished you can <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html">update
+  /// the solution</a> to turn off automatic training. For information about
+  /// training costs, see <a
   /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
   /// pricing</a>.
   /// </important>
@@ -1451,9 +1451,9 @@ class Personalize {
   ///
   /// By default, new solutions use automatic training to create solution
   /// versions every 7 days. You can change the training frequency. Automatic
-  /// solution version creation starts one hour after the solution is ACTIVE. If
-  /// you manually create a solution version within the hour, the solution skips
-  /// the first automatic training. For more information, see <a
+  /// solution version creation starts within one hour after the solution is
+  /// ACTIVE. If you manually create a solution version within the hour, the
+  /// solution skips the first automatic training. For more information, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html">Configuring
   /// automatic training</a>.
   ///
@@ -1500,6 +1500,10 @@ class Personalize {
   /// <p class="title"> <b>Related APIs</b>
   ///
   /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html">UpdateSolution</a>
+  /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutions.html">ListSolutions</a>
@@ -1580,9 +1584,9 @@ class Personalize {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html">Configuring
   /// automatic training</a>.
   ///
-  /// Automatic solution version creation starts one hour after the solution is
-  /// ACTIVE. If you manually create a solution version within the hour, the
-  /// solution skips the first automatic training.
+  /// Automatic solution version creation starts within one hour after the
+  /// solution is ACTIVE. If you manually create a solution version within the
+  /// hour, the solution skips the first automatic training.
   ///
   /// After training starts, you can get the solution version's Amazon Resource
   /// Name (ARN) with the <a
@@ -1605,7 +1609,7 @@ class Personalize {
   /// a recipe</a>.
   ///
   /// Parameter [solutionConfig] :
-  /// The configuration to use with the solution. When
+  /// The configuration properties for the solution. When
   /// <code>performAutoML</code> is set to true, Amazon Personalize only
   /// evaluates the <code>autoMLConfig</code> section of the solution
   /// configuration.
@@ -3961,6 +3965,79 @@ class Personalize {
     );
 
     return UpdateRecommenderResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an Amazon Personalize solution to use a different automatic
+  /// training configuration. When you update a solution, you can change whether
+  /// the solution uses automatic training, and you can change the training
+  /// frequency. For more information about updating a solution, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html">Updating
+  /// a solution</a>.
+  ///
+  /// A solution update can be in one of the following states:
+  ///
+  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  ///
+  /// To get the status of a solution update, call the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
+  /// API operation and find the status in the
+  /// <code>latestSolutionUpdate</code>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [solutionArn] :
+  /// The Amazon Resource Name (ARN) of the solution to update.
+  ///
+  /// Parameter [performAutoTraining] :
+  /// Whether the solution uses automatic training to create new solution
+  /// versions (trained models). You can change the training frequency by
+  /// specifying a <code>schedulingExpression</code> in the
+  /// <code>AutoTrainingConfig</code> as part of solution configuration.
+  ///
+  /// If you turn on automatic training, the first automatic training starts
+  /// within one hour after the solution update completes. If you manually
+  /// create a solution version within the hour, the solution skips the first
+  /// automatic training. For more information about automatic training, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html">Configuring
+  /// automatic training</a>.
+  ///
+  /// After training starts, you can get the solution version's Amazon Resource
+  /// Name (ARN) with the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html">ListSolutionVersions</a>
+  /// API operation. To get its status, use the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html">DescribeSolutionVersion</a>.
+  ///
+  /// Parameter [solutionUpdateConfig] :
+  /// The new configuration details of the solution.
+  Future<UpdateSolutionResponse> updateSolution({
+    required String solutionArn,
+    bool? performAutoTraining,
+    SolutionUpdateConfig? solutionUpdateConfig,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.UpdateSolution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'solutionArn': solutionArn,
+        if (performAutoTraining != null)
+          'performAutoTraining': performAutoTraining,
+        if (solutionUpdateConfig != null)
+          'solutionUpdateConfig': solutionUpdateConfig,
+      },
+    );
+
+    return UpdateSolutionResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -8288,22 +8365,10 @@ class RecommenderUpdateSummary {
   /// The configuration details of the recommender update.
   final RecommenderConfig? recommenderConfig;
 
-  /// The status of the recommender update.
+  /// The status of the recommender update. A recommender update can be in one of
+  /// the following states:
   ///
-  /// A recommender can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
   /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt;
-  /// START IN_PROGRESS &gt; ACTIVE
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
   final String? status;
 
   RecommenderUpdateSummary({
@@ -8360,11 +8425,12 @@ class S3DataConfig {
 }
 
 /// <important>
-/// After you create a solution, you can’t change its configuration. By default,
-/// all new solutions use automatic training. With automatic training, you incur
-/// training costs while your solution is active. You can't stop automatic
-/// training for a solution. To avoid unnecessary costs, make sure to delete the
-/// solution when you are finished. For information about training costs, see <a
+/// By default, all new solutions use automatic training. With automatic
+/// training, you incur training costs while your solution is active. To avoid
+/// unnecessary costs, when you are finished you can <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html">update
+/// the solution</a> to turn off automatic training. For information about
+/// training costs, see <a
 /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
 /// pricing</a>.
 /// </important>
@@ -8394,6 +8460,9 @@ class Solution {
 
   /// The date and time (in Unix time) that the solution was last updated.
   final DateTime? lastUpdatedDateTime;
+
+  /// Provides a summary of the latest updates to the solution.
+  final SolutionUpdateSummary? latestSolutionUpdate;
 
   /// Describes the latest version of the solution, including the status and the
   /// ARN.
@@ -8458,6 +8527,7 @@ class Solution {
     this.datasetGroupArn,
     this.eventType,
     this.lastUpdatedDateTime,
+    this.latestSolutionUpdate,
     this.latestSolutionVersion,
     this.name,
     this.performAutoML,
@@ -8478,6 +8548,10 @@ class Solution {
       datasetGroupArn: json['datasetGroupArn'] as String?,
       eventType: json['eventType'] as String?,
       lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestSolutionUpdate: json['latestSolutionUpdate'] != null
+          ? SolutionUpdateSummary.fromJson(
+              json['latestSolutionUpdate'] as Map<String, dynamic>)
+          : null,
       latestSolutionVersion: json['latestSolutionVersion'] != null
           ? SolutionVersionSummary.fromJson(
               json['latestSolutionVersion'] as Map<String, dynamic>)
@@ -8648,6 +8722,81 @@ class SolutionSummary {
       name: json['name'] as String?,
       recipeArn: json['recipeArn'] as String?,
       solutionArn: json['solutionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+}
+
+/// The configuration details of the solution update.
+class SolutionUpdateConfig {
+  final AutoTrainingConfig? autoTrainingConfig;
+
+  SolutionUpdateConfig({
+    this.autoTrainingConfig,
+  });
+
+  factory SolutionUpdateConfig.fromJson(Map<String, dynamic> json) {
+    return SolutionUpdateConfig(
+      autoTrainingConfig: json['autoTrainingConfig'] != null
+          ? AutoTrainingConfig.fromJson(
+              json['autoTrainingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoTrainingConfig = this.autoTrainingConfig;
+    return {
+      if (autoTrainingConfig != null) 'autoTrainingConfig': autoTrainingConfig,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a solution update. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
+/// API.
+class SolutionUpdateSummary {
+  /// The date and time (in Unix format) that the solution update was created.
+  final DateTime? creationDateTime;
+
+  /// If a solution update fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the solution update was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Whether the solution automatically creates solution versions.
+  final bool? performAutoTraining;
+
+  /// The configuration details of the solution.
+  final SolutionUpdateConfig? solutionUpdateConfig;
+
+  /// The status of the solution update. A solution update can be in one of the
+  /// following states:
+  ///
+  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  final String? status;
+
+  SolutionUpdateSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.performAutoTraining,
+    this.solutionUpdateConfig,
+    this.status,
+  });
+
+  factory SolutionUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionUpdateSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      performAutoTraining: json['performAutoTraining'] as bool?,
+      solutionUpdateConfig: json['solutionUpdateConfig'] != null
+          ? SolutionUpdateConfig.fromJson(
+              json['solutionUpdateConfig'] as Map<String, dynamic>)
+          : null,
       status: json['status'] as String?,
     );
   }
@@ -9105,6 +9254,21 @@ class UpdateRecommenderResponse {
   factory UpdateRecommenderResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRecommenderResponse(
       recommenderArn: json['recommenderArn'] as String?,
+    );
+  }
+}
+
+class UpdateSolutionResponse {
+  /// The same solution Amazon Resource Name (ARN) as given in the request.
+  final String? solutionArn;
+
+  UpdateSolutionResponse({
+    this.solutionArn,
+  });
+
+  factory UpdateSolutionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSolutionResponse(
+      solutionArn: json['solutionArn'] as String?,
     );
   }
 }

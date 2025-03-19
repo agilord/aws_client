@@ -44,13 +44,16 @@ Amazon Neptune clusters
 Amazon SageMaker endpoint variants
 </li>
 <li>
-Amazon SageMaker Serverless endpoint provisioned concurrency
-</li>
-<li>
 Amazon SageMaker inference components
 </li>
 <li>
+Amazon SageMaker serverless endpoint provisioned concurrency
+</li>
+<li>
 Spot Fleets (Amazon EC2)
+</li>
+<li>
+Pool of WorkSpaces
 </li>
 <li>
 Custom resources provided by your own applications or services

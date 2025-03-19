@@ -5133,6 +5133,8 @@ enum FieldLogLevel {
   none('NONE'),
   error('ERROR'),
   all('ALL'),
+  info('INFO'),
+  debug('DEBUG'),
   ;
 
   final String value;
@@ -6124,15 +6126,15 @@ class LogConfig {
   /// account.
   final String cloudWatchLogsRoleArn;
 
-  /// The field logging level. Values can be NONE, ERROR, or ALL.
+  /// The field logging level. Values can be NONE, ERROR, INFO, DEBUG, or ALL.
   ///
   /// <ul>
   /// <li>
   /// <b>NONE</b>: No field-level logs are captured.
   /// </li>
   /// <li>
-  /// <b>ERROR</b>: Logs the following information only for the fields that are in
-  /// error:
+  /// <b>ERROR</b>: Logs the following information <b>only</b> for the fields that
+  /// are in the error category:
   ///
   /// <ul>
   /// <li>
@@ -6146,6 +6148,39 @@ class LogConfig {
   /// </li>
   /// </ul> </li>
   /// <li>
+  /// <b>INFO</b>: Logs the following information <b>only</b> for the fields that
+  /// are in the info and error categories:
+  ///
+  /// <ul>
+  /// <li>
+  /// Info-level messages.
+  /// </li>
+  /// <li>
+  /// The user messages sent through <code>$util.log.info</code> and
+  /// <code>console.log</code>.
+  /// </li>
+  /// <li>
+  /// Field-level tracing and mapping logs are not shown.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>DEBUG</b>: Logs the following information <b>only</b> for the fields that
+  /// are in the debug, info, and error categories:
+  ///
+  /// <ul>
+  /// <li>
+  /// Debug-level messages.
+  /// </li>
+  /// <li>
+  /// The user messages sent through <code>$util.log.info</code>,
+  /// <code>$util.log.debug</code>, <code>console.log</code>, and
+  /// <code>console.debug</code>.
+  /// </li>
+  /// <li>
+  /// Field-level tracing and mapping logs are not shown.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
   /// <b>ALL</b>: The following information is logged for all fields in the query:
   ///
   /// <ul>
@@ -6153,7 +6188,7 @@ class LogConfig {
   /// Field-level tracing information.
   /// </li>
   /// <li>
-  /// The generated request/response functions that got resolved for each field.
+  /// The generated request/response functions that were resolved for each field.
   /// </li>
   /// </ul> </li>
   /// </ul>

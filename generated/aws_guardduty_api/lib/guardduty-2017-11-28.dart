@@ -706,6 +706,59 @@ class GuardDuty {
     return CreateIPSetResponse.fromJson(response);
   }
 
+  /// Creates a new Malware Protection plan for the protected resource.
+  ///
+  /// When you create a Malware Protection plan, the Amazon Web Services service
+  /// terms for GuardDuty Malware Protection apply. For more information, see <a
+  /// href="http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty">Amazon
+  /// Web Services service terms for GuardDuty Malware Protection</a>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [protectedResource] :
+  /// Information about the protected resource that is associated with the
+  /// created Malware Protection plan. Presently, <code>S3Bucket</code> is the
+  /// only supported protected resource.
+  ///
+  /// Parameter [role] :
+  /// IAM role with permissions required to scan and add tags to the associated
+  /// protected resource.
+  ///
+  /// Parameter [actions] :
+  /// Information about whether the tags will be added to the S3 object after
+  /// scanning.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the create request.
+  ///
+  /// Parameter [tags] :
+  /// Tags added to the Malware Protection plan resource.
+  Future<CreateMalwareProtectionPlanResponse> createMalwareProtectionPlan({
+    required CreateProtectedResource protectedResource,
+    required String role,
+    MalwareProtectionPlanActions? actions,
+    String? clientToken,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'protectedResource': protectedResource,
+      'role': role,
+      if (actions != null) 'actions': actions,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/malware-protection-plan',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMalwareProtectionPlanResponse.fromJson(response);
+  }
+
   /// Creates member accounts of the current Amazon Web Services account by
   /// specifying a list of Amazon Web Services account IDs. This step is a
   /// prerequisite for managing the associated member accounts either by
@@ -1004,6 +1057,29 @@ class GuardDuty {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInvitationsResponse.fromJson(response);
+  }
+
+  /// Deletes the Malware Protection plan ID associated with the Malware
+  /// Protection plan resource. Use this API only when you no longer want to
+  /// protect the resource associated with this Malware Protection plan ID.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [malwareProtectionPlanId] :
+  /// A unique identifier associated with Malware Protection plan resource.
+  Future<void> deleteMalwareProtectionPlan({
+    required String malwareProtectionPlanId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/malware-protection-plan/${Uri.encodeComponent(malwareProtectionPlanId)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Deletes GuardDuty member accounts (to the current GuardDuty administrator
@@ -1629,6 +1705,29 @@ class GuardDuty {
       exceptionFnMap: _exceptionFns,
     );
     return GetInvitationsCountResponse.fromJson(response);
+  }
+
+  /// Retrieves the Malware Protection plan details associated with a Malware
+  /// Protection plan ID.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [malwareProtectionPlanId] :
+  /// A unique identifier associated with Malware Protection plan resource.
+  Future<GetMalwareProtectionPlanResponse> getMalwareProtectionPlan({
+    required String malwareProtectionPlanId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/malware-protection-plan/${Uri.encodeComponent(malwareProtectionPlanId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMalwareProtectionPlanResponse.fromJson(response);
   }
 
   /// Returns the details of the malware scan settings.
@@ -2398,6 +2497,35 @@ class GuardDuty {
     return ListInvitationsResponse.fromJson(response);
   }
 
+  /// Lists the Malware Protection plan IDs associated with the protected
+  /// resources in your Amazon Web Services account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [nextToken] :
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the list action. For subsequent
+  /// calls to the action, fill nextToken in the request with the value of
+  /// <code>NextToken</code> from the previous response to continue listing
+  /// data.
+  Future<ListMalwareProtectionPlansResponse> listMalwareProtectionPlans({
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/malware-protection-plan',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMalwareProtectionPlansResponse.fromJson(response);
+  }
+
   /// Lists details about all member accounts for the current GuardDuty
   /// administrator account.
   ///
@@ -2973,6 +3101,48 @@ class GuardDuty {
       method: 'POST',
       requestUri:
           '/detector/${Uri.encodeComponent(detectorId)}/ipset/${Uri.encodeComponent(ipSetId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates an existing Malware Protection plan resource.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [malwareProtectionPlanId] :
+  /// A unique identifier associated with the Malware Protection plan.
+  ///
+  /// Parameter [actions] :
+  /// Information about whether the tags will be added to the S3 object after
+  /// scanning.
+  ///
+  /// Parameter [protectedResource] :
+  /// Information about the protected resource that is associated with the
+  /// created Malware Protection plan. Presently, <code>S3Bucket</code> is the
+  /// only supported protected resource.
+  ///
+  /// Parameter [role] :
+  /// IAM role with permissions required to scan and add tags to the associated
+  /// protected resource.
+  Future<void> updateMalwareProtectionPlan({
+    required String malwareProtectionPlanId,
+    MalwareProtectionPlanActions? actions,
+    UpdateProtectedResource? protectedResource,
+    String? role,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (actions != null) 'actions': actions,
+      if (protectedResource != null) 'protectedResource': protectedResource,
+      if (role != null) 'role': role,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/malware-protection-plan/${Uri.encodeComponent(malwareProtectionPlanId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4603,6 +4773,22 @@ class CreateIPSetResponse {
   }
 }
 
+class CreateMalwareProtectionPlanResponse {
+  /// A unique identifier associated with the Malware Protection plan resource.
+  final String? malwareProtectionPlanId;
+
+  CreateMalwareProtectionPlanResponse({
+    this.malwareProtectionPlanId,
+  });
+
+  factory CreateMalwareProtectionPlanResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMalwareProtectionPlanResponse(
+      malwareProtectionPlanId: json['malwareProtectionPlanId'] as String?,
+    );
+  }
+}
+
 class CreateMembersResponse {
   /// A list of objects that include the <code>accountIds</code> of the
   /// unprocessed accounts and a result string that explains why each was
@@ -4623,6 +4809,34 @@ class CreateMembersResponse {
   }
 }
 
+/// Information about the protected resource that is associated with the created
+/// Malware Protection plan. Presently, <code>S3Bucket</code> is the only
+/// supported protected resource.
+class CreateProtectedResource {
+  /// Information about the protected S3 bucket resource.
+  final CreateS3BucketResource? s3Bucket;
+
+  CreateProtectedResource({
+    this.s3Bucket,
+  });
+
+  factory CreateProtectedResource.fromJson(Map<String, dynamic> json) {
+    return CreateProtectedResource(
+      s3Bucket: json['s3Bucket'] != null
+          ? CreateS3BucketResource.fromJson(
+              json['s3Bucket'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    return {
+      if (s3Bucket != null) 's3Bucket': s3Bucket,
+    };
+  }
+}
+
 class CreatePublishingDestinationResponse {
   /// The ID of the publishing destination that is created.
   final String destinationId;
@@ -4636,6 +4850,40 @@ class CreatePublishingDestinationResponse {
     return CreatePublishingDestinationResponse(
       destinationId: json['destinationId'] as String,
     );
+  }
+}
+
+/// Information about the protected S3 bucket resource.
+class CreateS3BucketResource {
+  /// Name of the S3 bucket.
+  final String? bucketName;
+
+  /// Information about the specified object prefixes. The S3 object will be
+  /// scanned only if it belongs to any of the specified object prefixes.
+  final List<String>? objectPrefixes;
+
+  CreateS3BucketResource({
+    this.bucketName,
+    this.objectPrefixes,
+  });
+
+  factory CreateS3BucketResource.fromJson(Map<String, dynamic> json) {
+    return CreateS3BucketResource(
+      bucketName: json['bucketName'] as String?,
+      objectPrefixes: (json['objectPrefixes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectPrefixes = this.objectPrefixes;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (objectPrefixes != null) 'objectPrefixes': objectPrefixes,
+    };
   }
 }
 
@@ -6516,6 +6764,73 @@ class GetInvitationsCountResponse {
   }
 }
 
+class GetMalwareProtectionPlanResponse {
+  /// Information about whether the tags will be added to the S3 object after
+  /// scanning.
+  final MalwareProtectionPlanActions? actions;
+
+  /// Amazon Resource Name (ARN) of the protected resource.
+  final String? arn;
+
+  /// The timestamp when the Malware Protection plan resource was created.
+  final DateTime? createdAt;
+
+  /// Information about the protected resource that is associated with the created
+  /// Malware Protection plan. Presently, <code>S3Bucket</code> is the only
+  /// supported protected resource.
+  final CreateProtectedResource? protectedResource;
+
+  /// IAM role that includes the permissions required to scan and add tags to the
+  /// associated protected resource.
+  final String? role;
+
+  /// Malware Protection plan status.
+  final MalwareProtectionPlanStatus? status;
+
+  /// Information about the issue code and message associated to the status of
+  /// your Malware Protection plan.
+  final List<MalwareProtectionPlanStatusReason>? statusReasons;
+
+  /// Tags added to the Malware Protection plan resource.
+  final Map<String, String>? tags;
+
+  GetMalwareProtectionPlanResponse({
+    this.actions,
+    this.arn,
+    this.createdAt,
+    this.protectedResource,
+    this.role,
+    this.status,
+    this.statusReasons,
+    this.tags,
+  });
+
+  factory GetMalwareProtectionPlanResponse.fromJson(Map<String, dynamic> json) {
+    return GetMalwareProtectionPlanResponse(
+      actions: json['actions'] != null
+          ? MalwareProtectionPlanActions.fromJson(
+              json['actions'] as Map<String, dynamic>)
+          : null,
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      protectedResource: json['protectedResource'] != null
+          ? CreateProtectedResource.fromJson(
+              json['protectedResource'] as Map<String, dynamic>)
+          : null,
+      role: json['role'] as String?,
+      status: (json['status'] as String?)
+          ?.let(MalwareProtectionPlanStatus.fromString),
+      statusReasons: (json['statusReasons'] as List?)
+          ?.nonNulls
+          .map((e) => MalwareProtectionPlanStatusReason.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+}
+
 class GetMalwareScanSettingsResponse {
   /// An enum value representing possible snapshot preservation settings.
   final EbsSnapshotPreservation? ebsSnapshotPreservation;
@@ -6987,6 +7302,27 @@ enum IpSetStatus {
   static IpSetStatus fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum IpSetStatus'));
+}
+
+/// Information about the nested item path and hash of the protected resource.
+class ItemPath {
+  /// The hash value of the infected resource.
+  final String? hash;
+
+  /// The nested item path where the infected file was found.
+  final String? nestedItemPath;
+
+  ItemPath({
+    this.hash,
+    this.nestedItemPath,
+  });
+
+  factory ItemPath.fromJson(Map<String, dynamic> json) {
+    return ItemPath(
+      hash: json['hash'] as String?,
+      nestedItemPath: json['nestedItemPath'] as String?,
+    );
+  }
 }
 
 /// Information about the Kubernetes API call action described in this finding.
@@ -7654,6 +7990,34 @@ class ListInvitationsResponse {
   }
 }
 
+class ListMalwareProtectionPlansResponse {
+  /// A list of unique identifiers associated with each Malware Protection plan.
+  final List<MalwareProtectionPlanSummary>? malwareProtectionPlans;
+
+  /// You can use this parameter when paginating results. Set the value of this
+  /// parameter to null on your first call to the list action. For subsequent
+  /// calls to the action, fill nextToken in the request with the value of
+  /// <code>NextToken</code> from the previous response to continue listing data.
+  final String? nextToken;
+
+  ListMalwareProtectionPlansResponse({
+    this.malwareProtectionPlans,
+    this.nextToken,
+  });
+
+  factory ListMalwareProtectionPlansResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMalwareProtectionPlansResponse(
+      malwareProtectionPlans: (json['malwareProtectionPlans'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              MalwareProtectionPlanSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+}
+
 class ListMembersResponse {
   /// A list of members.
   /// <note>
@@ -7914,6 +8278,154 @@ class MalwareProtectionDataSourceFreeTrial {
           ? DataSourceFreeTrial.fromJson(
               json['scanEc2InstanceWithFindings'] as Map<String, dynamic>)
           : null,
+    );
+  }
+}
+
+/// Information about whether the tags will be added to the S3 object after
+/// scanning.
+class MalwareProtectionPlanActions {
+  /// Indicates whether the scanned S3 object will have tags about the scan
+  /// result.
+  final MalwareProtectionPlanTaggingAction? tagging;
+
+  MalwareProtectionPlanActions({
+    this.tagging,
+  });
+
+  factory MalwareProtectionPlanActions.fromJson(Map<String, dynamic> json) {
+    return MalwareProtectionPlanActions(
+      tagging: json['tagging'] != null
+          ? MalwareProtectionPlanTaggingAction.fromJson(
+              json['tagging'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagging = this.tagging;
+    return {
+      if (tagging != null) 'tagging': tagging,
+    };
+  }
+}
+
+enum MalwareProtectionPlanStatus {
+  active('ACTIVE'),
+  warning('WARNING'),
+  error('ERROR'),
+  ;
+
+  final String value;
+
+  const MalwareProtectionPlanStatus(this.value);
+
+  static MalwareProtectionPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MalwareProtectionPlanStatus'));
+}
+
+/// Information about the issue code and message associated to the status of
+/// your Malware Protection plan.
+class MalwareProtectionPlanStatusReason {
+  /// Issue code.
+  final String? code;
+
+  /// Issue message that specifies the reason. For information about potential
+  /// troubleshooting steps, see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html">Troubleshooting
+  /// Malware Protection for S3 status issues</a> in the <i>GuardDuty User
+  /// Guide</i>.
+  final String? message;
+
+  MalwareProtectionPlanStatusReason({
+    this.code,
+    this.message,
+  });
+
+  factory MalwareProtectionPlanStatusReason.fromJson(
+      Map<String, dynamic> json) {
+    return MalwareProtectionPlanStatusReason(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+}
+
+/// Information about the Malware Protection plan resource.
+class MalwareProtectionPlanSummary {
+  /// A unique identifier associated with Malware Protection plan.
+  final String? malwareProtectionPlanId;
+
+  MalwareProtectionPlanSummary({
+    this.malwareProtectionPlanId,
+  });
+
+  factory MalwareProtectionPlanSummary.fromJson(Map<String, dynamic> json) {
+    return MalwareProtectionPlanSummary(
+      malwareProtectionPlanId: json['malwareProtectionPlanId'] as String?,
+    );
+  }
+}
+
+/// Information about adding tags to the scanned S3 object after the scan
+/// result.
+class MalwareProtectionPlanTaggingAction {
+  /// Indicates whether or not the tags will added.
+  final MalwareProtectionPlanTaggingActionStatus? status;
+
+  MalwareProtectionPlanTaggingAction({
+    this.status,
+  });
+
+  factory MalwareProtectionPlanTaggingAction.fromJson(
+      Map<String, dynamic> json) {
+    return MalwareProtectionPlanTaggingAction(
+      status: (json['status'] as String?)
+          ?.let(MalwareProtectionPlanTaggingActionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+enum MalwareProtectionPlanTaggingActionStatus {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const MalwareProtectionPlanTaggingActionStatus(this.value);
+
+  static MalwareProtectionPlanTaggingActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MalwareProtectionPlanTaggingActionStatus'));
+}
+
+/// Information about the malware scan that generated a GuardDuty finding.
+class MalwareScanDetails {
+  /// Information about the detected threats associated with the generated
+  /// GuardDuty finding.
+  final List<Threat>? threats;
+
+  MalwareScanDetails({
+    this.threats,
+  });
+
+  factory MalwareScanDetails.fromJson(Map<String, dynamic> json) {
+    return MalwareScanDetails(
+      threats: (json['threats'] as List?)
+          ?.nonNulls
+          .map((e) => Threat.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -9666,7 +10178,7 @@ class Resource {
 
 /// Represents the resources that were scanned in the scan entry.
 class ResourceDetails {
-  /// InstanceArn that was scanned in the scan entry.
+  /// Instance ARN that was scanned in the scan entry.
   final String? instanceArn;
 
   ResourceDetails({
@@ -9899,6 +10411,9 @@ class S3BucketDetail {
   /// Describes the public access policies that apply to the S3 bucket.
   final PublicAccess? publicAccess;
 
+  /// Information about the S3 object that was scanned.
+  final List<S3ObjectDetail>? s3ObjectDetails;
+
   /// All tags attached to the S3 bucket
   final List<Tag>? tags;
 
@@ -9912,6 +10427,7 @@ class S3BucketDetail {
     this.name,
     this.owner,
     this.publicAccess,
+    this.s3ObjectDetails,
     this.tags,
     this.type,
   });
@@ -9931,6 +10447,10 @@ class S3BucketDetail {
       publicAccess: json['publicAccess'] != null
           ? PublicAccess.fromJson(json['publicAccess'] as Map<String, dynamic>)
           : null,
+      s3ObjectDetails: (json['s3ObjectDetails'] as List?)
+          ?.nonNulls
+          .map((e) => S3ObjectDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       tags: (json['tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -9970,6 +10490,43 @@ class S3LogsConfigurationResult {
   factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) {
     return S3LogsConfigurationResult(
       status: DataSourceStatus.fromString((json['status'] as String)),
+    );
+  }
+}
+
+/// Information about the S3 object that was scanned
+class S3ObjectDetail {
+  /// The entity tag is a hash of the S3 object. The ETag reflects changes only to
+  /// the contents of an object, and not its metadata.
+  final String? eTag;
+
+  /// Hash of the threat detected in this finding.
+  final String? hash;
+
+  /// Key of the S3 object.
+  final String? key;
+
+  /// Amazon Resource Name (ARN) of the S3 object.
+  final String? objectArn;
+
+  /// Version ID of the object.
+  final String? versionId;
+
+  S3ObjectDetail({
+    this.eTag,
+    this.hash,
+    this.key,
+    this.objectArn,
+    this.versionId,
+  });
+
+  factory S3ObjectDetail.fromJson(Map<String, dynamic> json) {
+    return S3ObjectDetail(
+      eTag: json['eTag'] as String?,
+      hash: json['hash'] as String?,
+      key: json['key'] as String?,
+      objectArn: json['objectArn'] as String?,
+      versionId: json['versionId'] as String?,
     );
   }
 }
@@ -10243,7 +10800,7 @@ class ScanFilePath {
   /// The hash value of the infected file.
   final String? hash;
 
-  /// EBS volume Arn details of the infected file.
+  /// EBS volume ARN details of the infected file.
   final String? volumeArn;
 
   ScanFilePath({
@@ -10504,6 +11061,9 @@ class Service {
   /// The name of the feature that generated a finding.
   final String? featureName;
 
+  /// Returns details from the malware scan that generated a GuardDuty finding.
+  final MalwareScanDetails? malwareScanDetails;
+
   /// The resource role information for this finding.
   final String? resourceRole;
 
@@ -10530,6 +11090,7 @@ class Service {
     this.eventLastSeen,
     this.evidence,
     this.featureName,
+    this.malwareScanDetails,
     this.resourceRole,
     this.runtimeDetails,
     this.serviceName,
@@ -10561,6 +11122,10 @@ class Service {
           ? Evidence.fromJson(json['evidence'] as Map<String, dynamic>)
           : null,
       featureName: json['featureName'] as String?,
+      malwareScanDetails: json['malwareScanDetails'] != null
+          ? MalwareScanDetails.fromJson(
+              json['malwareScanDetails'] as Map<String, dynamic>)
+          : null,
       resourceRole: json['resourceRole'] as String?,
       runtimeDetails: json['runtimeDetails'] != null
           ? RuntimeDetails.fromJson(
@@ -10699,6 +11264,36 @@ class TagResourceResponse {
 
   factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
     return TagResourceResponse();
+  }
+}
+
+/// Information about the detected threats associated with the generated
+/// finding.
+class Threat {
+  /// Information about the nested item path and hash of the protected resource.
+  final List<ItemPath>? itemPaths;
+
+  /// Name of the detected threat that caused GuardDuty to generate this finding.
+  final String? name;
+
+  /// Source of the threat that generated this finding.
+  final String? source;
+
+  Threat({
+    this.itemPaths,
+    this.name,
+    this.source,
+  });
+
+  factory Threat.fromJson(Map<String, dynamic> json) {
+    return Threat(
+      itemPaths: (json['itemPaths'] as List?)
+          ?.nonNulls
+          .map((e) => ItemPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      source: json['source'] as String?,
+    );
   }
 }
 
@@ -10997,11 +11592,48 @@ class UpdateOrganizationConfigurationResponse {
   }
 }
 
+/// Information about the protected resource that is associated with the created
+/// Malware Protection plan. Presently, <code>S3Bucket</code> is the only
+/// supported protected resource.
+class UpdateProtectedResource {
+  /// Information about the protected S3 bucket resource.
+  final UpdateS3BucketResource? s3Bucket;
+
+  UpdateProtectedResource({
+    this.s3Bucket,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    return {
+      if (s3Bucket != null) 's3Bucket': s3Bucket,
+    };
+  }
+}
+
 class UpdatePublishingDestinationResponse {
   UpdatePublishingDestinationResponse();
 
   factory UpdatePublishingDestinationResponse.fromJson(Map<String, dynamic> _) {
     return UpdatePublishingDestinationResponse();
+  }
+}
+
+/// Information about the protected S3 bucket resource.
+class UpdateS3BucketResource {
+  /// Information about the specified object prefixes. The S3 object will be
+  /// scanned only if it belongs to any of the specified object prefixes.
+  final List<String>? objectPrefixes;
+
+  UpdateS3BucketResource({
+    this.objectPrefixes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectPrefixes = this.objectPrefixes;
+    return {
+      if (objectPrefixes != null) 'objectPrefixes': objectPrefixes,
+    };
   }
 }
 
@@ -11334,13 +11966,13 @@ class VolumeDetail {
   /// EBS volume encryption type.
   final String? encryptionType;
 
-  /// KMS key Arn used to encrypt the EBS volume.
+  /// KMS key ARN used to encrypt the EBS volume.
   final String? kmsKeyArn;
 
-  /// Snapshot Arn of the EBS volume.
+  /// Snapshot ARN of the EBS volume.
   final String? snapshotArn;
 
-  /// EBS volume Arn information.
+  /// EBS volume ARN information.
   final String? volumeArn;
 
   /// EBS volume size in GB.
@@ -11448,6 +12080,11 @@ class InternalServerErrorException extends _s.GenericAwsException {
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
@@ -11457,4 +12094,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerErrorException': (type, message) =>
       InternalServerErrorException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
 };

@@ -8,8 +8,8 @@ in Amazon Web Services and helps you assess your Amazon Web Services
 environment against security industry standards and best practices.
 
 Security Hub collects security data across Amazon Web Services accounts,
-Amazon Web Services, and supported third-party products and helps you
-analyze your security trends and identify the highest priority security
+Amazon Web Servicesservices, and supported third-party products and helps
+you analyze your security trends and identify the highest priority security
 issues.
 
 To help you manage the security state of your organization, Security Hub
@@ -24,11 +24,11 @@ control findings to help you assess your compliance against security best
 practices.
 
 In addition to generating control findings, Security Hub also receives
-findings from other Amazon Web Services, such as Amazon GuardDuty and Amazon
-Inspector, and supported third-party products. This gives you a single pane
-of glass into a variety of security-related issues. You can also send
-Security Hub findings to other Amazon Web Services and supported third-party
-products.
+findings from other Amazon Web Servicesservices, such as Amazon GuardDuty
+and Amazon Inspector, and supported third-party products. This gives you a
+single pane of glass into a variety of security-related issues. You can also
+send Security Hub findings to other Amazon Web Servicesservices and
+supported third-party products.
 
 Security Hub offers automation features that help you triage and remediate
 security issues. For example, you can use automation rules to automatically
@@ -44,7 +44,7 @@ href="https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityh
 <i>Security Hub User Guide</i> </a>. The user guide explains key concepts
 and provides procedures that demonstrate how to use Security Hub features.
 It also provides information about topics such as integrating Security Hub
-with other Amazon Web Services.
+with other Amazon Web Servicesservices.
 
 In addition to interacting with Security Hub by making calls to the Security
 Hub API, you can use a current version of an Amazon Web Services command
@@ -52,9 +52,9 @@ line tool or SDK. Amazon Web Services provides tools and SDKs that consist
 of libraries and sample code for various languages and platforms, such as
 PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide
 convenient, programmatic access to Security Hub and other Amazon Web
-Services . They also handle tasks such as signing requests, managing errors,
-and retrying requests automatically. For information about installing and
-using the Amazon Web Services tools and SDKs, see <a
+Servicesservices . They also handle tasks such as signing requests, managing
+errors, and retrying requests automatically. For information about
+installing and using the Amazon Web Services tools and SDKs, see <a
 href="https://aws.amazon.com/developer/tools/">Tools to Build on Amazon Web
 Services</a>.
 

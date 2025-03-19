@@ -364,10 +364,6 @@ class ECR {
   /// Microsoft Azure Container Registry (<code>azure-container-registry</code>)
   /// - <code>&lt;custom&gt;.azurecr.io</code>
   /// </li>
-  /// <li>
-  /// GitLab Container Registry (<code>gitlab-container-registry</code>) -
-  /// <code>registry.gitlab.com</code>
-  /// </li>
   /// </ul>
   ///
   /// Parameter [credentialArn] :
@@ -493,6 +489,121 @@ class ECR {
     );
 
     return CreateRepositoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a repository creation template. This template is used to define
+  /// the settings for repositories created by Amazon ECR on your behalf. For
+  /// example, repositories created through pull through cache actions. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-creation-templates.html">Private
+  /// repository creation templates</a> in the <i>Amazon Elastic Container
+  /// Registry User Guide</i>.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  /// May throw [TemplateAlreadyExistsException].
+  ///
+  /// Parameter [appliedFor] :
+  /// A list of enumerable strings representing the Amazon ECR repository
+  /// creation scenarios that this template will apply towards. The two
+  /// supported scenarios are <code>PULL_THROUGH_CACHE</code> and
+  /// <code>REPLICATION</code>
+  ///
+  /// Parameter [prefix] :
+  /// The repository namespace prefix to associate with the template. All
+  /// repositories created using this namespace prefix will have the settings
+  /// defined in this template applied. For example, a prefix of
+  /// <code>prod</code> would apply to all repositories beginning with
+  /// <code>prod/</code>. Similarly, a prefix of <code>prod/team</code> would
+  /// apply to all repositories beginning with <code>prod/team/</code>.
+  ///
+  /// To apply a template to all repositories in your registry that don't have
+  /// an associated creation template, you can use <code>ROOT</code> as the
+  /// prefix.
+  /// <important>
+  /// There is always an assumed <code>/</code> applied to the end of the
+  /// prefix. If you specify <code>ecr-public</code> as the prefix, Amazon ECR
+  /// treats that as <code>ecr-public/</code>. When using a pull through cache
+  /// rule, the repository prefix you specify during rule creation is what you
+  /// should specify as your repository creation template prefix as well.
+  /// </important>
+  ///
+  /// Parameter [customRoleArn] :
+  /// The ARN of the role to be assumed by Amazon ECR. This role must be in the
+  /// same account as the registry that you are configuring. Amazon ECR will
+  /// assume your supplied role when the customRoleArn is specified. When this
+  /// field isn't specified, Amazon ECR will use the service-linked role for the
+  /// repository creation template.
+  ///
+  /// Parameter [description] :
+  /// A description for the repository creation template.
+  ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration to use for repositories created using the
+  /// template.
+  ///
+  /// Parameter [imageTagMutability] :
+  /// The tag mutability setting for the repository. If this parameter is
+  /// omitted, the default setting of <code>MUTABLE</code> will be used which
+  /// will allow image tags to be overwritten. If <code>IMMUTABLE</code> is
+  /// specified, all image tags within the repository will be immutable which
+  /// will prevent them from being overwritten.
+  ///
+  /// Parameter [lifecyclePolicy] :
+  /// The lifecycle policy to use for repositories created using the template.
+  ///
+  /// Parameter [repositoryPolicy] :
+  /// The repository policy to apply to repositories created using the template.
+  /// A repository policy is a permissions policy associated with a repository
+  /// to control access permissions.
+  ///
+  /// Parameter [resourceTags] :
+  /// The metadata to apply to the repository to help you categorize and
+  /// organize. Each tag consists of a key and an optional value, both of which
+  /// you define. Tag keys can have a maximum character length of 128
+  /// characters, and tag values can have a maximum length of 256 characters.
+  Future<CreateRepositoryCreationTemplateResponse>
+      createRepositoryCreationTemplate({
+    required List<RCTAppliedFor> appliedFor,
+    required String prefix,
+    String? customRoleArn,
+    String? description,
+    EncryptionConfigurationForRepositoryCreationTemplate?
+        encryptionConfiguration,
+    ImageTagMutability? imageTagMutability,
+    String? lifecyclePolicy,
+    String? repositoryPolicy,
+    List<Tag>? resourceTags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.CreateRepositoryCreationTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appliedFor': appliedFor.map((e) => e.value).toList(),
+        'prefix': prefix,
+        if (customRoleArn != null) 'customRoleArn': customRoleArn,
+        if (description != null) 'description': description,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
+        if (imageTagMutability != null)
+          'imageTagMutability': imageTagMutability.value,
+        if (lifecyclePolicy != null) 'lifecyclePolicy': lifecyclePolicy,
+        if (repositoryPolicy != null) 'repositoryPolicy': repositoryPolicy,
+        if (resourceTags != null) 'resourceTags': resourceTags,
+      },
+    );
+
+    return CreateRepositoryCreationTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the lifecycle policy associated with the specified repository.
@@ -642,6 +753,39 @@ class ECR {
     );
 
     return DeleteRepositoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a repository creation template.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [TemplateNotFoundException].
+  ///
+  /// Parameter [prefix] :
+  /// The repository namespace prefix associated with the repository creation
+  /// template.
+  Future<DeleteRepositoryCreationTemplateResponse>
+      deleteRepositoryCreationTemplate({
+    required String prefix,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryCreationTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'prefix': prefix,
+      },
+    );
+
+    return DeleteRepositoryCreationTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the repository policy associated with the specified repository.
@@ -1052,6 +1196,107 @@ class ECR {
     );
 
     return DescribeRepositoriesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns details about the repository creation templates in a registry. The
+  /// <code>prefixes</code> request parameter can be used to return the details
+  /// for a specific repository creation template.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of repository results returned by
+  /// <code>DescribeRepositoryCreationTemplatesRequest</code> in paginated
+  /// output. When this parameter is used,
+  /// <code>DescribeRepositoryCreationTemplatesRequest</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>DescribeRepositoryCreationTemplatesRequest</code> request with the
+  /// returned <code>nextToken</code> value. This value can be between 1 and
+  /// 1000. If this parameter is not used, then
+  /// <code>DescribeRepositoryCreationTemplatesRequest</code> returns up to 100
+  /// results and a <code>nextToken</code> value, if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeRepositoryCreationTemplates</code> request where
+  /// <code>maxResults</code> was used and the results exceeded the value of
+  /// that parameter. Pagination continues from the end of the previous results
+  /// that returned the <code>nextToken</code> value. This value is
+  /// <code>null</code> when there are no more results to return.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is only used to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  ///
+  /// Parameter [prefixes] :
+  /// The repository namespace prefixes associated with the repository creation
+  /// templates to describe. If this value is not specified, all repository
+  /// creation templates are returned.
+  Future<DescribeRepositoryCreationTemplatesResponse>
+      describeRepositoryCreationTemplates({
+    int? maxResults,
+    String? nextToken,
+    List<String>? prefixes,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DescribeRepositoryCreationTemplates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (prefixes != null) 'prefixes': prefixes,
+      },
+    );
+
+    return DescribeRepositoryCreationTemplatesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves the basic scan type version name.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [name] :
+  /// Basic scan type version name.
+  Future<GetAccountSettingResponse> getAccountSetting({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetAccountSetting'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetAccountSettingResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves an authorization token. An authorization token represents your
@@ -1519,6 +1764,44 @@ class ECR {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Allows you to change the basic scan type version by setting the
+  /// <code>name</code> parameter to either <code>CLAIR</code> to
+  /// <code>AWS_NATIVE</code>.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [name] :
+  /// Basic scan type version name.
+  ///
+  /// Parameter [value] :
+  /// Setting value that determines what basic scan type is being used:
+  /// <code>AWS_NATIVE</code> or <code>CLAIR</code>.
+  Future<PutAccountSettingResponse> putAccountSetting({
+    required String name,
+    required String value,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutAccountSetting'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'value': value,
+      },
+    );
+
+    return PutAccountSettingResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates the image manifest and tags associated with an image.
   ///
   /// When an image is pushed and all new image layers have been uploaded, the
@@ -1842,7 +2125,10 @@ class ECR {
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html">Using
   /// service-linked roles for Amazon ECR</a> in the <i>Amazon Elastic Container
-  /// Registry User Guide</i>.
+  /// Registry User Guide</i>. For more information on the custom role for
+  /// replication, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/replication-creation-templates.html#roles-creatingrole-user-console">Creating
+  /// an IAM role for replication</a>.
   /// <note>
   /// When configuring cross-account replication, the destination account must
   /// grant the source account permission to replicate. This permission is
@@ -2151,6 +2437,106 @@ class ECR {
     );
 
     return UpdatePullThroughCacheRuleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing repository creation template.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ValidationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [TemplateNotFoundException].
+  ///
+  /// Parameter [prefix] :
+  /// The repository namespace prefix that matches an existing repository
+  /// creation template in the registry. All repositories created using this
+  /// namespace prefix will have the settings defined in this template applied.
+  /// For example, a prefix of <code>prod</code> would apply to all repositories
+  /// beginning with <code>prod/</code>. This includes a repository named
+  /// <code>prod/team1</code> as well as a repository named
+  /// <code>prod/repository1</code>.
+  ///
+  /// To apply a template to all repositories in your registry that don't have
+  /// an associated creation template, you can use <code>ROOT</code> as the
+  /// prefix.
+  ///
+  /// Parameter [appliedFor] :
+  /// Updates the list of enumerable strings representing the Amazon ECR
+  /// repository creation scenarios that this template will apply towards. The
+  /// two supported scenarios are <code>PULL_THROUGH_CACHE</code> and
+  /// <code>REPLICATION</code>
+  ///
+  /// Parameter [customRoleArn] :
+  /// The ARN of the role to be assumed by Amazon ECR. This role must be in the
+  /// same account as the registry that you are configuring. Amazon ECR will
+  /// assume your supplied role when the customRoleArn is specified. When this
+  /// field isn't specified, Amazon ECR will use the service-linked role for the
+  /// repository creation template.
+  ///
+  /// Parameter [description] :
+  /// A description for the repository creation template.
+  ///
+  /// Parameter [imageTagMutability] :
+  /// Updates the tag mutability setting for the repository. If this parameter
+  /// is omitted, the default setting of <code>MUTABLE</code> will be used which
+  /// will allow image tags to be overwritten. If <code>IMMUTABLE</code> is
+  /// specified, all image tags within the repository will be immutable which
+  /// will prevent them from being overwritten.
+  ///
+  /// Parameter [lifecyclePolicy] :
+  /// Updates the lifecycle policy associated with the specified repository
+  /// creation template.
+  ///
+  /// Parameter [repositoryPolicy] :
+  /// Updates the repository policy created using the template. A repository
+  /// policy is a permissions policy associated with a repository to control
+  /// access permissions.
+  ///
+  /// Parameter [resourceTags] :
+  /// The metadata to apply to the repository to help you categorize and
+  /// organize. Each tag consists of a key and an optional value, both of which
+  /// you define. Tag keys can have a maximum character length of 128
+  /// characters, and tag values can have a maximum length of 256 characters.
+  Future<UpdateRepositoryCreationTemplateResponse>
+      updateRepositoryCreationTemplate({
+    required String prefix,
+    List<RCTAppliedFor>? appliedFor,
+    String? customRoleArn,
+    String? description,
+    EncryptionConfigurationForRepositoryCreationTemplate?
+        encryptionConfiguration,
+    ImageTagMutability? imageTagMutability,
+    String? lifecyclePolicy,
+    String? repositoryPolicy,
+    List<Tag>? resourceTags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.UpdateRepositoryCreationTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'prefix': prefix,
+        if (appliedFor != null)
+          'appliedFor': appliedFor.map((e) => e.value).toList(),
+        if (customRoleArn != null) 'customRoleArn': customRoleArn,
+        if (description != null) 'description': description,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
+        if (imageTagMutability != null)
+          'imageTagMutability': imageTagMutability.value,
+        if (lifecyclePolicy != null) 'lifecyclePolicy': lifecyclePolicy,
+        if (repositoryPolicy != null) 'repositoryPolicy': repositoryPolicy,
+        if (resourceTags != null) 'resourceTags': resourceTags,
+      },
+    );
+
+    return UpdateRepositoryCreationTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Uploads an image layer part to Amazon ECR.
@@ -2575,6 +2961,30 @@ class CreatePullThroughCacheRuleResponse {
   }
 }
 
+class CreateRepositoryCreationTemplateResponse {
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The details of the repository creation template associated with the request.
+  final RepositoryCreationTemplate? repositoryCreationTemplate;
+
+  CreateRepositoryCreationTemplateResponse({
+    this.registryId,
+    this.repositoryCreationTemplate,
+  });
+
+  factory CreateRepositoryCreationTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateRepositoryCreationTemplateResponse(
+      registryId: json['registryId'] as String?,
+      repositoryCreationTemplate: json['repositoryCreationTemplate'] != null
+          ? RepositoryCreationTemplate.fromJson(
+              json['repositoryCreationTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class CreateRepositoryResponse {
   /// The repository that was created.
   final Repository? repository;
@@ -2768,6 +3178,30 @@ class DeleteRegistryPolicyResponse {
     return DeleteRegistryPolicyResponse(
       policyText: json['policyText'] as String?,
       registryId: json['registryId'] as String?,
+    );
+  }
+}
+
+class DeleteRepositoryCreationTemplateResponse {
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The details of the repository creation template that was deleted.
+  final RepositoryCreationTemplate? repositoryCreationTemplate;
+
+  DeleteRepositoryCreationTemplateResponse({
+    this.registryId,
+    this.repositoryCreationTemplate,
+  });
+
+  factory DeleteRepositoryCreationTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteRepositoryCreationTemplateResponse(
+      registryId: json['registryId'] as String?,
+      repositoryCreationTemplate: json['repositoryCreationTemplate'] != null
+          ? RepositoryCreationTemplate.fromJson(
+              json['repositoryCreationTemplate'] as Map<String, dynamic>)
+          : null,
     );
   }
 }
@@ -2972,7 +3406,7 @@ class DescribePullThroughCacheRulesResponse {
 }
 
 class DescribeRegistryResponse {
-  /// The ID of the registry.
+  /// The registry ID associated with the request.
   final String? registryId;
 
   /// The replication configuration for the registry.
@@ -3021,13 +3455,49 @@ class DescribeRepositoriesResponse {
   }
 }
 
+class DescribeRepositoryCreationTemplatesResponse {
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>DescribeRepositoryCreationTemplates</code> request. When the results
+  /// of a <code>DescribeRepositoryCreationTemplates</code> request exceed
+  /// <code>maxResults</code>, this value can be used to retrieve the next page of
+  /// results. This value is <code>null</code> when there are no more results to
+  /// return.
+  final String? nextToken;
+
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The details of the repository creation templates.
+  final List<RepositoryCreationTemplate>? repositoryCreationTemplates;
+
+  DescribeRepositoryCreationTemplatesResponse({
+    this.nextToken,
+    this.registryId,
+    this.repositoryCreationTemplates,
+  });
+
+  factory DescribeRepositoryCreationTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeRepositoryCreationTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryCreationTemplates: (json['repositoryCreationTemplates']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              RepositoryCreationTemplate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// The encryption configuration for the repository. This determines how the
 /// contents of your repository are encrypted at rest.
 ///
 /// By default, when no encryption configuration is set or the
 /// <code>AES256</code> encryption type is used, Amazon ECR uses server-side
 /// encryption with Amazon S3-managed encryption keys which encrypts your data
-/// at rest using an AES-256 encryption algorithm. This does not require any
+/// at rest using an AES256 encryption algorithm. This does not require any
 /// action on your part.
 ///
 /// For more control over the encryption of the contents of your repository, you
@@ -3053,7 +3523,7 @@ class EncryptionConfiguration {
   ///
   /// If you use the <code>AES256</code> encryption type, Amazon ECR uses
   /// server-side encryption with Amazon S3-managed encryption keys which encrypts
-  /// the images in the repository using an AES-256 encryption algorithm. For more
+  /// the images in the repository using an AES256 encryption algorithm. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Protecting
   /// data using server-side encryption with Amazon S3-managed encryption keys
@@ -3075,6 +3545,62 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
+      encryptionType:
+          EncryptionType.fromString((json['encryptionType'] as String)),
+      kmsKey: json['kmsKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kmsKey = this.kmsKey;
+    return {
+      'encryptionType': encryptionType.value,
+      if (kmsKey != null) 'kmsKey': kmsKey,
+    };
+  }
+}
+
+/// The encryption configuration to associate with the repository creation
+/// template.
+class EncryptionConfigurationForRepositoryCreationTemplate {
+  /// The encryption type to use.
+  ///
+  /// If you use the <code>KMS</code> encryption type, the contents of the
+  /// repository will be encrypted using server-side encryption with Key
+  /// Management Service key stored in KMS. When you use KMS to encrypt your data,
+  /// you can either use the default Amazon Web Services managed KMS key for
+  /// Amazon ECR, or specify your own KMS key, which you already created. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+  /// data using server-side encryption with an KMS key stored in Key Management
+  /// Service (SSE-KMS)</a> in the <i>Amazon Simple Storage Service Console
+  /// Developer Guide</i>.
+  ///
+  /// If you use the <code>AES256</code> encryption type, Amazon ECR uses
+  /// server-side encryption with Amazon S3-managed encryption keys which encrypts
+  /// the images in the repository using an AES256 encryption algorithm. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Protecting
+  /// data using server-side encryption with Amazon S3-managed encryption keys
+  /// (SSE-S3)</a> in the <i>Amazon Simple Storage Service Console Developer
+  /// Guide</i>.
+  final EncryptionType encryptionType;
+
+  /// If you use the <code>KMS</code> encryption type, specify the KMS key to use
+  /// for encryption. The full ARN of the KMS key must be specified. The key must
+  /// exist in the same Region as the repository. If no key is specified, the
+  /// default Amazon Web Services managed KMS key for Amazon ECR will be used.
+  final String? kmsKey;
+
+  EncryptionConfigurationForRepositoryCreationTemplate({
+    required this.encryptionType,
+    this.kmsKey,
+  });
+
+  factory EncryptionConfigurationForRepositoryCreationTemplate.fromJson(
+      Map<String, dynamic> json) {
+    return EncryptionConfigurationForRepositoryCreationTemplate(
       encryptionType:
           EncryptionType.fromString((json['encryptionType'] as String)),
       kmsKey: json['kmsKey'] as String?,
@@ -3222,6 +3748,27 @@ enum FindingSeverity {
               throw Exception('$value is not known in enum FindingSeverity'));
 }
 
+class GetAccountSettingResponse {
+  /// Retrieves the basic scan type version name.
+  final String? name;
+
+  /// Retrieves the value that specifies what basic scan type is being used:
+  /// <code>AWS_NATIVE</code> or <code>CLAIR</code>.
+  final String? value;
+
+  GetAccountSettingResponse({
+    this.name,
+    this.value,
+  });
+
+  factory GetAccountSettingResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountSettingResponse(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+}
+
 class GetAuthorizationTokenResponse {
   /// A list of authorization token data objects that correspond to the
   /// <code>registryIds</code> values in the request.
@@ -3354,7 +3901,7 @@ class GetRegistryPolicyResponse {
   /// The JSON text of the permissions policy for a registry.
   final String? policyText;
 
-  /// The ID of the registry.
+  /// The registry ID associated with the request.
   final String? registryId;
 
   GetRegistryPolicyResponse({
@@ -3371,7 +3918,7 @@ class GetRegistryPolicyResponse {
 }
 
 class GetRegistryScanningConfigurationResponse {
-  /// The ID of the registry.
+  /// The registry ID associated with the request.
   final String? registryId;
 
   /// The scanning configuration for the registry.
@@ -4276,6 +4823,27 @@ class PullThroughCacheRule {
   }
 }
 
+class PutAccountSettingResponse {
+  /// Retrieves the the basic scan type version name.
+  final String? name;
+
+  /// Retrieves the basic scan type value, either <code>AWS_NATIVE</code> or
+  /// <code>-</code>.
+  final String? value;
+
+  PutAccountSettingResponse({
+    this.name,
+    this.value,
+  });
+
+  factory PutAccountSettingResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountSettingResponse(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+}
+
 class PutImageResponse {
   /// Details of the image uploaded.
   final Image? image;
@@ -4377,7 +4945,7 @@ class PutRegistryPolicyResponse {
   /// The JSON policy text for your registry.
   final String? policyText;
 
-  /// The registry ID.
+  /// The registry ID associated with the request.
   final String? registryId;
 
   PutRegistryPolicyResponse({
@@ -4430,6 +4998,21 @@ class PutReplicationConfigurationResponse {
           : null,
     );
   }
+}
+
+enum RCTAppliedFor {
+  replication('REPLICATION'),
+  pullThroughCache('PULL_THROUGH_CACHE'),
+  ;
+
+  final String value;
+
+  const RCTAppliedFor(this.value);
+
+  static RCTAppliedFor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RCTAppliedFor'));
 }
 
 /// Details about the recommended course of action to remediate the finding.
@@ -4713,6 +5296,100 @@ class Repository {
       repositoryArn: json['repositoryArn'] as String?,
       repositoryName: json['repositoryName'] as String?,
       repositoryUri: json['repositoryUri'] as String?,
+    );
+  }
+}
+
+/// The details of the repository creation template associated with the request.
+class RepositoryCreationTemplate {
+  /// A list of enumerable Strings representing the repository creation scenarios
+  /// that this template will apply towards. The two supported scenarios are
+  /// PULL_THROUGH_CACHE and REPLICATION
+  final List<RCTAppliedFor>? appliedFor;
+
+  /// The date and time, in JavaScript date format, when the repository creation
+  /// template was created.
+  final DateTime? createdAt;
+
+  /// The ARN of the role to be assumed by Amazon ECR. Amazon ECR will assume your
+  /// supplied role when the customRoleArn is specified. When this field isn't
+  /// specified, Amazon ECR will use the service-linked role for the repository
+  /// creation template.
+  final String? customRoleArn;
+
+  /// The description associated with the repository creation template.
+  final String? description;
+
+  /// The encryption configuration associated with the repository creation
+  /// template.
+  final EncryptionConfigurationForRepositoryCreationTemplate?
+      encryptionConfiguration;
+
+  /// The tag mutability setting for the repository. If this parameter is omitted,
+  /// the default setting of MUTABLE will be used which will allow image tags to
+  /// be overwritten. If IMMUTABLE is specified, all image tags within the
+  /// repository will be immutable which will prevent them from being overwritten.
+  final ImageTagMutability? imageTagMutability;
+
+  /// The lifecycle policy to use for repositories created using the template.
+  final String? lifecyclePolicy;
+
+  /// The repository namespace prefix associated with the repository creation
+  /// template.
+  final String? prefix;
+
+  /// he repository policy to apply to repositories created using the template. A
+  /// repository policy is a permissions policy associated with a repository to
+  /// control access permissions.
+  final String? repositoryPolicy;
+
+  /// The metadata to apply to the repository to help you categorize and organize.
+  /// Each tag consists of a key and an optional value, both of which you define.
+  /// Tag keys can have a maximum character length of 128 characters, and tag
+  /// values can have a maximum length of 256 characters.
+  final List<Tag>? resourceTags;
+
+  /// The date and time, in JavaScript date format, when the repository creation
+  /// template was last updated.
+  final DateTime? updatedAt;
+
+  RepositoryCreationTemplate({
+    this.appliedFor,
+    this.createdAt,
+    this.customRoleArn,
+    this.description,
+    this.encryptionConfiguration,
+    this.imageTagMutability,
+    this.lifecyclePolicy,
+    this.prefix,
+    this.repositoryPolicy,
+    this.resourceTags,
+    this.updatedAt,
+  });
+
+  factory RepositoryCreationTemplate.fromJson(Map<String, dynamic> json) {
+    return RepositoryCreationTemplate(
+      appliedFor: (json['appliedFor'] as List?)
+          ?.nonNulls
+          .map((e) => RCTAppliedFor.fromString((e as String)))
+          .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      customRoleArn: json['customRoleArn'] as String?,
+      description: json['description'] as String?,
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfigurationForRepositoryCreationTemplate.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageTagMutability: (json['imageTagMutability'] as String?)
+          ?.let(ImageTagMutability.fromString),
+      lifecyclePolicy: json['lifecyclePolicy'] as String?,
+      prefix: json['prefix'] as String?,
+      repositoryPolicy: json['repositoryPolicy'] as String?,
+      resourceTags: (json['resourceTags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: timeStampFromJson(json['updatedAt']),
     );
   }
 }
@@ -5213,6 +5890,30 @@ class UpdatePullThroughCacheRuleResponse {
   }
 }
 
+class UpdateRepositoryCreationTemplateResponse {
+  /// The registry ID associated with the request.
+  final String? registryId;
+
+  /// The details of the repository creation template associated with the request.
+  final RepositoryCreationTemplate? repositoryCreationTemplate;
+
+  UpdateRepositoryCreationTemplateResponse({
+    this.registryId,
+    this.repositoryCreationTemplate,
+  });
+
+  factory UpdateRepositoryCreationTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateRepositoryCreationTemplateResponse(
+      registryId: json['registryId'] as String?,
+      repositoryCreationTemplate: json['repositoryCreationTemplate'] != null
+          ? RepositoryCreationTemplate.fromJson(
+              json['repositoryCreationTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
 class UploadLayerPartResponse {
   /// The integer value of the last byte received in the request.
   final int? lastByteReceived;
@@ -5548,6 +6249,19 @@ class ServerException extends _s.GenericAwsException {
       : super(type: type, code: 'ServerException', message: message);
 }
 
+class TemplateAlreadyExistsException extends _s.GenericAwsException {
+  TemplateAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TemplateAlreadyExistsException',
+            message: message);
+}
+
+class TemplateNotFoundException extends _s.GenericAwsException {
+  TemplateNotFoundException({String? type, String? message})
+      : super(type: type, code: 'TemplateNotFoundException', message: message);
+}
+
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
@@ -5669,6 +6383,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       SecretNotFoundException(type: type, message: message),
   'ServerException': (type, message) =>
       ServerException(type: type, message: message),
+  'TemplateAlreadyExistsException': (type, message) =>
+      TemplateAlreadyExistsException(type: type, message: message),
+  'TemplateNotFoundException': (type, message) =>
+      TemplateNotFoundException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
   'UnableToAccessSecretException': (type, message) =>

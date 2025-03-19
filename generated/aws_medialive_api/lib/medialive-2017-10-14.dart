@@ -414,6 +414,9 @@ class MediaLive {
   /// exactly two source URLs for redundancy.
   /// Only specify sources for PULL type Inputs. Leave Destinations empty.
   ///
+  /// Parameter [srtSettings] :
+  /// The settings associated with an SRT input.
+  ///
   /// Parameter [tags] :
   /// A collection of key-value pairs.
   Future<CreateInputResponse> createInput({
@@ -425,6 +428,7 @@ class MediaLive {
     String? requestId,
     String? roleArn,
     List<InputSourceRequest>? sources,
+    SrtSettingsRequest? srtSettings,
     Map<String, String>? tags,
     InputType? type,
     InputVpcRequest? vpc,
@@ -439,6 +443,7 @@ class MediaLive {
       'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (roleArn != null) 'roleArn': roleArn,
       if (sources != null) 'sources': sources,
+      if (srtSettings != null) 'srtSettings': srtSettings,
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.value,
       if (vpc != null) 'vpc': vpc,
@@ -2135,6 +2140,9 @@ class MediaLive {
   /// The source URLs for a PULL-type input. Every PULL type input needs
   /// exactly two source URLs for redundancy.
   /// Only specify sources for PULL type Inputs. Leave Destinations empty.
+  ///
+  /// Parameter [srtSettings] :
+  /// The settings associated with an SRT input.
   Future<UpdateInputResponse> updateInput({
     required String inputId,
     List<InputDestinationRequest>? destinations,
@@ -2144,6 +2152,7 @@ class MediaLive {
     String? name,
     String? roleArn,
     List<InputSourceRequest>? sources,
+    SrtSettingsRequest? srtSettings,
   }) async {
     final $payload = <String, dynamic>{
       if (destinations != null) 'destinations': destinations,
@@ -2154,6 +2163,7 @@ class MediaLive {
       if (name != null) 'name': name,
       if (roleArn != null) 'roleArn': roleArn,
       if (sources != null) 'sources': sources,
+      if (srtSettings != null) 'srtSettings': srtSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2271,10 +2281,13 @@ class MediaLive {
     required String multiplexId,
     MultiplexSettings? multiplexSettings,
     String? name,
+    Map<String, MultiplexProgramPacketIdentifiersMap>? packetIdentifiersMapping,
   }) async {
     final $payload = <String, dynamic>{
       if (multiplexSettings != null) 'multiplexSettings': multiplexSettings,
       if (name != null) 'name': name,
+      if (packetIdentifiersMapping != null)
+        'packetIdentifiersMapping': packetIdentifiersMapping,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -7629,6 +7642,9 @@ class DescribeInputResponse {
 
   /// A list of the sources of the input (PULL-type).
   final List<InputSource>? sources;
+
+  /// The settings associated with an SRT input.
+  final SrtSettings? srtSettings;
   final InputState? state;
 
   /// A collection of key-value pairs.
@@ -7649,6 +7665,7 @@ class DescribeInputResponse {
     this.roleArn,
     this.securityGroups,
     this.sources,
+    this.srtSettings,
     this.state,
     this.tags,
     this.type,
@@ -7691,6 +7708,9 @@ class DescribeInputResponse {
           ?.nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
+      srtSettings: json['srtSettings'] != null
+          ? SrtSettings.fromJson(json['srtSettings'] as Map<String, dynamic>)
+          : null,
       state: (json['state'] as String?)?.let(InputState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -8732,7 +8752,6 @@ enum Eac3AtmosDrcRf {
 /// Eac3 Atmos Settings
 class Eac3AtmosSettings {
   /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
-  /// //  * @affectsRightSizing true
   final double? bitrate;
 
   /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of
@@ -10830,7 +10849,20 @@ class H264Settings {
   /// cavlc.
   final H264EntropyEncoding? entropyEncoding;
 
-  /// Optional filters that you can apply to an encode.
+  /// Optional. Both filters reduce bandwidth by removing imperceptible details.
+  /// You can enable one of the filters. We
+  /// recommend that you try both filters and observe the results to decide which
+  /// one to use.
+  ///
+  /// The Temporal Filter reduces bandwidth by removing imperceptible details in
+  /// the content. It combines perceptual
+  /// filtering and motion compensated temporal filtering (MCTF). It operates
+  /// independently of the compression level.
+  ///
+  /// The Bandwidth Reduction filter is a perceptual filter located within the
+  /// encoding loop. It adapts to the current
+  /// compression level to filter imperceptible signals. This filter works only
+  /// when the resolution is 1080p or lower.
   final H264FilterSettings? filterSettings;
 
   /// Four bit AFD value to write on all frames of video in the output stream.
@@ -10919,6 +10951,11 @@ class H264Settings {
   /// cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size +
   /// Min-I-interval - 1
   final int? minIInterval;
+
+  /// Sets the minimum QP. If you aren't familiar with quantization adjustment,
+  /// leave the field empty. MediaLive will
+  /// apply an appropriate value.
+  final int? minQp;
 
   /// Number of reference frames to use. The encoder may use more than requested
   /// if using B-frames and/or interlaced encoding.
@@ -11073,6 +11110,7 @@ class H264Settings {
     this.lookAheadRateControl,
     this.maxBitrate,
     this.minIInterval,
+    this.minQp,
     this.numRefFrames,
     this.parControl,
     this.parDenominator,
@@ -11134,6 +11172,7 @@ class H264Settings {
           ?.let(H264LookAheadRateControl.fromString),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
+      minQp: json['minQp'] as int?,
       numRefFrames: json['numRefFrames'] as int?,
       parControl:
           (json['parControl'] as String?)?.let(H264ParControl.fromString),
@@ -11190,6 +11229,7 @@ class H264Settings {
     final lookAheadRateControl = this.lookAheadRateControl;
     final maxBitrate = this.maxBitrate;
     final minIInterval = this.minIInterval;
+    final minQp = this.minQp;
     final numRefFrames = this.numRefFrames;
     final parControl = this.parControl;
     final parDenominator = this.parDenominator;
@@ -11237,6 +11277,7 @@ class H264Settings {
         'lookAheadRateControl': lookAheadRateControl.value,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
+      if (minQp != null) 'minQp': minQp,
       if (numRefFrames != null) 'numRefFrames': numRefFrames,
       if (parControl != null) 'parControl': parControl.value,
       if (parDenominator != null) 'parDenominator': parDenominator,
@@ -11659,7 +11700,20 @@ class H265Settings {
   /// Color Space settings
   final H265ColorSpaceSettings? colorSpaceSettings;
 
-  /// Optional filters that you can apply to an encode.
+  /// Optional. Both filters reduce bandwidth by removing imperceptible details.
+  /// You can enable one of the filters. We
+  /// recommend that you try both filters and observe the results to decide which
+  /// one to use.
+  ///
+  /// The Temporal Filter reduces bandwidth by removing imperceptible details in
+  /// the content. It combines perceptual
+  /// filtering and motion compensated temporal filtering (MCTF). It operates
+  /// independently of the compression level.
+  ///
+  /// The Bandwidth Reduction filter is a perceptual filter located within the
+  /// encoding loop. It adapts to the current
+  /// compression level to filter imperceptible signals. This filter works only
+  /// when the resolution is 1080p or lower.
   final H265FilterSettings? filterSettings;
 
   /// Four bit AFD value to write on all frames of video in the output stream.
@@ -11707,6 +11761,11 @@ class H265Settings {
   /// cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size +
   /// Min-I-interval - 1
   final int? minIInterval;
+
+  /// Sets the minimum QP. If you aren't familiar with quantization adjustment,
+  /// leave the field empty. MediaLive will
+  /// apply an appropriate value.
+  final int? minQp;
 
   /// If you are setting up the picture as a tile, you must set this to
   /// "disabled". In all other configurations, you typically enter "enabled".
@@ -11824,6 +11883,7 @@ class H265Settings {
     this.lookAheadRateControl,
     this.maxBitrate,
     this.minIInterval,
+    this.minQp,
     this.mvOverPictureBoundaries,
     this.mvTemporalPredictor,
     this.parDenominator,
@@ -11877,6 +11937,7 @@ class H265Settings {
           ?.let(H265LookAheadRateControl.fromString),
       maxBitrate: json['maxBitrate'] as int?,
       minIInterval: json['minIInterval'] as int?,
+      minQp: json['minQp'] as int?,
       mvOverPictureBoundaries: (json['mvOverPictureBoundaries'] as String?)
           ?.let(H265MvOverPictureBoundaries.fromString),
       mvTemporalPredictor: (json['mvTemporalPredictor'] as String?)
@@ -11927,6 +11988,7 @@ class H265Settings {
     final lookAheadRateControl = this.lookAheadRateControl;
     final maxBitrate = this.maxBitrate;
     final minIInterval = this.minIInterval;
+    final minQp = this.minQp;
     final mvOverPictureBoundaries = this.mvOverPictureBoundaries;
     final mvTemporalPredictor = this.mvTemporalPredictor;
     final parDenominator = this.parDenominator;
@@ -11967,6 +12029,7 @@ class H265Settings {
         'lookAheadRateControl': lookAheadRateControl.value,
       if (maxBitrate != null) 'maxBitrate': maxBitrate,
       if (minIInterval != null) 'minIInterval': minIInterval,
+      if (minQp != null) 'minQp': minQp,
       if (mvOverPictureBoundaries != null)
         'mvOverPictureBoundaries': mvOverPictureBoundaries.value,
       if (mvTemporalPredictor != null)
@@ -13646,6 +13709,9 @@ class Input {
 
   /// A list of the sources of the input (PULL-type).
   final List<InputSource>? sources;
+
+  /// The settings associated with an SRT input.
+  final SrtSettings? srtSettings;
   final InputState? state;
 
   /// A collection of key-value pairs.
@@ -13666,6 +13732,7 @@ class Input {
     this.roleArn,
     this.securityGroups,
     this.sources,
+    this.srtSettings,
     this.state,
     this.tags,
     this.type,
@@ -13708,6 +13775,9 @@ class Input {
           ?.nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
+      srtSettings: json['srtSettings'] != null
+          ? SrtSettings.fromJson(json['srtSettings'] as Map<String, dynamic>)
+          : null,
       state: (json['state'] as String?)?.let(InputState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -15385,6 +15455,7 @@ enum InputType {
   inputDevice('INPUT_DEVICE'),
   awsCdi('AWS_CDI'),
   tsFile('TS_FILE'),
+  srtCaller('SRT_CALLER'),
   ;
 
   final String value;
@@ -18043,9 +18114,12 @@ class MultiplexProgramChannelDestinationSettings {
 
 /// Packet identifiers map for a given Multiplex program.
 class MultiplexProgramPacketIdentifiersMap {
+  final int? aribCaptionsPid;
   final List<int>? audioPids;
   final List<int>? dvbSubPids;
   final int? dvbTeletextPid;
+  final List<int>? dvbTeletextPids;
+  final int? ecmPid;
   final int? etvPlatformPid;
   final int? etvSignalPid;
   final List<int>? klvDataPids;
@@ -18054,13 +18128,17 @@ class MultiplexProgramPacketIdentifiersMap {
   final int? privateMetadataPid;
   final List<int>? scte27Pids;
   final int? scte35Pid;
+  final int? smpte2038Pid;
   final int? timedMetadataPid;
   final int? videoPid;
 
   MultiplexProgramPacketIdentifiersMap({
+    this.aribCaptionsPid,
     this.audioPids,
     this.dvbSubPids,
     this.dvbTeletextPid,
+    this.dvbTeletextPids,
+    this.ecmPid,
     this.etvPlatformPid,
     this.etvSignalPid,
     this.klvDataPids,
@@ -18069,6 +18147,7 @@ class MultiplexProgramPacketIdentifiersMap {
     this.privateMetadataPid,
     this.scte27Pids,
     this.scte35Pid,
+    this.smpte2038Pid,
     this.timedMetadataPid,
     this.videoPid,
   });
@@ -18076,11 +18155,17 @@ class MultiplexProgramPacketIdentifiersMap {
   factory MultiplexProgramPacketIdentifiersMap.fromJson(
       Map<String, dynamic> json) {
     return MultiplexProgramPacketIdentifiersMap(
+      aribCaptionsPid: json['aribCaptionsPid'] as int?,
       audioPids:
           (json['audioPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       dvbSubPids:
           (json['dvbSubPids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       dvbTeletextPid: json['dvbTeletextPid'] as int?,
+      dvbTeletextPids: (json['dvbTeletextPids'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      ecmPid: json['ecmPid'] as int?,
       etvPlatformPid: json['etvPlatformPid'] as int?,
       etvSignalPid: json['etvSignalPid'] as int?,
       klvDataPids: (json['klvDataPids'] as List?)
@@ -18093,9 +18178,49 @@ class MultiplexProgramPacketIdentifiersMap {
       scte27Pids:
           (json['scte27Pids'] as List?)?.nonNulls.map((e) => e as int).toList(),
       scte35Pid: json['scte35Pid'] as int?,
+      smpte2038Pid: json['smpte2038Pid'] as int?,
       timedMetadataPid: json['timedMetadataPid'] as int?,
       videoPid: json['videoPid'] as int?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aribCaptionsPid = this.aribCaptionsPid;
+    final audioPids = this.audioPids;
+    final dvbSubPids = this.dvbSubPids;
+    final dvbTeletextPid = this.dvbTeletextPid;
+    final dvbTeletextPids = this.dvbTeletextPids;
+    final ecmPid = this.ecmPid;
+    final etvPlatformPid = this.etvPlatformPid;
+    final etvSignalPid = this.etvSignalPid;
+    final klvDataPids = this.klvDataPids;
+    final pcrPid = this.pcrPid;
+    final pmtPid = this.pmtPid;
+    final privateMetadataPid = this.privateMetadataPid;
+    final scte27Pids = this.scte27Pids;
+    final scte35Pid = this.scte35Pid;
+    final smpte2038Pid = this.smpte2038Pid;
+    final timedMetadataPid = this.timedMetadataPid;
+    final videoPid = this.videoPid;
+    return {
+      if (aribCaptionsPid != null) 'aribCaptionsPid': aribCaptionsPid,
+      if (audioPids != null) 'audioPids': audioPids,
+      if (dvbSubPids != null) 'dvbSubPids': dvbSubPids,
+      if (dvbTeletextPid != null) 'dvbTeletextPid': dvbTeletextPid,
+      if (dvbTeletextPids != null) 'dvbTeletextPids': dvbTeletextPids,
+      if (ecmPid != null) 'ecmPid': ecmPid,
+      if (etvPlatformPid != null) 'etvPlatformPid': etvPlatformPid,
+      if (etvSignalPid != null) 'etvSignalPid': etvSignalPid,
+      if (klvDataPids != null) 'klvDataPids': klvDataPids,
+      if (pcrPid != null) 'pcrPid': pcrPid,
+      if (pmtPid != null) 'pmtPid': pmtPid,
+      if (privateMetadataPid != null) 'privateMetadataPid': privateMetadataPid,
+      if (scte27Pids != null) 'scte27Pids': scte27Pids,
+      if (scte35Pid != null) 'scte35Pid': scte35Pid,
+      if (smpte2038Pid != null) 'smpte2038Pid': smpte2038Pid,
+      if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
+      if (videoPid != null) 'videoPid': videoPid,
+    };
   }
 }
 
@@ -26287,6 +26412,203 @@ enum Scte35SegmentationScope {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum Scte35SegmentationScope'));
+}
+
+/// Placeholder documentation for Algorithm
+enum Algorithm {
+  aes128('AES128'),
+  aes192('AES192'),
+  aes256('AES256'),
+  ;
+
+  final String value;
+
+  const Algorithm(this.value);
+
+  static Algorithm fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum Algorithm'));
+}
+
+/// The decryption settings for the SRT caller source. Present only if the
+/// source has decryption enabled.
+class SrtCallerDecryption {
+  /// The algorithm used to encrypt content.
+  final Algorithm? algorithm;
+
+  /// The ARN for the secret in Secrets Manager. Someone in your organization must
+  /// create a secret and provide you with its ARN. The secret holds the
+  /// passphrase that MediaLive uses to decrypt the source content.
+  final String? passphraseSecretArn;
+
+  SrtCallerDecryption({
+    this.algorithm,
+    this.passphraseSecretArn,
+  });
+
+  factory SrtCallerDecryption.fromJson(Map<String, dynamic> json) {
+    return SrtCallerDecryption(
+      algorithm: (json['algorithm'] as String?)?.let(Algorithm.fromString),
+      passphraseSecretArn: json['passphraseSecretArn'] as String?,
+    );
+  }
+}
+
+/// Complete these parameters only if the content is encrypted.
+class SrtCallerDecryptionRequest {
+  /// The algorithm used to encrypt content.
+  final Algorithm? algorithm;
+
+  /// The ARN for the secret in Secrets Manager. Someone in your organization must
+  /// create a secret and provide you with its ARN. This secret holds the
+  /// passphrase that MediaLive will use to decrypt the source content.
+  final String? passphraseSecretArn;
+
+  SrtCallerDecryptionRequest({
+    this.algorithm,
+    this.passphraseSecretArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final passphraseSecretArn = this.passphraseSecretArn;
+    return {
+      if (algorithm != null) 'algorithm': algorithm.value,
+      if (passphraseSecretArn != null)
+        'passphraseSecretArn': passphraseSecretArn,
+    };
+  }
+}
+
+/// The configuration for a source that uses SRT as the connection protocol. In
+/// terms of establishing the connection, MediaLive is always caller and the
+/// upstream system is always the listener. In terms of transmission of the
+/// source content, MediaLive is always the receiver and the upstream system is
+/// always the sender.
+class SrtCallerSource {
+  final SrtCallerDecryption? decryption;
+
+  /// The preferred latency (in milliseconds) for implementing packet loss and
+  /// recovery. Packet recovery is a key feature of SRT.
+  final int? minimumLatency;
+
+  /// The IP address at the upstream system (the listener) that MediaLive (the
+  /// caller) connects to.
+  final String? srtListenerAddress;
+
+  /// The port at the upstream system (the listener) that MediaLive (the caller)
+  /// connects to.
+  final String? srtListenerPort;
+
+  /// The stream ID, if the upstream system uses this identifier.
+  final String? streamId;
+
+  SrtCallerSource({
+    this.decryption,
+    this.minimumLatency,
+    this.srtListenerAddress,
+    this.srtListenerPort,
+    this.streamId,
+  });
+
+  factory SrtCallerSource.fromJson(Map<String, dynamic> json) {
+    return SrtCallerSource(
+      decryption: json['decryption'] != null
+          ? SrtCallerDecryption.fromJson(
+              json['decryption'] as Map<String, dynamic>)
+          : null,
+      minimumLatency: json['minimumLatency'] as int?,
+      srtListenerAddress: json['srtListenerAddress'] as String?,
+      srtListenerPort: json['srtListenerPort'] as String?,
+      streamId: json['streamId'] as String?,
+    );
+  }
+}
+
+/// Configures the connection for a source that uses SRT as the connection
+/// protocol. In terms of establishing the connection, MediaLive is always the
+/// caller and the upstream system is always the listener. In terms of
+/// transmission of the source content, MediaLive is always the receiver and the
+/// upstream system is always the sender.
+class SrtCallerSourceRequest {
+  final SrtCallerDecryptionRequest? decryption;
+
+  /// The preferred latency (in milliseconds) for implementing packet loss and
+  /// recovery. Packet recovery is a key feature of SRT. Obtain this value from
+  /// the operator at the upstream system.
+  final int? minimumLatency;
+
+  /// The IP address at the upstream system (the listener) that MediaLive (the
+  /// caller) will connect to.
+  final String? srtListenerAddress;
+
+  /// The port at the upstream system (the listener) that MediaLive (the caller)
+  /// will connect to.
+  final String? srtListenerPort;
+
+  /// This value is required if the upstream system uses this identifier because
+  /// without it, the SRT handshake between MediaLive (the caller) and the
+  /// upstream system (the listener) might fail.
+  final String? streamId;
+
+  SrtCallerSourceRequest({
+    this.decryption,
+    this.minimumLatency,
+    this.srtListenerAddress,
+    this.srtListenerPort,
+    this.streamId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final decryption = this.decryption;
+    final minimumLatency = this.minimumLatency;
+    final srtListenerAddress = this.srtListenerAddress;
+    final srtListenerPort = this.srtListenerPort;
+    final streamId = this.streamId;
+    return {
+      if (decryption != null) 'decryption': decryption,
+      if (minimumLatency != null) 'minimumLatency': minimumLatency,
+      if (srtListenerAddress != null) 'srtListenerAddress': srtListenerAddress,
+      if (srtListenerPort != null) 'srtListenerPort': srtListenerPort,
+      if (streamId != null) 'streamId': streamId,
+    };
+  }
+}
+
+/// The configured sources for this SRT input.
+class SrtSettings {
+  final List<SrtCallerSource>? srtCallerSources;
+
+  SrtSettings({
+    this.srtCallerSources,
+  });
+
+  factory SrtSettings.fromJson(Map<String, dynamic> json) {
+    return SrtSettings(
+      srtCallerSources: (json['srtCallerSources'] as List?)
+          ?.nonNulls
+          .map((e) => SrtCallerSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// Configures the sources for this SRT input. For a single-pipeline input,
+/// include one srtCallerSource in the array. For a standard-pipeline input,
+/// include two srtCallerSource.
+class SrtSettingsRequest {
+  final List<SrtCallerSourceRequest>? srtCallerSources;
+
+  SrtSettingsRequest({
+    this.srtCallerSources,
+  });
+
+  Map<String, dynamic> toJson() {
+    final srtCallerSources = this.srtCallerSources;
+    return {
+      if (srtCallerSources != null) 'srtCallerSources': srtCallerSources,
+    };
+  }
 }
 
 class BadGatewayException extends _s.GenericAwsException {

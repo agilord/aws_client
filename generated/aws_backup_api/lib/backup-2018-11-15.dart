@@ -52,8 +52,8 @@ class Backup {
     _protocol.close();
   }
 
-  /// This action removes the specified legal hold on a recovery point. This
-  /// action can only be performed by a user with sufficient permissions.
+  /// Removes the specified legal hold on a recovery point. This action can only
+  /// be performed by a user with sufficient permissions.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidResourceStateException].
@@ -62,15 +62,13 @@ class Backup {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [cancelDescription] :
-  /// String describing the reason for removing the legal hold.
+  /// A string the describes the reason for removing the legal hold.
   ///
   /// Parameter [legalHoldId] :
-  /// Legal hold ID required to remove the specified legal hold on a recovery
-  /// point.
+  /// The ID of the legal hold.
   ///
   /// Parameter [retainRecordInDays] :
-  /// The integer amount in days specifying amount of days after this API
-  /// operation to remove legal hold.
+  /// The integer amount, in days, after which to remove legal hold.
   Future<void> cancelLegalHold({
     required String cancelDescription,
     required String legalHoldId,
@@ -104,13 +102,11 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [backupPlan] :
-  /// Specifies the body of a backup plan. Includes a
-  /// <code>BackupPlanName</code> and one or more sets of <code>Rules</code>.
+  /// The body of a backup plan. Includes a <code>BackupPlanName</code> and one
+  /// or more sets of <code>Rules</code>.
   ///
   /// Parameter [backupPlanTags] :
-  /// To help organize your resources, you can assign your own metadata to the
-  /// resources that you create. Each tag is a key-value pair. The specified
-  /// tags are assigned to all backups created with this plan.
+  /// The tags to assign to the backup plan.
   ///
   /// Parameter [creatorRequestId] :
   /// Identifies the request and allows failed requests to be retried without
@@ -151,12 +147,10 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [backupPlanId] :
-  /// Uniquely identifies the backup plan to be associated with the selection of
-  /// resources.
+  /// The ID of the backup plan.
   ///
   /// Parameter [backupSelection] :
-  /// Specifies the body of a request to assign a set of resources to a backup
-  /// plan.
+  /// The body of a request to assign a set of resources to a backup plan.
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and allows failed requests to
@@ -205,8 +199,7 @@ class Backup {
   /// letters, numbers, and hyphens.
   ///
   /// Parameter [backupVaultTags] :
-  /// Metadata that you can assign to help organize the resources that you
-  /// create. Each tag is a key-value pair.
+  /// The tags to assign to the backup vault.
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and allows failed requests to
@@ -253,8 +246,8 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [frameworkControls] :
-  /// A list of the controls that make up the framework. Each control in the
-  /// list has a name, input parameters, and scope.
+  /// The controls that make up the framework. Each control in the list has a
+  /// name, input parameters, and scope.
   ///
   /// Parameter [frameworkName] :
   /// The unique name of the framework. The name must be between 1 and 256
@@ -266,8 +259,7 @@ class Backup {
   /// characters.
   ///
   /// Parameter [frameworkTags] :
-  /// Metadata that you can assign to help organize the frameworks that you
-  /// create. Each tag is a key-value pair.
+  /// The tags to assign to the framework.
   ///
   /// Parameter [idempotencyToken] :
   /// A customer-chosen string that you can use to distinguish between otherwise
@@ -298,11 +290,11 @@ class Backup {
     return CreateFrameworkOutput.fromJson(response);
   }
 
-  /// This action creates a legal hold on a recovery point (backup). A legal
-  /// hold is a restraint on altering or deleting a backup until an authorized
-  /// user cancels the legal hold. Any actions to delete or disassociate a
-  /// recovery point will fail with an error if one or more active legal holds
-  /// are on the recovery point.
+  /// Creates a legal hold on a recovery point (backup). A legal hold is a
+  /// restraint on altering or deleting a backup until an authorized user
+  /// cancels the legal hold. Any actions to delete or disassociate a recovery
+  /// point will fail with an error if one or more active legal holds are on the
+  /// recovery point.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
@@ -310,10 +302,10 @@ class Backup {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [description] :
-  /// This is the string description of the legal hold.
+  /// The description of the legal hold.
   ///
   /// Parameter [title] :
-  /// This is the string title of the legal hold.
+  /// The title of the legal hold.
   ///
   /// Parameter [idempotencyToken] :
   /// This is a user-chosen string used to distinguish between otherwise
@@ -321,8 +313,8 @@ class Backup {
   /// token results in a success message with no action taken.
   ///
   /// Parameter [recoveryPointSelection] :
-  /// This specifies criteria to assign a set of resources, such as resource
-  /// types or backup vaults.
+  /// The criteria to assign a set of resources, such as resource types or
+  /// backup vaults.
   ///
   /// Parameter [tags] :
   /// Optional tags to include. A tag is a key-value pair you can use to manage,
@@ -352,7 +344,7 @@ class Backup {
     return CreateLegalHoldOutput.fromJson(response);
   }
 
-  /// This request creates a logical container to where backups may be copied.
+  /// Creates a logical container to where backups may be copied.
   ///
   /// This request includes a name, the Region, the maximum number of retention
   /// days, the minimum number of retention days, and optionally can include
@@ -370,36 +362,24 @@ class Backup {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [backupVaultName] :
-  /// This is the name of the vault that is being created.
+  /// The name of a logical container where backups are stored. Logically
+  /// air-gapped backup vaults are identified by names that are unique to the
+  /// account used to create them and the Region where they are created.
   ///
   /// Parameter [maxRetentionDays] :
-  /// This is the setting that specifies the maximum retention period that the
-  /// vault retains its recovery points. If this parameter is not specified,
-  /// Backup does not enforce a maximum retention period on the recovery points
-  /// in the vault (allowing indefinite storage).
-  ///
-  /// If specified, any backup or copy job to the vault must have a lifecycle
-  /// policy with a retention period equal to or shorter than the maximum
-  /// retention period. If the job retention period is longer than that maximum
-  /// retention period, then the vault fails the backup or copy job, and you
-  /// should either modify your lifecycle settings or use a different vault.
+  /// The maximum retention period that the vault retains its recovery points.
   ///
   /// Parameter [minRetentionDays] :
   /// This setting specifies the minimum retention period that the vault retains
-  /// its recovery points. If this parameter is not specified, no minimum
-  /// retention period is enforced.
+  /// its recovery points.
   ///
-  /// If specified, any backup or copy job to the vault must have a lifecycle
-  /// policy with a retention period equal to or longer than the minimum
-  /// retention period. If a job retention period is shorter than that minimum
-  /// retention period, then the vault fails the backup or copy job, and you
-  /// should either modify your lifecycle settings or use a different vault.
+  /// The minimum value accepted is 7 days.
   ///
   /// Parameter [backupVaultTags] :
-  /// These are the tags that will be included in the newly-created vault.
+  /// The tags to assign to the vault.
   ///
   /// Parameter [creatorRequestId] :
-  /// This is the ID of the creation request.
+  /// The ID of the creation request.
   ///
   /// This parameter is optional. If used, this parameter must contain 1 to 50
   /// alphanumeric or '-_.' characters.
@@ -472,8 +452,7 @@ class Backup {
   /// characters.
   ///
   /// Parameter [reportPlanTags] :
-  /// Metadata that you can assign to help organize the report plans that you
-  /// create. Each tag is a key-value pair.
+  /// The tags to assign to the report plan.
   Future<CreateReportPlanOutput> createReportPlan({
     required ReportDeliveryChannel reportDeliveryChannel,
     required String reportPlanName,
@@ -500,12 +479,11 @@ class Backup {
     return CreateReportPlanOutput.fromJson(response);
   }
 
-  /// This is the first of two steps to create a restore testing plan; once this
-  /// request is successful, finish the procedure with request
-  /// CreateRestoreTestingSelection.
+  /// Creates a restore testing plan.
   ///
-  /// You must include the parameter RestoreTestingPlan. You may optionally
-  /// include CreatorRequestId and Tags.
+  /// The first of two steps to create a restore testing plan. After this
+  /// request is successful, finish the procedure using
+  /// CreateRestoreTestingSelection.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [ConflictException].
@@ -532,9 +510,7 @@ class Backup {
   /// alphanumeric or '-_.' characters.
   ///
   /// Parameter [tags] :
-  /// Optional tags to include. A tag is a key-value pair you can use to manage,
-  /// filter, and search for your resources. Allowed characters include UTF-8
-  /// letters,numbers, spaces, and the following characters: + - = . _ : /.
+  /// The tags to assign to the restore testing plan.
   Future<CreateRestoreTestingPlanOutput> createRestoreTestingPlan({
     required RestoreTestingPlanForCreate restoreTestingPlan,
     String? creatorRequestId,
@@ -699,8 +675,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   Future<void> deleteBackupVault({
     required String backupVaultName,
   }) async {
@@ -776,8 +751,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Region where they are created. They consist of lowercase letters,
-  /// numbers, and hyphens.
+  /// and the Region where they are created.
   Future<void> deleteBackupVaultNotifications({
     required String backupVaultName,
   }) async {
@@ -842,8 +816,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [recoveryPointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
@@ -964,11 +937,10 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [backupVaultAccountId] :
-  /// This is the account ID of the specified backup vault.
+  /// The account ID of the specified backup vault.
   Future<DescribeBackupVaultOutput> describeBackupVault({
     required String backupVaultName,
     String? backupVaultAccountId,
@@ -1082,8 +1054,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [recoveryPointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
@@ -1091,7 +1062,7 @@ class Backup {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   ///
   /// Parameter [backupVaultAccountId] :
-  /// This is the account ID of the specified backup vault.
+  /// The account ID of the specified backup vault.
   Future<DescribeRecoveryPointOutput> describeRecoveryPoint({
     required String backupVaultName,
     required String recoveryPointArn,
@@ -1242,14 +1213,14 @@ class Backup {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [backupVaultName] :
-  /// This is the name of a logical container where the child (nested) recovery
-  /// point is stored. Backup vaults are identified by names that are unique to
-  /// the account used to create them and the Amazon Web Services Region where
-  /// they are created. They consist of lowercase letters, numbers, and hyphens.
+  /// The name of a logical container where the child (nested) recovery point is
+  /// stored. Backup vaults are identified by names that are unique to the
+  /// account used to create them and the Amazon Web Services Region where they
+  /// are created.
   ///
   /// Parameter [recoveryPointArn] :
-  /// This is the Amazon Resource Name (ARN) that uniquely identifies the child
-  /// (nested) recovery point; for example,
+  /// The Amazon Resource Name (ARN) that uniquely identifies the child (nested)
+  /// recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.</code>
   Future<void> disassociateRecoveryPointFromParent({
     required String backupVaultName,
@@ -1406,8 +1377,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   Future<GetBackupVaultAccessPolicyOutput> getBackupVaultAccessPolicy({
     required String backupVaultName,
   }) async {
@@ -1431,8 +1401,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   Future<GetBackupVaultNotificationsOutput> getBackupVaultNotifications({
     required String backupVaultName,
   }) async {
@@ -1455,8 +1424,7 @@ class Backup {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [legalHoldId] :
-  /// This is the ID required to use <code>GetLegalHold</code>. This unique ID
-  /// is associated with a specific legal hold.
+  /// The ID of the legal hold.
   Future<GetLegalHoldOutput> getLegalHold({
     required String legalHoldId,
   }) async {
@@ -1480,8 +1448,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [recoveryPointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
@@ -1489,7 +1456,7 @@ class Backup {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   ///
   /// Parameter [backupVaultAccountId] :
-  /// This is the account ID of the specified backup vault.
+  /// The account ID of the specified backup vault.
   Future<GetRecoveryPointRestoreMetadataOutput>
       getRecoveryPointRestoreMetadata({
     required String backupVaultName,
@@ -1554,7 +1521,7 @@ class Backup {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   ///
   /// Parameter [backupVaultAccountId] :
-  /// This is the account ID of the specified backup vault.
+  /// The account ID of the specified backup vault.
   Future<GetRestoreTestingInferredMetadataOutput>
       getRestoreTestingInferredMetadata({
     required String backupVaultName,
@@ -1663,24 +1630,22 @@ class Backup {
   /// the authenticated organization, then returns the sum.
   ///
   /// Parameter [aggregationPeriod] :
-  /// This is the period that sets the boundaries for returned results.
-  ///
-  /// Acceptable values include
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// This parameter sets the maximum number of items to be returned.
+  /// The maximum number of items to be returned.
   ///
   /// The value is an integer. Range of accepted values is from 1 to 500.
   ///
@@ -1792,7 +1757,7 @@ class Backup {
   /// Returns only backup jobs that will be stored in the specified backup
   /// vault. Backup vaults are identified by names that are unique to the
   /// account used to create them and the Amazon Web Services Region where they
-  /// are created. They consist of lowercase letters, numbers, and hyphens.
+  /// are created.
   ///
   /// Parameter [byCompleteAfter] :
   /// Returns only backup jobs completed after a date expressed in Unix format
@@ -1863,25 +1828,26 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
-  /// <code>Redshift</code> for Amazon Redshift
-  /// </li>
-  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon Simple Storage Service (Amazon S3)
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases on Amazon
+  /// Elastic Compute Cloud instances
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>S3</code> for Amazon S3
-  /// </li>
-  /// <li>
   /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>VirtualMachine</code> for virtual machines
+  /// <code>VirtualMachine</code> for VMware virtual machines
   /// </li>
   /// </ul>
   ///
@@ -1959,8 +1925,7 @@ class Backup {
     return ListBackupJobsOutput.fromJson(response);
   }
 
-  /// Returns metadata of your saved backup plan templates, including the
-  /// template ID, name, and the creation and deletion dates.
+  /// Lists the backup plan templates.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
@@ -1968,7 +1933,7 @@ class Backup {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to be returned.
+  /// The maximum number of items to return.
   ///
   /// Parameter [nextToken] :
   /// The next item following a partial list of returned items. For example, if
@@ -2045,10 +2010,7 @@ class Backup {
     return ListBackupPlanVersionsOutput.fromJson(response);
   }
 
-  /// Returns a list of all active backup plans for an authenticated account.
-  /// The list contains information such as Amazon Resource Names (ARNs), plan
-  /// IDs, creation and deletion dates, version IDs, plan names, and creator
-  /// request IDs.
+  /// Lists the active backup plans for the account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -2214,17 +2176,17 @@ class Backup {
   /// the authenticated organization, then returns the sum.
   ///
   /// Parameter [aggregationPeriod] :
-  /// This is the period that sets the boundaries for returned results.
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   ///
@@ -2334,7 +2296,7 @@ class Backup {
   /// Parameter [byDestinationVaultArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a source backup
   /// vault to copy from; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   ///
   /// Parameter [byMessageCategory] :
   /// This is an optional parameter that can be used to filter out jobs with a
@@ -2392,25 +2354,26 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
-  /// <code>Redshift</code> for Amazon Redshift
-  /// </li>
-  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon Simple Storage Service (Amazon S3)
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases on Amazon
+  /// Elastic Compute Cloud instances
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>S3</code> for Amazon S3
-  /// </li>
-  /// <li>
   /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>VirtualMachine</code> for virtual machines
+  /// <code>VirtualMachine</code> for VMware virtual machines
   /// </li>
   /// </ul>
   ///
@@ -2597,12 +2560,12 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [backupVaultName] :
-  /// This is the list of protected resources by backup vault within the
-  /// vault(s) you specify by name.
+  /// The list of protected resources by backup vault within the vault(s) you
+  /// specify by name.
   ///
   /// Parameter [backupVaultAccountId] :
-  /// This is the list of protected resources by backup vault within the
-  /// vault(s) you specify by account ID.
+  /// The list of protected resources by backup vault within the vault(s) you
+  /// specify by account ID.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
@@ -2653,8 +2616,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   /// <note>
   /// Backup vault name might not be available when a supported service creates
   /// the backup.
@@ -2714,25 +2676,26 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
-  /// <code>Redshift</code> for Amazon Redshift
-  /// </li>
-  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon Simple Storage Service (Amazon S3)
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases on Amazon
+  /// Elastic Compute Cloud instances
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>S3</code> for Amazon S3
-  /// </li>
-  /// <li>
   /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>VirtualMachine</code> for virtual machines
+  /// <code>VirtualMachine</code> for VMware virtual machines
   /// </li>
   /// </ul>
   ///
@@ -2797,14 +2760,14 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [legalHoldId] :
-  /// This is the ID of the legal hold.
+  /// The ID of the legal hold.
   ///
   /// Parameter [maxResults] :
-  /// This is the maximum number of resource list items to be returned.
+  /// The maximum number of resource list items to be returned.
   ///
   /// Parameter [nextToken] :
-  /// This is the next item following a partial list of returned resources. For
-  /// example, if a request is made to return <code>MaxResults</code> number of
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>MaxResults</code> number of
   /// resources, <code>NextToken</code> allows you to return more items in your
   /// list starting at the location pointed to by the next token.
   Future<ListRecoveryPointsByLegalHoldOutput> listRecoveryPointsByLegalHold({
@@ -2833,8 +2796,8 @@ class Backup {
     return ListRecoveryPointsByLegalHoldOutput.fromJson(response);
   }
 
-  /// Returns detailed information about all the recovery points of the type
-  /// specified by a resource Amazon Resource Name (ARN).
+  /// The information about the recovery points of the type specified by a
+  /// resource Amazon Resource Name (ARN).
   /// <note>
   /// For Amazon EFS and Amazon EC2, this action only lists recovery points
   /// created by Backup.
@@ -3031,19 +2994,17 @@ class Backup {
   /// the authenticated organization, then returns the sum.
   ///
   /// Parameter [aggregationPeriod] :
-  /// This is the period that sets the boundaries for returned results.
-  ///
-  /// Acceptable values include
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   ///
@@ -3171,25 +3132,26 @@ class Backup {
   /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
-  /// <code>Redshift</code> for Amazon Redshift
-  /// </li>
-  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon Simple Storage Service (Amazon S3)
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases on Amazon
+  /// Elastic Compute Cloud instances
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>S3</code> for Amazon S3
-  /// </li>
-  /// <li>
   /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>VirtualMachine</code> for virtual machines
+  /// <code>VirtualMachine</code> for VMware virtual machines
   /// </li>
   /// </ul>
   ///
@@ -3409,14 +3371,8 @@ class Backup {
     return ListRestoreTestingSelectionsOutput.fromJson(response);
   }
 
-  /// Returns a list of key-value pairs assigned to a target recovery point,
-  /// backup plan, or backup vault.
-  ///
-  /// <code>ListTags</code> only works for resource types that support full
-  /// Backup management of their backups. Those resource types are listed in the
-  /// "Full Backup management" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table.
+  /// Returns the tags assigned to the resource, such as a target recovery
+  /// point, backup plan, or backup vault.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -3474,8 +3430,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [policy] :
   /// The backup vault access policy document in JSON format.
@@ -3505,9 +3460,13 @@ class Backup {
   /// Backup Vault Lock has been assessed by Cohasset Associates for use in
   /// environments that are subject to SEC 17a-4, CFTC, and FINRA regulations.
   /// For more information about how Backup Vault Lock relates to these
-  /// regulations, see the <a href="samples/cohassetreport.zip">Cohasset
+  /// regulations, see the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/samples/cohassetreport.zip">Cohasset
   /// Associates Compliance Assessment.</a>
   /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html">Backup
+  /// Vault Lock</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -3566,8 +3525,9 @@ class Backup {
   /// useful if, for example, your organization's policies require you to retain
   /// certain data for at least seven years (2555 days).
   ///
-  /// If this parameter is not specified, Vault Lock will not enforce a minimum
-  /// retention period.
+  /// This parameter is required when a vault lock is created through
+  /// CloudFormation; otherwise, this parameter is optional. If this parameter
+  /// is not specified, Vault Lock will not enforce a minimum retention period.
   ///
   /// If this parameter is specified, any backup or copy job to the vault must
   /// have a lifecycle policy with a retention period equal to or longer than
@@ -3632,17 +3592,16 @@ class Backup {
   /// <code>S3_RESTORE_OBJECT_FAILED</code>
   /// </li>
   /// </ul> <note>
-  /// The list below shows items that are deprecated events (for reference) and
-  /// are no longer in use. They are no longer supported and will not return
-  /// statuses or notifications. Refer to the list above for current supported
+  /// The list below includes both supported events and deprecated events that
+  /// are no longer in use (for reference). Deprecated events do not return
+  /// statuses or notifications. Refer to the list above for the supported
   /// events.
   /// </note>
   ///
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [sNSTopicArn] :
   /// The Amazon Resource Name (ARN) that specifies the topic for a backup
@@ -3681,7 +3640,7 @@ class Backup {
   /// This is a unique identifier of a restore job within Backup.
   ///
   /// Parameter [validationStatus] :
-  /// This is the status of your restore validation.
+  /// The status of your restore validation.
   ///
   /// Parameter [validationStatusMessage] :
   /// This is an optional message string you can input to describe the
@@ -3717,8 +3676,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [iamRoleArn] :
   /// Specifies the IAM role ARN used to create the target recovery point; for
@@ -3729,8 +3687,8 @@ class Backup {
   /// format of the ARN depends on the resource type.
   ///
   /// Parameter [backupOptions] :
-  /// Specifies the backup option for a selected resource. This option is only
-  /// available for Windows Volume Shadow Copy Service (VSS) backup jobs.
+  /// The backup option for a selected resource. This option is only available
+  /// for Windows Volume Shadow Copy Service (VSS) backup jobs.
   ///
   /// Valid values: Set to <code>"WindowsVSS":"enabled"</code> to enable the
   /// <code>WindowsVSS</code> backup option and create a Windows VSS backup. Set
@@ -3764,17 +3722,15 @@ class Backup {
   /// to cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for
+  /// other resource types.
   ///
   /// This parameter has a maximum value of 100 years (36,500 days).
   ///
   /// Parameter [recoveryPointTags] :
-  /// To help organize your resources, you can assign your own metadata to the
-  /// resources that you create. Each tag is a key-value pair.
+  /// The tags to assign to the resources.
   ///
   /// Parameter [startWindowMinutes] :
   /// A value in minutes after a backup is scheduled before a job will be
@@ -3839,7 +3795,7 @@ class Backup {
   /// Parameter [destinationBackupVaultArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a destination
   /// backup vault to copy to; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   ///
   /// Parameter [iamRoleArn] :
   /// Specifies the IAM role ARN used to copy the target recovery point; for
@@ -3854,7 +3810,6 @@ class Backup {
   /// The name of a logical source container where backups are stored. Backup
   /// vaults are identified by names that are unique to the account used to
   /// create them and the Amazon Web Services Region where they are created.
-  /// They consist of lowercase letters, numbers, and hyphens.
   ///
   /// Parameter [idempotencyToken] :
   /// A customer-chosen string that you can use to distinguish between otherwise
@@ -3926,8 +3881,7 @@ class Backup {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [metadata] :
-  /// A set of metadata key-value pairs. Contains information, such as a
-  /// resource name, required to restore a recovery point.
+  /// A set of metadata key-value pairs.
   ///
   /// You can get configuration metadata about a resource at the time it was
   /// backed up by calling <code>GetRecoveryPointRestoreMetadata</code>.
@@ -3936,43 +3890,84 @@ class Backup {
   /// a resource. For example, you might need to provide a new resource name if
   /// the original already exists.
   ///
-  /// You need to specify specific metadata to restore an Amazon Elastic File
-  /// System (Amazon EFS) instance:
+  /// For more information about the metadata for each resource, see the
+  /// following:
   ///
   /// <ul>
   /// <li>
-  /// <code>file-system-id</code>: The ID of the Amazon EFS file system that is
-  /// backed up by Backup. Returned in
-  /// <code>GetRecoveryPointRestoreMetadata</code>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-aur.html#aur-restore-cli">Metadata
+  /// for Amazon Aurora</a>
   /// </li>
   /// <li>
-  /// <code>Encrypted</code>: A Boolean value that, if true, specifies that the
-  /// file system is encrypted. If <code>KmsKeyId</code> is specified,
-  /// <code>Encrypted</code> must be set to <code>true</code>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-docdb.html#docdb-restore-cli">Metadata
+  /// for Amazon DocumentDB</a>
   /// </li>
   /// <li>
-  /// <code>KmsKeyId</code>: Specifies the Amazon Web Services KMS key that is
-  /// used to encrypt the restored file system. You can specify a key from
-  /// another Amazon Web Services account provided that key it is properly
-  /// shared with your account via Amazon Web Services KMS.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-application-stacks.html#restoring-cfn-cli">Metadata
+  /// for CloudFormation</a>
   /// </li>
   /// <li>
-  /// <code>PerformanceMode</code>: Specifies the throughput mode of the file
-  /// system.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-dynamodb.html#ddb-restore-cli">Metadata
+  /// for Amazon DynamoDB</a>
   /// </li>
   /// <li>
-  /// <code>CreationToken</code>: A user-supplied value that ensures the
-  /// uniqueness (idempotency) of the request.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ebs.html#ebs-restore-cli">
+  /// Metadata for Amazon EBS</a>
   /// </li>
   /// <li>
-  /// <code>newFileSystem</code>: A Boolean value that, if true, specifies that
-  /// the recovery point is restored to a new Amazon EFS file system.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-ec2.html#restoring-ec2-cli">Metadata
+  /// for Amazon EC2</a>
   /// </li>
   /// <li>
-  /// <code>ItemsToRestore</code>: An array of one to five strings where each
-  /// string is a file path. Use <code>ItemsToRestore</code> to restore specific
-  /// files or directories rather than the entire file system. This parameter is
-  /// optional. For example, <code>"itemsToRestore":"[\"/my.test\"]"</code>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-efs.html#efs-restore-cli">Metadata
+  /// for Amazon EFS</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-fsx.html#fsx-restore-cli">Metadata
+  /// for Amazon FSx</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-nep.html#nep-restore-cli">Metadata
+  /// for Amazon Neptune</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-rds.html#rds-restore-cli">Metadata
+  /// for Amazon RDS</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/redshift-restores.html#redshift-restore-api">Metadata
+  /// for Amazon Redshift</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-storage-gateway.html#restoring-sgw-cli">Metadata
+  /// for Storage Gateway</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-s3.html#s3-restore-cli">Metadata
+  /// for Amazon S3</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/timestream-restore.html#timestream-restore-api">Metadata
+  /// for Amazon Timestream</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/restoring-vm.html#vm-restore-cli">Metadata
+  /// for virtual machines</a>
   /// </li>
   /// </ul>
   ///
@@ -4003,49 +3998,49 @@ class Backup {
   ///
   /// <ul>
   /// <li>
-  /// <code>Aurora</code> for Amazon Aurora
+  /// <code>Aurora</code> - Amazon Aurora
   /// </li>
   /// <li>
-  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// <code>DocumentDB</code> - Amazon DocumentDB
   /// </li>
   /// <li>
-  /// <code>CloudFormation</code> for CloudFormation
+  /// <code>CloudFormation</code> - CloudFormation
   /// </li>
   /// <li>
-  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// <code>DynamoDB</code> - Amazon DynamoDB
   /// </li>
   /// <li>
-  /// <code>EBS</code> for Amazon Elastic Block Store
+  /// <code>EBS</code> - Amazon Elastic Block Store
   /// </li>
   /// <li>
-  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// <code>EC2</code> - Amazon Elastic Compute Cloud
   /// </li>
   /// <li>
-  /// <code>EFS</code> for Amazon Elastic File System
+  /// <code>EFS</code> - Amazon Elastic File System
   /// </li>
   /// <li>
-  /// <code>FSx</code> for Amazon FSx
+  /// <code>FSx</code> - Amazon FSx
   /// </li>
   /// <li>
-  /// <code>Neptune</code> for Amazon Neptune
+  /// <code>Neptune</code> - Amazon Neptune
   /// </li>
   /// <li>
-  /// <code>RDS</code> for Amazon Relational Database Service
+  /// <code>RDS</code> - Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>Redshift</code> for Amazon Redshift
+  /// <code>Redshift</code> - Amazon Redshift
   /// </li>
   /// <li>
-  /// <code>Storage Gateway</code> for Storage Gateway
+  /// <code>Storage Gateway</code> - Storage Gateway
   /// </li>
   /// <li>
-  /// <code>S3</code> for Amazon S3
+  /// <code>S3</code> - Amazon Simple Storage Service
   /// </li>
   /// <li>
-  /// <code>Timestream</code> for Amazon Timestream
+  /// <code>Timestream</code> - Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>VirtualMachine</code> for virtual machines
+  /// <code>VirtualMachine</code> - Virtual machines
   /// </li>
   /// </ul>
   Future<StartRestoreJobOutput> startRestoreJob({
@@ -4077,7 +4072,7 @@ class Backup {
   /// Attempts to cancel a job to create a one-time backup of a resource.
   ///
   /// This action is not supported for the following services: Amazon FSx for
-  /// Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP ,
+  /// Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP,
   /// Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility),
   /// Amazon RDS, Amazon Aurora, and Amazon Neptune.
   ///
@@ -4103,6 +4098,10 @@ class Backup {
   /// Assigns a set of key-value pairs to a recovery point, backup plan, or
   /// backup vault identified by an Amazon Resource Name (ARN).
   ///
+  /// This API is supported for recovery points for resource types including
+  /// Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon
+  /// RDS.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
@@ -4112,6 +4111,12 @@ class Backup {
   /// Parameter [resourceArn] :
   /// An ARN that uniquely identifies a resource. The format of the ARN depends
   /// on the type of the tagged resource.
+  ///
+  /// ARNs that do not include <code>backup</code> are incompatible with
+  /// tagging. <code>TagResource</code> and <code>UntagResource</code> with
+  /// invalid ARNs will result in an error. Acceptable ARN content can include
+  /// <code>arn:aws:backup:us-east</code>. Invalid ARN content may look like
+  /// <code>arn:aws:ec2:us-east</code>.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that are used to help organize your resources. You can
@@ -4136,6 +4141,10 @@ class Backup {
   /// Removes a set of key-value pairs from a recovery point, backup plan, or
   /// backup vault identified by an Amazon Resource Name (ARN)
   ///
+  /// This API is not supported for recovery points for resource types including
+  /// Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon
+  /// RDS.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
@@ -4145,8 +4154,14 @@ class Backup {
   /// An ARN that uniquely identifies a resource. The format of the ARN depends
   /// on the type of the tagged resource.
   ///
+  /// ARNs that do not include <code>backup</code> are incompatible with
+  /// tagging. <code>TagResource</code> and <code>UntagResource</code> with
+  /// invalid ARNs will result in an error. Acceptable ARN content can include
+  /// <code>arn:aws:backup:us-east</code>. Invalid ARN content may look like
+  /// <code>arn:aws:ec2:us-east</code>.
+  ///
   /// Parameter [tagKeyList] :
-  /// A list of keys to identify which key-value tags to remove from a resource.
+  /// The keys to identify which key-value tags to remove from a resource.
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeyList,
@@ -4162,9 +4177,8 @@ class Backup {
     );
   }
 
-  /// Updates an existing backup plan identified by its
-  /// <code>backupPlanId</code> with the input document in JSON format. The new
-  /// version is uniquely identified by a <code>VersionId</code>.
+  /// Updates the specified backup plan. The new version is uniquely identified
+  /// by its ID.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -4172,11 +4186,11 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [backupPlan] :
-  /// Specifies the body of a backup plan. Includes a
-  /// <code>BackupPlanName</code> and one or more sets of <code>Rules</code>.
+  /// The body of a backup plan. Includes a <code>BackupPlanName</code> and one
+  /// or more sets of <code>Rules</code>.
   ///
   /// Parameter [backupPlanId] :
-  /// Uniquely identifies a backup plan.
+  /// The ID of the backup plan.
   Future<UpdateBackupPlanOutput> updateBackupPlan({
     required BackupPlanInput backupPlan,
     required String backupPlanId,
@@ -4193,8 +4207,7 @@ class Backup {
     return UpdateBackupPlanOutput.fromJson(response);
   }
 
-  /// Updates an existing framework identified by its <code>FrameworkName</code>
-  /// with the input document in JSON format.
+  /// Updates the specified framework.
   ///
   /// May throw [AlreadyExistsException].
   /// May throw [ResourceNotFoundException].
@@ -4210,8 +4223,8 @@ class Backup {
   /// (0-9), and underscores (_).
   ///
   /// Parameter [frameworkControls] :
-  /// A list of the controls that make up the framework. Each control in the
-  /// list has a name, input parameters, and scope.
+  /// The controls that make up the framework. Each control in the list has a
+  /// name, input parameters, and scope.
   ///
   /// Parameter [frameworkDescription] :
   /// An optional description of the framework with a maximum 1,024 characters.
@@ -4276,18 +4289,22 @@ class Backup {
   /// storage and when it expires. Backup transitions and expires backups
   /// automatically according to the lifecycle that you define.
   ///
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for
+  /// other resource types.
+  ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
   /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
   /// greater than the “transition to cold after days” setting. The “transition
   /// to cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
-  ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
-  ///
+  /// <important>
+  /// If your lifecycle currently uses the parameters
+  /// <code>DeleteAfterDays</code> and <code>MoveToColdStorageAfterDays</code>,
+  /// include these parameters and their values when you call this operation.
+  /// Not including them may result in your plan updating with null values.
+  /// </important>
   /// This operation does not support continuous backups.
   ///
   /// May throw [ResourceNotFoundException].
@@ -4299,8 +4316,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// and the Amazon Web Services Region where they are created.
   ///
   /// Parameter [recoveryPointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point;
@@ -4382,8 +4398,7 @@ class Backup {
     );
   }
 
-  /// Updates an existing report plan identified by its
-  /// <code>ReportPlanName</code> with the input document in JSON format.
+  /// Updates the specified report plan.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -4403,17 +4418,16 @@ class Backup {
   /// message with no action taken.
   ///
   /// Parameter [reportDeliveryChannel] :
-  /// A structure that contains information about where to deliver your reports,
-  /// specifically your Amazon S3 bucket name, S3 key prefix, and the formats of
-  /// your reports.
+  /// The information about where to deliver your reports, specifically your
+  /// Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
   ///
   /// Parameter [reportPlanDescription] :
   /// An optional description of the report plan with a maximum 1,024
   /// characters.
   ///
   /// Parameter [reportSetting] :
-  /// Identifies the report template for the report. Reports are built using a
-  /// report template. The report templates are:
+  /// The report template for the report. Reports are built using a report
+  /// template. The report templates are:
   ///
   /// <code>RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT |
   /// BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT</code>
@@ -4478,7 +4492,7 @@ class Backup {
   /// Specifies the body of a restore testing plan.
   ///
   /// Parameter [restoreTestingPlanName] :
-  /// This is the restore testing plan name you wish to update.
+  /// The name of the restore testing plan name.
   Future<UpdateRestoreTestingPlanOutput> updateRestoreTestingPlan({
     required RestoreTestingPlanForUpdate restoreTestingPlan,
     required String restoreTestingPlanName,
@@ -4496,13 +4510,12 @@ class Backup {
     return UpdateRestoreTestingPlanOutput.fromJson(response);
   }
 
+  /// Updates the specified restore testing selection.
+  ///
   /// Most elements except the <code>RestoreTestingSelectionName</code> can be
   /// updated with this request.
   ///
-  /// <code>RestoreTestingSelection</code> can use either protected resource
-  /// ARNs or conditions, but not both. That is, if your selection has
-  /// <code>ProtectedResourceArns</code>, requesting an update with the
-  /// parameter <code>ProtectedResourceConditions</code> will be unsuccessful.
+  /// You can use either protected resource ARNs or conditions, but not both.
   ///
   /// May throw [ConflictException].
   /// May throw [InvalidParameterValueException].
@@ -4521,7 +4534,7 @@ class Backup {
   /// parameter <code>ProtectedResourceConditions</code> will be unsuccessful.
   ///
   /// Parameter [restoreTestingSelectionName] :
-  /// This is the required restore testing selection name of the restore testing
+  /// The required restore testing selection name of the restore testing
   /// selection you wish to update.
   Future<UpdateRestoreTestingSelectionOutput> updateRestoreTestingSelection({
     required String restoreTestingPlanName,
@@ -4542,7 +4555,7 @@ class Backup {
   }
 }
 
-/// A list of backup options for each resource type.
+/// The backup options for each resource type.
 class AdvancedBackupSetting {
   /// Specifies the backup option for a selected resource. This option is only
   /// available for Windows VSS backup jobs.
@@ -4638,13 +4651,12 @@ class BackupJob {
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String? backupVaultName;
 
   /// The size in bytes transferred to a backup vault at the time that the job
@@ -4683,7 +4695,7 @@ class BackupJob {
   /// without those strings lack permissions to perform backup jobs.
   final String? iamRoleArn;
 
-  /// This is the date on which the backup job was initiated.
+  /// The date on which the backup job was initiated.
   final DateTime? initiationDate;
 
   /// This is a boolean value indicating this is a parent (composite) backup job.
@@ -4718,8 +4730,7 @@ class BackupJob {
   /// the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource to be backed up; for example, an
@@ -4932,8 +4943,11 @@ class BackupJobSummary {
 /// rule in a backup plan is a separate scheduled task and can back up a
 /// different selection of Amazon Web Services resources.
 class BackupPlan {
-  /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or
-  /// '-_.' characters.
+  /// The display name of a backup plan. Must contain only alphanumeric or '-_.'
+  /// special characters.
+  ///
+  /// If this is set in the console, it can contain 1 to 50 characters; if this is
+  /// set through CLI or API, it can contain 1 to 200 characters.
   final String backupPlanName;
 
   /// An array of <code>BackupRule</code> objects, each of which specifies a
@@ -5057,8 +5071,8 @@ class BackupPlansListMember {
   /// January 26, 2018 12:11:30.087 AM.
   final DateTime? deletionDate;
 
-  /// The last time a job to back up resources was run with this rule. A date and
-  /// time, in Unix format and Coordinated Universal Time (UTC). The value of
+  /// The last time this backup plan was run. A date and time, in Unix format and
+  /// Coordinated Universal Time (UTC). The value of
   /// <code>LastExecutionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastExecutionDate;
@@ -5105,8 +5119,7 @@ class BackupRule {
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String targetBackupVaultName;
 
   /// A value in minutes after a backup job is successfully started before it must
@@ -5132,15 +5145,14 @@ class BackupRule {
   /// cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for other
+  /// resource types.
   final Lifecycle? lifecycle;
 
-  /// An array of key-value pair strings that are assigned to resources that are
-  /// associated with this rule when restored from backup.
+  /// The tags that are assigned to resources that are associated with this rule
+  /// when restored from backup.
   final Map<String, String>? recoveryPointTags;
 
   /// Uniquely identifies a rule that is used to schedule the backup of a
@@ -5157,7 +5169,7 @@ class BackupRule {
   /// a table of examples, click the preceding link and scroll down the page.
   final String? scheduleExpression;
 
-  /// This is the timezone in which the schedule expression is set. By default,
+  /// The timezone in which the schedule expression is set. By default,
   /// ScheduleExpressions are in UTC. You can modify this to a specified timezone.
   final String? scheduleExpressionTimezone;
 
@@ -5220,8 +5232,7 @@ class BackupRuleInput {
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String targetBackupVaultName;
 
   /// A value in minutes after a backup job is successfully started before it must
@@ -5245,25 +5256,23 @@ class BackupRuleInput {
   /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
   /// greater than the “transition to cold after days” setting. The “transition to
   /// cold after days” setting cannot be changed after a backup has been
-  /// transitioned to cold.
+  /// transitioned to cold storage.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for other
+  /// resource types.
   ///
   /// This parameter has a maximum value of 100 years (36,500 days).
   final Lifecycle? lifecycle;
 
-  /// To help organize your resources, you can assign your own metadata to the
-  /// resources that you create. Each tag is a key-value pair.
+  /// The tags to assign to the resources.
   final Map<String, String>? recoveryPointTags;
 
   /// A CRON expression in UTC specifying when Backup initiates a backup job.
   final String? scheduleExpression;
 
-  /// This is the timezone in which the schedule expression is set. By default,
+  /// The timezone in which the schedule expression is set. By default,
   /// ScheduleExpressions are in UTC. You can modify this to a specified timezone.
   final String? scheduleExpressionTimezone;
 
@@ -5327,10 +5336,13 @@ class BackupRuleInput {
 
 /// Used to specify a set of resources to a backup plan.
 ///
-/// Specifying your desired <code>Conditions</code>, <code>ListOfTags</code>,
-/// <code>NotResources</code>, and/or <code>Resources</code> is recommended. If
-/// none of these are specified, Backup will attempt to select all supported and
-/// opted-in storage resources, which could have unintended cost implications.
+/// We recommend that you specify conditions, tags, or resources to include or
+/// exclude. Otherwise, Backup attempts to select all supported and opted-in
+/// storage resources, which could have unintended cost implications.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json">Assigning
+/// resources programmatically</a>.
 class BackupSelection {
   /// The ARN of the IAM role that Backup uses to authenticate when backing up the
   /// target resource; for example,
@@ -5341,62 +5353,48 @@ class BackupSelection {
   /// alphanumeric or '-_.' characters.
   final String selectionName;
 
-  /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": { "Key":
-  /// "aws:ResourceTag/CreatedByCryo", "Value": "true" },</code>. Condition
-  /// operators are case sensitive.
+  /// The conditions that you define to assign resources to your backup plans
+  /// using tags. For example, <code>"StringEquals": { "ConditionKey":
+  /// "aws:ResourceTag/backup", "ConditionValue": "daily" }</code>.
   ///
-  /// <code>Conditions</code> differs from <code>ListOfTags</code> as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// When you specify more than one condition, you only assign the resources that
-  /// match ALL conditions (using AND logic).
-  /// </li>
-  /// <li>
   /// <code>Conditions</code> supports <code>StringEquals</code>,
   /// <code>StringLike</code>, <code>StringNotEquals</code>, and
-  /// <code>StringNotLike</code>. <code>ListOfTags</code> only supports
-  /// <code>StringEquals</code>.
-  /// </li>
-  /// </ul>
+  /// <code>StringNotLike</code>. Condition operators are case sensitive.
+  ///
+  /// If you specify multiple conditions, the resources much match all conditions
+  /// (AND logic).
   final Conditions? conditions;
 
-  /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": { "Key":
-  /// "aws:ResourceTag/CreatedByCryo", "Value": "true" },</code>. Condition
+  /// The conditions that you define to assign resources to your backup plans
+  /// using tags. For example, <code>"StringEquals": { "ConditionKey": "backup",
+  /// "ConditionValue": "daily"}</code>.
+  ///
+  /// <code>ListOfTags</code> supports only <code>StringEquals</code>. Condition
   /// operators are case sensitive.
   ///
-  /// <code>ListOfTags</code> differs from <code>Conditions</code> as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// When you specify more than one condition, you assign all resources that
-  /// match AT LEAST ONE condition (using OR logic).
-  /// </li>
-  /// <li>
-  /// <code>ListOfTags</code> only supports <code>StringEquals</code>.
-  /// <code>Conditions</code> supports <code>StringEquals</code>,
-  /// <code>StringLike</code>, <code>StringNotEquals</code>, and
-  /// <code>StringNotLike</code>.
-  /// </li>
-  /// </ul>
+  /// If you specify multiple conditions, the resources much match any of the
+  /// conditions (OR logic).
   final List<Condition>? listOfTags;
 
-  /// A list of Amazon Resource Names (ARNs) to exclude from a backup plan. The
-  /// maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards.
+  /// The Amazon Resource Names (ARNs) of the resources to exclude from a backup
+  /// plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with
+  /// wildcards.
   ///
   /// If you need to exclude many resources from a backup plan, consider a
   /// different resource selection strategy, such as assigning only one or a few
   /// resource types or refining your resource selection using tags.
   final List<String>? notResources;
 
-  /// A list of Amazon Resource Names (ARNs) to assign to a backup plan. The
-  /// maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards.
+  /// The Amazon Resource Names (ARNs) of the resources to assign to a backup
+  /// plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with
+  /// wildcards.
   ///
   /// If you need to assign many resources to a backup plan, consider a different
   /// resource selection strategy, such as assigning all resources of a resource
   /// type or refining your resource selection using tags.
+  ///
+  /// If you specify multiple ARNs, the resources much match any of the ARNs (OR
+  /// logic).
   final List<String>? resources;
 
   BackupSelection({
@@ -5533,13 +5531,12 @@ enum BackupVaultEvent {
 class BackupVaultListMember {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String? backupVaultName;
 
   /// The date and time a resource backup is created, in Unix format and
@@ -5615,6 +5612,12 @@ class BackupVaultListMember {
   /// The number of recovery points that are stored in a backup vault.
   final int? numberOfRecoveryPoints;
 
+  /// The current state of the vault.
+  final VaultState? vaultState;
+
+  /// The type of vault in which the described recovery point is stored.
+  final VaultType? vaultType;
+
   BackupVaultListMember({
     this.backupVaultArn,
     this.backupVaultName,
@@ -5626,6 +5629,8 @@ class BackupVaultListMember {
     this.maxRetentionDays,
     this.minRetentionDays,
     this.numberOfRecoveryPoints,
+    this.vaultState,
+    this.vaultType,
   });
 
   factory BackupVaultListMember.fromJson(Map<String, dynamic> json) {
@@ -5640,6 +5645,8 @@ class BackupVaultListMember {
       maxRetentionDays: json['MaxRetentionDays'] as int?,
       minRetentionDays: json['MinRetentionDays'] as int?,
       numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
+      vaultState: (json['VaultState'] as String?)?.let(VaultState.fromString),
+      vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
 }
@@ -5657,11 +5664,10 @@ class BackupVaultListMember {
 /// cold after days” setting cannot be changed after a backup has been
 /// transitioned to cold.
 ///
-/// Resource types that are able to be transitioned to cold storage are listed
-/// in the "Lifecycle to cold storage" section of the <a
-/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-/// Feature availability by resource</a> table. Backup ignores this expression
-/// for other resource types.
+/// Resource types that can transition to cold storage are listed in the <a
+/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+/// availability by resource</a> table. Backup ignores this expression for other
+/// resource types.
 class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
   final DateTime? deleteAt;
@@ -5741,6 +5747,9 @@ class Condition {
 
 /// Includes information about tags you define to assign tagged resources to a
 /// backup plan.
+///
+/// Include the prefix <code>aws:ResourceTag</code> in your tags. For example,
+/// <code>"aws:ResourceTag/TagKey1": "Value1"</code>.
 class ConditionParameter {
   /// The key in a key-value pair. For example, in the tag <code>Department:
   /// Accounting</code>, <code>Department</code> is the key.
@@ -5848,9 +5857,9 @@ class Conditions {
   }
 }
 
-/// A list of parameters for a control. A control can have zero, one, or more
-/// than one parameter. An example of a control with two parameters is: "backup
-/// plan frequency is at least <code>daily</code> and the retention period is at
+/// The parameters for a control. A control can have zero, one, or more than one
+/// parameter. An example of a control with two parameters is: "backup plan
+/// frequency is at least <code>daily</code> and the retention period is at
 /// least <code>1 year</code>". The first parameter is <code>daily</code>. The
 /// second parameter is <code>1 year</code>.
 class ControlInputParameter {
@@ -5905,7 +5914,11 @@ class ControlScope {
   /// The tag key-value pair applied to those Amazon Web Services resources that
   /// you want to trigger an evaluation for a rule. A maximum of one key-value
   /// pair can be provided. The tag value is optional, but it cannot be an empty
-  /// string. The structure to assign a tag is:
+  /// string if you are creating or editing a framework from the console (though
+  /// the value can be an empty string when included in a CloudFormation
+  /// template).
+  ///
+  /// The structure to assign a tag is:
   /// <code>[{"Key":"string","Value":"string"}]</code>.
   final Map<String, String>? tags;
 
@@ -5948,7 +5961,7 @@ class ControlScope {
 class CopyAction {
   /// An Amazon Resource Name (ARN) that uniquely identifies the destination
   /// backup vault for the copied backup. For example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String destinationBackupVaultArn;
   final Lifecycle? lifecycle;
 
@@ -5993,9 +6006,9 @@ class CopyJob {
   /// January 26, 2018 12:11:30.087 AM.
   final DateTime? completionDate;
 
-  /// This is the identifier of a resource within a composite group, such as
-  /// nested (child) recovery point belonging to a composite (parent) stack. The
-  /// ID is transferred from the <a
+  /// The identifier of a resource within a composite group, such as nested
+  /// (child) recovery point belonging to a composite (parent) stack. The ID is
+  /// transferred from the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax">
   /// logical ID</a> within a stack.
   final String? compositeMemberIdentifier;
@@ -6012,7 +6025,7 @@ class CopyJob {
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy
   /// vault; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? destinationBackupVaultArn;
 
   /// An ARN that uniquely identifies a destination recovery point; for example,
@@ -6039,7 +6052,7 @@ class CopyJob {
   /// and returns the sum
   final String? messageCategory;
 
-  /// This is the number of child (nested) copy jobs.
+  /// The number of child (nested) copy jobs.
   final int? numberOfChildJobs;
 
   /// This uniquely identifies a request to Backup to copy a resource. The return
@@ -6051,8 +6064,7 @@ class CopyJob {
   /// Service (Amazon RDS) database.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource to be copied; for example, an
@@ -6062,7 +6074,7 @@ class CopyJob {
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault;
   /// for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? sourceBackupVaultArn;
 
   /// An ARN that uniquely identifies a source recovery point; for example,
@@ -6208,7 +6220,7 @@ class CopyJobSummary {
   /// and returns the sum.
   final String? messageCategory;
 
-  /// This is the Amazon Web Services Regions within the job summary.
+  /// The Amazon Web Services Regions within the job summary.
   final String? region;
 
   /// This value is the job count for the specified resource type. The request
@@ -6252,9 +6264,8 @@ class CopyJobSummary {
 }
 
 class CreateBackupPlanOutput {
-  /// A list of <code>BackupOptions</code> settings for a resource type. This
-  /// option is only available for Windows Volume Shadow Copy Service (VSS) backup
-  /// jobs.
+  /// The settings for a resource type. This option is only available for Windows
+  /// Volume Shadow Copy Service (VSS) backup jobs.
   final List<AdvancedBackupSetting>? advancedBackupSettings;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
@@ -6262,7 +6273,7 @@ class CreateBackupPlanOutput {
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
   final String? backupPlanArn;
 
-  /// Uniquely identifies a backup plan.
+  /// The ID of the backup plan.
   final String? backupPlanId;
 
   /// The date and time that a backup plan is created, in Unix format and
@@ -6298,7 +6309,7 @@ class CreateBackupPlanOutput {
 }
 
 class CreateBackupSelectionOutput {
-  /// Uniquely identifies a backup plan.
+  /// The ID of the backup plan.
   final String? backupPlanId;
 
   /// The date and time a backup selection is created, in Unix format and
@@ -6329,7 +6340,7 @@ class CreateBackupSelectionOutput {
 class CreateBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
@@ -6383,29 +6394,26 @@ class CreateFrameworkOutput {
 }
 
 class CreateLegalHoldOutput {
-  /// Time in number format when legal hold was created.
+  /// The time when the legal hold was created.
   final DateTime? creationDate;
 
-  /// This is the returned string description of the legal hold.
+  /// The description of the legal hold.
   final String? description;
 
-  /// This is the ARN (Amazon Resource Number) of the created legal hold.
+  /// The Amazon Resource Name (ARN) of the legal hold.
   final String? legalHoldArn;
 
-  /// Legal hold ID returned for the specified legal hold on a recovery point.
+  /// The ID of the legal hold.
   final String? legalHoldId;
 
-  /// This specifies criteria to assign a set of resources, such as resource types
-  /// or backup vaults.
+  /// The criteria to assign to a set of resources, such as resource types or
+  /// backup vaults.
   final RecoveryPointSelection? recoveryPointSelection;
 
-  /// This displays the status of the legal hold returned after creating the legal
-  /// hold. Statuses can be <code>ACTIVE</code>, <code>PENDING</code>,
-  /// <code>CANCELED</code>, <code>CANCELING</code>, or <code>FAILED</code>.
+  /// The status of the legal hold.
   final LegalHoldStatus? status;
 
-  /// This is the string title of the legal hold returned after creating the legal
-  /// hold.
+  /// The title of the legal hold.
   final String? title;
 
   CreateLegalHoldOutput({
@@ -6435,13 +6443,12 @@ class CreateLegalHoldOutput {
 }
 
 class CreateLogicallyAirGappedBackupVaultOutput {
-  /// This is the ARN (Amazon Resource Name) of the vault being created.
+  /// The ARN (Amazon Resource Name) of the vault.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Logically
   /// air-gapped backup vaults are identified by names that are unique to the
-  /// account used to create them and the Region where they are created. They
-  /// consist of lowercase letters, numbers, and hyphens.
+  /// account used to create them and the Region where they are created.
   final String? backupVaultName;
 
   /// The date and time when the vault was created.
@@ -6451,7 +6458,7 @@ class CreateLogicallyAirGappedBackupVaultOutput {
   /// January 26, 2018 12:11:30.087 AM.
   final DateTime? creationDate;
 
-  /// This is the current state of the vault.
+  /// The current state of the vault.
   final VaultState? vaultState;
 
   CreateLogicallyAirGappedBackupVaultOutput({
@@ -6535,21 +6542,21 @@ class CreateRestoreTestingPlanOutput {
 }
 
 class CreateRestoreTestingSelectionOutput {
-  /// This is the time the resource testing selection was created successfully.
+  /// The time that the resource testing selection was created.
   final DateTime creationTime;
 
-  /// This is the ARN of the restore testing plan with which the restore testing
-  /// selection is associated.
+  /// The ARN of the restore testing plan with which the restore testing selection
+  /// is associated.
   final String restoreTestingPlanArn;
 
-  /// Unique string that is the name of the restore testing plan.
+  /// The name of the restore testing plan.
   ///
   /// The name cannot be changed after creation. The name consists of only
   /// alphanumeric characters and underscores. Maximum length is 50.
   final String restoreTestingPlanName;
 
-  /// This is the unique name of the restore testing selection that belongs to the
-  /// related restore testing plan.
+  /// The name of the restore testing selection for the related restore testing
+  /// plan.
   final String restoreTestingSelectionName;
 
   CreateRestoreTestingSelectionOutput({
@@ -6673,13 +6680,12 @@ class DescribeBackupJobOutput {
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String? backupVaultName;
 
   /// The size in bytes transferred to a backup vault at the time that the job
@@ -6718,14 +6724,14 @@ class DescribeBackupJobOutput {
   /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
   final String? iamRoleArn;
 
-  /// This is the date a backup job was initiated.
+  /// The date a backup job was initiated.
   final DateTime? initiationDate;
 
   /// This returns the boolean value that a backup job is a parent (composite)
   /// job.
   final bool? isParent;
 
-  /// This is the job count for the specified message category.
+  /// The job count for the specified message category.
   ///
   /// Example strings may include <code>AccessDenied</code>, <code>SUCCESS</code>,
   /// <code>AGGREGATE_ALL</code>, and <code>INVALIDPARAMETERS</code>. View <a
@@ -6751,8 +6757,7 @@ class DescribeBackupJobOutput {
   /// depends on the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource to be backed up; for example, an
@@ -6846,13 +6851,12 @@ class DescribeBackupJobOutput {
 class DescribeBackupVaultOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Region where they are created. They consist of lowercase letters,
-  /// numbers, and hyphens.
+  /// the Region where they are created.
   final String? backupVaultName;
 
   /// The date and time that a backup vault is created, in Unix format and
@@ -6905,7 +6909,7 @@ class DescribeBackupVaultOutput {
 
   /// The Backup Vault Lock setting that specifies the minimum retention period
   /// that the vault retains its recovery points. If this parameter is not
-  /// specified, Vault Lock does not enforce a minimum retention period.
+  /// specified, Vault Lock will not enforce a minimum retention period.
   ///
   /// If specified, any backup or copy job to the vault must have a lifecycle
   /// policy with a retention period equal to or longer than the minimum retention
@@ -6918,7 +6922,10 @@ class DescribeBackupVaultOutput {
   /// The number of recovery points that are stored in a backup vault.
   final int? numberOfRecoveryPoints;
 
-  /// This is the type of vault described.
+  /// The current state of the vault.-&gt;
+  final VaultState? vaultState;
+
+  /// The type of vault described.
   final VaultType? vaultType;
 
   DescribeBackupVaultOutput({
@@ -6932,6 +6939,7 @@ class DescribeBackupVaultOutput {
     this.maxRetentionDays,
     this.minRetentionDays,
     this.numberOfRecoveryPoints,
+    this.vaultState,
     this.vaultType,
   });
 
@@ -6947,6 +6955,7 @@ class DescribeBackupVaultOutput {
       maxRetentionDays: json['MaxRetentionDays'] as int?,
       minRetentionDays: json['MinRetentionDays'] as int?,
       numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int?,
+      vaultState: (json['VaultState'] as String?)?.let(VaultState.fromString),
       vaultType: (json['VaultType'] as String?)?.let(VaultType.fromString),
     );
   }
@@ -6986,8 +6995,8 @@ class DescribeFrameworkOutput {
   /// format of the ARN depends on the resource type.
   final String? frameworkArn;
 
-  /// A list of the controls that make up the framework. Each control in the list
-  /// has a name, input parameters, and scope.
+  /// The controls that make up the framework. Each control in the list has a
+  /// name, input parameters, and scope.
   final List<FrameworkControl>? frameworkControls;
 
   /// An optional description of the framework.
@@ -7087,28 +7096,27 @@ class DescribeProtectedResourceOutput {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastBackupTime;
 
-  /// This is the ARN (Amazon Resource Name) of the backup vault that contains the
-  /// most recent backup recovery point.
+  /// The ARN (Amazon Resource Name) of the backup vault that contains the most
+  /// recent backup recovery point.
   final String? lastBackupVaultArn;
 
-  /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+  /// The ARN (Amazon Resource Name) of the most recent recovery point.
   final String? lastRecoveryPointArn;
 
-  /// This is the time in minutes the most recent restore job took to complete.
+  /// The time, in minutes, that the most recent restore job took to complete.
   final int? latestRestoreExecutionTimeMinutes;
 
-  /// This is the creation date of the most recent restore job.
+  /// The creation date of the most recent restore job.
   final DateTime? latestRestoreJobCreationDate;
 
-  /// This is the date the most recent recovery point was created.
+  /// The date the most recent recovery point was created.
   final DateTime? latestRestoreRecoveryPointCreationDate;
 
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
   /// the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource saved as a recovery point; for
@@ -7150,13 +7158,12 @@ class DescribeRecoveryPointOutput {
   final int? backupSizeInBytes;
 
   /// An ARN that uniquely identifies a backup vault; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Region where they are created. They consist of lowercase letters,
-  /// numbers, and hyphens.
+  /// the Region where they are created.
   final String? backupVaultName;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
@@ -7169,9 +7176,9 @@ class DescribeRecoveryPointOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? completionDate;
 
-  /// This is the identifier of a resource within a composite group, such as
-  /// nested (child) recovery point belonging to a composite (parent) stack. The
-  /// ID is transferred from the <a
+  /// The identifier of a resource within a composite group, such as nested
+  /// (child) recovery point belonging to a composite (parent) stack. The ID is
+  /// transferred from the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax">
   /// logical ID</a> within a stack.
   final String? compositeMemberIdentifier;
@@ -7221,11 +7228,10 @@ class DescribeRecoveryPointOutput {
   /// cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for other
+  /// resource types.
   final Lifecycle? lifecycle;
 
   /// This is an ARN that uniquely identifies a parent (composite) recovery point;
@@ -7241,8 +7247,7 @@ class DescribeRecoveryPointOutput {
   /// depends on the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource to save as a recovery point; for
@@ -7252,9 +7257,9 @@ class DescribeRecoveryPointOutput {
 
   /// An Amazon Resource Name (ARN) that uniquely identifies the source vault
   /// where the resource was originally backed up in; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:BackupVault</code>. If the
-  /// recovery is restored to the same Amazon Web Services account or Region, this
-  /// value will be <code>null</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
+  /// If the recovery is restored to the same Amazon Web Services account or
+  /// Region, this value will be <code>null</code>.
   final String? sourceBackupVaultArn;
 
   /// A status code specifying the state of the recovery point.
@@ -7277,7 +7282,9 @@ class DescribeRecoveryPointOutput {
   /// taken some action that causes the continuous backup to be disabled. This can
   /// be caused by the removal of permissions, turning off versioning, turning off
   /// events being sent to EventBridge, or disabling the EventBridge rules that
-  /// are put in place by Backup.
+  /// are put in place by Backup. For recovery points of Amazon S3, Amazon RDS,
+  /// and Amazon Aurora resources, this status occurs when the retention period of
+  /// a continuous backup rule is changed.
   ///
   /// To resolve <code>STOPPED</code> status, ensure that all requested
   /// permissions are in place and that versioning is enabled on the S3 bucket.
@@ -7298,7 +7305,7 @@ class DescribeRecoveryPointOutput {
   /// <code>WARM</code> or <code>COLD</code>.
   final StorageClass? storageClass;
 
-  /// This is the type of vault in which the described recovery point is stored.
+  /// The type of vault in which the described recovery point is stored.
   final VaultType? vaultType;
 
   DescribeRecoveryPointOutput({
@@ -7371,13 +7378,13 @@ class DescribeRegionSettingsOutput {
   /// Returns whether Backup fully manages the backups for a resource type.
   ///
   /// For the benefits of full Backup management, see <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management">
-  /// Full Backup management</a>.
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management">Full
+  /// Backup management</a>.
   ///
   /// For a list of resource types and whether each supports full Backup
   /// management, see the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table.
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table.
   ///
   /// If <code>"DynamoDB":false</code>, you can enable full Backup management for
   /// DynamoDB backup by enabling <a
@@ -7385,8 +7392,7 @@ class DescribeRegionSettingsOutput {
   /// Backup's advanced DynamoDB backup features</a>.
   final Map<String, bool>? resourceTypeManagementPreference;
 
-  /// Returns a list of all services along with the opt-in preferences in the
-  /// Region.
+  /// The services along with the opt-in preferences in the Region.
   final Map<String, bool>? resourceTypeOptInPreference;
 
   DescribeRegionSettingsOutput({
@@ -7407,9 +7413,9 @@ class DescribeRegionSettingsOutput {
 }
 
 class DescribeReportJobOutput {
-  /// A list of information about a report job, including its completion and
-  /// creation times, report destination, unique report job ID, Amazon Resource
-  /// Name (ARN), report template, status, and status message.
+  /// The information about a report job, including its completion and creation
+  /// times, report destination, unique report job ID, Amazon Resource Name (ARN),
+  /// report template, status, and status message.
   final ReportJob? reportJob;
 
   DescribeReportJobOutput({
@@ -7461,9 +7467,11 @@ class DescribeRestoreJobOutput {
   /// Contains identifying information about the creation of a restore job.
   final RestoreJobCreator? createdBy;
 
-  /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose
-  /// recovery point is being restored. The format of the ARN depends on the
-  /// resource type of the backed-up resource.
+  /// The Amazon Resource Name (ARN) of the resource that was created by the
+  /// restore job.
+  ///
+  /// The format of the ARN depends on the resource type of the backed-up
+  /// resource.
   final String? createdResourceArn;
 
   /// The date and time that a restore job is created, in Unix format and
@@ -7472,9 +7480,7 @@ class DescribeRestoreJobOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? creationDate;
 
-  /// This notes the status of the data generated by the restore test. The status
-  /// may be <code>Deleting</code>, <code>Failed</code>, or
-  /// <code>Successful</code>.
+  /// The status of the data generated by the restore test.
   final RestoreDeletionStatus? deletionStatus;
 
   /// This describes the restore job deletion status.
@@ -7496,8 +7502,7 @@ class DescribeRestoreJobOutput {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
 
-  /// This is the creation date of the recovery point made by the specifed restore
-  /// job.
+  /// The creation date of the recovery point made by the specifed restore job.
   final DateTime? recoveryPointCreationDate;
 
   /// Returns metadata associated with a restore job listed by resource type.
@@ -7513,10 +7518,10 @@ class DescribeRestoreJobOutput {
   /// A message showing the status of a job to restore a recovery point.
   final String? statusMessage;
 
-  /// This is the status of validation run on the indicated restore job.
+  /// The status of validation run on the indicated restore job.
   final RestoreValidationStatus? validationStatus;
 
-  /// This describes the status of validation run on the indicated restore job.
+  /// The status message.
   final String? validationStatusMessage;
 
   DescribeRestoreJobOutput({
@@ -7650,7 +7655,7 @@ class FrameworkControl {
   /// The name of a control. This name is between 1 and 256 characters.
   final String controlName;
 
-  /// A list of <code>ParameterName</code> and <code>ParameterValue</code> pairs.
+  /// The name/value pairs.
   final List<ControlInputParameter>? controlInputParameters;
 
   /// The scope of a control. The control scope defines what the control will
@@ -7764,11 +7769,10 @@ class GetBackupPlanOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? deletionDate;
 
-  /// The last time a job to back up resources was run with this backup plan. A
-  /// date and time, in Unix format and Coordinated Universal Time (UTC). The
-  /// value of <code>LastExecutionDate</code> is accurate to milliseconds. For
-  /// example, the value 1516925490.087 represents Friday, January 26, 2018
-  /// 12:11:30.087 AM.
+  /// The last time this backup plan was run. A date and time, in Unix format and
+  /// Coordinated Universal Time (UTC). The value of
+  /// <code>LastExecutionDate</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastExecutionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
@@ -7854,13 +7858,12 @@ class GetBackupSelectionOutput {
 class GetBackupVaultAccessPolicyOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Region where they are created. They consist of lowercase letters,
-  /// numbers, and hyphens.
+  /// the Region where they are created.
   final String? backupVaultName;
 
   /// The backup vault access policy document in JSON format.
@@ -7884,7 +7887,7 @@ class GetBackupVaultAccessPolicyOutput {
 class GetBackupVaultNotificationsOutput {
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// An array of events that indicate the status of jobs to back up resources to
@@ -7893,8 +7896,7 @@ class GetBackupVaultNotificationsOutput {
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Region where they are created. They consist of lowercase letters,
-  /// numbers, and hyphens.
+  /// the Region where they are created.
   final String? backupVaultName;
 
   /// An ARN that uniquely identifies an Amazon Simple Notification Service
@@ -7924,39 +7926,36 @@ class GetBackupVaultNotificationsOutput {
 }
 
 class GetLegalHoldOutput {
-  /// String describing the reason for removing the legal hold.
+  /// The reason for removing the legal hold.
   final String? cancelDescription;
 
-  /// Time in number when legal hold was cancelled.
+  /// The time when the legal hold was cancelled.
   final DateTime? cancellationDate;
 
-  /// Time in number format when legal hold was created.
+  /// The time when the legal hold was created.
   final DateTime? creationDate;
 
-  /// This is the returned string description of the legal hold.
+  /// The description of the legal hold.
   final String? description;
 
-  /// This is the returned framework ARN for the specified legal hold. An Amazon
-  /// Resource Name (ARN) uniquely identifies a resource. The format of the ARN
+  /// The framework ARN for the specified legal hold. The format of the ARN
   /// depends on the resource type.
   final String? legalHoldArn;
 
-  /// This is the returned ID associated with a specified legal hold.
+  /// The ID of the legal hold.
   final String? legalHoldId;
 
-  /// This specifies criteria to assign a set of resources, such as resource types
-  /// or backup vaults.
+  /// The criteria to assign a set of resources, such as resource types or backup
+  /// vaults.
   final RecoveryPointSelection? recoveryPointSelection;
 
-  /// This is the date and time until which the legal hold record will be
-  /// retained.
+  /// The date and time until which the legal hold record is retained.
   final DateTime? retainRecordUntil;
 
-  /// This is the status of the legal hold. Statuses can be <code>ACTIVE</code>,
-  /// <code>CREATING</code>, <code>CANCELED</code>, and <code>CANCELING</code>.
+  /// The status of the legal hold.
   final LegalHoldStatus? status;
 
-  /// This is the string title of the legal hold.
+  /// The title of the legal hold.
   final String? title;
 
   GetLegalHoldOutput({
@@ -7993,14 +7992,14 @@ class GetLegalHoldOutput {
 
 class GetRecoveryPointRestoreMetadataOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
 
-  /// This is the resource type associated with the recovery point.
+  /// The resource type of the recovery point.
   final String? resourceType;
 
   /// The set of metadata key-value pairs that describe the original configuration
@@ -8106,6 +8105,12 @@ class GetSupportedResourceTypesOutput {
   /// <code>Aurora</code> for Amazon Aurora
   /// </li>
   /// <li>
+  /// <code>CloudFormation</code> for CloudFormation
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
   /// <code>DynamoDB</code> for Amazon DynamoDB
   /// </li>
   /// <li>
@@ -8118,19 +8123,32 @@ class GetSupportedResourceTypesOutput {
   /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
-  /// <code>FSX</code> for Amazon FSx
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
   /// </li>
   /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
+  /// <code>Redshift</code> for Amazon Redshift
+  /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon Simple Storage Service (Amazon S3)
+  /// </li>
+  /// <li>
+  /// <code>SAP HANA on Amazon EC2</code> for SAP HANA databases on Amazon Elastic
+  /// Compute Cloud instances
+  /// </li>
+  /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>DocDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// <code>Timestream</code> for Amazon Timestream
   /// </li>
   /// <li>
-  /// <code>Neptune</code> for Amazon Neptune
+  /// <code>VirtualMachine</code> for VMware virtual machines
   /// </li>
   /// </ul>
   final List<String>? resourceTypes;
@@ -8198,28 +8216,26 @@ class KeyValue {
 /// to one or more backups (also known as recovery points). These backups can be
 /// filtered by resource types and by resource IDs.
 class LegalHold {
-  /// This is the time in number format when legal hold was cancelled.
+  /// The time when the legal hold was cancelled.
   final DateTime? cancellationDate;
 
-  /// This is the time in number format when legal hold was created.
+  /// The time when the legal hold was created.
   final DateTime? creationDate;
 
-  /// This is the description of a legal hold.
+  /// The description of a legal hold.
   final String? description;
 
-  /// This is an Amazon Resource Number (ARN) that uniquely identifies the legal
-  /// hold; for example,
+  /// The Amazon Resource Name (ARN) of the legal hold; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? legalHoldArn;
 
-  /// ID of specific legal hold on one or more recovery points.
+  /// The ID of the legal hold.
   final String? legalHoldId;
 
-  /// This is the status of the legal hold. Statuses can be <code>ACTIVE</code>,
-  /// <code>CREATING</code>, <code>CANCELED</code>, and <code>CANCELING</code>.
+  /// The status of the legal hold.
   final LegalHoldStatus? status;
 
-  /// This is the title of a legal hold.
+  /// The title of a legal hold.
   final String? title;
 
   LegalHold({
@@ -8262,33 +8278,35 @@ enum LegalHoldStatus {
               throw Exception('$value is not known in enum LegalHoldStatus'));
 }
 
-/// Contains an array of <code>Transition</code> objects specifying how long in
-/// days before a recovery point transitions to cold storage or is deleted.
+/// Specifies the time period, in days, before a recovery point transitions to
+/// cold storage or is deleted.
 ///
 /// Backups transitioned to cold storage must be stored in cold storage for a
-/// minimum of 90 days. Therefore, on the console, the “retention” setting must
-/// be 90 days greater than the “transition to cold after days” setting. The
-/// “transition to cold after days” setting cannot be changed after a backup has
+/// minimum of 90 days. Therefore, on the console, the retention setting must be
+/// 90 days greater than the transition to cold after days setting. The
+/// transition to cold after days setting can't be changed after a backup has
 /// been transitioned to cold.
 ///
-/// Resource types that are able to be transitioned to cold storage are listed
-/// in the "Lifecycle to cold storage" section of the <a
-/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-/// Feature availability by resource</a> table. Backup ignores this expression
-/// for other resource types.
+/// Resource types that can transition to cold storage are listed in the <a
+/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+/// availability by resource</a> table. Backup ignores this expression for other
+/// resource types.
+///
+/// To remove the existing lifecycle and retention periods and keep your
+/// recovery points indefinitely, specify -1 for
+/// <code>MoveToColdStorageAfterDays</code> and <code>DeleteAfterDays</code>.
 class Lifecycle {
-  /// Specifies the number of days after creation that a recovery point is
-  /// deleted. Must be greater than 90 days plus
+  /// The number of days after creation that a recovery point is deleted. This
+  /// value must be at least 90 days after the number of days specified in
   /// <code>MoveToColdStorageAfterDays</code>.
   final int? deleteAfterDays;
 
-  /// Specifies the number of days after creation that a recovery point is moved
-  /// to cold storage.
+  /// The number of days after creation that a recovery point is moved to cold
+  /// storage.
   final int? moveToColdStorageAfterDays;
 
-  /// Optional Boolean. If this is true, this setting will instruct your backup
-  /// plan to transition supported resources to archive (cold) storage tier in
-  /// accordance with your lifecycle settings.
+  /// If the value is true, your backup plan transitions supported resources to
+  /// archive (cold) storage tier in accordance with your lifecycle settings.
   final bool? optInToArchiveForSupportedResources;
 
   Lifecycle({
@@ -8323,24 +8341,22 @@ class Lifecycle {
 }
 
 class ListBackupJobSummariesOutput {
-  /// This is the period that sets the boundaries for returned results.
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   final String? aggregationPeriod;
 
-  /// This request returns a summary that contains Region, Account, State,
-  /// ResourceType, MessageCategory, StartTime, EndTime, and Count of included
-  /// jobs.
+  /// The summary information.
   final List<BackupJobSummary>? backupJobSummaries;
 
   /// The next item following a partial list of returned resources. For example,
@@ -8449,8 +8465,7 @@ class ListBackupPlanVersionsOutput {
 }
 
 class ListBackupPlansOutput {
-  /// An array of backup plan list items containing metadata about your saved
-  /// backup plans.
+  /// Information about the backup plans.
   final List<BackupPlansListMember>? backupPlansList;
 
   /// The next item following a partial list of returned items. For example, if a
@@ -8533,17 +8548,17 @@ class ListBackupVaultsOutput {
 }
 
 class ListCopyJobSummariesOutput {
-  /// This is the period that sets the boundaries for returned results.
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   final String? aggregationPeriod;
@@ -8605,9 +8620,9 @@ class ListCopyJobsOutput {
 }
 
 class ListFrameworksOutput {
-  /// A list of frameworks with details for each framework, including the
-  /// framework name, Amazon Resource Name (ARN), description, number of controls,
-  /// creation time, and deployment status.
+  /// The frameworks with details for each framework, including the framework
+  /// name, Amazon Resource Name (ARN), description, number of controls, creation
+  /// time, and deployment status.
   final List<Framework>? frameworks;
 
   /// An identifier that was returned from the previous call to this operation,
@@ -8742,11 +8757,10 @@ class ListRecoveryPointsByBackupVaultOutput {
 }
 
 class ListRecoveryPointsByLegalHoldOutput {
-  /// This return is the next item following a partial list of returned resources.
+  /// The next item following a partial list of returned resources.
   final String? nextToken;
 
-  /// This is a list of the recovery points returned by
-  /// <code>ListRecoveryPointsByLegalHold</code>.
+  /// The recovery points.
   final List<RecoveryPointMember>? recoveryPoints;
 
   ListRecoveryPointsByLegalHoldOutput({
@@ -8827,10 +8841,10 @@ class ListReportPlansOutput {
   /// which can be used to return the next set of items in the list.
   final String? nextToken;
 
-  /// A list of your report plans with detailed information for each plan. This
-  /// information includes the Amazon Resource Name (ARN), report plan name,
-  /// description, settings, delivery channel, deployment status, creation time,
-  /// and last times the report plan attempted to and successfully ran.
+  /// The report plans with detailed information for each plan. This information
+  /// includes the Amazon Resource Name (ARN), report plan name, description,
+  /// settings, delivery channel, deployment status, creation time, and last times
+  /// the report plan attempted to and successfully ran.
   final List<ReportPlan>? reportPlans;
 
   ListReportPlansOutput({
@@ -8850,17 +8864,17 @@ class ListReportPlansOutput {
 }
 
 class ListRestoreJobSummariesOutput {
-  /// This is the period that sets the boundaries for returned results.
+  /// The period for the returned results.
   ///
   /// <ul>
   /// <li>
-  /// <code>ONE_DAY</code> for daily job count for the prior 14 days.
+  /// <code>ONE_DAY</code> - The daily job count for the prior 14 days.
   /// </li>
   /// <li>
-  /// <code>SEVEN_DAYS</code> for the aggregated job count for the prior 7 days.
+  /// <code>SEVEN_DAYS</code> - The aggregated job count for the prior 7 days.
   /// </li>
   /// <li>
-  /// <code>FOURTEEN_DAYS</code> for aggregated job count for prior 14 days.
+  /// <code>FOURTEEN_DAYS</code> - The aggregated job count for prior 14 days.
   /// </li>
   /// </ul>
   final String? aggregationPeriod;
@@ -9012,8 +9026,7 @@ class ListTagsOutput {
   /// at the location pointed to by the next token.
   final String? nextToken;
 
-  /// To help organize your resources, you can assign your own metadata to the
-  /// resources you create. Each tag is a key-value pair.
+  /// Information about the tags.
   final Map<String, String>? tags;
 
   ListTagsOutput({
@@ -9038,19 +9051,18 @@ class ProtectedResource {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? lastBackupTime;
 
-  /// This is the ARN (Amazon Resource Name) of the backup vault that contains the
-  /// most recent backup recovery point.
+  /// The ARN (Amazon Resource Name) of the backup vault that contains the most
+  /// recent backup recovery point.
   final String? lastBackupVaultArn;
 
-  /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
+  /// The ARN (Amazon Resource Name) of the most recent recovery point.
   final String? lastRecoveryPointArn;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource; for example, an Amazon Elastic
@@ -9080,11 +9092,8 @@ class ProtectedResource {
   }
 }
 
-/// A list of conditions that you define for resources in your restore testing
-/// plan using tags.
-///
-/// For example, <code>"StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo",
-/// "Value": "true" },</code>. Condition operators are case sensitive.
+/// The conditions that you define for resources in your restore testing plan
+/// using tags.
 class ProtectedResourceConditions {
   /// Filters the values of your tagged resources for only those resources that
   /// you tagged with the same value. Also called "exact matching."
@@ -9129,13 +9138,12 @@ class RecoveryPointByBackupVault {
   final int? backupSizeInBytes;
 
   /// An ARN that uniquely identifies a backup vault; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String? backupVaultName;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
@@ -9148,9 +9156,9 @@ class RecoveryPointByBackupVault {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? completionDate;
 
-  /// This is the identifier of a resource within a composite group, such as
-  /// nested (child) recovery point belonging to a composite (parent) stack. The
-  /// ID is transferred from the <a
+  /// The identifier of a resource within a composite group, such as nested
+  /// (child) recovery point belonging to a composite (parent) stack. The ID is
+  /// transferred from the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax">
   /// logical ID</a> within a stack.
   final String? compositeMemberIdentifier;
@@ -9201,15 +9209,13 @@ class RecoveryPointByBackupVault {
   /// cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for other
+  /// resource types.
   final Lifecycle? lifecycle;
 
-  /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery
-  /// point.
+  /// The Amazon Resource Name (ARN) of the parent (composite) recovery point.
   final String? parentRecoveryPointArn;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
@@ -9221,8 +9227,7 @@ class RecoveryPointByBackupVault {
   /// the resource type.
   final String? resourceArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// The type of Amazon Web Services resource saved as a recovery point; for
@@ -9239,10 +9244,10 @@ class RecoveryPointByBackupVault {
   /// A status code specifying the state of the recovery point.
   final RecoveryPointStatus? status;
 
-  /// A message explaining the reason of the recovery point deletion failure.
+  /// A message explaining the current status of the recovery point.
   final String? statusMessage;
 
-  /// This is the type of vault in which the described recovery point is stored.
+  /// The type of vault in which the described recovery point is stored.
   final VaultType? vaultType;
 
   RecoveryPointByBackupVault({
@@ -9315,8 +9320,7 @@ class RecoveryPointByResource {
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and
-  /// the Amazon Web Services Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens.
+  /// the Amazon Web Services Region where they are created.
   final String? backupVaultName;
 
   /// The date and time a recovery point is created, in Unix format and
@@ -9334,8 +9338,7 @@ class RecoveryPointByResource {
   /// point.
   final bool? isParent;
 
-  /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery
-  /// point.
+  /// The Amazon Resource Name (ARN) of the parent (composite) recovery point.
   final String? parentRecoveryPointArn;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
@@ -9343,17 +9346,16 @@ class RecoveryPointByResource {
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   final String? recoveryPointArn;
 
-  /// This is the non-unique name of the resource that belongs to the specified
-  /// backup.
+  /// The non-unique name of the resource that belongs to the specified backup.
   final String? resourceName;
 
   /// A status code specifying the state of the recovery point.
   final RecoveryPointStatus? status;
 
-  /// A message explaining the reason of the recovery point deletion failure.
+  /// A message explaining the current status of the recovery point.
   final String? statusMessage;
 
-  /// This is the type of vault in which the described recovery point is stored.
+  /// The type of vault in which the described recovery point is stored.
   final VaultType? vaultType;
 
   RecoveryPointByResource({
@@ -9428,20 +9430,17 @@ class RecoveryPointCreator {
 /// disassociated from their parent (composite) recovery point, in which case
 /// they will no longer be a member.
 class RecoveryPointMember {
-  /// This is the name of the backup vault (the logical container in which backups
-  /// are stored).
+  /// The name of the backup vault (the logical container in which backups are
+  /// stored).
   final String? backupVaultName;
 
-  /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery
-  /// point.
+  /// The Amazon Resource Name (ARN) of the parent (composite) recovery point.
   final String? recoveryPointArn;
 
-  /// This is the Amazon Resource Name (ARN) that uniquely identifies a saved
-  /// resource.
+  /// The Amazon Resource Name (ARN) that uniquely identifies a saved resource.
   final String? resourceArn;
 
-  /// This is the Amazon Web Services resource type that is saved as a recovery
-  /// point.
+  /// The Amazon Web Services resource type that is saved as a recovery point.
   final String? resourceType;
 
   RecoveryPointMember({
@@ -9533,8 +9532,8 @@ class ReportDeliveryChannel {
   /// The unique name of the S3 bucket that receives your reports.
   final String s3BucketName;
 
-  /// A list of the format of your reports: <code>CSV</code>, <code>JSON</code>,
-  /// or both. If not specified, the default format is <code>CSV</code>.
+  /// The format of your reports: <code>CSV</code>, <code>JSON</code>, or both. If
+  /// not specified, the default format is <code>CSV</code>.
   final List<String>? formats;
 
   /// The prefix for where Backup Audit Manager delivers your reports to Amazon
@@ -9768,6 +9767,8 @@ class ReportSetting {
   final String reportTemplate;
 
   /// These are the accounts to be included in the report.
+  ///
+  /// Use string value of <code>ROOT</code> to include all organizational units.
   final List<String>? accounts;
 
   /// The Amazon Resource Names (ARNs) of the frameworks a report covers.
@@ -9780,6 +9781,8 @@ class ReportSetting {
   final List<String>? organizationUnits;
 
   /// These are the Regions to be included in the report.
+  ///
+  /// Use the wildcard as the string value to include all Regions.
   final List<String>? regions;
 
   ReportSetting({
@@ -10003,8 +10006,8 @@ class RestoreJobsListMember {
   /// expected to take.
   final int? expectedCompletionTimeMinutes;
 
-  /// Specifies the IAM role ARN used to create the target recovery point; for
-  /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  /// The IAM role ARN used to create the target recovery point; for example,
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
   final String? iamRoleArn;
 
   /// Contains an estimated percentage complete of a job at the time the job
@@ -10035,7 +10038,7 @@ class RestoreJobsListMember {
   /// point.
   final String? statusMessage;
 
-  /// This is the status of validation run on the indicated restore job.
+  /// The status of validation run on the indicated restore job.
   final RestoreValidationStatus? validationStatus;
 
   /// This describes the status of validation run on the indicated restore job.
@@ -10097,9 +10100,36 @@ class RestoreJobsListMember {
 
 /// This contains metadata about a restore testing plan.
 class RestoreTestingPlanForCreate {
-  /// Required: Algorithm; Required: Recovery point types; IncludeVaults (one or
-  /// more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults
-  /// (list of selectors), defaults to empty list if not listed.
+  /// <code>RecoveryPointSelection</code> has five parameters (three required and
+  /// two optional). The values you specify determine which recovery point is
+  /// included in the restore test. You must indicate with <code>Algorithm</code>
+  /// if you want the latest recovery point within your
+  /// <code>SelectionWindowDays</code> or if you want a random recovery point, and
+  /// you must indicate through <code>IncludeVaults</code> from which vaults the
+  /// recovery points can be chosen.
+  ///
+  /// <code>Algorithm</code> (<i>required</i>) Valid values:
+  /// "<code>LATEST_WITHIN_WINDOW</code>" or "<code>RANDOM_WITHIN_WINDOW</code>".
+  ///
+  /// <code>Recovery point types</code> (<i>required</i>) Valid values:
+  /// "<code>SNAPSHOT</code>" and/or "<code>CONTINUOUS</code>". Include
+  /// <code>SNAPSHOT</code> to restore only snapshot recovery points; include
+  /// <code>CONTINUOUS</code> to restore continuous recovery points (point in time
+  /// restore / PITR); use both to restore either a snapshot or a continuous
+  /// recovery point. The recovery point will be determined by the value for
+  /// <code>Algorithm</code>.
+  ///
+  /// <code>IncludeVaults</code> (<i>required</i>). You must include one or more
+  /// backup vaults. Use the wildcard ["*"] or specific ARNs.
+  ///
+  /// <code>SelectionWindowDays</code> (<i>optional</i>) Value must be an integer
+  /// (in days) from 1 to 365. If not included, the value defaults to
+  /// <code>30</code>.
+  ///
+  /// <code>ExcludeVaults</code> (<i>optional</i>). You can choose to input one or
+  /// more specific backup vault ARNs to exclude those vaults' contents from
+  /// restore eligibility. Or, you can include a list of selectors. If this
+  /// parameter and its value are not included, it defaults to empty list.
   final RestoreTestingRecoveryPointSelection recoveryPointSelection;
 
   /// The RestoreTestingPlanName is a unique string that is the name of the
@@ -10165,7 +10195,7 @@ class RestoreTestingPlanForGet {
   /// plan.
   final String restoreTestingPlanArn;
 
-  /// This is the restore testing plan name.
+  /// The restore testing plan name.
   final String restoreTestingPlanName;
 
   /// A CRON expression in specified timezone when a restore testing plan is
@@ -10250,7 +10280,7 @@ class RestoreTestingPlanForList {
   /// plan.
   final String restoreTestingPlanArn;
 
-  /// This is the restore testing plan name.
+  /// The restore testing plan name.
   final String restoreTestingPlanName;
 
   /// A CRON expression in specified timezone when a restore testing plan is
@@ -10358,9 +10388,36 @@ class RestoreTestingPlanForUpdate {
   }
 }
 
-/// Required: Algorithm; Required: Recovery point types; IncludeVaults(one or
-/// more). Optional: SelectionWindowDays ('30' if not specified);ExcludeVaults
-/// (list of selectors), defaults to empty list if not listed.
+/// <code>RecoveryPointSelection</code> has five parameters (three required and
+/// two optional). The values you specify determine which recovery point is
+/// included in the restore test. You must indicate with <code>Algorithm</code>
+/// if you want the latest recovery point within your
+/// <code>SelectionWindowDays</code> or if you want a random recovery point, and
+/// you must indicate through <code>IncludeVaults</code> from which vaults the
+/// recovery points can be chosen.
+///
+/// <code>Algorithm</code> (<i>required</i>) Valid values:
+/// "<code>LATEST_WITHIN_WINDOW</code>" or "<code>RANDOM_WITHIN_WINDOW</code>".
+///
+/// <code>Recovery point types</code> (<i>required</i>) Valid values:
+/// "<code>SNAPSHOT</code>" and/or "<code>CONTINUOUS</code>". Include
+/// <code>SNAPSHOT</code> to restore only snapshot recovery points; include
+/// <code>CONTINUOUS</code> to restore continuous recovery points (point in time
+/// restore / PITR); use both to restore either a snapshot or a continuous
+/// recovery point. The recovery point will be determined by the value for
+/// <code>Algorithm</code>.
+///
+/// <code>IncludeVaults</code> (<i>required</i>). You must include one or more
+/// backup vaults. Use the wildcard ["*"] or specific ARNs.
+///
+/// <code>SelectionWindowDays</code> (<i>optional</i>) Value must be an integer
+/// (in days) from 1 to 365. If not included, the value defaults to
+/// <code>30</code>.
+///
+/// <code>ExcludeVaults</code> (<i>optional</i>). You can choose to input one or
+/// more specific backup vault ARNs to exclude those vaults' contents from
+/// restore eligibility. Or, you can include a list of selectors. If this
+/// parameter and its value are not included, it defaults to empty list.
 class RestoreTestingRecoveryPointSelection {
   /// Acceptable values include "LATEST_WITHIN_WINDOW" or "RANDOM_WITHIN_WINDOW"
   final RestoreTestingRecoveryPointSelectionAlgorithm? algorithm;
@@ -10375,6 +10432,12 @@ class RestoreTestingRecoveryPointSelection {
   final List<String>? includeVaults;
 
   /// These are the types of recovery points.
+  ///
+  /// Include <code>SNAPSHOT</code> to restore only snapshot recovery points;
+  /// include <code>CONTINUOUS</code> to restore continuous recovery points (point
+  /// in time restore / PITR); use both to restore either a snapshot or a
+  /// continuous recovery point. The recovery point will be determined by the
+  /// value for <code>Algorithm</code>.
   final List<RestoreTestingRecoveryPointType>? recoveryPointTypes;
 
   /// Accepted values are integers from 1 to 365.
@@ -10528,8 +10591,8 @@ class RestoreTestingSelectionForCreate {
   /// </ul>
   final String protectedResourceType;
 
-  /// This is the unique name of the restore testing selection that belongs to the
-  /// related restore testing plan.
+  /// The unique name of the restore testing selection that belongs to the related
+  /// restore testing plan.
   final String restoreTestingSelectionName;
 
   /// Each protected resource can be filtered by its specific ARNs, such as
@@ -10611,8 +10674,8 @@ class RestoreTestingSelectionForGet {
   /// restore testing plan.
   final String restoreTestingPlanName;
 
-  /// This is the unique name of the restore testing selection that belongs to the
-  /// related restore testing plan.
+  /// The unique name of the restore testing selection that belongs to the related
+  /// restore testing plan.
   final String restoreTestingSelectionName;
 
   /// This identifies the request and allows failed requests to be retried without
@@ -10689,8 +10752,8 @@ class RestoreTestingSelectionForGet {
 
 /// This contains metadata about a restore testing selection.
 class RestoreTestingSelectionForList {
-  /// This is the date and time that a restore testing selection was created, in
-  /// Unix format and Coordinated Universal Time (UTC). The value of
+  /// The date and time that a restore testing selection was created, in Unix
+  /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CreationTime</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
   final DateTime creationTime;
@@ -10756,11 +10819,8 @@ class RestoreTestingSelectionForUpdate {
   /// both.
   final List<String>? protectedResourceArns;
 
-  /// A list of conditions that you define for resources in your restore testing
-  /// plan using tags.
-  ///
-  /// For example, <code>"StringEquals": { "Key": "aws:ResourceTag/CreatedByCryo",
-  /// "Value": "true" },</code>. Condition operators are case sensitive.
+  /// The conditions that you define for resources in your restore testing plan
+  /// using tags.
   final ProtectedResourceConditions? protectedResourceConditions;
 
   /// You can override certain restore metadata keys by including the parameter
@@ -11016,7 +11076,7 @@ class UpdateFrameworkOutput {
 
 class UpdateRecoveryPointLifecycleOutput {
   /// An ARN that uniquely identifies a backup vault; for example,
-  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
+  /// <code>arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault</code>.
   final String? backupVaultArn;
 
   /// A <code>CalculatedLifecycle</code> object containing <code>DeleteAt</code>
@@ -11033,11 +11093,10 @@ class UpdateRecoveryPointLifecycleOutput {
   /// cold after days” setting cannot be changed after a backup has been
   /// transitioned to cold.
   ///
-  /// Resource types that are able to be transitioned to cold storage are listed
-  /// in the "Lifecycle to cold storage" section of the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
-  /// Feature availability by resource</a> table. Backup ignores this expression
-  /// for other resource types.
+  /// Resource types that can transition to cold storage are listed in the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource">Feature
+  /// availability by resource</a> table. Backup ignores this expression for other
+  /// resource types.
   final Lifecycle? lifecycle;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
@@ -11098,7 +11157,7 @@ class UpdateReportPlanOutput {
 }
 
 class UpdateRestoreTestingPlanOutput {
-  /// This is the time the resource testing plan was created.
+  /// The time the resource testing plan was created.
   final DateTime creationTime;
 
   /// Unique ARN (Amazon Resource Name) of the restore testing plan.
@@ -11108,7 +11167,7 @@ class UpdateRestoreTestingPlanOutput {
   /// alphanumeric characters and underscores. Maximum length is 50.
   final String restoreTestingPlanName;
 
-  /// This is the time the update completed for the restore testing plan.
+  /// The time the update completed for the restore testing plan.
   final DateTime updateTime;
 
   UpdateRestoreTestingPlanOutput({
@@ -11130,20 +11189,20 @@ class UpdateRestoreTestingPlanOutput {
 }
 
 class UpdateRestoreTestingSelectionOutput {
-  /// This is the time the resource testing selection was updated successfully.
+  /// The time the resource testing selection was updated successfully.
   final DateTime creationTime;
 
   /// Unique string that is the name of the restore testing plan.
   final String restoreTestingPlanArn;
 
-  /// This is the restore testing plan with which the updated restore testing
-  /// selection is associated.
+  /// The restore testing plan with which the updated restore testing selection is
+  /// associated.
   final String restoreTestingPlanName;
 
-  /// This is the returned restore testing selection name.
+  /// The returned restore testing selection name.
   final String restoreTestingSelectionName;
 
-  /// This is the time the update completed for the restore testing selection.
+  /// The time the update completed for the restore testing selection.
   final DateTime updateTime;
 
   UpdateRestoreTestingSelectionOutput({

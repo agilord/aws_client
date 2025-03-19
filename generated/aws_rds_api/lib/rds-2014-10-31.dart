@@ -1754,9 +1754,6 @@ class RDS {
   /// <li>
   /// Must match the name of an existing DB subnet group.
   /// </li>
-  /// <li>
-  /// Must not be <code>default</code>.
-  /// </li>
   /// </ul>
   /// Example: <code>mydbsubnetgroup</code>
   ///
@@ -2395,13 +2392,13 @@ class RDS {
   /// Parameter [publiclyAccessible] :
   /// Specifies whether the DB cluster is publicly accessible.
   ///
-  /// When the DB cluster is publicly accessible, its Domain Name System (DNS)
-  /// endpoint resolves to the private IP address from within the DB cluster's
-  /// virtual private cloud (VPC). It resolves to the public IP address from
-  /// outside of the DB cluster's VPC. Access to the DB cluster is ultimately
-  /// controlled by the security group it uses. That public access isn't
-  /// permitted if the security group assigned to the DB cluster doesn't permit
-  /// it.
+  /// When the DB cluster is publicly accessible and you connect from outside of
+  /// the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS)
+  /// endpoint resolves to the public IP address. When you connect from within
+  /// the same VPC as the DB cluster, the endpoint resolves to the private IP
+  /// address. Access to the DB cluster is ultimately controlled by the security
+  /// group it uses. That public access isn't permitted if the security group
+  /// assigned to the DB cluster doesn't permit it.
   ///
   /// When the DB cluster isn't publicly accessible, it is an internal DB
   /// cluster with a DNS name that resolves to a private IP address.
@@ -4363,13 +4360,13 @@ class RDS {
   /// Parameter [publiclyAccessible] :
   /// Specifies whether the DB instance is publicly accessible.
   ///
-  /// When the DB instance is publicly accessible, its Domain Name System (DNS)
-  /// endpoint resolves to the private IP address from within the DB instance's
-  /// virtual private cloud (VPC). It resolves to the public IP address from
-  /// outside of the DB instance's VPC. Access to the DB instance is ultimately
-  /// controlled by the security group it uses. That public access is not
-  /// permitted if the security group assigned to the DB instance doesn't permit
-  /// it.
+  /// When the DB instance is publicly accessible and you connect from outside
+  /// of the DB instance's virtual private cloud (VPC), its Domain Name System
+  /// (DNS) endpoint resolves to the public IP address. When you connect from
+  /// within the same VPC as the DB instance, the endpoint resolves to the
+  /// private IP address. Access to the DB instance is ultimately controlled by
+  /// the security group it uses. That public access is not permitted if the
+  /// security group assigned to the DB instance doesn't permit it.
   ///
   /// When the DB instance isn't publicly accessible, it is an internal DB
   /// instance with a DNS name that resolves to a private IP address.
@@ -6003,6 +6000,10 @@ class RDS {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [minACU] :
+  /// The minimum capacity of the DB shard group in Aurora capacity units
+  /// (ACUs).
+  ///
   /// Parameter [publiclyAccessible] :
   /// Specifies whether the DB shard group is publicly accessible.
   ///
@@ -6051,6 +6052,7 @@ class RDS {
     required String dBShardGroupIdentifier,
     required double maxACU,
     int? computeRedundancy,
+    double? minACU,
     bool? publiclyAccessible,
   }) async {
     final $request = <String, String>{
@@ -6059,6 +6061,7 @@ class RDS {
       'MaxACU': maxACU.toString(),
       if (computeRedundancy != null)
         'ComputeRedundancy': computeRedundancy.toString(),
+      if (minACU != null) 'MinACU': minACU.toString(),
       if (publiclyAccessible != null)
         'PubliclyAccessible': publiclyAccessible.toString(),
     };
@@ -7027,9 +7030,9 @@ class RDS {
   /// The DB cluster snapshot identifier of the new DB cluster snapshot created
   /// when <code>SkipFinalSnapshot</code> is disabled.
   /// <note>
-  /// Specifying this parameter and also skipping the creation of a final DB
-  /// cluster snapshot with the <code>SkipFinalShapshot</code> parameter results
-  /// in an error.
+  /// If you specify this parameter and also skip the creation of a final DB
+  /// cluster snapshot with the <code>SkipFinalShapshot</code> parameter, the
+  /// request results in an error.
   /// </note>
   /// Constraints:
   ///
@@ -7047,14 +7050,14 @@ class RDS {
   ///
   /// Parameter [skipFinalSnapshot] :
   /// Specifies whether to skip the creation of a final DB cluster snapshot
-  /// before the DB cluster is deleted. If skip is specified, no DB cluster
-  /// snapshot is created. If skip isn't specified, a DB cluster snapshot is
-  /// created before the DB cluster is deleted. By default, skip isn't
-  /// specified, and the DB cluster snapshot is created. By default, this
-  /// parameter is disabled.
+  /// before RDS deletes the DB cluster. If you set this value to
+  /// <code>true</code>, RDS doesn't create a final DB cluster snapshot. If you
+  /// set this value to <code>false</code> or don't specify it, RDS creates a DB
+  /// cluster snapshot before it deletes the DB cluster. By default, this
+  /// parameter is disabled, so RDS creates a final DB cluster snapshot.
   /// <note>
-  /// You must specify a <code>FinalDBSnapshotIdentifier</code> parameter if
-  /// <code>SkipFinalSnapshot</code> is disabled.
+  /// If <code>SkipFinalSnapshot</code> is disabled, you must specify a value
+  /// for the <code>FinalDBSnapshotIdentifier</code> parameter.
   /// </note>
   Future<DeleteDBClusterResult> deleteDBCluster({
     required String dBClusterIdentifier,
@@ -11723,6 +11726,13 @@ class RDS {
   /// Returns a list of resources (for example, DB instances) that have at least
   /// one pending maintenance action.
   ///
+  /// This API follows an eventual consistency model. This means that the result
+  /// of the <code>DescribePendingMaintenanceActions</code> command might not be
+  /// immediately visible to all subsequent RDS commands. Keep this in mind when
+  /// you use <code>DescribePendingMaintenanceActions</code> immediately after
+  /// using a previous API command such as
+  /// <code>ApplyPendingMaintenanceActions</code>.
+  ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
@@ -15057,13 +15067,13 @@ class RDS {
   /// Parameter [publiclyAccessible] :
   /// Specifies whether the DB instance is publicly accessible.
   ///
-  /// When the DB cluster is publicly accessible, its Domain Name System (DNS)
-  /// endpoint resolves to the private IP address from within the DB cluster's
-  /// virtual private cloud (VPC). It resolves to the public IP address from
-  /// outside of the DB cluster's VPC. Access to the DB cluster is ultimately
-  /// controlled by the security group it uses. That public access isn't
-  /// permitted if the security group assigned to the DB cluster doesn't permit
-  /// it.
+  /// When the DB instance is publicly accessible and you connect from outside
+  /// of the DB instance's virtual private cloud (VPC), its Domain Name System
+  /// (DNS) endpoint resolves to the public IP address. When you connect from
+  /// within the same VPC as the DB instance, the endpoint resolves to the
+  /// private IP address. Access to the DB instance is ultimately controlled by
+  /// the security group it uses. That public access isn't permitted if the
+  /// security group assigned to the DB instance doesn't permit it.
   ///
   /// When the DB instance isn't publicly accessible, it is an internal DB
   /// instance with a DNS name that resolves to a private IP address.
@@ -15740,13 +15750,19 @@ class RDS {
   /// Parameter [maxACU] :
   /// The maximum capacity of the DB shard group in Aurora capacity units
   /// (ACUs).
+  ///
+  /// Parameter [minACU] :
+  /// The minimum capacity of the DB shard group in Aurora capacity units
+  /// (ACUs).
   Future<DBShardGroup> modifyDBShardGroup({
     required String dBShardGroupIdentifier,
     double? maxACU,
+    double? minACU,
   }) async {
     final $request = <String, String>{
       'DBShardGroupIdentifier': dBShardGroupIdentifier,
       if (maxACU != null) 'MaxACU': maxACU.toString(),
+      if (minACU != null) 'MinACU': minACU.toString(),
     };
     final $result = await _protocol.send(
       $request,
@@ -21601,8 +21617,6 @@ class RDS {
   ///
   /// You can't export snapshot data from Db2 or RDS Custom DB instances.
   ///
-  /// You can't export cluster data from Multi-AZ DB clusters.
-  ///
   /// For more information on exporting DB snapshot data, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html">Exporting
   /// DB snapshot data to Amazon S3</a> in the <i>Amazon RDS User Guide</i> or
@@ -22689,7 +22703,7 @@ class Certificate {
   }
 }
 
-/// Returns the details of the DB instance’s server certificate.
+/// The details of the DB instance’s server certificate.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">Using
@@ -23853,12 +23867,13 @@ class DBCluster {
 
   /// Indicates whether the DB cluster is publicly accessible.
   ///
-  /// When the DB cluster is publicly accessible, its Domain Name System (DNS)
-  /// endpoint resolves to the private IP address from within the DB cluster's
-  /// virtual private cloud (VPC). It resolves to the public IP address from
-  /// outside of the DB cluster's VPC. Access to the DB cluster is ultimately
-  /// controlled by the security group it uses. That public access isn't permitted
-  /// if the security group assigned to the DB cluster doesn't permit it.
+  /// When the DB cluster is publicly accessible and you connect from outside of
+  /// the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS)
+  /// endpoint resolves to the public IP address. When you connect from within the
+  /// same VPC as the DB cluster, the endpoint resolves to the private IP address.
+  /// Access to the DB cluster is ultimately controlled by the security group it
+  /// uses. That public access isn't permitted if the security group assigned to
+  /// the DB cluster doesn't permit it.
   ///
   /// When the DB cluster isn't publicly accessible, it is an internal DB cluster
   /// with a DNS name that resolves to a private IP address.
@@ -25886,12 +25901,13 @@ class DBInstance {
 
   /// Indicates whether the DB instance is publicly accessible.
   ///
-  /// When the DB cluster is publicly accessible, its Domain Name System (DNS)
-  /// endpoint resolves to the private IP address from within the DB cluster's
-  /// virtual private cloud (VPC). It resolves to the public IP address from
-  /// outside of the DB cluster's VPC. Access to the DB cluster is ultimately
-  /// controlled by the security group it uses. That public access isn't permitted
-  /// if the security group assigned to the DB cluster doesn't permit it.
+  /// When the DB instance is publicly accessible and you connect from outside of
+  /// the DB instance's virtual private cloud (VPC), its Domain Name System (DNS)
+  /// endpoint resolves to the public IP address. When you connect from within the
+  /// same VPC as the DB instance, the endpoint resolves to the private IP
+  /// address. Access to the DB cluster is ultimately controlled by the security
+  /// group it uses. That public access isn't permitted if the security group
+  /// assigned to the DB cluster doesn't permit it.
   ///
   /// When the DB instance isn't publicly accessible, it is an internal DB
   /// instance with a DNS name that resolves to a private IP address.
@@ -27538,6 +27554,9 @@ class DBShardGroup {
   /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
   final double? maxACU;
 
+  /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+  final double? minACU;
+
   /// Indicates whether the DB shard group is publicly accessible.
   ///
   /// When the DB shard group is publicly accessible, its Domain Name System (DNS)
@@ -27566,6 +27585,7 @@ class DBShardGroup {
     this.dBShardGroupResourceId,
     this.endpoint,
     this.maxACU,
+    this.minACU,
     this.publiclyAccessible,
     this.status,
   });
@@ -27580,6 +27600,7 @@ class DBShardGroup {
           _s.extractXmlStringValue(elem, 'DBShardGroupResourceId'),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       maxACU: _s.extractXmlDoubleValue(elem, 'MaxACU'),
+      minACU: _s.extractXmlDoubleValue(elem, 'MinACU'),
       publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
@@ -30388,12 +30409,12 @@ class Option {
   }
 }
 
-/// A list of all available options
+/// A list of all available options for an option group.
 class OptionConfiguration {
   /// The configuration of options to include in a group.
   final String optionName;
 
-  /// A list of DBSecurityGroupMembership name strings used for this option.
+  /// A list of DB security groups used for this option.
   final List<String>? dBSecurityGroupMemberships;
 
   /// The option settings to include in an option group.
@@ -30405,7 +30426,7 @@ class OptionConfiguration {
   /// The optional port for the option.
   final int? port;
 
-  /// A list of VpcSecurityGroupMembership name strings used for this option.
+  /// A list of VPC security group names used for this option.
   final List<String>? vpcSecurityGroupMemberships;
 
   OptionConfiguration({
@@ -31854,15 +31875,15 @@ class PerformanceIssueDetails {
 /// </li>
 /// </ul>
 /// For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor">Configuring
-/// the Processor of the DB Instance Class</a> in the <i>Amazon RDS User Guide.
-/// </i>
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor">
+/// Configuring the processor for a DB instance class in RDS for Oracle</a> in
+/// the <i>Amazon RDS User Guide. </i>
 class ProcessorFeature {
   /// The name of the processor feature. Valid names are <code>coreCount</code>
   /// and <code>threadsPerCore</code>.
   final String? name;
 
-  /// The value of a processor feature name.
+  /// The value of a processor feature.
   final String? value;
 
   ProcessorFeature({
@@ -33347,9 +33368,9 @@ class SwitchoverReadReplicaResult {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html">Tagging
-/// Amazon RDS Resources</a> in the <i>Amazon RDS User Guide</i> or <a
+/// Amazon RDS resources</a> in the <i>Amazon RDS User Guide</i> or <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html">Tagging
-/// Amazon Aurora and Amazon RDS Resources</a> in the <i>Amazon Aurora User
+/// Amazon Aurora and Amazon RDS resources</a> in the <i>Amazon Aurora User
 /// Guide</i>.
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128

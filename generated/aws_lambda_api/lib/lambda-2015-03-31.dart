@@ -132,23 +132,23 @@ class Lambda {
     return AddLayerVersionPermissionResponse.fromJson(response);
   }
 
-  /// Grants an Amazon Web Service, Amazon Web Services account, or Amazon Web
-  /// Services organization permission to use a function. You can apply the
-  /// policy at the function level, or specify a qualifier to restrict access to
-  /// a single version or alias. If you use a qualifier, the invoker must use
-  /// the full Amazon Resource Name (ARN) of that version or alias to invoke the
-  /// function. Note: Lambda does not support adding policies to version
-  /// $LATEST.
+  /// Grants an Amazon Web Servicesservice, Amazon Web Services account, or
+  /// Amazon Web Services organization permission to use a function. You can
+  /// apply the policy at the function level, or specify a qualifier to restrict
+  /// access to a single version or alias. If you use a qualifier, the invoker
+  /// must use the full Amazon Resource Name (ARN) of that version or alias to
+  /// invoke the function. Note: Lambda does not support adding policies to
+  /// version $LATEST.
   ///
   /// To grant permission to another account, specify the account ID as the
   /// <code>Principal</code>. To grant permission to an organization defined in
   /// Organizations, specify the organization ID as the
-  /// <code>PrincipalOrgID</code>. For Amazon Web Services, the principal is a
-  /// domain-style identifier that the service defines, such as
+  /// <code>PrincipalOrgID</code>. For Amazon Web Servicesservices, the
+  /// principal is a domain-style identifier that the service defines, such as
   /// <code>s3.amazonaws.com</code> or <code>sns.amazonaws.com</code>. For
-  /// Amazon Web Services, you can also specify the ARN of the associated
-  /// resource as the <code>SourceArn</code>. If you grant permission to a
-  /// service principal without specifying the source, other accounts could
+  /// Amazon Web Servicesservices, you can also specify the ARN of the
+  /// associated resource as the <code>SourceArn</code>. If you grant permission
+  /// to a service principal without specifying the source, other accounts could
   /// potentially configure resources in their account to invoke your Lambda
   /// function.
   ///
@@ -191,8 +191,8 @@ class Lambda {
   /// name, it is limited to 64 characters in length.
   ///
   /// Parameter [principal] :
-  /// The Amazon Web Service or Amazon Web Services account that invokes the
-  /// function. If you specify a service, use <code>SourceArn</code> or
+  /// The Amazon Web Servicesservice or Amazon Web Services account that invokes
+  /// the function. If you specify a service, use <code>SourceArn</code> or
   /// <code>SourceAccount</code> to limit who can invoke the function through
   /// that service.
   ///
@@ -226,15 +226,16 @@ class Lambda {
   /// last read it.
   ///
   /// Parameter [sourceAccount] :
-  /// For Amazon Web Service, the ID of the Amazon Web Services account that
-  /// owns the resource. Use this together with <code>SourceArn</code> to ensure
-  /// that the specified account owns the resource. It is possible for an Amazon
-  /// S3 bucket to be deleted by its owner and recreated by another account.
+  /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account
+  /// that owns the resource. Use this together with <code>SourceArn</code> to
+  /// ensure that the specified account owns the resource. It is possible for an
+  /// Amazon S3 bucket to be deleted by its owner and recreated by another
+  /// account.
   ///
   /// Parameter [sourceArn] :
-  /// For Amazon Web Services, the ARN of the Amazon Web Services resource that
-  /// invokes the function. For example, an Amazon S3 bucket or Amazon SNS
-  /// topic.
+  /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services
+  /// resource that invokes the function. For example, an Amazon S3 bucket or
+  /// Amazon SNS topic.
   ///
   /// Note that Lambda configures the comparison using the
   /// <code>StringLike</code> operator.
@@ -614,22 +615,31 @@ class Lambda {
   /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response
   /// type enums applied to the event source mapping.
   ///
+  /// Parameter [kMSKeyArn] :
+  /// The ARN of the Key Management Service (KMS) customer managed key that
+  /// Lambda uses to encrypt your function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics">filter
+  /// criteria</a>. By default, Lambda does not encrypt your filter criteria
+  /// object. Specify this property to encrypt data using your own customer
+  /// managed key.
+  ///
   /// Parameter [maximumBatchingWindowInSeconds] :
   /// The maximum amount of time, in seconds, that Lambda spends gathering
   /// records before invoking the function. You can configure
   /// <code>MaximumBatchingWindowInSeconds</code> to any value from 0 seconds to
   /// 300 seconds in increments of seconds.
   ///
-  /// For streams and Amazon SQS event sources, the default batching window is 0
-  /// seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and
-  /// DocumentDB event sources, the default batching window is 500 ms. Note that
-  /// because you can only change <code>MaximumBatchingWindowInSeconds</code> in
-  /// increments of seconds, you cannot revert back to the 500 ms default
-  /// batching window after you have changed it. To restore the default batching
-  /// window, you must create a new event source mapping.
+  /// For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching
+  /// window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ,
+  /// and DocumentDB event sources, the default batching window is 500 ms. Note
+  /// that because you can only change
+  /// <code>MaximumBatchingWindowInSeconds</code> in increments of seconds, you
+  /// cannot revert back to the 500 ms default batching window after you have
+  /// changed it. To restore the default batching window, you must create a new
+  /// event source mapping.
   ///
-  /// Related setting: For streams and Amazon SQS event sources, when you set
-  /// <code>BatchSize</code> to a value greater than 10, you must set
+  /// Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when
+  /// you set <code>BatchSize</code> to a value greater than 10, you must set
   /// <code>MaximumBatchingWindowInSeconds</code> to at least 1.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
@@ -694,6 +704,7 @@ class Lambda {
     String? eventSourceArn,
     FilterCriteria? filterCriteria,
     List<FunctionResponseType>? functionResponseTypes,
+    String? kMSKeyArn,
     int? maximumBatchingWindowInSeconds,
     int? maximumRecordAgeInSeconds,
     int? maximumRetryAttempts,
@@ -761,6 +772,7 @@ class Lambda {
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
             functionResponseTypes.map((e) => e.value).toList(),
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -800,8 +812,8 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role">execution
   /// role</a>. The deployment package is a .zip file archive or container image
   /// that contains your function code. The execution role grants the function
-  /// permission to use Amazon Web Services, such as Amazon CloudWatch Logs for
-  /// log streaming and X-Ray for request tracing.
+  /// permission to use Amazon Web Servicesservices, such as Amazon CloudWatch
+  /// Logs for log streaming and X-Ray for request tracing.
   ///
   /// If the deployment package is a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html">container
@@ -853,15 +865,16 @@ class Lambda {
   /// includes set of signing profiles, which define the trusted publishers for
   /// this function.
   ///
-  /// If another Amazon Web Services account or an Amazon Web Service invokes
-  /// your function, use <a>AddPermission</a> to grant permission by creating a
-  /// resource-based Identity and Access Management (IAM) policy. You can grant
-  /// permissions at the function level, on a version, or on an alias.
+  /// If another Amazon Web Services account or an Amazon Web Servicesservice
+  /// invokes your function, use <a>AddPermission</a> to grant permission by
+  /// creating a resource-based Identity and Access Management (IAM) policy. You
+  /// can grant permissions at the function level, on a version, or on an alias.
   ///
   /// To invoke your function directly, use <a>Invoke</a>. To invoke your
-  /// function in response to events in other Amazon Web Services, create an
-  /// event source mapping (<a>CreateEventSourceMapping</a>), or configure a
-  /// function trigger in the other service. For more information, see <a
+  /// function in response to events in other Amazon Web Servicesservices,
+  /// create an event source mapping (<a>CreateEventSourceMapping</a>), or
+  /// configure a function trigger in the other service. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html">Invoking
   /// Lambda functions</a>.
   ///
@@ -986,13 +999,20 @@ class Lambda {
   ///
   /// Parameter [runtime] :
   /// The identifier of the function's <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
-  /// Runtime is required if the deployment package is a .zip file archive.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">
+  /// runtime</a>. Runtime is required if the deployment package is a .zip file
+  /// archive. Specifying a runtime results in an error if you're deploying a
+  /// function using a container image.
   ///
-  /// The following list includes deprecated runtimes. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// The following list includes deprecated runtimes. Lambda blocks creating
+  /// new functions and updating existing functions shortly after each runtime
+  /// is deprecated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   ///
   /// Parameter [snapStart] :
   /// The function's <a
@@ -1288,9 +1308,9 @@ class Lambda {
   /// <a>DeleteAlias</a>.
   ///
   /// To delete Lambda event source mappings that invoke a function, use
-  /// <a>DeleteEventSourceMapping</a>. For Amazon Web Services and resources
-  /// that invoke your function directly, delete the trigger in the service
-  /// where you originally configured it.
+  /// <a>DeleteEventSourceMapping</a>. For Amazon Web Servicesservices and
+  /// resources that invoke your function directly, delete the trigger in the
+  /// service where you originally configured it.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -1923,6 +1943,30 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
+  }
+
+  /// Returns your function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html">recursive
+  /// loop detection</a> configuration.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [functionName] :
+  /// <p/>
+  Future<GetFunctionRecursionConfigResponse> getFunctionRecursionConfig({
+    required String functionName,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2024-08-31/functions/${Uri.encodeComponent(functionName)}/recursion-config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionRecursionConfigResponse.fromJson(response);
   }
 
   /// Returns details about a Lambda function URL.
@@ -3032,12 +3076,16 @@ class Lambda {
   /// set architecture</a>.
   ///
   /// Parameter [compatibleRuntime] :
-  /// A runtime identifier. For example, <code>java21</code>.
+  /// A runtime identifier.
   ///
   /// The following list includes deprecated runtimes. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   ///
   /// Parameter [marker] :
   /// A pagination token returned by a previous call.
@@ -3097,12 +3145,16 @@ class Lambda {
   /// set architecture</a>.
   ///
   /// Parameter [compatibleRuntime] :
-  /// A runtime identifier. For example, <code>java21</code>.
+  /// A runtime identifier.
   ///
   /// The following list includes deprecated runtimes. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   ///
   /// Parameter [marker] :
   /// A pagination token returned by a previous call.
@@ -3680,6 +3732,88 @@ class Lambda {
     return FunctionEventInvokeConfig.fromJson(response);
   }
 
+  /// Sets your function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html">recursive
+  /// loop detection</a> configuration.
+  ///
+  /// When you configure a Lambda function to output to the same service or
+  /// resource that invokes the function, it's possible to create an infinite
+  /// recursive loop. For example, a Lambda function might write a message to an
+  /// Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the
+  /// same function. This invocation causes the function to write another
+  /// message to the queue, which in turn invokes the function again.
+  ///
+  /// Lambda can detect certain types of recursive loops shortly after they
+  /// occur. When Lambda detects a recursive loop and your function's recursive
+  /// loop detection configuration is set to <code>Terminate</code>, it stops
+  /// your function being invoked and notifies you.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [functionName] :
+  /// The name or ARN of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> – <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> –
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> – <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [recursiveLoop] :
+  /// If you set your function's recursive loop detection configuration to
+  /// <code>Allow</code>, Lambda doesn't take any action when it detects your
+  /// function being invoked as part of a recursive loop. We recommend that you
+  /// only use this setting if your design intentionally uses a Lambda function
+  /// to write data back to the same Amazon Web Services resource that invokes
+  /// it.
+  ///
+  /// If you set your function's recursive loop detection configuration to
+  /// <code>Terminate</code>, Lambda stops your function being invoked and
+  /// notifies you when it detects your function being invoked as part of a
+  /// recursive loop.
+  ///
+  /// By default, Lambda sets your function's configuration to
+  /// <code>Terminate</code>.
+  /// <important>
+  /// If your design intentionally uses a Lambda function to write data back to
+  /// the same Amazon Web Services resource that invokes the function, then use
+  /// caution and implement suitable guard rails to prevent unexpected charges
+  /// being billed to your Amazon Web Services account. To learn more about best
+  /// practices for using recursive invocation patterns, see <a
+  /// href="https://serverlessland.com/content/service/lambda/guides/aws-lambda-operator-guide/recursive-runaway">Recursive
+  /// patterns that cause run-away Lambda functions</a> in Serverless Land.
+  /// </important>
+  Future<PutFunctionRecursionConfigResponse> putFunctionRecursionConfig({
+    required String functionName,
+    required RecursiveLoop recursiveLoop,
+  }) async {
+    final $payload = <String, dynamic>{
+      'RecursiveLoop': recursiveLoop.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2024-08-31/functions/${Uri.encodeComponent(functionName)}/recursion-config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutFunctionRecursionConfigResponse.fromJson(response);
+  }
+
   /// Adds a provisioned concurrency configuration to a function's alias or
   /// version.
   ///
@@ -3882,9 +4016,9 @@ class Lambda {
     );
   }
 
-  /// Revokes function-use permission from an Amazon Web Service or another
-  /// Amazon Web Services account. You can get the ID of the statement from the
-  /// output of <a>GetPolicy</a>.
+  /// Revokes function-use permission from an Amazon Web Servicesservice or
+  /// another Amazon Web Services account. You can get the ID of the statement
+  /// from the output of <a>GetPolicy</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -4319,22 +4453,31 @@ class Lambda {
   /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response
   /// type enums applied to the event source mapping.
   ///
+  /// Parameter [kMSKeyArn] :
+  /// The ARN of the Key Management Service (KMS) customer managed key that
+  /// Lambda uses to encrypt your function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics">filter
+  /// criteria</a>. By default, Lambda does not encrypt your filter criteria
+  /// object. Specify this property to encrypt data using your own customer
+  /// managed key.
+  ///
   /// Parameter [maximumBatchingWindowInSeconds] :
   /// The maximum amount of time, in seconds, that Lambda spends gathering
   /// records before invoking the function. You can configure
   /// <code>MaximumBatchingWindowInSeconds</code> to any value from 0 seconds to
   /// 300 seconds in increments of seconds.
   ///
-  /// For streams and Amazon SQS event sources, the default batching window is 0
-  /// seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and
-  /// DocumentDB event sources, the default batching window is 500 ms. Note that
-  /// because you can only change <code>MaximumBatchingWindowInSeconds</code> in
-  /// increments of seconds, you cannot revert back to the 500 ms default
-  /// batching window after you have changed it. To restore the default batching
-  /// window, you must create a new event source mapping.
+  /// For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching
+  /// window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ,
+  /// and DocumentDB event sources, the default batching window is 500 ms. Note
+  /// that because you can only change
+  /// <code>MaximumBatchingWindowInSeconds</code> in increments of seconds, you
+  /// cannot revert back to the 500 ms default batching window after you have
+  /// changed it. To restore the default batching window, you must create a new
+  /// event source mapping.
   ///
-  /// Related setting: For streams and Amazon SQS event sources, when you set
-  /// <code>BatchSize</code> to a value greater than 10, you must set
+  /// Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when
+  /// you set <code>BatchSize</code> to a value greater than 10, you must set
   /// <code>MaximumBatchingWindowInSeconds</code> to at least 1.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
@@ -4374,6 +4517,7 @@ class Lambda {
     FilterCriteria? filterCriteria,
     String? functionName,
     List<FunctionResponseType>? functionResponseTypes,
+    String? kMSKeyArn,
     int? maximumBatchingWindowInSeconds,
     int? maximumRecordAgeInSeconds,
     int? maximumRetryAttempts,
@@ -4431,6 +4575,7 @@ class Lambda {
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
             functionResponseTypes.map((e) => e.value).toList(),
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -4610,7 +4755,7 @@ class Lambda {
   ///
   /// To configure function concurrency, use <a>PutFunctionConcurrency</a>. To
   /// grant invoke permissions to an Amazon Web Services account or Amazon Web
-  /// Service, use <a>AddPermission</a>.
+  /// Servicesservice, use <a>AddPermission</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -4719,13 +4864,20 @@ class Lambda {
   ///
   /// Parameter [runtime] :
   /// The identifier of the function's <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
-  /// Runtime is required if the deployment package is a .zip file archive.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">
+  /// runtime</a>. Runtime is required if the deployment package is a .zip file
+  /// archive. Specifying a runtime results in an error if you're deploying a
+  /// function using a container image.
   ///
-  /// The following list includes deprecated runtimes. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// The following list includes deprecated runtimes. Lambda blocks creating
+  /// new functions and updating existing functions shortly after each runtime
+  /// is deprecated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   ///
   /// Parameter [snapStart] :
   /// The function's <a
@@ -5817,7 +5969,17 @@ class EventSourceMappingConfiguration {
   /// should process an event. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html">Lambda
   /// event filtering</a>.
+  ///
+  /// If filter criteria is encrypted, this field shows up as <code>null</code> in
+  /// the response of ListEventSourceMapping API calls. You can view this field in
+  /// plaintext in the response of GetEventSourceMapping and
+  /// DeleteEventSourceMapping calls if you have <code>kms:Decrypt</code>
+  /// permissions for the correct KMS key.
   final FilterCriteria? filterCriteria;
+
+  /// An object that contains details about an error related to filter criteria
+  /// encryption.
+  final FilterCriteriaError? filterCriteriaError;
 
   /// The ARN of the Lambda function.
   final String? functionArn;
@@ -5825,6 +5987,12 @@ class EventSourceMappingConfiguration {
   /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type
   /// enums applied to the event source mapping.
   final List<FunctionResponseType>? functionResponseTypes;
+
+  /// The ARN of the Key Management Service (KMS) customer managed key that Lambda
+  /// uses to encrypt your function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics">filter
+  /// criteria</a>.
+  final String? kMSKeyArn;
 
   /// The date that the event source mapping was last updated or that its state
   /// changed.
@@ -5931,8 +6099,10 @@ class EventSourceMappingConfiguration {
     this.documentDBEventSourceConfig,
     this.eventSourceArn,
     this.filterCriteria,
+    this.filterCriteriaError,
     this.functionArn,
     this.functionResponseTypes,
+    this.kMSKeyArn,
     this.lastModified,
     this.lastProcessingResult,
     this.maximumBatchingWindowInSeconds,
@@ -5976,11 +6146,16 @@ class EventSourceMappingConfiguration {
           ? FilterCriteria.fromJson(
               json['FilterCriteria'] as Map<String, dynamic>)
           : null,
+      filterCriteriaError: json['FilterCriteriaError'] != null
+          ? FilterCriteriaError.fromJson(
+              json['FilterCriteriaError'] as Map<String, dynamic>)
+          : null,
       functionArn: json['FunctionArn'] as String?,
       functionResponseTypes: (json['FunctionResponseTypes'] as List?)
           ?.nonNulls
           .map((e) => FunctionResponseType.fromString((e as String)))
           .toList(),
+      kMSKeyArn: json['KMSKeyArn'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
       lastProcessingResult: json['LastProcessingResult'] as String?,
       maximumBatchingWindowInSeconds:
@@ -6123,6 +6298,29 @@ class FilterCriteria {
     return {
       if (filters != null) 'Filters': filters,
     };
+  }
+}
+
+/// An object that contains details about an error related to filter criteria
+/// encryption.
+class FilterCriteriaError {
+  /// The KMS exception that resulted from filter criteria encryption or
+  /// decryption.
+  final String? errorCode;
+
+  /// The error message.
+  final String? message;
+
+  FilterCriteriaError({
+    this.errorCode,
+    this.message,
+  });
+
+  factory FilterCriteriaError.fromJson(Map<String, dynamic> json) {
+    return FilterCriteriaError(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
+    );
   }
 }
 
@@ -6315,13 +6513,20 @@ class FunctionConfiguration {
   final String? role;
 
   /// The identifier of the function's <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
-  /// Runtime is required if the deployment package is a .zip file archive.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">
+  /// runtime</a>. Runtime is required if the deployment package is a .zip file
+  /// archive. Specifying a runtime results in an error if you're deploying a
+  /// function using a container image.
   ///
-  /// The following list includes deprecated runtimes. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// The following list includes deprecated runtimes. Lambda blocks creating new
+  /// functions and updating existing functions shortly after each runtime is
+  /// deprecated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   final Runtime? runtime;
 
   /// The ARN of the runtime and any errors that occured.
@@ -6752,6 +6957,34 @@ class GetFunctionConcurrencyResponse {
   }
 }
 
+class GetFunctionRecursionConfigResponse {
+  /// If your function's recursive loop detection configuration is
+  /// <code>Allow</code>, Lambda doesn't take any action when it detects your
+  /// function being invoked as part of a recursive loop.
+  ///
+  /// If your function's recursive loop detection configuration is
+  /// <code>Terminate</code>, Lambda stops your function being invoked and
+  /// notifies you when it detects your function being invoked as part of a
+  /// recursive loop.
+  ///
+  /// By default, Lambda sets your function's configuration to
+  /// <code>Terminate</code>. You can update this configuration using the
+  /// <a>PutFunctionRecursionConfig</a> action.
+  final RecursiveLoop? recursiveLoop;
+
+  GetFunctionRecursionConfigResponse({
+    this.recursiveLoop,
+  });
+
+  factory GetFunctionRecursionConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetFunctionRecursionConfigResponse(
+      recursiveLoop:
+          (json['RecursiveLoop'] as String?)?.let(RecursiveLoop.fromString),
+    );
+  }
+}
+
 class GetFunctionResponse {
   /// The deployment package of the function or version.
   final FunctionCodeLocation? code;
@@ -6897,8 +7130,12 @@ class GetLayerVersionResponse {
   ///
   /// The following list includes deprecated runtimes. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   final List<Runtime>? compatibleRuntimes;
 
   /// Details about the layer version.
@@ -7498,8 +7735,12 @@ class LayerVersionsListItem {
   ///
   /// The following list includes deprecated runtimes. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   final List<Runtime>? compatibleRuntimes;
 
   /// The date that the version was created, in ISO 8601 format. For example,
@@ -8102,8 +8343,12 @@ class PublishLayerVersionResponse {
   ///
   /// The following list includes deprecated runtimes. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy">Runtime
-  /// deprecation policy</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels">Runtime
+  /// use after deprecation</a>.
+  ///
+  /// For a list of all currently supported runtimes, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported">Supported
+  /// runtimes</a>.
   final List<Runtime>? compatibleRuntimes;
 
   /// Details about the layer version.
@@ -8202,6 +8447,30 @@ class PutFunctionCodeSigningConfigResponse {
   }
 }
 
+class PutFunctionRecursionConfigResponse {
+  /// The status of your function's recursive loop detection configuration.
+  ///
+  /// When this value is set to <code>Allow</code>and Lambda detects your function
+  /// being invoked as part of a recursive loop, it doesn't take any action.
+  ///
+  /// When this value is set to <code>Terminate</code> and Lambda detects your
+  /// function being invoked as part of a recursive loop, it stops your function
+  /// being invoked and notifies you.
+  final RecursiveLoop? recursiveLoop;
+
+  PutFunctionRecursionConfigResponse({
+    this.recursiveLoop,
+  });
+
+  factory PutFunctionRecursionConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutFunctionRecursionConfigResponse(
+      recursiveLoop:
+          (json['RecursiveLoop'] as String?)?.let(RecursiveLoop.fromString),
+    );
+  }
+}
+
 class PutProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated. When a weighted alias is
   /// used during linear and canary deployments, this value fluctuates depending
@@ -8279,6 +8548,21 @@ class PutRuntimeManagementConfigResponse {
       runtimeVersionArn: json['RuntimeVersionArn'] as String?,
     );
   }
+}
+
+enum RecursiveLoop {
+  allow('Allow'),
+  terminate('Terminate'),
+  ;
+
+  final String value;
+
+  const RecursiveLoop(this.value);
+
+  static RecursiveLoop fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum RecursiveLoop'));
 }
 
 enum ResponseStreamingInvocationType {

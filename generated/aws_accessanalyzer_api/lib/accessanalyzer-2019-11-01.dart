@@ -150,7 +150,12 @@ class AccessAnalyzer {
   ///
   /// Parameter [access] :
   /// An access object containing the permissions that shouldn't be granted by
-  /// the specified policy.
+  /// the specified policy. If only actions are specified, IAM Access Analyzer
+  /// checks for access of the actions on all resources in the policy. If only
+  /// resources are specified, then IAM Access Analyzer checks which actions
+  /// have access to the specified resources. If both actions and resources are
+  /// specified, then IAM Access Analyzer checks which of the specified actions
+  /// have access to the specified resources.
   ///
   /// Parameter [policyDocument] :
   /// The JSON policy document to use as the content for the policy.
@@ -234,6 +239,43 @@ class AccessAnalyzer {
       exceptionFnMap: _exceptionFns,
     );
     return CheckNoNewAccessResponse.fromJson(response);
+  }
+
+  /// Checks whether a resource policy can grant public access to the specified
+  /// resource type.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [policyDocument] :
+  /// The JSON policy document to evaluate for public access.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of resource to evaluate for public access. For example, to check
+  /// for public access to Amazon S3 buckets, you can choose
+  /// <code>AWS::S3::Bucket</code> for the resource type.
+  ///
+  /// For resource types not supported as valid values, IAM Access Analyzer will
+  /// return an error.
+  Future<CheckNoPublicAccessResponse> checkNoPublicAccess({
+    required String policyDocument,
+    required AccessCheckResourceType resourceType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'policyDocument': policyDocument,
+      'resourceType': resourceType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/policy/check-no-public-access',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CheckNoPublicAccessResponse.fromJson(response);
   }
 
   /// Creates an access preview that allows you to preview IAM Access Analyzer
@@ -454,6 +496,36 @@ class AccessAnalyzer {
     );
   }
 
+  /// Creates a recommendation for an unused permissions finding.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analyzerArn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources">ARN
+  /// of the analyzer</a> used to generate the finding recommendation.
+  ///
+  /// Parameter [id] :
+  /// The unique ID for the finding recommendation.
+  Future<void> generateFindingRecommendation({
+    required String analyzerArn,
+    required String id,
+  }) async {
+    final $query = <String, List<String>>{
+      'analyzerArn': [analyzerArn],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/recommendation/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Retrieves information about an access preview for the specified analyzer.
   ///
   /// May throw [ResourceNotFoundException].
@@ -606,6 +678,55 @@ class AccessAnalyzer {
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a finding recommendation for the specified
+  /// analyzer.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analyzerArn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources">ARN
+  /// of the analyzer</a> used to generate the finding recommendation.
+  ///
+  /// Parameter [id] :
+  /// The unique ID for the finding recommendation.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token used for pagination of results returned.
+  Future<GetFindingRecommendationResponse> getFindingRecommendation({
+    required String analyzerArn,
+    required String id,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'analyzerArn': [analyzerArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/recommendation/${Uri.encodeComponent(id)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFindingRecommendationResponse.fromJson(response);
   }
 
   /// Retrieves information about the specified finding. GetFinding and
@@ -1389,21 +1510,29 @@ class AccessAnalyzer {
   }
 }
 
-/// Contains information about actions that define permissions to check against
-/// a policy.
+/// Contains information about actions and resources that define permissions to
+/// check against a policy.
 class Access {
   /// A list of actions for the access permissions. Any strings that can be used
   /// as an action in an IAM policy can be used in the list of actions to check.
-  final List<String> actions;
+  final List<String>? actions;
+
+  /// A list of resources for the access permissions. Any strings that can be used
+  /// as a resource in an IAM policy can be used in the list of resources to
+  /// check.
+  final List<String>? resources;
 
   Access({
-    required this.actions,
+    this.actions,
+    this.resources,
   });
 
   Map<String, dynamic> toJson() {
     final actions = this.actions;
+    final resources = this.resources;
     return {
-      'actions': actions,
+      if (actions != null) 'actions': actions,
+      if (resources != null) 'resources': resources,
     };
   }
 }
@@ -1421,6 +1550,37 @@ enum AccessCheckPolicyType {
       (e) => e.value == value,
       orElse: () =>
           throw Exception('$value is not known in enum AccessCheckPolicyType'));
+}
+
+enum AccessCheckResourceType {
+  awsDynamoDBTable('AWS::DynamoDB::Table'),
+  awsDynamoDBStream('AWS::DynamoDB::Stream'),
+  awsEfsFileSystem('AWS::EFS::FileSystem'),
+  awsOpenSearchServiceDomain('AWS::OpenSearchService::Domain'),
+  awsKinesisStream('AWS::Kinesis::Stream'),
+  awsKinesisStreamConsumer('AWS::Kinesis::StreamConsumer'),
+  awsKmsKey('AWS::KMS::Key'),
+  awsLambdaFunction('AWS::Lambda::Function'),
+  awsS3Bucket('AWS::S3::Bucket'),
+  awsS3AccessPoint('AWS::S3::AccessPoint'),
+  awsS3ExpressDirectoryBucket('AWS::S3Express::DirectoryBucket'),
+  awsS3Glacier('AWS::S3::Glacier'),
+  awsS3OutpostsBucket('AWS::S3Outposts::Bucket'),
+  awsS3OutpostsAccessPoint('AWS::S3Outposts::AccessPoint'),
+  awsSecretsManagerSecret('AWS::SecretsManager::Secret'),
+  awsSnsTopic('AWS::SNS::Topic'),
+  awsSqsQueue('AWS::SQS::Queue'),
+  awsIamAssumeRolePolicyDocument('AWS::IAM::AssumeRolePolicyDocument'),
+  ;
+
+  final String value;
+
+  const AccessCheckResourceType(this.value);
+
+  static AccessCheckResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AccessCheckResourceType'));
 }
 
 /// Contains information about an access preview.
@@ -2121,6 +2281,55 @@ enum CheckNoNewAccessResult {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum CheckNoNewAccessResult'));
+}
+
+class CheckNoPublicAccessResponse {
+  /// The message indicating whether the specified policy allows public access to
+  /// resources.
+  final String? message;
+
+  /// A list of reasons why the specified resource policy grants public access for
+  /// the resource type.
+  final List<ReasonSummary>? reasons;
+
+  /// The result of the check for public access to the specified resource type. If
+  /// the result is <code>PASS</code>, the policy doesn't allow public access to
+  /// the specified resource type. If the result is <code>FAIL</code>, the policy
+  /// might allow public access to the specified resource type.
+  final CheckNoPublicAccessResult? result;
+
+  CheckNoPublicAccessResponse({
+    this.message,
+    this.reasons,
+    this.result,
+  });
+
+  factory CheckNoPublicAccessResponse.fromJson(Map<String, dynamic> json) {
+    return CheckNoPublicAccessResponse(
+      message: json['message'] as String?,
+      reasons: (json['reasons'] as List?)
+          ?.nonNulls
+          .map((e) => ReasonSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      result: (json['result'] as String?)
+          ?.let(CheckNoPublicAccessResult.fromString),
+    );
+  }
+}
+
+enum CheckNoPublicAccessResult {
+  pass('PASS'),
+  fail('FAIL'),
+  ;
+
+  final String value;
+
+  const CheckNoPublicAccessResult(this.value);
+
+  static CheckNoPublicAccessResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CheckNoPublicAccessResult'));
 }
 
 /// Contains information about CloudTrail access.
@@ -3348,6 +3557,63 @@ class GetArchiveRuleResponse {
   }
 }
 
+class GetFindingRecommendationResponse {
+  /// The type of recommendation for the finding.
+  final RecommendationType recommendationType;
+
+  /// The ARN of the resource of the finding.
+  final String resourceArn;
+
+  /// The time at which the retrieval of the finding recommendation was started.
+  final DateTime startedAt;
+
+  /// The status of the retrieval of the finding recommendation.
+  final Status status;
+
+  /// The time at which the retrieval of the finding recommendation was completed.
+  final DateTime? completedAt;
+
+  /// Detailed information about the reason that the retrieval of a recommendation
+  /// for the finding failed.
+  final RecommendationError? error;
+
+  /// A token used for pagination of results returned.
+  final String? nextToken;
+
+  /// A group of recommended steps for the finding.
+  final List<RecommendedStep>? recommendedSteps;
+
+  GetFindingRecommendationResponse({
+    required this.recommendationType,
+    required this.resourceArn,
+    required this.startedAt,
+    required this.status,
+    this.completedAt,
+    this.error,
+    this.nextToken,
+    this.recommendedSteps,
+  });
+
+  factory GetFindingRecommendationResponse.fromJson(Map<String, dynamic> json) {
+    return GetFindingRecommendationResponse(
+      recommendationType:
+          RecommendationType.fromString((json['recommendationType'] as String)),
+      resourceArn: json['resourceArn'] as String,
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
+      status: Status.fromString((json['status'] as String)),
+      completedAt: timeStampFromJson(json['completedAt']),
+      error: json['error'] != null
+          ? RecommendationError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['nextToken'] as String?,
+      recommendedSteps: (json['recommendedSteps'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendedStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
 /// The response to the request.
 class GetFindingResponse {
   /// A <code>finding</code> object that contains finding details.
@@ -4543,6 +4809,79 @@ class ReasonSummary {
   }
 }
 
+/// Contains information about the reason that the retrieval of a recommendation
+/// for a finding failed.
+class RecommendationError {
+  /// The error code for a failed retrieval of a recommendation for a finding.
+  final String code;
+
+  /// The error message for a failed retrieval of a recommendation for a finding.
+  final String message;
+
+  RecommendationError({
+    required this.code,
+    required this.message,
+  });
+
+  factory RecommendationError.fromJson(Map<String, dynamic> json) {
+    return RecommendationError(
+      code: json['code'] as String,
+      message: json['message'] as String,
+    );
+  }
+}
+
+enum RecommendationType {
+  unusedPermissionRecommendation('UnusedPermissionRecommendation'),
+  ;
+
+  final String value;
+
+  const RecommendationType(this.value);
+
+  static RecommendationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RecommendationType'));
+}
+
+enum RecommendedRemediationAction {
+  createPolicy('CREATE_POLICY'),
+  detachPolicy('DETACH_POLICY'),
+  ;
+
+  final String value;
+
+  const RecommendedRemediationAction(this.value);
+
+  static RecommendedRemediationAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum RecommendedRemediationAction'));
+}
+
+/// Contains information about a recommended step for an unused access analyzer
+/// finding.
+class RecommendedStep {
+  /// A recommended step for an unused permissions finding.
+  final UnusedPermissionsRecommendedStep? unusedPermissionsRecommendedStep;
+
+  RecommendedStep({
+    this.unusedPermissionsRecommendedStep,
+  });
+
+  factory RecommendedStep.fromJson(Map<String, dynamic> json) {
+    return RecommendedStep(
+      unusedPermissionsRecommendedStep:
+          json['unusedPermissionsRecommendedStep'] != null
+              ? UnusedPermissionsRecommendedStep.fromJson(
+                  json['unusedPermissionsRecommendedStep']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+}
+
 enum ResourceType {
   awsS3Bucket('AWS::S3::Bucket'),
   awsIamRole('AWS::IAM::Role'),
@@ -4995,6 +5334,21 @@ class StartPolicyGenerationResponse {
   }
 }
 
+enum Status {
+  succeeded('SUCCEEDED'),
+  failed('FAILED'),
+  inProgress('IN_PROGRESS'),
+  ;
+
+  final String value;
+
+  const Status(this.value);
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception('$value is not known in enum Status'));
+}
+
 /// Provides more details about the current status of the analyzer. For example,
 /// if the creation for the analyzer fails, a <code>Failed</code> status is
 /// returned. For an analyzer with organization as the type, this failure can be
@@ -5268,7 +5622,7 @@ class UnusedPermissionDetails {
   /// A list of unused actions for which the unused access finding was generated.
   final List<UnusedAction>? actions;
 
-  /// The time at which the permission last accessed.
+  /// The time at which the permission was last accessed.
   final DateTime? lastAccessed;
 
   UnusedPermissionDetails({
@@ -5285,6 +5639,44 @@ class UnusedPermissionDetails {
           .map((e) => UnusedAction.fromJson(e as Map<String, dynamic>))
           .toList(),
       lastAccessed: timeStampFromJson(json['lastAccessed']),
+    );
+  }
+}
+
+/// Contains information about the action to take for a policy in an unused
+/// permissions finding.
+class UnusedPermissionsRecommendedStep {
+  /// A recommendation of whether to create or detach a policy for an unused
+  /// permissions finding.
+  final RecommendedRemediationAction recommendedAction;
+
+  /// If the recommended action for the unused permissions finding is to detach a
+  /// policy, the ID of an existing policy to be detached.
+  final String? existingPolicyId;
+
+  /// The time at which the existing policy for the unused permissions finding was
+  /// last updated.
+  final DateTime? policyUpdatedAt;
+
+  /// If the recommended action for the unused permissions finding is to replace
+  /// the existing policy, the contents of the recommended policy to replace the
+  /// policy specified in the <code>existingPolicyId</code> field.
+  final String? recommendedPolicy;
+
+  UnusedPermissionsRecommendedStep({
+    required this.recommendedAction,
+    this.existingPolicyId,
+    this.policyUpdatedAt,
+    this.recommendedPolicy,
+  });
+
+  factory UnusedPermissionsRecommendedStep.fromJson(Map<String, dynamic> json) {
+    return UnusedPermissionsRecommendedStep(
+      recommendedAction: RecommendedRemediationAction.fromString(
+          (json['recommendedAction'] as String)),
+      existingPolicyId: json['existingPolicyId'] as String?,
+      policyUpdatedAt: timeStampFromJson(json['policyUpdatedAt']),
+      recommendedPolicy: json['recommendedPolicy'] as String?,
     );
   }
 }

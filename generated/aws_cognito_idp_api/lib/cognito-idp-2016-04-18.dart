@@ -265,18 +265,17 @@ class CognitoIdentityProvider {
     );
   }
 
-  /// This IAM-authenticated API operation provides a code that Amazon Cognito
-  /// sent to your user when they signed up in your user pool. After your user
-  /// enters their code, they confirm ownership of the email address or phone
-  /// number that they provided, and their user account becomes active.
-  /// Depending on your user pool configuration, your users will receive their
-  /// confirmation code in an email or SMS message.
+  /// This IAM-authenticated API operation confirms user sign-up as an
+  /// administrator. Unlike <a
+  /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmSignUp.html">ConfirmSignUp</a>,
+  /// your IAM credentials authorize user account confirmation. No confirmation
+  /// code is required.
   ///
-  /// Local users who signed up in your user pool are the only type of user who
-  /// can confirm sign-up with a code. Users who federate through an external
-  /// identity provider (IdP) have already been confirmed by their IdP.
-  /// Administrator-created users confirm their accounts when they respond to
-  /// their invitation email message and choose a password.
+  /// This request sets a user account active in a user pool that <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#signing-up-users-in-your-app-and-confirming-them-as-admin">requires
+  /// confirmation of new user accounts</a> before they can sign in. You can
+  /// configure your user pool to not send confirmation codes to new users and
+  /// instead confirm them with this API operation on the back end.
   /// <note>
   /// Amazon Cognito evaluates Identity and Access Management (IAM) policies in
   /// requests for this API operation. For this operation, you must use IAM
@@ -393,8 +392,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -1191,8 +1190,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -1897,8 +1896,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -2043,8 +2042,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -2079,6 +2078,7 @@ class CognitoIdentityProvider {
   /// May throw [ExpiredCodeException].
   /// May throw [UnexpectedLambdaException].
   /// May throw [InvalidPasswordException].
+  /// May throw [PasswordHistoryPolicyViolationException].
   /// May throw [UserLambdaValidationException].
   /// May throw [InvalidLambdaResponseException].
   /// May throw [TooManyRequestsException].
@@ -2420,6 +2420,7 @@ class CognitoIdentityProvider {
   /// May throw [TooManyRequestsException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPasswordException].
+  /// May throw [PasswordHistoryPolicyViolationException].
   ///
   /// Parameter [password] :
   /// The password for the user.
@@ -2691,8 +2692,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -2944,8 +2945,8 @@ class CognitoIdentityProvider {
   /// token and your user pool doesn't require MFA, the user can then
   /// authenticate with user name and password credentials alone. If your user
   /// pool requires TOTP MFA, Amazon Cognito generates an <code>MFA_SETUP</code>
-  /// or <code>SOFTWARE_TOKEN_SETUP</code> challenge each time your user signs.
-  /// Complete setup with <code>AssociateSoftwareToken</code> and
+  /// or <code>SOFTWARE_TOKEN_SETUP</code> challenge each time your user signs
+  /// in. Complete setup with <code>AssociateSoftwareToken</code> and
   /// <code>VerifySoftwareToken</code>.
   ///
   /// After you set up software token MFA for your user, Amazon Cognito
@@ -3018,6 +3019,7 @@ class CognitoIdentityProvider {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPasswordException].
+  /// May throw [PasswordHistoryPolicyViolationException].
   /// May throw [NotAuthorizedException].
   /// May throw [TooManyRequestsException].
   /// May throw [LimitExceededException].
@@ -3148,6 +3150,7 @@ class CognitoIdentityProvider {
   /// May throw [UserLambdaValidationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPasswordException].
+  /// May throw [PasswordHistoryPolicyViolationException].
   /// May throw [NotAuthorizedException].
   /// May throw [CodeMismatchException].
   /// May throw [ExpiredCodeException].
@@ -3843,8 +3846,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -4405,6 +4408,7 @@ class CognitoIdentityProvider {
   /// where user existence related errors aren't prevented.
   /// </li>
   /// </ul>
+  /// Defaults to <code>LEGACY</code> when you don't provide a value.
   ///
   /// Parameter [readAttributes] :
   /// The list of user attributes that you want your app client to have
@@ -5352,8 +5356,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -5640,7 +5644,7 @@ class CognitoIdentityProvider {
     return GetIdentityProviderByIdentifierResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets the detailed activity logging configuration for a user pool.
+  /// Gets the logging configuration of a user pool.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
@@ -5649,8 +5653,8 @@ class CognitoIdentityProvider {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [userPoolId] :
-  /// The ID of the user pool where you want to view detailed activity logging
-  /// configuration.
+  /// The ID of the user pool that has the logging configuration that you want
+  /// to view.
   Future<GetLogDeliveryConfigurationResponse> getLogDeliveryConfiguration({
     required String userPoolId,
   }) async {
@@ -5823,8 +5827,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -6056,8 +6060,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -7063,8 +7067,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -7214,8 +7218,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -7233,6 +7237,7 @@ class CognitoIdentityProvider {
   /// May throw [UnexpectedLambdaException].
   /// May throw [UserLambdaValidationException].
   /// May throw [InvalidPasswordException].
+  /// May throw [PasswordHistoryPolicyViolationException].
   /// May throw [InvalidLambdaResponseException].
   /// May throw [TooManyRequestsException].
   /// May throw [InvalidUserPoolConfigurationException].
@@ -7471,8 +7476,9 @@ class CognitoIdentityProvider {
     );
   }
 
-  /// Sets up or modifies the detailed activity logging configuration of a user
-  /// pool.
+  /// Sets up or modifies the logging configuration of a user pool. User pools
+  /// can export user notification logs and advanced security features user
+  /// activity logs.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
@@ -7481,12 +7487,10 @@ class CognitoIdentityProvider {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [logConfigurations] :
-  /// A collection of all of the detailed activity logging configurations for a
-  /// user pool.
+  /// A collection of the logging configurations for a user pool.
   ///
   /// Parameter [userPoolId] :
-  /// The ID of the user pool where you want to configure detailed activity
-  /// logging .
+  /// The ID of the user pool where you want to configure logging.
   Future<SetLogDeliveryConfigurationResponse> setLogDeliveryConfiguration({
     required List<LogConfigurationType> logConfigurations,
     required String userPoolId,
@@ -7722,8 +7726,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -7877,8 +7881,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -8685,8 +8689,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -8808,8 +8812,8 @@ class CognitoIdentityProvider {
   /// activate their accounts, or sign in.
   ///
   /// If you have never used SMS text messages with Amazon Cognito or any other
-  /// Amazon Web Service, Amazon Simple Notification Service might place your
-  /// account in the SMS sandbox. In <i> <a
+  /// Amazon Web Services service, Amazon Simple Notification Service might
+  /// place your account in the SMS sandbox. In <i> <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html">sandbox
   /// mode</a> </i>, you can send messages only to verified phone numbers. After
   /// you test your app while in the sandbox environment, you can move out of
@@ -9330,6 +9334,7 @@ class CognitoIdentityProvider {
   /// where user existence related errors aren't prevented.
   /// </li>
   /// </ul>
+  /// Defaults to <code>LEGACY</code> when you don't provide a value.
   ///
   /// Parameter [readAttributes] :
   /// The list of user attributes that you want your app client to have
@@ -10502,6 +10507,50 @@ class AdminUserGlobalSignOutResponse {
   }
 }
 
+/// Advanced security configuration options for additional authentication types
+/// in your user pool, including custom authentication.
+class AdvancedSecurityAdditionalFlowsType {
+  /// The operating mode of advanced security features in custom authentication
+  /// with <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html">
+  /// Custom authentication challenge Lambda triggers</a>.
+  final AdvancedSecurityEnabledModeType? customAuthMode;
+
+  AdvancedSecurityAdditionalFlowsType({
+    this.customAuthMode,
+  });
+
+  factory AdvancedSecurityAdditionalFlowsType.fromJson(
+      Map<String, dynamic> json) {
+    return AdvancedSecurityAdditionalFlowsType(
+      customAuthMode: (json['CustomAuthMode'] as String?)
+          ?.let(AdvancedSecurityEnabledModeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customAuthMode = this.customAuthMode;
+    return {
+      if (customAuthMode != null) 'CustomAuthMode': customAuthMode.value,
+    };
+  }
+}
+
+enum AdvancedSecurityEnabledModeType {
+  audit('AUDIT'),
+  enforced('ENFORCED'),
+  ;
+
+  final String value;
+
+  const AdvancedSecurityEnabledModeType(this.value);
+
+  static AdvancedSecurityEnabledModeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AdvancedSecurityEnabledModeType'));
+}
+
 enum AdvancedSecurityModeType {
   off('OFF'),
   audit('AUDIT'),
@@ -10910,8 +10959,9 @@ class ChangePasswordResponse {
   }
 }
 
-/// The CloudWatch logging destination of a user pool detailed activity logging
-/// configuration.
+/// Configuration for the CloudWatch log group destination of user pool detailed
+/// activity logging, or of user activity log export with advanced security
+/// features.
 class CloudWatchLogsConfigurationType {
   /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your
   /// user pool sends logs. The log group must not be encrypted with Key
@@ -12099,6 +12149,7 @@ class EventRiskType {
 
 enum EventSourceName {
   userNotification('userNotification'),
+  userAuthEvents('userAuthEvents'),
   ;
 
   final String value;
@@ -12162,6 +12213,31 @@ enum FeedbackValueType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum FeedbackValueType'));
+}
+
+/// Configuration for the Amazon Data Firehose stream destination of user
+/// activity log export with advanced security features.
+class FirehoseConfigurationType {
+  /// The ARN of an Amazon Data Firehose stream that's the destination for
+  /// advanced security features log export.
+  final String? streamArn;
+
+  FirehoseConfigurationType({
+    this.streamArn,
+  });
+
+  factory FirehoseConfigurationType.fromJson(Map<String, dynamic> json) {
+    return FirehoseConfigurationType(
+      streamArn: json['StreamArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamArn = this.streamArn;
+    return {
+      if (streamArn != null) 'StreamArn': streamArn,
+    };
+  }
 }
 
 /// The response from Amazon Cognito to a request to reset a password.
@@ -12260,7 +12336,7 @@ class GetIdentityProviderByIdentifierResponse {
 }
 
 class GetLogDeliveryConfigurationResponse {
-  /// The detailed activity logging configuration of the requested user pool.
+  /// The logging configuration of the requested user pool.
   final LogDeliveryConfigurationType? logDeliveryConfiguration;
 
   GetLogDeliveryConfigurationResponse({
@@ -13222,21 +13298,46 @@ class ListUsersResponse {
 
 /// The logging parameters of a user pool.
 class LogConfigurationType {
-  /// The source of events that your user pool sends for detailed activity
-  /// logging.
+  /// The source of events that your user pool sends for logging. To send
+  /// error-level logs about user notification activity, set to
+  /// <code>userNotification</code>. To send info-level logs about advanced
+  /// security features user activity, set to <code>userAuthEvents</code>.
   final EventSourceName eventSource;
 
   /// The <code>errorlevel</code> selection of logs that a user pool sends for
-  /// detailed activity logging.
+  /// detailed activity logging. To send <code>userNotification</code> activity
+  /// with <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/tracking-quotas-and-usage-in-cloud-watch-logs.html">information
+  /// about message delivery</a>, choose <code>ERROR</code> with
+  /// <code>CloudWatchLogsConfiguration</code>. To send
+  /// <code>userAuthEvents</code> activity with user logs from advanced security
+  /// features, choose <code>INFO</code> with one of
+  /// <code>CloudWatchLogsConfiguration</code>,
+  /// <code>FirehoseConfiguration</code>, or <code>S3Configuration</code>.
   final LogLevel logLevel;
 
-  /// The CloudWatch logging destination of a user pool.
+  /// The CloudWatch log group destination of user pool detailed activity logs, or
+  /// of user activity log export with advanced security features.
   final CloudWatchLogsConfigurationType? cloudWatchLogsConfiguration;
+
+  /// The Amazon Data Firehose stream destination of user activity log export with
+  /// advanced security features. To activate this setting, <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html">
+  /// advanced security features</a> must be active in your user pool.
+  final FirehoseConfigurationType? firehoseConfiguration;
+
+  /// The Amazon S3 bucket destination of user activity log export with advanced
+  /// security features. To activate this setting, <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html">
+  /// advanced security features</a> must be active in your user pool.
+  final S3ConfigurationType? s3Configuration;
 
   LogConfigurationType({
     required this.eventSource,
     required this.logLevel,
     this.cloudWatchLogsConfiguration,
+    this.firehoseConfiguration,
+    this.s3Configuration,
   });
 
   factory LogConfigurationType.fromJson(Map<String, dynamic> json) {
@@ -13247,6 +13348,14 @@ class LogConfigurationType {
           ? CloudWatchLogsConfigurationType.fromJson(
               json['CloudWatchLogsConfiguration'] as Map<String, dynamic>)
           : null,
+      firehoseConfiguration: json['FirehoseConfiguration'] != null
+          ? FirehoseConfigurationType.fromJson(
+              json['FirehoseConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['S3Configuration'] != null
+          ? S3ConfigurationType.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -13254,21 +13363,28 @@ class LogConfigurationType {
     final eventSource = this.eventSource;
     final logLevel = this.logLevel;
     final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
+    final firehoseConfiguration = this.firehoseConfiguration;
+    final s3Configuration = this.s3Configuration;
     return {
       'EventSource': eventSource.value,
       'LogLevel': logLevel.value,
       if (cloudWatchLogsConfiguration != null)
         'CloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+      if (firehoseConfiguration != null)
+        'FirehoseConfiguration': firehoseConfiguration,
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
     };
   }
 }
 
-/// The logging parameters of a user pool.
+/// The logging parameters of a user pool returned in response to
+/// <code>GetLogDeliveryConfiguration</code>.
 class LogDeliveryConfigurationType {
-  /// The detailed activity logging destination of a user pool.
+  /// A logging destination of a user pool. User pools can have multiple logging
+  /// destinations for message-delivery and user-activity logs.
   final List<LogConfigurationType> logConfigurations;
 
-  /// The ID of the user pool where you configured detailed activity logging.
+  /// The ID of the user pool where you configured logging.
   final String userPoolId;
 
   LogDeliveryConfigurationType({
@@ -13289,6 +13405,7 @@ class LogDeliveryConfigurationType {
 
 enum LogLevel {
   error('ERROR'),
+  info('INFO'),
   ;
 
   final String value;
@@ -13574,6 +13691,19 @@ class PasswordPolicyType {
   /// value can't be less than 6.
   final int? minimumLength;
 
+  /// The number of previous passwords that you want Amazon Cognito to restrict
+  /// each user from reusing. Users can't set a password that matches any of
+  /// <code>n</code> previous passwords, where <code>n</code> is the value of
+  /// <code>PasswordHistorySize</code>.
+  ///
+  /// Password history isn't enforced and isn't displayed in <a
+  /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPool.html">DescribeUserPool</a>
+  /// responses when you set this value to <code>0</code> or don't provide it. To
+  /// activate this setting, <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html">
+  /// advanced security features</a> must be active in your user pool.
+  final int? passwordHistorySize;
+
   /// In the password policy that you have set, refers to whether you have
   /// required users to use at least one lowercase letter in their password.
   final bool? requireLowercase;
@@ -13604,6 +13734,7 @@ class PasswordPolicyType {
 
   PasswordPolicyType({
     this.minimumLength,
+    this.passwordHistorySize,
     this.requireLowercase,
     this.requireNumbers,
     this.requireSymbols,
@@ -13614,6 +13745,7 @@ class PasswordPolicyType {
   factory PasswordPolicyType.fromJson(Map<String, dynamic> json) {
     return PasswordPolicyType(
       minimumLength: json['MinimumLength'] as int?,
+      passwordHistorySize: json['PasswordHistorySize'] as int?,
       requireLowercase: json['RequireLowercase'] as bool?,
       requireNumbers: json['RequireNumbers'] as bool?,
       requireSymbols: json['RequireSymbols'] as bool?,
@@ -13625,6 +13757,7 @@ class PasswordPolicyType {
 
   Map<String, dynamic> toJson() {
     final minimumLength = this.minimumLength;
+    final passwordHistorySize = this.passwordHistorySize;
     final requireLowercase = this.requireLowercase;
     final requireNumbers = this.requireNumbers;
     final requireSymbols = this.requireSymbols;
@@ -13632,6 +13765,8 @@ class PasswordPolicyType {
     final temporaryPasswordValidityDays = this.temporaryPasswordValidityDays;
     return {
       if (minimumLength != null) 'MinimumLength': minimumLength,
+      if (passwordHistorySize != null)
+        'PasswordHistorySize': passwordHistorySize,
       if (requireLowercase != null) 'RequireLowercase': requireLowercase,
       if (requireNumbers != null) 'RequireNumbers': requireNumbers,
       if (requireSymbols != null) 'RequireSymbols': requireSymbols,
@@ -14099,6 +14234,31 @@ enum RiskLevelType {
               throw Exception('$value is not known in enum RiskLevelType'));
 }
 
+/// Configuration for the Amazon S3 bucket destination of user activity log
+/// export with advanced security features.
+class S3ConfigurationType {
+  /// The ARN of an Amazon S3 bucket that's the destination for advanced security
+  /// features log export.
+  final String? bucketArn;
+
+  S3ConfigurationType({
+    this.bucketArn,
+  });
+
+  factory S3ConfigurationType.fromJson(Map<String, dynamic> json) {
+    return S3ConfigurationType(
+      bucketArn: json['BucketArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    return {
+      if (bucketArn != null) 'BucketArn': bucketArn,
+    };
+  }
+}
+
 /// The type used for enabling SMS multi-factor authentication (MFA) at the user
 /// level. Phone numbers don't need to be verified to be used for SMS MFA. If an
 /// MFA type is activated for a user, the user will be prompted for MFA during
@@ -14371,7 +14531,7 @@ class SignUpResponse {
   /// confirmed.
   final bool userConfirmed;
 
-  /// The UUID of the authenticated user. This isn't the same as
+  /// The 128-bit ID of the authenticated user. This isn't the same as
   /// <code>username</code>.
   final String userSub;
 
@@ -15150,24 +15310,41 @@ class UserImportJobType {
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html">Adding
 /// advanced security to a user pool</a>.
 class UserPoolAddOnsType {
-  /// The operating mode of advanced security features in your user pool.
+  /// The operating mode of advanced security features for standard authentication
+  /// types in your user pool, including username-password and secure remote
+  /// password (SRP) authentication.
   final AdvancedSecurityModeType advancedSecurityMode;
+
+  /// Advanced security configuration options for additional authentication types
+  /// in your user pool, including custom authentication.
+  final AdvancedSecurityAdditionalFlowsType? advancedSecurityAdditionalFlows;
 
   UserPoolAddOnsType({
     required this.advancedSecurityMode,
+    this.advancedSecurityAdditionalFlows,
   });
 
   factory UserPoolAddOnsType.fromJson(Map<String, dynamic> json) {
     return UserPoolAddOnsType(
       advancedSecurityMode: AdvancedSecurityModeType.fromString(
           (json['AdvancedSecurityMode'] as String)),
+      advancedSecurityAdditionalFlows:
+          json['AdvancedSecurityAdditionalFlows'] != null
+              ? AdvancedSecurityAdditionalFlowsType.fromJson(
+                  json['AdvancedSecurityAdditionalFlows']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final advancedSecurityMode = this.advancedSecurityMode;
+    final advancedSecurityAdditionalFlows =
+        this.advancedSecurityAdditionalFlows;
     return {
       'AdvancedSecurityMode': advancedSecurityMode.value,
+      if (advancedSecurityAdditionalFlows != null)
+        'AdvancedSecurityAdditionalFlows': advancedSecurityAdditionalFlows,
     };
   }
 }
@@ -15459,10 +15636,11 @@ class UserPoolClientType {
   /// <code>ENABLED</code> - This prevents user existence-related errors.
   /// </li>
   /// <li>
-  /// <code>LEGACY</code> - This represents the old behavior of Amazon Cognito
+  /// <code>LEGACY</code> - This represents the early behavior of Amazon Cognito
   /// where user existence related errors aren't prevented.
   /// </li>
   /// </ul>
+  /// Defaults to <code>LEGACY</code> when you don't provide a value.
   final PreventUserExistenceErrorTypes? preventUserExistenceErrors;
 
   /// The list of user attributes that you want your app client to have read-only
@@ -16483,6 +16661,14 @@ class NotAuthorizedException extends _s.GenericAwsException {
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+class PasswordHistoryPolicyViolationException extends _s.GenericAwsException {
+  PasswordHistoryPolicyViolationException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PasswordHistoryPolicyViolationException',
+            message: message);
+}
+
 class PasswordResetRequiredException extends _s.GenericAwsException {
   PasswordResetRequiredException({String? type, String? message})
       : super(
@@ -16657,6 +16843,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       MFAMethodNotFoundException(type: type, message: message),
   'NotAuthorizedException': (type, message) =>
       NotAuthorizedException(type: type, message: message),
+  'PasswordHistoryPolicyViolationException': (type, message) =>
+      PasswordHistoryPolicyViolationException(type: type, message: message),
   'PasswordResetRequiredException': (type, message) =>
       PasswordResetRequiredException(type: type, message: message),
   'PreconditionNotMetException': (type, message) =>

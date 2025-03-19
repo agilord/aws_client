@@ -348,6 +348,16 @@ class CodeBuild {
   /// (Sydney).
   /// </li>
   /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Medium fleets
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// Asia Pacific (Sydney), and EU (Frankfurt)
+  /// </li>
+  /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Large fleets
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// and Asia Pacific (Sydney).
+  /// </li>
+  /// <li>
   /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is
   /// available only in regions US East (N. Virginia), US East (Ohio), US West
   /// (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific
@@ -374,6 +384,9 @@ class CodeBuild {
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html">
   /// Allow a user to add a permission policy for a fleet service role</a> in
   /// the <i>CodeBuild User Guide</i>.
+  ///
+  /// Parameter [imageId] :
+  /// The Amazon Machine Image (AMI) of the compute fleet.
   ///
   /// Parameter [overflowBehavior] :
   /// The compute fleet overflow behavior.
@@ -410,6 +423,7 @@ class CodeBuild {
     required EnvironmentType environmentType,
     required String name,
     String? fleetServiceRole,
+    String? imageId,
     FleetOverflowBehavior? overflowBehavior,
     ScalingConfigurationInput? scalingConfiguration,
     List<Tag>? tags,
@@ -438,6 +452,7 @@ class CodeBuild {
         'environmentType': environmentType.value,
         'name': name,
         if (fleetServiceRole != null) 'fleetServiceRole': fleetServiceRole,
+        if (imageId != null) 'imageId': imageId,
         if (overflowBehavior != null)
           'overflowBehavior': overflowBehavior.value,
         if (scalingConfiguration != null)
@@ -766,12 +781,20 @@ class CodeBuild {
   /// <note>
   /// <code>manualCreation</code> is only available for GitHub webhooks.
   /// </note>
+  ///
+  /// Parameter [scopeConfiguration] :
+  /// The scope configuration for global or organization webhooks.
+  /// <note>
+  /// Global or organization webhooks are only available for GitHub and Github
+  /// Enterprise webhooks.
+  /// </note>
   Future<CreateWebhookOutput> createWebhook({
     required String projectName,
     String? branchFilter,
     WebhookBuildType? buildType,
     List<List<WebhookFilter>>? filterGroups,
     bool? manualCreation,
+    ScopeConfiguration? scopeConfiguration,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -789,6 +812,8 @@ class CodeBuild {
         if (buildType != null) 'buildType': buildType.value,
         if (filterGroups != null) 'filterGroups': filterGroups,
         if (manualCreation != null) 'manualCreation': manualCreation,
+        if (scopeConfiguration != null)
+          'scopeConfiguration': scopeConfiguration,
       },
     );
 
@@ -1262,8 +1287,8 @@ class CodeBuild {
   }
 
   /// Imports the source repository credentials for an CodeBuild project that
-  /// has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket
-  /// repository.
+  /// has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab
+  /// Self Managed, or Bitbucket repository.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccountLimitExceededException].
@@ -1273,8 +1298,7 @@ class CodeBuild {
   /// The type of authentication used to connect to a GitHub, GitHub Enterprise,
   /// GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection
   /// is not supported by the API and must be created using the CodeBuild
-  /// console. Note that CODECONNECTIONS is only valid for GitLab and GitLab
-  /// Self Managed.
+  /// console.
   ///
   /// Parameter [serverType] :
   /// The source provider used for this project.
@@ -1283,7 +1307,8 @@ class CodeBuild {
   /// For GitHub or GitHub Enterprise, this is the personal access token. For
   /// Bitbucket, this is either the access token or the app password. For the
   /// <code>authType</code> CODECONNECTIONS, this is the
-  /// <code>connectionArn</code>.
+  /// <code>connectionArn</code>. For the <code>authType</code> SECRETS_MANAGER,
+  /// this is the <code>secretArn</code>.
   ///
   /// Parameter [shouldOverwrite] :
   /// Set to <code>false</code> to prevent overwriting the repository source
@@ -3084,6 +3109,16 @@ class CodeBuild {
   /// (Sydney).
   /// </li>
   /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Medium fleets
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// Asia Pacific (Sydney), and EU (Frankfurt)
+  /// </li>
+  /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Large fleets
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// and Asia Pacific (Sydney).
+  /// </li>
+  /// <li>
   /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is
   /// available only in regions US East (N. Virginia), US East (Ohio), US West
   /// (Oregon), Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific
@@ -3107,6 +3142,9 @@ class CodeBuild {
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html">
   /// Allow a user to add a permission policy for a fleet service role</a> in
   /// the <i>CodeBuild User Guide</i>.
+  ///
+  /// Parameter [imageId] :
+  /// The Amazon Machine Image (AMI) of the compute fleet.
   ///
   /// Parameter [overflowBehavior] :
   /// The compute fleet overflow behavior.
@@ -3143,6 +3181,7 @@ class CodeBuild {
     ComputeType? computeType,
     EnvironmentType? environmentType,
     String? fleetServiceRole,
+    String? imageId,
     FleetOverflowBehavior? overflowBehavior,
     ScalingConfigurationInput? scalingConfiguration,
     List<Tag>? tags,
@@ -3170,6 +3209,7 @@ class CodeBuild {
         if (computeType != null) 'computeType': computeType.value,
         if (environmentType != null) 'environmentType': environmentType.value,
         if (fleetServiceRole != null) 'fleetServiceRole': fleetServiceRole,
+        if (imageId != null) 'imageId': imageId,
         if (overflowBehavior != null)
           'overflowBehavior': overflowBehavior.value,
         if (scalingConfiguration != null)
@@ -3643,6 +3683,7 @@ enum AuthType {
   basicAuth('BASIC_AUTH'),
   personalAccessToken('PERSONAL_ACCESS_TOKEN'),
   codeconnections('CODECONNECTIONS'),
+  secretsManager('SECRETS_MANAGER'),
   ;
 
   final String value;
@@ -5561,6 +5602,7 @@ enum EnvironmentType {
   windowsServer_2019Container('WINDOWS_SERVER_2019_CONTAINER'),
   linuxLambdaContainer('LINUX_LAMBDA_CONTAINER'),
   armLambdaContainer('ARM_LAMBDA_CONTAINER'),
+  macArm('MAC_ARM'),
   ;
 
   final String value;
@@ -5805,6 +5847,16 @@ class Fleet {
   /// (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).
   /// </li>
   /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Medium fleets
+  /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
+  /// Asia Pacific (Sydney), and EU (Frankfurt)
+  /// </li>
+  /// <li>
+  /// The environment type <code>MAC_ARM</code> is available for Large fleets only
+  /// in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia
+  /// Pacific (Sydney).
+  /// </li>
+  /// <li>
   /// The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available
   /// only in regions US East (N. Virginia), US East (Ohio), US West (Oregon),
   /// Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU
@@ -5831,6 +5883,9 @@ class Fleet {
 
   /// The ID of the compute fleet.
   final String? id;
+
+  /// The Amazon Machine Image (AMI) of the compute fleet.
+  final String? imageId;
 
   /// The time at which the compute fleet was last modified.
   final DateTime? lastModified;
@@ -5880,6 +5935,7 @@ class Fleet {
     this.environmentType,
     this.fleetServiceRole,
     this.id,
+    this.imageId,
     this.lastModified,
     this.name,
     this.overflowBehavior,
@@ -5900,6 +5956,7 @@ class Fleet {
           (json['environmentType'] as String?)?.let(EnvironmentType.fromString),
       fleetServiceRole: json['fleetServiceRole'] as String?,
       id: json['id'] as String?,
+      imageId: json['imageId'] as String?,
       lastModified: timeStampFromJson(json['lastModified']),
       name: json['name'] as String?,
       overflowBehavior: (json['overflowBehavior'] as String?)
@@ -5926,6 +5983,8 @@ enum FleetContextCode {
   createFailed('CREATE_FAILED'),
   updateFailed('UPDATE_FAILED'),
   actionRequired('ACTION_REQUIRED'),
+  pendingDeletion('PENDING_DELETION'),
+  insufficientCapacity('INSUFFICIENT_CAPACITY'),
   ;
 
   final String value;
@@ -7864,9 +7923,6 @@ class ProjectSource {
 
   /// Information about the authorization settings for CodeBuild to access the
   /// source code to be built.
-  ///
-  /// This information is for the CodeBuild console's use only. Your code should
-  /// not get or set this information directly.
   final SourceAuth? auth;
 
   /// Contains information that defines how the build project reports the build
@@ -8898,6 +8954,46 @@ class ScalingConfigurationOutput {
   }
 }
 
+/// Contains configuration information about the scope for a webhook.
+class ScopeConfiguration {
+  /// The name of either the enterprise or organization that will send webhook
+  /// events to CodeBuild, depending on if the webhook is a global or organization
+  /// webhook respectively.
+  final String name;
+
+  /// The type of scope for a GitHub webhook.
+  final WebhookScopeType scope;
+
+  /// The domain of the GitHub Enterprise organization. Note that this parameter
+  /// is only required if your project's source type is GITHUB_ENTERPRISE
+  final String? domain;
+
+  ScopeConfiguration({
+    required this.name,
+    required this.scope,
+    this.domain,
+  });
+
+  factory ScopeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ScopeConfiguration(
+      name: json['name'] as String,
+      scope: WebhookScopeType.fromString((json['scope'] as String)),
+      domain: json['domain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final scope = this.scope;
+    final domain = this.domain;
+    return {
+      'name': name,
+      'scope': scope.value,
+      if (domain != null) 'domain': domain,
+    };
+  }
+}
+
 enum ServerType {
   github('GITHUB'),
   bitbucket('BITBUCKET'),
@@ -8947,11 +9043,9 @@ enum SortOrderType {
 
 /// Information about the authorization settings for CodeBuild to access the
 /// source code to be built.
-///
-/// This information is for the CodeBuild console's use only. Your code should
-/// not get or set this information directly.
 class SourceAuth {
-  /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
+  /// The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or
+  /// SECRETS_MANAGER.
   final SourceAuthType type;
 
   /// The resource value that applies to the specified authorization type.
@@ -8982,6 +9076,7 @@ class SourceAuth {
 enum SourceAuthType {
   oauth('OAUTH'),
   codeconnections('CODECONNECTIONS'),
+  secretsManager('SECRETS_MANAGER'),
   ;
 
   final String value;
@@ -9001,11 +9096,10 @@ class SourceCredentialsInfo {
   final String? arn;
 
   /// The type of authentication used by the credentials. Valid options are OAUTH,
-  /// BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
+  /// BASIC_AUTH, PERSONAL_ACCESS_TOKEN, CODECONNECTIONS, or SECRETS_MANAGER.
   final AuthType? authType;
 
-  /// The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED
-  /// and your authType is CODECONNECTIONS.
+  /// The connection ARN if your authType is CODECONNECTIONS or SECRETS_MANAGER.
   final String? resource;
 
   /// The type of source provider. The valid options are GITHUB,
@@ -9510,6 +9604,13 @@ class Webhook {
   /// The CodeBuild endpoint where webhook events are sent.
   final String? payloadUrl;
 
+  /// The scope configuration for global or organization webhooks.
+  /// <note>
+  /// Global or organization webhooks are only available for GitHub and Github
+  /// Enterprise webhooks.
+  /// </note>
+  final ScopeConfiguration? scopeConfiguration;
+
   /// The secret token of the associated repository.
   /// <note>
   /// A Bitbucket webhook does not support <code>secret</code>.
@@ -9526,6 +9627,7 @@ class Webhook {
     this.lastModifiedSecret,
     this.manualCreation,
     this.payloadUrl,
+    this.scopeConfiguration,
     this.secret,
     this.url,
   });
@@ -9545,6 +9647,10 @@ class Webhook {
       lastModifiedSecret: timeStampFromJson(json['lastModifiedSecret']),
       manualCreation: json['manualCreation'] as bool?,
       payloadUrl: json['payloadUrl'] as String?,
+      scopeConfiguration: json['scopeConfiguration'] != null
+          ? ScopeConfiguration.fromJson(
+              json['scopeConfiguration'] as Map<String, dynamic>)
+          : null,
       secret: json['secret'] as String?,
       url: json['url'] as String?,
     );
@@ -9692,6 +9798,17 @@ class WebhookFilter {
   /// </note> </li>
   /// </ul> </li>
   /// <li>
+  /// REPOSITORY_NAME
+  ///
+  /// <ul>
+  /// <li>
+  /// A webhook triggers a build when the repository name matches the regular
+  /// expression pattern.
+  /// <note>
+  /// Works with GitHub global or organization webhooks only.
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
   /// WORKFLOW_NAME
   ///
   /// <ul>
@@ -9758,6 +9875,21 @@ enum WebhookFilterType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum WebhookFilterType'));
+}
+
+enum WebhookScopeType {
+  githubOrganization('GITHUB_ORGANIZATION'),
+  githubGlobal('GITHUB_GLOBAL'),
+  ;
+
+  final String value;
+
+  const WebhookScopeType(this.value);
+
+  static WebhookScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WebhookScopeType'));
 }
 
 class AccountLimitExceededException extends _s.GenericAwsException {

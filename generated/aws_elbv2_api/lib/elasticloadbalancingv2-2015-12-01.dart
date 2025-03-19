@@ -1059,6 +1059,36 @@ class ElasticLoadBalancingv2 {
     );
   }
 
+  /// Deletes a shared trust store association.
+  ///
+  /// May throw [TrustStoreNotFoundException].
+  /// May throw [DeleteAssociationSameAccountException].
+  /// May throw [TrustStoreAssociationNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  ///
+  /// Parameter [trustStoreArn] :
+  /// The Amazon Resource Name (ARN) of the trust store.
+  Future<void> deleteSharedTrustStoreAssociation({
+    required String resourceArn,
+    required String trustStoreArn,
+  }) async {
+    final $request = <String, String>{
+      'ResourceArn': resourceArn,
+      'TrustStoreArn': trustStoreArn,
+    };
+    await _protocol.send(
+      $request,
+      action: 'DeleteSharedTrustStoreAssociation',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DeleteSharedTrustStoreAssociationResult',
+    );
+  }
+
   /// Deletes the specified target group.
   ///
   /// You can delete a target group if it is not referenced by any actions.
@@ -1231,6 +1261,30 @@ class ElasticLoadBalancingv2 {
       resultWrapper: 'DescribeAccountLimitsResult',
     );
     return DescribeAccountLimitsOutput.fromXml($result);
+  }
+
+  /// Describes the attributes for the specified listener.
+  ///
+  /// May throw [ListenerNotFoundException].
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener.
+  Future<DescribeListenerAttributesOutput> describeListenerAttributes({
+    required String listenerArn,
+  }) async {
+    final $request = <String, String>{
+      'ListenerArn': listenerArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeListenerAttributes',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeListenerAttributesResult',
+    );
+    return DescribeListenerAttributesOutput.fromXml($result);
   }
 
   /// Describes the default certificate and the certificate list for the
@@ -1711,7 +1765,7 @@ class ElasticLoadBalancingv2 {
   /// The Amazon Resource Name (ARN) of the target group.
   ///
   /// Parameter [include] :
-  /// Used to inclue anomaly detection information.
+  /// Used to include anomaly detection information.
   ///
   /// Parameter [targets] :
   /// The targets.
@@ -1789,8 +1843,8 @@ class ElasticLoadBalancingv2 {
     return DescribeTrustStoreAssociationsOutput.fromXml($result);
   }
 
-  /// Describes the revocation files in use by the specified trust store arn, or
-  /// revocation ID.
+  /// Describes the revocation files in use by the specified trust store or
+  /// revocation files.
   ///
   /// May throw [TrustStoreNotFoundException].
   /// May throw [RevocationIdNotFoundException].
@@ -1842,8 +1896,7 @@ class ElasticLoadBalancingv2 {
     return DescribeTrustStoreRevocationsOutput.fromXml($result);
   }
 
-  /// Describes all trust stores for a given account by trust store arn’s or
-  /// name.
+  /// Describes all trust stores for the specified account.
   ///
   /// May throw [TrustStoreNotFoundException].
   ///
@@ -1897,6 +1950,30 @@ class ElasticLoadBalancingv2 {
       resultWrapper: 'DescribeTrustStoresResult',
     );
     return DescribeTrustStoresOutput.fromXml($result);
+  }
+
+  /// Retrieves the resource policy for a specified resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  Future<GetResourcePolicyOutput> getResourcePolicy({
+    required String resourceArn,
+  }) async {
+    final $request = <String, String>{
+      'ResourceArn': resourceArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetResourcePolicy',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetResourcePolicyResult',
+    );
+    return GetResourcePolicyOutput.fromXml($result);
   }
 
   /// Retrieves the ca certificate bundle.
@@ -2105,6 +2182,41 @@ class ElasticLoadBalancingv2 {
       resultWrapper: 'ModifyListenerResult',
     );
     return ModifyListenerOutput.fromXml($result);
+  }
+
+  /// Modifies the specified attributes of the specified listener.
+  ///
+  /// May throw [ListenerNotFoundException].
+  /// May throw [InvalidConfigurationRequestException].
+  ///
+  /// Parameter [attributes] :
+  /// The listener attributes.
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener.
+  Future<ModifyListenerAttributesOutput> modifyListenerAttributes({
+    required List<ListenerAttribute> attributes,
+    required String listenerArn,
+  }) async {
+    final $request = <String, String>{
+      if (attributes.isEmpty)
+        'Attributes': ''
+      else
+        for (var i1 = 0; i1 < attributes.length; i1++)
+          for (var e3 in attributes[i1].toQueryMap().entries)
+            'Attributes.member.${i1 + 1}.${e3.key}': e3.value,
+      'ListenerArn': listenerArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyListenerAttributes',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyListenerAttributesResult',
+    );
+    return ModifyListenerAttributesOutput.fromXml($result);
   }
 
   /// Modifies the specified attributes of the specified Application Load
@@ -2338,7 +2450,7 @@ class ElasticLoadBalancingv2 {
   /// May throw [InvalidConfigurationRequestException].
   ///
   /// Parameter [attributes] :
-  /// The attributes.
+  /// The target group attributes.
   ///
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
@@ -2367,7 +2479,7 @@ class ElasticLoadBalancingv2 {
     return ModifyTargetGroupAttributesOutput.fromXml($result);
   }
 
-  /// Update the ca certificate bundle for a given trust store.
+  /// Update the ca certificate bundle for the specified trust store.
   ///
   /// May throw [TrustStoreNotFoundException].
   /// May throw [InvalidCaCertificatesBundleException].
@@ -2590,6 +2702,11 @@ class ElasticLoadBalancingv2 {
   /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
   /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
   /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  ///
+  /// Note: Application Load Balancer authentication only supports IPv4
+  /// addresses when connecting to an Identity Provider (IdP) or Amazon Cognito
+  /// endpoint. Without a public IPv4 address the load balancer cannot complete
+  /// the authentication process, resulting in HTTP 500 errors.
   ///
   /// [Network Load Balancers] The IP address type. The possible values are
   /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
@@ -3625,6 +3742,15 @@ class DeleteRuleOutput {
   }
 }
 
+class DeleteSharedTrustStoreAssociationOutput {
+  DeleteSharedTrustStoreAssociationOutput();
+  factory DeleteSharedTrustStoreAssociationOutput.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteSharedTrustStoreAssociationOutput();
+  }
+}
+
 class DeleteTargetGroupOutput {
   DeleteTargetGroupOutput();
   factory DeleteTargetGroupOutput.fromXml(
@@ -3669,6 +3795,21 @@ class DescribeAccountLimitsOutput {
       limits: _s.extractXmlChild(elem, 'Limits')?.let(
           (elem) => elem.findElements('member').map(Limit.fromXml).toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+}
+
+class DescribeListenerAttributesOutput {
+  /// Information about the listener attributes.
+  final List<ListenerAttribute>? attributes;
+
+  DescribeListenerAttributesOutput({
+    this.attributes,
+  });
+  factory DescribeListenerAttributesOutput.fromXml(_s.XmlElement elem) {
+    return DescribeListenerAttributesOutput(
+      attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) =>
+          elem.findElements('member').map(ListenerAttribute.fromXml).toList()),
     );
   }
 }
@@ -4104,6 +4245,20 @@ class ForwardActionConfig {
   }
 }
 
+class GetResourcePolicyOutput {
+  /// The content of the resource policy.
+  final String? policy;
+
+  GetResourcePolicyOutput({
+    this.policy,
+  });
+  factory GetResourcePolicyOutput.fromXml(_s.XmlElement elem) {
+    return GetResourcePolicyOutput(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+    );
+  }
+}
+
 class GetTrustStoreCaCertificatesBundleOutput {
   /// The ca certificate bundles Amazon S3 URI.
   final String? location;
@@ -4462,6 +4617,54 @@ class Listener {
           ?.let(ProtocolEnum.fromString),
       sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
     );
+  }
+}
+
+/// Information about a listener attribute.
+class ListenerAttribute {
+  /// The name of the attribute.
+  ///
+  /// The following attribute is supported by Network Load Balancers, and Gateway
+  /// Load Balancers.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tcp.idle_timeout.seconds</code> - The tcp idle timeout value, in
+  /// seconds. The valid range is 60-6000 seconds. The default is 350 seconds.
+  /// </li>
+  /// </ul>
+  final String? key;
+
+  /// The value of the attribute.
+  final String? value;
+
+  ListenerAttribute({
+    this.key,
+    this.value,
+  });
+  factory ListenerAttribute.fromXml(_s.XmlElement elem) {
+    return ListenerAttribute(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
   }
 }
 
@@ -4953,6 +5156,21 @@ enum MitigationInEffectEnum {
               '$value is not known in enum MitigationInEffectEnum'));
 }
 
+class ModifyListenerAttributesOutput {
+  /// Information about the listener attributes.
+  final List<ListenerAttribute>? attributes;
+
+  ModifyListenerAttributesOutput({
+    this.attributes,
+  });
+  factory ModifyListenerAttributesOutput.fromXml(_s.XmlElement elem) {
+    return ModifyListenerAttributesOutput(
+      attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) =>
+          elem.findElements('member').map(ListenerAttribute.fromXml).toList()),
+    );
+  }
+}
+
 class ModifyListenerOutput {
   /// Information about the modified listener.
   final List<Listener>? listeners;
@@ -5001,7 +5219,7 @@ class ModifyRuleOutput {
 }
 
 class ModifyTargetGroupAttributesOutput {
-  /// Information about the attributes.
+  /// Information about the target group attributes.
   final List<TargetGroupAttribute>? attributes;
 
   ModifyTargetGroupAttributesOutput({
@@ -5060,10 +5278,14 @@ class MutualAuthenticationAttributes {
   /// The Amazon Resource Name (ARN) of the trust store.
   final String? trustStoreArn;
 
+  /// Indicates a shared trust stores association status.
+  final TrustStoreAssociationStatusEnum? trustStoreAssociationStatus;
+
   MutualAuthenticationAttributes({
     this.ignoreClientCertificateExpiry,
     this.mode,
     this.trustStoreArn,
+    this.trustStoreAssociationStatus,
   });
   factory MutualAuthenticationAttributes.fromXml(_s.XmlElement elem) {
     return MutualAuthenticationAttributes(
@@ -5071,6 +5293,9 @@ class MutualAuthenticationAttributes {
           _s.extractXmlBoolValue(elem, 'IgnoreClientCertificateExpiry'),
       mode: _s.extractXmlStringValue(elem, 'Mode'),
       trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+      trustStoreAssociationStatus: _s
+          .extractXmlStringValue(elem, 'TrustStoreAssociationStatus')
+          ?.let(TrustStoreAssociationStatusEnum.fromString),
     );
   }
 
@@ -5078,11 +5303,14 @@ class MutualAuthenticationAttributes {
     final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
     final mode = this.mode;
     final trustStoreArn = this.trustStoreArn;
+    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
     return {
       if (ignoreClientCertificateExpiry != null)
         'IgnoreClientCertificateExpiry': ignoreClientCertificateExpiry,
       if (mode != null) 'Mode': mode,
       if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+      if (trustStoreAssociationStatus != null)
+        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
     };
   }
 
@@ -5090,12 +5318,15 @@ class MutualAuthenticationAttributes {
     final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
     final mode = this.mode;
     final trustStoreArn = this.trustStoreArn;
+    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
     return {
       if (ignoreClientCertificateExpiry != null)
         'IgnoreClientCertificateExpiry':
             ignoreClientCertificateExpiry.toString(),
       if (mode != null) 'Mode': mode,
       if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+      if (trustStoreAssociationStatus != null)
+        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
     };
   }
 }
@@ -6845,6 +7076,21 @@ class TrustStoreAssociation {
   }
 }
 
+enum TrustStoreAssociationStatusEnum {
+  active('active'),
+  removed('removed'),
+  ;
+
+  final String value;
+
+  const TrustStoreAssociationStatusEnum(this.value);
+
+  static TrustStoreAssociationStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum TrustStoreAssociationStatusEnum'));
+}
+
 /// Information about a revocation file in use by a trust store.
 class TrustStoreRevocation {
   /// The number of revoked certificates.
@@ -6929,6 +7175,14 @@ class CertificateNotFoundException extends _s.GenericAwsException {
   CertificateNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CertificateNotFoundException', message: message);
+}
+
+class DeleteAssociationSameAccountException extends _s.GenericAwsException {
+  DeleteAssociationSameAccountException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'DeleteAssociationSameAccountException',
+            message: message);
 }
 
 class DuplicateListenerException extends _s.GenericAwsException {
@@ -7064,6 +7318,11 @@ class ResourceInUseException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class RevocationContentNotFoundException extends _s.GenericAwsException {
   RevocationContentNotFoundException({String? type, String? message})
       : super(
@@ -7187,6 +7446,14 @@ class TooManyUniqueTargetGroupsPerLoadBalancerException
             message: message);
 }
 
+class TrustStoreAssociationNotFoundException extends _s.GenericAwsException {
+  TrustStoreAssociationNotFoundException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TrustStoreAssociationNotFoundException',
+            message: message);
+}
+
 class TrustStoreInUseException extends _s.GenericAwsException {
   TrustStoreInUseException({String? type, String? message})
       : super(type: type, code: 'TrustStoreInUseException', message: message);
@@ -7221,6 +7488,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CaCertificatesBundleNotFoundException(type: type, message: message),
   'CertificateNotFoundException': (type, message) =>
       CertificateNotFoundException(type: type, message: message),
+  'DeleteAssociationSameAccountException': (type, message) =>
+      DeleteAssociationSameAccountException(type: type, message: message),
   'DuplicateListenerException': (type, message) =>
       DuplicateListenerException(type: type, message: message),
   'DuplicateLoadBalancerNameException': (type, message) =>
@@ -7261,6 +7530,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PriorityInUseException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
       ResourceInUseException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'RevocationContentNotFoundException': (type, message) =>
       RevocationContentNotFoundException(type: type, message: message),
   'RevocationIdNotFoundException': (type, message) =>
@@ -7300,6 +7571,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'TooManyUniqueTargetGroupsPerLoadBalancerException': (type, message) =>
       TooManyUniqueTargetGroupsPerLoadBalancerException(
           type: type, message: message),
+  'TrustStoreAssociationNotFoundException': (type, message) =>
+      TrustStoreAssociationNotFoundException(type: type, message: message),
   'TrustStoreInUseException': (type, message) =>
       TrustStoreInUseException(type: type, message: message),
   'TrustStoreNotFoundException': (type, message) =>

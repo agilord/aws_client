@@ -555,6 +555,15 @@ class EKS {
   /// Parameter [accessConfig] :
   /// The access configuration for the cluster.
   ///
+  /// Parameter [bootstrapSelfManagedAddons] :
+  /// If you set this value to <code>False</code> when creating a cluster, the
+  /// default networking add-ons will not be installed.
+  ///
+  /// The default networking addons include vpc-cni, coredns, and kube-proxy.
+  ///
+  /// Use this option when you plan to install third-party alternative add-ons
+  /// or self-manage the default networking add-ons.
+  ///
   /// Parameter [clientRequestToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
@@ -592,6 +601,11 @@ class EKS {
   /// consists of a key and an optional value. You define both. Tags don't
   /// propagate to any other cluster or Amazon Web Services resources.
   ///
+  /// Parameter [upgradePolicy] :
+  /// New clusters, by default, have extended support enabled. You can disable
+  /// extended support when creating a cluster by setting this value to
+  /// <code>STANDARD</code>.
+  ///
   /// Parameter [version] :
   /// The desired Kubernetes version for your cluster. If you don't specify a
   /// value here, the default version available in Amazon EKS is used.
@@ -603,12 +617,14 @@ class EKS {
     required VpcConfigRequest resourcesVpcConfig,
     required String roleArn,
     CreateAccessConfigRequest? accessConfig,
+    bool? bootstrapSelfManagedAddons,
     String? clientRequestToken,
     List<EncryptionConfig>? encryptionConfig,
     KubernetesNetworkConfigRequest? kubernetesNetworkConfig,
     Logging? logging,
     OutpostConfigRequest? outpostConfig,
     Map<String, String>? tags,
+    UpgradePolicyRequest? upgradePolicy,
     String? version,
   }) async {
     final $payload = <String, dynamic>{
@@ -616,6 +632,8 @@ class EKS {
       'resourcesVpcConfig': resourcesVpcConfig,
       'roleArn': roleArn,
       if (accessConfig != null) 'accessConfig': accessConfig,
+      if (bootstrapSelfManagedAddons != null)
+        'bootstrapSelfManagedAddons': bootstrapSelfManagedAddons,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
       if (kubernetesNetworkConfig != null)
@@ -623,6 +641,7 @@ class EKS {
       if (logging != null) 'logging': logging,
       if (outpostConfig != null) 'outpostConfig': outpostConfig,
       if (tags != null) 'tags': tags,
+      if (upgradePolicy != null) 'upgradePolicy': upgradePolicy,
       if (version != null) 'version': version,
     };
     final response = await _protocol.send(
@@ -3005,18 +3024,25 @@ class EKS {
   /// to exported control plane logs. For more information, see <a
   /// href="http://aws.amazon.com/cloudwatch/pricing/">CloudWatch Pricing</a>.
   /// </note>
+  ///
+  /// Parameter [upgradePolicy] :
+  /// You can enable or disable extended support for clusters currently on
+  /// standard support. You cannot disable extended support once it starts. You
+  /// must enable extended support before your cluster exits standard support.
   Future<UpdateClusterConfigResponse> updateClusterConfig({
     required String name,
     UpdateAccessConfigRequest? accessConfig,
     String? clientRequestToken,
     Logging? logging,
     VpcConfigRequest? resourcesVpcConfig,
+    UpgradePolicyRequest? upgradePolicy,
   }) async {
     final $payload = <String, dynamic>{
       if (accessConfig != null) 'accessConfig': accessConfig,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (logging != null) 'logging': logging,
       if (resourcesVpcConfig != null) 'resourcesVpcConfig': resourcesVpcConfig,
+      if (upgradePolicy != null) 'upgradePolicy': upgradePolicy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3357,6 +3383,8 @@ enum AMITypes {
   windowsFull_2022X86_64('WINDOWS_FULL_2022_x86_64'),
   al2023X86_64Standard('AL2023_x86_64_STANDARD'),
   al2023Arm_64Standard('AL2023_ARM_64_STANDARD'),
+  al2023X86_64Neuron('AL2023_x86_64_NEURON'),
+  al2023X86_64Nvidia('AL2023_x86_64_NVIDIA'),
   ;
 
   final String value;
@@ -4040,6 +4068,7 @@ class AutoScalingGroup {
 enum CapacityTypes {
   onDemand('ON_DEMAND'),
   spot('SPOT'),
+  capacityBlock('CAPACITY_BLOCK'),
   ;
 
   final String value;
@@ -4195,6 +4224,14 @@ class Cluster {
   /// propagate to any other cluster or Amazon Web Services resources.
   final Map<String, String>? tags;
 
+  /// This value indicates if extended support is enabled or disabled for the
+  /// cluster.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
+  /// more about EKS Extended Support in the EKS User Guide.</a>
+  final UpgradePolicyResponse? upgradePolicy;
+
   /// The Kubernetes server version for the cluster.
   final String? version;
 
@@ -4219,6 +4256,7 @@ class Cluster {
     this.roleArn,
     this.status,
     this.tags,
+    this.upgradePolicy,
     this.version,
   });
 
@@ -4272,6 +4310,10 @@ class Cluster {
       status: (json['status'] as String?)?.let(ClusterStatus.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      upgradePolicy: json['upgradePolicy'] != null
+          ? UpgradePolicyResponse.fromJson(
+              json['upgradePolicy'] as Map<String, dynamic>)
+          : null,
       version: json['version'] as String?,
     );
   }
@@ -5444,6 +5486,10 @@ class FargateProfile {
   /// The name of the Fargate profile.
   final String? fargateProfileName;
 
+  /// The health status of the Fargate profile. If there are issues with your
+  /// Fargate profile's health, they are listed here.
+  final FargateProfileHealth? health;
+
   /// The Amazon Resource Name (ARN) of the <code>Pod</code> execution role to use
   /// for any <code>Pod</code> that matches the selectors in the Fargate profile.
   /// For more information, see <a
@@ -5470,6 +5516,7 @@ class FargateProfile {
     this.createdAt,
     this.fargateProfileArn,
     this.fargateProfileName,
+    this.health,
     this.podExecutionRoleArn,
     this.selectors,
     this.status,
@@ -5483,6 +5530,10 @@ class FargateProfile {
       createdAt: timeStampFromJson(json['createdAt']),
       fargateProfileArn: json['fargateProfileArn'] as String?,
       fargateProfileName: json['fargateProfileName'] as String?,
+      health: json['health'] != null
+          ? FargateProfileHealth.fromJson(
+              json['health'] as Map<String, dynamic>)
+          : null,
       podExecutionRoleArn: json['podExecutionRoleArn'] as String?,
       selectors: (json['selectors'] as List?)
           ?.nonNulls
@@ -5496,6 +5547,72 @@ class FargateProfile {
           ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
+}
+
+/// The health status of the Fargate profile. If there are issues with your
+/// Fargate profile's health, they are listed here.
+class FargateProfileHealth {
+  /// Any issues that are associated with the Fargate profile.
+  final List<FargateProfileIssue>? issues;
+
+  FargateProfileHealth({
+    this.issues,
+  });
+
+  factory FargateProfileHealth.fromJson(Map<String, dynamic> json) {
+    return FargateProfileHealth(
+      issues: (json['issues'] as List?)
+          ?.nonNulls
+          .map((e) => FargateProfileIssue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+/// An issue that is associated with the Fargate profile.
+class FargateProfileIssue {
+  /// A brief description of the error.
+  final FargateProfileIssueCode? code;
+
+  /// The error message associated with the issue.
+  final String? message;
+
+  /// The Amazon Web Services resources that are affected by this issue.
+  final List<String>? resourceIds;
+
+  FargateProfileIssue({
+    this.code,
+    this.message,
+    this.resourceIds,
+  });
+
+  factory FargateProfileIssue.fromJson(Map<String, dynamic> json) {
+    return FargateProfileIssue(
+      code: (json['code'] as String?)?.let(FargateProfileIssueCode.fromString),
+      message: json['message'] as String?,
+      resourceIds: (json['resourceIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+}
+
+enum FargateProfileIssueCode {
+  podExecutionRoleAlreadyInUse('PodExecutionRoleAlreadyInUse'),
+  accessDenied('AccessDenied'),
+  clusterUnreachable('ClusterUnreachable'),
+  internalFailure('InternalFailure'),
+  ;
+
+  final String value;
+
+  const FargateProfileIssueCode(this.value);
+
+  static FargateProfileIssueCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FargateProfileIssueCode'));
 }
 
 /// An object representing an Fargate profile selector.
@@ -7669,6 +7786,20 @@ enum ResolveConflicts {
               throw Exception('$value is not known in enum ResolveConflicts'));
 }
 
+enum SupportType {
+  standard('STANDARD'),
+  extended('EXTENDED'),
+  ;
+
+  final String value;
+
+  const SupportType(this.value);
+
+  static SupportType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SupportType'));
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7996,6 +8127,7 @@ enum UpdateParamType {
   subnets('Subnets'),
   authenticationMode('AuthenticationMode'),
   podIdentityAssociations('PodIdentityAssociations'),
+  upgradePolicy('UpgradePolicy'),
   ;
 
   final String value;
@@ -8081,6 +8213,7 @@ enum UpdateType {
   addonUpdate('AddonUpdate'),
   vpcConfigUpdate('VpcConfigUpdate'),
   accessConfigUpdate('AccessConfigUpdate'),
+  upgradePolicyUpdate('UpgradePolicyUpdate'),
   ;
 
   final String value;
@@ -8090,6 +8223,66 @@ enum UpdateType {
   static UpdateType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum UpdateType'));
+}
+
+/// The support policy to use for the cluster. Extended support allows you to
+/// remain on specific Kubernetes versions for longer. Clusters in extended
+/// support have higher costs. The default value is <code>EXTENDED</code>. Use
+/// <code>STANDARD</code> to disable extended support.
+///
+/// <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
+/// more about EKS Extended Support in the EKS User Guide.</a>
+class UpgradePolicyRequest {
+  /// If the cluster is set to <code>EXTENDED</code>, it will enter extended
+  /// support at the end of standard support. If the cluster is set to
+  /// <code>STANDARD</code>, it will be automatically upgraded at the end of
+  /// standard support.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
+  /// more about EKS Extended Support in the EKS User Guide.</a>
+  final SupportType? supportType;
+
+  UpgradePolicyRequest({
+    this.supportType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final supportType = this.supportType;
+    return {
+      if (supportType != null) 'supportType': supportType.value,
+    };
+  }
+}
+
+/// This value indicates if extended support is enabled or disabled for the
+/// cluster.
+///
+/// <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
+/// more about EKS Extended Support in the EKS User Guide.</a>
+class UpgradePolicyResponse {
+  /// If the cluster is set to <code>EXTENDED</code>, it will enter extended
+  /// support at the end of standard support. If the cluster is set to
+  /// <code>STANDARD</code>, it will be automatically upgraded at the end of
+  /// standard support.
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html">Learn
+  /// more about EKS Extended Support in the EKS User Guide.</a>
+  final SupportType? supportType;
+
+  UpgradePolicyResponse({
+    this.supportType,
+  });
+
+  factory UpgradePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpgradePolicyResponse(
+      supportType:
+          (json['supportType'] as String?)?.let(SupportType.fromString),
+    );
+  }
 }
 
 /// An object representing the VPC configuration to use for an Amazon EKS

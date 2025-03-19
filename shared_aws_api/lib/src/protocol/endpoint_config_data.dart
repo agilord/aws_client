@@ -38,6 +38,8 @@ final rules = <String, RegionConfig>{
     globalEndpoint: true,
     signingRegion: 'us-isob-east-1',
   ),
+  'us-isof-*/route53': _globalUsIsof,
+  'eu-isoe-*/route53': _globalEuIsoe,
   '*/waf': _globalSSL,
   '*/iam': _globalSSL,
   'cn-*/iam': RegionConfig(
@@ -100,6 +102,18 @@ final _globalGovCloud = RegionConfig(
   endpoint: '{service}.us-gov.amazonaws.com',
   globalEndpoint: true,
   signingRegion: 'us-gov-west-1',
+);
+
+final _globalUsIsof = RegionConfig(
+  endpoint: '{service}.csp.hci.ic.gov',
+  globalEndpoint: true,
+  signingRegion: 'us-isof-south-1',
+);
+
+final _globalEuIsoe = RegionConfig(
+  endpoint: '{service}.cloud.adc-e.uk',
+  globalEndpoint: true,
+  signingRegion: 'eu-isoe-west-1',
 );
 
 final _s3Signature = RegionConfig(
