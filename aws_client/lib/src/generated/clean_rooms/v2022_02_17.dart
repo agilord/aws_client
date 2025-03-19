@@ -443,7 +443,7 @@ class CleanRooms {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [analysisRulePolicy] :
-  /// The entire created configured table analysis rule object.
+  /// The analysis rule policy that was created for the configured table.
   ///
   /// Parameter [analysisRuleType] :
   /// The type of analysis rule.
@@ -531,6 +531,166 @@ class CleanRooms {
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfiguredTableAssociationOutput.fromJson(response);
+  }
+
+  /// Creates a new analysis rule for an associated configured table.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analysisRulePolicy] :
+  /// The analysis rule policy that was created for the configured table
+  /// association.
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule.
+  ///
+  /// Parameter [configuredTableAssociationIdentifier] :
+  /// The unique ID for the configured table association. Currently accepts the
+  /// configured table association ID.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// A unique identifier for the membership that the configured table
+  /// association belongs to. Currently accepts the membership ID.
+  Future<CreateConfiguredTableAssociationAnalysisRuleOutput>
+      createConfiguredTableAssociationAnalysisRule({
+    required ConfiguredTableAssociationAnalysisRulePolicy analysisRulePolicy,
+    required ConfiguredTableAssociationAnalysisRuleType analysisRuleType,
+    required String configuredTableAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'analysisRulePolicy': analysisRulePolicy,
+      'analysisRuleType': analysisRuleType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/configuredTableAssociations/${Uri.encodeComponent(configuredTableAssociationIdentifier)}/analysisRule',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+        response);
+  }
+
+  /// Creates an ID mapping table.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [inputReferenceConfig] :
+  /// The input reference configuration needed to create the ID mapping table.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping
+  /// table.
+  ///
+  /// Parameter [name] :
+  /// A name for the ID mapping table.
+  ///
+  /// Parameter [description] :
+  /// A description of the ID mapping table.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key. This
+  /// value is used to encrypt the mapping table data that is stored by Clean
+  /// Rooms.
+  ///
+  /// Parameter [tags] :
+  /// An optional label that you can assign to a resource when you create it.
+  /// Each tag consists of a key and an optional value, both of which you
+  /// define. When you use tagging, you can also use tag-based access control in
+  /// IAM policies to control access to this resource.
+  Future<CreateIdMappingTableOutput> createIdMappingTable({
+    required IdMappingTableInputReferenceConfig inputReferenceConfig,
+    required String membershipIdentifier,
+    required String name,
+    String? description,
+    String? kmsKeyArn,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'inputReferenceConfig': inputReferenceConfig,
+      'name': name,
+      if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIdMappingTableOutput.fromJson(response);
+  }
+
+  /// Creates an ID namespace association.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [inputReferenceConfig] :
+  /// The input reference configuration needed to create the ID namespace
+  /// association.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID namespace
+  /// association.
+  ///
+  /// Parameter [name] :
+  /// The name for the ID namespace association.
+  ///
+  /// Parameter [description] :
+  /// The description of the ID namespace association.
+  ///
+  /// Parameter [idMappingConfig] :
+  /// The configuration settings for the ID mapping table.
+  ///
+  /// Parameter [tags] :
+  /// An optional label that you can assign to a resource when you create it.
+  /// Each tag consists of a key and an optional value, both of which you
+  /// define. When you use tagging, you can also use tag-based access control in
+  /// IAM policies to control access to this resource.
+  Future<CreateIdNamespaceAssociationOutput> createIdNamespaceAssociation({
+    required IdNamespaceAssociationInputReferenceConfig inputReferenceConfig,
+    required String membershipIdentifier,
+    required String name,
+    String? description,
+    IdMappingConfig? idMappingConfig,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'inputReferenceConfig': inputReferenceConfig,
+      'name': name,
+      if (description != null) 'description': description,
+      if (idMappingConfig != null) 'idMappingConfig': idMappingConfig,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idnamespaceassociations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIdNamespaceAssociationOutput.fromJson(response);
   }
 
   /// Creates a membership for a specific collaboration identifier and joins the
@@ -814,6 +974,94 @@ class CleanRooms {
     );
   }
 
+  /// Deletes an analysis rule for a configured table association.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of the analysis rule that you want to delete.
+  ///
+  /// Parameter [configuredTableAssociationIdentifier] :
+  /// The identiﬁer for the conﬁgured table association that's related to the
+  /// analysis rule that you want to delete.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// A unique identifier for the membership that the configured table
+  /// association belongs to. Currently accepts the membership ID.
+  Future<void> deleteConfiguredTableAssociationAnalysisRule({
+    required ConfiguredTableAssociationAnalysisRuleType analysisRuleType,
+    required String configuredTableAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/configuredTableAssociations/${Uri.encodeComponent(configuredTableAssociationIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an ID mapping table.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idMappingTableIdentifier] :
+  /// The unique identifier of the ID mapping table that you want to delete.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping table
+  /// that you want to delete.
+  Future<void> deleteIdMappingTable({
+    required String idMappingTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables/${Uri.encodeComponent(idMappingTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an ID namespace association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idNamespaceAssociationIdentifier] :
+  /// The unique identifier of the ID namespace association that you want to
+  /// delete.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID namespace
+  /// association that you want to delete.
+  Future<void> deleteIdNamespaceAssociation({
+    required String idNamespaceAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idnamespaceassociations/${Uri.encodeComponent(idNamespaceAssociationIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Removes the specified member from a collaboration. The removed member is
   /// placed in the Removed status and can't interact with the collaboration.
   /// The removed member's data is inaccessible to active members of the
@@ -1005,6 +1253,36 @@ class CleanRooms {
         response);
   }
 
+  /// Retrieves an ID namespace association from a specific collaboration.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [collaborationIdentifier] :
+  /// The unique identifier of the collaboration that contains the ID namespace
+  /// association that you want to retrieve.
+  ///
+  /// Parameter [idNamespaceAssociationIdentifier] :
+  /// The unique identifier of the ID namespace association that you want to
+  /// retrieve.
+  Future<GetCollaborationIdNamespaceAssociationOutput>
+      getCollaborationIdNamespaceAssociation({
+    required String collaborationIdentifier,
+    required String idNamespaceAssociationIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/collaborations/${Uri.encodeComponent(collaborationIdentifier)}/idnamespaceassociations/${Uri.encodeComponent(idNamespaceAssociationIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCollaborationIdNamespaceAssociationOutput.fromJson(response);
+  }
+
   /// Returns details about a specified privacy budget template.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1143,6 +1421,98 @@ class CleanRooms {
       exceptionFnMap: _exceptionFns,
     );
     return GetConfiguredTableAssociationOutput.fromJson(response);
+  }
+
+  /// Retrieves the analysis rule for a configured table association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The type of analysis rule that you want to retrieve.
+  ///
+  /// Parameter [configuredTableAssociationIdentifier] :
+  /// The identiﬁer for the conﬁgured table association that's related to the
+  /// analysis rule.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// A unique identifier for the membership that the configured table
+  /// association belongs to. Currently accepts the membership ID.
+  Future<GetConfiguredTableAssociationAnalysisRuleOutput>
+      getConfiguredTableAssociationAnalysisRule({
+    required ConfiguredTableAssociationAnalysisRuleType analysisRuleType,
+    required String configuredTableAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/configuredTableAssociations/${Uri.encodeComponent(configuredTableAssociationIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConfiguredTableAssociationAnalysisRuleOutput.fromJson(response);
+  }
+
+  /// Retrieves an ID mapping table.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idMappingTableIdentifier] :
+  /// The unique identifier of the ID mapping table identifier that you want to
+  /// retrieve.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping table
+  /// that you want to retrieve.
+  Future<GetIdMappingTableOutput> getIdMappingTable({
+    required String idMappingTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables/${Uri.encodeComponent(idMappingTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIdMappingTableOutput.fromJson(response);
+  }
+
+  /// Retrieves an ID namespace association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idNamespaceAssociationIdentifier] :
+  /// The unique identifier of the ID namespace association that you want to
+  /// retrieve.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID namespace
+  /// association that you want to retrieve.
+  Future<GetIdNamespaceAssociationOutput> getIdNamespaceAssociation({
+    required String idNamespaceAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idnamespaceassociations/${Uri.encodeComponent(idNamespaceAssociationIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetIdNamespaceAssociationOutput.fromJson(response);
   }
 
   /// Retrieves a specified membership for an identifier.
@@ -1419,6 +1789,52 @@ class CleanRooms {
         response);
   }
 
+  /// Returns a list of the ID namespace associations in a collaboration.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [collaborationIdentifier] :
+  /// The unique identifier of the collaboration that contains the ID namespace
+  /// associations that you want to retrieve.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of the results that is returned per call. Service chooses
+  /// a default if it has not been set. Service may return a nextToken even if
+  /// the maximum results has not been met.&gt;
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListCollaborationIdNamespaceAssociationsOutput>
+      listCollaborationIdNamespaceAssociations({
+    required String collaborationIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/collaborations/${Uri.encodeComponent(collaborationIdentifier)}/idnamespaceassociations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCollaborationIdNamespaceAssociationsOutput.fromJson(response);
+  }
+
   /// Returns an array that summarizes each privacy budget template in a
   /// specified collaboration.
   ///
@@ -1691,6 +2107,96 @@ class CleanRooms {
       exceptionFnMap: _exceptionFns,
     );
     return ListConfiguredTablesOutput.fromJson(response);
+  }
+
+  /// Returns a list of ID mapping tables.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping
+  /// tables that you want to view.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of the results that is returned per call. Service chooses
+  /// a default if it has not been set. Service may return a nextToken even if
+  /// the maximum results has not been met.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListIdMappingTablesOutput> listIdMappingTables({
+    required String membershipIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIdMappingTablesOutput.fromJson(response);
+  }
+
+  /// Returns a list of ID namespace associations.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID namespace
+  /// association that you want to view.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of the results that is returned per call. Service chooses
+  /// a default if it has not been set. Service may return a nextToken even if
+  /// the maximum results has not been met.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token that's used to fetch the next set of results.
+  Future<ListIdNamespaceAssociationsOutput> listIdNamespaceAssociations({
+    required String membershipIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idnamespaceassociations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIdNamespaceAssociationsOutput.fromJson(response);
   }
 
   /// Lists all members within a collaboration.
@@ -1997,6 +2503,35 @@ class CleanRooms {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceOutput.fromJson(response);
+  }
+
+  /// Defines the information that's necessary to populate an ID mapping table.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idMappingTableIdentifier] :
+  /// The unique identifier of the ID mapping table that you want to populate.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping table
+  /// that you want to populate.
+  Future<PopulateIdMappingTableOutput> populateIdMappingTable({
+    required String idMappingTableIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables/${Uri.encodeComponent(idMappingTableIdentifier)}/populate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PopulateIdMappingTableOutput.fromJson(response);
   }
 
   /// An estimate of the number of aggregation functions that the member who can
@@ -2360,6 +2895,135 @@ class CleanRooms {
     return UpdateConfiguredTableAssociationOutput.fromJson(response);
   }
 
+  /// Updates the analysis rule for a configured table association.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [analysisRulePolicy] :
+  /// The updated analysis rule policy for the conﬁgured table association.
+  ///
+  /// Parameter [analysisRuleType] :
+  /// The analysis rule type that you want to update.
+  ///
+  /// Parameter [configuredTableAssociationIdentifier] :
+  /// The identifier for the configured table association to update.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// A unique identifier for the membership that the configured table
+  /// association belongs to. Currently accepts the membership ID.
+  Future<UpdateConfiguredTableAssociationAnalysisRuleOutput>
+      updateConfiguredTableAssociationAnalysisRule({
+    required ConfiguredTableAssociationAnalysisRulePolicy analysisRulePolicy,
+    required ConfiguredTableAssociationAnalysisRuleType analysisRuleType,
+    required String configuredTableAssociationIdentifier,
+    required String membershipIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'analysisRulePolicy': analysisRulePolicy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/configuredTableAssociations/${Uri.encodeComponent(configuredTableAssociationIdentifier)}/analysisRule/${Uri.encodeComponent(analysisRuleType.value)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+        response);
+  }
+
+  /// Provides the details that are necessary to update an ID mapping table.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idMappingTableIdentifier] :
+  /// The unique identifier of the ID mapping table that you want to update.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID mapping table
+  /// that you want to update.
+  ///
+  /// Parameter [description] :
+  /// A new description for the ID mapping table.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+  Future<UpdateIdMappingTableOutput> updateIdMappingTable({
+    required String idMappingTableIdentifier,
+    required String membershipIdentifier,
+    String? description,
+    String? kmsKeyArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idmappingtables/${Uri.encodeComponent(idMappingTableIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIdMappingTableOutput.fromJson(response);
+  }
+
+  /// Provides the details that are necessary to update an ID namespace
+  /// association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idNamespaceAssociationIdentifier] :
+  /// The unique identifier of the ID namespace association that you want to
+  /// update.
+  ///
+  /// Parameter [membershipIdentifier] :
+  /// The unique identifier of the membership that contains the ID namespace
+  /// association that you want to update.
+  ///
+  /// Parameter [description] :
+  /// A new description for the ID namespace association.
+  ///
+  /// Parameter [idMappingConfig] :
+  /// The configuration settings for the ID mapping table.
+  ///
+  /// Parameter [name] :
+  /// A new name for the ID namespace association.
+  Future<UpdateIdNamespaceAssociationOutput> updateIdNamespaceAssociation({
+    required String idNamespaceAssociationIdentifier,
+    required String membershipIdentifier,
+    String? description,
+    IdMappingConfig? idMappingConfig,
+    String? name,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (description != null) 'description': description,
+      if (idMappingConfig != null) 'idMappingConfig': idMappingConfig,
+      if (name != null) 'name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/memberships/${Uri.encodeComponent(membershipIdentifier)}/idnamespaceassociations/${Uri.encodeComponent(idNamespaceAssociationIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateIdNamespaceAssociationOutput.fromJson(response);
+  }
+
   /// Updates a membership.
   ///
   /// May throw [ConflictException].
@@ -2477,6 +3141,22 @@ class CleanRooms {
     );
     return UpdateProtectedQueryOutput.fromJson(response);
   }
+}
+
+enum AdditionalAnalyses {
+  allowed('ALLOWED'),
+  required('REQUIRED'),
+  notAllowed('NOT_ALLOWED'),
+  ;
+
+  final String value;
+
+  const AdditionalAnalyses(this.value);
+
+  static AdditionalAnalyses fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AdditionalAnalyses'));
 }
 
 /// Column in configured table that can be used in aggregate function in query.
@@ -2736,6 +3416,14 @@ class AnalysisRuleAggregation {
   /// the output of aggregation of metrics.
   final List<ScalarFunctions> scalarFunctions;
 
+  /// An indicator as to whether additional analyses (such as Clean Rooms ML) can
+  /// be applied to the output of the direct query.
+  ///
+  /// The <code>additionalAnalyses</code> parameter is currently supported for the
+  /// list analysis rule (<code>AnalysisRuleList</code>) and the custom analysis
+  /// rule (<code>AnalysisRuleCustom</code>).
+  final AdditionalAnalyses? additionalAnalyses;
+
   /// Which logical operators (if any) are to be used in an INNER JOIN match
   /// condition. Default is <code>AND</code>.
   final List<JoinOperator>? allowedJoinOperators;
@@ -2750,6 +3438,7 @@ class AnalysisRuleAggregation {
     required this.joinColumns,
     required this.outputConstraints,
     required this.scalarFunctions,
+    this.additionalAnalyses,
     this.allowedJoinOperators,
     this.joinRequired,
   });
@@ -2776,6 +3465,8 @@ class AnalysisRuleAggregation {
           .nonNulls
           .map((e) => ScalarFunctions.fromString((e as String)))
           .toList(),
+      additionalAnalyses: (json['additionalAnalyses'] as String?)
+          ?.let(AdditionalAnalyses.fromString),
       allowedJoinOperators: (json['allowedJoinOperators'] as List?)
           ?.nonNulls
           .map((e) => JoinOperator.fromString((e as String)))
@@ -2791,6 +3482,7 @@ class AnalysisRuleAggregation {
     final joinColumns = this.joinColumns;
     final outputConstraints = this.outputConstraints;
     final scalarFunctions = this.scalarFunctions;
+    final additionalAnalyses = this.additionalAnalyses;
     final allowedJoinOperators = this.allowedJoinOperators;
     final joinRequired = this.joinRequired;
     return {
@@ -2799,6 +3491,8 @@ class AnalysisRuleAggregation {
       'joinColumns': joinColumns,
       'outputConstraints': outputConstraints,
       'scalarFunctions': scalarFunctions.map((e) => e.value).toList(),
+      if (additionalAnalyses != null)
+        'additionalAnalyses': additionalAnalyses.value,
       if (allowedJoinOperators != null)
         'allowedJoinOperators':
             allowedJoinOperators.map((e) => e.value).toList(),
@@ -2814,6 +3508,10 @@ class AnalysisRuleCustom {
   /// rule.
   final List<String> allowedAnalyses;
 
+  /// An indicator as to whether additional analyses (such as Clean Rooms ML) can
+  /// be applied to the output of the direct query.
+  final AdditionalAnalyses? additionalAnalyses;
+
   /// The IDs of the Amazon Web Services accounts that are allowed to query by the
   /// custom analysis rule. Required when <code>allowedAnalyses</code> is
   /// <code>ANY_QUERY</code>.
@@ -2822,10 +3520,15 @@ class AnalysisRuleCustom {
   /// The differential privacy configuration.
   final DifferentialPrivacyConfiguration? differentialPrivacy;
 
+  /// A list of columns that aren't allowed to be shown in the query output.
+  final List<String>? disallowedOutputColumns;
+
   AnalysisRuleCustom({
     required this.allowedAnalyses,
+    this.additionalAnalyses,
     this.allowedAnalysisProviders,
     this.differentialPrivacy,
+    this.disallowedOutputColumns,
   });
 
   factory AnalysisRuleCustom.fromJson(Map<String, dynamic> json) {
@@ -2834,6 +3537,8 @@ class AnalysisRuleCustom {
           .nonNulls
           .map((e) => e as String)
           .toList(),
+      additionalAnalyses: (json['additionalAnalyses'] as String?)
+          ?.let(AdditionalAnalyses.fromString),
       allowedAnalysisProviders: (json['allowedAnalysisProviders'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2842,19 +3547,77 @@ class AnalysisRuleCustom {
           ? DifferentialPrivacyConfiguration.fromJson(
               json['differentialPrivacy'] as Map<String, dynamic>)
           : null,
+      disallowedOutputColumns: (json['disallowedOutputColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final allowedAnalyses = this.allowedAnalyses;
+    final additionalAnalyses = this.additionalAnalyses;
     final allowedAnalysisProviders = this.allowedAnalysisProviders;
     final differentialPrivacy = this.differentialPrivacy;
+    final disallowedOutputColumns = this.disallowedOutputColumns;
     return {
       'allowedAnalyses': allowedAnalyses,
+      if (additionalAnalyses != null)
+        'additionalAnalyses': additionalAnalyses.value,
       if (allowedAnalysisProviders != null)
         'allowedAnalysisProviders': allowedAnalysisProviders,
       if (differentialPrivacy != null)
         'differentialPrivacy': differentialPrivacy,
+      if (disallowedOutputColumns != null)
+        'disallowedOutputColumns': disallowedOutputColumns,
+    };
+  }
+}
+
+/// Defines details for the analysis rule ID mapping table.
+class AnalysisRuleIdMappingTable {
+  /// The columns that query runners are allowed to use in an INNER JOIN
+  /// statement.
+  final List<String> joinColumns;
+
+  /// The query constraints of the analysis rule ID mapping table.
+  final List<QueryConstraint> queryConstraints;
+
+  /// The columns that query runners are allowed to select, group by, or filter
+  /// by.
+  final List<String>? dimensionColumns;
+
+  AnalysisRuleIdMappingTable({
+    required this.joinColumns,
+    required this.queryConstraints,
+    this.dimensionColumns,
+  });
+
+  factory AnalysisRuleIdMappingTable.fromJson(Map<String, dynamic> json) {
+    return AnalysisRuleIdMappingTable(
+      joinColumns: (json['joinColumns'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      queryConstraints: (json['queryConstraints'] as List)
+          .nonNulls
+          .map((e) => QueryConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dimensionColumns: (json['dimensionColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final joinColumns = this.joinColumns;
+    final queryConstraints = this.queryConstraints;
+    final dimensionColumns = this.dimensionColumns;
+    return {
+      'joinColumns': joinColumns,
+      'queryConstraints': queryConstraints,
+      if (dimensionColumns != null) 'dimensionColumns': dimensionColumns,
     };
   }
 }
@@ -2868,6 +3631,10 @@ class AnalysisRuleList {
   /// Columns that can be listed in the output.
   final List<String> listColumns;
 
+  /// An indicator as to whether additional analyses (such as Clean Rooms ML) can
+  /// be applied to the output of the direct query.
+  final AdditionalAnalyses? additionalAnalyses;
+
   /// The logical operators (if any) that are to be used in an INNER JOIN match
   /// condition. Default is <code>AND</code>.
   final List<JoinOperator>? allowedJoinOperators;
@@ -2875,6 +3642,7 @@ class AnalysisRuleList {
   AnalysisRuleList({
     required this.joinColumns,
     required this.listColumns,
+    this.additionalAnalyses,
     this.allowedJoinOperators,
   });
 
@@ -2888,6 +3656,8 @@ class AnalysisRuleList {
           .nonNulls
           .map((e) => e as String)
           .toList(),
+      additionalAnalyses: (json['additionalAnalyses'] as String?)
+          ?.let(AdditionalAnalyses.fromString),
       allowedJoinOperators: (json['allowedJoinOperators'] as List?)
           ?.nonNulls
           .map((e) => JoinOperator.fromString((e as String)))
@@ -2898,10 +3668,13 @@ class AnalysisRuleList {
   Map<String, dynamic> toJson() {
     final joinColumns = this.joinColumns;
     final listColumns = this.listColumns;
+    final additionalAnalyses = this.additionalAnalyses;
     final allowedJoinOperators = this.allowedJoinOperators;
     return {
       'joinColumns': joinColumns,
       'listColumns': listColumns,
+      if (additionalAnalyses != null)
+        'additionalAnalyses': additionalAnalyses.value,
       if (allowedJoinOperators != null)
         'allowedJoinOperators':
             allowedJoinOperators.map((e) => e.value).toList(),
@@ -2943,12 +3716,16 @@ class AnalysisRulePolicyV1 {
   /// Analysis rule type that enables custom SQL queries on a configured table.
   final AnalysisRuleCustom? custom;
 
+  /// The ID mapping table.
+  final AnalysisRuleIdMappingTable? idMappingTable;
+
   /// Analysis rule type that enables only list queries on a configured table.
   final AnalysisRuleList? list;
 
   AnalysisRulePolicyV1({
     this.aggregation,
     this.custom,
+    this.idMappingTable,
     this.list,
   });
 
@@ -2961,6 +3738,10 @@ class AnalysisRulePolicyV1 {
       custom: json['custom'] != null
           ? AnalysisRuleCustom.fromJson(json['custom'] as Map<String, dynamic>)
           : null,
+      idMappingTable: json['idMappingTable'] != null
+          ? AnalysisRuleIdMappingTable.fromJson(
+              json['idMappingTable'] as Map<String, dynamic>)
+          : null,
       list: json['list'] != null
           ? AnalysisRuleList.fromJson(json['list'] as Map<String, dynamic>)
           : null,
@@ -2970,10 +3751,12 @@ class AnalysisRulePolicyV1 {
   Map<String, dynamic> toJson() {
     final aggregation = this.aggregation;
     final custom = this.custom;
+    final idMappingTable = this.idMappingTable;
     final list = this.list;
     return {
       if (aggregation != null) 'aggregation': aggregation,
       if (custom != null) 'custom': custom,
+      if (idMappingTable != null) 'idMappingTable': idMappingTable,
       if (list != null) 'list': list,
     };
   }
@@ -2983,6 +3766,7 @@ enum AnalysisRuleType {
   aggregation('AGGREGATION'),
   list('LIST'),
   custom('CUSTOM'),
+  idMappingTable('ID_MAPPING_TABLE'),
   ;
 
   final String value;
@@ -3366,6 +4150,21 @@ enum AnalysisTemplateValidationType {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum AnalysisTemplateValidationType'));
+}
+
+enum AnalysisType {
+  directAnalysis('DIRECT_ANALYSIS'),
+  additionalAnalysis('ADDITIONAL_ANALYSIS'),
+  ;
+
+  final String value;
+
+  const AnalysisType(this.value);
+
+  static AnalysisType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum AnalysisType'));
 }
 
 /// Details of errors thrown by the call to retrieve multiple analysis templates
@@ -4098,6 +4897,223 @@ class CollaborationConfiguredAudienceModelAssociationSummary {
   }
 }
 
+/// Defines details for the collaboration ID namespace association.
+class CollaborationIdNamespaceAssociation {
+  /// The Amazon Resource Name (ARN) of the collaboration ID namespace
+  /// association.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains the
+  /// collaboration ID namespace association.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains the collaboration
+  /// ID namespace association.
+  final String collaborationId;
+
+  /// The time at which the collaboration ID namespace association was created.
+  final DateTime createTime;
+
+  /// The unique identifier of the Amazon Web Services account that created the
+  /// collaboration ID namespace association.
+  final String creatorAccountId;
+
+  /// The unique identifier of the collaboration ID namespace association.
+  final String id;
+
+  /// The input reference configuration that's necessary to create the
+  /// collaboration ID namespace association.
+  final IdNamespaceAssociationInputReferenceConfig inputReferenceConfig;
+
+  /// The input reference properties that are needed to create the collaboration
+  /// ID namespace association.
+  final IdNamespaceAssociationInputReferenceProperties inputReferenceProperties;
+
+  /// The name of the collaboration ID namespace association.
+  final String name;
+
+  /// The most recent time at which the collaboration ID namespace was updated.
+  final DateTime updateTime;
+
+  /// The description of the collaboration ID namespace association.
+  final String? description;
+  final IdMappingConfig? idMappingConfig;
+
+  CollaborationIdNamespaceAssociation({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.creatorAccountId,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.inputReferenceProperties,
+    required this.name,
+    required this.updateTime,
+    this.description,
+    this.idMappingConfig,
+  });
+
+  factory CollaborationIdNamespaceAssociation.fromJson(
+      Map<String, dynamic> json) {
+    return CollaborationIdNamespaceAssociation(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      creatorAccountId: json['creatorAccountId'] as String,
+      id: json['id'] as String,
+      inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      inputReferenceProperties:
+          IdNamespaceAssociationInputReferenceProperties.fromJson(
+              json['inputReferenceProperties'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+      idMappingConfig: json['idMappingConfig'] != null
+          ? IdMappingConfig.fromJson(
+              json['idMappingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final creatorAccountId = this.creatorAccountId;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final inputReferenceProperties = this.inputReferenceProperties;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    final idMappingConfig = this.idMappingConfig;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'creatorAccountId': creatorAccountId,
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'inputReferenceProperties': inputReferenceProperties,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+      if (idMappingConfig != null) 'idMappingConfig': idMappingConfig,
+    };
+  }
+}
+
+/// Provides summary information about the collaboration ID namespace
+/// association.
+class CollaborationIdNamespaceAssociationSummary {
+  /// The Amazon Resource Name (ARN) of the collaboration ID namespace
+  /// association.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains this
+  /// collaboration ID namespace association.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains this collaboration
+  /// ID namespace association.
+  final String collaborationId;
+
+  /// The time at which the collaboration ID namespace association was created.
+  final DateTime createTime;
+
+  /// The Amazon Web Services account that created this collaboration ID namespace
+  /// association.
+  final String creatorAccountId;
+
+  /// The unique identifier of the collaboration ID namespace association.
+  final String id;
+
+  /// The input reference configuration that's used to create the collaboration ID
+  /// namespace association.
+  final IdNamespaceAssociationInputReferenceConfig inputReferenceConfig;
+
+  /// The input reference properties that are used to create the collaboration ID
+  /// namespace association.
+  final IdNamespaceAssociationInputReferencePropertiesSummary
+      inputReferenceProperties;
+
+  /// The name of the collaboration ID namespace association.
+  final String name;
+
+  /// The most recent time at which the collaboration ID namespace association was
+  /// updated.
+  final DateTime updateTime;
+
+  /// The description of the collaboration ID namepsace association.
+  final String? description;
+
+  CollaborationIdNamespaceAssociationSummary({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.creatorAccountId,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.inputReferenceProperties,
+    required this.name,
+    required this.updateTime,
+    this.description,
+  });
+
+  factory CollaborationIdNamespaceAssociationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return CollaborationIdNamespaceAssociationSummary(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      creatorAccountId: json['creatorAccountId'] as String,
+      id: json['id'] as String,
+      inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      inputReferenceProperties:
+          IdNamespaceAssociationInputReferencePropertiesSummary.fromJson(
+              json['inputReferenceProperties'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final creatorAccountId = this.creatorAccountId;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final inputReferenceProperties = this.inputReferenceProperties;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'creatorAccountId': creatorAccountId,
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'inputReferenceProperties': inputReferenceProperties,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 /// A summary of the collaboration privacy budgets. This summary includes the
 /// collaboration information, creation information, epsilon provided, and
 /// utility in terms of aggregations.
@@ -4500,6 +5516,37 @@ class Column {
     return {
       'name': name,
       'type': type,
+    };
+  }
+}
+
+/// The configuration details.
+class ConfigurationDetails {
+  /// The direct analysis configuration details.
+  final DirectAnalysisConfigurationDetails? directAnalysisConfigurationDetails;
+
+  ConfigurationDetails({
+    this.directAnalysisConfigurationDetails,
+  });
+
+  factory ConfigurationDetails.fromJson(Map<String, dynamic> json) {
+    return ConfigurationDetails(
+      directAnalysisConfigurationDetails:
+          json['directAnalysisConfigurationDetails'] != null
+              ? DirectAnalysisConfigurationDetails.fromJson(
+                  json['directAnalysisConfigurationDetails']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directAnalysisConfigurationDetails =
+        this.directAnalysisConfigurationDetails;
+    return {
+      if (directAnalysisConfigurationDetails != null)
+        'directAnalysisConfigurationDetails':
+            directAnalysisConfigurationDetails,
     };
   }
 }
@@ -4997,6 +6044,9 @@ class ConfiguredTableAssociation {
   /// The time the configured table association was last updated.
   final DateTime updateTime;
 
+  /// The analysis rule types for the configured table association.
+  final List<ConfiguredTableAssociationAnalysisRuleType>? analysisRuleTypes;
+
   /// A description of the configured table association.
   final String? description;
 
@@ -5011,6 +6061,7 @@ class ConfiguredTableAssociation {
     required this.name,
     required this.roleArn,
     required this.updateTime,
+    this.analysisRuleTypes,
     this.description,
   });
 
@@ -5026,6 +6077,11 @@ class ConfiguredTableAssociation {
       name: json['name'] as String,
       roleArn: json['roleArn'] as String,
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      analysisRuleTypes: (json['analysisRuleTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ConfiguredTableAssociationAnalysisRuleType.fromString(
+              (e as String)))
+          .toList(),
       description: json['description'] as String?,
     );
   }
@@ -5041,6 +6097,7 @@ class ConfiguredTableAssociation {
     final name = this.name;
     final roleArn = this.roleArn;
     final updateTime = this.updateTime;
+    final analysisRuleTypes = this.analysisRuleTypes;
     final description = this.description;
     return {
       'arn': arn,
@@ -5053,9 +6110,310 @@ class ConfiguredTableAssociation {
       'name': name,
       'roleArn': roleArn,
       'updateTime': unixTimestampToJson(updateTime),
+      if (analysisRuleTypes != null)
+        'analysisRuleTypes': analysisRuleTypes.map((e) => e.value).toList(),
       if (description != null) 'description': description,
     };
   }
+}
+
+/// An analysis rule for a configured table association. This analysis rule
+/// specifies how data from the table can be used within its associated
+/// collaboration. In the console, the
+/// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
+/// <i>collaboration analysis rule</i>.
+class ConfiguredTableAssociationAnalysisRule {
+  /// The Amazon Resource Name (ARN) of the configured table association.
+  final String configuredTableAssociationArn;
+
+  /// The unique identifier for the configured table association.
+  final String configuredTableAssociationId;
+
+  /// The creation time of the configured table association analysis rule.
+  final DateTime createTime;
+
+  /// The membership identifier for the configured table association analysis
+  /// rule.
+  final String membershipIdentifier;
+
+  /// The policy of the configured table association analysis rule.
+  final ConfiguredTableAssociationAnalysisRulePolicy policy;
+
+  /// The type of the configured table association analysis rule.
+  final ConfiguredTableAssociationAnalysisRuleType type;
+
+  /// The update time of the configured table association analysis rule.
+  final DateTime updateTime;
+
+  ConfiguredTableAssociationAnalysisRule({
+    required this.configuredTableAssociationArn,
+    required this.configuredTableAssociationId,
+    required this.createTime,
+    required this.membershipIdentifier,
+    required this.policy,
+    required this.type,
+    required this.updateTime,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRule.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRule(
+      configuredTableAssociationArn:
+          json['configuredTableAssociationArn'] as String,
+      configuredTableAssociationId:
+          json['configuredTableAssociationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      membershipIdentifier: json['membershipIdentifier'] as String,
+      policy: ConfiguredTableAssociationAnalysisRulePolicy.fromJson(
+          json['policy'] as Map<String, dynamic>),
+      type: ConfiguredTableAssociationAnalysisRuleType.fromString(
+          (json['type'] as String)),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuredTableAssociationArn = this.configuredTableAssociationArn;
+    final configuredTableAssociationId = this.configuredTableAssociationId;
+    final createTime = this.createTime;
+    final membershipIdentifier = this.membershipIdentifier;
+    final policy = this.policy;
+    final type = this.type;
+    final updateTime = this.updateTime;
+    return {
+      'configuredTableAssociationArn': configuredTableAssociationArn,
+      'configuredTableAssociationId': configuredTableAssociationId,
+      'createTime': unixTimestampToJson(createTime),
+      'membershipIdentifier': membershipIdentifier,
+      'policy': policy,
+      'type': type.value,
+      'updateTime': unixTimestampToJson(updateTime),
+    };
+  }
+}
+
+/// The configured table association analysis rule applied to a configured table
+/// with the aggregation analysis rule.
+class ConfiguredTableAssociationAnalysisRuleAggregation {
+  /// The list of resources or wildcards (ARNs) that are allowed to perform
+  /// additional analysis on query output.
+  ///
+  /// The <code>allowedAdditionalAnalyses</code> parameter is currently supported
+  /// for the list analysis rule (<code>AnalysisRuleList</code>) and the custom
+  /// analysis rule (<code>AnalysisRuleCustom</code>).
+  final List<String>? allowedAdditionalAnalyses;
+
+  /// The list of collaboration members who are allowed to receive results of
+  /// queries run with this configured table.
+  final List<String>? allowedResultReceivers;
+
+  ConfiguredTableAssociationAnalysisRuleAggregation({
+    this.allowedAdditionalAnalyses,
+    this.allowedResultReceivers,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRuleAggregation.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRuleAggregation(
+      allowedAdditionalAnalyses: (json['allowedAdditionalAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedResultReceivers: (json['allowedResultReceivers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
+    final allowedResultReceivers = this.allowedResultReceivers;
+    return {
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
+    };
+  }
+}
+
+/// The configured table association analysis rule applied to a configured table
+/// with the custom analysis rule.
+class ConfiguredTableAssociationAnalysisRuleCustom {
+  /// The list of resources or wildcards (ARNs) that are allowed to perform
+  /// additional analysis on query output.
+  final List<String>? allowedAdditionalAnalyses;
+
+  /// The list of collaboration members who are allowed to receive results of
+  /// queries run with this configured table.
+  final List<String>? allowedResultReceivers;
+
+  ConfiguredTableAssociationAnalysisRuleCustom({
+    this.allowedAdditionalAnalyses,
+    this.allowedResultReceivers,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRuleCustom.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRuleCustom(
+      allowedAdditionalAnalyses: (json['allowedAdditionalAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedResultReceivers: (json['allowedResultReceivers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
+    final allowedResultReceivers = this.allowedResultReceivers;
+    return {
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
+    };
+  }
+}
+
+/// The configured table association analysis rule applied to a configured table
+/// with the list analysis rule.
+class ConfiguredTableAssociationAnalysisRuleList {
+  /// The list of resources or wildcards (ARNs) that are allowed to perform
+  /// additional analysis on query output.
+  final List<String>? allowedAdditionalAnalyses;
+
+  /// The list of collaboration members who are allowed to receive results of
+  /// queries run with this configured table.
+  final List<String>? allowedResultReceivers;
+
+  ConfiguredTableAssociationAnalysisRuleList({
+    this.allowedAdditionalAnalyses,
+    this.allowedResultReceivers,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRuleList.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRuleList(
+      allowedAdditionalAnalyses: (json['allowedAdditionalAnalyses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedResultReceivers: (json['allowedResultReceivers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedAdditionalAnalyses = this.allowedAdditionalAnalyses;
+    final allowedResultReceivers = this.allowedResultReceivers;
+    return {
+      if (allowedAdditionalAnalyses != null)
+        'allowedAdditionalAnalyses': allowedAdditionalAnalyses,
+      if (allowedResultReceivers != null)
+        'allowedResultReceivers': allowedResultReceivers,
+    };
+  }
+}
+
+/// Controls on the query specifications that can be run on an associated
+/// configured table.
+class ConfiguredTableAssociationAnalysisRulePolicy {
+  /// The policy for the configured table association analysis rule.
+  final ConfiguredTableAssociationAnalysisRulePolicyV1? v1;
+
+  ConfiguredTableAssociationAnalysisRulePolicy({
+    this.v1,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRulePolicy.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRulePolicy(
+      v1: json['v1'] != null
+          ? ConfiguredTableAssociationAnalysisRulePolicyV1.fromJson(
+              json['v1'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final v1 = this.v1;
+    return {
+      if (v1 != null) 'v1': v1,
+    };
+  }
+}
+
+/// Controls on the query specifications that can be run on an associated
+/// configured table.
+class ConfiguredTableAssociationAnalysisRulePolicyV1 {
+  /// Analysis rule type that enables only aggregation queries on a configured
+  /// table.
+  final ConfiguredTableAssociationAnalysisRuleAggregation? aggregation;
+
+  /// Analysis rule type that enables the table owner to approve custom SQL
+  /// queries on their configured tables. It supports differential privacy.
+  final ConfiguredTableAssociationAnalysisRuleCustom? custom;
+
+  /// Analysis rule type that enables only list queries on a configured table.
+  final ConfiguredTableAssociationAnalysisRuleList? list;
+
+  ConfiguredTableAssociationAnalysisRulePolicyV1({
+    this.aggregation,
+    this.custom,
+    this.list,
+  });
+
+  factory ConfiguredTableAssociationAnalysisRulePolicyV1.fromJson(
+      Map<String, dynamic> json) {
+    return ConfiguredTableAssociationAnalysisRulePolicyV1(
+      aggregation: json['aggregation'] != null
+          ? ConfiguredTableAssociationAnalysisRuleAggregation.fromJson(
+              json['aggregation'] as Map<String, dynamic>)
+          : null,
+      custom: json['custom'] != null
+          ? ConfiguredTableAssociationAnalysisRuleCustom.fromJson(
+              json['custom'] as Map<String, dynamic>)
+          : null,
+      list: json['list'] != null
+          ? ConfiguredTableAssociationAnalysisRuleList.fromJson(
+              json['list'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregation = this.aggregation;
+    final custom = this.custom;
+    final list = this.list;
+    return {
+      if (aggregation != null) 'aggregation': aggregation,
+      if (custom != null) 'custom': custom,
+      if (list != null) 'list': list,
+    };
+  }
+}
+
+enum ConfiguredTableAssociationAnalysisRuleType {
+  aggregation('AGGREGATION'),
+  list('LIST'),
+  custom('CUSTOM'),
+  ;
+
+  final String value;
+
+  const ConfiguredTableAssociationAnalysisRuleType(this.value);
+
+  static ConfiguredTableAssociationAnalysisRuleType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ConfiguredTableAssociationAnalysisRuleType'));
 }
 
 /// The configured table association summary for the objects listed by the
@@ -5230,7 +6588,7 @@ class CreateAnalysisTemplateOutput {
 }
 
 class CreateCollaborationOutput {
-  /// The entire created collaboration object.
+  /// The collaboration.
   final Collaboration collaboration;
 
   CreateCollaborationOutput({
@@ -5280,7 +6638,7 @@ class CreateConfiguredAudienceModelAssociationOutput {
 }
 
 class CreateConfiguredTableAnalysisRuleOutput {
-  /// The entire created analysis rule.
+  /// The analysis rule that was created for the configured table.
   final ConfiguredTableAnalysisRule analysisRule;
 
   CreateConfiguredTableAnalysisRuleOutput({
@@ -5303,8 +6661,34 @@ class CreateConfiguredTableAnalysisRuleOutput {
   }
 }
 
+class CreateConfiguredTableAssociationAnalysisRuleOutput {
+  /// The analysis rule for the conﬁgured table association. In the console, the
+  /// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
+  /// <i>collaboration analysis rule</i>.
+  final ConfiguredTableAssociationAnalysisRule analysisRule;
+
+  CreateConfiguredTableAssociationAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory CreateConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateConfiguredTableAssociationAnalysisRuleOutput(
+      analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
+          json['analysisRule'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
 class CreateConfiguredTableAssociationOutput {
-  /// The entire configured table association object.
+  /// The configured table association.
   final ConfiguredTableAssociation configuredTableAssociation;
 
   CreateConfiguredTableAssociationOutput({
@@ -5346,6 +6730,53 @@ class CreateConfiguredTableOutput {
     final configuredTable = this.configuredTable;
     return {
       'configuredTable': configuredTable,
+    };
+  }
+}
+
+class CreateIdMappingTableOutput {
+  /// The ID mapping table that was created.
+  final IdMappingTable idMappingTable;
+
+  CreateIdMappingTableOutput({
+    required this.idMappingTable,
+  });
+
+  factory CreateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
+    return CreateIdMappingTableOutput(
+      idMappingTable: IdMappingTable.fromJson(
+          json['idMappingTable'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTable = this.idMappingTable;
+    return {
+      'idMappingTable': idMappingTable,
+    };
+  }
+}
+
+class CreateIdNamespaceAssociationOutput {
+  /// The ID namespace association that was created.
+  final IdNamespaceAssociation idNamespaceAssociation;
+
+  CreateIdNamespaceAssociationOutput({
+    required this.idNamespaceAssociation,
+  });
+
+  factory CreateIdNamespaceAssociationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return CreateIdNamespaceAssociationOutput(
+      idNamespaceAssociation: IdNamespaceAssociation.fromJson(
+          json['idNamespaceAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceAssociation = this.idNamespaceAssociation;
+    return {
+      'idNamespaceAssociation': idNamespaceAssociation,
     };
   }
 }
@@ -5502,6 +6933,19 @@ class DeleteConfiguredTableAnalysisRuleOutput {
   }
 }
 
+class DeleteConfiguredTableAssociationAnalysisRuleOutput {
+  DeleteConfiguredTableAssociationAnalysisRuleOutput();
+
+  factory DeleteConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteConfiguredTableAssociationAnalysisRuleOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteConfiguredTableAssociationOutput {
   DeleteConfiguredTableAssociationOutput();
 
@@ -5521,6 +6965,30 @@ class DeleteConfiguredTableOutput {
 
   factory DeleteConfiguredTableOutput.fromJson(Map<String, dynamic> _) {
     return DeleteConfiguredTableOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteIdMappingTableOutput {
+  DeleteIdMappingTableOutput();
+
+  factory DeleteIdMappingTableOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteIdMappingTableOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteIdNamespaceAssociationOutput {
+  DeleteIdNamespaceAssociationOutput();
+
+  factory DeleteIdNamespaceAssociationOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteIdNamespaceAssociationOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -5973,6 +7441,46 @@ class DifferentialPrivacyTemplateUpdateParameters {
   }
 }
 
+/// The direct analysis configuration details.
+class DirectAnalysisConfigurationDetails {
+  /// The account IDs for the member who received the results of a protected
+  /// query.
+  final List<String>? receiverAccountIds;
+
+  DirectAnalysisConfigurationDetails({
+    this.receiverAccountIds,
+  });
+
+  factory DirectAnalysisConfigurationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return DirectAnalysisConfigurationDetails(
+      receiverAccountIds: (json['receiverAccountIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final receiverAccountIds = this.receiverAccountIds;
+    return {
+      if (receiverAccountIds != null) 'receiverAccountIds': receiverAccountIds,
+    };
+  }
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum FilterableMemberStatus {
   invited('INVITED'),
   active('ACTIVE'),
@@ -6060,6 +7568,34 @@ class GetCollaborationConfiguredAudienceModelAssociationOutput {
     return {
       'collaborationConfiguredAudienceModelAssociation':
           collaborationConfiguredAudienceModelAssociation,
+    };
+  }
+}
+
+class GetCollaborationIdNamespaceAssociationOutput {
+  /// The ID namespace association that you requested.
+  final CollaborationIdNamespaceAssociation collaborationIdNamespaceAssociation;
+
+  GetCollaborationIdNamespaceAssociationOutput({
+    required this.collaborationIdNamespaceAssociation,
+  });
+
+  factory GetCollaborationIdNamespaceAssociationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetCollaborationIdNamespaceAssociationOutput(
+      collaborationIdNamespaceAssociation:
+          CollaborationIdNamespaceAssociation.fromJson(
+              json['collaborationIdNamespaceAssociation']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collaborationIdNamespaceAssociation =
+        this.collaborationIdNamespaceAssociation;
+    return {
+      'collaborationIdNamespaceAssociation':
+          collaborationIdNamespaceAssociation,
     };
   }
 }
@@ -6166,6 +7702,32 @@ class GetConfiguredTableAnalysisRuleOutput {
   }
 }
 
+class GetConfiguredTableAssociationAnalysisRuleOutput {
+  /// The analysis rule for the conﬁgured table association. In the console, the
+  /// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
+  /// <i>collaboration analysis rule</i>.
+  final ConfiguredTableAssociationAnalysisRule analysisRule;
+
+  GetConfiguredTableAssociationAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory GetConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetConfiguredTableAssociationAnalysisRuleOutput(
+      analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
+          json['analysisRule'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
 class GetConfiguredTableAssociationOutput {
   /// The entire configured table association object.
   final ConfiguredTableAssociation configuredTableAssociation;
@@ -6209,6 +7771,52 @@ class GetConfiguredTableOutput {
     final configuredTable = this.configuredTable;
     return {
       'configuredTable': configuredTable,
+    };
+  }
+}
+
+class GetIdMappingTableOutput {
+  /// The ID mapping table that you requested.
+  final IdMappingTable idMappingTable;
+
+  GetIdMappingTableOutput({
+    required this.idMappingTable,
+  });
+
+  factory GetIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
+    return GetIdMappingTableOutput(
+      idMappingTable: IdMappingTable.fromJson(
+          json['idMappingTable'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTable = this.idMappingTable;
+    return {
+      'idMappingTable': idMappingTable,
+    };
+  }
+}
+
+class GetIdNamespaceAssociationOutput {
+  /// The ID namespace association that you requested.
+  final IdNamespaceAssociation idNamespaceAssociation;
+
+  GetIdNamespaceAssociationOutput({
+    required this.idNamespaceAssociation,
+  });
+
+  factory GetIdNamespaceAssociationOutput.fromJson(Map<String, dynamic> json) {
+    return GetIdNamespaceAssociationOutput(
+      idNamespaceAssociation: IdNamespaceAssociation.fromJson(
+          json['idNamespaceAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceAssociation = this.idNamespaceAssociation;
+    return {
+      'idNamespaceAssociation': idNamespaceAssociation,
     };
   }
 }
@@ -6357,6 +7965,707 @@ class GlueTableReference {
   }
 }
 
+/// The configuration settings for the ID mapping table.
+class IdMappingConfig {
+  /// An indicator as to whether you can use your column as a dimension column in
+  /// the ID mapping table (<code>TRUE</code>) or not (<code>FALSE</code>).
+  ///
+  /// Default is <code>FALSE</code>.
+  final bool allowUseAsDimensionColumn;
+
+  IdMappingConfig({
+    required this.allowUseAsDimensionColumn,
+  });
+
+  factory IdMappingConfig.fromJson(Map<String, dynamic> json) {
+    return IdMappingConfig(
+      allowUseAsDimensionColumn: json['allowUseAsDimensionColumn'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowUseAsDimensionColumn = this.allowUseAsDimensionColumn;
+    return {
+      'allowUseAsDimensionColumn': allowUseAsDimensionColumn,
+    };
+  }
+}
+
+/// Describes information about the ID mapping table.
+class IdMappingTable {
+  /// The Amazon Resource Name (ARN) of the ID mapping table.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains this ID
+  /// mapping table.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains this ID mapping
+  /// table.
+  final String collaborationId;
+
+  /// The time at which the ID mapping table was created.
+  final DateTime createTime;
+
+  /// The unique identifier of the ID mapping table.
+  final String id;
+
+  /// The input reference configuration for the ID mapping table.
+  final IdMappingTableInputReferenceConfig inputReferenceConfig;
+
+  /// The input reference properties for the ID mapping table.
+  final IdMappingTableInputReferenceProperties inputReferenceProperties;
+
+  /// The Amazon Resource Name (ARN) of the membership resource for the ID mapping
+  /// table.
+  final String membershipArn;
+
+  /// The unique identifier of the membership resource for the ID mapping table.
+  final String membershipId;
+
+  /// The name of the ID mapping table.
+  final String name;
+
+  /// The most recent time at which the ID mapping table was updated.
+  final DateTime updateTime;
+
+  /// The description of the ID mapping table.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+  final String? kmsKeyArn;
+
+  IdMappingTable({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.inputReferenceProperties,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.updateTime,
+    this.description,
+    this.kmsKeyArn,
+  });
+
+  factory IdMappingTable.fromJson(Map<String, dynamic> json) {
+    return IdMappingTable(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      id: json['id'] as String,
+      inputReferenceConfig: IdMappingTableInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      inputReferenceProperties: IdMappingTableInputReferenceProperties.fromJson(
+          json['inputReferenceProperties'] as Map<String, dynamic>),
+      membershipArn: json['membershipArn'] as String,
+      membershipId: json['membershipId'] as String,
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final inputReferenceProperties = this.inputReferenceProperties;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'inputReferenceProperties': inputReferenceProperties,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// Provides the input reference configuration for the ID mapping table.
+class IdMappingTableInputReferenceConfig {
+  /// The Amazon Resource Name (ARN) of the referenced resource in Entity
+  /// Resolution. Valid values are ID mapping workflow ARNs.
+  final String inputReferenceArn;
+
+  /// When <code>TRUE</code>, Clean Rooms manages permissions for the ID mapping
+  /// table resource.
+  ///
+  /// When <code>FALSE</code>, the resource owner manages permissions for the ID
+  /// mapping table resource.
+  final bool manageResourcePolicies;
+
+  IdMappingTableInputReferenceConfig({
+    required this.inputReferenceArn,
+    required this.manageResourcePolicies,
+  });
+
+  factory IdMappingTableInputReferenceConfig.fromJson(
+      Map<String, dynamic> json) {
+    return IdMappingTableInputReferenceConfig(
+      inputReferenceArn: json['inputReferenceArn'] as String,
+      manageResourcePolicies: json['manageResourcePolicies'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputReferenceArn = this.inputReferenceArn;
+    final manageResourcePolicies = this.manageResourcePolicies;
+    return {
+      'inputReferenceArn': inputReferenceArn,
+      'manageResourcePolicies': manageResourcePolicies,
+    };
+  }
+}
+
+/// The input reference properties for the ID mapping table.
+class IdMappingTableInputReferenceProperties {
+  /// The input source of the ID mapping table.
+  final List<IdMappingTableInputSource> idMappingTableInputSource;
+
+  IdMappingTableInputReferenceProperties({
+    required this.idMappingTableInputSource,
+  });
+
+  factory IdMappingTableInputReferenceProperties.fromJson(
+      Map<String, dynamic> json) {
+    return IdMappingTableInputReferenceProperties(
+      idMappingTableInputSource: (json['idMappingTableInputSource'] as List)
+          .nonNulls
+          .map((e) =>
+              IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTableInputSource = this.idMappingTableInputSource;
+    return {
+      'idMappingTableInputSource': idMappingTableInputSource,
+    };
+  }
+}
+
+/// The input source of the ID mapping table.
+class IdMappingTableInputSource {
+  /// The unique identifier of the ID namespace association.
+  final String idNamespaceAssociationId;
+
+  /// The type of the input source of the ID mapping table.
+  final IdNamespaceType type;
+
+  IdMappingTableInputSource({
+    required this.idNamespaceAssociationId,
+    required this.type,
+  });
+
+  factory IdMappingTableInputSource.fromJson(Map<String, dynamic> json) {
+    return IdMappingTableInputSource(
+      idNamespaceAssociationId: json['idNamespaceAssociationId'] as String,
+      type: IdNamespaceType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceAssociationId = this.idNamespaceAssociationId;
+    final type = this.type;
+    return {
+      'idNamespaceAssociationId': idNamespaceAssociationId,
+      'type': type.value,
+    };
+  }
+}
+
+/// Additional properties that are specific to the type of the associated
+/// schema.
+class IdMappingTableSchemaTypeProperties {
+  /// Defines which ID namespace associations are used to create the ID mapping
+  /// table.
+  final List<IdMappingTableInputSource> idMappingTableInputSource;
+
+  IdMappingTableSchemaTypeProperties({
+    required this.idMappingTableInputSource,
+  });
+
+  factory IdMappingTableSchemaTypeProperties.fromJson(
+      Map<String, dynamic> json) {
+    return IdMappingTableSchemaTypeProperties(
+      idMappingTableInputSource: (json['idMappingTableInputSource'] as List)
+          .nonNulls
+          .map((e) =>
+              IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTableInputSource = this.idMappingTableInputSource;
+    return {
+      'idMappingTableInputSource': idMappingTableInputSource,
+    };
+  }
+}
+
+/// Detailed information about the ID mapping table.
+class IdMappingTableSummary {
+  /// The Amazon Resource Name (ARN) of this ID mapping table.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains this ID
+  /// mapping table.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains this ID mapping
+  /// table.
+  final String collaborationId;
+
+  /// The time at which this ID mapping table was created.
+  final DateTime createTime;
+
+  /// The unique identifier of this ID mapping table.
+  final String id;
+
+  /// The input reference configuration for the ID mapping table.
+  final IdMappingTableInputReferenceConfig inputReferenceConfig;
+
+  /// The Amazon Resource Name (ARN) of the membership resource for this ID
+  /// mapping table.
+  final String membershipArn;
+
+  /// The unique identifier of the membership resource for this ID mapping table.
+  final String membershipId;
+
+  /// The name of this ID mapping table.
+  final String name;
+
+  /// The most recent time at which this ID mapping table was updated.
+  final DateTime updateTime;
+
+  /// The description of this ID mapping table.
+  final String? description;
+
+  IdMappingTableSummary({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.updateTime,
+    this.description,
+  });
+
+  factory IdMappingTableSummary.fromJson(Map<String, dynamic> json) {
+    return IdMappingTableSummary(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      id: json['id'] as String,
+      inputReferenceConfig: IdMappingTableInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      membershipArn: json['membershipArn'] as String,
+      membershipId: json['membershipId'] as String,
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Provides information to create the ID namespace association.
+class IdNamespaceAssociation {
+  /// The Amazon Resource Name (ARN) of the ID namespace association.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains this ID
+  /// namespace association.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains this ID namespace
+  /// association.
+  final String collaborationId;
+
+  /// The time at which the ID namespace association was created.
+  final DateTime createTime;
+
+  /// The unique identifier for this ID namespace association.
+  final String id;
+
+  /// The input reference configuration for the ID namespace association.
+  final IdNamespaceAssociationInputReferenceConfig inputReferenceConfig;
+
+  /// The input reference properties for the ID namespace association.
+  final IdNamespaceAssociationInputReferenceProperties inputReferenceProperties;
+
+  /// The Amazon Resource Name (ARN) of the membership resource for this ID
+  /// namespace association.
+  final String membershipArn;
+
+  /// The unique identifier of the membership resource for this ID namespace
+  /// association.
+  final String membershipId;
+
+  /// The name of this ID namespace association.
+  final String name;
+
+  /// The most recent time at which the ID namespace association was updated.
+  final DateTime updateTime;
+
+  /// The description of the ID namespace association.
+  final String? description;
+
+  /// The configuration settings for the ID mapping table.
+  final IdMappingConfig? idMappingConfig;
+
+  IdNamespaceAssociation({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.inputReferenceProperties,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.updateTime,
+    this.description,
+    this.idMappingConfig,
+  });
+
+  factory IdNamespaceAssociation.fromJson(Map<String, dynamic> json) {
+    return IdNamespaceAssociation(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      id: json['id'] as String,
+      inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      inputReferenceProperties:
+          IdNamespaceAssociationInputReferenceProperties.fromJson(
+              json['inputReferenceProperties'] as Map<String, dynamic>),
+      membershipArn: json['membershipArn'] as String,
+      membershipId: json['membershipId'] as String,
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+      idMappingConfig: json['idMappingConfig'] != null
+          ? IdMappingConfig.fromJson(
+              json['idMappingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final inputReferenceProperties = this.inputReferenceProperties;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    final idMappingConfig = this.idMappingConfig;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'inputReferenceProperties': inputReferenceProperties,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+      if (idMappingConfig != null) 'idMappingConfig': idMappingConfig,
+    };
+  }
+}
+
+/// Provides the information for the ID namespace association input reference
+/// configuration.
+class IdNamespaceAssociationInputReferenceConfig {
+  /// The Amazon Resource Name (ARN) of the Entity Resolution resource that is
+  /// being associated to the collaboration. Valid resource ARNs are from the ID
+  /// namespaces that you own.
+  final String inputReferenceArn;
+
+  /// When <code>TRUE</code>, Clean Rooms manages permissions for the ID namespace
+  /// association resource.
+  ///
+  /// When <code>FALSE</code>, the resource owner manages permissions for the ID
+  /// namespace association resource.
+  final bool manageResourcePolicies;
+
+  IdNamespaceAssociationInputReferenceConfig({
+    required this.inputReferenceArn,
+    required this.manageResourcePolicies,
+  });
+
+  factory IdNamespaceAssociationInputReferenceConfig.fromJson(
+      Map<String, dynamic> json) {
+    return IdNamespaceAssociationInputReferenceConfig(
+      inputReferenceArn: json['inputReferenceArn'] as String,
+      manageResourcePolicies: json['manageResourcePolicies'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputReferenceArn = this.inputReferenceArn;
+    final manageResourcePolicies = this.manageResourcePolicies;
+    return {
+      'inputReferenceArn': inputReferenceArn,
+      'manageResourcePolicies': manageResourcePolicies,
+    };
+  }
+}
+
+/// Provides the information for the ID namespace association input reference
+/// properties.
+class IdNamespaceAssociationInputReferenceProperties {
+  /// Defines how ID mapping workflows are supported for this ID namespace
+  /// association.
+  final List<Document> idMappingWorkflowsSupported;
+
+  /// The ID namespace type for this ID namespace association.
+  final IdNamespaceType idNamespaceType;
+
+  IdNamespaceAssociationInputReferenceProperties({
+    required this.idMappingWorkflowsSupported,
+    required this.idNamespaceType,
+  });
+
+  factory IdNamespaceAssociationInputReferenceProperties.fromJson(
+      Map<String, dynamic> json) {
+    return IdNamespaceAssociationInputReferenceProperties(
+      idMappingWorkflowsSupported: (json['idMappingWorkflowsSupported'] as List)
+          .nonNulls
+          .map((e) => Document.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      idNamespaceType:
+          IdNamespaceType.fromString((json['idNamespaceType'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingWorkflowsSupported = this.idMappingWorkflowsSupported;
+    final idNamespaceType = this.idNamespaceType;
+    return {
+      'idMappingWorkflowsSupported': idMappingWorkflowsSupported,
+      'idNamespaceType': idNamespaceType.value,
+    };
+  }
+}
+
+/// Detailed information about the ID namespace association input reference
+/// properties.
+class IdNamespaceAssociationInputReferencePropertiesSummary {
+  /// The ID namespace type for this ID namespace association.
+  final IdNamespaceType idNamespaceType;
+
+  IdNamespaceAssociationInputReferencePropertiesSummary({
+    required this.idNamespaceType,
+  });
+
+  factory IdNamespaceAssociationInputReferencePropertiesSummary.fromJson(
+      Map<String, dynamic> json) {
+    return IdNamespaceAssociationInputReferencePropertiesSummary(
+      idNamespaceType:
+          IdNamespaceType.fromString((json['idNamespaceType'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceType = this.idNamespaceType;
+    return {
+      'idNamespaceType': idNamespaceType.value,
+    };
+  }
+}
+
+/// Detailed information about the ID namespace association.
+class IdNamespaceAssociationSummary {
+  /// The Amazon Resource Name (ARN) of this ID namespace association.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the collaboration that contains this ID
+  /// namespace association.
+  final String collaborationArn;
+
+  /// The unique identifier of the collaboration that contains this ID namespace
+  /// association.
+  final String collaborationId;
+
+  /// The time at which this ID namespace association was created.
+  final DateTime createTime;
+
+  /// The unique identifier of this ID namespace association.
+  final String id;
+
+  /// The input reference configuration details for this ID namespace association.
+  final IdNamespaceAssociationInputReferenceConfig inputReferenceConfig;
+
+  /// The input reference properties for this ID namespace association.
+  final IdNamespaceAssociationInputReferencePropertiesSummary
+      inputReferenceProperties;
+
+  /// The Amazon Resource Name (ARN) of the membership resource for this ID
+  /// namespace association.
+  final String membershipArn;
+
+  /// The unique identifier of the membership resource for this ID namespace
+  /// association.
+  final String membershipId;
+
+  /// The name of the ID namespace association.
+  final String name;
+
+  /// The most recent time at which this ID namespace association has been
+  /// updated.
+  final DateTime updateTime;
+
+  /// The description of the ID namespace association.
+  final String? description;
+
+  IdNamespaceAssociationSummary({
+    required this.arn,
+    required this.collaborationArn,
+    required this.collaborationId,
+    required this.createTime,
+    required this.id,
+    required this.inputReferenceConfig,
+    required this.inputReferenceProperties,
+    required this.membershipArn,
+    required this.membershipId,
+    required this.name,
+    required this.updateTime,
+    this.description,
+  });
+
+  factory IdNamespaceAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return IdNamespaceAssociationSummary(
+      arn: json['arn'] as String,
+      collaborationArn: json['collaborationArn'] as String,
+      collaborationId: json['collaborationId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      id: json['id'] as String,
+      inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
+          json['inputReferenceConfig'] as Map<String, dynamic>),
+      inputReferenceProperties:
+          IdNamespaceAssociationInputReferencePropertiesSummary.fromJson(
+              json['inputReferenceProperties'] as Map<String, dynamic>),
+      membershipArn: json['membershipArn'] as String,
+      membershipId: json['membershipId'] as String,
+      name: json['name'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collaborationArn = this.collaborationArn;
+    final collaborationId = this.collaborationId;
+    final createTime = this.createTime;
+    final id = this.id;
+    final inputReferenceConfig = this.inputReferenceConfig;
+    final inputReferenceProperties = this.inputReferenceProperties;
+    final membershipArn = this.membershipArn;
+    final membershipId = this.membershipId;
+    final name = this.name;
+    final updateTime = this.updateTime;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'collaborationArn': collaborationArn,
+      'collaborationId': collaborationId,
+      'createTime': unixTimestampToJson(createTime),
+      'id': id,
+      'inputReferenceConfig': inputReferenceConfig,
+      'inputReferenceProperties': inputReferenceProperties,
+      'membershipArn': membershipArn,
+      'membershipId': membershipId,
+      'name': name,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+enum IdNamespaceType {
+  source('SOURCE'),
+  target('TARGET'),
+  ;
+
+  final String value;
+
+  const IdNamespaceType(this.value);
+
+  static IdNamespaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdNamespaceType'));
+}
+
 enum JoinOperator {
   or('OR'),
   and('AND'),
@@ -6495,6 +8804,45 @@ class ListCollaborationConfiguredAudienceModelAssociationsOutput {
     return {
       'collaborationConfiguredAudienceModelAssociationSummaries':
           collaborationConfiguredAudienceModelAssociationSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListCollaborationIdNamespaceAssociationsOutput {
+  /// The summary information of the collaboration ID namespace associations that
+  /// you requested.
+  final List<CollaborationIdNamespaceAssociationSummary>
+      collaborationIdNamespaceAssociationSummaries;
+
+  /// The token value provided to access the next page of results.
+  final String? nextToken;
+
+  ListCollaborationIdNamespaceAssociationsOutput({
+    required this.collaborationIdNamespaceAssociationSummaries,
+    this.nextToken,
+  });
+
+  factory ListCollaborationIdNamespaceAssociationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListCollaborationIdNamespaceAssociationsOutput(
+      collaborationIdNamespaceAssociationSummaries:
+          (json['collaborationIdNamespaceAssociationSummaries'] as List)
+              .nonNulls
+              .map((e) => CollaborationIdNamespaceAssociationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collaborationIdNamespaceAssociationSummaries =
+        this.collaborationIdNamespaceAssociationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'collaborationIdNamespaceAssociationSummaries':
+          collaborationIdNamespaceAssociationSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -6719,6 +9067,74 @@ class ListConfiguredTablesOutput {
     final nextToken = this.nextToken;
     return {
       'configuredTableSummaries': configuredTableSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListIdMappingTablesOutput {
+  /// The summary information of the ID mapping tables that you requested.
+  final List<IdMappingTableSummary> idMappingTableSummaries;
+
+  /// The token value provided to access the next page of results.
+  final String? nextToken;
+
+  ListIdMappingTablesOutput({
+    required this.idMappingTableSummaries,
+    this.nextToken,
+  });
+
+  factory ListIdMappingTablesOutput.fromJson(Map<String, dynamic> json) {
+    return ListIdMappingTablesOutput(
+      idMappingTableSummaries: (json['idMappingTableSummaries'] as List)
+          .nonNulls
+          .map((e) => IdMappingTableSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTableSummaries = this.idMappingTableSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'idMappingTableSummaries': idMappingTableSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListIdNamespaceAssociationsOutput {
+  /// The summary information of the ID namespace associations that you requested.
+  final List<IdNamespaceAssociationSummary> idNamespaceAssociationSummaries;
+
+  /// The token value provided to access the next page of results.
+  final String? nextToken;
+
+  ListIdNamespaceAssociationsOutput({
+    required this.idNamespaceAssociationSummaries,
+    this.nextToken,
+  });
+
+  factory ListIdNamespaceAssociationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListIdNamespaceAssociationsOutput(
+      idNamespaceAssociationSummaries: (json['idNamespaceAssociationSummaries']
+              as List)
+          .nonNulls
+          .map((e) =>
+              IdNamespaceAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceAssociationSummaries =
+        this.idNamespaceAssociationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'idNamespaceAssociationSummaries': idNamespaceAssociationSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -7559,6 +9975,29 @@ class PaymentConfiguration {
   }
 }
 
+class PopulateIdMappingTableOutput {
+  /// The unique identifier of the mapping job that will populate the ID mapping
+  /// table.
+  final String idMappingJobId;
+
+  PopulateIdMappingTableOutput({
+    required this.idMappingJobId,
+  });
+
+  factory PopulateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
+    return PopulateIdMappingTableOutput(
+      idMappingJobId: json['idMappingJobId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingJobId = this.idMappingJobId;
+    return {
+      'idMappingJobId': idMappingJobId,
+    };
+  }
+}
+
 class PreviewPrivacyImpactOutput {
   /// An estimate of the number of aggregation functions that the member who can
   /// query can run given the epsilon and noise parameters. This does not change
@@ -7766,7 +10205,7 @@ class PrivacyBudgetTemplate {
   /// The identifier for a membership resource.
   final String membershipId;
 
-  /// Specifies the epislon and noise parameters for the privacy budget template.
+  /// Specifies the epsilon and noise parameters for the privacy budget template.
   final PrivacyBudgetTemplateParametersOutput parameters;
 
   /// Specifies the type of the privacy budget template.
@@ -8188,6 +10627,30 @@ class ProtectedQueryError {
   }
 }
 
+/// Contains configuration details for the protected query member output.
+class ProtectedQueryMemberOutputConfiguration {
+  /// The unique identifier for the account.
+  final String accountId;
+
+  ProtectedQueryMemberOutputConfiguration({
+    required this.accountId,
+  });
+
+  factory ProtectedQueryMemberOutputConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ProtectedQueryMemberOutputConfiguration(
+      accountId: json['accountId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    return {
+      'accountId': accountId,
+    };
+  }
+}
+
 /// Contains details about the protected query output.
 class ProtectedQueryOutput {
   /// The list of member Amazon Web Services account(s) that received the results
@@ -8227,16 +10690,26 @@ class ProtectedQueryOutput {
 
 /// Contains configuration details for protected query output.
 class ProtectedQueryOutputConfiguration {
-  /// Required configuration for a protected query with an `S3` output type.
+  /// Required configuration for a protected query with a <code>member</code>
+  /// output type.
+  final ProtectedQueryMemberOutputConfiguration? member;
+
+  /// Required configuration for a protected query with an <code>s3</code> output
+  /// type.
   final ProtectedQueryS3OutputConfiguration? s3;
 
   ProtectedQueryOutputConfiguration({
+    this.member,
     this.s3,
   });
 
   factory ProtectedQueryOutputConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ProtectedQueryOutputConfiguration(
+      member: json['member'] != null
+          ? ProtectedQueryMemberOutputConfiguration.fromJson(
+              json['member'] as Map<String, dynamic>)
+          : null,
       s3: json['s3'] != null
           ? ProtectedQueryS3OutputConfiguration.fromJson(
               json['s3'] as Map<String, dynamic>)
@@ -8245,8 +10718,10 @@ class ProtectedQueryOutputConfiguration {
   }
 
   Map<String, dynamic> toJson() {
+    final member = this.member;
     final s3 = this.s3;
     return {
+      if (member != null) 'member': member,
       if (s3 != null) 's3': s3,
     };
   }
@@ -8428,7 +10903,7 @@ class ProtectedQuerySingleMemberOutput {
 
 /// Contains statistics about the execution of the protected query.
 class ProtectedQueryStatistics {
-  /// The duration of the Protected Query, from creation until query completion.
+  /// The duration of the protected query, from creation until query completion.
   final int? totalDurationInMillis;
 
   ProtectedQueryStatistics({
@@ -8484,6 +10959,9 @@ class ProtectedQuerySummary {
   /// The unique ID for the membership that initiated the protected query.
   final String membershipId;
 
+  /// The receiver configuration.
+  final List<ReceiverConfiguration> receiverConfigurations;
+
   /// The status of the protected query. Value values are `SUBMITTED`, `STARTED`,
   /// `CANCELLED`, `CANCELLING`, `FAILED`, `SUCCESS`, `TIMED_OUT`.
   final ProtectedQueryStatus status;
@@ -8493,6 +10971,7 @@ class ProtectedQuerySummary {
     required this.id,
     required this.membershipArn,
     required this.membershipId,
+    required this.receiverConfigurations,
     required this.status,
   });
 
@@ -8502,6 +10981,10 @@ class ProtectedQuerySummary {
       id: json['id'] as String,
       membershipArn: json['membershipArn'] as String,
       membershipId: json['membershipId'] as String,
+      receiverConfigurations: (json['receiverConfigurations'] as List)
+          .nonNulls
+          .map((e) => ReceiverConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: ProtectedQueryStatus.fromString((json['status'] as String)),
     );
   }
@@ -8511,12 +10994,14 @@ class ProtectedQuerySummary {
     final id = this.id;
     final membershipArn = this.membershipArn;
     final membershipId = this.membershipId;
+    final receiverConfigurations = this.receiverConfigurations;
     final status = this.status;
     return {
       'createTime': unixTimestampToJson(createTime),
       'id': id,
       'membershipArn': membershipArn,
       'membershipId': membershipId,
+      'receiverConfigurations': receiverConfigurations,
       'status': status.value,
     };
   }
@@ -8568,6 +11053,94 @@ class QueryComputePaymentConfig {
     final isResponsible = this.isResponsible;
     return {
       'isResponsible': isResponsible,
+    };
+  }
+}
+
+/// Provides any necessary query constraint information.
+class QueryConstraint {
+  /// An array of column names that specifies which columns are required in the
+  /// JOIN statement.
+  final QueryConstraintRequireOverlap? requireOverlap;
+
+  QueryConstraint({
+    this.requireOverlap,
+  });
+
+  factory QueryConstraint.fromJson(Map<String, dynamic> json) {
+    return QueryConstraint(
+      requireOverlap: json['requireOverlap'] != null
+          ? QueryConstraintRequireOverlap.fromJson(
+              json['requireOverlap'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requireOverlap = this.requireOverlap;
+    return {
+      if (requireOverlap != null) 'requireOverlap': requireOverlap,
+    };
+  }
+}
+
+/// Provides the name of the columns that are required to overlap.
+class QueryConstraintRequireOverlap {
+  /// The columns that are required to overlap.
+  final List<String>? columns;
+
+  QueryConstraintRequireOverlap({
+    this.columns,
+  });
+
+  factory QueryConstraintRequireOverlap.fromJson(Map<String, dynamic> json) {
+    return QueryConstraintRequireOverlap(
+      columns:
+          (json['columns'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    return {
+      if (columns != null) 'columns': columns,
+    };
+  }
+}
+
+/// The receiver configuration for a protected query.
+class ReceiverConfiguration {
+  /// The type of analysis for the protected query. The results of the query can
+  /// be analyzed directly (<code>DIRECT_ANALYSIS</code>) or used as input into
+  /// additional analyses (<code>ADDITIONAL_ANALYSIS</code>), such as a query that
+  /// is a seed for a lookalike ML model.
+  final AnalysisType analysisType;
+
+  /// The configuration details of the receiver configuration.
+  final ConfigurationDetails? configurationDetails;
+
+  ReceiverConfiguration({
+    required this.analysisType,
+    this.configurationDetails,
+  });
+
+  factory ReceiverConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReceiverConfiguration(
+      analysisType: AnalysisType.fromString((json['analysisType'] as String)),
+      configurationDetails: json['configurationDetails'] != null
+          ? ConfigurationDetails.fromJson(
+              json['configurationDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisType = this.analysisType;
+    final configurationDetails = this.configurationDetails;
+    return {
+      'analysisType': analysisType.value,
+      if (configurationDetails != null)
+        'configurationDetails': configurationDetails,
     };
   }
 }
@@ -8670,6 +11243,9 @@ class Schema {
   /// DIRECT_QUERY.
   final AnalysisMethod? analysisMethod;
 
+  /// The schema type properties.
+  final SchemaTypeProperties? schemaTypeProperties;
+
   Schema({
     required this.analysisRuleTypes,
     required this.collaborationArn,
@@ -8684,6 +11260,7 @@ class Schema {
     required this.type,
     required this.updateTime,
     this.analysisMethod,
+    this.schemaTypeProperties,
   });
 
   factory Schema.fromJson(Map<String, dynamic> json) {
@@ -8714,6 +11291,10 @@ class Schema {
       updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
       analysisMethod:
           (json['analysisMethod'] as String?)?.let(AnalysisMethod.fromString),
+      schemaTypeProperties: json['schemaTypeProperties'] != null
+          ? SchemaTypeProperties.fromJson(
+              json['schemaTypeProperties'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -8731,6 +11312,7 @@ class Schema {
     final type = this.type;
     final updateTime = this.updateTime;
     final analysisMethod = this.analysisMethod;
+    final schemaTypeProperties = this.schemaTypeProperties;
     return {
       'analysisRuleTypes': analysisRuleTypes.map((e) => e.value).toList(),
       'collaborationArn': collaborationArn,
@@ -8745,6 +11327,8 @@ class Schema {
       'type': type.value,
       'updateTime': unixTimestampToJson(updateTime),
       if (analysisMethod != null) 'analysisMethod': analysisMethod.value,
+      if (schemaTypeProperties != null)
+        'schemaTypeProperties': schemaTypeProperties,
     };
   }
 }
@@ -8809,7 +11393,14 @@ enum SchemaStatus {
 /// queries of the given analysis rule type are properly configured to run
 /// queries on this schema.
 class SchemaStatusDetail {
-  /// The status of the schema.
+  /// The type of analysis that can be performed on the schema.
+  ///
+  /// A schema can have an <code>analysisType</code> of
+  /// <code>DIRECT_ANALYSIS</code>,
+  /// <code>ADDITIONAL_ANALYSIS_FOR_AUDIENCE_GENERATION</code>, or both.
+  final AnalysisType analysisType;
+
+  /// The status of the schema, indicating if it is ready to query.
   final SchemaStatus status;
 
   /// The analysis rule type for which the schema status has been evaluated.
@@ -8822,6 +11413,7 @@ class SchemaStatusDetail {
   final List<SchemaStatusReason>? reasons;
 
   SchemaStatusDetail({
+    required this.analysisType,
     required this.status,
     this.analysisRuleType,
     this.configurations,
@@ -8830,6 +11422,7 @@ class SchemaStatusDetail {
 
   factory SchemaStatusDetail.fromJson(Map<String, dynamic> json) {
     return SchemaStatusDetail(
+      analysisType: AnalysisType.fromString((json['analysisType'] as String)),
       status: SchemaStatus.fromString((json['status'] as String)),
       analysisRuleType: (json['analysisRuleType'] as String?)
           ?.let(AnalysisRuleType.fromString),
@@ -8845,11 +11438,13 @@ class SchemaStatusDetail {
   }
 
   Map<String, dynamic> toJson() {
+    final analysisType = this.analysisType;
     final status = this.status;
     final analysisRuleType = this.analysisRuleType;
     final configurations = this.configurations;
     final reasons = this.reasons;
     return {
+      'analysisType': analysisType.value,
       'status': status.value,
       if (analysisRuleType != null) 'analysisRuleType': analysisRuleType.value,
       if (configurations != null)
@@ -8895,6 +11490,14 @@ enum SchemaStatusReasonCode {
   analysisProvidersNotConfigured('ANALYSIS_PROVIDERS_NOT_CONFIGURED'),
   differentialPrivacyPolicyNotConfigured(
       'DIFFERENTIAL_PRIVACY_POLICY_NOT_CONFIGURED'),
+  idMappingTableNotPopulated('ID_MAPPING_TABLE_NOT_POPULATED'),
+  collaborationAnalysisRuleNotConfigured(
+      'COLLABORATION_ANALYSIS_RULE_NOT_CONFIGURED'),
+  additionalAnalysesNotConfigured('ADDITIONAL_ANALYSES_NOT_CONFIGURED'),
+  resultReceiversNotConfigured('RESULT_RECEIVERS_NOT_CONFIGURED'),
+  additionalAnalysesNotAllowed('ADDITIONAL_ANALYSES_NOT_ALLOWED'),
+  resultReceiversNotAllowed('RESULT_RECEIVERS_NOT_ALLOWED'),
+  analysisRuleTypesNotCompatible('ANALYSIS_RULE_TYPES_NOT_COMPATIBLE'),
   ;
 
   final String value;
@@ -8994,6 +11597,7 @@ class SchemaSummary {
 
 enum SchemaType {
   table('TABLE'),
+  idMappingTable('ID_MAPPING_TABLE'),
   ;
 
   final String value;
@@ -9003,6 +11607,32 @@ enum SchemaType {
   static SchemaType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum SchemaType'));
+}
+
+/// Information about the schema type properties.
+class SchemaTypeProperties {
+  /// The ID mapping table for the schema type properties.
+  final IdMappingTableSchemaTypeProperties? idMappingTable;
+
+  SchemaTypeProperties({
+    this.idMappingTable,
+  });
+
+  factory SchemaTypeProperties.fromJson(Map<String, dynamic> json) {
+    return SchemaTypeProperties(
+      idMappingTable: json['idMappingTable'] != null
+          ? IdMappingTableSchemaTypeProperties.fromJson(
+              json['idMappingTable'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTable = this.idMappingTable;
+    return {
+      if (idMappingTable != null) 'idMappingTable': idMappingTable,
+    };
+  }
 }
 
 class StartProtectedQueryOutput {
@@ -9190,6 +11820,32 @@ class UpdateConfiguredTableAnalysisRuleOutput {
   }
 }
 
+class UpdateConfiguredTableAssociationAnalysisRuleOutput {
+  /// The updated analysis rule for the conﬁgured table association. In the
+  /// console, the <code>ConfiguredTableAssociationAnalysisRule</code> is referred
+  /// to as the <i>collaboration analysis rule</i>.
+  final ConfiguredTableAssociationAnalysisRule analysisRule;
+
+  UpdateConfiguredTableAssociationAnalysisRuleOutput({
+    required this.analysisRule,
+  });
+
+  factory UpdateConfiguredTableAssociationAnalysisRuleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateConfiguredTableAssociationAnalysisRuleOutput(
+      analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
+          json['analysisRule'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisRule = this.analysisRule;
+    return {
+      'analysisRule': analysisRule,
+    };
+  }
+}
+
 class UpdateConfiguredTableAssociationOutput {
   /// The entire updated configured table association.
   final ConfiguredTableAssociation configuredTableAssociation;
@@ -9233,6 +11889,53 @@ class UpdateConfiguredTableOutput {
     final configuredTable = this.configuredTable;
     return {
       'configuredTable': configuredTable,
+    };
+  }
+}
+
+class UpdateIdMappingTableOutput {
+  /// The updated ID mapping table.
+  final IdMappingTable idMappingTable;
+
+  UpdateIdMappingTableOutput({
+    required this.idMappingTable,
+  });
+
+  factory UpdateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateIdMappingTableOutput(
+      idMappingTable: IdMappingTable.fromJson(
+          json['idMappingTable'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingTable = this.idMappingTable;
+    return {
+      'idMappingTable': idMappingTable,
+    };
+  }
+}
+
+class UpdateIdNamespaceAssociationOutput {
+  /// The updated ID namespace association.
+  final IdNamespaceAssociation idNamespaceAssociation;
+
+  UpdateIdNamespaceAssociationOutput({
+    required this.idNamespaceAssociation,
+  });
+
+  factory UpdateIdNamespaceAssociationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateIdNamespaceAssociationOutput(
+      idNamespaceAssociation: IdNamespaceAssociation.fromJson(
+          json['idNamespaceAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idNamespaceAssociation = this.idNamespaceAssociation;
+    return {
+      'idNamespaceAssociation': idNamespaceAssociation,
     };
   }
 }

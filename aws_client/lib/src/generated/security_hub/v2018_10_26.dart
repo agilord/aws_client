@@ -25,8 +25,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// environment against security industry standards and best practices.
 ///
 /// Security Hub collects security data across Amazon Web Services accounts,
-/// Amazon Web Services, and supported third-party products and helps you
-/// analyze your security trends and identify the highest priority security
+/// Amazon Web Servicesservices, and supported third-party products and helps
+/// you analyze your security trends and identify the highest priority security
 /// issues.
 ///
 /// To help you manage the security state of your organization, Security Hub
@@ -41,11 +41,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// practices.
 ///
 /// In addition to generating control findings, Security Hub also receives
-/// findings from other Amazon Web Services, such as Amazon GuardDuty and Amazon
-/// Inspector, and supported third-party products. This gives you a single pane
-/// of glass into a variety of security-related issues. You can also send
-/// Security Hub findings to other Amazon Web Services and supported third-party
-/// products.
+/// findings from other Amazon Web Servicesservices, such as Amazon GuardDuty
+/// and Amazon Inspector, and supported third-party products. This gives you a
+/// single pane of glass into a variety of security-related issues. You can also
+/// send Security Hub findings to other Amazon Web Servicesservices and
+/// supported third-party products.
 ///
 /// Security Hub offers automation features that help you triage and remediate
 /// security issues. For example, you can use automation rules to automatically
@@ -61,7 +61,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <i>Security Hub User Guide</i> </a>. The user guide explains key concepts
 /// and provides procedures that demonstrate how to use Security Hub features.
 /// It also provides information about topics such as integrating Security Hub
-/// with other Amazon Web Services.
+/// with other Amazon Web Servicesservices.
 ///
 /// In addition to interacting with Security Hub by making calls to the Security
 /// Hub API, you can use a current version of an Amazon Web Services command
@@ -69,9 +69,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// of libraries and sample code for various languages and platforms, such as
 /// PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide
 /// convenient, programmatic access to Security Hub and other Amazon Web
-/// Services . They also handle tasks such as signing requests, managing errors,
-/// and retrying requests automatically. For information about installing and
-/// using the Amazon Web Services tools and SDKs, see <a
+/// Servicesservices . They also handle tasks such as signing requests, managing
+/// errors, and retrying requests automatically. For information about
+/// installing and using the Amazon Web Services tools and SDKs, see <a
 /// href="http://aws.amazon.com/developer/tools/">Tools to Build on Amazon Web
 /// Services</a>.
 ///
@@ -980,22 +980,26 @@ class SecurityHub {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALL_REGIONS</code> - Indicates to aggregate findings from all of the
-  /// Regions where Security Hub is enabled. When you choose this option,
+  /// <code>ALL_REGIONS</code> - Aggregates findings from all of the Regions
+  /// where Security Hub is enabled. When you choose this option, Security Hub
+  /// also automatically aggregates findings from new Regions as Security Hub
+  /// supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Aggregates findings from all
+  /// of the Regions where Security Hub is enabled, except for the Regions
+  /// listed in the <code>Regions</code> parameter. When you choose this option,
   /// Security Hub also automatically aggregates findings from new Regions as
   /// Security Hub supports them and you opt into them.
   /// </li>
   /// <li>
-  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Indicates to aggregate
-  /// findings from all of the Regions where Security Hub is enabled, except for
-  /// the Regions listed in the <code>Regions</code> parameter. When you choose
-  /// this option, Security Hub also automatically aggregates findings from new
-  /// Regions as Security Hub supports them and you opt into them.
+  /// <code>SPECIFIED_REGIONS</code> - Aggregates findings only from the Regions
+  /// listed in the <code>Regions</code> parameter. Security Hub does not
+  /// automatically aggregate findings from new Regions.
   /// </li>
   /// <li>
-  /// <code>SPECIFIED_REGIONS</code> - Indicates to aggregate findings only from
-  /// the Regions listed in the <code>Regions</code> parameter. Security Hub
-  /// does not automatically aggregate findings from new Regions.
+  /// <code>NO_REGIONS</code> - Aggregates no data because no Regions are
+  /// selected as linked Regions.
   /// </li>
   /// </ul>
   ///
@@ -1007,6 +1011,9 @@ class SecurityHub {
   /// If <code>RegionLinkingMode</code> is <code>SPECIFIED_REGIONS</code>, then
   /// this is a space-separated list of Regions that do aggregate findings to
   /// the aggregation Region.
+  ///
+  /// An <code>InvalidInputException</code> error results if you populate this
+  /// field while <code>RegionLinkingMode</code> is <code>NO_REGIONS</code>.
   Future<CreateFindingAggregatorResponse> createFindingAggregator({
     required String regionLinkingMode,
     List<String>? regions,
@@ -3240,22 +3247,26 @@ class SecurityHub {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALL_REGIONS</code> - Indicates to aggregate findings from all of the
-  /// Regions where Security Hub is enabled. When you choose this option,
+  /// <code>ALL_REGIONS</code> - Aggregates findings from all of the Regions
+  /// where Security Hub is enabled. When you choose this option, Security Hub
+  /// also automatically aggregates findings from new Regions as Security Hub
+  /// supports them and you opt into them.
+  /// </li>
+  /// <li>
+  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Aggregates findings from all
+  /// of the Regions where Security Hub is enabled, except for the Regions
+  /// listed in the <code>Regions</code> parameter. When you choose this option,
   /// Security Hub also automatically aggregates findings from new Regions as
   /// Security Hub supports them and you opt into them.
   /// </li>
   /// <li>
-  /// <code>ALL_REGIONS_EXCEPT_SPECIFIED</code> - Indicates to aggregate
-  /// findings from all of the Regions where Security Hub is enabled, except for
-  /// the Regions listed in the <code>Regions</code> parameter. When you choose
-  /// this option, Security Hub also automatically aggregates findings from new
-  /// Regions as Security Hub supports them and you opt into them.
+  /// <code>SPECIFIED_REGIONS</code> - Aggregates findings only from the Regions
+  /// listed in the <code>Regions</code> parameter. Security Hub does not
+  /// automatically aggregate findings from new Regions.
   /// </li>
   /// <li>
-  /// <code>SPECIFIED_REGIONS</code> - Indicates to aggregate findings only from
-  /// the Regions listed in the <code>Regions</code> parameter. Security Hub
-  /// does not automatically aggregate findings from new Regions.
+  /// <code>NO_REGIONS</code> - Aggregates no data because no Regions are
+  /// selected as linked Regions.
   /// </li>
   /// </ul>
   ///
@@ -3267,6 +3278,9 @@ class SecurityHub {
   /// If <code>RegionLinkingMode</code> is <code>SPECIFIED_REGIONS</code>, then
   /// this is a space-separated list of Regions that do aggregate findings to
   /// the aggregation Region.
+  ///
+  /// An <code>InvalidInputException</code> error results if you populate this
+  /// field while <code>RegionLinkingMode</code> is <code>NO_REGIONS</code>.
   Future<UpdateFindingAggregatorResponse> updateFindingAggregator({
     required String findingAggregatorArn,
     required String regionLinkingMode,
@@ -3290,13 +3304,16 @@ class SecurityHub {
   /// <code>UpdateFindings</code>, use the <code>BatchUpdateFindings</code>
   /// operation.
   ///
-  /// Updates the <code>Note</code> and <code>RecordState</code> of the Security
-  /// Hub-aggregated findings that the filter attributes specify. Any member
-  /// account that can view the finding also sees the update to the finding.
+  /// The <code>UpdateFindings</code> operation updates the <code>Note</code>
+  /// and <code>RecordState</code> of the Security Hub aggregated findings that
+  /// the filter attributes specify. Any member account that can view the
+  /// finding can also see the update to the finding.
   ///
-  /// Finding updates made with <code>UpdateFindings</code> might not be
-  /// persisted if the same finding is later updated by the finding provider
-  /// through the <code>BatchImportFindings</code> operation.
+  /// Finding updates made with <code>UpdateFindings</code> aren't persisted if
+  /// the same finding is later updated by the finding provider through the
+  /// <code>BatchImportFindings</code> operation. In addition, Security Hub
+  /// doesn't record updates made with <code>UpdateFindings</code> in the
+  /// finding history.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -4755,9 +4772,9 @@ class AutomationRulesFindingFilters {
   /// The identifier for the given resource type. For Amazon Web Services
   /// resources that are identified by Amazon Resource Names (ARNs), this is the
   /// ARN. For Amazon Web Services resources that lack ARNs, this is the
-  /// identifier as defined by the Amazon Web Service that created the resource.
-  /// For non-Amazon Web Services resources, this is a unique identifier that is
-  /// associated with the resource.
+  /// identifier as defined by the Amazon Web Servicesservice that created the
+  /// resource. For non-Amazon Web Services resources, this is a unique identifier
+  /// that is associated with the resource.
   ///
   /// Array Members: Minimum number of 1 item. Maximum number of 100 items.
   final List<StringFilter>? resourceId;
@@ -35009,7 +35026,7 @@ class AwsSecurityFindingFilters {
   final List<StringFilter>? complianceAssociatedStandardsId;
 
   /// The unique identifier of a control across standards. Values for this field
-  /// typically consist of an Amazon Web Service and a number, such as
+  /// typically consist of an Amazon Web Servicesservice and a number, such as
   /// APIGateway.5.
   final List<StringFilter>? complianceSecurityControlId;
 
@@ -39838,7 +39855,7 @@ class Compliance {
   final List<String>? relatedRequirements;
 
   /// The unique identifier of a control across standards. Values for this field
-  /// typically consist of an Amazon Web Service and a number, such as
+  /// typically consist of an Amazon Web Servicesservice and a number, such as
   /// APIGateway.5.
   final String? securityControlId;
 
@@ -41721,7 +41738,8 @@ class FindingHistoryRecord {
   final String? nextToken;
 
   /// Identifies the source of the event that changed the finding. For example, an
-  /// integrated Amazon Web Service or third-party partner integration may call <a
+  /// integrated Amazon Web Servicesservice or third-party partner integration may
+  /// call <a
   /// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html">
   /// <code>BatchImportFindings</code> </a>, or an Security Hub customer may call
   /// <a
@@ -41866,8 +41884,8 @@ class FindingHistoryUpdateSource {
 
   /// Describes the type of finding change event, such as a call to <a
   /// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html">
-  /// <code>BatchImportFindings</code> </a> (by an integrated Amazon Web Service
-  /// or third party partner integration) or <a
+  /// <code>BatchImportFindings</code> </a> (by an integrated Amazon Web
+  /// Servicesservice or third party partner integration) or <a
   /// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html">
   /// <code>BatchUpdateFindings</code> </a> (by a Security Hub customer).
   final FindingHistoryUpdateSourceType? type;
@@ -41910,9 +41928,50 @@ enum FindingHistoryUpdateSourceType {
               '$value is not known in enum FindingHistoryUpdateSourceType'));
 }
 
-/// In a <code>BatchImportFindings</code> request, finding providers use
-/// <code>FindingProviderFields</code> to provide and update values for
-/// confidence, criticality, related findings, severity, and types.
+/// In a <a
+/// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html">
+/// <code>BatchImportFindings</code> </a> request, finding providers use
+/// <code>FindingProviderFields</code> to provide and update values for the
+/// following fields:
+///
+/// <ul>
+/// <li>
+/// <code>Confidence</code>
+/// </li>
+/// <li>
+/// <code>Criticality</code>
+/// </li>
+/// <li>
+/// <code>RelatedFindings</code>
+/// </li>
+/// <li>
+/// <code>Severity</code>
+/// </li>
+/// <li>
+/// <code>Types</code>
+/// </li>
+/// </ul>
+/// The preceding fields are nested under the <code>FindingProviderFields</code>
+/// object, but also have analogues of the same name as top-level ASFF fields.
+/// When a new finding is sent to Security Hub by a finding provider, Security
+/// Hub populates the <code>FindingProviderFields</code> object automatically,
+/// if it is empty, based on the corresponding top-level fields.
+///
+/// Finding providers can update <code>FindingProviderFields</code> only by
+/// using the <code>BatchImportFindings</code> operation. Finding providers
+/// can't update this object with the <a
+/// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html">
+/// <code>BatchUpdateFindings</code> </a> operation. Customers can update the
+/// top-level fields by using the <code>BatchUpdateFindings</code> operation.
+/// Customers can't update <code>FindingProviderFields</code>.
+///
+/// For information about how Security Hub handles updates from
+/// <code>BatchImportFindings</code> to <code>FindingProviderFields</code> and
+/// to the corresponding top-level attributes, see <a
+/// href="https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchimportfindings.html#batchimportfindings-findingproviderfields">Using
+/// <code>FindingProviderFields</code> </a> in the <i>Security Hub User
+/// Guide</i>.
+/// <p/>
 class FindingProviderFields {
   /// A finding's confidence. Confidence is defined as the likelihood that a
   /// finding accurately identifies the behavior or issue that it was intended to
@@ -41983,7 +42042,43 @@ class FindingProviderFields {
   }
 }
 
-/// The severity assigned to the finding by the finding provider.
+/// The severity assigned to a finding by the finding provider. This object may
+/// include one or more of the following attributes:
+///
+/// <ul>
+/// <li>
+/// <code>Label</code>
+/// </li>
+/// <li>
+/// <code>Normalized</code>
+/// </li>
+/// <li>
+/// <code>Original</code>
+/// </li>
+/// <li>
+/// <code>Product</code>
+/// </li>
+/// </ul>
+/// If a <a
+/// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html">
+/// <code>BatchImportFindings</code> </a> request for a new finding only
+/// provides <code>Label</code> or only provides <code>Normalized</code>,
+/// Security Hub automatically populates the value of the other field.
+///
+/// The <code>Normalized</code> and <code>Product</code> attributes are included
+/// in the <code>FindingProviderSeverity</code> structure to preserve the
+/// historical information associated with the finding, even if the top-level
+/// <code>Severity</code> object is later modified using the <a
+/// href="https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html">
+/// <code>BatchUpdateFindings</code> </a> operation.
+///
+/// If the top-level <code>Finding.Severity</code> object is present, but
+/// <code>Finding.FindingProviderFields</code> isn't present, Security Hub
+/// creates the <code>FindingProviderFields.Severity</code> object and copies
+/// the entire <code>Finding.Severity</code> object into it. This ensures that
+/// the original, provider-supplied details are retained within the
+/// <code>FindingProviderFields.Severity</code> object, even if the top-level
+/// <code>Severity</code> object is overwritten.
 class FindingProviderSeverity {
   /// The severity label assigned to the finding by the finding provider.
   final SeverityLabel? label;
@@ -45096,7 +45191,7 @@ class PatchSummary {
 /// list of security controls that are disabled in the configuration policy,
 /// Security Hub enables all other controls (including newly released controls).
 class Policy {
-  /// The Amazon Web Service that the configuration policy applies to.
+  /// The Amazon Web Servicesservice that the configuration policy applies to.
   final SecurityHubPolicy? securityHub;
 
   Policy({
@@ -46983,7 +47078,7 @@ class RouteSetDetails {
   /// The IPv6 CIDR block used for the destination match.
   final String? destinationIpv6CidrBlock;
 
-  /// The prefix of the destination Amazon Web Service.
+  /// The prefix of the destination Amazon Web Servicesservice.
   final String? destinationPrefixListId;
 
   /// The ID of the egress-only internet gateway.
@@ -47907,8 +48002,8 @@ class SecurityControl {
   final String securityControlArn;
 
   /// The unique identifier of a security control across standards. Values for
-  /// this field typically consist of an Amazon Web Service name and a number,
-  /// such as APIGateway.3.
+  /// this field typically consist of an Amazon Web Servicesservice name and a
+  /// number, such as APIGateway.3.
   final String securityControlId;
 
   /// The enablement status of a security control in a specific standard.
@@ -47939,9 +48034,9 @@ class SecurityControl {
 
   /// Identifies whether customizable properties of a security control are
   /// reflected in Security Hub findings. A status of <code>READY</code> indicates
-  /// findings include the current parameter values. A status of
-  /// <code>UPDATING</code> indicates that all findings may not include the
-  /// current parameter values.
+  /// that Security Hub uses the current control parameter values when running
+  /// security checks of the control. A status of <code>UPDATING</code> indicates
+  /// that all security checks might not use the current parameter values.
   final UpdateStatus? updateStatus;
 
   SecurityControl({
@@ -48056,8 +48151,8 @@ class SecurityControlDefinition {
   final String remediationUrl;
 
   /// The unique identifier of a security control across standards. Values for
-  /// this field typically consist of an Amazon Web Service name and a number (for
-  /// example, APIGateway.3). This parameter differs from
+  /// this field typically consist of an Amazon Web Servicesservice name and a
+  /// number (for example, APIGateway.3). This parameter differs from
   /// <code>SecurityControlArn</code>, which is a unique Amazon Resource Name
   /// (ARN) assigned to a control. The ARN references the security control ID (for
   /// example,
@@ -48934,8 +49029,8 @@ class StandardsControlAssociationDetail {
   final String securityControlArn;
 
   /// The unique identifier of a security control across standards. Values for
-  /// this field typically consist of an Amazon Web Service name and a number,
-  /// such as APIGateway.3.
+  /// this field typically consist of an Amazon Web Servicesservice name and a
+  /// number, such as APIGateway.3.
   final String securityControlId;
 
   /// The Amazon Resource Name (ARN) of a security standard.
@@ -49082,7 +49177,7 @@ class StandardsControlAssociationSummary {
   final String securityControlArn;
 
   /// A unique standard-agnostic identifier for a control. Values for this field
-  /// typically consist of an Amazon Web Service and a number, such as
+  /// typically consist of an Amazon Web Servicesservice and a number, such as
   /// APIGateway.5. This field doesn't reference a specific standard.
   final String securityControlId;
 

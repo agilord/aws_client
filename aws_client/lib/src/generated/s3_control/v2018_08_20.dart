@@ -67,7 +67,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [identityCenterArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
@@ -134,7 +134,7 @@ class S3Control {
   /// bucket or a bucket and prefix in the <code>Subprefix</code> field.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [grantee] :
   /// The user, group, or role to which you are granting access. You can grant
@@ -235,7 +235,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [identityCenterArn] :
   /// If you would like to associate your S3 Access Grants instance with an
@@ -312,7 +312,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [iAMRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role for the registered
@@ -1007,7 +1007,7 @@ class S3Control {
   /// you create the access grant.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<void> deleteAccessGrant({
     required String accessGrantId,
     required String accountId,
@@ -1043,7 +1043,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<void> deleteAccessGrantsInstance({
     required String accountId,
   }) async {
@@ -1068,7 +1068,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<void> deleteAccessGrantsInstanceResourcePolicy({
     required String accountId,
   }) async {
@@ -1103,7 +1103,7 @@ class S3Control {
   /// assigns an auto-generated ID to other locations that you register.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<void> deleteAccessGrantsLocation({
     required String accessGrantsLocationId,
     required String accountId,
@@ -2129,7 +2129,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<void> dissociateAccessGrantsIdentityCenter({
     required String accountId,
   }) async {
@@ -2155,7 +2155,7 @@ class S3Control {
   /// you create the access grant.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<GetAccessGrantResult> getAccessGrant({
     required String accessGrantId,
     required String accountId,
@@ -2177,10 +2177,14 @@ class S3Control {
   /// <dl> <dt>Permissions</dt> <dd>
   /// You must have the <code>s3:GetAccessGrantsInstance</code> permission to
   /// use this operation.
-  /// </dd> </dl>
+  /// </dd> </dl> <note>
+  /// <code>GetAccessGrantsInstance</code> is not supported for cross-account
+  /// access. You can only call the API from the account that owns the S3 Access
+  /// Grants instance.
+  /// </note>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<GetAccessGrantsInstanceResult> getAccessGrantsInstance({
     required String accountId,
   }) async {
@@ -2239,7 +2243,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<GetAccessGrantsInstanceResourcePolicyResult>
       getAccessGrantsInstanceResourcePolicy({
     required String accountId,
@@ -2271,7 +2275,7 @@ class S3Control {
   /// that you register.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   Future<GetAccessGrantsLocationResult> getAccessGrantsLocation({
     required String accessGrantsLocationId,
     required String accountId,
@@ -3135,7 +3139,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [permission] :
   /// The type of permission granted to your S3 data, which can be set to one of
@@ -3677,7 +3681,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [applicationArn] :
   /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity
@@ -3792,7 +3796,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of access grants that you would like returned in the
@@ -3840,7 +3844,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [locationScope] :
   /// The S3 path to the location that you are registering. The location scope
@@ -4059,6 +4063,72 @@ class S3Control {
       exceptionFnMap: _exceptionFns,
     );
     return ListAccessPointsForObjectLambdaResult.fromXml($result.body);
+  }
+
+  /// Returns a list of the access grants that were given to the caller using S3
+  /// Access Grants and that allow the caller to access the S3 data of the
+  /// Amazon Web Services account specified in the request.
+  /// <dl> <dt>Permissions</dt> <dd>
+  /// You must have the <code>s3:ListCallerAccessGrants</code> permission to use
+  /// this operation.
+  /// </dd> </dl>
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
+  ///
+  /// Parameter [allowedByApplication] :
+  /// If this optional parameter is passed in the request, a filter is applied
+  /// to the results. The results will include only the access grants for the
+  /// caller's Identity Center application or for any other applications
+  /// (<code>ALL</code>).
+  ///
+  /// Parameter [grantScope] :
+  /// The S3 path of the data that you would like to access. Must start with
+  /// <code>s3://</code>. You can optionally pass only the beginning characters
+  /// of a path, and S3 Access Grants will search for all applicable grants for
+  /// the path fragment.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of access grants that you would like returned in the
+  /// <code>List Caller Access Grants</code> response. If the results include
+  /// the pagination token <code>NextToken</code>, make another call using the
+  /// <code>NextToken</code> to determine if there are more results.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token to request the next page of results. Pass this value
+  /// into a subsequent <code>List Caller Access Grants</code> request in order
+  /// to retrieve the next page of results.
+  Future<ListCallerAccessGrantsResult> listCallerAccessGrants({
+    required String accountId,
+    bool? allowedByApplication,
+    String? grantScope,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'x-amz-account-id': accountId.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (allowedByApplication != null)
+        'allowedByApplication': [allowedByApplication.toString()],
+      if (grantScope != null) 'grantscope': [grantScope],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/v20180820/accessgrantsinstance/caller/grants',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCallerAccessGrantsResult.fromXml($result.body);
   }
 
   /// Lists current S3 Batch Operations jobs as well as the jobs that have ended
@@ -4412,7 +4482,7 @@ class S3Control {
   /// </dd> </dl>
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [policy] :
   /// The resource policy of the S3 Access Grants instance that you are
@@ -5763,7 +5833,7 @@ class S3Control {
   /// bucket or a bucket and prefix in the <code>Subprefix</code> field.
   ///
   /// Parameter [accountId] :
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   ///
   /// Parameter [iAMRoleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role for the registered
@@ -6158,7 +6228,7 @@ class AccessPoint {
   /// exists.
   /// <note>
   /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other Amazon Web Services.
+  /// access point that is used by other Amazon Web Servicesservices.
   /// </note>
   final VpcConfiguration? vpcConfiguration;
 
@@ -6463,7 +6533,7 @@ class AdvancedDataProtectionMetrics {
 }
 
 class AssociateAccessGrantsIdentityCenterRequest {
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
@@ -6983,7 +7053,7 @@ class CreateAccessGrantRequest {
   /// or a bucket and prefix in the <code>Subprefix</code> field.
   final String accessGrantsLocationId;
 
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// The user, group, or role to which you are granting access. You can grant
@@ -7213,7 +7283,7 @@ class CreateAccessGrantResult {
 }
 
 class CreateAccessGrantsInstanceRequest {
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// If you would like to associate your S3 Access Grants instance with an Amazon
@@ -7271,7 +7341,13 @@ class CreateAccessGrantsInstanceRequest {
 }
 
 class CreateAccessGrantsInstanceResult {
-  /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
+  /// Center instance that you are associating with your S3 Access Grants
+  /// instance. An IAM Identity Center instance is your corporate identity
+  /// directory that you added to the IAM Identity Center. You can use the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
+  /// API operation to retrieve a list of your Identity Center instances and their
+  /// ARNs.
   final String? accessGrantsInstanceArn;
 
   /// The ID of the S3 Access Grants instance. The ID is <code>default</code>. You
@@ -7284,16 +7360,33 @@ class CreateAccessGrantsInstanceResult {
   /// If you associated your S3 Access Grants instance with an Amazon Web Services
   /// IAM Identity Center instance, this field returns the Amazon Resource Name
   /// (ARN) of the IAM Identity Center instance application; a subresource of the
-  /// original Identity Center instance passed in the request. S3 Access Grants
-  /// creates this Identity Center application for this specific S3 Access Grants
-  /// instance.
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
+  final String? identityCenterApplicationArn;
+
+  /// If you associated your S3 Access Grants instance with an Amazon Web Services
+  /// IAM Identity Center instance, this field returns the Amazon Resource Name
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
   final String? identityCenterArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
+  /// Center instance that you are associating with your S3 Access Grants
+  /// instance. An IAM Identity Center instance is your corporate identity
+  /// directory that you added to the IAM Identity Center. You can use the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
+  /// API operation to retrieve a list of your Identity Center instances and their
+  /// ARNs.
+  final String? identityCenterInstanceArn;
 
   CreateAccessGrantsInstanceResult({
     this.accessGrantsInstanceArn,
     this.accessGrantsInstanceId,
     this.createdAt,
+    this.identityCenterApplicationArn,
     this.identityCenterArn,
+    this.identityCenterInstanceArn,
   });
   factory CreateAccessGrantsInstanceResult.fromXml(_s.XmlElement elem) {
     return CreateAccessGrantsInstanceResult(
@@ -7302,7 +7395,11 @@ class CreateAccessGrantsInstanceResult {
       accessGrantsInstanceId:
           _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
       createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      identityCenterApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterApplicationArn'),
       identityCenterArn: _s.extractXmlStringValue(elem, 'IdentityCenterArn'),
+      identityCenterInstanceArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterInstanceArn'),
     );
   }
 
@@ -7310,20 +7407,26 @@ class CreateAccessGrantsInstanceResult {
     final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
     final accessGrantsInstanceId = this.accessGrantsInstanceId;
     final createdAt = this.createdAt;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
     final identityCenterArn = this.identityCenterArn;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
     return {
       if (accessGrantsInstanceArn != null)
         'AccessGrantsInstanceArn': accessGrantsInstanceArn,
       if (accessGrantsInstanceId != null)
         'AccessGrantsInstanceId': accessGrantsInstanceId,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
       if (identityCenterArn != null) 'IdentityCenterArn': identityCenterArn,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
     };
   }
 }
 
 class CreateAccessGrantsLocationRequest {
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// The Amazon Resource Name (ARN) of the IAM role for the registered location.
@@ -8541,7 +8644,11 @@ class DetailedStatusCodesMetrics {
 }
 
 /// Specifies encryption-related information for an Amazon S3 bucket that is a
-/// destination for replicated objects.
+/// destination for replicated objects. If you're specifying a customer managed
+/// KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS
+/// key alias instead, then KMS resolves the key within the requester’s account.
+/// This behavior can result in data that's encrypted with a KMS key that
+/// belongs to the requester, and not the bucket owner.
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
@@ -9013,17 +9120,34 @@ class GetAccessGrantsInstanceResult {
 
   /// If you associated your S3 Access Grants instance with an Amazon Web Services
   /// IAM Identity Center instance, this field returns the Amazon Resource Name
-  /// (ARN) of the Amazon Web Services IAM Identity Center instance application; a
-  /// subresource of the original Identity Center instance. S3 Access Grants
-  /// creates this Identity Center application for the specific S3 Access Grants
-  /// instance.
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
+  final String? identityCenterApplicationArn;
+
+  /// If you associated your S3 Access Grants instance with an Amazon Web Services
+  /// IAM Identity Center instance, this field returns the Amazon Resource Name
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
   final String? identityCenterArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
+  /// Center instance that you are associating with your S3 Access Grants
+  /// instance. An IAM Identity Center instance is your corporate identity
+  /// directory that you added to the IAM Identity Center. You can use the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
+  /// API operation to retrieve a list of your Identity Center instances and their
+  /// ARNs.
+  final String? identityCenterInstanceArn;
 
   GetAccessGrantsInstanceResult({
     this.accessGrantsInstanceArn,
     this.accessGrantsInstanceId,
     this.createdAt,
+    this.identityCenterApplicationArn,
     this.identityCenterArn,
+    this.identityCenterInstanceArn,
   });
   factory GetAccessGrantsInstanceResult.fromXml(_s.XmlElement elem) {
     return GetAccessGrantsInstanceResult(
@@ -9032,7 +9156,11 @@ class GetAccessGrantsInstanceResult {
       accessGrantsInstanceId:
           _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
       createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      identityCenterApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterApplicationArn'),
       identityCenterArn: _s.extractXmlStringValue(elem, 'IdentityCenterArn'),
+      identityCenterInstanceArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterInstanceArn'),
     );
   }
 
@@ -9040,14 +9168,20 @@ class GetAccessGrantsInstanceResult {
     final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
     final accessGrantsInstanceId = this.accessGrantsInstanceId;
     final createdAt = this.createdAt;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
     final identityCenterArn = this.identityCenterArn;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
     return {
       if (accessGrantsInstanceArn != null)
         'AccessGrantsInstanceArn': accessGrantsInstanceArn,
       if (accessGrantsInstanceId != null)
         'AccessGrantsInstanceId': accessGrantsInstanceId,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
       if (identityCenterArn != null) 'IdentityCenterArn': identityCenterArn,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
     };
   }
 }
@@ -9314,7 +9448,7 @@ class GetAccessPointResult {
   /// access point.
   /// <note>
   /// This element is empty if this access point is an Amazon S3 on Outposts
-  /// access point that is used by other Amazon Web Services.
+  /// access point that is used by other Amazon Web Servicesservices.
   /// </note>
   final VpcConfiguration? vpcConfiguration;
 
@@ -10990,15 +11124,18 @@ class JobTimers {
 /// <code>MatchAnySubstring</code>.
 class KeyNameConstraint {
   /// If provided, the generated manifest includes objects where the specified
-  /// string appears at the start of the object key string.
+  /// string appears at the start of the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
   final List<String>? matchAnyPrefix;
 
   /// If provided, the generated manifest includes objects where the specified
-  /// string appears anywhere within the object key string.
+  /// string appears anywhere within the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
   final List<String>? matchAnySubstring;
 
   /// If provided, the generated manifest includes objects where the specified
-  /// string appears at the end of the object key string.
+  /// string appears at the end of the object key string. Each KeyNameConstraint
+  /// filter accepts an array of strings with a length of 1 string.
   final List<String>? matchAnySuffix;
 
   KeyNameConstraint({
@@ -11692,13 +11829,31 @@ class ListAccessGrantsInstanceEntry {
   /// (ARN) of the IAM Identity Center instance application; a subresource of the
   /// original Identity Center instance. S3 Access Grants creates this Identity
   /// Center application for the specific S3 Access Grants instance.
+  final String? identityCenterApplicationArn;
+
+  /// If you associated your S3 Access Grants instance with an Amazon Web Services
+  /// IAM Identity Center instance, this field returns the Amazon Resource Name
+  /// (ARN) of the IAM Identity Center instance application; a subresource of the
+  /// original Identity Center instance. S3 Access Grants creates this Identity
+  /// Center application for the specific S3 Access Grants instance.
   final String? identityCenterArn;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
+  /// Center instance that you are associating with your S3 Access Grants
+  /// instance. An IAM Identity Center instance is your corporate identity
+  /// directory that you added to the IAM Identity Center. You can use the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListInstances.html">ListInstances</a>
+  /// API operation to retrieve a list of your Identity Center instances and their
+  /// ARNs.
+  final String? identityCenterInstanceArn;
 
   ListAccessGrantsInstanceEntry({
     this.accessGrantsInstanceArn,
     this.accessGrantsInstanceId,
     this.createdAt,
+    this.identityCenterApplicationArn,
     this.identityCenterArn,
+    this.identityCenterInstanceArn,
   });
   factory ListAccessGrantsInstanceEntry.fromXml(_s.XmlElement elem) {
     return ListAccessGrantsInstanceEntry(
@@ -11707,7 +11862,11 @@ class ListAccessGrantsInstanceEntry {
       accessGrantsInstanceId:
           _s.extractXmlStringValue(elem, 'AccessGrantsInstanceId'),
       createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      identityCenterApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterApplicationArn'),
       identityCenterArn: _s.extractXmlStringValue(elem, 'IdentityCenterArn'),
+      identityCenterInstanceArn:
+          _s.extractXmlStringValue(elem, 'IdentityCenterInstanceArn'),
     );
   }
 
@@ -11715,14 +11874,20 @@ class ListAccessGrantsInstanceEntry {
     final accessGrantsInstanceArn = this.accessGrantsInstanceArn;
     final accessGrantsInstanceId = this.accessGrantsInstanceId;
     final createdAt = this.createdAt;
+    final identityCenterApplicationArn = this.identityCenterApplicationArn;
     final identityCenterArn = this.identityCenterArn;
+    final identityCenterInstanceArn = this.identityCenterInstanceArn;
     return {
       if (accessGrantsInstanceArn != null)
         'AccessGrantsInstanceArn': accessGrantsInstanceArn,
       if (accessGrantsInstanceId != null)
         'AccessGrantsInstanceId': accessGrantsInstanceId,
       if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (identityCenterApplicationArn != null)
+        'IdentityCenterApplicationArn': identityCenterApplicationArn,
       if (identityCenterArn != null) 'IdentityCenterArn': identityCenterArn,
+      if (identityCenterInstanceArn != null)
+        'IdentityCenterInstanceArn': identityCenterInstanceArn,
     };
   }
 }
@@ -11968,6 +12133,100 @@ class ListAccessPointsResult {
     final nextToken = this.nextToken;
     return {
       if (accessPointList != null) 'AccessPointList': accessPointList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Part of <code>ListCallerAccessGrantsResult</code>. Each entry includes the
+/// permission level (READ, WRITE, or READWRITE) and the grant scope of the
+/// access grant. If the grant also includes an application ARN, the grantee can
+/// only access the S3 data through this application.
+class ListCallerAccessGrantsEntry {
+  /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
+  /// application associated with your Identity Center instance. If the grant
+  /// includes an application ARN, the grantee can only access the S3 data through
+  /// this application.
+  final String? applicationArn;
+
+  /// The S3 path of the data to which you have been granted access.
+  final String? grantScope;
+
+  /// The type of permission granted, which can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>READ</code> - Grants read-only access to the S3 data.
+  /// </li>
+  /// <li>
+  /// <code>WRITE</code> - Grants write-only access to the S3 data.
+  /// </li>
+  /// <li>
+  /// <code>READWRITE</code> - Grants both read and write access to the S3 data.
+  /// </li>
+  /// </ul>
+  final Permission? permission;
+
+  ListCallerAccessGrantsEntry({
+    this.applicationArn,
+    this.grantScope,
+    this.permission,
+  });
+  factory ListCallerAccessGrantsEntry.fromXml(_s.XmlElement elem) {
+    return ListCallerAccessGrantsEntry(
+      applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
+      grantScope: _s.extractXmlStringValue(elem, 'GrantScope'),
+      permission: _s
+          .extractXmlStringValue(elem, 'Permission')
+          ?.let(Permission.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final grantScope = this.grantScope;
+    final permission = this.permission;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (grantScope != null) 'GrantScope': grantScope,
+      if (permission != null) 'Permission': permission.value,
+    };
+  }
+}
+
+class ListCallerAccessGrantsResult {
+  /// A list of the caller's access grants that were created using S3 Access
+  /// Grants and that grant the caller access to the S3 data of the Amazon Web
+  /// Services account ID that was specified in the request.
+  final List<ListCallerAccessGrantsEntry>? callerAccessGrantsList;
+
+  /// A pagination token that you can use to request the next page of results.
+  /// Pass this value into a subsequent <code>List Caller Access Grants</code>
+  /// request in order to retrieve the next page of results.
+  final String? nextToken;
+
+  ListCallerAccessGrantsResult({
+    this.callerAccessGrantsList,
+    this.nextToken,
+  });
+  factory ListCallerAccessGrantsResult.fromXml(_s.XmlElement elem) {
+    return ListCallerAccessGrantsResult(
+      callerAccessGrantsList: _s
+          .extractXmlChild(elem, 'CallerAccessGrantsList')
+          ?.let((elem) => elem
+              .findElements('AccessGrant')
+              .map(ListCallerAccessGrantsEntry.fromXml)
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerAccessGrantsList = this.callerAccessGrantsList;
+    final nextToken = this.nextToken;
+    return {
+      if (callerAccessGrantsList != null)
+        'CallerAccessGrantsList': callerAccessGrantsList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -13441,8 +13700,8 @@ class PublicAccessBlockConfiguration {
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for
   /// buckets in this account. Setting this element to <code>TRUE</code> restricts
-  /// access to buckets with public policies to only Amazon Web Service principals
-  /// and authorized users within this account.
+  /// access to buckets with public policies to only Amazon Web Servicesservice
+  /// principals and authorized users within this account.
   ///
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
@@ -13508,7 +13767,7 @@ class PublicAccessBlockConfiguration {
 }
 
 class PutAccessGrantsInstanceResourcePolicyRequest {
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// The resource policy of the S3 Access Grants instance that you are updating.
@@ -15686,7 +15945,7 @@ class S3JobManifestGenerator {
   /// Determines whether or not to write the job's generated manifest to a bucket.
   final bool enableManifestOutput;
 
-  /// The source bucket used by the ManifestGenerator.
+  /// The ARN of the source bucket used by the ManifestGenerator.
   /// <note>
   /// <b>Directory buckets</b> - Directory buckets aren't supported as the source
   /// buckets used by <code>S3JobManifestGenerator</code> to generate the job
@@ -18016,7 +18275,7 @@ class UpdateAccessGrantsLocationRequest {
   /// or a bucket and prefix in the <code>Subprefix</code> field.
   final String accessGrantsLocationId;
 
-  /// The ID of the Amazon Web Services account that is making this request.
+  /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
 
   /// The Amazon Resource Name (ARN) of the IAM role for the registered location.

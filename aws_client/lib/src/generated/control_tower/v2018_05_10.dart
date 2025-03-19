@@ -28,18 +28,135 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <li>
 /// <a
 /// href="https://docs.aws.amazon.com/controltower/latest/userguide/controls.html">
-/// <i>controls</i> </a>
+/// <i>Controls</i> </a>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_DisableControl.html">DisableControl</a>
 /// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_EnableControl.html">EnableControl</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetEnabledControl.html">GetEnabledControl</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListControlOperations.html">ListControlOperations</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListEnabledControls.html">ListEnabledControls</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_UpdateEnabledControl.html">UpdateEnabledControl</a>
+/// </li>
+/// </ul> </li>
 /// <li>
 /// <a
 /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch.html">
-/// <i>landing zones</i> </a>
+/// <i>Landing zones</i> </a>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_CreateLandingZone.html">CreateLandingZone</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/types-of-baselines.html">
-/// <i>baselines</i> </a>
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_DeleteLandingZone.html">DeleteLandingZone</a>
 /// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetLandingZone.html">GetLandingZone</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetLandingZoneOperation.html">GetLandingZoneOperation</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListLandingZones.html">ListLandingZones</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListLandingZoneOperations.html">ListLandingZoneOperations</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ResetLandingZone.html">ResetLandingZone</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_UpdateLandingZone.html">UpdateLandingZone</a>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/userguide/types-of-baselines.html">
+/// <i>Baselines</i> </a>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_DisableBaseline.html">DisableBaseline</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_EnableBaseline.html">EnableBaseline</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetBaseline.html">GetBaseline</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetBaselineOperation.html">GetBaselineOperation</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetEnabledBaseline.html">GetEnabledBaseline</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListBaselines.html">ListBaselines</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListEnabledBaselines.html">ListEnabledBaselines</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ResetEnabledBaseline.html">ResetEnabledBaseline</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_UpdateEnabledBaseline.html">UpdateEnabledBaseline</a>
+/// </li>
+/// </ul> </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/tagging.html">
+/// <i>Tagging</i> </a>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListTagsForResource.html">ListTagsForResource</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_TagResource.html">TagResource</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_UntagResource.html">UntagResource</a>
+/// </li>
+/// </ul> </li>
 /// </ul>
 /// For more information about these types of resources, see the <a
 /// href="https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html">
@@ -74,31 +191,51 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// control. You can view the <code>controlIdentifier</code> in the console on
 /// the <b>Control details</b> page, as well as in the documentation.
 ///
-/// The <code>controlIdentifier</code> is unique in each Amazon Web Services
-/// Region for each control. You can find the <code>controlIdentifier</code> for
-/// each Region and control in the <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-metadata-tables.html">Tables
+/// <b>About identifiers for Amazon Web Services Control Tower</b>
+///
+/// The Amazon Web Services Control Tower <code>controlIdentifier</code> is
+/// unique in each Amazon Web Services Region for each control. You can find the
+/// <code>controlIdentifier</code> for each Region and control in the <a
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-metadata-tables.html">Tables
 /// of control metadata</a> or the <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-region-tables.html">Control
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-region-tables.html">Control
 /// availability by Region tables</a> in the <i>Amazon Web Services Control
-/// Tower User Guide.</i>
+/// Tower Controls Reference Guide</i>.
 ///
 /// A quick-reference list of control identifers for the Amazon Web Services
 /// Control Tower legacy <i>Strongly recommended</i> and <i>Elective</i>
 /// controls is given in <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html.html">Resource
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-identifiers.html.html">Resource
 /// identifiers for APIs and controls</a> in the <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html">Controls
-/// reference guide section</a> of the <i>Amazon Web Services Control Tower User
-/// Guide</i>. Remember that <i>Mandatory</i> controls cannot be added or
-/// removed.
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-identifiers.html">
+/// <i>Amazon Web Services Control Tower Controls Reference Guide</i> </a>.
+/// Remember that <i>Mandatory</i> controls cannot be added or removed.
 /// <note>
-/// <b>ARN format:</b>
-/// <code>arn:aws:controltower:{REGION}::control/{CONTROL_NAME}</code>
+/// <b>Some controls have two identifiers</b>
+///
+/// <ul>
+/// <li>
+/// <b>ARN format for Amazon Web Services Control Tower:</b>
+/// <code>arn:aws:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}</code>
 ///
 /// <b>Example:</b>
 ///
 /// <code>arn:aws:controltower:us-west-2::control/AWS-GR_AUTOSCALING_LAUNCH_CONFIG_PUBLIC_IP_DISABLED</code>
+/// </li>
+/// <li>
+/// <b>ARN format for Amazon Web Services Control Catalog:</b>
+/// <code>arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}</code>
+/// </li>
+/// </ul>
+/// You can find the <code>{CONTROL_CATALOG_OPAQUE_ID}</code> in the <a
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/all-global-identifiers.html">
+/// <i>Amazon Web Services Control Tower Controls Reference Guide</i> </a>, or
+/// in the Amazon Web Services Control Tower console, on the <b>Control
+/// details</b> page.
+///
+/// The Amazon Web Services Control Tower APIs for enabled controls, such as
+/// <code>GetEnabledControl</code> and <code>ListEnabledControls</code> always
+/// return an ARN of the same type given when the control was enabled.
 /// </note>
 /// <b>To get the <code>targetIdentifier</code>:</b>
 ///
@@ -147,12 +284,35 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// reference manual</a>, in the "Actions" section. For usage examples, see <a
 /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">Baseline
 /// API input and output examples with CLI</a>.
-/// <p class="title"> <b>Details and examples</b>
+///
+/// <b> About Amazon Web Services Control Catalog identifiers</b>
+///
+/// <ul>
+/// <li>
+/// The <code>EnableControl</code> and <code>DisableControl</code> API
+/// operations can be called by specifying either the Amazon Web Services
+/// Control Tower identifer or the Amazon Web Services Control Catalog
+/// identifier. The API response returns the same type of identifier that you
+/// specified when calling the API.
+/// </li>
+/// <li>
+/// If you use an Amazon Web Services Control Tower identifier to call the
+/// <code>EnableControl</code> API, and then call <code>EnableControl</code>
+/// again with an Amazon Web Services Control Catalog identifier, Amazon Web
+/// Services Control Tower returns an error message stating that the control is
+/// already enabled. Similar behavior applies to the <code>DisableControl</code>
+/// API operation.
+/// </li>
+/// <li>
+/// Mandatory controls and the landing-zone-level Region deny control have
+/// Amazon Web Services Control Tower identifiers only.
+/// </li>
+/// </ul> <p class="title"> <b>Details and examples</b>
 ///
 /// <ul>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">Control
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">Control
 /// API input and output examples with CLI</a>
 /// </li>
 /// <li>
@@ -162,7 +322,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/enable-controls.html">Enable
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/enable-controls.html">Enable
 /// controls with CloudFormation</a>
 /// </li>
 /// <li>
@@ -172,27 +332,27 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-metadata-tables.html">Control
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-metadata-tables.html">Control
 /// metadata tables (large page)</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-region-tables.html">Control
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-region-tables.html">Control
 /// availability by Region tables (large page)</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html">List
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-identifiers.html">List
 /// of identifiers for legacy controls</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/controls.html">Controls
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/controls.html">Controls
 /// reference guide</a>
 /// </li>
 /// <li>
 /// <a
-/// href="https://docs.aws.amazon.com/controltower/latest/userguide/controls-reference.html">Controls
+/// href="https://docs.aws.amazon.com/controltower/latest/controlreference/controls-reference.html">Controls
 /// library groupings</a>
 /// </li>
 /// <li>
@@ -350,11 +510,11 @@ class ControlTower {
   }
 
   /// This API call turns off a control. It starts an asynchronous operation
-  /// that deletes AWS resources on the specified organizational unit and the
-  /// accounts it contains. The resources will vary according to the control
-  /// that you specify. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// that deletes Amazon Web Services resources on the specified organizational
+  /// unit and the accounts it contains. The resources will vary according to
+  /// the control that you specify. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -451,9 +611,9 @@ class ControlTower {
   /// This API call activates a control. It starts an asynchronous operation
   /// that creates Amazon Web Services resources on the specified organizational
   /// unit and the accounts it contains. The resources created will vary
-  /// according to the control that you specify. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// according to the control that you specify. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -567,9 +727,9 @@ class ControlTower {
   /// Returns the status of a particular <code>EnableControl</code> or
   /// <code>DisableControl</code> operation. Displays a message in case of
   /// error. Details for an operation are available for 90 days. For usage
-  /// examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -622,9 +782,9 @@ class ControlTower {
     return GetEnabledBaselineOutput.fromJson(response);
   }
 
-  /// Retrieves details about an enabled control. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// Retrieves details about an enabled control. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -739,7 +899,10 @@ class ControlTower {
     return ListBaselinesOutput.fromJson(response);
   }
 
-  /// Provides a list of operations in progress or queued.
+  /// Provides a list of operations in progress or queued. For usage examples,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples">ListControlOperation
+  /// examples</a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -830,9 +993,9 @@ class ControlTower {
 
   /// Lists the controls enabled by Amazon Web Services Control Tower on the
   /// specified organizational unit and the accounts it contains. For usage
-  /// examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -841,8 +1004,8 @@ class ControlTower {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filter] :
-  /// An input filter for the <code>ListCEnabledControls</code> API that lets
-  /// you select the types of control operations to view.
+  /// An input filter for the <code>ListEnabledControls</code> API that lets you
+  /// select the types of control operations to view.
   ///
   /// Parameter [maxResults] :
   /// How many results to return per API call.
@@ -881,6 +1044,49 @@ class ControlTower {
       exceptionFnMap: _exceptionFns,
     );
     return ListEnabledControlsOutput.fromJson(response);
+  }
+
+  /// Lists all landing zone operations from the past 90 days. Results are
+  /// sorted by time, with the most recent operation first.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filter] :
+  /// An input filter for the <code>ListLandingZoneOperations</code> API that
+  /// lets you select the types of landing zone operations to view.
+  ///
+  /// Parameter [maxResults] :
+  /// How many results to return per API call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to continue the list from a previous API call with the same
+  /// parameters.
+  Future<ListLandingZoneOperationsOutput> listLandingZoneOperations({
+    LandingZoneOperationFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filter != null) 'filter': filter,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-landingzone-operations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLandingZoneOperationsOutput.fromJson(response);
   }
 
   /// Returns the landing zone ARN for the landing zone deployed in your managed
@@ -924,9 +1130,9 @@ class ControlTower {
   }
 
   /// Returns a list of tags associated with the resource. For usage examples,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -979,8 +1185,11 @@ class ControlTower {
   }
 
   /// This API call resets a landing zone. It starts an asynchronous operation
-  /// that resets the landing zone to the parameters specified in its original
-  /// configuration.
+  /// that resets the landing zone to the parameters specified in the original
+  /// configuration, which you specified in the manifest file. Nothing in the
+  /// manifest file's original landing zone configuration is changed during the
+  /// reset process, by default. This API is not the same as a rollback of a
+  /// landing zone version, which is not a supported operation.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1006,9 +1215,9 @@ class ControlTower {
     return ResetLandingZoneOutput.fromJson(response);
   }
 
-  /// Applies tags to a resource. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// Applies tags to a resource. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1034,9 +1243,9 @@ class ControlTower {
     );
   }
 
-  /// Removes tags from a resource. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  /// Removes tags from a resource. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1112,16 +1321,16 @@ class ControlTower {
   /// not accept the request.
   ///
   /// If the enabled control shows an <code>EnablementStatus</code> of FAILED,
-  /// Amazon Web Services Control Tower will update the control to match any
-  /// valid parameters that you supply.
+  /// Amazon Web Services Control Tower updates the control to match any valid
+  /// parameters that you supply.
   ///
   /// If the <code>DriftSummary</code> status for the control shows as DRIFTED,
   /// you cannot call this API. Instead, you can update the control by calling
   /// <code>DisableControl</code> and again calling <code>EnableControl</code>,
   /// or you can run an extending governance operation. For usage examples, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>
+  /// the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1170,10 +1379,12 @@ class ControlTower {
   /// The unique identifier of the landing zone.
   ///
   /// Parameter [manifest] :
-  /// The manifest JSON file is a text file that describes your Amazon Web
-  /// Services resources. For examples, review <a
+  /// The manifest file (JSON) is a text file that describes your Amazon Web
+  /// Services resources. For an example, review <a
   /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch">Launch
-  /// your landing zone</a>.
+  /// your landing zone</a>. The example manifest file contains each of the
+  /// available parameters. The schema for the landing zone's JSON manifest file
+  /// is not published, by design.
   ///
   /// Parameter [version] :
   /// The landing zone version, for example, 3.2.
@@ -1419,7 +1630,7 @@ class ControlOperation {
   }
 }
 
-/// A filter object that lets you call <code>ListCOntrolOperations</code> with a
+/// A filter object that lets you call <code>ListControlOperations</code> with a
 /// specific filter.
 class ControlOperationFilter {
   /// The set of <code>controlIdentifier</code> returned by the filter.
@@ -2276,27 +2487,28 @@ enum EnablementStatus {
               throw Exception('$value is not known in enum EnablementStatus'));
 }
 
-/// The deployment summary of the enabled control.
+/// The deployment summary of an <code>EnabledControl</code> or
+/// <code>EnabledBaseline</code> resource.
 class EnablementStatusSummary {
-  /// The last operation identifier for the enabled control.
+  /// The last operation identifier for the enabled resource.
   final String? lastOperationIdentifier;
 
-  /// The deployment status of the enabled control.
+  /// The deployment status of the enabled resource.
   ///
   /// Valid values:
   ///
   /// <ul>
   /// <li>
-  /// <code>SUCCEEDED</code>: The <code>enabledControl</code> configuration was
-  /// deployed successfully.
+  /// <code>SUCCEEDED</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration was deployed successfully.
   /// </li>
   /// <li>
-  /// <code>UNDER_CHANGE</code>: The <code>enabledControl</code> configuration is
-  /// changing.
+  /// <code>UNDER_CHANGE</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration is changing.
   /// </li>
   /// <li>
-  /// <code>FAILED</code>: The <code>enabledControl</code> configuration failed to
-  /// deploy.
+  /// <code>FAILED</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration failed to deploy.
   /// </li>
   /// </ul>
   final EnablementStatus? status;
@@ -2627,6 +2839,9 @@ class LandingZoneOperationDetail {
   /// The landing zone operation end time.
   final DateTime? endTime;
 
+  /// The <code>operationIdentifier</code> of the landing zone operation.
+  final String? operationIdentifier;
+
   /// The landing zone operation type.
   ///
   /// Valid values:
@@ -2671,6 +2886,7 @@ class LandingZoneOperationDetail {
 
   LandingZoneOperationDetail({
     this.endTime,
+    this.operationIdentifier,
     this.operationType,
     this.startTime,
     this.status,
@@ -2680,6 +2896,7 @@ class LandingZoneOperationDetail {
   factory LandingZoneOperationDetail.fromJson(Map<String, dynamic> json) {
     return LandingZoneOperationDetail(
       endTime: timeStampFromJson(json['endTime']),
+      operationIdentifier: json['operationIdentifier'] as String?,
       operationType: (json['operationType'] as String?)
           ?.let(LandingZoneOperationType.fromString),
       startTime: timeStampFromJson(json['startTime']),
@@ -2691,16 +2908,43 @@ class LandingZoneOperationDetail {
 
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
+    final operationIdentifier = this.operationIdentifier;
     final operationType = this.operationType;
     final startTime = this.startTime;
     final status = this.status;
     final statusMessage = this.statusMessage;
     return {
       if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
       if (operationType != null) 'operationType': operationType.value,
       if (startTime != null) 'startTime': iso8601ToJson(startTime),
       if (status != null) 'status': status.value,
       if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+/// A filter object that lets you call <code>ListLandingZoneOperations</code>
+/// with a specific filter.
+class LandingZoneOperationFilter {
+  /// The statuses of the set of landing zone operations selected by the filter.
+  final List<LandingZoneOperationStatus>? statuses;
+
+  /// The set of landing zone operation types selected by the filter.
+  final List<LandingZoneOperationType>? types;
+
+  LandingZoneOperationFilter({
+    this.statuses,
+    this.types,
+  });
+
+  Map<String, dynamic> toJson() {
+    final statuses = this.statuses;
+    final types = this.types;
+    return {
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
+      if (types != null) 'types': types.map((e) => e.value).toList(),
     };
   }
 }
@@ -2719,6 +2963,46 @@ enum LandingZoneOperationStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum LandingZoneOperationStatus'));
+}
+
+/// Returns a summary of information about a landing zone operation.
+class LandingZoneOperationSummary {
+  /// The <code>operationIdentifier</code> of the landing zone operation.
+  final String? operationIdentifier;
+
+  /// The type of the landing zone operation.
+  final LandingZoneOperationType? operationType;
+
+  /// The status of the landing zone operation.
+  final LandingZoneOperationStatus? status;
+
+  LandingZoneOperationSummary({
+    this.operationIdentifier,
+    this.operationType,
+    this.status,
+  });
+
+  factory LandingZoneOperationSummary.fromJson(Map<String, dynamic> json) {
+    return LandingZoneOperationSummary(
+      operationIdentifier: json['operationIdentifier'] as String?,
+      operationType: (json['operationType'] as String?)
+          ?.let(LandingZoneOperationType.fromString),
+      status: (json['status'] as String?)
+          ?.let(LandingZoneOperationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    final operationType = this.operationType;
+    final status = this.status;
+    return {
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
+      if (operationType != null) 'operationType': operationType.value,
+      if (status != null) 'status': status.value,
+    };
+  }
 }
 
 enum LandingZoneOperationType {
@@ -2810,7 +3094,7 @@ class ListBaselinesOutput {
 }
 
 class ListControlOperationsOutput {
-  /// Returns a list of output from control operations. PLACEHOLDER
+  /// Returns a list of output from control operations.
   final List<ControlOperationSummary> controlOperations;
 
   /// A pagination token.
@@ -2904,6 +3188,40 @@ class ListEnabledControlsOutput {
     final nextToken = this.nextToken;
     return {
       'enabledControls': enabledControls,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListLandingZoneOperationsOutput {
+  /// Lists landing zone operations.
+  final List<LandingZoneOperationSummary> landingZoneOperations;
+
+  /// Retrieves the next page of results. If the string is empty, the response is
+  /// the end of the results.
+  final String? nextToken;
+
+  ListLandingZoneOperationsOutput({
+    required this.landingZoneOperations,
+    this.nextToken,
+  });
+
+  factory ListLandingZoneOperationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListLandingZoneOperationsOutput(
+      landingZoneOperations: (json['landingZoneOperations'] as List)
+          .nonNulls
+          .map((e) =>
+              LandingZoneOperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final landingZoneOperations = this.landingZoneOperations;
+    final nextToken = this.nextToken;
+    return {
+      'landingZoneOperations': landingZoneOperations,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }

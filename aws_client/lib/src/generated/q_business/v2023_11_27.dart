@@ -40,33 +40,6 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/iam-roles.html">IAM
 /// roles for Amazon Q Business</a> in the <i>Amazon Q Business User Guide</i>.
 ///
-/// You can use the following AWS SDKs to access Amazon Q Business APIs:
-///
-/// <ul>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-cpp">AWS SDK for C++</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-go">AWS SDK for Go</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-java">AWS SDK for Java</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-javascript">AWS SDK for
-/// JavaScript</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-net">AWS SDK for .NET</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/pythonsdk">AWS SDK for Python
-/// (Boto3)</a>
-/// </li>
-/// <li>
-/// <a href="https://docs.aws.amazon.com/sdk-for-ruby">AWS SDK for Ruby</a>
-/// </li>
-/// </ul>
 /// The following resources provide additional information about using the
 /// Amazon Q Business API:
 ///
@@ -295,8 +268,7 @@ class QBusiness {
   /// The identifier of the Amazon Q Business conversation.
   ///
   /// Parameter [parentMessageId] :
-  /// The identifier of the previous end user text input message in a
-  /// conversation.
+  /// The identifier of the previous system message in a conversation.
   ///
   /// Parameter [userGroups] :
   /// The groups that a user associated with the chat input belongs to.
@@ -356,7 +328,7 @@ class QBusiness {
   /// Business Pro are also available in Amazon Q Business Lite. For information
   /// on what's included in Amazon Q Business Lite and what's included in Amazon
   /// Q Business Pro, see <a
-  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers">Amazon
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers">Amazon
   /// Q Business tiers</a>. You must use the Amazon Q Business console to assign
   /// subscription tiers to users.
   /// </note>
@@ -375,6 +347,9 @@ class QBusiness {
   /// Parameter [attachmentsConfiguration] :
   /// An option to allow end users to upload files directly during chat.
   ///
+  /// Parameter [clientIdsForOIDC] :
+  /// The OIDC client ID for a Amazon Q Business application.
+  ///
   /// Parameter [clientToken] :
   /// A token that you provide to identify the request to create your Amazon Q
   /// Business application.
@@ -386,9 +361,26 @@ class QBusiness {
   /// The identifier of the KMS key that is used to encrypt your data. Amazon Q
   /// Business doesn't support asymmetric keys.
   ///
+  /// Parameter [iamIdentityProviderArn] :
+  /// The Amazon Resource Name (ARN) of an identity provider being used by an
+  /// Amazon Q Business application.
+  ///
   /// Parameter [identityCenterInstanceArn] :
   /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are
   /// either creating for—or connecting to—your Amazon Q Business application.
+  ///
+  /// Parameter [identityType] :
+  /// The authentication type being used by a Amazon Q Business application.
+  ///
+  /// Parameter [personalizationConfiguration] :
+  /// Configuration information about chat response personalization. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html">Personalizing
+  /// chat responses</a>
+  ///
+  /// Parameter [qAppsConfiguration] :
+  /// An option to allow end users to create and use Amazon Q Apps in the web
+  /// experience.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of an IAM role with permissions to access
@@ -402,10 +394,15 @@ class QBusiness {
   Future<CreateApplicationResponse> createApplication({
     required String displayName,
     AttachmentsConfiguration? attachmentsConfiguration,
+    List<String>? clientIdsForOIDC,
     String? clientToken,
     String? description,
     EncryptionConfiguration? encryptionConfiguration,
+    String? iamIdentityProviderArn,
     String? identityCenterInstanceArn,
+    IdentityType? identityType,
+    PersonalizationConfiguration? personalizationConfiguration,
+    QAppsConfiguration? qAppsConfiguration,
     String? roleArn,
     List<Tag>? tags,
   }) async {
@@ -413,12 +410,19 @@ class QBusiness {
       'displayName': displayName,
       if (attachmentsConfiguration != null)
         'attachmentsConfiguration': attachmentsConfiguration,
+      if (clientIdsForOIDC != null) 'clientIdsForOIDC': clientIdsForOIDC,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (encryptionConfiguration != null)
         'encryptionConfiguration': encryptionConfiguration,
+      if (iamIdentityProviderArn != null)
+        'iamIdentityProviderArn': iamIdentityProviderArn,
       if (identityCenterInstanceArn != null)
         'identityCenterInstanceArn': identityCenterInstanceArn,
+      if (identityType != null) 'identityType': identityType.value,
+      if (personalizationConfiguration != null)
+        'personalizationConfiguration': personalizationConfiguration,
+      if (qAppsConfiguration != null) 'qAppsConfiguration': qAppsConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
     };
@@ -450,10 +454,40 @@ class QBusiness {
   /// be attached to.
   ///
   /// Parameter [configuration] :
-  /// Configuration information to connect to your data source repository. For
-  /// configuration templates for your specific data source, see <a
+  /// Configuration information to connect your data source repository to Amazon
+  /// Q Business. Use this parameter to provide a JSON schema with configuration
+  /// information specific to your data source connector.
+  ///
+  /// Each data source has a JSON schema provided by Amazon Q Business that you
+  /// must use. For example, the Amazon S3 and Web Crawler connectors require
+  /// the following JSON schemas:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html">Amazon
+  /// S3 JSON schema</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html">Web
+  /// Crawler JSON schema</a>
+  /// </li>
+  /// </ul>
+  /// You can find configuration templates for your specific data source using
+  /// the following steps:
+  /// <ol>
+  /// <li>
+  /// Navigate to the <a
   /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html">Supported
-  /// connectors</a>.
+  /// connectors</a> page in the Amazon Q Business User Guide, and select the
+  /// data source of your choice.
+  /// </li>
+  /// <li>
+  /// Then, from your specific data source connector page, select <b>Using the
+  /// API</b>. You will find the JSON schema for your data source, including
+  /// parameter descriptions, in this section.
+  /// </li> </ol>
   ///
   /// Parameter [displayName] :
   /// A name for the data source connector.
@@ -578,8 +612,8 @@ class QBusiness {
   ///
   /// Parameter [type] :
   /// The index type that's suitable for your needs. For more information on
-  /// what's included in each type of index or index tier, see <a
-  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers">Amazon
+  /// what's included in each type of index, see <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers">Amazon
   /// Q Business tiers</a>.
   Future<CreateIndexResponse> createIndex({
     required String applicationId,
@@ -790,9 +824,18 @@ class QBusiness {
   /// A token you provide to identify a request to create an Amazon Q Business
   /// web experience.
   ///
+  /// Parameter [identityProviderConfiguration] :
+  /// Information about the identity provider (IdP) used to authenticate end
+  /// users of an Amazon Q Business web experience.
+  ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the service role attached to your web
   /// experience.
+  /// <note>
+  /// You must provide this value if you're using IAM Identity Center to manage
+  /// end user access to your application. If you're using legacy identity
+  /// management to manage user access, you don't need to provide this value.
+  /// </note>
   ///
   /// Parameter [samplePromptsControlMode] :
   /// Determines whether sample prompts are enabled in the web experience for an
@@ -816,6 +859,7 @@ class QBusiness {
   Future<CreateWebExperienceResponse> createWebExperience({
     required String applicationId,
     String? clientToken,
+    IdentityProviderConfiguration? identityProviderConfiguration,
     String? roleArn,
     WebExperienceSamplePromptsControlMode? samplePromptsControlMode,
     String? subtitle,
@@ -825,6 +869,8 @@ class QBusiness {
   }) async {
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (identityProviderConfiguration != null)
+        'identityProviderConfiguration': identityProviderConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (samplePromptsControlMode != null)
         'samplePromptsControlMode': samplePromptsControlMode.value,
@@ -2104,12 +2150,6 @@ class QBusiness {
   /// group. For example, the group "Company" includes the user "CEO" and the
   /// sub groups "Research", "Engineering", and "Sales and Marketing".
   ///
-  /// If you have more than 1000 users and/or sub groups for a single group, you
-  /// need to provide the path to the S3 file that lists your users and sub
-  /// groups for a group. Your sub groups can contain more than 1000 users, but
-  /// the list of sub groups that belong to a group (and/or users) must be no
-  /// more than 1000.
-  ///
   /// Parameter [indexId] :
   /// The identifier of the index in which you want to map users to their
   /// groups.
@@ -2297,6 +2337,11 @@ class QBusiness {
   /// Parameter [attachmentsConfiguration] :
   /// An option to allow end users to upload files directly during chat.
   ///
+  /// Parameter [autoSubscriptionConfiguration] :
+  /// An option to enable updating the default subscription type assigned to an
+  /// Amazon Q Business application using IAM identity federation for user
+  /// management.
+  ///
   /// Parameter [description] :
   /// A description for the Amazon Q Business application.
   ///
@@ -2307,6 +2352,16 @@ class QBusiness {
   /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are
   /// either creating for—or connecting to—your Amazon Q Business application.
   ///
+  /// Parameter [personalizationConfiguration] :
+  /// Configuration information about chat response personalization. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html">Personalizing
+  /// chat responses</a>.
+  ///
+  /// Parameter [qAppsConfiguration] :
+  /// An option to allow end users to create and use Amazon Q Apps in the web
+  /// experience.
+  ///
   /// Parameter [roleArn] :
   /// An Amazon Web Services Identity and Access Management (IAM) role that
   /// gives Amazon Q Business permission to access Amazon CloudWatch logs and
@@ -2314,18 +2369,26 @@ class QBusiness {
   Future<void> updateApplication({
     required String applicationId,
     AttachmentsConfiguration? attachmentsConfiguration,
+    AutoSubscriptionConfiguration? autoSubscriptionConfiguration,
     String? description,
     String? displayName,
     String? identityCenterInstanceArn,
+    PersonalizationConfiguration? personalizationConfiguration,
+    QAppsConfiguration? qAppsConfiguration,
     String? roleArn,
   }) async {
     final $payload = <String, dynamic>{
       if (attachmentsConfiguration != null)
         'attachmentsConfiguration': attachmentsConfiguration,
+      if (autoSubscriptionConfiguration != null)
+        'autoSubscriptionConfiguration': autoSubscriptionConfiguration,
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
       if (identityCenterInstanceArn != null)
         'identityCenterInstanceArn': identityCenterInstanceArn,
+      if (personalizationConfiguration != null)
+        'personalizationConfiguration': personalizationConfiguration,
+      if (qAppsConfiguration != null) 'qAppsConfiguration': qAppsConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
@@ -2685,6 +2748,10 @@ class QBusiness {
   /// Parameter [authenticationConfiguration] :
   /// The authentication configuration of the Amazon Q Business web experience.
   ///
+  /// Parameter [identityProviderConfiguration] :
+  /// Information about the identity provider (IdP) used to authenticate end
+  /// users of an Amazon Q Business web experience.
+  ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the role with permission to access the
   /// Amazon Q Business web experience and required resources.
@@ -2706,6 +2773,7 @@ class QBusiness {
     required String applicationId,
     required String webExperienceId,
     WebExperienceAuthConfiguration? authenticationConfiguration,
+    IdentityProviderConfiguration? identityProviderConfiguration,
     String? roleArn,
     WebExperienceSamplePromptsControlMode? samplePromptsControlMode,
     String? subtitle,
@@ -2715,6 +2783,8 @@ class QBusiness {
     final $payload = <String, dynamic>{
       if (authenticationConfiguration != null)
         'authenticationConfiguration': authenticationConfiguration,
+      if (identityProviderConfiguration != null)
+        'identityProviderConfiguration': identityProviderConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (samplePromptsControlMode != null)
         'samplePromptsControlMode': samplePromptsControlMode.value,
@@ -3118,6 +3188,9 @@ class Application {
   /// The name of the Amazon Q Business application.
   final String? displayName;
 
+  /// The authentication type being used by a Amazon Q Business application.
+  final IdentityType? identityType;
+
   /// The status of the Amazon Q Business application. The application is ready to
   /// use when the status is <code>ACTIVE</code>.
   final ApplicationStatus? status;
@@ -3129,6 +3202,7 @@ class Application {
     this.applicationId,
     this.createdAt,
     this.displayName,
+    this.identityType,
     this.status,
     this.updatedAt,
   });
@@ -3138,6 +3212,8 @@ class Application {
       applicationId: json['applicationId'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       displayName: json['displayName'] as String?,
+      identityType:
+          (json['identityType'] as String?)?.let(IdentityType.fromString),
       status: (json['status'] as String?)?.let(ApplicationStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
     );
@@ -3147,12 +3223,14 @@ class Application {
     final applicationId = this.applicationId;
     final createdAt = this.createdAt;
     final displayName = this.displayName;
+    final identityType = this.identityType;
     final status = this.status;
     final updatedAt = this.updatedAt;
     return {
       if (applicationId != null) 'applicationId': applicationId,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (displayName != null) 'displayName': displayName,
+      if (identityType != null) 'identityType': identityType.value,
       if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
     };
@@ -3362,8 +3440,7 @@ class AttributeFilter {
   /// Returns <code>true</code> when a document contains any of the specified
   /// document attributes or metadata fields. Supported for the following <a
   /// href="https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html">document
-  /// attribute value types</a>: <code>dateValue</code>, <code>longValue</code>,
-  /// <code>stringListValue</code> and <code>stringValue</code>.
+  /// attribute value types</a>: <code>stringListValue</code>.
   final DocumentAttribute? containsAny;
 
   /// Performs an equals operation on two document attributes or metadata fields.
@@ -3518,6 +3595,59 @@ class AuthChallengeResponse {
       'responseMap': responseMap,
     };
   }
+}
+
+/// Subscription configuration information for an Amazon Q Business application
+/// using IAM identity federation for user management.
+class AutoSubscriptionConfiguration {
+  /// Describes whether automatic subscriptions are enabled for an Amazon Q
+  /// Business application using IAM identity federation for user management.
+  final AutoSubscriptionStatus autoSubscribe;
+
+  /// Describes the default subscription type assigned to an Amazon Q Business
+  /// application using IAM identity federation for user management. If the value
+  /// for <code>autoSubscribe</code> is set to <code>ENABLED</code> you must
+  /// select a value for this field.
+  final SubscriptionType? defaultSubscriptionType;
+
+  AutoSubscriptionConfiguration({
+    required this.autoSubscribe,
+    this.defaultSubscriptionType,
+  });
+
+  factory AutoSubscriptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoSubscriptionConfiguration(
+      autoSubscribe:
+          AutoSubscriptionStatus.fromString((json['autoSubscribe'] as String)),
+      defaultSubscriptionType: (json['defaultSubscriptionType'] as String?)
+          ?.let(SubscriptionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoSubscribe = this.autoSubscribe;
+    final defaultSubscriptionType = this.defaultSubscriptionType;
+    return {
+      'autoSubscribe': autoSubscribe.value,
+      if (defaultSubscriptionType != null)
+        'defaultSubscriptionType': defaultSubscriptionType.value,
+    };
+  }
+}
+
+enum AutoSubscriptionStatus {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const AutoSubscriptionStatus(this.value);
+
+  static AutoSubscriptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum AutoSubscriptionStatus'));
 }
 
 /// Information about the basic authentication credentials used to configure a
@@ -5426,6 +5556,13 @@ class GetApplicationResponse {
   /// Settings for whether end users can upload files directly during chat.
   final AppliedAttachmentsConfiguration? attachmentsConfiguration;
 
+  /// Settings for auto-subscription behavior for this application. This is only
+  /// applicable to SAML and OIDC applications.
+  final AutoSubscriptionConfiguration? autoSubscriptionConfiguration;
+
+  /// The OIDC client ID for a Amazon Q Business application.
+  final List<String>? clientIdsForOIDC;
+
   /// The Unix timestamp when the Amazon Q Business application was last updated.
   final DateTime? createdAt;
 
@@ -5444,9 +5581,26 @@ class GetApplicationResponse {
   /// caused the synchronization to fail.
   final ErrorDetail? error;
 
+  /// The Amazon Resource Name (ARN) of an identity provider being used by an
+  /// Amazon Q Business application.
+  final String? iamIdentityProviderArn;
+
   /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance
   /// attached to your Amazon Q Business application.
   final String? identityCenterApplicationArn;
+
+  /// The authentication type being used by a Amazon Q Business application.
+  final IdentityType? identityType;
+
+  /// Configuration information about chat response personalization. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html">Personalizing
+  /// chat responses</a>.
+  final PersonalizationConfiguration? personalizationConfiguration;
+
+  /// Settings for whether end users can create and use Amazon Q Apps in the web
+  /// experience.
+  final QAppsConfiguration? qAppsConfiguration;
 
   /// The Amazon Resource Name (ARN) of the IAM with permissions to access your
   /// CloudWatch logs and metrics.
@@ -5462,12 +5616,18 @@ class GetApplicationResponse {
     this.applicationArn,
     this.applicationId,
     this.attachmentsConfiguration,
+    this.autoSubscriptionConfiguration,
+    this.clientIdsForOIDC,
     this.createdAt,
     this.description,
     this.displayName,
     this.encryptionConfiguration,
     this.error,
+    this.iamIdentityProviderArn,
     this.identityCenterApplicationArn,
+    this.identityType,
+    this.personalizationConfiguration,
+    this.qAppsConfiguration,
     this.roleArn,
     this.status,
     this.updatedAt,
@@ -5481,6 +5641,15 @@ class GetApplicationResponse {
           ? AppliedAttachmentsConfiguration.fromJson(
               json['attachmentsConfiguration'] as Map<String, dynamic>)
           : null,
+      autoSubscriptionConfiguration:
+          json['autoSubscriptionConfiguration'] != null
+              ? AutoSubscriptionConfiguration.fromJson(
+                  json['autoSubscriptionConfiguration'] as Map<String, dynamic>)
+              : null,
+      clientIdsForOIDC: (json['clientIdsForOIDC'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
@@ -5491,8 +5660,19 @@ class GetApplicationResponse {
       error: json['error'] != null
           ? ErrorDetail.fromJson(json['error'] as Map<String, dynamic>)
           : null,
+      iamIdentityProviderArn: json['iamIdentityProviderArn'] as String?,
       identityCenterApplicationArn:
           json['identityCenterApplicationArn'] as String?,
+      identityType:
+          (json['identityType'] as String?)?.let(IdentityType.fromString),
+      personalizationConfiguration: json['personalizationConfiguration'] != null
+          ? PersonalizationConfiguration.fromJson(
+              json['personalizationConfiguration'] as Map<String, dynamic>)
+          : null,
+      qAppsConfiguration: json['qAppsConfiguration'] != null
+          ? QAppsConfiguration.fromJson(
+              json['qAppsConfiguration'] as Map<String, dynamic>)
+          : null,
       roleArn: json['roleArn'] as String?,
       status: (json['status'] as String?)?.let(ApplicationStatus.fromString),
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -5503,12 +5683,18 @@ class GetApplicationResponse {
     final applicationArn = this.applicationArn;
     final applicationId = this.applicationId;
     final attachmentsConfiguration = this.attachmentsConfiguration;
+    final autoSubscriptionConfiguration = this.autoSubscriptionConfiguration;
+    final clientIdsForOIDC = this.clientIdsForOIDC;
     final createdAt = this.createdAt;
     final description = this.description;
     final displayName = this.displayName;
     final encryptionConfiguration = this.encryptionConfiguration;
     final error = this.error;
+    final iamIdentityProviderArn = this.iamIdentityProviderArn;
     final identityCenterApplicationArn = this.identityCenterApplicationArn;
+    final identityType = this.identityType;
+    final personalizationConfiguration = this.personalizationConfiguration;
+    final qAppsConfiguration = this.qAppsConfiguration;
     final roleArn = this.roleArn;
     final status = this.status;
     final updatedAt = this.updatedAt;
@@ -5517,14 +5703,23 @@ class GetApplicationResponse {
       if (applicationId != null) 'applicationId': applicationId,
       if (attachmentsConfiguration != null)
         'attachmentsConfiguration': attachmentsConfiguration,
+      if (autoSubscriptionConfiguration != null)
+        'autoSubscriptionConfiguration': autoSubscriptionConfiguration,
+      if (clientIdsForOIDC != null) 'clientIdsForOIDC': clientIdsForOIDC,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (description != null) 'description': description,
       if (displayName != null) 'displayName': displayName,
       if (encryptionConfiguration != null)
         'encryptionConfiguration': encryptionConfiguration,
       if (error != null) 'error': error,
+      if (iamIdentityProviderArn != null)
+        'iamIdentityProviderArn': iamIdentityProviderArn,
       if (identityCenterApplicationArn != null)
         'identityCenterApplicationArn': identityCenterApplicationArn,
+      if (identityType != null) 'identityType': identityType.value,
+      if (personalizationConfiguration != null)
+        'personalizationConfiguration': personalizationConfiguration,
+      if (qAppsConfiguration != null) 'qAppsConfiguration': qAppsConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (status != null) 'status': status.value,
       if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
@@ -6154,6 +6349,10 @@ class GetWebExperienceResponse {
   /// caused the data source connector to fail.
   final ErrorDetail? error;
 
+  /// Information about the identity provider (IdP) used to authenticate end users
+  /// of an Amazon Q Business web experience.
+  final IdentityProviderConfiguration? identityProviderConfiguration;
+
   /// The Amazon Resource Name (ARN) of the service role attached to your web
   /// experience.
   final String? roleArn;
@@ -6195,6 +6394,7 @@ class GetWebExperienceResponse {
     this.createdAt,
     this.defaultEndpoint,
     this.error,
+    this.identityProviderConfiguration,
     this.roleArn,
     this.samplePromptsControlMode,
     this.status,
@@ -6218,6 +6418,11 @@ class GetWebExperienceResponse {
       error: json['error'] != null
           ? ErrorDetail.fromJson(json['error'] as Map<String, dynamic>)
           : null,
+      identityProviderConfiguration:
+          json['identityProviderConfiguration'] != null
+              ? IdentityProviderConfiguration.fromJson(
+                  json['identityProviderConfiguration'] as Map<String, dynamic>)
+              : null,
       roleArn: json['roleArn'] as String?,
       samplePromptsControlMode: (json['samplePromptsControlMode'] as String?)
           ?.let(WebExperienceSamplePromptsControlMode.fromString),
@@ -6237,6 +6442,7 @@ class GetWebExperienceResponse {
     final createdAt = this.createdAt;
     final defaultEndpoint = this.defaultEndpoint;
     final error = this.error;
+    final identityProviderConfiguration = this.identityProviderConfiguration;
     final roleArn = this.roleArn;
     final samplePromptsControlMode = this.samplePromptsControlMode;
     final status = this.status;
@@ -6253,6 +6459,8 @@ class GetWebExperienceResponse {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (defaultEndpoint != null) 'defaultEndpoint': defaultEndpoint,
       if (error != null) 'error': error,
+      if (identityProviderConfiguration != null)
+        'identityProviderConfiguration': identityProviderConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (samplePromptsControlMode != null)
         'samplePromptsControlMode': samplePromptsControlMode.value,
@@ -6450,6 +6658,57 @@ class HookConfiguration {
       if (s3BucketName != null) 's3BucketName': s3BucketName,
     };
   }
+}
+
+/// Provides information about the identity provider (IdP) used to authenticate
+/// end users of an Amazon Q Business web experience.
+class IdentityProviderConfiguration {
+  final OpenIDConnectProviderConfiguration? openIDConnectConfiguration;
+  final SamlProviderConfiguration? samlConfiguration;
+
+  IdentityProviderConfiguration({
+    this.openIDConnectConfiguration,
+    this.samlConfiguration,
+  });
+
+  factory IdentityProviderConfiguration.fromJson(Map<String, dynamic> json) {
+    return IdentityProviderConfiguration(
+      openIDConnectConfiguration: json['openIDConnectConfiguration'] != null
+          ? OpenIDConnectProviderConfiguration.fromJson(
+              json['openIDConnectConfiguration'] as Map<String, dynamic>)
+          : null,
+      samlConfiguration: json['samlConfiguration'] != null
+          ? SamlProviderConfiguration.fromJson(
+              json['samlConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openIDConnectConfiguration = this.openIDConnectConfiguration;
+    final samlConfiguration = this.samlConfiguration;
+    return {
+      if (openIDConnectConfiguration != null)
+        'openIDConnectConfiguration': openIDConnectConfiguration,
+      if (samlConfiguration != null) 'samlConfiguration': samlConfiguration,
+    };
+  }
+}
+
+enum IdentityType {
+  awsIamIdpSaml('AWS_IAM_IDP_SAML'),
+  awsIamIdpOidc('AWS_IAM_IDP_OIDC'),
+  awsIamIdc('AWS_IAM_IDC'),
+  ;
+
+  final String value;
+
+  const IdentityType(this.value);
+
+  static IdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum IdentityType'));
 }
 
 /// Summary information for your Amazon Q Business index.
@@ -7448,6 +7707,84 @@ class OAuth2ClientCredentialConfiguration {
   }
 }
 
+/// Information about the OIDC-compliant identity provider (IdP) used to
+/// authenticate end users of an Amazon Q Business web experience.
+class OpenIDConnectProviderConfiguration {
+  /// The Amazon Resource Name (ARN) of a Secrets Manager secret containing the
+  /// OIDC client secret.
+  final String secretsArn;
+
+  /// An IAM role with permissions to access KMS to decrypt the Secrets Manager
+  /// secret containing your OIDC client secret.
+  final String secretsRole;
+
+  OpenIDConnectProviderConfiguration({
+    required this.secretsArn,
+    required this.secretsRole,
+  });
+
+  factory OpenIDConnectProviderConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIDConnectProviderConfiguration(
+      secretsArn: json['secretsArn'] as String,
+      secretsRole: json['secretsRole'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretsArn = this.secretsArn;
+    final secretsRole = this.secretsRole;
+    return {
+      'secretsArn': secretsArn,
+      'secretsRole': secretsRole,
+    };
+  }
+}
+
+/// Configuration information about chat response personalization. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html">Personalizing
+/// chat responses</a>.
+class PersonalizationConfiguration {
+  /// An option to allow Amazon Q Business to customize chat responses using user
+  /// specific metadata—specifically, location and job information—in your IAM
+  /// Identity Center instance.
+  final PersonalizationControlMode personalizationControlMode;
+
+  PersonalizationConfiguration({
+    required this.personalizationControlMode,
+  });
+
+  factory PersonalizationConfiguration.fromJson(Map<String, dynamic> json) {
+    return PersonalizationConfiguration(
+      personalizationControlMode: PersonalizationControlMode.fromString(
+          (json['personalizationControlMode'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final personalizationControlMode = this.personalizationControlMode;
+    return {
+      'personalizationControlMode': personalizationControlMode.value,
+    };
+  }
+}
+
+enum PersonalizationControlMode {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const PersonalizationControlMode(this.value);
+
+  static PersonalizationControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum PersonalizationControlMode'));
+}
+
 /// Information about an Amazon Q Business plugin and its configuration.
 class Plugin {
   /// The status of the plugin.
@@ -7746,6 +8083,46 @@ class PutGroupResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
+}
+
+/// Configuration information about Amazon Q Apps. (preview feature)
+class QAppsConfiguration {
+  /// Status information about whether end users can create and use Amazon Q Apps
+  /// in the web experience.
+  final QAppsControlMode qAppsControlMode;
+
+  QAppsConfiguration({
+    required this.qAppsControlMode,
+  });
+
+  factory QAppsConfiguration.fromJson(Map<String, dynamic> json) {
+    return QAppsConfiguration(
+      qAppsControlMode:
+          QAppsControlMode.fromString((json['qAppsControlMode'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qAppsControlMode = this.qAppsControlMode;
+    return {
+      'qAppsControlMode': qAppsControlMode.value,
+    };
+  }
+}
+
+enum QAppsControlMode {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const QAppsControlMode(this.value);
+
+  static QAppsControlMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum QAppsControlMode'));
 }
 
 enum ReadAccessType {
@@ -8088,6 +8465,31 @@ class SamlConfiguration {
   }
 }
 
+/// Information about the SAML 2.0-compliant identity provider (IdP) used to
+/// authenticate end users of an Amazon Q Business web experience.
+class SamlProviderConfiguration {
+  /// The URL where Amazon Q Business end users will be redirected for
+  /// authentication.
+  final String authenticationUrl;
+
+  SamlProviderConfiguration({
+    required this.authenticationUrl,
+  });
+
+  factory SamlProviderConfiguration.fromJson(Map<String, dynamic> json) {
+    return SamlProviderConfiguration(
+      authenticationUrl: json['authenticationUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationUrl = this.authenticationUrl;
+    return {
+      'authenticationUrl': authenticationUrl,
+    };
+  }
+}
+
 /// Contains the relevant text excerpt from a source that was used to generate a
 /// citation text segment in an Amazon Q Business chat response.
 class SnippetExcerpt {
@@ -8335,6 +8737,21 @@ class StringListAttributeBoostingConfiguration {
       'boostingLevel': boostingLevel.value,
     };
   }
+}
+
+enum SubscriptionType {
+  qLite('Q_LITE'),
+  qBusiness('Q_BUSINESS'),
+  ;
+
+  final String value;
+
+  const SubscriptionType(this.value);
+
+  static SubscriptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SubscriptionType'));
 }
 
 /// A list of key/value pairs that identify an index, FAQ, or data source. Tag

@@ -145,6 +145,9 @@ class B2BI {
   /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [capabilities] :
+  /// Specifies a list of the capabilities associated with this partnership.
+  ///
   /// Parameter [email] :
   /// Specifies the email address associated with this trading partner.
   ///
@@ -154,9 +157,6 @@ class B2BI {
   /// Parameter [profileId] :
   /// Specifies the unique, system-generated identifier for the profile
   /// connected to this partnership.
-  ///
-  /// Parameter [capabilities] :
-  /// Specifies a list of the capabilities associated with this partnership.
   ///
   /// Parameter [clientToken] :
   /// Reserved for future use.
@@ -169,10 +169,10 @@ class B2BI {
   /// and search for resources by type. You can attach this metadata to
   /// resources (capabilities, partnerships, and so on) for any purpose.
   Future<CreatePartnershipResponse> createPartnership({
+    required List<String> capabilities,
     required String email,
     required String name,
     required String profileId,
-    List<String>? capabilities,
     String? clientToken,
     String? phone,
     List<Tag>? tags,
@@ -188,10 +188,10 @@ class B2BI {
       // TODO queryParams
       headers: headers,
       payload: {
+        'capabilities': capabilities,
         'email': email,
         'name': name,
         'profileId': profileId,
-        if (capabilities != null) 'capabilities': capabilities,
         'clientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (phone != null) 'phone': phone,
         if (tags != null) 'tags': tags,
@@ -640,6 +640,11 @@ class B2BI {
   /// information required to transform incoming EDI documents into JSON or XML
   /// outputs.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of capabilities to return.
   ///
@@ -735,6 +740,11 @@ class B2BI {
   /// your current or specified region. A profile is the mechanism used to
   /// create the concept of a private network.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of profiles to return.
   ///
@@ -809,6 +819,11 @@ class B2BI {
   /// the incoming EDI documents and extract the necessary information to the
   /// output file.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
   /// Parameter [maxResults] :
   /// Specifies the number of items to return for the API response.
   ///
@@ -855,6 +870,7 @@ class B2BI {
   /// create and configure a transformer, and then run the
   /// <code>StartTransformerJob</code> API to process your files.
   ///
+  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
   /// May throw [ThrottlingException].

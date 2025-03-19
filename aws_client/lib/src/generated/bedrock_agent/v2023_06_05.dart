@@ -130,6 +130,13 @@ class AgentsForAmazonBedrock {
   /// </li>
   /// </ul> </li>
   /// <li>
+  /// To enable your agent to retain conversational context across multiple
+  /// sessions, include a <code>memoryConfiguration</code> object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html">Configure
+  /// memory</a>.
+  /// </li>
+  /// <li>
   /// To override the default prompt behavior for agent orchestration and to use
   /// advanced prompts, include a <code>promptOverrideConfiguration</code>
   /// object. For more information, see <a
@@ -137,9 +144,14 @@ class AgentsForAmazonBedrock {
   /// prompts</a>.
   /// </li>
   /// <li>
-  /// If you agent fails to be created, the response returns a list of
+  /// If your agent fails to be created, the response returns a list of
   /// <code>failureReasons</code> alongside a list of
   /// <code>recommendedActions</code> for you to troubleshoot.
+  /// </li>
+  /// <li>
+  /// The agent instructions will not be honored if your agent has only one
+  /// knowledge base, uses default prompts, has no action group, and user input
+  /// is disabled.
   /// </li>
   /// </ul>
   ///
@@ -191,6 +203,9 @@ class AgentsForAmazonBedrock {
   /// Instructions that tell the agent what it should do and how it should
   /// interact with users.
   ///
+  /// Parameter [memoryConfiguration] :
+  /// Contains the details of the memory configured for the agent.
+  ///
   /// Parameter [promptOverrideConfiguration] :
   /// Contains configurations to override prompts in different parts of an agent
   /// sequence. For more information, see <a
@@ -209,6 +224,7 @@ class AgentsForAmazonBedrock {
     GuardrailConfiguration? guardrailConfiguration,
     int? idleSessionTTLInSeconds,
     String? instruction,
+    MemoryConfiguration? memoryConfiguration,
     PromptOverrideConfiguration? promptOverrideConfiguration,
     Map<String, String>? tags,
   }) async {
@@ -232,6 +248,8 @@ class AgentsForAmazonBedrock {
       if (idleSessionTTLInSeconds != null)
         'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       if (instruction != null) 'instruction': instruction,
+      if (memoryConfiguration != null)
+        'memoryConfiguration': memoryConfiguration,
       if (promptOverrideConfiguration != null)
         'promptOverrideConfiguration': promptOverrideConfiguration,
       if (tags != null) 'tags': tags,
@@ -252,8 +270,14 @@ class AgentsForAmazonBedrock {
   /// To allow your agent to request the user for additional information when
   /// trying to complete a task, add an action group with the
   /// <code>parentActionGroupSignature</code> field set to
-  /// <code>AMAZON.UserInput</code>. You must leave the
-  /// <code>description</code>, <code>apiSchema</code>, and
+  /// <code>AMAZON.UserInput</code>.
+  ///
+  /// To allow your agent to generate, run, and troubleshoot code when trying to
+  /// complete a task, add an action group with the
+  /// <code>parentActionGroupSignature</code> field set to
+  /// <code>AMAZON.CodeInterpreter</code>.
+  ///
+  /// You must leave the <code>description</code>, <code>apiSchema</code>, and
   /// <code>actionGroupExecutor</code> fields blank for this action group.
   /// During orchestration, if your agent determines that it needs to invoke an
   /// API in an action group, but doesn't have enough information to complete
@@ -316,6 +340,11 @@ class AgentsForAmazonBedrock {
   /// trying to complete a task, set this field to
   /// <code>AMAZON.UserInput</code>. You must leave the
   /// <code>description</code>, <code>apiSchema</code>, and
+  /// <code>actionGroupExecutor</code> fields blank for this action group.
+  ///
+  /// To allow your agent to generate, run, and troubleshoot code when trying to
+  /// complete a task, set this field to <code>AMAZON.CodeInterpreter</code>.
+  /// You must leave the <code>description</code>, <code>apiSchema</code>, and
   /// <code>actionGroupExecutor</code> fields blank for this action group.
   ///
   /// During orchestration, if your agent determines that it needs to invoke an
@@ -414,10 +443,10 @@ class AgentsForAmazonBedrock {
     return CreateAgentAliasResponse.fromJson(response);
   }
 
-  /// Sets up a data source to be added to a knowledge base.
+  /// Creates a data source connector for a knowledge base.
   /// <important>
   /// You can't change the <code>chunkingConfiguration</code> after you create
-  /// the data source.
+  /// the data source connector.
   /// </important>
   ///
   /// May throw [ThrottlingException].
@@ -429,7 +458,7 @@ class AgentsForAmazonBedrock {
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [dataSourceConfiguration] :
-  /// Contains metadata about where the data source is stored.
+  /// The connection configuration for the data source.
   ///
   /// Parameter [knowledgeBaseId] :
   /// The unique identifier of the knowledge base to which to add the data
@@ -447,7 +476,25 @@ class AgentsForAmazonBedrock {
   /// idempotency</a>.
   ///
   /// Parameter [dataDeletionPolicy] :
-  /// The data deletion policy assigned to the data source.
+  /// The data deletion policy for the data source.
+  ///
+  /// You can set the data deletion policy to:
+  ///
+  /// <ul>
+  /// <li>
+  /// DELETE: Deletes all data from your data source that’s converted into
+  /// vector embeddings upon deletion of a knowledge base or data source
+  /// resource. Note that the <b>vector store itself is not deleted</b>, only
+  /// the data. This flag is ignored if an Amazon Web Services account is
+  /// deleted.
+  /// </li>
+  /// <li>
+  /// RETAIN: Retains all data from your data source that’s converted into
+  /// vector embeddings upon deletion of a knowledge base or data source
+  /// resource. Note that the <b>vector store itself is not deleted</b> if you
+  /// delete a knowledge base or data source resource.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [description] :
   /// A description of the data source.
@@ -487,6 +534,186 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return CreateDataSourceResponse.fromJson(response);
+  }
+
+  /// Creates a prompt flow that you can use to send an input through various
+  /// steps to yield an output. Configure nodes, each of which corresponds to a
+  /// step of the flow, and create connections between the nodes to create paths
+  /// to different outputs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html">How
+  /// it works</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html">Create
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create and manage a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  ///
+  /// Parameter [name] :
+  /// A name for the flow.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [customerEncryptionKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+  ///
+  /// Parameter [definition] :
+  /// A definition of the nodes and connections between nodes in the flow.
+  ///
+  /// Parameter [description] :
+  /// A description for the flow.
+  ///
+  /// Parameter [tags] :
+  /// Any tags that you want to attach to the flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
+  /// resources in Amazon Bedrock</a>.
+  Future<CreateFlowResponse> createFlow({
+    required String executionRoleArn,
+    required String name,
+    String? clientToken,
+    String? customerEncryptionKeyArn,
+    FlowDefinition? definition,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'executionRoleArn': executionRoleArn,
+      'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/flows/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFlowResponse.fromJson(response);
+  }
+
+  /// Creates an alias of a flow for deployment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow for which to create an alias.
+  ///
+  /// Parameter [name] :
+  /// A name for the alias.
+  ///
+  /// Parameter [routingConfiguration] :
+  /// Contains information about the version to which to map the alias.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the alias.
+  ///
+  /// Parameter [tags] :
+  /// Any tags that you want to attach to the alias of the flow. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
+  /// resources in Amazon Bedrock</a>.
+  Future<CreateFlowAliasResponse> createFlowAlias({
+    required String flowIdentifier,
+    required String name,
+    required List<FlowAliasRoutingConfigurationListItem> routingConfiguration,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFlowAliasResponse.fromJson(response);
+  }
+
+  /// Creates a version of the flow that you can deploy. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow that you want to create a version of.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description of the version of the flow.
+  Future<CreateFlowVersionResponse> createFlowVersion({
+    required String flowIdentifier,
+    String? clientToken,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/versions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFlowVersionResponse.fromJson(response);
   }
 
   /// Creates a knowledge base that contains data sources from which information
@@ -608,6 +835,134 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return CreateKnowledgeBaseResponse.fromJson(response);
+  }
+
+  /// Creates a prompt in your prompt library that you can add to a flow. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html">Prompt
+  /// management in Amazon Bedrock</a>, <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
+  /// a prompt using Prompt management</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows.html">Prompt
+  /// flows in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// A name for the prompt.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [customerEncryptionKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+  ///
+  /// Parameter [defaultVariant] :
+  /// The name of the default variant for the prompt. This value must match the
+  /// <code>name</code> field in the relevant <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html">PromptVariant</a>
+  /// object.
+  ///
+  /// Parameter [description] :
+  /// A description for the prompt.
+  ///
+  /// Parameter [tags] :
+  /// Any tags that you want to attach to the prompt. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
+  /// resources in Amazon Bedrock</a>.
+  ///
+  /// Parameter [variants] :
+  /// A list of objects, each containing details about a variant of the prompt.
+  Future<CreatePromptResponse> createPrompt({
+    required String name,
+    String? clientToken,
+    String? customerEncryptionKeyArn,
+    String? defaultVariant,
+    String? description,
+    Map<String, String>? tags,
+    List<PromptVariant>? variants,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+      if (variants != null) 'variants': variants,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prompts/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePromptResponse.fromJson(response);
+  }
+
+  /// Creates a static snapshot of your prompt that can be deployed to
+  /// production. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html">Deploy
+  /// prompts using Prompt management by creating versions</a> in the Amazon
+  /// Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [promptIdentifier] :
+  /// The unique identifier of the prompt that you want to create a version of.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure that the API request
+  /// completes no more than one time. If this token matches a previous request,
+  /// Amazon Bedrock ignores the request, but does not return an error. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// idempotency</a>.
+  ///
+  /// Parameter [description] :
+  /// A description for the version of the prompt.
+  ///
+  /// Parameter [tags] :
+  /// Any tags that you want to attach to the version of the prompt. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html">Tagging
+  /// resources in Amazon Bedrock</a>.
+  Future<CreatePromptVersionResponse> createPromptVersion({
+    required String promptIdentifier,
+    String? clientToken,
+    String? description,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prompts/${Uri.encodeComponent(promptIdentifier)}/versions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreatePromptVersionResponse.fromJson(response);
   }
 
   /// Deletes an agent.
@@ -781,6 +1136,107 @@ class AgentsForAmazonBedrock {
     return DeleteDataSourceResponse.fromJson(response);
   }
 
+  /// Deletes a flow.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  ///
+  /// Parameter [skipResourceInUseCheck] :
+  /// By default, this value is <code>false</code> and deletion is stopped if
+  /// the resource is in use. If you set it to <code>true</code>, the resource
+  /// will be deleted even if the resource is in use.
+  Future<DeleteFlowResponse> deleteFlow({
+    required String flowIdentifier,
+    bool? skipResourceInUseCheck,
+  }) async {
+    final $query = <String, List<String>>{
+      if (skipResourceInUseCheck != null)
+        'skipResourceInUseCheck': [skipResourceInUseCheck.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteFlowResponse.fromJson(response);
+  }
+
+  /// Deletes an alias of a flow.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [aliasIdentifier] :
+  /// The unique identifier of the alias to be deleted.
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow that the alias belongs to.
+  Future<DeleteFlowAliasResponse> deleteFlowAlias({
+    required String aliasIdentifier,
+    required String flowIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases/${Uri.encodeComponent(aliasIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteFlowAliasResponse.fromJson(response);
+  }
+
+  /// Deletes a version of a flow.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow whose version that you want to delete
+  ///
+  /// Parameter [flowVersion] :
+  /// The version of the flow that you want to delete.
+  ///
+  /// Parameter [skipResourceInUseCheck] :
+  /// By default, this value is <code>false</code> and deletion is stopped if
+  /// the resource is in use. If you set it to <code>true</code>, the resource
+  /// will be deleted even if the resource is in use.
+  Future<DeleteFlowVersionResponse> deleteFlowVersion({
+    required String flowIdentifier,
+    required String flowVersion,
+    bool? skipResourceInUseCheck,
+  }) async {
+    final $query = <String, List<String>>{
+      if (skipResourceInUseCheck != null)
+        'skipResourceInUseCheck': [skipResourceInUseCheck.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/versions/${Uri.encodeComponent(flowVersion)}/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteFlowVersionResponse.fromJson(response);
+  }
+
   /// Deletes a knowledge base. Before deleting a knowledge base, you should
   /// disassociate the knowledge base from any agents that it is associated with
   /// by making a <a
@@ -806,6 +1262,44 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteKnowledgeBaseResponse.fromJson(response);
+  }
+
+  /// Deletes a prompt or a version of it, depending on whether you include the
+  /// <code>promptVersion</code> field or not. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html">Delete
+  /// prompts from the Prompt management tool</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html">Delete
+  /// a version of a prompt from the Prompt management tool</a> in the Amazon
+  /// Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [promptIdentifier] :
+  /// The unique identifier of the prompt.
+  ///
+  /// Parameter [promptVersion] :
+  /// The version of the prompt to delete. To delete the prompt, omit this
+  /// field.
+  Future<DeletePromptResponse> deletePrompt({
+    required String promptIdentifier,
+    String? promptVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (promptVersion != null) 'promptVersion': [promptVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/prompts/${Uri.encodeComponent(promptIdentifier)}/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeletePromptResponse.fromJson(response);
   }
 
   /// Disassociates a knowledge base from an agent.
@@ -1008,6 +1502,89 @@ class AgentsForAmazonBedrock {
     return GetDataSourceResponse.fromJson(response);
   }
 
+  /// Retrieves information about a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html">Manage
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  Future<GetFlowResponse> getFlow({
+    required String flowIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFlowResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [aliasIdentifier] :
+  /// The unique identifier of the alias for which to retrieve information.
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow that the alias belongs to.
+  Future<GetFlowAliasResponse> getFlowAlias({
+    required String aliasIdentifier,
+    required String flowIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases/${Uri.encodeComponent(aliasIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFlowAliasResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a version of a flow. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow for which to get information.
+  ///
+  /// Parameter [flowVersion] :
+  /// The version of the flow for which to get information.
+  Future<GetFlowVersionResponse> getFlowVersion({
+    required String flowIdentifier,
+    required String flowVersion,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/versions/${Uri.encodeComponent(flowVersion)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFlowVersionResponse.fromJson(response);
+  }
+
   /// Gets information about a ingestion job, in which a data source is added to
   /// a knowledge base.
   ///
@@ -1061,6 +1638,45 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return GetKnowledgeBaseResponse.fromJson(response);
+  }
+
+  /// Retrieves information about the working draft (<code>DRAFT</code> version)
+  /// of a prompt or a version of it, depending on whether you include the
+  /// <code>promptVersion</code> field or not. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html">View
+  /// information about prompts using Prompt management</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html">View
+  /// information about a version of your prompt</a> in the Amazon Bedrock User
+  /// Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [promptIdentifier] :
+  /// The unique identifier of the prompt.
+  ///
+  /// Parameter [promptVersion] :
+  /// The version of the prompt about which you want to retrieve information.
+  /// Omit this field to return information about the working draft of the
+  /// prompt.
+  Future<GetPromptResponse> getPrompt({
+    required String promptIdentifier,
+    String? promptVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (promptVersion != null) 'promptVersion': [promptVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prompts/${Uri.encodeComponent(promptIdentifier)}/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPromptResponse.fromJson(response);
   }
 
   /// Lists the action groups for an agent and information about each one.
@@ -1349,6 +1965,148 @@ class AgentsForAmazonBedrock {
     return ListDataSourcesResponse.fromJson(response);
   }
 
+  /// Returns a list of aliases for a flow.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow for which aliases are being returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListFlowAliasesResponse> listFlowAliases({
+    required String flowIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFlowAliasesResponse.fromJson(response);
+  }
+
+  /// Returns a list of information about each flow. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListFlowVersionsResponse> listFlowVersions({
+    required String flowIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFlowVersionsResponse.fromJson(response);
+  }
+
+  /// Returns a list of flows and information about each flow. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html">Manage
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  Future<ListFlowsResponse> listFlows({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/flows/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFlowsResponse.fromJson(response);
+  }
+
   /// Lists the ingestion jobs for a data source and information about each of
   /// them.
   ///
@@ -1455,6 +2213,62 @@ class AgentsForAmazonBedrock {
     return ListKnowledgeBasesResponse.fromJson(response);
   }
 
+  /// Returns either information about the working draft (<code>DRAFT</code>
+  /// version) of each prompt in an account, or information about of all
+  /// versions of a prompt, depending on whether you include the
+  /// <code>promptIdentifier</code> field or not. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html">View
+  /// information about prompts using Prompt management</a> in the Amazon
+  /// Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response. If the total
+  /// number of results is greater than this value, use the token returned in
+  /// the response in the <code>nextToken</code> field when making another
+  /// request to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, enter the token returned in the
+  /// <code>nextToken</code> field in the response in this field to return the
+  /// next batch of results.
+  ///
+  /// Parameter [promptIdentifier] :
+  /// The unique identifier of the prompt for whose versions you want to return
+  /// information. Omit this field to list information about all prompts in an
+  /// account.
+  Future<ListPromptsResponse> listPrompts({
+    int? maxResults,
+    String? nextToken,
+    String? promptIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (promptIdentifier != null) 'promptIdentifier': [promptIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prompts/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPromptsResponse.fromJson(response);
+  }
+
   /// List all the tags for the resource you specify.
   ///
   /// May throw [ThrottlingException].
@@ -1501,6 +2315,33 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return PrepareAgentResponse.fromJson(response);
+  }
+
+  /// Prepares the <code>DRAFT</code> version of a flow so that it can be
+  /// invoked. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html">Test
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  Future<PrepareFlowResponse> prepareFlow({
+    required String flowIdentifier,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PrepareFlowResponse.fromJson(response);
   }
 
   /// Begins an ingestion job, in which a data source is added to a knowledge
@@ -1659,6 +2500,9 @@ class AgentsForAmazonBedrock {
   /// Specifies new instructions that tell the agent what it should do and how
   /// it should interact with users.
   ///
+  /// Parameter [memoryConfiguration] :
+  /// Specifies the new memory configuration for the agent.
+  ///
   /// Parameter [promptOverrideConfiguration] :
   /// Contains configurations to override prompts in different parts of an agent
   /// sequence. For more information, see <a
@@ -1674,6 +2518,7 @@ class AgentsForAmazonBedrock {
     GuardrailConfiguration? guardrailConfiguration,
     int? idleSessionTTLInSeconds,
     String? instruction,
+    MemoryConfiguration? memoryConfiguration,
     PromptOverrideConfiguration? promptOverrideConfiguration,
   }) async {
     _s.validateNumRange(
@@ -1694,6 +2539,8 @@ class AgentsForAmazonBedrock {
       if (idleSessionTTLInSeconds != null)
         'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       if (instruction != null) 'instruction': instruction,
+      if (memoryConfiguration != null)
+        'memoryConfiguration': memoryConfiguration,
       if (promptOverrideConfiguration != null)
         'promptOverrideConfiguration': promptOverrideConfiguration,
     };
@@ -1898,10 +2745,11 @@ class AgentsForAmazonBedrock {
     return UpdateAgentKnowledgeBaseResponse.fromJson(response);
   }
 
-  /// Updates configurations for a data source.
+  /// Updates the configurations for a data source connector.
   /// <important>
   /// You can't change the <code>chunkingConfiguration</code> after you create
-  /// the data source. Specify the existing <code>chunkingConfiguration</code>.
+  /// the data source connector. Specify the existing
+  /// <code>chunkingConfiguration</code>.
   /// </important>
   ///
   /// May throw [ThrottlingException].
@@ -1912,20 +2760,19 @@ class AgentsForAmazonBedrock {
   /// May throw [ConflictException].
   ///
   /// Parameter [dataSourceConfiguration] :
-  /// Contains details about the storage configuration of the data source.
+  /// The connection configuration for the data source that you want to update.
   ///
   /// Parameter [dataSourceId] :
   /// The unique identifier of the data source.
   ///
   /// Parameter [knowledgeBaseId] :
-  /// The unique identifier of the knowledge base to which the data source
-  /// belongs.
+  /// The unique identifier of the knowledge base for the data source.
   ///
   /// Parameter [name] :
   /// Specifies a new name for the data source.
   ///
   /// Parameter [dataDeletionPolicy] :
-  /// The data deletion policy of the updated data source.
+  /// The data deletion policy for the data source that you want to update.
   ///
   /// Parameter [description] :
   /// Specifies a new description for the data source.
@@ -1964,6 +2811,117 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSourceResponse.fromJson(response);
+  }
+
+  /// Modifies a flow. Include both fields that you want to keep and fields that
+  /// you want to change. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html">How
+  /// it works</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html">Create
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create and manage a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  ///
+  /// Parameter [name] :
+  /// A name for the flow.
+  ///
+  /// Parameter [customerEncryptionKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+  ///
+  /// Parameter [definition] :
+  /// A definition of the nodes and the connections between the nodes in the
+  /// flow.
+  ///
+  /// Parameter [description] :
+  /// A description for the flow.
+  Future<UpdateFlowResponse> updateFlow({
+    required String executionRoleArn,
+    required String flowIdentifier,
+    required String name,
+    String? customerEncryptionKeyArn,
+    FlowDefinition? definition,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'executionRoleArn': executionRoleArn,
+      'name': name,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/flows/${Uri.encodeComponent(flowIdentifier)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFlowResponse.fromJson(response);
+  }
+
+  /// Modifies the alias of a flow. Include both fields that you want to keep
+  /// and ones that you want to change. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html">Deploy
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [aliasIdentifier] :
+  /// The unique identifier of the alias.
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  ///
+  /// Parameter [name] :
+  /// The name of the alias.
+  ///
+  /// Parameter [routingConfiguration] :
+  /// Contains information about the version to which to map the alias.
+  ///
+  /// Parameter [description] :
+  /// A description for the alias.
+  Future<UpdateFlowAliasResponse> updateFlowAlias({
+    required String aliasIdentifier,
+    required String flowIdentifier,
+    required String name,
+    required List<FlowAliasRoutingConfigurationListItem> routingConfiguration,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases/${Uri.encodeComponent(aliasIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFlowAliasResponse.fromJson(response);
   }
 
   /// Updates the configuration of a knowledge base with the fields that you
@@ -2040,6 +2998,67 @@ class AgentsForAmazonBedrock {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateKnowledgeBaseResponse.fromJson(response);
+  }
+
+  /// Modifies a prompt in your prompt library. Include both fields that you
+  /// want to keep and fields that you want to replace. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html">Prompt
+  /// management in Amazon Bedrock</a> and <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-edit">Edit
+  /// prompts in your prompt library</a> in the Amazon Bedrock User Guide.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// A name for the prompt.
+  ///
+  /// Parameter [promptIdentifier] :
+  /// The unique identifier of the prompt.
+  ///
+  /// Parameter [customerEncryptionKeyArn] :
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+  ///
+  /// Parameter [defaultVariant] :
+  /// The name of the default variant for the prompt. This value must match the
+  /// <code>name</code> field in the relevant <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html">PromptVariant</a>
+  /// object.
+  ///
+  /// Parameter [description] :
+  /// A description for the prompt.
+  ///
+  /// Parameter [variants] :
+  /// A list of objects, each containing details about a variant of the prompt.
+  Future<UpdatePromptResponse> updatePrompt({
+    required String name,
+    required String promptIdentifier,
+    String? customerEncryptionKeyArn,
+    String? defaultVariant,
+    String? description,
+    List<PromptVariant>? variants,
+  }) async {
+    final $payload = <String, dynamic>{
+      'name': name,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (variants != null) 'variants': variants,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/prompts/${Uri.encodeComponent(promptIdentifier)}/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePromptResponse.fromJson(response);
   }
 }
 
@@ -2123,6 +3142,7 @@ class ActionGroupExecutor {
 
 enum ActionGroupSignature {
   amazonUserInput('AMAZON.UserInput'),
+  amazonCodeInterpreter('AMAZON.CodeInterpreter'),
   ;
 
   final String value;
@@ -2285,12 +3305,15 @@ class Agent {
   /// The foundation model used for orchestration by the agent.
   final String? foundationModel;
 
-  /// The guardrails configuration assigned to the agent.
+  /// Details about the guardrail associated with the agent.
   final GuardrailConfiguration? guardrailConfiguration;
 
   /// Instructions that tell the agent what it should do and how it should
   /// interact with users.
   final String? instruction;
+
+  /// Contains memory configuration for the agent.
+  final MemoryConfiguration? memoryConfiguration;
 
   /// The time at which the agent was last prepared.
   final DateTime? preparedAt;
@@ -2322,6 +3345,7 @@ class Agent {
     this.foundationModel,
     this.guardrailConfiguration,
     this.instruction,
+    this.memoryConfiguration,
     this.preparedAt,
     this.promptOverrideConfiguration,
     this.recommendedActions,
@@ -2351,6 +3375,10 @@ class Agent {
               json['guardrailConfiguration'] as Map<String, dynamic>)
           : null,
       instruction: json['instruction'] as String?,
+      memoryConfiguration: json['memoryConfiguration'] != null
+          ? MemoryConfiguration.fromJson(
+              json['memoryConfiguration'] as Map<String, dynamic>)
+          : null,
       preparedAt: timeStampFromJson(json['preparedAt']),
       promptOverrideConfiguration: json['promptOverrideConfiguration'] != null
           ? PromptOverrideConfiguration.fromJson(
@@ -2380,6 +3408,7 @@ class Agent {
     final foundationModel = this.foundationModel;
     final guardrailConfiguration = this.guardrailConfiguration;
     final instruction = this.instruction;
+    final memoryConfiguration = this.memoryConfiguration;
     final preparedAt = this.preparedAt;
     final promptOverrideConfiguration = this.promptOverrideConfiguration;
     final recommendedActions = this.recommendedActions;
@@ -2402,6 +3431,8 @@ class Agent {
       if (guardrailConfiguration != null)
         'guardrailConfiguration': guardrailConfiguration,
       if (instruction != null) 'instruction': instruction,
+      if (memoryConfiguration != null)
+        'memoryConfiguration': memoryConfiguration,
       if (preparedAt != null) 'preparedAt': iso8601ToJson(preparedAt),
       if (promptOverrideConfiguration != null)
         'promptOverrideConfiguration': promptOverrideConfiguration,
@@ -2859,6 +3890,32 @@ class AgentAliasSummary {
   }
 }
 
+/// Defines an agent node in your flow. You specify the agent to invoke at this
+/// point in the flow. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class AgentFlowNodeConfiguration {
+  /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
+  final String agentAliasArn;
+
+  AgentFlowNodeConfiguration({
+    required this.agentAliasArn,
+  });
+
+  factory AgentFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return AgentFlowNodeConfiguration(
+      agentAliasArn: json['agentAliasArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentAliasArn = this.agentAliasArn;
+    return {
+      'agentAliasArn': agentAliasArn,
+    };
+  }
+}
+
 /// Contains details about a knowledge base that is associated with an agent.
 class AgentKnowledgeBase {
   /// The unique identifier of the agent with which the knowledge base is
@@ -3017,7 +4074,7 @@ class AgentSummary {
   /// The description of the agent.
   final String? description;
 
-  /// The details of the guardrails configuration in the agent summary.
+  /// Details about the guardrail associated with the agent.
   final GuardrailConfiguration? guardrailConfiguration;
 
   /// The latest version of the agent.
@@ -3116,11 +4173,14 @@ class AgentVersion {
   /// The foundation model that the version invokes.
   final String? foundationModel;
 
-  /// The guardrails configuration assigned to the agent version.
+  /// Details about the guardrail associated with the agent.
   final GuardrailConfiguration? guardrailConfiguration;
 
   /// The instructions provided to the agent.
   final String? instruction;
+
+  /// Contains details of the memory configuration on the version of the agent.
+  final MemoryConfiguration? memoryConfiguration;
 
   /// Contains configurations to override prompt templates in different parts of
   /// an agent sequence. For more information, see <a
@@ -3148,6 +4208,7 @@ class AgentVersion {
     this.foundationModel,
     this.guardrailConfiguration,
     this.instruction,
+    this.memoryConfiguration,
     this.promptOverrideConfiguration,
     this.recommendedActions,
   });
@@ -3175,6 +4236,10 @@ class AgentVersion {
               json['guardrailConfiguration'] as Map<String, dynamic>)
           : null,
       instruction: json['instruction'] as String?,
+      memoryConfiguration: json['memoryConfiguration'] != null
+          ? MemoryConfiguration.fromJson(
+              json['memoryConfiguration'] as Map<String, dynamic>)
+          : null,
       promptOverrideConfiguration: json['promptOverrideConfiguration'] != null
           ? PromptOverrideConfiguration.fromJson(
               json['promptOverrideConfiguration'] as Map<String, dynamic>)
@@ -3202,6 +4267,7 @@ class AgentVersion {
     final foundationModel = this.foundationModel;
     final guardrailConfiguration = this.guardrailConfiguration;
     final instruction = this.instruction;
+    final memoryConfiguration = this.memoryConfiguration;
     final promptOverrideConfiguration = this.promptOverrideConfiguration;
     final recommendedActions = this.recommendedActions;
     return {
@@ -3222,6 +4288,8 @@ class AgentVersion {
       if (guardrailConfiguration != null)
         'guardrailConfiguration': guardrailConfiguration,
       if (instruction != null) 'instruction': instruction,
+      if (memoryConfiguration != null)
+        'memoryConfiguration': memoryConfiguration,
       if (promptOverrideConfiguration != null)
         'promptOverrideConfiguration': promptOverrideConfiguration,
       if (recommendedActions != null) 'recommendedActions': recommendedActions,
@@ -3249,7 +4317,7 @@ class AgentVersionSummary {
   /// The description of the version of the agent.
   final String? description;
 
-  /// The details of the guardrails configuration in the agent version summary.
+  /// Details about the guardrail associated with the agent.
   final GuardrailConfiguration? guardrailConfiguration;
 
   AgentVersionSummary({
@@ -3348,6 +4416,40 @@ class BedrockEmbeddingModelConfiguration {
   }
 }
 
+/// Settings for a foundation model used to parse documents for a data source.
+class BedrockFoundationModelConfiguration {
+  /// The model's ARN.
+  final String modelArn;
+
+  /// Instructions for interpreting the contents of a document.
+  final ParsingPrompt? parsingPrompt;
+
+  BedrockFoundationModelConfiguration({
+    required this.modelArn,
+    this.parsingPrompt,
+  });
+
+  factory BedrockFoundationModelConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return BedrockFoundationModelConfiguration(
+      modelArn: json['modelArn'] as String,
+      parsingPrompt: json['parsingPrompt'] != null
+          ? ParsingPrompt.fromJson(
+              json['parsingPrompt'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    final parsingPrompt = this.parsingPrompt;
+    return {
+      'modelArn': modelArn,
+      if (parsingPrompt != null) 'parsingPrompt': parsingPrompt,
+    };
+  }
+}
+
 /// Details about how to chunk the documents in the data source. A <i>chunk</i>
 /// refers to an excerpt from a data source that is returned when the knowledge
 /// base that it belongs to is queried.
@@ -3366,6 +4468,15 @@ class ChunkingConfiguration {
   /// <code>fixedSizeChunkingConfiguration</code>.
   /// </li>
   /// <li>
+  /// <code>HIERARCHICAL</code> – Split documents into layers of chunks where the
+  /// first layer contains large chunks, and the second layer contains smaller
+  /// chunks derived from the first layer.
+  /// </li>
+  /// <li>
+  /// <code>SEMANTIC</code> – Split documents into chunks based on groups of
+  /// similar content derived with natural language processing.
+  /// </li>
+  /// <li>
   /// <code>NONE</code> – Amazon Bedrock treats each file as one chunk. If you
   /// choose this option, you may want to pre-process your documents by splitting
   /// them into separate files.
@@ -3377,9 +4488,22 @@ class ChunkingConfiguration {
   /// <code>chunkingStrategy</code> as <code>NONE</code>, exclude this field.
   final FixedSizeChunkingConfiguration? fixedSizeChunkingConfiguration;
 
+  /// Settings for hierarchical document chunking for a data source. Hierarchical
+  /// chunking splits documents into layers of chunks where the first layer
+  /// contains large chunks, and the second layer contains smaller chunks derived
+  /// from the first layer.
+  final HierarchicalChunkingConfiguration? hierarchicalChunkingConfiguration;
+
+  /// Settings for semantic document chunking for a data source. Semantic chunking
+  /// splits a document into into smaller documents based on groups of similar
+  /// content derived from the text with natural language processing.
+  final SemanticChunkingConfiguration? semanticChunkingConfiguration;
+
   ChunkingConfiguration({
     required this.chunkingStrategy,
     this.fixedSizeChunkingConfiguration,
+    this.hierarchicalChunkingConfiguration,
+    this.semanticChunkingConfiguration,
   });
 
   factory ChunkingConfiguration.fromJson(Map<String, dynamic> json) {
@@ -3391,16 +4515,34 @@ class ChunkingConfiguration {
           ? FixedSizeChunkingConfiguration.fromJson(
               json['fixedSizeChunkingConfiguration'] as Map<String, dynamic>)
           : null,
+      hierarchicalChunkingConfiguration:
+          json['hierarchicalChunkingConfiguration'] != null
+              ? HierarchicalChunkingConfiguration.fromJson(
+                  json['hierarchicalChunkingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      semanticChunkingConfiguration:
+          json['semanticChunkingConfiguration'] != null
+              ? SemanticChunkingConfiguration.fromJson(
+                  json['semanticChunkingConfiguration'] as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final chunkingStrategy = this.chunkingStrategy;
     final fixedSizeChunkingConfiguration = this.fixedSizeChunkingConfiguration;
+    final hierarchicalChunkingConfiguration =
+        this.hierarchicalChunkingConfiguration;
+    final semanticChunkingConfiguration = this.semanticChunkingConfiguration;
     return {
       'chunkingStrategy': chunkingStrategy.value,
       if (fixedSizeChunkingConfiguration != null)
         'fixedSizeChunkingConfiguration': fixedSizeChunkingConfiguration,
+      if (hierarchicalChunkingConfiguration != null)
+        'hierarchicalChunkingConfiguration': hierarchicalChunkingConfiguration,
+      if (semanticChunkingConfiguration != null)
+        'semanticChunkingConfiguration': semanticChunkingConfiguration,
     };
   }
 }
@@ -3408,6 +4550,8 @@ class ChunkingConfiguration {
 enum ChunkingStrategy {
   fixedSize('FIXED_SIZE'),
   none('NONE'),
+  hierarchical('HIERARCHICAL'),
+  semantic('SEMANTIC'),
   ;
 
   final String value;
@@ -3418,6 +4562,252 @@ enum ChunkingStrategy {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum ChunkingStrategy'));
+}
+
+/// Defines a collector node in your flow. This node takes an iteration of
+/// inputs and consolidates them into an array in the output. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class CollectorFlowNodeConfiguration {
+  CollectorFlowNodeConfiguration();
+
+  factory CollectorFlowNodeConfiguration.fromJson(Map<String, dynamic> _) {
+    return CollectorFlowNodeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Defines a condition node in your flow. You can specify conditions that
+/// determine which node comes next in the flow. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class ConditionFlowNodeConfiguration {
+  /// An array of conditions. Each member contains the name of a condition and an
+  /// expression that defines the condition.
+  final List<FlowCondition> conditions;
+
+  ConditionFlowNodeConfiguration({
+    required this.conditions,
+  });
+
+  factory ConditionFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConditionFlowNodeConfiguration(
+      conditions: (json['conditions'] as List)
+          .nonNulls
+          .map((e) => FlowCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditions = this.conditions;
+    return {
+      'conditions': conditions,
+    };
+  }
+}
+
+enum ConfluenceAuthType {
+  basic('BASIC'),
+  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
+  ;
+
+  final String value;
+
+  const ConfluenceAuthType(this.value);
+
+  static ConfluenceAuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfluenceAuthType'));
+}
+
+/// The configuration of the Confluence content. For example, configuring
+/// specific types of Confluence content.
+class ConfluenceCrawlerConfiguration {
+  /// The configuration of filtering the Confluence content. For example,
+  /// configuring regular expression patterns to include or exclude certain
+  /// content.
+  final CrawlFilterConfiguration? filterConfiguration;
+
+  ConfluenceCrawlerConfiguration({
+    this.filterConfiguration,
+  });
+
+  factory ConfluenceCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceCrawlerConfiguration(
+      filterConfiguration: json['filterConfiguration'] != null
+          ? CrawlFilterConfiguration.fromJson(
+              json['filterConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterConfiguration = this.filterConfiguration;
+    return {
+      if (filterConfiguration != null)
+        'filterConfiguration': filterConfiguration,
+    };
+  }
+}
+
+/// The configuration information to connect to Confluence as your data source.
+class ConfluenceDataSourceConfiguration {
+  /// The endpoint information to connect to your Confluence data source.
+  final ConfluenceSourceConfiguration sourceConfiguration;
+
+  /// The configuration of the Confluence content. For example, configuring
+  /// specific types of Confluence content.
+  final ConfluenceCrawlerConfiguration? crawlerConfiguration;
+
+  ConfluenceDataSourceConfiguration({
+    required this.sourceConfiguration,
+    this.crawlerConfiguration,
+  });
+
+  factory ConfluenceDataSourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluenceDataSourceConfiguration(
+      sourceConfiguration: ConfluenceSourceConfiguration.fromJson(
+          json['sourceConfiguration'] as Map<String, dynamic>),
+      crawlerConfiguration: json['crawlerConfiguration'] != null
+          ? ConfluenceCrawlerConfiguration.fromJson(
+              json['crawlerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceConfiguration = this.sourceConfiguration;
+    final crawlerConfiguration = this.crawlerConfiguration;
+    return {
+      'sourceConfiguration': sourceConfiguration,
+      if (crawlerConfiguration != null)
+        'crawlerConfiguration': crawlerConfiguration,
+    };
+  }
+}
+
+enum ConfluenceHostType {
+  saas('SAAS'),
+  ;
+
+  final String value;
+
+  const ConfluenceHostType(this.value);
+
+  static ConfluenceHostType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConfluenceHostType'));
+}
+
+/// The endpoint information to connect to your Confluence data source.
+class ConfluenceSourceConfiguration {
+  /// The supported authentication type to authenticate and connect to your
+  /// Confluence instance.
+  final ConfluenceAuthType authType;
+
+  /// The Amazon Resource Name of an Secrets Manager secret that stores your
+  /// authentication credentials for your Confluence instance URL. For more
+  /// information on the key-value pairs that must be included in your secret,
+  /// depending on your authentication type, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/confluence-data-source-connector.html#configuration-confluence-connector">Confluence
+  /// connection configuration</a>.
+  final String credentialsSecretArn;
+
+  /// The supported host type, whether online/cloud or server/on-premises.
+  final ConfluenceHostType hostType;
+
+  /// The Confluence host URL or instance URL.
+  final String hostUrl;
+
+  ConfluenceSourceConfiguration({
+    required this.authType,
+    required this.credentialsSecretArn,
+    required this.hostType,
+    required this.hostUrl,
+  });
+
+  factory ConfluenceSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceSourceConfiguration(
+      authType: ConfluenceAuthType.fromString((json['authType'] as String)),
+      credentialsSecretArn: json['credentialsSecretArn'] as String,
+      hostType: ConfluenceHostType.fromString((json['hostType'] as String)),
+      hostUrl: json['hostUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final credentialsSecretArn = this.credentialsSecretArn;
+    final hostType = this.hostType;
+    final hostUrl = this.hostUrl;
+    return {
+      'authType': authType.value,
+      'credentialsSecretArn': credentialsSecretArn,
+      'hostType': hostType.value,
+      'hostUrl': hostUrl,
+    };
+  }
+}
+
+/// The configuration of filtering the data source content. For example,
+/// configuring regular expression patterns to include or exclude certain
+/// content.
+class CrawlFilterConfiguration {
+  /// The type of filtering that you want to apply to certain objects or content
+  /// of the data source. For example, the <code>PATTERN</code> type is regular
+  /// expression patterns you can apply to filter your content.
+  final CrawlFilterConfigurationType type;
+
+  /// The configuration of filtering certain objects or content types of the data
+  /// source.
+  final PatternObjectFilterConfiguration? patternObjectFilter;
+
+  CrawlFilterConfiguration({
+    required this.type,
+    this.patternObjectFilter,
+  });
+
+  factory CrawlFilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return CrawlFilterConfiguration(
+      type: CrawlFilterConfigurationType.fromString((json['type'] as String)),
+      patternObjectFilter: json['patternObjectFilter'] != null
+          ? PatternObjectFilterConfiguration.fromJson(
+              json['patternObjectFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final patternObjectFilter = this.patternObjectFilter;
+    return {
+      'type': type.value,
+      if (patternObjectFilter != null)
+        'patternObjectFilter': patternObjectFilter,
+    };
+  }
+}
+
+enum CrawlFilterConfigurationType {
+  pattern('PATTERN'),
+  ;
+
+  final String value;
+
+  const CrawlFilterConfigurationType(this.value);
+
+  static CrawlFilterConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum CrawlFilterConfigurationType'));
 }
 
 class CreateAgentActionGroupResponse {
@@ -3511,6 +4901,277 @@ class CreateDataSourceResponse {
   }
 }
 
+class CreateFlowAliasResponse {
+  /// The Amazon Resource Name (ARN) of the alias.
+  final String arn;
+
+  /// The time at which the alias was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow that the alias belongs to.
+  final String flowId;
+
+  /// The unique identifier of the alias.
+  final String id;
+
+  /// The name of the alias.
+  final String name;
+
+  /// Contains information about the version that the alias is mapped to.
+  final List<FlowAliasRoutingConfigurationListItem> routingConfiguration;
+
+  /// The time at which the alias of the flow was last updated.
+  final DateTime updatedAt;
+
+  /// The description of the alias.
+  final String? description;
+
+  CreateFlowAliasResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.flowId,
+    required this.id,
+    required this.name,
+    required this.routingConfiguration,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory CreateFlowAliasResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowAliasResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      flowId: json['flowId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      routingConfiguration: (json['routingConfiguration'] as List)
+          .nonNulls
+          .map((e) => FlowAliasRoutingConfigurationListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final flowId = this.flowId;
+    final id = this.id;
+    final name = this.name;
+    final routingConfiguration = this.routingConfiguration;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'flowId': flowId,
+      'id': id,
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class CreateFlowResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the flow.
+  final String name;
+
+  /// The status of the flow. When you submit this request, the status will be
+  /// <code>NotPrepared</code>. If creation fails, the status becomes
+  /// <code>Failed</code>.
+  final FlowStatus status;
+
+  /// The time at which the flow was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the flow. When you create a flow, the version created is the
+  /// <code>DRAFT</code> version.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the flow
+  /// with.
+  final String? customerEncryptionKeyArn;
+
+  /// A definition of the nodes and connections between nodes in the flow.
+  final FlowDefinition? definition;
+
+  /// The description of the flow.
+  final String? description;
+
+  CreateFlowResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.executionRoleArn,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.definition,
+    this.description,
+  });
+
+  factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      executionRoleArn: json['executionRoleArn'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      definition: json['definition'] != null
+          ? FlowDefinition.fromJson(json['definition'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final definition = this.definition;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'executionRoleArn': executionRoleArn,
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class CreateFlowVersionResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the version.
+  final String name;
+
+  /// The status of the flow.
+  final FlowStatus status;
+
+  /// The version of the flow that was created. Versions are numbered
+  /// incrementally, starting from 1.
+  final String version;
+
+  /// The KMS key that the flow is encrypted with.
+  final String? customerEncryptionKeyArn;
+
+  /// A definition of the nodes and connections in the flow.
+  final FlowDefinition? definition;
+
+  /// The description of the version.
+  final String? description;
+
+  CreateFlowVersionResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.executionRoleArn,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.definition,
+    this.description,
+  });
+
+  factory CreateFlowVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowVersionResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      executionRoleArn: json['executionRoleArn'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      definition: json['definition'] != null
+          ? FlowDefinition.fromJson(json['definition'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final definition = this.definition;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'executionRoleArn': executionRoleArn,
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 class CreateKnowledgeBaseResponse {
   /// Contains details about the knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -3530,6 +5191,191 @@ class CreateKnowledgeBaseResponse {
     final knowledgeBase = this.knowledgeBase;
     return {
       'knowledgeBase': knowledgeBase,
+    };
+  }
+}
+
+class CreatePromptResponse {
+  /// The Amazon Resource Name (ARN) of the prompt.
+  final String arn;
+
+  /// The time at which the prompt was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the prompt.
+  final String id;
+
+  /// The name of the prompt.
+  final String name;
+
+  /// The time at which the prompt was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the prompt. When you create a prompt, the version created is
+  /// the <code>DRAFT</code> version.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the prompt
+  /// with.
+  final String? customerEncryptionKeyArn;
+
+  /// The name of the default variant for your prompt.
+  final String? defaultVariant;
+
+  /// The description of the prompt.
+  final String? description;
+
+  /// A list of objects, each containing details about a variant of the prompt.
+  final List<PromptVariant>? variants;
+
+  CreatePromptResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.defaultVariant,
+    this.description,
+    this.variants,
+  });
+
+  factory CreatePromptResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePromptResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      defaultVariant: json['defaultVariant'] as String?,
+      description: json['description'] as String?,
+      variants: (json['variants'] as List?)
+          ?.nonNulls
+          .map((e) => PromptVariant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final defaultVariant = this.defaultVariant;
+    final description = this.description;
+    final variants = this.variants;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (variants != null) 'variants': variants,
+    };
+  }
+}
+
+class CreatePromptVersionResponse {
+  /// The Amazon Resource Name (ARN) of the version of the prompt.
+  final String arn;
+
+  /// The time at which the prompt was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the prompt.
+  final String id;
+
+  /// The name of the prompt.
+  final String name;
+
+  /// The time at which the prompt was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the prompt that was created. Versions are numbered
+  /// incrementally, starting from 1.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the version of the
+  /// prompt.
+  final String? customerEncryptionKeyArn;
+
+  /// The name of the default variant for the prompt. This value must match the
+  /// <code>name</code> field in the relevant <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html">PromptVariant</a>
+  /// object.
+  final String? defaultVariant;
+
+  /// A description for the version.
+  final String? description;
+
+  /// A list of objects, each containing details about a variant of the prompt.
+  final List<PromptVariant>? variants;
+
+  CreatePromptVersionResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.defaultVariant,
+    this.description,
+    this.variants,
+  });
+
+  factory CreatePromptVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePromptVersionResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      defaultVariant: json['defaultVariant'] as String?,
+      description: json['description'] as String?,
+      variants: (json['variants'] as List?)
+          ?.nonNulls
+          .map((e) => PromptVariant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final defaultVariant = this.defaultVariant;
+    final description = this.description;
+    final variants = this.variants;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (variants != null) 'variants': variants,
     };
   }
 }
@@ -3563,6 +5409,52 @@ enum CustomControlMethod {
           throw Exception('$value is not known in enum CustomControlMethod'));
 }
 
+/// Settings for customizing steps in the data source content ingestion
+/// pipeline.
+///
+/// You can configure the data source to process documents with a Lambda
+/// function after they are parsed and converted into chunks. When you add a
+/// post-chunking transformation, the service stores chunked documents in an S3
+/// bucket and invokes a Lambda function to process them.
+///
+/// To process chunked documents with a Lambda function, define an S3 bucket
+/// path for input and output objects, and a transformation that specifies the
+/// Lambda function to invoke. You can use the Lambda function to customize how
+/// chunks are split, and the metadata for each chunk.
+class CustomTransformationConfiguration {
+  /// An S3 bucket path for input and output objects.
+  final IntermediateStorage intermediateStorage;
+
+  /// A Lambda function that processes documents.
+  final List<Transformation> transformations;
+
+  CustomTransformationConfiguration({
+    required this.intermediateStorage,
+    required this.transformations,
+  });
+
+  factory CustomTransformationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CustomTransformationConfiguration(
+      intermediateStorage: IntermediateStorage.fromJson(
+          json['intermediateStorage'] as Map<String, dynamic>),
+      transformations: (json['transformations'] as List)
+          .nonNulls
+          .map((e) => Transformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateStorage = this.intermediateStorage;
+    final transformations = this.transformations;
+    return {
+      'intermediateStorage': intermediateStorage,
+      'transformations': transformations,
+    };
+  }
+}
+
 enum DataDeletionPolicy {
   retain('RETAIN'),
   delete('DELETE'),
@@ -3583,7 +5475,7 @@ class DataSource {
   /// The time at which the data source was created.
   final DateTime createdAt;
 
-  /// Contains details about how the data source is stored.
+  /// The connection configuration for the data source.
   final DataSourceConfiguration dataSourceConfiguration;
 
   /// The unique identifier of the data source.
@@ -3612,7 +5504,7 @@ class DataSource {
   /// The time at which the data source was last updated.
   final DateTime updatedAt;
 
-  /// The data deletion policy for a data source.
+  /// The data deletion policy for the data source.
   final DataDeletionPolicy? dataDeletionPolicy;
 
   /// The description of the data source.
@@ -3706,36 +5598,95 @@ class DataSource {
   }
 }
 
-/// Contains details about how a data source is stored.
+/// The connection configuration for the data source.
 class DataSourceConfiguration {
-  /// The type of storage for the data source.
+  /// The type of data source.
   final DataSourceType type;
 
-  /// Contains details about the configuration of the S3 object containing the
-  /// data source.
+  /// The configuration information to connect to Confluence as your data source.
+  /// <note>
+  /// Confluence data source connector is in preview release and is subject to
+  /// change.
+  /// </note>
+  final ConfluenceDataSourceConfiguration? confluenceConfiguration;
+
+  /// The configuration information to connect to Amazon S3 as your data source.
   final S3DataSourceConfiguration? s3Configuration;
+
+  /// The configuration information to connect to Salesforce as your data source.
+  /// <note>
+  /// Salesforce data source connector is in preview release and is subject to
+  /// change.
+  /// </note>
+  final SalesforceDataSourceConfiguration? salesforceConfiguration;
+
+  /// The configuration information to connect to SharePoint as your data source.
+  /// <note>
+  /// SharePoint data source connector is in preview release and is subject to
+  /// change.
+  /// </note>
+  final SharePointDataSourceConfiguration? sharePointConfiguration;
+
+  /// The configuration of web URLs to crawl for your data source. You should be
+  /// authorized to crawl the URLs.
+  /// <note>
+  /// Crawling web URLs as your data source is in preview release and is subject
+  /// to change.
+  /// </note>
+  final WebDataSourceConfiguration? webConfiguration;
 
   DataSourceConfiguration({
     required this.type,
+    this.confluenceConfiguration,
     this.s3Configuration,
+    this.salesforceConfiguration,
+    this.sharePointConfiguration,
+    this.webConfiguration,
   });
 
   factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceConfiguration(
       type: DataSourceType.fromString((json['type'] as String)),
+      confluenceConfiguration: json['confluenceConfiguration'] != null
+          ? ConfluenceDataSourceConfiguration.fromJson(
+              json['confluenceConfiguration'] as Map<String, dynamic>)
+          : null,
       s3Configuration: json['s3Configuration'] != null
           ? S3DataSourceConfiguration.fromJson(
               json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+      salesforceConfiguration: json['salesforceConfiguration'] != null
+          ? SalesforceDataSourceConfiguration.fromJson(
+              json['salesforceConfiguration'] as Map<String, dynamic>)
+          : null,
+      sharePointConfiguration: json['sharePointConfiguration'] != null
+          ? SharePointDataSourceConfiguration.fromJson(
+              json['sharePointConfiguration'] as Map<String, dynamic>)
+          : null,
+      webConfiguration: json['webConfiguration'] != null
+          ? WebDataSourceConfiguration.fromJson(
+              json['webConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
+    final confluenceConfiguration = this.confluenceConfiguration;
     final s3Configuration = this.s3Configuration;
+    final salesforceConfiguration = this.salesforceConfiguration;
+    final sharePointConfiguration = this.sharePointConfiguration;
+    final webConfiguration = this.webConfiguration;
     return {
       'type': type.value,
+      if (confluenceConfiguration != null)
+        'confluenceConfiguration': confluenceConfiguration,
       if (s3Configuration != null) 's3Configuration': s3Configuration,
+      if (salesforceConfiguration != null)
+        'salesforceConfiguration': salesforceConfiguration,
+      if (sharePointConfiguration != null)
+        'sharePointConfiguration': sharePointConfiguration,
+      if (webConfiguration != null) 'webConfiguration': webConfiguration,
     };
   }
 }
@@ -3817,6 +5768,10 @@ class DataSourceSummary {
 
 enum DataSourceType {
   s3('S3'),
+  web('WEB'),
+  confluence('CONFLUENCE'),
+  salesforce('SALESFORCE'),
+  sharepoint('SHAREPOINT'),
   ;
 
   final String value;
@@ -3980,6 +5935,86 @@ class DeleteDataSourceResponse {
   }
 }
 
+class DeleteFlowAliasResponse {
+  /// The unique identifier of the flow that the alias belongs to.
+  final String flowId;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  DeleteFlowAliasResponse({
+    required this.flowId,
+    required this.id,
+  });
+
+  factory DeleteFlowAliasResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFlowAliasResponse(
+      flowId: json['flowId'] as String,
+      id: json['id'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowId = this.flowId;
+    final id = this.id;
+    return {
+      'flowId': flowId,
+      'id': id,
+    };
+  }
+}
+
+class DeleteFlowResponse {
+  /// The unique identifier of the flow.
+  final String id;
+
+  DeleteFlowResponse({
+    required this.id,
+  });
+
+  factory DeleteFlowResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFlowResponse(
+      id: json['id'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+class DeleteFlowVersionResponse {
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The version of the flow being deleted.
+  final String version;
+
+  DeleteFlowVersionResponse({
+    required this.id,
+    required this.version,
+  });
+
+  factory DeleteFlowVersionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFlowVersionResponse(
+      id: json['id'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final version = this.version;
+    return {
+      'id': id,
+      'version': version,
+    };
+  }
+}
+
 class DeleteKnowledgeBaseResponse {
   /// The unique identifier of the knowledge base that was deleted.
   final String knowledgeBaseId;
@@ -4006,6 +6041,35 @@ class DeleteKnowledgeBaseResponse {
     return {
       'knowledgeBaseId': knowledgeBaseId,
       'status': status.value,
+    };
+  }
+}
+
+class DeletePromptResponse {
+  /// The unique identifier of the prompt that was deleted.
+  final String id;
+
+  /// The version of the prompt that was deleted.
+  final String? version;
+
+  DeletePromptResponse({
+    required this.id,
+    this.version,
+  });
+
+  factory DeletePromptResponse.fromJson(Map<String, dynamic> json) {
+    return DeletePromptResponse(
+      id: json['id'] as String,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final version = this.version;
+    return {
+      'id': id,
+      if (version != null) 'version': version,
     };
   }
 }
@@ -4085,6 +6149,921 @@ class FixedSizeChunkingConfiguration {
   }
 }
 
+/// Contains information about a version that the alias maps to.
+class FlowAliasRoutingConfigurationListItem {
+  /// The version that the alias maps to.
+  final String? flowVersion;
+
+  FlowAliasRoutingConfigurationListItem({
+    this.flowVersion,
+  });
+
+  factory FlowAliasRoutingConfigurationListItem.fromJson(
+      Map<String, dynamic> json) {
+    return FlowAliasRoutingConfigurationListItem(
+      flowVersion: json['flowVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowVersion = this.flowVersion;
+    return {
+      if (flowVersion != null) 'flowVersion': flowVersion,
+    };
+  }
+}
+
+/// Contains information about an alias of a flow.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListFlowAliases.html#API_agent_ListFlowAliases_ResponseSyntax">ListFlowAliases
+/// response</a>
+/// </li>
+/// </ul>
+class FlowAliasSummary {
+  /// The Amazon Resource Name (ARN) of the alias.
+  final String arn;
+
+  /// The time at which the alias was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow.
+  final String flowId;
+
+  /// The unique identifier of the alias of the flow.
+  final String id;
+
+  /// The name of the alias.
+  final String name;
+
+  /// A list of configurations about the versions that the alias maps to.
+  /// Currently, you can only specify one.
+  final List<FlowAliasRoutingConfigurationListItem> routingConfiguration;
+
+  /// The time at which the alias was last updated.
+  final DateTime updatedAt;
+
+  /// A description of the alias.
+  final String? description;
+
+  FlowAliasSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.flowId,
+    required this.id,
+    required this.name,
+    required this.routingConfiguration,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory FlowAliasSummary.fromJson(Map<String, dynamic> json) {
+    return FlowAliasSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      flowId: json['flowId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      routingConfiguration: (json['routingConfiguration'] as List)
+          .nonNulls
+          .map((e) => FlowAliasRoutingConfigurationListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final flowId = this.flowId;
+    final id = this.id;
+    final name = this.name;
+    final routingConfiguration = this.routingConfiguration;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'flowId': flowId,
+      'id': id,
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Defines a condition in the condition node.
+class FlowCondition {
+  /// A name for the condition that you can reference.
+  final String name;
+
+  /// Defines the condition. You must refer to at least one of the inputs in the
+  /// condition. For more information, expand the Condition node section in <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html#flows-nodes">Node
+  /// types in prompt flows</a>.
+  final String? expression;
+
+  FlowCondition({
+    required this.name,
+    this.expression,
+  });
+
+  factory FlowCondition.fromJson(Map<String, dynamic> json) {
+    return FlowCondition(
+      name: json['name'] as String,
+      expression: json['expression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final expression = this.expression;
+    return {
+      'name': name,
+      if (expression != null) 'expression': expression,
+    };
+  }
+}
+
+/// The configuration of a connection between a condition node and another node.
+class FlowConditionalConnectionConfiguration {
+  /// The condition that triggers this connection. For more information about how
+  /// to write conditions, see the <b>Condition</b> node type in the <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/node-types.html">Node
+  /// types</a> topic in the Amazon Bedrock User Guide.
+  final String condition;
+
+  FlowConditionalConnectionConfiguration({
+    required this.condition,
+  });
+
+  factory FlowConditionalConnectionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return FlowConditionalConnectionConfiguration(
+      condition: json['condition'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    return {
+      'condition': condition,
+    };
+  }
+}
+
+/// Contains information about a connection between two nodes in the flow.
+class FlowConnection {
+  /// A name for the connection that you can reference.
+  final String name;
+
+  /// The node that the connection starts at.
+  final String source;
+
+  /// The node that the connection ends at.
+  final String target;
+
+  /// Whether the source node that the connection begins from is a condition node
+  /// (<code>Conditional</code>) or not (<code>Data</code>).
+  final FlowConnectionType type;
+
+  /// The configuration of the connection.
+  final FlowConnectionConfiguration? configuration;
+
+  FlowConnection({
+    required this.name,
+    required this.source,
+    required this.target,
+    required this.type,
+    this.configuration,
+  });
+
+  factory FlowConnection.fromJson(Map<String, dynamic> json) {
+    return FlowConnection(
+      name: json['name'] as String,
+      source: json['source'] as String,
+      target: json['target'] as String,
+      type: FlowConnectionType.fromString((json['type'] as String)),
+      configuration: json['configuration'] != null
+          ? FlowConnectionConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final source = this.source;
+    final target = this.target;
+    final type = this.type;
+    final configuration = this.configuration;
+    return {
+      'name': name,
+      'source': source,
+      'target': target,
+      'type': type.value,
+      if (configuration != null) 'configuration': configuration,
+    };
+  }
+}
+
+/// The configuration of the connection.
+class FlowConnectionConfiguration {
+  /// The configuration of a connection originating from a Condition node.
+  final FlowConditionalConnectionConfiguration? conditional;
+
+  /// The configuration of a connection originating from a node that isn't a
+  /// Condition node.
+  final FlowDataConnectionConfiguration? data;
+
+  FlowConnectionConfiguration({
+    this.conditional,
+    this.data,
+  });
+
+  factory FlowConnectionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FlowConnectionConfiguration(
+      conditional: json['conditional'] != null
+          ? FlowConditionalConnectionConfiguration.fromJson(
+              json['conditional'] as Map<String, dynamic>)
+          : null,
+      data: json['data'] != null
+          ? FlowDataConnectionConfiguration.fromJson(
+              json['data'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditional = this.conditional;
+    final data = this.data;
+    return {
+      if (conditional != null) 'conditional': conditional,
+      if (data != null) 'data': data,
+    };
+  }
+}
+
+enum FlowConnectionType {
+  data('Data'),
+  conditional('Conditional'),
+  ;
+
+  final String value;
+
+  const FlowConnectionType(this.value);
+
+  static FlowConnectionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlowConnectionType'));
+}
+
+/// The configuration of a connection originating from a node that isn't a
+/// Condition node.
+class FlowDataConnectionConfiguration {
+  /// The name of the output in the source node that the connection begins from.
+  final String sourceOutput;
+
+  /// The name of the input in the target node that the connection ends at.
+  final String targetInput;
+
+  FlowDataConnectionConfiguration({
+    required this.sourceOutput,
+    required this.targetInput,
+  });
+
+  factory FlowDataConnectionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FlowDataConnectionConfiguration(
+      sourceOutput: json['sourceOutput'] as String,
+      targetInput: json['targetInput'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceOutput = this.sourceOutput;
+    final targetInput = this.targetInput;
+    return {
+      'sourceOutput': sourceOutput,
+      'targetInput': targetInput,
+    };
+  }
+}
+
+/// The definition of the nodes and connections between nodes in the flow.
+class FlowDefinition {
+  /// An array of connection definitions in the flow.
+  final List<FlowConnection>? connections;
+
+  /// An array of node definitions in the flow.
+  final List<FlowNode>? nodes;
+
+  FlowDefinition({
+    this.connections,
+    this.nodes,
+  });
+
+  factory FlowDefinition.fromJson(Map<String, dynamic> json) {
+    return FlowDefinition(
+      connections: (json['connections'] as List?)
+          ?.nonNulls
+          .map((e) => FlowConnection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodes: (json['nodes'] as List?)
+          ?.nonNulls
+          .map((e) => FlowNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nodes = this.nodes;
+    return {
+      if (connections != null) 'connections': connections,
+      if (nodes != null) 'nodes': nodes,
+    };
+  }
+}
+
+/// Contains configurations about a node in the flow.
+class FlowNode {
+  /// A name for the node.
+  final String name;
+
+  /// The type of node. This value must match the name of the key that you provide
+  /// in the configuration you provide in the <code>FlowNodeConfiguration</code>
+  /// field.
+  final FlowNodeType type;
+
+  /// Contains configurations for the node.
+  final FlowNodeConfiguration? configuration;
+
+  /// An array of objects, each of which contains information about an input into
+  /// the node.
+  final List<FlowNodeInput>? inputs;
+
+  /// A list of objects, each of which contains information about an output from
+  /// the node.
+  final List<FlowNodeOutput>? outputs;
+
+  FlowNode({
+    required this.name,
+    required this.type,
+    this.configuration,
+    this.inputs,
+    this.outputs,
+  });
+
+  factory FlowNode.fromJson(Map<String, dynamic> json) {
+    return FlowNode(
+      name: json['name'] as String,
+      type: FlowNodeType.fromString((json['type'] as String)),
+      configuration: json['configuration'] != null
+          ? FlowNodeConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      inputs: (json['inputs'] as List?)
+          ?.nonNulls
+          .map((e) => FlowNodeInput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputs: (json['outputs'] as List?)
+          ?.nonNulls
+          .map((e) => FlowNodeOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final configuration = this.configuration;
+    final inputs = this.inputs;
+    final outputs = this.outputs;
+    return {
+      'name': name,
+      'type': type.value,
+      if (configuration != null) 'configuration': configuration,
+      if (inputs != null) 'inputs': inputs,
+      if (outputs != null) 'outputs': outputs,
+    };
+  }
+}
+
+/// Contains configurations for a node in your flow. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class FlowNodeConfiguration {
+  /// Contains configurations for an agent node in your flow. Invokes an alias of
+  /// an agent and returns the response.
+  final AgentFlowNodeConfiguration? agent;
+
+  /// Contains configurations for a collector node in your flow. Collects an
+  /// iteration of inputs and consolidates them into an array of outputs.
+  final CollectorFlowNodeConfiguration? collector;
+
+  /// Contains configurations for a Condition node in your flow. Defines
+  /// conditions that lead to different branches of the flow.
+  final ConditionFlowNodeConfiguration? condition;
+
+  /// Contains configurations for an input flow node in your flow. The first node
+  /// in the flow. <code>inputs</code> can't be specified for this node.
+  final InputFlowNodeConfiguration? input;
+
+  /// Contains configurations for an iterator node in your flow. Takes an input
+  /// that is an array and iteratively sends each item of the array as an output
+  /// to the following node. The size of the array is also returned in the output.
+  ///
+  /// The output flow node at the end of the flow iteration will return a response
+  /// for each member of the array. To return only one response, you can include a
+  /// collector node downstream from the iterator node.
+  final IteratorFlowNodeConfiguration? iterator;
+
+  /// Contains configurations for a knowledge base node in your flow. Queries a
+  /// knowledge base and returns the retrieved results or generated response.
+  final KnowledgeBaseFlowNodeConfiguration? knowledgeBase;
+
+  /// Contains configurations for a Lambda function node in your flow. Invokes an
+  /// Lambda function.
+  final LambdaFunctionFlowNodeConfiguration? lambdaFunction;
+
+  /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex
+  /// bot to identify the intent of the input and return the intent as the output.
+  final LexFlowNodeConfiguration? lex;
+
+  /// Contains configurations for an output flow node in your flow. The last node
+  /// in the flow. <code>outputs</code> can't be specified for this node.
+  final OutputFlowNodeConfiguration? output;
+
+  /// Contains configurations for a prompt node in your flow. Runs a prompt and
+  /// generates the model response as the output. You can use a prompt from Prompt
+  /// management or you can configure one in this node.
+  final PromptFlowNodeConfiguration? prompt;
+
+  /// Contains configurations for a Retrieval node in your flow. Retrieves data
+  /// from an Amazon S3 location and returns it as the output.
+  final RetrievalFlowNodeConfiguration? retrieval;
+
+  /// Contains configurations for a Storage node in your flow. Stores an input in
+  /// an Amazon S3 location.
+  final StorageFlowNodeConfiguration? storage;
+
+  FlowNodeConfiguration({
+    this.agent,
+    this.collector,
+    this.condition,
+    this.input,
+    this.iterator,
+    this.knowledgeBase,
+    this.lambdaFunction,
+    this.lex,
+    this.output,
+    this.prompt,
+    this.retrieval,
+    this.storage,
+  });
+
+  factory FlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return FlowNodeConfiguration(
+      agent: json['agent'] != null
+          ? AgentFlowNodeConfiguration.fromJson(
+              json['agent'] as Map<String, dynamic>)
+          : null,
+      collector: json['collector'] != null
+          ? CollectorFlowNodeConfiguration.fromJson(
+              json['collector'] as Map<String, dynamic>)
+          : null,
+      condition: json['condition'] != null
+          ? ConditionFlowNodeConfiguration.fromJson(
+              json['condition'] as Map<String, dynamic>)
+          : null,
+      input: json['input'] != null
+          ? InputFlowNodeConfiguration.fromJson(
+              json['input'] as Map<String, dynamic>)
+          : null,
+      iterator: json['iterator'] != null
+          ? IteratorFlowNodeConfiguration.fromJson(
+              json['iterator'] as Map<String, dynamic>)
+          : null,
+      knowledgeBase: json['knowledgeBase'] != null
+          ? KnowledgeBaseFlowNodeConfiguration.fromJson(
+              json['knowledgeBase'] as Map<String, dynamic>)
+          : null,
+      lambdaFunction: json['lambdaFunction'] != null
+          ? LambdaFunctionFlowNodeConfiguration.fromJson(
+              json['lambdaFunction'] as Map<String, dynamic>)
+          : null,
+      lex: json['lex'] != null
+          ? LexFlowNodeConfiguration.fromJson(
+              json['lex'] as Map<String, dynamic>)
+          : null,
+      output: json['output'] != null
+          ? OutputFlowNodeConfiguration.fromJson(
+              json['output'] as Map<String, dynamic>)
+          : null,
+      prompt: json['prompt'] != null
+          ? PromptFlowNodeConfiguration.fromJson(
+              json['prompt'] as Map<String, dynamic>)
+          : null,
+      retrieval: json['retrieval'] != null
+          ? RetrievalFlowNodeConfiguration.fromJson(
+              json['retrieval'] as Map<String, dynamic>)
+          : null,
+      storage: json['storage'] != null
+          ? StorageFlowNodeConfiguration.fromJson(
+              json['storage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agent = this.agent;
+    final collector = this.collector;
+    final condition = this.condition;
+    final input = this.input;
+    final iterator = this.iterator;
+    final knowledgeBase = this.knowledgeBase;
+    final lambdaFunction = this.lambdaFunction;
+    final lex = this.lex;
+    final output = this.output;
+    final prompt = this.prompt;
+    final retrieval = this.retrieval;
+    final storage = this.storage;
+    return {
+      if (agent != null) 'agent': agent,
+      if (collector != null) 'collector': collector,
+      if (condition != null) 'condition': condition,
+      if (input != null) 'input': input,
+      if (iterator != null) 'iterator': iterator,
+      if (knowledgeBase != null) 'knowledgeBase': knowledgeBase,
+      if (lambdaFunction != null) 'lambdaFunction': lambdaFunction,
+      if (lex != null) 'lex': lex,
+      if (output != null) 'output': output,
+      if (prompt != null) 'prompt': prompt,
+      if (retrieval != null) 'retrieval': retrieval,
+      if (storage != null) 'storage': storage,
+    };
+  }
+}
+
+enum FlowNodeIODataType {
+  string('String'),
+  number('Number'),
+  boolean('Boolean'),
+  object('Object'),
+  array('Array'),
+  ;
+
+  final String value;
+
+  const FlowNodeIODataType(this.value);
+
+  static FlowNodeIODataType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlowNodeIODataType'));
+}
+
+/// Contains configurations for an input to a node.
+class FlowNodeInput {
+  /// An expression that formats the input for the node. For an explanation of how
+  /// to create expressions, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-expressions.html">Expressions
+  /// in Prompt flows in Amazon Bedrock</a>.
+  final String expression;
+
+  /// A name for the input that you can reference.
+  final String name;
+
+  /// The data type of the input. If the input doesn't match this type at runtime,
+  /// a validation error will be thrown.
+  final FlowNodeIODataType type;
+
+  FlowNodeInput({
+    required this.expression,
+    required this.name,
+    required this.type,
+  });
+
+  factory FlowNodeInput.fromJson(Map<String, dynamic> json) {
+    return FlowNodeInput(
+      expression: json['expression'] as String,
+      name: json['name'] as String,
+      type: FlowNodeIODataType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'expression': expression,
+      'name': name,
+      'type': type.value,
+    };
+  }
+}
+
+/// Contains configurations for an output from a node.
+class FlowNodeOutput {
+  /// A name for the output that you can reference.
+  final String name;
+
+  /// The data type of the output. If the output doesn't match this type at
+  /// runtime, a validation error will be thrown.
+  final FlowNodeIODataType type;
+
+  FlowNodeOutput({
+    required this.name,
+    required this.type,
+  });
+
+  factory FlowNodeOutput.fromJson(Map<String, dynamic> json) {
+    return FlowNodeOutput(
+      name: json['name'] as String,
+      type: FlowNodeIODataType.fromString((json['type'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type.value,
+    };
+  }
+}
+
+enum FlowNodeType {
+  input('Input'),
+  output('Output'),
+  knowledgeBase('KnowledgeBase'),
+  condition('Condition'),
+  lex('Lex'),
+  prompt('Prompt'),
+  lambdaFunction('LambdaFunction'),
+  storage('Storage'),
+  agent('Agent'),
+  retrieval('Retrieval'),
+  iterator('Iterator'),
+  collector('Collector'),
+  ;
+
+  final String value;
+
+  const FlowNodeType(this.value);
+
+  static FlowNodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FlowNodeType'));
+}
+
+enum FlowStatus {
+  failed('Failed'),
+  prepared('Prepared'),
+  preparing('Preparing'),
+  notPrepared('NotPrepared'),
+  ;
+
+  final String value;
+
+  const FlowStatus(this.value);
+
+  static FlowStatus fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FlowStatus'));
+}
+
+/// Contains the definition of a flow.
+class FlowSummary {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the flow.
+  final String name;
+
+  /// The status of the flow. The following statuses are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// NotPrepared – The flow has been created or updated, but hasn't been
+  /// prepared. If you just created the flow, you can't test it. If you updated
+  /// the flow, the <code>DRAFT</code> version won't contain the latest changes
+  /// for testing. Send a <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PrepareFlow.html">PrepareFlow</a>
+  /// request to package the latest changes into the <code>DRAFT</code> version.
+  /// </li>
+  /// <li>
+  /// Preparing – The flow is being prepared so that the <code>DRAFT</code>
+  /// version contains the latest changes for testing.
+  /// </li>
+  /// <li>
+  /// Prepared – The flow is prepared and the <code>DRAFT</code> version contains
+  /// the latest changes for testing.
+  /// </li>
+  /// <li>
+  /// Failed – The last API operation that you invoked on the flow failed. Send a
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlow.html">GetFlow</a>
+  /// request and check the error message in the <code>validations</code> field.
+  /// </li>
+  /// </ul>
+  final FlowStatus status;
+
+  /// The time at which the flow was last updated.
+  final DateTime updatedAt;
+
+  /// The latest version of the flow.
+  final String version;
+
+  /// A description of the flow.
+  final String? description;
+
+  FlowSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    this.description,
+  });
+
+  factory FlowSummary.fromJson(Map<String, dynamic> json) {
+    return FlowSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains information about validation of the flow.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlow.html#API_agent_GetFlow_ResponseSyntax">GetFlow
+/// response</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlowVersion.html#API_agent_GetFlowVersion_ResponseSyntax">GetFlowVersion
+/// response</a>
+/// </li>
+/// </ul>
+class FlowValidation {
+  /// A message describing the validation error.
+  final String message;
+
+  /// The severity of the issue described in the message.
+  final FlowValidationSeverity severity;
+
+  FlowValidation({
+    required this.message,
+    required this.severity,
+  });
+
+  factory FlowValidation.fromJson(Map<String, dynamic> json) {
+    return FlowValidation(
+      message: json['message'] as String,
+      severity: FlowValidationSeverity.fromString((json['severity'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final severity = this.severity;
+    return {
+      'message': message,
+      'severity': severity.value,
+    };
+  }
+}
+
+enum FlowValidationSeverity {
+  warning('Warning'),
+  error('Error'),
+  ;
+
+  final String value;
+
+  const FlowValidationSeverity(this.value);
+
+  static FlowValidationSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum FlowValidationSeverity'));
+}
+
+/// Contains information about a version of a flow.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListFlowVersions.html#API_agent_ListFlowVersions_ResponseSyntax">ListFlowVersions
+/// response</a>
+/// </li>
+/// </ul>
+class FlowVersionSummary {
+  /// The Amazon Resource Name (ARN) of the flow that the version belongs to.
+  final String arn;
+
+  /// The time at the version was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The status of the flow.
+  final FlowStatus status;
+
+  /// The version of the flow.
+  final String version;
+
+  FlowVersionSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.status,
+    required this.version,
+  });
+
+  factory FlowVersionSummary.fromJson(Map<String, dynamic> json) {
+    return FlowVersionSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final status = this.status;
+    final version = this.version;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'status': status.value,
+      'version': version,
+    };
+  }
+}
+
 /// Defines parameters that the agent needs to invoke from the user to complete
 /// the function. Corresponds to an action in an action group.
 ///
@@ -4127,10 +7106,15 @@ class $Function {
   /// The parameters that the agent elicits from the user to fulfill the function.
   final Map<String, ParameterDetail>? parameters;
 
+  /// Contains information if user confirmation is required to invoke the
+  /// function.
+  final RequireConfirmation? requireConfirmation;
+
   $Function({
     required this.name,
     this.description,
     this.parameters,
+    this.requireConfirmation,
   });
 
   factory $Function.fromJson(Map<String, dynamic> json) {
@@ -4139,6 +7123,8 @@ class $Function {
       description: json['description'] as String?,
       parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, ParameterDetail.fromJson(e as Map<String, dynamic>))),
+      requireConfirmation: (json['requireConfirmation'] as String?)
+          ?.let(RequireConfirmation.fromString),
     );
   }
 
@@ -4146,10 +7132,13 @@ class $Function {
     final name = this.name;
     final description = this.description;
     final parameters = this.parameters;
+    final requireConfirmation = this.requireConfirmation;
     return {
       'name': name,
       if (description != null) 'description': description,
       if (parameters != null) 'parameters': parameters,
+      if (requireConfirmation != null)
+        'requireConfirmation': requireConfirmation.value,
     };
   }
 }
@@ -4348,6 +7337,309 @@ class GetDataSourceResponse {
   }
 }
 
+class GetFlowAliasResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow that the alias belongs to.
+  final String flowId;
+
+  /// The unique identifier of the alias of the flow.
+  final String id;
+
+  /// The name of the alias.
+  final String name;
+
+  /// Contains information about the version that the alias is mapped to.
+  final List<FlowAliasRoutingConfigurationListItem> routingConfiguration;
+
+  /// The time at which the alias was last updated.
+  final DateTime updatedAt;
+
+  /// The description of the flow.
+  final String? description;
+
+  GetFlowAliasResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.flowId,
+    required this.id,
+    required this.name,
+    required this.routingConfiguration,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory GetFlowAliasResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowAliasResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      flowId: json['flowId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      routingConfiguration: (json['routingConfiguration'] as List)
+          .nonNulls
+          .map((e) => FlowAliasRoutingConfigurationListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final flowId = this.flowId;
+    final id = this.id;
+    final name = this.name;
+    final routingConfiguration = this.routingConfiguration;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'flowId': flowId,
+      'id': id,
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class GetFlowResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service row for flows</a> in the Amazon Bedrock User Guide.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the flow.
+  final String name;
+
+  /// The status of the flow. The following statuses are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// NotPrepared – The flow has been created or updated, but hasn't been
+  /// prepared. If you just created the flow, you can't test it. If you updated
+  /// the flow, the <code>DRAFT</code> version won't contain the latest changes
+  /// for testing. Send a <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PrepareFlow.html">PrepareFlow</a>
+  /// request to package the latest changes into the <code>DRAFT</code> version.
+  /// </li>
+  /// <li>
+  /// Preparing – The flow is being prepared so that the <code>DRAFT</code>
+  /// version contains the latest changes for testing.
+  /// </li>
+  /// <li>
+  /// Prepared – The flow is prepared and the <code>DRAFT</code> version contains
+  /// the latest changes for testing.
+  /// </li>
+  /// <li>
+  /// Failed – The last API operation that you invoked on the flow failed. Send a
+  /// <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlow.html">GetFlow</a>
+  /// request and check the error message in the <code>validations</code> field.
+  /// </li>
+  /// </ul>
+  final FlowStatus status;
+
+  /// The time at which the flow was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the flow for which information was retrieved.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that the flow is encrypted
+  /// with.
+  final String? customerEncryptionKeyArn;
+
+  /// The definition of the nodes and connections between the nodes in the flow.
+  final FlowDefinition? definition;
+
+  /// The description of the flow.
+  final String? description;
+
+  /// A list of validation error messages related to the last failed operation on
+  /// the flow.
+  final List<FlowValidation>? validations;
+
+  GetFlowResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.executionRoleArn,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.definition,
+    this.description,
+    this.validations,
+  });
+
+  factory GetFlowResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      executionRoleArn: json['executionRoleArn'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      definition: json['definition'] != null
+          ? FlowDefinition.fromJson(json['definition'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+      validations: (json['validations'] as List?)
+          ?.nonNulls
+          .map((e) => FlowValidation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final definition = this.definition;
+    final description = this.description;
+    final validations = this.validations;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'executionRoleArn': executionRoleArn,
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+      if (validations != null) 'validations': validations,
+    };
+  }
+}
+
+class GetFlowVersionResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the version.
+  final String name;
+
+  /// The status of the flow.
+  final FlowStatus status;
+
+  /// The version of the flow for which information was retrieved.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that the version of the flow
+  /// is encrypted with.
+  final String? customerEncryptionKeyArn;
+
+  /// The definition of the nodes and connections between nodes in the flow.
+  final FlowDefinition? definition;
+
+  /// The description of the flow.
+  final String? description;
+
+  GetFlowVersionResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.executionRoleArn,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.definition,
+    this.description,
+  });
+
+  factory GetFlowVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowVersionResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      executionRoleArn: json['executionRoleArn'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      definition: json['definition'] != null
+          ? FlowDefinition.fromJson(json['definition'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final definition = this.definition;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'executionRoleArn': executionRoleArn,
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 class GetIngestionJobResponse {
   /// Contains details about the ingestion job.
   final IngestionJob ingestionJob;
@@ -4394,12 +7686,106 @@ class GetKnowledgeBaseResponse {
   }
 }
 
-/// The details of the guardrails configuration.
+class GetPromptResponse {
+  /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you
+  /// specified a version in the request).
+  final String arn;
+
+  /// The time at which the prompt was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the prompt.
+  final String id;
+
+  /// The name of the prompt.
+  final String name;
+
+  /// The time at which the prompt was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the prompt.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that the prompt is encrypted
+  /// with.
+  final String? customerEncryptionKeyArn;
+
+  /// The name of the default variant for the prompt. This value must match the
+  /// <code>name</code> field in the relevant <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html">PromptVariant</a>
+  /// object.
+  final String? defaultVariant;
+
+  /// The descriptino of the prompt.
+  final String? description;
+
+  /// A list of objects, each containing details about a variant of the prompt.
+  final List<PromptVariant>? variants;
+
+  GetPromptResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.defaultVariant,
+    this.description,
+    this.variants,
+  });
+
+  factory GetPromptResponse.fromJson(Map<String, dynamic> json) {
+    return GetPromptResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      defaultVariant: json['defaultVariant'] as String?,
+      description: json['description'] as String?,
+      variants: (json['variants'] as List?)
+          ?.nonNulls
+          .map((e) => PromptVariant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final defaultVariant = this.defaultVariant;
+    final description = this.description;
+    final variants = this.variants;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (variants != null) 'variants': variants,
+    };
+  }
+}
+
+/// Details about the guardrail associated with an agent.
 class GuardrailConfiguration {
-  /// The guardrails identifier assigned to the guardrails configuration.
+  /// The unique identifier of the guardrail.
   final String? guardrailIdentifier;
 
-  /// The guardrails version assigned to the guardrails configuration.
+  /// The version of the guardrail.
   final String? guardrailVersion;
 
   GuardrailConfiguration({
@@ -4421,6 +7807,73 @@ class GuardrailConfiguration {
       if (guardrailIdentifier != null)
         'guardrailIdentifier': guardrailIdentifier,
       if (guardrailVersion != null) 'guardrailVersion': guardrailVersion,
+    };
+  }
+}
+
+/// Settings for hierarchical document chunking for a data source. Hierarchical
+/// chunking splits documents into layers of chunks where the first layer
+/// contains large chunks, and the second layer contains smaller chunks derived
+/// from the first layer.
+///
+/// You configure the number of tokens to overlap, or repeat across adjacent
+/// chunks. For example, if you set overlap tokens to 60, the last 60 tokens in
+/// the first chunk are also included at the beginning of the second chunk. For
+/// each layer, you must also configure the maximum number of tokens in a chunk.
+class HierarchicalChunkingConfiguration {
+  /// Token settings for each layer.
+  final List<HierarchicalChunkingLevelConfiguration> levelConfigurations;
+
+  /// The number of tokens to repeat across chunks in the same layer.
+  final int overlapTokens;
+
+  HierarchicalChunkingConfiguration({
+    required this.levelConfigurations,
+    required this.overlapTokens,
+  });
+
+  factory HierarchicalChunkingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return HierarchicalChunkingConfiguration(
+      levelConfigurations: (json['levelConfigurations'] as List)
+          .nonNulls
+          .map((e) => HierarchicalChunkingLevelConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      overlapTokens: json['overlapTokens'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final levelConfigurations = this.levelConfigurations;
+    final overlapTokens = this.overlapTokens;
+    return {
+      'levelConfigurations': levelConfigurations,
+      'overlapTokens': overlapTokens,
+    };
+  }
+}
+
+/// Token settings for a layer in a hierarchical chunking configuration.
+class HierarchicalChunkingLevelConfiguration {
+  /// The maximum number of tokens that a chunk can contain in this layer.
+  final int maxTokens;
+
+  HierarchicalChunkingLevelConfiguration({
+    required this.maxTokens,
+  });
+
+  factory HierarchicalChunkingLevelConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return HierarchicalChunkingLevelConfiguration(
+      maxTokens: json['maxTokens'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxTokens = this.maxTokens;
+    return {
+      'maxTokens': maxTokens,
     };
   }
 }
@@ -4874,6 +8327,65 @@ class IngestionJobSummary {
   }
 }
 
+/// Contains configurations for the input flow node for a flow. This node takes
+/// the input from flow invocation and passes it to the next node in the data
+/// type that you specify.
+class InputFlowNodeConfiguration {
+  InputFlowNodeConfiguration();
+
+  factory InputFlowNodeConfiguration.fromJson(Map<String, dynamic> _) {
+    return InputFlowNodeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A location for storing content from data sources temporarily as it is
+/// processed by custom components in the ingestion pipeline.
+class IntermediateStorage {
+  /// An S3 bucket path.
+  final S3Location s3Location;
+
+  IntermediateStorage({
+    required this.s3Location,
+  });
+
+  factory IntermediateStorage.fromJson(Map<String, dynamic> json) {
+    return IntermediateStorage(
+      s3Location:
+          S3Location.fromJson(json['s3Location'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      's3Location': s3Location,
+    };
+  }
+}
+
+/// Contains configurations for an iterator node in a flow. Takes an input that
+/// is an array and iteratively sends each item of the array as an output to the
+/// following node. The size of the array is also returned in the output.
+///
+/// The output flow node at the end of the flow iteration will return a response
+/// for each member of the array. To return only one response, you can include a
+/// collector node downstream from the iterator node.
+class IteratorFlowNodeConfiguration {
+  IteratorFlowNodeConfiguration();
+
+  factory IteratorFlowNodeConfiguration.fromJson(Map<String, dynamic> _) {
+    return IteratorFlowNodeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Contains information about a knowledge base.
 class KnowledgeBase {
   /// The time at which the knowledge base was created.
@@ -5030,6 +8542,44 @@ class KnowledgeBaseConfiguration {
   }
 }
 
+/// Contains configurations for a knowledge base node in a flow. This node takes
+/// a query as the input and returns, as the output, the retrieved responses
+/// directly (as an array) or a response generated based on the retrieved
+/// responses. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class KnowledgeBaseFlowNodeConfiguration {
+  /// The unique identifier of the knowledge base to query.
+  final String knowledgeBaseId;
+
+  /// The unique identifier of the model to use to generate a response from the
+  /// query results. Omit this field if you want to return the retrieved results
+  /// as an array.
+  final String? modelId;
+
+  KnowledgeBaseFlowNodeConfiguration({
+    required this.knowledgeBaseId,
+    this.modelId,
+  });
+
+  factory KnowledgeBaseFlowNodeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return KnowledgeBaseFlowNodeConfiguration(
+      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      modelId: json['modelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final modelId = this.modelId;
+    return {
+      'knowledgeBaseId': knowledgeBaseId,
+      if (modelId != null) 'modelId': modelId,
+    };
+  }
+}
+
 enum KnowledgeBaseState {
   enabled('ENABLED'),
   disabled('DISABLED'),
@@ -5145,6 +8695,70 @@ enum KnowledgeBaseType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum KnowledgeBaseType'));
+}
+
+/// Contains configurations for a Lambda function node in the flow. You specify
+/// the Lambda function to invoke and the inputs into the function. The output
+/// is the response that is defined in the Lambda function. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class LambdaFunctionFlowNodeConfiguration {
+  /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
+  final String lambdaArn;
+
+  LambdaFunctionFlowNodeConfiguration({
+    required this.lambdaArn,
+  });
+
+  factory LambdaFunctionFlowNodeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionFlowNodeConfiguration(
+      lambdaArn: json['lambdaArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'lambdaArn': lambdaArn,
+    };
+  }
+}
+
+/// Contains configurations for a Lex node in the flow. You specify a Amazon Lex
+/// bot to invoke. This node takes an utterance as the input and returns as the
+/// output the intent identified by the Amazon Lex bot. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class LexFlowNodeConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Lex bot alias to invoke.
+  final String botAliasArn;
+
+  /// The Region to invoke the Amazon Lex bot in.
+  final String localeId;
+
+  LexFlowNodeConfiguration({
+    required this.botAliasArn,
+    required this.localeId,
+  });
+
+  factory LexFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return LexFlowNodeConfiguration(
+      botAliasArn: json['botAliasArn'] as String,
+      localeId: json['localeId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botAliasArn = this.botAliasArn;
+    final localeId = this.localeId;
+    return {
+      'botAliasArn': botAliasArn,
+      'localeId': localeId,
+    };
+  }
 }
 
 class ListAgentActionGroupsResponse {
@@ -5355,6 +8969,108 @@ class ListDataSourcesResponse {
   }
 }
 
+class ListFlowAliasesResponse {
+  /// A list, each member of which contains information about an alias.
+  final List<FlowAliasSummary> flowAliasSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListFlowAliasesResponse({
+    required this.flowAliasSummaries,
+    this.nextToken,
+  });
+
+  factory ListFlowAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowAliasesResponse(
+      flowAliasSummaries: (json['flowAliasSummaries'] as List)
+          .nonNulls
+          .map((e) => FlowAliasSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowAliasSummaries = this.flowAliasSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'flowAliasSummaries': flowAliasSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListFlowVersionsResponse {
+  /// A list, each member of which contains information about a flow.
+  final List<FlowVersionSummary> flowVersionSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListFlowVersionsResponse({
+    required this.flowVersionSummaries,
+    this.nextToken,
+  });
+
+  factory ListFlowVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowVersionsResponse(
+      flowVersionSummaries: (json['flowVersionSummaries'] as List)
+          .nonNulls
+          .map((e) => FlowVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowVersionSummaries = this.flowVersionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'flowVersionSummaries': flowVersionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListFlowsResponse {
+  /// A list, each member of which contains information about a flow.
+  final List<FlowSummary> flowSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListFlowsResponse({
+    required this.flowSummaries,
+    this.nextToken,
+  });
+
+  factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowsResponse(
+      flowSummaries: (json['flowSummaries'] as List)
+          .nonNulls
+          .map((e) => FlowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowSummaries = this.flowSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'flowSummaries': flowSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListIngestionJobsResponse {
   /// A list of objects, each of which contains information about an ingestion
   /// job.
@@ -5425,6 +9141,41 @@ class ListKnowledgeBasesResponse {
   }
 }
 
+class ListPromptsResponse {
+  /// A list, each member of which contains information about a prompt using
+  /// Prompt management.
+  final List<PromptSummary> promptSummaries;
+
+  /// If the total number of results is greater than the <code>maxResults</code>
+  /// value provided in the request, use this token when making another request in
+  /// the <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  ListPromptsResponse({
+    required this.promptSummaries,
+    this.nextToken,
+  });
+
+  factory ListPromptsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPromptsResponse(
+      promptSummaries: (json['promptSummaries'] as List)
+          .nonNulls
+          .map((e) => PromptSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final promptSummaries = this.promptSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'promptSummaries': promptSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The key-value pairs for the tags associated with the resource.
   final Map<String, String>? tags;
@@ -5446,6 +9197,53 @@ class ListTagsForResourceResponse {
       if (tags != null) 'tags': tags,
     };
   }
+}
+
+/// Details of the memory configuration.
+class MemoryConfiguration {
+  /// The type of memory that is stored.
+  final List<MemoryType> enabledMemoryTypes;
+
+  /// The number of days the agent is configured to retain the conversational
+  /// context.
+  final int? storageDays;
+
+  MemoryConfiguration({
+    required this.enabledMemoryTypes,
+    this.storageDays,
+  });
+
+  factory MemoryConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemoryConfiguration(
+      enabledMemoryTypes: (json['enabledMemoryTypes'] as List)
+          .nonNulls
+          .map((e) => MemoryType.fromString((e as String)))
+          .toList(),
+      storageDays: json['storageDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledMemoryTypes = this.enabledMemoryTypes;
+    final storageDays = this.storageDays;
+    return {
+      'enabledMemoryTypes': enabledMemoryTypes.map((e) => e.value).toList(),
+      if (storageDays != null) 'storageDays': storageDays,
+    };
+  }
+}
+
+enum MemoryType {
+  sessionSummary('SESSION_SUMMARY'),
+  ;
+
+  final String value;
+
+  const MemoryType(this.value);
+
+  static MemoryType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MemoryType'));
 }
 
 /// Contains details about the storage configuration of the knowledge base in
@@ -5644,6 +9442,22 @@ class OpenSearchServerlessFieldMapping {
   }
 }
 
+/// Contains configurations for an output flow node in the flow. You specify the
+/// data type expected for the input into the node in the <code>type</code>
+/// field and how to return the final output in the <code>expression</code>
+/// field.
+class OutputFlowNodeConfiguration {
+  OutputFlowNodeConfiguration();
+
+  factory OutputFlowNodeConfiguration.fromJson(Map<String, dynamic> _) {
+    return OutputFlowNodeConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Contains details about a parameter in a function for an action group.
 ///
 /// This data type is used in the following API operations:
@@ -5709,6 +9523,186 @@ class ParameterDetail {
       'type': type.value,
       if (description != null) 'description': description,
       if (required != null) 'required': required,
+    };
+  }
+}
+
+/// Settings for parsing document contents. By default, the service converts the
+/// contents of each document into text before splitting it into chunks. To
+/// improve processing of PDF files with tables and images, you can configure
+/// the data source to convert the pages of text into images and use a model to
+/// describe the contents of each page.
+///
+/// To use a model to parse PDF documents, set the parsing strategy to
+/// <code>BEDROCK_FOUNDATION_MODEL</code> and specify the model to use by ARN.
+/// You can also override the default parsing prompt with instructions for how
+/// to interpret images and tables in your documents. The following models are
+/// supported.
+///
+/// <ul>
+/// <li>
+/// Anthropic Claude 3 Sonnet -
+/// <code>anthropic.claude-3-sonnet-20240229-v1:0</code>
+/// </li>
+/// <li>
+/// Anthropic Claude 3 Haiku -
+/// <code>anthropic.claude-3-haiku-20240307-v1:0</code>
+/// </li>
+/// </ul>
+/// You can get the ARN of a model with the <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListFoundationModels.html">ListFoundationModels</a>
+/// action. Standard model usage charges apply for the foundation model parsing
+/// strategy.
+class ParsingConfiguration {
+  /// The parsing strategy for the data source.
+  final ParsingStrategy parsingStrategy;
+
+  /// Settings for a foundation model used to parse documents for a data source.
+  final BedrockFoundationModelConfiguration?
+      bedrockFoundationModelConfiguration;
+
+  ParsingConfiguration({
+    required this.parsingStrategy,
+    this.bedrockFoundationModelConfiguration,
+  });
+
+  factory ParsingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ParsingConfiguration(
+      parsingStrategy:
+          ParsingStrategy.fromString((json['parsingStrategy'] as String)),
+      bedrockFoundationModelConfiguration:
+          json['bedrockFoundationModelConfiguration'] != null
+              ? BedrockFoundationModelConfiguration.fromJson(
+                  json['bedrockFoundationModelConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parsingStrategy = this.parsingStrategy;
+    final bedrockFoundationModelConfiguration =
+        this.bedrockFoundationModelConfiguration;
+    return {
+      'parsingStrategy': parsingStrategy.value,
+      if (bedrockFoundationModelConfiguration != null)
+        'bedrockFoundationModelConfiguration':
+            bedrockFoundationModelConfiguration,
+    };
+  }
+}
+
+/// Instructions for interpreting the contents of a document.
+class ParsingPrompt {
+  /// Instructions for interpreting the contents of a document.
+  final String parsingPromptText;
+
+  ParsingPrompt({
+    required this.parsingPromptText,
+  });
+
+  factory ParsingPrompt.fromJson(Map<String, dynamic> json) {
+    return ParsingPrompt(
+      parsingPromptText: json['parsingPromptText'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parsingPromptText = this.parsingPromptText;
+    return {
+      'parsingPromptText': parsingPromptText,
+    };
+  }
+}
+
+enum ParsingStrategy {
+  bedrockFoundationModel('BEDROCK_FOUNDATION_MODEL'),
+  ;
+
+  final String value;
+
+  const ParsingStrategy(this.value);
+
+  static ParsingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ParsingStrategy'));
+}
+
+/// The specific filters applied to your data source content. You can filter out
+/// or include certain content.
+class PatternObjectFilter {
+  /// The supported object type or content type of the data source.
+  final String objectType;
+
+  /// A list of one or more exclusion regular expression patterns to exclude
+  /// certain object types that adhere to the pattern. If you specify an inclusion
+  /// and exclusion filter/pattern and both match a document, the exclusion filter
+  /// takes precedence and the document isn’t crawled.
+  final List<String>? exclusionFilters;
+
+  /// A list of one or more inclusion regular expression patterns to include
+  /// certain object types that adhere to the pattern. If you specify an inclusion
+  /// and exclusion filter/pattern and both match a document, the exclusion filter
+  /// takes precedence and the document isn’t crawled.
+  final List<String>? inclusionFilters;
+
+  PatternObjectFilter({
+    required this.objectType,
+    this.exclusionFilters,
+    this.inclusionFilters,
+  });
+
+  factory PatternObjectFilter.fromJson(Map<String, dynamic> json) {
+    return PatternObjectFilter(
+      objectType: json['objectType'] as String,
+      exclusionFilters: (json['exclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionFilters: (json['inclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectType = this.objectType;
+    final exclusionFilters = this.exclusionFilters;
+    final inclusionFilters = this.inclusionFilters;
+    return {
+      'objectType': objectType,
+      if (exclusionFilters != null) 'exclusionFilters': exclusionFilters,
+      if (inclusionFilters != null) 'inclusionFilters': inclusionFilters,
+    };
+  }
+}
+
+/// The configuration of filtering certain objects or content types of the data
+/// source.
+class PatternObjectFilterConfiguration {
+  /// The configuration of specific filters applied to your data source content.
+  /// You can filter out or include certain content.
+  final List<PatternObjectFilter> filters;
+
+  PatternObjectFilterConfiguration({
+    required this.filters,
+  });
+
+  factory PatternObjectFilterConfiguration.fromJson(Map<String, dynamic> json) {
+    return PatternObjectFilterConfiguration(
+      filters: (json['filters'] as List)
+          .nonNulls
+          .map((e) => PatternObjectFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      'filters': filters,
     };
   }
 }
@@ -5842,6 +9836,37 @@ class PrepareAgentResponse {
   }
 }
 
+class PrepareFlowResponse {
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The status of the flow. When you submit this request, the status will be
+  /// <code>NotPrepared</code>. If preparation succeeds, the status becomes
+  /// <code>Prepared</code>. If it fails, the status becomes <code>FAILED</code>.
+  final FlowStatus status;
+
+  PrepareFlowResponse({
+    required this.id,
+    required this.status,
+  });
+
+  factory PrepareFlowResponse.fromJson(Map<String, dynamic> json) {
+    return PrepareFlowResponse(
+      id: json['id'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final status = this.status;
+    return {
+      'id': id,
+      'status': status.value,
+    };
+  }
+}
+
 /// Contains configurations to override a prompt template in one part of an
 /// agent sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
@@ -5946,6 +9971,295 @@ class PromptConfiguration {
   }
 }
 
+/// Contains configurations for a prompt node in the flow. You can use a prompt
+/// from Prompt management or you can define one in this node. If the prompt
+/// contains variables, the inputs into this node will fill in the variables.
+/// The output from this node is the response generated by the model. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html">Node
+/// types in Amazon Bedrock works</a> in the Amazon Bedrock User Guide.
+class PromptFlowNodeConfiguration {
+  /// Specifies whether the prompt is from Prompt management or defined inline.
+  final PromptFlowNodeSourceConfiguration sourceConfiguration;
+
+  PromptFlowNodeConfiguration({
+    required this.sourceConfiguration,
+  });
+
+  factory PromptFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return PromptFlowNodeConfiguration(
+      sourceConfiguration: PromptFlowNodeSourceConfiguration.fromJson(
+          json['sourceConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceConfiguration = this.sourceConfiguration;
+    return {
+      'sourceConfiguration': sourceConfiguration,
+    };
+  }
+}
+
+/// Contains configurations for a prompt defined inline in the node.
+class PromptFlowNodeInlineConfiguration {
+  /// The unique identifier of the model to run inference with.
+  final String modelId;
+
+  /// Contains a prompt and variables in the prompt that can be replaced with
+  /// values at runtime.
+  final PromptTemplateConfiguration templateConfiguration;
+
+  /// The type of prompt template.
+  final PromptTemplateType templateType;
+
+  /// Contains inference configurations for the prompt.
+  final PromptInferenceConfiguration? inferenceConfiguration;
+
+  PromptFlowNodeInlineConfiguration({
+    required this.modelId,
+    required this.templateConfiguration,
+    required this.templateType,
+    this.inferenceConfiguration,
+  });
+
+  factory PromptFlowNodeInlineConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PromptFlowNodeInlineConfiguration(
+      modelId: json['modelId'] as String,
+      templateConfiguration: PromptTemplateConfiguration.fromJson(
+          json['templateConfiguration'] as Map<String, dynamic>),
+      templateType:
+          PromptTemplateType.fromString((json['templateType'] as String)),
+      inferenceConfiguration: json['inferenceConfiguration'] != null
+          ? PromptInferenceConfiguration.fromJson(
+              json['inferenceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    final templateConfiguration = this.templateConfiguration;
+    final templateType = this.templateType;
+    final inferenceConfiguration = this.inferenceConfiguration;
+    return {
+      'modelId': modelId,
+      'templateConfiguration': templateConfiguration,
+      'templateType': templateType.value,
+      if (inferenceConfiguration != null)
+        'inferenceConfiguration': inferenceConfiguration,
+    };
+  }
+}
+
+/// Contains configurations for a prompt from Prompt management to use in a
+/// node.
+class PromptFlowNodeResourceConfiguration {
+  /// The Amazon Resource Name (ARN) of the prompt from Prompt management.
+  final String promptArn;
+
+  PromptFlowNodeResourceConfiguration({
+    required this.promptArn,
+  });
+
+  factory PromptFlowNodeResourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PromptFlowNodeResourceConfiguration(
+      promptArn: json['promptArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final promptArn = this.promptArn;
+    return {
+      'promptArn': promptArn,
+    };
+  }
+}
+
+/// Contains configurations for a prompt and whether it is from Prompt
+/// management or defined inline.
+class PromptFlowNodeSourceConfiguration {
+  /// Contains configurations for a prompt that is defined inline
+  final PromptFlowNodeInlineConfiguration? inline;
+
+  /// Contains configurations for a prompt from Prompt management.
+  final PromptFlowNodeResourceConfiguration? resource;
+
+  PromptFlowNodeSourceConfiguration({
+    this.inline,
+    this.resource,
+  });
+
+  factory PromptFlowNodeSourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PromptFlowNodeSourceConfiguration(
+      inline: json['inline'] != null
+          ? PromptFlowNodeInlineConfiguration.fromJson(
+              json['inline'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? PromptFlowNodeResourceConfiguration.fromJson(
+              json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inline = this.inline;
+    final resource = this.resource;
+    return {
+      if (inline != null) 'inline': inline,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// Contains inference configurations for the prompt.
+class PromptInferenceConfiguration {
+  /// Contains inference configurations for a text prompt.
+  final PromptModelInferenceConfiguration? text;
+
+  PromptInferenceConfiguration({
+    this.text,
+  });
+
+  factory PromptInferenceConfiguration.fromJson(Map<String, dynamic> json) {
+    return PromptInferenceConfiguration(
+      text: json['text'] != null
+          ? PromptModelInferenceConfiguration.fromJson(
+              json['text'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// Contains information about a variable in the prompt.
+class PromptInputVariable {
+  /// The name of the variable.
+  final String? name;
+
+  PromptInputVariable({
+    this.name,
+  });
+
+  factory PromptInputVariable.fromJson(Map<String, dynamic> json) {
+    return PromptInputVariable(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains a key-value pair that defines a metadata tag and value to attach to
+/// a prompt variant. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
+/// a prompt using Prompt management</a>.
+class PromptMetadataEntry {
+  /// The key of a metadata tag for a prompt variant.
+  final String key;
+
+  /// The value of a metadata tag for a prompt variant.
+  final String value;
+
+  PromptMetadataEntry({
+    required this.key,
+    required this.value,
+  });
+
+  factory PromptMetadataEntry.fromJson(Map<String, dynamic> json) {
+    return PromptMetadataEntry(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// Contains inference configurations related to model inference for a prompt.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/inference-parameters.html">Inference
+/// parameters</a>.
+class PromptModelInferenceConfiguration {
+  /// The maximum number of tokens to return in the response.
+  final int? maxTokens;
+
+  /// A list of strings that define sequences after which the model will stop
+  /// generating.
+  final List<String>? stopSequences;
+
+  /// Controls the randomness of the response. Choose a lower value for more
+  /// predictable outputs and a higher value for more surprising outputs.
+  final double? temperature;
+
+  /// The number of most-likely candidates that the model considers for the next
+  /// token during generation.
+  final int? topK;
+
+  /// The percentage of most-likely candidates that the model considers for the
+  /// next token.
+  final double? topP;
+
+  PromptModelInferenceConfiguration({
+    this.maxTokens,
+    this.stopSequences,
+    this.temperature,
+    this.topK,
+    this.topP,
+  });
+
+  factory PromptModelInferenceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return PromptModelInferenceConfiguration(
+      maxTokens: json['maxTokens'] as int?,
+      stopSequences: (json['stopSequences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      temperature: json['temperature'] as double?,
+      topK: json['topK'] as int?,
+      topP: json['topP'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxTokens = this.maxTokens;
+    final stopSequences = this.stopSequences;
+    final temperature = this.temperature;
+    final topK = this.topK;
+    final topP = this.topP;
+    return {
+      if (maxTokens != null) 'maxTokens': maxTokens,
+      if (stopSequences != null) 'stopSequences': stopSequences,
+      if (temperature != null) 'temperature': temperature,
+      if (topK != null) 'topK': topK,
+      if (topP != null) 'topP': topP,
+    };
+  }
+}
+
 /// Contains configurations to override prompts in different parts of an agent
 /// sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
@@ -6005,6 +10319,124 @@ enum PromptState {
       orElse: () => throw Exception('$value is not known in enum PromptState'));
 }
 
+/// Contains information about a prompt in your Prompt management tool.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListPrompts.html#API_agent_ListPrompts_ResponseSyntax">ListPrompts
+/// response</a>
+/// </li>
+/// </ul>
+class PromptSummary {
+  /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you
+  /// specified a version in the request).
+  final String arn;
+
+  /// The time at which the prompt was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the prompt.
+  final String id;
+
+  /// The name of the prompt.
+  final String name;
+
+  /// The time at which the prompt was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the prompt that this summary applies to.
+  final String version;
+
+  /// The description of the prompt.
+  final String? description;
+
+  PromptSummary({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    required this.version,
+    this.description,
+  });
+
+  factory PromptSummary.fromJson(Map<String, dynamic> json) {
+    return PromptSummary(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// Contains the message for a prompt. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html">Prompt
+/// management in Amazon Bedrock</a>.
+class PromptTemplateConfiguration {
+  /// Contains configurations for the text in a message for a prompt.
+  final TextPromptTemplateConfiguration? text;
+
+  PromptTemplateConfiguration({
+    this.text,
+  });
+
+  factory PromptTemplateConfiguration.fromJson(Map<String, dynamic> json) {
+    return PromptTemplateConfiguration(
+      text: json['text'] != null
+          ? TextPromptTemplateConfiguration.fromJson(
+              json['text'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+enum PromptTemplateType {
+  text('TEXT'),
+  ;
+
+  final String value;
+
+  const PromptTemplateType(this.value);
+
+  static PromptTemplateType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum PromptTemplateType'));
+}
+
 enum PromptType {
   preProcessing('PRE_PROCESSING'),
   orchestration('ORCHESTRATION'),
@@ -6019,6 +10451,81 @@ enum PromptType {
   static PromptType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum PromptType'));
+}
+
+/// Contains details about a variant of the prompt.
+class PromptVariant {
+  /// The name of the prompt variant.
+  final String name;
+
+  /// The type of prompt template to use.
+  final PromptTemplateType templateType;
+
+  /// Contains inference configurations for the prompt variant.
+  final PromptInferenceConfiguration? inferenceConfiguration;
+
+  /// An array of objects, each containing a key-value pair that defines a
+  /// metadata tag and value to attach to a prompt variant. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html">Create
+  /// a prompt using Prompt management</a>.
+  final List<PromptMetadataEntry>? metadata;
+
+  /// The unique identifier of the model with which to run inference on the
+  /// prompt.
+  final String? modelId;
+
+  /// Contains configurations for the prompt template.
+  final PromptTemplateConfiguration? templateConfiguration;
+
+  PromptVariant({
+    required this.name,
+    required this.templateType,
+    this.inferenceConfiguration,
+    this.metadata,
+    this.modelId,
+    this.templateConfiguration,
+  });
+
+  factory PromptVariant.fromJson(Map<String, dynamic> json) {
+    return PromptVariant(
+      name: json['name'] as String,
+      templateType:
+          PromptTemplateType.fromString((json['templateType'] as String)),
+      inferenceConfiguration: json['inferenceConfiguration'] != null
+          ? PromptInferenceConfiguration.fromJson(
+              json['inferenceConfiguration'] as Map<String, dynamic>)
+          : null,
+      metadata: (json['metadata'] as List?)
+          ?.nonNulls
+          .map((e) => PromptMetadataEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelId: json['modelId'] as String?,
+      templateConfiguration: json['templateConfiguration'] != null
+          ? PromptTemplateConfiguration.fromJson(
+              json['templateConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final templateType = this.templateType;
+    final inferenceConfiguration = this.inferenceConfiguration;
+    final metadata = this.metadata;
+    final modelId = this.modelId;
+    final templateConfiguration = this.templateConfiguration;
+    return {
+      'name': name,
+      'templateType': templateType.value,
+      if (inferenceConfiguration != null)
+        'inferenceConfiguration': inferenceConfiguration,
+      if (metadata != null) 'metadata': metadata,
+      if (modelId != null) 'modelId': modelId,
+      if (templateConfiguration != null)
+        'templateConfiguration': templateConfiguration,
+    };
+  }
 }
 
 /// Contains details about the storage configuration of the knowledge base in
@@ -6218,16 +10725,112 @@ class RedisEnterpriseCloudFieldMapping {
   }
 }
 
-/// Contains information about the S3 configuration of the data source.
+/// ENUM to check if action requires user confirmation
+enum RequireConfirmation {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const RequireConfirmation(this.value);
+
+  static RequireConfirmation fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum RequireConfirmation'));
+}
+
+/// Contains configurations for a Retrieval node in a flow. This node retrieves
+/// data from the Amazon S3 location that you specify and returns it as the
+/// output.
+class RetrievalFlowNodeConfiguration {
+  /// Contains configurations for the service to use for retrieving data to return
+  /// as the output from the node.
+  final RetrievalFlowNodeServiceConfiguration serviceConfiguration;
+
+  RetrievalFlowNodeConfiguration({
+    required this.serviceConfiguration,
+  });
+
+  factory RetrievalFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return RetrievalFlowNodeConfiguration(
+      serviceConfiguration: RetrievalFlowNodeServiceConfiguration.fromJson(
+          json['serviceConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceConfiguration = this.serviceConfiguration;
+    return {
+      'serviceConfiguration': serviceConfiguration,
+    };
+  }
+}
+
+/// Contains configurations for the Amazon S3 location from which to retrieve
+/// data to return as the output from the node.
+class RetrievalFlowNodeS3Configuration {
+  /// The name of the Amazon S3 bucket from which to retrieve data.
+  final String bucketName;
+
+  RetrievalFlowNodeS3Configuration({
+    required this.bucketName,
+  });
+
+  factory RetrievalFlowNodeS3Configuration.fromJson(Map<String, dynamic> json) {
+    return RetrievalFlowNodeS3Configuration(
+      bucketName: json['bucketName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    return {
+      'bucketName': bucketName,
+    };
+  }
+}
+
+/// Contains configurations for the service to use for retrieving data to return
+/// as the output from the node.
+class RetrievalFlowNodeServiceConfiguration {
+  /// Contains configurations for the Amazon S3 location from which to retrieve
+  /// data to return as the output from the node.
+  final RetrievalFlowNodeS3Configuration? s3;
+
+  RetrievalFlowNodeServiceConfiguration({
+    this.s3,
+  });
+
+  factory RetrievalFlowNodeServiceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RetrievalFlowNodeServiceConfiguration(
+      s3: json['s3'] != null
+          ? RetrievalFlowNodeS3Configuration.fromJson(
+              json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// The configuration information to connect to Amazon S3 as your data source.
 class S3DataSourceConfiguration {
-  /// The Amazon Resource Name (ARN) of the bucket that contains the data source.
+  /// The Amazon Resource Name (ARN) of the S3 bucket that contains your data.
   final String bucketArn;
 
-  /// The bucket account owner ID for the S3 bucket.
+  /// The account ID for the owner of the S3 bucket.
   final String? bucketOwnerAccountId;
 
-  /// A list of S3 prefixes that define the object containing the data sources.
-  /// For more information, see <a
+  /// A list of S3 prefixes to include certain files or content. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
   /// objects using prefixes</a>.
   final List<String>? inclusionPrefixes;
@@ -6262,12 +10865,12 @@ class S3DataSourceConfiguration {
   }
 }
 
-/// Contains information about the S3 object containing the resource.
+/// The identifier information for an Amazon S3 bucket.
 class S3Identifier {
   /// The name of the S3 bucket.
   final String? s3BucketName;
 
-  /// The S3 object key containing the resource.
+  /// The S3 object key for the S3 resource.
   final String? s3ObjectKey;
 
   S3Identifier({
@@ -6292,6 +10895,232 @@ class S3Identifier {
   }
 }
 
+/// An Amazon S3 location.
+class S3Location {
+  /// The location's URI. For example,
+  /// <code>s3://my-bucket/chunk-processor/</code>.
+  final String uri;
+
+  S3Location({
+    required this.uri,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      uri: json['uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      'uri': uri,
+    };
+  }
+}
+
+enum SalesforceAuthType {
+  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
+  ;
+
+  final String value;
+
+  const SalesforceAuthType(this.value);
+
+  static SalesforceAuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SalesforceAuthType'));
+}
+
+/// The configuration of the Salesforce content. For example, configuring
+/// specific types of Salesforce content.
+class SalesforceCrawlerConfiguration {
+  /// The configuration of filtering the Salesforce content. For example,
+  /// configuring regular expression patterns to include or exclude certain
+  /// content.
+  final CrawlFilterConfiguration? filterConfiguration;
+
+  SalesforceCrawlerConfiguration({
+    this.filterConfiguration,
+  });
+
+  factory SalesforceCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
+    return SalesforceCrawlerConfiguration(
+      filterConfiguration: json['filterConfiguration'] != null
+          ? CrawlFilterConfiguration.fromJson(
+              json['filterConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterConfiguration = this.filterConfiguration;
+    return {
+      if (filterConfiguration != null)
+        'filterConfiguration': filterConfiguration,
+    };
+  }
+}
+
+/// The configuration information to connect to Salesforce as your data source.
+class SalesforceDataSourceConfiguration {
+  /// The endpoint information to connect to your Salesforce data source.
+  final SalesforceSourceConfiguration sourceConfiguration;
+
+  /// The configuration of the Salesforce content. For example, configuring
+  /// specific types of Salesforce content.
+  final SalesforceCrawlerConfiguration? crawlerConfiguration;
+
+  SalesforceDataSourceConfiguration({
+    required this.sourceConfiguration,
+    this.crawlerConfiguration,
+  });
+
+  factory SalesforceDataSourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceDataSourceConfiguration(
+      sourceConfiguration: SalesforceSourceConfiguration.fromJson(
+          json['sourceConfiguration'] as Map<String, dynamic>),
+      crawlerConfiguration: json['crawlerConfiguration'] != null
+          ? SalesforceCrawlerConfiguration.fromJson(
+              json['crawlerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceConfiguration = this.sourceConfiguration;
+    final crawlerConfiguration = this.crawlerConfiguration;
+    return {
+      'sourceConfiguration': sourceConfiguration,
+      if (crawlerConfiguration != null)
+        'crawlerConfiguration': crawlerConfiguration,
+    };
+  }
+}
+
+/// The endpoint information to connect to your Salesforce data source.
+class SalesforceSourceConfiguration {
+  /// The supported authentication type to authenticate and connect to your
+  /// Salesforce instance.
+  final SalesforceAuthType authType;
+
+  /// The Amazon Resource Name of an Secrets Manager secret that stores your
+  /// authentication credentials for your Salesforce instance URL. For more
+  /// information on the key-value pairs that must be included in your secret,
+  /// depending on your authentication type, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/salesforce-data-source-connector.html#configuration-salesforce-connector">Salesforce
+  /// connection configuration</a>.
+  final String credentialsSecretArn;
+
+  /// The Salesforce host URL or instance URL.
+  final String hostUrl;
+
+  SalesforceSourceConfiguration({
+    required this.authType,
+    required this.credentialsSecretArn,
+    required this.hostUrl,
+  });
+
+  factory SalesforceSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SalesforceSourceConfiguration(
+      authType: SalesforceAuthType.fromString((json['authType'] as String)),
+      credentialsSecretArn: json['credentialsSecretArn'] as String,
+      hostUrl: json['hostUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final credentialsSecretArn = this.credentialsSecretArn;
+    final hostUrl = this.hostUrl;
+    return {
+      'authType': authType.value,
+      'credentialsSecretArn': credentialsSecretArn,
+      'hostUrl': hostUrl,
+    };
+  }
+}
+
+/// The seed or starting point URL. You should be authorized to crawl the URL.
+class SeedUrl {
+  /// A seed or starting point URL.
+  final String? url;
+
+  SeedUrl({
+    this.url,
+  });
+
+  factory SeedUrl.fromJson(Map<String, dynamic> json) {
+    return SeedUrl(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// Settings for semantic document chunking for a data source. Semantic chunking
+/// splits a document into into smaller documents based on groups of similar
+/// content derived from the text with natural language processing.
+///
+/// With semantic chunking, each sentence is compared to the next to determine
+/// how similar they are. You specify a threshold in the form of a percentile,
+/// where adjacent sentences that are less similar than that percentage of
+/// sentence pairs are divided into separate chunks. For example, if you set the
+/// threshold to 90, then the 10 percent of sentence pairs that are least
+/// similar are split. So if you have 101 sentences, 100 sentence pairs are
+/// compared, and the 10 with the least similarity are split, creating 11
+/// chunks. These chunks are further split if they exceed the max token size.
+///
+/// You must also specify a buffer size, which determines whether sentences are
+/// compared in isolation, or within a moving context window that includes the
+/// previous and following sentence. For example, if you set the buffer size to
+/// <code>1</code>, the embedding for sentence 10 is derived from sentences 9,
+/// 10, and 11 combined.
+class SemanticChunkingConfiguration {
+  /// The dissimilarity threshold for splitting chunks.
+  final int breakpointPercentileThreshold;
+
+  /// The buffer size.
+  final int bufferSize;
+
+  /// The maximum number of tokens that a chunk can contain.
+  final int maxTokens;
+
+  SemanticChunkingConfiguration({
+    required this.breakpointPercentileThreshold,
+    required this.bufferSize,
+    required this.maxTokens,
+  });
+
+  factory SemanticChunkingConfiguration.fromJson(Map<String, dynamic> json) {
+    return SemanticChunkingConfiguration(
+      breakpointPercentileThreshold:
+          json['breakpointPercentileThreshold'] as int,
+      bufferSize: json['bufferSize'] as int,
+      maxTokens: json['maxTokens'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final breakpointPercentileThreshold = this.breakpointPercentileThreshold;
+    final bufferSize = this.bufferSize;
+    final maxTokens = this.maxTokens;
+    return {
+      'breakpointPercentileThreshold': breakpointPercentileThreshold,
+      'bufferSize': bufferSize,
+      'maxTokens': maxTokens,
+    };
+  }
+}
+
 /// Contains the configuration for server-side encryption.
 class ServerSideEncryptionConfiguration {
   /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
@@ -6312,6 +11141,166 @@ class ServerSideEncryptionConfiguration {
     final kmsKeyArn = this.kmsKeyArn;
     return {
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+enum SharePointAuthType {
+  oauth2ClientCredentials('OAUTH2_CLIENT_CREDENTIALS'),
+  ;
+
+  final String value;
+
+  const SharePointAuthType(this.value);
+
+  static SharePointAuthType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SharePointAuthType'));
+}
+
+/// The configuration of the SharePoint content. For example, configuring
+/// specific types of SharePoint content.
+class SharePointCrawlerConfiguration {
+  /// The configuration of filtering the SharePoint content. For example,
+  /// configuring regular expression patterns to include or exclude certain
+  /// content.
+  final CrawlFilterConfiguration? filterConfiguration;
+
+  SharePointCrawlerConfiguration({
+    this.filterConfiguration,
+  });
+
+  factory SharePointCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
+    return SharePointCrawlerConfiguration(
+      filterConfiguration: json['filterConfiguration'] != null
+          ? CrawlFilterConfiguration.fromJson(
+              json['filterConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterConfiguration = this.filterConfiguration;
+    return {
+      if (filterConfiguration != null)
+        'filterConfiguration': filterConfiguration,
+    };
+  }
+}
+
+/// The configuration information to connect to SharePoint as your data source.
+class SharePointDataSourceConfiguration {
+  /// The endpoint information to connect to your SharePoint data source.
+  final SharePointSourceConfiguration sourceConfiguration;
+
+  /// The configuration of the SharePoint content. For example, configuring
+  /// specific types of SharePoint content.
+  final SharePointCrawlerConfiguration? crawlerConfiguration;
+
+  SharePointDataSourceConfiguration({
+    required this.sourceConfiguration,
+    this.crawlerConfiguration,
+  });
+
+  factory SharePointDataSourceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SharePointDataSourceConfiguration(
+      sourceConfiguration: SharePointSourceConfiguration.fromJson(
+          json['sourceConfiguration'] as Map<String, dynamic>),
+      crawlerConfiguration: json['crawlerConfiguration'] != null
+          ? SharePointCrawlerConfiguration.fromJson(
+              json['crawlerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceConfiguration = this.sourceConfiguration;
+    final crawlerConfiguration = this.crawlerConfiguration;
+    return {
+      'sourceConfiguration': sourceConfiguration,
+      if (crawlerConfiguration != null)
+        'crawlerConfiguration': crawlerConfiguration,
+    };
+  }
+}
+
+enum SharePointHostType {
+  online('ONLINE'),
+  ;
+
+  final String value;
+
+  const SharePointHostType(this.value);
+
+  static SharePointHostType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum SharePointHostType'));
+}
+
+/// The endpoint information to connect to your SharePoint data source.
+class SharePointSourceConfiguration {
+  /// The supported authentication type to authenticate and connect to your
+  /// SharePoint site/sites.
+  final SharePointAuthType authType;
+
+  /// The Amazon Resource Name of an Secrets Manager secret that stores your
+  /// authentication credentials for your SharePoint site/sites. For more
+  /// information on the key-value pairs that must be included in your secret,
+  /// depending on your authentication type, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sharepoint-data-source-connector.html#configuration-sharepoint-connector">SharePoint
+  /// connection configuration</a>.
+  final String credentialsSecretArn;
+
+  /// The domain of your SharePoint instance or site URL/URLs.
+  final String domain;
+
+  /// The supported host type, whether online/cloud or server/on-premises.
+  final SharePointHostType hostType;
+
+  /// A list of one or more SharePoint site URLs.
+  final List<String> siteUrls;
+
+  /// The identifier of your Microsoft 365 tenant.
+  final String? tenantId;
+
+  SharePointSourceConfiguration({
+    required this.authType,
+    required this.credentialsSecretArn,
+    required this.domain,
+    required this.hostType,
+    required this.siteUrls,
+    this.tenantId,
+  });
+
+  factory SharePointSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SharePointSourceConfiguration(
+      authType: SharePointAuthType.fromString((json['authType'] as String)),
+      credentialsSecretArn: json['credentialsSecretArn'] as String,
+      domain: json['domain'] as String,
+      hostType: SharePointHostType.fromString((json['hostType'] as String)),
+      siteUrls:
+          (json['siteUrls'] as List).nonNulls.map((e) => e as String).toList(),
+      tenantId: json['tenantId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final credentialsSecretArn = this.credentialsSecretArn;
+    final domain = this.domain;
+    final hostType = this.hostType;
+    final siteUrls = this.siteUrls;
+    final tenantId = this.tenantId;
+    return {
+      'authType': authType.value,
+      'credentialsSecretArn': credentialsSecretArn,
+      'domain': domain,
+      'hostType': hostType.value,
+      'siteUrls': siteUrls,
+      if (tenantId != null) 'tenantId': tenantId,
     };
   }
 }
@@ -6351,6 +11340,19 @@ class StartIngestionJobResponse {
       'ingestionJob': ingestionJob,
     };
   }
+}
+
+enum StepType {
+  postChunking('POST_CHUNKING'),
+  ;
+
+  final String value;
+
+  const StepType(this.value);
+
+  static StepType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum StepType'));
 }
 
 /// Contains the storage configuration of the knowledge base.
@@ -6441,6 +11443,85 @@ class StorageConfiguration {
   }
 }
 
+/// Contains configurations for a Storage node in a flow. This node stores the
+/// input in an Amazon S3 location that you specify.
+class StorageFlowNodeConfiguration {
+  /// Contains configurations for the service to use for storing the input into
+  /// the node.
+  final StorageFlowNodeServiceConfiguration serviceConfiguration;
+
+  StorageFlowNodeConfiguration({
+    required this.serviceConfiguration,
+  });
+
+  factory StorageFlowNodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return StorageFlowNodeConfiguration(
+      serviceConfiguration: StorageFlowNodeServiceConfiguration.fromJson(
+          json['serviceConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceConfiguration = this.serviceConfiguration;
+    return {
+      'serviceConfiguration': serviceConfiguration,
+    };
+  }
+}
+
+/// Contains configurations for the Amazon S3 location in which to store the
+/// input into the node.
+class StorageFlowNodeS3Configuration {
+  /// The name of the Amazon S3 bucket in which to store the input into the node.
+  final String bucketName;
+
+  StorageFlowNodeS3Configuration({
+    required this.bucketName,
+  });
+
+  factory StorageFlowNodeS3Configuration.fromJson(Map<String, dynamic> json) {
+    return StorageFlowNodeS3Configuration(
+      bucketName: json['bucketName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    return {
+      'bucketName': bucketName,
+    };
+  }
+}
+
+/// Contains configurations for the service to use for storing the input into
+/// the node.
+class StorageFlowNodeServiceConfiguration {
+  /// Contains configurations for the Amazon S3 location in which to store the
+  /// input into the node.
+  final StorageFlowNodeS3Configuration? s3;
+
+  StorageFlowNodeServiceConfiguration({
+    this.s3,
+  });
+
+  factory StorageFlowNodeServiceConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return StorageFlowNodeServiceConfiguration(
+      s3: json['s3'] != null
+          ? StorageFlowNodeS3Configuration.fromJson(
+              json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6450,6 +11531,124 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Contains configurations for a text prompt template. To include a variable,
+/// enclose a word in double curly braces as in <code>{{variable}}</code>.
+class TextPromptTemplateConfiguration {
+  /// The message for the prompt.
+  final String text;
+
+  /// An array of the variables in the prompt template.
+  final List<PromptInputVariable>? inputVariables;
+
+  TextPromptTemplateConfiguration({
+    required this.text,
+    this.inputVariables,
+  });
+
+  factory TextPromptTemplateConfiguration.fromJson(Map<String, dynamic> json) {
+    return TextPromptTemplateConfiguration(
+      text: json['text'] as String,
+      inputVariables: (json['inputVariables'] as List?)
+          ?.nonNulls
+          .map((e) => PromptInputVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final inputVariables = this.inputVariables;
+    return {
+      'text': text,
+      if (inputVariables != null) 'inputVariables': inputVariables,
+    };
+  }
+}
+
+/// A custom processing step for documents moving through a data source
+/// ingestion pipeline. To process documents after they have been converted into
+/// chunks, set the step to apply to <code>POST_CHUNKING</code>.
+class Transformation {
+  /// When the service applies the transformation.
+  final StepType stepToApply;
+
+  /// A Lambda function that processes documents.
+  final TransformationFunction transformationFunction;
+
+  Transformation({
+    required this.stepToApply,
+    required this.transformationFunction,
+  });
+
+  factory Transformation.fromJson(Map<String, dynamic> json) {
+    return Transformation(
+      stepToApply: StepType.fromString((json['stepToApply'] as String)),
+      transformationFunction: TransformationFunction.fromJson(
+          json['transformationFunction'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepToApply = this.stepToApply;
+    final transformationFunction = this.transformationFunction;
+    return {
+      'stepToApply': stepToApply.value,
+      'transformationFunction': transformationFunction,
+    };
+  }
+}
+
+/// A Lambda function that processes documents.
+class TransformationFunction {
+  /// The Lambda function.
+  final TransformationLambdaConfiguration transformationLambdaConfiguration;
+
+  TransformationFunction({
+    required this.transformationLambdaConfiguration,
+  });
+
+  factory TransformationFunction.fromJson(Map<String, dynamic> json) {
+    return TransformationFunction(
+      transformationLambdaConfiguration:
+          TransformationLambdaConfiguration.fromJson(
+              json['transformationLambdaConfiguration']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transformationLambdaConfiguration =
+        this.transformationLambdaConfiguration;
+    return {
+      'transformationLambdaConfiguration': transformationLambdaConfiguration,
+    };
+  }
+}
+
+/// A Lambda function that processes documents.
+class TransformationLambdaConfiguration {
+  /// The function's ARN identifier.
+  final String lambdaArn;
+
+  TransformationLambdaConfiguration({
+    required this.lambdaArn,
+  });
+
+  factory TransformationLambdaConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return TransformationLambdaConfiguration(
+      lambdaArn: json['lambdaArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'lambdaArn': lambdaArn,
+    };
   }
 }
 
@@ -6597,6 +11796,184 @@ class UpdateDataSourceResponse {
   }
 }
 
+class UpdateFlowAliasResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the flow.
+  final String flowId;
+
+  /// The unique identifier of the alias.
+  final String id;
+
+  /// The name of the alias.
+  final String name;
+
+  /// Contains information about the version that the alias is mapped to.
+  final List<FlowAliasRoutingConfigurationListItem> routingConfiguration;
+
+  /// The time at which the alias was last updated.
+  final DateTime updatedAt;
+
+  /// The description of the flow.
+  final String? description;
+
+  UpdateFlowAliasResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.flowId,
+    required this.id,
+    required this.name,
+    required this.routingConfiguration,
+    required this.updatedAt,
+    this.description,
+  });
+
+  factory UpdateFlowAliasResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowAliasResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      flowId: json['flowId'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      routingConfiguration: (json['routingConfiguration'] as List)
+          .nonNulls
+          .map((e) => FlowAliasRoutingConfigurationListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final flowId = this.flowId;
+    final id = this.id;
+    final name = this.name;
+    final routingConfiguration = this.routingConfiguration;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'flowId': flowId,
+      'id': id,
+      'name': name,
+      'routingConfiguration': routingConfiguration,
+      'updatedAt': iso8601ToJson(updatedAt),
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class UpdateFlowResponse {
+  /// The Amazon Resource Name (ARN) of the flow.
+  final String arn;
+
+  /// The time at which the flow was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the service role with permissions to
+  /// create a flow. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html">Create
+  /// a service role for flows in Amazon Bedrock</a> in the Amazon Bedrock User
+  /// Guide.
+  final String executionRoleArn;
+
+  /// The unique identifier of the flow.
+  final String id;
+
+  /// The name of the flow.
+  final String name;
+
+  /// The status of the flow. When you submit this request, the status will be
+  /// <code>NotPrepared</code>. If updating fails, the status becomes
+  /// <code>Failed</code>.
+  final FlowStatus status;
+
+  /// The time at which the flow was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the flow. When you update a flow, the version updated is the
+  /// <code>DRAFT</code> version.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that the flow was encrypted
+  /// with.
+  final String? customerEncryptionKeyArn;
+
+  /// A definition of the nodes and the connections between nodes in the flow.
+  final FlowDefinition? definition;
+
+  /// The description of the flow.
+  final String? description;
+
+  UpdateFlowResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.executionRoleArn,
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.definition,
+    this.description,
+  });
+
+  factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      executionRoleArn: json['executionRoleArn'] as String,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: FlowStatus.fromString((json['status'] as String)),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      definition: json['definition'] != null
+          ? FlowDefinition.fromJson(json['definition'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final definition = this.definition;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'executionRoleArn': executionRoleArn,
+      'id': id,
+      'name': name,
+      'status': status.value,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (definition != null) 'definition': definition,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
 class UpdateKnowledgeBaseResponse {
   /// Contains details about the knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -6620,6 +11997,126 @@ class UpdateKnowledgeBaseResponse {
   }
 }
 
+class UpdatePromptResponse {
+  /// The Amazon Resource Name (ARN) of the prompt.
+  final String arn;
+
+  /// The time at which the prompt was created.
+  final DateTime createdAt;
+
+  /// The unique identifier of the prompt.
+  final String id;
+
+  /// The name of the prompt.
+  final String name;
+
+  /// The time at which the prompt was last updated.
+  final DateTime updatedAt;
+
+  /// The version of the prompt. When you update a prompt, the version updated is
+  /// the <code>DRAFT</code> version.
+  final String version;
+
+  /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+  final String? customerEncryptionKeyArn;
+
+  /// The name of the default variant for the prompt. This value must match the
+  /// <code>name</code> field in the relevant <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html">PromptVariant</a>
+  /// object.
+  final String? defaultVariant;
+
+  /// The description of the prompt.
+  final String? description;
+
+  /// A list of objects, each containing details about a variant of the prompt.
+  final List<PromptVariant>? variants;
+
+  UpdatePromptResponse({
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    required this.version,
+    this.customerEncryptionKeyArn,
+    this.defaultVariant,
+    this.description,
+    this.variants,
+  });
+
+  factory UpdatePromptResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePromptResponse(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      version: json['version'] as String,
+      customerEncryptionKeyArn: json['customerEncryptionKeyArn'] as String?,
+      defaultVariant: json['defaultVariant'] as String?,
+      description: json['description'] as String?,
+      variants: (json['variants'] as List?)
+          ?.nonNulls
+          .map((e) => PromptVariant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final updatedAt = this.updatedAt;
+    final version = this.version;
+    final customerEncryptionKeyArn = this.customerEncryptionKeyArn;
+    final defaultVariant = this.defaultVariant;
+    final description = this.description;
+    final variants = this.variants;
+    return {
+      'arn': arn,
+      'createdAt': iso8601ToJson(createdAt),
+      'id': id,
+      'name': name,
+      'updatedAt': iso8601ToJson(updatedAt),
+      'version': version,
+      if (customerEncryptionKeyArn != null)
+        'customerEncryptionKeyArn': customerEncryptionKeyArn,
+      if (defaultVariant != null) 'defaultVariant': defaultVariant,
+      if (description != null) 'description': description,
+      if (variants != null) 'variants': variants,
+    };
+  }
+}
+
+/// The configuration of web URLs that you want to crawl. You should be
+/// authorized to crawl the URLs.
+class UrlConfiguration {
+  /// One or more seed or starting point URLs.
+  final List<SeedUrl>? seedUrls;
+
+  UrlConfiguration({
+    this.seedUrls,
+  });
+
+  factory UrlConfiguration.fromJson(Map<String, dynamic> json) {
+    return UrlConfiguration(
+      seedUrls: (json['seedUrls'] as List?)
+          ?.nonNulls
+          .map((e) => SeedUrl.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final seedUrls = this.seedUrls;
+    return {
+      if (seedUrls != null) 'seedUrls': seedUrls,
+    };
+  }
+}
+
 /// Contains details about how to ingest the documents in a data source.
 class VectorIngestionConfiguration {
   /// Details about how to chunk the documents in the data source. A <i>chunk</i>
@@ -6627,8 +12124,16 @@ class VectorIngestionConfiguration {
   /// base that it belongs to is queried.
   final ChunkingConfiguration? chunkingConfiguration;
 
+  /// A custom document transformer for parsed data source documents.
+  final CustomTransformationConfiguration? customTransformationConfiguration;
+
+  /// A custom parser for data source documents.
+  final ParsingConfiguration? parsingConfiguration;
+
   VectorIngestionConfiguration({
     this.chunkingConfiguration,
+    this.customTransformationConfiguration,
+    this.parsingConfiguration,
   });
 
   factory VectorIngestionConfiguration.fromJson(Map<String, dynamic> json) {
@@ -6637,14 +12142,31 @@ class VectorIngestionConfiguration {
           ? ChunkingConfiguration.fromJson(
               json['chunkingConfiguration'] as Map<String, dynamic>)
           : null,
+      customTransformationConfiguration:
+          json['customTransformationConfiguration'] != null
+              ? CustomTransformationConfiguration.fromJson(
+                  json['customTransformationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      parsingConfiguration: json['parsingConfiguration'] != null
+          ? ParsingConfiguration.fromJson(
+              json['parsingConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final chunkingConfiguration = this.chunkingConfiguration;
+    final customTransformationConfiguration =
+        this.customTransformationConfiguration;
+    final parsingConfiguration = this.parsingConfiguration;
     return {
       if (chunkingConfiguration != null)
         'chunkingConfiguration': chunkingConfiguration,
+      if (customTransformationConfiguration != null)
+        'customTransformationConfiguration': customTransformationConfiguration,
+      if (parsingConfiguration != null)
+        'parsingConfiguration': parsingConfiguration,
     };
   }
 }
@@ -6682,6 +12204,172 @@ class VectorKnowledgeBaseConfiguration {
       'embeddingModelArn': embeddingModelArn,
       if (embeddingModelConfiguration != null)
         'embeddingModelConfiguration': embeddingModelConfiguration,
+    };
+  }
+}
+
+/// The configuration of web URLs that you want to crawl. You should be
+/// authorized to crawl the URLs.
+class WebCrawlerConfiguration {
+  /// The configuration of crawl limits for the web URLs.
+  final WebCrawlerLimits? crawlerLimits;
+
+  /// A list of one or more exclusion regular expression patterns to exclude
+  /// certain URLs. If you specify an inclusion and exclusion filter/pattern and
+  /// both match a URL, the exclusion filter takes precedence and the web content
+  /// of the URL isn’t crawled.
+  final List<String>? exclusionFilters;
+
+  /// A list of one or more inclusion regular expression patterns to include
+  /// certain URLs. If you specify an inclusion and exclusion filter/pattern and
+  /// both match a URL, the exclusion filter takes precedence and the web content
+  /// of the URL isn’t crawled.
+  final List<String>? inclusionFilters;
+
+  /// The scope of what is crawled for your URLs.
+  ///
+  /// You can choose to crawl only web pages that belong to the same host or
+  /// primary domain. For example, only web pages that contain the seed URL
+  /// "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other
+  /// domains. You can choose to include sub domains in addition to the host or
+  /// primary domain. For example, web pages that contain "aws.amazon.com" can
+  /// also include sub domain "docs.aws.amazon.com".
+  final WebScopeType? scope;
+
+  WebCrawlerConfiguration({
+    this.crawlerLimits,
+    this.exclusionFilters,
+    this.inclusionFilters,
+    this.scope,
+  });
+
+  factory WebCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebCrawlerConfiguration(
+      crawlerLimits: json['crawlerLimits'] != null
+          ? WebCrawlerLimits.fromJson(
+              json['crawlerLimits'] as Map<String, dynamic>)
+          : null,
+      exclusionFilters: (json['exclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionFilters: (json['inclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      scope: (json['scope'] as String?)?.let(WebScopeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crawlerLimits = this.crawlerLimits;
+    final exclusionFilters = this.exclusionFilters;
+    final inclusionFilters = this.inclusionFilters;
+    final scope = this.scope;
+    return {
+      if (crawlerLimits != null) 'crawlerLimits': crawlerLimits,
+      if (exclusionFilters != null) 'exclusionFilters': exclusionFilters,
+      if (inclusionFilters != null) 'inclusionFilters': inclusionFilters,
+      if (scope != null) 'scope': scope.value,
+    };
+  }
+}
+
+/// The rate limits for the URLs that you want to crawl. You should be
+/// authorized to crawl the URLs.
+class WebCrawlerLimits {
+  /// The max rate at which pages are crawled, up to 300 per minute per host.
+  final int? rateLimit;
+
+  WebCrawlerLimits({
+    this.rateLimit,
+  });
+
+  factory WebCrawlerLimits.fromJson(Map<String, dynamic> json) {
+    return WebCrawlerLimits(
+      rateLimit: json['rateLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rateLimit = this.rateLimit;
+    return {
+      if (rateLimit != null) 'rateLimit': rateLimit,
+    };
+  }
+}
+
+/// The configuration details for the web data source.
+class WebDataSourceConfiguration {
+  /// The source configuration details for the web data source.
+  final WebSourceConfiguration sourceConfiguration;
+
+  /// The Web Crawler configuration details for the web data source.
+  final WebCrawlerConfiguration? crawlerConfiguration;
+
+  WebDataSourceConfiguration({
+    required this.sourceConfiguration,
+    this.crawlerConfiguration,
+  });
+
+  factory WebDataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebDataSourceConfiguration(
+      sourceConfiguration: WebSourceConfiguration.fromJson(
+          json['sourceConfiguration'] as Map<String, dynamic>),
+      crawlerConfiguration: json['crawlerConfiguration'] != null
+          ? WebCrawlerConfiguration.fromJson(
+              json['crawlerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceConfiguration = this.sourceConfiguration;
+    final crawlerConfiguration = this.crawlerConfiguration;
+    return {
+      'sourceConfiguration': sourceConfiguration,
+      if (crawlerConfiguration != null)
+        'crawlerConfiguration': crawlerConfiguration,
+    };
+  }
+}
+
+enum WebScopeType {
+  hostOnly('HOST_ONLY'),
+  subdomains('SUBDOMAINS'),
+  ;
+
+  final String value;
+
+  const WebScopeType(this.value);
+
+  static WebScopeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WebScopeType'));
+}
+
+/// The configuration of the URL/URLs for the web content that you want to
+/// crawl. You should be authorized to crawl the URLs.
+class WebSourceConfiguration {
+  /// The configuration of the URL/URLs.
+  final UrlConfiguration urlConfiguration;
+
+  WebSourceConfiguration({
+    required this.urlConfiguration,
+  });
+
+  factory WebSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebSourceConfiguration(
+      urlConfiguration: UrlConfiguration.fromJson(
+          json['urlConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final urlConfiguration = this.urlConfiguration;
+    return {
+      'urlConfiguration': urlConfiguration,
     };
   }
 }

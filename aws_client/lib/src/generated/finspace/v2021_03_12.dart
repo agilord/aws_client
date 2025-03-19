@@ -685,6 +685,18 @@ class Finspace {
   ///
   /// <ul>
   /// <li>
+  /// <code>kx.sg.large</code> – The host type with a configuration of 16 GiB
+  /// memory and 2 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.xlarge</code> – The host type with a configuration of 32 GiB
+  /// memory and 4 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.2xlarge</code> – The host type with a configuration of 64 GiB
+  /// memory and 8 vCPUs.
+  /// </li>
+  /// <li>
   /// <code>kx.sg.4xlarge</code> – The host type with a configuration of 108 GiB
   /// memory and 16 vCPUs.
   /// </li>
@@ -5057,6 +5069,18 @@ class GetKxScalingGroupResponse {
   ///
   /// <ul>
   /// <li>
+  /// <code>kx.sg.large</code> – The host type with a configuration of 16 GiB
+  /// memory and 2 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.xlarge</code> – The host type with a configuration of 32 GiB
+  /// memory and 4 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.2xlarge</code> – The host type with a configuration of 64 GiB
+  /// memory and 8 vCPUs.
+  /// </li>
+  /// <li>
   /// <code>kx.sg.4xlarge</code> – The host type with a configuration of 108 GiB
   /// memory and 16 vCPUs.
   /// </li>
@@ -6875,6 +6899,18 @@ class KxScalingGroup {
   /// You can add one of the following values:
   ///
   /// <ul>
+  /// <li>
+  /// <code>kx.sg.large</code> – The host type with a configuration of 16 GiB
+  /// memory and 2 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.xlarge</code> – The host type with a configuration of 32 GiB
+  /// memory and 4 vCPUs.
+  /// </li>
+  /// <li>
+  /// <code>kx.sg.2xlarge</code> – The host type with a configuration of 64 GiB
+  /// memory and 8 vCPUs.
+  /// </li>
   /// <li>
   /// <code>kx.sg.4xlarge</code> – The host type with a configuration of 108 GiB
   /// memory and 16 vCPUs.

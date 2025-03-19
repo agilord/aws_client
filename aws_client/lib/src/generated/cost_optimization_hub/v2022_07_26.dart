@@ -194,7 +194,11 @@ class CostOptimizationHub {
   /// The grouping of recommendations by a dimension.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of recommendations that are returned for the request.
+  /// The maximum number of recommendations to be returned for the request.
+  ///
+  /// Parameter [metrics] :
+  /// Additional metrics to be returned for the request. The only valid value is
+  /// <code>savingsPercentage</code>.
   ///
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
@@ -202,6 +206,7 @@ class CostOptimizationHub {
     required String groupBy,
     Filter? filter,
     int? maxResults,
+    List<SummaryMetrics>? metrics,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -224,6 +229,7 @@ class CostOptimizationHub {
         'groupBy': groupBy,
         if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
+        if (metrics != null) 'metrics': metrics.map((e) => e.value).toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -292,8 +298,9 @@ class CostOptimizationHub {
   /// Updates the enrollment (opt in and opt out) status of an account to the
   /// Cost Optimization Hub service.
   ///
-  /// If the account is a management account of an organization, this action can
-  /// also be used to enroll member accounts of the organization.
+  /// If the account is a management account or delegated administrator of an
+  /// organization, this action can also be used to enroll member accounts of
+  /// the organization.
   ///
   /// You must have the appropriate permissions to opt in to Cost Optimization
   /// Hub and to view its recommendations. When you opt in, Cost Optimization
@@ -310,7 +317,7 @@ class CostOptimizationHub {
   ///
   /// Parameter [includeMemberAccounts] :
   /// Indicates whether to enroll member accounts of the organization if the
-  /// account is the management account.
+  /// account is the management account or delegated administrator.
   Future<UpdateEnrollmentStatusResponse> updateEnrollmentStatus({
     required EnrollmentStatus status,
     bool? includeMemberAccounts,
@@ -599,6 +606,29 @@ class ComputeSavingsPlansConfiguration {
       if (hourlyCommitment != null) 'hourlyCommitment': hourlyCommitment,
       if (paymentOption != null) 'paymentOption': paymentOption,
       if (term != null) 'term': term,
+    };
+  }
+}
+
+/// The DB instance configuration used for recommendations.
+class DbInstanceConfiguration {
+  /// The DB instance class of the DB instance.
+  final String? dbInstanceClass;
+
+  DbInstanceConfiguration({
+    this.dbInstanceClass,
+  });
+
+  factory DbInstanceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DbInstanceConfiguration(
+      dbInstanceClass: json['dbInstanceClass'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbInstanceClass = this.dbInstanceClass;
+    return {
+      if (dbInstanceClass != null) 'dbInstanceClass': dbInstanceClass,
     };
   }
 }
@@ -1486,7 +1516,8 @@ class GetRecommendationResponse {
   /// The type of resource.
   final ResourceType? currentResourceType;
 
-  /// The estimated monthly cost of the recommendation.
+  /// The estimated monthly cost of the current resource. For Reserved Instances
+  /// and Savings Plans, it refers to the cost for eligible usage.
   final double? estimatedMonthlyCost;
 
   /// The estimated monthly savings amount for the recommendation.
@@ -1785,7 +1816,7 @@ class LambdaFunctionConfiguration {
 
 class ListEnrollmentStatusesResponse {
   /// The enrollment status of all member accounts in the organization if the
-  /// account is the management account.
+  /// account is the management account or delegated administrator.
   final bool? includeMemberAccounts;
 
   /// The enrollment status of a specific account ID, including creation and last
@@ -1836,8 +1867,12 @@ class ListRecommendationSummariesResponse {
   /// The dimension used to group the recommendations by.
   final String? groupBy;
 
-  /// List of all savings recommendations.
+  /// A list of all savings recommendations.
   final List<RecommendationSummary>? items;
+
+  /// The results or descriptions for the additional metrics, based on whether the
+  /// metrics were or were not requested.
+  final SummaryMetricsResult? metrics;
 
   /// The token to retrieve the next set of results.
   final String? nextToken;
@@ -1847,6 +1882,7 @@ class ListRecommendationSummariesResponse {
     this.estimatedTotalDedupedSavings,
     this.groupBy,
     this.items,
+    this.metrics,
     this.nextToken,
   });
 
@@ -1861,6 +1897,10 @@ class ListRecommendationSummariesResponse {
           ?.nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      metrics: json['metrics'] != null
+          ? SummaryMetricsResult.fromJson(
+              json['metrics'] as Map<String, dynamic>)
+          : null,
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -1870,6 +1910,7 @@ class ListRecommendationSummariesResponse {
     final estimatedTotalDedupedSavings = this.estimatedTotalDedupedSavings;
     final groupBy = this.groupBy;
     final items = this.items;
+    final metrics = this.metrics;
     final nextToken = this.nextToken;
     return {
       if (currencyCode != null) 'currencyCode': currencyCode,
@@ -1877,6 +1918,7 @@ class ListRecommendationSummariesResponse {
         'estimatedTotalDedupedSavings': estimatedTotalDedupedSavings,
       if (groupBy != null) 'groupBy': groupBy,
       if (items != null) 'items': items,
+      if (metrics != null) 'metrics': metrics,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -2110,6 +2152,147 @@ class OrderBy {
   }
 }
 
+/// Contains the details of an Amazon RDS DB instance.
+class RdsDbInstance {
+  /// The Amazon RDS DB instance configuration used for recommendations.
+  final RdsDbInstanceConfiguration? configuration;
+  final ResourceCostCalculation? costCalculation;
+
+  RdsDbInstance({
+    this.configuration,
+    this.costCalculation,
+  });
+
+  factory RdsDbInstance.fromJson(Map<String, dynamic> json) {
+    return RdsDbInstance(
+      configuration: json['configuration'] != null
+          ? RdsDbInstanceConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final costCalculation = this.costCalculation;
+    return {
+      if (configuration != null) 'configuration': configuration,
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The Amazon RDS DB instance configuration used for recommendations.
+class RdsDbInstanceConfiguration {
+  /// Details about the instance configuration.
+  final DbInstanceConfiguration? instance;
+
+  RdsDbInstanceConfiguration({
+    this.instance,
+  });
+
+  factory RdsDbInstanceConfiguration.fromJson(Map<String, dynamic> json) {
+    return RdsDbInstanceConfiguration(
+      instance: json['instance'] != null
+          ? DbInstanceConfiguration.fromJson(
+              json['instance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instance = this.instance;
+    return {
+      if (instance != null) 'instance': instance,
+    };
+  }
+}
+
+/// Contains the details of an Amazon RDS DB instance storage.
+class RdsDbInstanceStorage {
+  /// The Amazon RDS DB instance storage configuration used for recommendations.
+  final RdsDbInstanceStorageConfiguration? configuration;
+  final ResourceCostCalculation? costCalculation;
+
+  RdsDbInstanceStorage({
+    this.configuration,
+    this.costCalculation,
+  });
+
+  factory RdsDbInstanceStorage.fromJson(Map<String, dynamic> json) {
+    return RdsDbInstanceStorage(
+      configuration: json['configuration'] != null
+          ? RdsDbInstanceStorageConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      costCalculation: json['costCalculation'] != null
+          ? ResourceCostCalculation.fromJson(
+              json['costCalculation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final costCalculation = this.costCalculation;
+    return {
+      if (configuration != null) 'configuration': configuration,
+      if (costCalculation != null) 'costCalculation': costCalculation,
+    };
+  }
+}
+
+/// The Amazon RDS DB instance storage configuration used for recommendations.
+class RdsDbInstanceStorageConfiguration {
+  /// The new amount of storage in GB to allocate for the DB instance.
+  final double? allocatedStorageInGb;
+
+  /// The amount of Provisioned IOPS (input/output operations per second) to be
+  /// initially allocated for the DB instance.
+  final double? iops;
+
+  /// The storage throughput for the DB instance.
+  final double? storageThroughput;
+
+  /// The storage type to associate with the DB instance.
+  final String? storageType;
+
+  RdsDbInstanceStorageConfiguration({
+    this.allocatedStorageInGb,
+    this.iops,
+    this.storageThroughput,
+    this.storageType,
+  });
+
+  factory RdsDbInstanceStorageConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RdsDbInstanceStorageConfiguration(
+      allocatedStorageInGb: json['allocatedStorageInGb'] as double?,
+      iops: json['iops'] as double?,
+      storageThroughput: json['storageThroughput'] as double?,
+      storageType: json['storageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedStorageInGb = this.allocatedStorageInGb;
+    final iops = this.iops;
+    final storageThroughput = this.storageThroughput;
+    final storageType = this.storageType;
+    return {
+      if (allocatedStorageInGb != null)
+        'allocatedStorageInGb': allocatedStorageInGb,
+      if (iops != null) 'iops': iops,
+      if (storageThroughput != null) 'storageThroughput': storageThroughput,
+      if (storageType != null) 'storageType': storageType,
+    };
+  }
+}
+
 /// The RDS reserved instances recommendation details.
 class RdsReservedInstances {
   /// The RDS reserved instances configuration used for recommendations.
@@ -2308,7 +2491,8 @@ class Recommendation {
   /// The current resource type.
   final String? currentResourceType;
 
-  /// The estimated monthly cost for the recommendation.
+  /// The estimated monthly cost of the current resource. For Reserved Instances
+  /// and Savings Plans, it refers to the cost for eligible usage.
   final double? estimatedMonthlyCost;
 
   /// The estimated monthly savings amount for the recommendation.
@@ -2810,6 +2994,12 @@ class ResourceDetails {
   /// The OpenSearch reserved instances recommendation details.
   final OpenSearchReservedInstances? openSearchReservedInstances;
 
+  /// The DB instance recommendation details.
+  final RdsDbInstance? rdsDbInstance;
+
+  /// The DB instance storage recommendation details.
+  final RdsDbInstanceStorage? rdsDbInstanceStorage;
+
   /// The RDS reserved instances recommendation details.
   final RdsReservedInstances? rdsReservedInstances;
 
@@ -2830,6 +3020,8 @@ class ResourceDetails {
     this.elastiCacheReservedInstances,
     this.lambdaFunction,
     this.openSearchReservedInstances,
+    this.rdsDbInstance,
+    this.rdsDbInstanceStorage,
     this.rdsReservedInstances,
     this.redshiftReservedInstances,
     this.sageMakerSavingsPlans,
@@ -2874,6 +3066,14 @@ class ResourceDetails {
           ? OpenSearchReservedInstances.fromJson(
               json['openSearchReservedInstances'] as Map<String, dynamic>)
           : null,
+      rdsDbInstance: json['rdsDbInstance'] != null
+          ? RdsDbInstance.fromJson(
+              json['rdsDbInstance'] as Map<String, dynamic>)
+          : null,
+      rdsDbInstanceStorage: json['rdsDbInstanceStorage'] != null
+          ? RdsDbInstanceStorage.fromJson(
+              json['rdsDbInstanceStorage'] as Map<String, dynamic>)
+          : null,
       rdsReservedInstances: json['rdsReservedInstances'] != null
           ? RdsReservedInstances.fromJson(
               json['rdsReservedInstances'] as Map<String, dynamic>)
@@ -2900,6 +3100,8 @@ class ResourceDetails {
     final elastiCacheReservedInstances = this.elastiCacheReservedInstances;
     final lambdaFunction = this.lambdaFunction;
     final openSearchReservedInstances = this.openSearchReservedInstances;
+    final rdsDbInstance = this.rdsDbInstance;
+    final rdsDbInstanceStorage = this.rdsDbInstanceStorage;
     final rdsReservedInstances = this.rdsReservedInstances;
     final redshiftReservedInstances = this.redshiftReservedInstances;
     final sageMakerSavingsPlans = this.sageMakerSavingsPlans;
@@ -2920,6 +3122,9 @@ class ResourceDetails {
       if (lambdaFunction != null) 'lambdaFunction': lambdaFunction,
       if (openSearchReservedInstances != null)
         'openSearchReservedInstances': openSearchReservedInstances,
+      if (rdsDbInstance != null) 'rdsDbInstance': rdsDbInstance,
+      if (rdsDbInstanceStorage != null)
+        'rdsDbInstanceStorage': rdsDbInstanceStorage,
       if (rdsReservedInstances != null)
         'rdsReservedInstances': rdsReservedInstances,
       if (redshiftReservedInstances != null)
@@ -3001,6 +3206,8 @@ enum ResourceType {
   openSearchReservedInstances('OpenSearchReservedInstances'),
   redshiftReservedInstances('RedshiftReservedInstances'),
   elastiCacheReservedInstances('ElastiCacheReservedInstances'),
+  rdsDbInstanceStorage('RdsDbInstanceStorage'),
+  rdsDbInstance('RdsDbInstance'),
   ;
 
   final String value;
@@ -3225,6 +3432,49 @@ class StorageConfiguration {
     return {
       if (sizeInGb != null) 'sizeInGb': sizeInGb,
       if (type != null) 'type': type,
+    };
+  }
+}
+
+enum SummaryMetrics {
+  savingsPercentage('SavingsPercentage'),
+  ;
+
+  final String value;
+
+  const SummaryMetrics(this.value);
+
+  static SummaryMetrics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SummaryMetrics'));
+}
+
+/// The results or descriptions for the additional metrics, based on whether the
+/// metrics were or were not requested.
+class SummaryMetricsResult {
+  /// The savings percentage based on your Amazon Web Services spend over the past
+  /// 30 days.
+  /// <note>
+  /// Savings percentage is only supported when filtering by Region, account ID,
+  /// or tags.
+  /// </note>
+  final String? savingsPercentage;
+
+  SummaryMetricsResult({
+    this.savingsPercentage,
+  });
+
+  factory SummaryMetricsResult.fromJson(Map<String, dynamic> json) {
+    return SummaryMetricsResult(
+      savingsPercentage: json['savingsPercentage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPercentage = this.savingsPercentage;
+    return {
+      if (savingsPercentage != null) 'savingsPercentage': savingsPercentage,
     };
   }
 }

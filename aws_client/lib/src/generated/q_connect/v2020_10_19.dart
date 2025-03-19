@@ -274,6 +274,86 @@ class QConnect {
     return CreateContentResponse.fromJson(response);
   }
 
+  /// Creates an association between a content resource in a knowledge base and
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html">step-by-step
+  /// guides</a>. Step-by-step guides offer instructions to agents for resolving
+  /// common customer issues. You create a content association to integrate
+  /// Amazon Q in Connect and step-by-step guides.
+  ///
+  /// After you integrate Amazon Q and step-by-step guides, when Amazon Q
+  /// provides a recommendation to an agent based on the intent that it's
+  /// detected, it also provides them with the option to start the step-by-step
+  /// guide that you have associated with the content.
+  ///
+  /// Note the following limitations:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can create only one content association for each content resource in a
+  /// knowledge base.
+  /// </li>
+  /// <li>
+  /// You can associate a step-by-step guide with multiple content resources.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html">Integrate
+  /// Amazon Q in Connect with step-by-step guides</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [association] :
+  /// The identifier of the associated resource.
+  ///
+  /// Parameter [associationType] :
+  /// The type of association.
+  ///
+  /// Parameter [contentId] :
+  /// The identifier of the content.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The identifier of the knowledge base.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. If not provided, the Amazon Web Services SDK
+  /// populates this field. For more information about idempotency, see <a
+  /// href="https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/">Making
+  /// retries safe with idempotent APIs</a>.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateContentAssociationResponse> createContentAssociation({
+    required ContentAssociationContents association,
+    required ContentAssociationType associationType,
+    required String contentId,
+    required String knowledgeBaseId,
+    String? clientToken,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'association': association,
+      'associationType': associationType.value,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/knowledgeBases/${Uri.encodeComponent(knowledgeBaseId)}/contents/${Uri.encodeComponent(contentId)}/associations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContentAssociationResponse.fromJson(response);
+  }
+
   /// Creates a knowledge base.
   /// <note>
   /// When using this API, you cannot reuse <a
@@ -612,6 +692,41 @@ class QConnect {
     );
   }
 
+  /// Deletes the content association.
+  ///
+  /// For more information about content associations--what they are and when
+  /// they are used--see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html">Integrate
+  /// Amazon Q in Connect with step-by-step guides</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contentAssociationId] :
+  /// The identifier of the content association. Can be either the ID or the
+  /// ARN. URLs cannot contain the ARN.
+  ///
+  /// Parameter [contentId] :
+  /// The identifier of the content.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The identifier of the knowledge base.
+  Future<void> deleteContentAssociation({
+    required String contentAssociationId,
+    required String contentId,
+    required String knowledgeBaseId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/knowledgeBases/${Uri.encodeComponent(knowledgeBaseId)}/contents/${Uri.encodeComponent(contentId)}/associations/${Uri.encodeComponent(contentAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the quick response import job.
   ///
   /// May throw [ConflictException].
@@ -769,6 +884,42 @@ class QConnect {
       exceptionFnMap: _exceptionFns,
     );
     return GetContentResponse.fromJson(response);
+  }
+
+  /// Returns the content association.
+  ///
+  /// For more information about content associations--what they are and when
+  /// they are used--see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html">Integrate
+  /// Amazon Q in Connect with step-by-step guides</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contentAssociationId] :
+  /// The identifier of the content association. Can be either the ID or the
+  /// ARN. URLs cannot contain the ARN.
+  ///
+  /// Parameter [contentId] :
+  /// The identifier of the content.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The identifier of the knowledge base.
+  Future<GetContentAssociationResponse> getContentAssociation({
+    required String contentAssociationId,
+    required String contentId,
+    required String knowledgeBaseId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/knowledgeBases/${Uri.encodeComponent(knowledgeBaseId)}/contents/${Uri.encodeComponent(contentId)}/associations/${Uri.encodeComponent(contentAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContentAssociationResponse.fromJson(response);
   }
 
   /// Retrieves summary information about the content.
@@ -1044,6 +1195,57 @@ class QConnect {
       exceptionFnMap: _exceptionFns,
     );
     return ListAssistantsResponse.fromJson(response);
+  }
+
+  /// Lists the content associations.
+  ///
+  /// For more information about content associations--what they are and when
+  /// they are used--see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html">Integrate
+  /// Amazon Q in Connect with step-by-step guides</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [contentId] :
+  /// The identifier of the content.
+  ///
+  /// Parameter [knowledgeBaseId] :
+  /// The identifier of the knowledge base.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListContentAssociationsResponse> listContentAssociations({
+    required String contentId,
+    required String knowledgeBaseId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/knowledgeBases/${Uri.encodeComponent(knowledgeBaseId)}/contents/${Uri.encodeComponent(contentId)}/associations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContentAssociationsResponse.fromJson(response);
   }
 
   /// Lists the content.
@@ -1992,6 +2194,33 @@ class QConnect {
   }
 }
 
+/// Content association data for a <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html">step-by-step
+/// guide</a>.
+class AmazonConnectGuideAssociationData {
+  /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step
+  /// guides are a type of flow.
+  final String? flowId;
+
+  AmazonConnectGuideAssociationData({
+    this.flowId,
+  });
+
+  factory AmazonConnectGuideAssociationData.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonConnectGuideAssociationData(
+      flowId: json['flowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowId = this.flowId;
+    return {
+      if (flowId != null) 'flowId': flowId,
+    };
+  }
+}
+
 /// Configuration information for Amazon AppIntegrations to automatically ingest
 /// content.
 class AppIntegrationsConfiguration {
@@ -2683,6 +2912,214 @@ class ConnectConfiguration {
   }
 }
 
+/// The contents of a content association.
+class ContentAssociationContents {
+  /// The data of the step-by-step guide association.
+  final AmazonConnectGuideAssociationData? amazonConnectGuideAssociation;
+
+  ContentAssociationContents({
+    this.amazonConnectGuideAssociation,
+  });
+
+  factory ContentAssociationContents.fromJson(Map<String, dynamic> json) {
+    return ContentAssociationContents(
+      amazonConnectGuideAssociation:
+          json['amazonConnectGuideAssociation'] != null
+              ? AmazonConnectGuideAssociationData.fromJson(
+                  json['amazonConnectGuideAssociation'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonConnectGuideAssociation = this.amazonConnectGuideAssociation;
+    return {
+      if (amazonConnectGuideAssociation != null)
+        'amazonConnectGuideAssociation': amazonConnectGuideAssociation,
+    };
+  }
+}
+
+/// Information about the content association.
+class ContentAssociationData {
+  /// The content association.
+  final ContentAssociationContents associationData;
+
+  /// The type of association.
+  final ContentAssociationType associationType;
+
+  /// The Amazon Resource Name (ARN) of the content.
+  final String contentArn;
+
+  /// The Amazon Resource Name (ARN) of the content association.
+  final String contentAssociationArn;
+
+  /// The identifier of the content association. Can be either the ID or the ARN.
+  /// URLs cannot contain the ARN.
+  final String contentAssociationId;
+
+  /// The identifier of the content.
+  final String contentId;
+
+  /// The Amazon Resource Name (ARN) of the knowledge base.
+  final String knowledgeBaseArn;
+
+  /// The identifier of the knowledge base.
+  final String knowledgeBaseId;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  ContentAssociationData({
+    required this.associationData,
+    required this.associationType,
+    required this.contentArn,
+    required this.contentAssociationArn,
+    required this.contentAssociationId,
+    required this.contentId,
+    required this.knowledgeBaseArn,
+    required this.knowledgeBaseId,
+    this.tags,
+  });
+
+  factory ContentAssociationData.fromJson(Map<String, dynamic> json) {
+    return ContentAssociationData(
+      associationData: ContentAssociationContents.fromJson(
+          json['associationData'] as Map<String, dynamic>),
+      associationType: ContentAssociationType.fromString(
+          (json['associationType'] as String)),
+      contentArn: json['contentArn'] as String,
+      contentAssociationArn: json['contentAssociationArn'] as String,
+      contentAssociationId: json['contentAssociationId'] as String,
+      contentId: json['contentId'] as String,
+      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
+      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationData = this.associationData;
+    final associationType = this.associationType;
+    final contentArn = this.contentArn;
+    final contentAssociationArn = this.contentAssociationArn;
+    final contentAssociationId = this.contentAssociationId;
+    final contentId = this.contentId;
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final tags = this.tags;
+    return {
+      'associationData': associationData,
+      'associationType': associationType.value,
+      'contentArn': contentArn,
+      'contentAssociationArn': contentAssociationArn,
+      'contentAssociationId': contentAssociationId,
+      'contentId': contentId,
+      'knowledgeBaseArn': knowledgeBaseArn,
+      'knowledgeBaseId': knowledgeBaseId,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Summary information about a content association.
+class ContentAssociationSummary {
+  /// The content association.
+  final ContentAssociationContents associationData;
+
+  /// The type of association.
+  final ContentAssociationType associationType;
+
+  /// The Amazon Resource Name (ARN) of the content.
+  final String contentArn;
+
+  /// The Amazon Resource Name (ARN) of the content association.
+  final String contentAssociationArn;
+
+  /// The identifier of the content association. Can be either the ID or the ARN.
+  /// URLs cannot contain the ARN.
+  final String contentAssociationId;
+
+  /// The identifier of the content.
+  final String contentId;
+
+  /// The Amazon Resource Name (ARN) of the knowledge base.
+  final String knowledgeBaseArn;
+
+  /// The identifier of the knowledge base.
+  final String knowledgeBaseId;
+
+  /// The tags used to organize, track, or control access for this resource.
+  final Map<String, String>? tags;
+
+  ContentAssociationSummary({
+    required this.associationData,
+    required this.associationType,
+    required this.contentArn,
+    required this.contentAssociationArn,
+    required this.contentAssociationId,
+    required this.contentId,
+    required this.knowledgeBaseArn,
+    required this.knowledgeBaseId,
+    this.tags,
+  });
+
+  factory ContentAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return ContentAssociationSummary(
+      associationData: ContentAssociationContents.fromJson(
+          json['associationData'] as Map<String, dynamic>),
+      associationType: ContentAssociationType.fromString(
+          (json['associationType'] as String)),
+      contentArn: json['contentArn'] as String,
+      contentAssociationArn: json['contentAssociationArn'] as String,
+      contentAssociationId: json['contentAssociationId'] as String,
+      contentId: json['contentId'] as String,
+      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
+      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationData = this.associationData;
+    final associationType = this.associationType;
+    final contentArn = this.contentArn;
+    final contentAssociationArn = this.contentAssociationArn;
+    final contentAssociationId = this.contentAssociationId;
+    final contentId = this.contentId;
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final tags = this.tags;
+    return {
+      'associationData': associationData,
+      'associationType': associationType.value,
+      'contentArn': contentArn,
+      'contentAssociationArn': contentAssociationArn,
+      'contentAssociationId': contentAssociationId,
+      'contentId': contentId,
+      'knowledgeBaseArn': knowledgeBaseArn,
+      'knowledgeBaseId': knowledgeBaseId,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+enum ContentAssociationType {
+  amazonConnectGuide('AMAZON_CONNECT_GUIDE'),
+  ;
+
+  final String value;
+
+  const ContentAssociationType(this.value);
+
+  static ContentAssociationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ContentAssociationType'));
+}
+
 /// Information about the content.
 class ContentData {
   /// The Amazon Resource Name (ARN) of the content.
@@ -3076,6 +3513,31 @@ class CreateAssistantResponse {
   }
 }
 
+class CreateContentAssociationResponse {
+  /// The association between Amazon Q in Connect content and another resource.
+  final ContentAssociationData? contentAssociation;
+
+  CreateContentAssociationResponse({
+    this.contentAssociation,
+  });
+
+  factory CreateContentAssociationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateContentAssociationResponse(
+      contentAssociation: json['contentAssociation'] != null
+          ? ContentAssociationData.fromJson(
+              json['contentAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentAssociation = this.contentAssociation;
+    return {
+      if (contentAssociation != null) 'contentAssociation': contentAssociation,
+    };
+  }
+}
+
 class CreateContentResponse {
   /// The content.
   final ContentData? content;
@@ -3304,6 +3766,18 @@ class DeleteAssistantResponse {
 
   factory DeleteAssistantResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAssistantResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteContentAssociationResponse {
+  DeleteContentAssociationResponse();
+
+  factory DeleteContentAssociationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteContentAssociationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -3679,6 +4153,31 @@ class GetAssistantResponse {
   }
 }
 
+class GetContentAssociationResponse {
+  /// The association between Amazon Q in Connect content and another resource.
+  final ContentAssociationData? contentAssociation;
+
+  GetContentAssociationResponse({
+    this.contentAssociation,
+  });
+
+  factory GetContentAssociationResponse.fromJson(Map<String, dynamic> json) {
+    return GetContentAssociationResponse(
+      contentAssociation: json['contentAssociation'] != null
+          ? ContentAssociationData.fromJson(
+              json['contentAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentAssociation = this.contentAssociation;
+    return {
+      if (contentAssociation != null) 'contentAssociation': contentAssociation,
+    };
+  }
+}
+
 class GetContentResponse {
   /// The content.
   final ContentData? content;
@@ -3982,7 +4481,7 @@ class ImportJobData {
   final DateTime urlExpiry;
   final ExternalSourceConfiguration? externalSourceConfiguration;
 
-  /// The link to donwload the information of resource data that failed to be
+  /// The link to download the information of resource data that failed to be
   /// imported.
   final String? failedRecordReport;
 
@@ -4559,6 +5058,40 @@ class ListAssistantsResponse {
     final nextToken = this.nextToken;
     return {
       'assistantSummaries': assistantSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListContentAssociationsResponse {
+  /// Summary information about content associations.
+  final List<ContentAssociationSummary> contentAssociationSummaries;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListContentAssociationsResponse({
+    required this.contentAssociationSummaries,
+    this.nextToken,
+  });
+
+  factory ListContentAssociationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListContentAssociationsResponse(
+      contentAssociationSummaries: (json['contentAssociationSummaries'] as List)
+          .nonNulls
+          .map((e) =>
+              ContentAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentAssociationSummaries = this.contentAssociationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'contentAssociationSummaries': contentAssociationSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -7001,6 +7534,11 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
@@ -7024,6 +7562,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
   'ValidationException': (type, message) =>

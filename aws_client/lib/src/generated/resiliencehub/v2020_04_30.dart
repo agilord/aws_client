@@ -56,17 +56,57 @@ class ResilienceHub {
     _protocol.close();
   }
 
+  /// Accepts the resource grouping recommendations suggested by Resilience Hub
+  /// for your application.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [entries] :
+  /// Indicates the list of resource grouping recommendations you want to
+  /// include in your application.
+  Future<AcceptResourceGroupingRecommendationsResponse>
+      acceptResourceGroupingRecommendations({
+    required String appArn,
+    required List<AcceptGroupingRecommendationEntry> entries,
+  }) async {
+    final $payload = <String, dynamic>{
+      'appArn': appArn,
+      'entries': entries,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/accept-resource-grouping-recommendations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AcceptResourceGroupingRecommendationsResponse.fromJson(response);
+  }
+
   /// Adds the source of resource-maps to the draft version of an application.
   /// During assessment, Resilience Hub will use these resource-maps to resolve
   /// the latest physical ID for each resource in the application template. For
-  /// more information about different types of resources suported by Resilience
-  /// Hub and how to add them in your application, see <a
+  /// more information about different types of resources supported by
+  /// Resilience Hub and how to add them in your application, see <a
   /// href="https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html">Step
   /// 2: How is your application managed?</a> in the Resilience Hub User Guide.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1061,7 +1101,7 @@ class ResilienceHub {
 
   /// Describes a resource of the Resilience Hub application.
   /// <note>
-  /// This API accepts only one of the following parameters to descibe the
+  /// This API accepts only one of the following parameters to describe the
   /// resource:
   ///
   /// <ul>
@@ -1294,6 +1334,45 @@ class ResilienceHub {
     return DescribeResiliencyPolicyResponse.fromJson(response);
   }
 
+  /// Describes the resource grouping recommendation tasks run by Resilience Hub
+  /// for your application.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [groupingId] :
+  /// Indicates the identifier of the grouping recommendation task.
+  Future<DescribeResourceGroupingRecommendationTaskResponse>
+      describeResourceGroupingRecommendationTask({
+    required String appArn,
+    String? groupingId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'appArn': appArn,
+      if (groupingId != null) 'groupingId': groupingId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describe-resource-grouping-recommendation-task',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeResourceGroupingRecommendationTaskResponse.fromJson(
+        response);
+  }
+
   /// Imports resources to Resilience Hub application draft version from
   /// different input sources. For more information about the input sources
   /// supported by Resilience Hub, see <a
@@ -1418,11 +1497,10 @@ class ResilienceHub {
   /// Reference</i> guide.
   ///
   /// Parameter [maxResults] :
-  /// Indicates the maximum number of applications requested.
+  /// Indicates the maximum number of compliance drifts requested.
   ///
   /// Parameter [nextToken] :
-  /// Indicates the unique token number of the next application to be checked
-  /// for compliance and regulatory requirements from the list of applications.
+  /// Null, or the token from a previous call to get the next set of results.
   Future<ListAppAssessmentComplianceDriftsResponse>
       listAppAssessmentComplianceDrifts({
     required String assessmentArn,
@@ -2003,8 +2081,8 @@ class ResilienceHub {
   /// Parameter [reverseOrder] :
   /// The application list is sorted based on the values of
   /// <code>lastAppComplianceEvaluationTime</code> field. By default,
-  /// application list is sorted in ascending order. To sort the appliation list
-  /// in descending order, set this field to <code>True</code>.
+  /// application list is sorted in ascending order. To sort the application
+  /// list in descending order, set this field to <code>True</code>.
   ///
   /// Parameter [toLastAssessmentTime] :
   /// Indicates the upper limit of the range that is used to filter the
@@ -2161,6 +2239,57 @@ class ResilienceHub {
       exceptionFnMap: _exceptionFns,
     );
     return ListResiliencyPoliciesResponse.fromJson(response);
+  }
+
+  /// Lists the resource grouping recommendations suggested by Resilience Hub
+  /// for your application.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of grouping recommendations to be displayed per Resilience
+  /// Hub application.
+  ///
+  /// Parameter [nextToken] :
+  /// Null, or the token from a previous call to get the next set of results.
+  Future<ListResourceGroupingRecommendationsResponse>
+      listResourceGroupingRecommendations({
+    String? appArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (appArn != null) 'appArn': [appArn],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/list-resource-grouping-recommendations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListResourceGroupingRecommendationsResponse.fromJson(response);
   }
 
   /// Lists the standard operating procedure (SOP) recommendations for the
@@ -2722,6 +2851,44 @@ class ResilienceHub {
     return PutDraftAppVersionTemplateResponse.fromJson(response);
   }
 
+  /// Rejects resource grouping recommendations.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  ///
+  /// Parameter [entries] :
+  /// Indicates the list of resource grouping recommendations you have selected
+  /// to exclude from your application.
+  Future<RejectResourceGroupingRecommendationsResponse>
+      rejectResourceGroupingRecommendations({
+    required String appArn,
+    required List<RejectGroupingRecommendationEntry> entries,
+  }) async {
+    final $payload = <String, dynamic>{
+      'appArn': appArn,
+      'entries': entries,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/reject-resource-grouping-recommendations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RejectResourceGroupingRecommendationsResponse.fromJson(response);
+  }
+
   /// Removes resource mappings from a draft application version.
   ///
   /// May throw [InternalServerException].
@@ -2886,6 +3053,39 @@ class ResilienceHub {
       exceptionFnMap: _exceptionFns,
     );
     return StartAppAssessmentResponse.fromJson(response);
+  }
+
+  /// Starts grouping recommendation task.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [appArn] :
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format
+  /// for this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  Future<StartResourceGroupingRecommendationTaskResponse>
+      startResourceGroupingRecommendationTask({
+    required String appArn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'appArn': appArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/start-resource-grouping-recommendation-task',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartResourceGroupingRecommendationTaskResponse.fromJson(response);
   }
 
   /// Applies one or more tags to a resource.
@@ -3307,6 +3507,65 @@ class ResilienceHub {
   }
 }
 
+/// Indicates the grouping recommendation you have accepted to include in your
+/// application.
+class AcceptGroupingRecommendationEntry {
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
+
+  AcceptGroupingRecommendationEntry({
+    required this.groupingRecommendationId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupingRecommendationId = this.groupingRecommendationId;
+    return {
+      'groupingRecommendationId': groupingRecommendationId,
+    };
+  }
+}
+
+class AcceptResourceGroupingRecommendationsResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Indicates the list of resource grouping recommendations that could not be
+  /// included in your application.
+  final List<FailedGroupingRecommendationEntry> failedEntries;
+
+  AcceptResourceGroupingRecommendationsResponse({
+    required this.appArn,
+    required this.failedEntries,
+  });
+
+  factory AcceptResourceGroupingRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AcceptResourceGroupingRecommendationsResponse(
+      appArn: json['appArn'] as String,
+      failedEntries: (json['failedEntries'] as List)
+          .nonNulls
+          .map((e) => FailedGroupingRecommendationEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final failedEntries = this.failedEntries;
+    return {
+      'appArn': appArn,
+      'failedEntries': failedEntries,
+    };
+  }
+}
+
 class AddDraftAppVersionResourceMappingsResponse {
   /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
   /// this ARN is:
@@ -3712,6 +3971,10 @@ class AppAssessment {
   /// Starting time for the action.
   final DateTime? startTime;
 
+  /// Indicates a concise summary that provides an overview of the Resilience Hub
+  /// assessment.
+  final AssessmentSummary? summary;
+
   /// Tags assigned to the resource. A tag is a label that you assign to an Amazon
   /// Web Services resource. Each tag consists of a key/value pair.
   final Map<String, String>? tags;
@@ -3736,6 +3999,7 @@ class AppAssessment {
     this.resiliencyScore,
     this.resourceErrorsDetails,
     this.startTime,
+    this.summary,
     this.tags,
     this.versionName,
   });
@@ -3773,6 +4037,9 @@ class AppAssessment {
               json['resourceErrorsDetails'] as Map<String, dynamic>)
           : null,
       startTime: timeStampFromJson(json['startTime']),
+      summary: json['summary'] != null
+          ? AssessmentSummary.fromJson(json['summary'] as Map<String, dynamic>)
+          : null,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       versionName: json['versionName'] as String?,
@@ -3796,6 +4063,7 @@ class AppAssessment {
     final resiliencyScore = this.resiliencyScore;
     final resourceErrorsDetails = this.resourceErrorsDetails;
     final startTime = this.startTime;
+    final summary = this.summary;
     final tags = this.tags;
     final versionName = this.versionName;
     return {
@@ -3817,6 +4085,7 @@ class AppAssessment {
       if (resourceErrorsDetails != null)
         'resourceErrorsDetails': resourceErrorsDetails,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (summary != null) 'summary': summary,
       if (tags != null) 'tags': tags,
       if (versionName != null) 'versionName': versionName,
     };
@@ -3866,7 +4135,7 @@ class AppAssessmentSummary {
   /// Name of the assessment.
   final String? assessmentName;
 
-  /// TCurrent status of compliance for the resiliency policy.
+  /// Current status of compliance for the resiliency policy.
   final ComplianceStatus? complianceStatus;
 
   /// Cost for an application.
@@ -3974,6 +4243,8 @@ enum AppComplianceStatusType {
   policyMet('PolicyMet'),
   notAssessed('NotAssessed'),
   changesDetected('ChangesDetected'),
+  notApplicable('NotApplicable'),
+  missingPolicy('MissingPolicy'),
   ;
 
   final String value;
@@ -4389,6 +4660,69 @@ enum AssessmentInvoker {
               throw Exception('$value is not known in enum AssessmentInvoker'));
 }
 
+/// Indicates a specific risk identified in the Resilience Hub assessment and
+/// the corresponding recommendation provided to address that risk.
+/// <note>
+/// The assessment summary generated by large language models (LLMs) on Amazon
+/// Bedrock are only suggestions. The current level of generative AI technology
+/// is not perfect and LLMs are not infallible. Bias and incorrect answers,
+/// although rare, should be expected. Review each recommendation in the
+/// assessment summary before you use the output from an LLM.
+/// </note> <note>
+/// This property is available only in the US East (N. Virginia) Region.
+/// </note>
+class AssessmentRiskRecommendation {
+  /// Indicates the Application Components (AppComponents) that were assessed as
+  /// part of the assessnent and are associated with the identified risk and
+  /// recommendation.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final List<String>? appComponents;
+
+  /// Indicates the recommendation provided by the Resilience Hub to address the
+  /// identified risks in the application.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? recommendation;
+
+  /// Indicates the description of the potential risk identified in the
+  /// application as part of the Resilience Hub assessment.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? risk;
+
+  AssessmentRiskRecommendation({
+    this.appComponents,
+    this.recommendation,
+    this.risk,
+  });
+
+  factory AssessmentRiskRecommendation.fromJson(Map<String, dynamic> json) {
+    return AssessmentRiskRecommendation(
+      appComponents: (json['appComponents'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      recommendation: json['recommendation'] as String?,
+      risk: json['risk'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponents = this.appComponents;
+    final recommendation = this.recommendation;
+    final risk = this.risk;
+    return {
+      if (appComponents != null) 'appComponents': appComponents,
+      if (recommendation != null) 'recommendation': recommendation,
+      if (risk != null) 'risk': risk,
+    };
+  }
+}
+
 enum AssessmentStatus {
   pending('Pending'),
   inProgress('InProgress'),
@@ -4404,6 +4738,55 @@ enum AssessmentStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum AssessmentStatus'));
+}
+
+/// Indicates the AI-generated summary for the Resilience Hub assessment,
+/// providing a concise overview that highlights the top risks and
+/// recommendations.
+/// <note>
+/// This property is available only in the US East (N. Virginia) Region.
+/// </note>
+class AssessmentSummary {
+  /// Indicates the top risks and recommendations identified by the Resilience Hub
+  /// assessment, each representing a specific risk and the corresponding
+  /// recommendation to address it.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final List<AssessmentRiskRecommendation>? riskRecommendations;
+
+  /// Indicates a concise summary that provides an overview of the Resilience Hub
+  /// assessment.
+  /// <note>
+  /// This property is available only in the US East (N. Virginia) Region.
+  /// </note>
+  final String? summary;
+
+  AssessmentSummary({
+    this.riskRecommendations,
+    this.summary,
+  });
+
+  factory AssessmentSummary.fromJson(Map<String, dynamic> json) {
+    return AssessmentSummary(
+      riskRecommendations: (json['riskRecommendations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssessmentRiskRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final riskRecommendations = this.riskRecommendations;
+    final summary = this.summary;
+    return {
+      if (riskRecommendations != null)
+        'riskRecommendations': riskRecommendations,
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
 /// List of operational recommendations that did not get included or excluded.
@@ -4572,7 +4955,7 @@ class ComplianceDrift {
 
   /// Difference type between actual and expected recovery point objective (RPO)
   /// and recovery time objective (RTO) values. Currently, Resilience Hub supports
-  /// only <b>NotEqual</b> difference type.
+  /// only <code>NotEqual</code> difference type.
   final DifferenceType? diffType;
 
   /// The type of drift detected. Currently, Resilience Hub supports only
@@ -4661,6 +5044,8 @@ class ComplianceDrift {
 enum ComplianceStatus {
   policyBreached('PolicyBreached'),
   policyMet('PolicyMet'),
+  notApplicable('NotApplicable'),
+  missingPolicy('MissingPolicy'),
   ;
 
   final String value;
@@ -5965,6 +6350,45 @@ class DescribeResiliencyPolicyResponse {
   }
 }
 
+class DescribeResourceGroupingRecommendationTaskResponse {
+  /// Indicates the identifier of the grouping recommendation task.
+  final String groupingId;
+
+  /// Status of the action.
+  final ResourcesGroupingRecGenStatusType status;
+
+  /// Indicates the error that occurred while generating a grouping
+  /// recommendation.
+  final String? errorMessage;
+
+  DescribeResourceGroupingRecommendationTaskResponse({
+    required this.groupingId,
+    required this.status,
+    this.errorMessage,
+  });
+
+  factory DescribeResourceGroupingRecommendationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeResourceGroupingRecommendationTaskResponse(
+      groupingId: json['groupingId'] as String,
+      status: ResourcesGroupingRecGenStatusType.fromString(
+          (json['status'] as String)),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupingId = this.groupingId;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    return {
+      'groupingId': groupingId,
+      'status': status.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
 enum DifferenceType {
   notEqual('NotEqual'),
   added('Added'),
@@ -6290,6 +6714,38 @@ enum ExcludeRecommendationReason {
               '$value is not known in enum ExcludeRecommendationReason'));
 }
 
+/// Indicates the accepted grouping recommendation whose implementation failed.
+class FailedGroupingRecommendationEntry {
+  /// Indicates the error that occurred while implementing a grouping
+  /// recommendation.
+  final String errorMessage;
+
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
+
+  FailedGroupingRecommendationEntry({
+    required this.errorMessage,
+    required this.groupingRecommendationId,
+  });
+
+  factory FailedGroupingRecommendationEntry.fromJson(
+      Map<String, dynamic> json) {
+    return FailedGroupingRecommendationEntry(
+      errorMessage: json['errorMessage'] as String,
+      groupingRecommendationId: json['groupingRecommendationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final groupingRecommendationId = this.groupingRecommendationId;
+    return {
+      'errorMessage': errorMessage,
+      'groupingRecommendationId': groupingRecommendationId,
+    };
+  }
+}
+
 /// Defines a failure policy.
 class FailurePolicy {
   /// Recovery Point Objective (RPO) in seconds.
@@ -6316,6 +6772,241 @@ class FailurePolicy {
     return {
       'rpoInSecs': rpoInSecs,
       'rtoInSecs': rtoInSecs,
+    };
+  }
+}
+
+/// Creates a new recommended Application Component (AppComponent).
+class GroupingAppComponent {
+  /// Indicates the identifier of an AppComponent.
+  final String appComponentId;
+
+  /// Indicates the name of an AppComponent.
+  final String appComponentName;
+
+  /// Indicates the type of an AppComponent.
+  final String appComponentType;
+
+  GroupingAppComponent({
+    required this.appComponentId,
+    required this.appComponentName,
+    required this.appComponentType,
+  });
+
+  factory GroupingAppComponent.fromJson(Map<String, dynamic> json) {
+    return GroupingAppComponent(
+      appComponentId: json['appComponentId'] as String,
+      appComponentName: json['appComponentName'] as String,
+      appComponentType: json['appComponentType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appComponentId = this.appComponentId;
+    final appComponentName = this.appComponentName;
+    final appComponentType = this.appComponentType;
+    return {
+      'appComponentId': appComponentId,
+      'appComponentName': appComponentName,
+      'appComponentType': appComponentType,
+    };
+  }
+}
+
+/// Creates a new grouping recommendation.
+class GroupingRecommendation {
+  /// Indicates the confidence level of Resilience Hub on the grouping
+  /// recommendation.
+  final GroupingRecommendationConfidenceLevel confidenceLevel;
+
+  /// Indicates the creation time of the grouping recommendation.
+  final DateTime creationTime;
+
+  /// Indicates the name of the recommended Application Component (AppComponent).
+  final GroupingAppComponent groupingAppComponent;
+
+  /// Indicates all the reasons available for rejecting a grouping recommendation.
+  final String groupingRecommendationId;
+
+  /// Indicates all the reasons available for rejecting a grouping recommendation.
+  final List<String> recommendationReasons;
+
+  /// Indicates the resources that are grouped in a recommended AppComponent.
+  final List<GroupingResource> resources;
+
+  /// Indicates the confidence level of the grouping recommendation.
+  final double score;
+
+  /// Indicates the status of grouping resources into AppComponents.
+  final GroupingRecommendationStatusType status;
+
+  /// Indicates the reason you had selected while rejecting a grouping
+  /// recommendation.
+  final GroupingRecommendationRejectionReason? rejectionReason;
+
+  GroupingRecommendation({
+    required this.confidenceLevel,
+    required this.creationTime,
+    required this.groupingAppComponent,
+    required this.groupingRecommendationId,
+    required this.recommendationReasons,
+    required this.resources,
+    required this.score,
+    required this.status,
+    this.rejectionReason,
+  });
+
+  factory GroupingRecommendation.fromJson(Map<String, dynamic> json) {
+    return GroupingRecommendation(
+      confidenceLevel: GroupingRecommendationConfidenceLevel.fromString(
+          (json['confidenceLevel'] as String)),
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      groupingAppComponent: GroupingAppComponent.fromJson(
+          json['groupingAppComponent'] as Map<String, dynamic>),
+      groupingRecommendationId: json['groupingRecommendationId'] as String,
+      recommendationReasons: (json['recommendationReasons'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resources: (json['resources'] as List)
+          .nonNulls
+          .map((e) => GroupingResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      score: json['score'] as double,
+      status: GroupingRecommendationStatusType.fromString(
+          (json['status'] as String)),
+      rejectionReason: (json['rejectionReason'] as String?)
+          ?.let(GroupingRecommendationRejectionReason.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceLevel = this.confidenceLevel;
+    final creationTime = this.creationTime;
+    final groupingAppComponent = this.groupingAppComponent;
+    final groupingRecommendationId = this.groupingRecommendationId;
+    final recommendationReasons = this.recommendationReasons;
+    final resources = this.resources;
+    final score = this.score;
+    final status = this.status;
+    final rejectionReason = this.rejectionReason;
+    return {
+      'confidenceLevel': confidenceLevel.value,
+      'creationTime': unixTimestampToJson(creationTime),
+      'groupingAppComponent': groupingAppComponent,
+      'groupingRecommendationId': groupingRecommendationId,
+      'recommendationReasons': recommendationReasons,
+      'resources': resources,
+      'score': score,
+      'status': status.value,
+      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
+    };
+  }
+}
+
+enum GroupingRecommendationConfidenceLevel {
+  high('High'),
+  medium('Medium'),
+  ;
+
+  final String value;
+
+  const GroupingRecommendationConfidenceLevel(this.value);
+
+  static GroupingRecommendationConfidenceLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GroupingRecommendationConfidenceLevel'));
+}
+
+enum GroupingRecommendationRejectionReason {
+  distinctBusinessPurpose('DistinctBusinessPurpose'),
+  separateDataConcern('SeparateDataConcern'),
+  distinctUserGroupHandling('DistinctUserGroupHandling'),
+  other('Other'),
+  ;
+
+  final String value;
+
+  const GroupingRecommendationRejectionReason(this.value);
+
+  static GroupingRecommendationRejectionReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GroupingRecommendationRejectionReason'));
+}
+
+enum GroupingRecommendationStatusType {
+  accepted('Accepted'),
+  rejected('Rejected'),
+  pendingDecision('PendingDecision'),
+  ;
+
+  final String value;
+
+  const GroupingRecommendationStatusType(this.value);
+
+  static GroupingRecommendationStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum GroupingRecommendationStatusType'));
+}
+
+/// Indicates the resource that will be grouped in the recommended Application
+/// Component (AppComponent).
+class GroupingResource {
+  /// Indicates the logical identifier of the resource.
+  final LogicalResourceId logicalResourceId;
+
+  /// Indicates the physical identifier of the resource.
+  final PhysicalResourceId physicalResourceId;
+
+  /// Indicates the resource name.
+  final String resourceName;
+
+  /// Indicates the resource type.
+  final String resourceType;
+
+  /// Indicates the identifier of the source AppComponents in which the resources
+  /// were previously grouped into.
+  final List<String> sourceAppComponentIds;
+
+  GroupingResource({
+    required this.logicalResourceId,
+    required this.physicalResourceId,
+    required this.resourceName,
+    required this.resourceType,
+    required this.sourceAppComponentIds,
+  });
+
+  factory GroupingResource.fromJson(Map<String, dynamic> json) {
+    return GroupingResource(
+      logicalResourceId: LogicalResourceId.fromJson(
+          json['logicalResourceId'] as Map<String, dynamic>),
+      physicalResourceId: PhysicalResourceId.fromJson(
+          json['physicalResourceId'] as Map<String, dynamic>),
+      resourceName: json['resourceName'] as String,
+      resourceType: json['resourceType'] as String,
+      sourceAppComponentIds: (json['sourceAppComponentIds'] as List)
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final resourceName = this.resourceName;
+    final resourceType = this.resourceType;
+    final sourceAppComponentIds = this.sourceAppComponentIds;
+    return {
+      'logicalResourceId': logicalResourceId,
+      'physicalResourceId': physicalResourceId,
+      'resourceName': resourceName,
+      'resourceType': resourceType,
+      'sourceAppComponentIds': sourceAppComponentIds,
     };
   }
 }
@@ -6452,8 +7143,7 @@ class ListAppAssessmentComplianceDriftsResponse {
   /// point objective (RPO)) detected for an assessed entity.
   final List<ComplianceDrift> complianceDrifts;
 
-  /// Token number of the next application to be checked for compliance and
-  /// regulatory requirements from the list of applications.
+  /// Null, or the token from a previous call to get the next set of results.
   final String? nextToken;
 
   ListAppAssessmentComplianceDriftsResponse({
@@ -6909,6 +7599,40 @@ class ListResiliencyPoliciesResponse {
     final nextToken = this.nextToken;
     return {
       'resiliencyPolicies': resiliencyPolicies,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListResourceGroupingRecommendationsResponse {
+  /// List of resource grouping recommendations generated by Resilience Hub.
+  final List<GroupingRecommendation> groupingRecommendations;
+
+  /// Null, or the token from a previous call to get the next set of results.
+  final String? nextToken;
+
+  ListResourceGroupingRecommendationsResponse({
+    required this.groupingRecommendations,
+    this.nextToken,
+  });
+
+  factory ListResourceGroupingRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListResourceGroupingRecommendationsResponse(
+      groupingRecommendations: (json['groupingRecommendations'] as List)
+          .nonNulls
+          .map(
+              (e) => GroupingRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupingRecommendations = this.groupingRecommendations;
+    final nextToken = this.nextToken;
+    return {
+      'groupingRecommendations': groupingRecommendations,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -7553,6 +8277,7 @@ enum RecommendationComplianceStatus {
   breachedUnattainable('BreachedUnattainable'),
   breachedCanMeet('BreachedCanMeet'),
   metCanImprove('MetCanImprove'),
+  missingPolicy('MissingPolicy'),
   ;
 
   final String value;
@@ -7864,6 +8589,71 @@ enum RecommendationTemplateStatus {
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception(
               '$value is not known in enum RecommendationTemplateStatus'));
+}
+
+/// Indicates the rejected grouping recommendation.
+class RejectGroupingRecommendationEntry {
+  /// Indicates the identifier of the grouping recommendation.
+  final String groupingRecommendationId;
+
+  /// Indicates the reason you had selected while rejecting a grouping
+  /// recommendation.
+  final GroupingRecommendationRejectionReason? rejectionReason;
+
+  RejectGroupingRecommendationEntry({
+    required this.groupingRecommendationId,
+    this.rejectionReason,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupingRecommendationId = this.groupingRecommendationId;
+    final rejectionReason = this.rejectionReason;
+    return {
+      'groupingRecommendationId': groupingRecommendationId,
+      if (rejectionReason != null) 'rejectionReason': rejectionReason.value,
+    };
+  }
+}
+
+class RejectResourceGroupingRecommendationsResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Indicates the list of resource grouping recommendations that failed to get
+  /// excluded in your application.
+  final List<FailedGroupingRecommendationEntry> failedEntries;
+
+  RejectResourceGroupingRecommendationsResponse({
+    required this.appArn,
+    required this.failedEntries,
+  });
+
+  factory RejectResourceGroupingRecommendationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RejectResourceGroupingRecommendationsResponse(
+      appArn: json['appArn'] as String,
+      failedEntries: (json['failedEntries'] as List)
+          .nonNulls
+          .map((e) => FailedGroupingRecommendationEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final failedEntries = this.failedEntries;
+    return {
+      'appArn': appArn,
+      'failedEntries': failedEntries,
+    };
+  }
 }
 
 class RemoveDraftAppVersionResourceMappingsResponse {
@@ -8260,8 +9050,8 @@ class ResourceError {
 
 /// A list of errors retrieving an application's resources.
 class ResourceErrorsDetails {
-  /// This indicates if there are more errors not listed in the resourceErrors
-  /// list.
+  /// This indicates if there are more errors not listed in the
+  /// <code>resourceErrors</code> list.
   final bool? hasMoreErrors;
 
   /// A list of errors retrieving an application's resources.
@@ -8493,6 +9283,23 @@ enum ResourceSourceType {
           throw Exception('$value is not known in enum ResourceSourceType'));
 }
 
+enum ResourcesGroupingRecGenStatusType {
+  pending('Pending'),
+  inProgress('InProgress'),
+  failed('Failed'),
+  success('Success'),
+  ;
+
+  final String value;
+
+  const ResourcesGroupingRecGenStatusType(this.value);
+
+  static ResourcesGroupingRecGenStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ResourcesGroupingRecGenStatusType'));
+}
+
 /// The location of the Amazon S3 bucket.
 class S3Location {
   /// The name of the Amazon S3 bucket.
@@ -8705,6 +9512,58 @@ class StartAppAssessmentResponse {
     final assessment = this.assessment;
     return {
       'assessment': assessment,
+    };
+  }
+}
+
+class StartResourceGroupingRecommendationTaskResponse {
+  /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  /// this ARN is:
+  /// arn:<code>partition</code>:resiliencehub:<code>region</code>:<code>account</code>:app/<code>app-id</code>.
+  /// For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i> guide.
+  final String appArn;
+
+  /// Indicates the identifier of the grouping recommendation task.
+  final String groupingId;
+
+  /// Status of the action.
+  final ResourcesGroupingRecGenStatusType status;
+
+  /// Indicates the error that occurred while executing a grouping recommendation
+  /// task.
+  final String? errorMessage;
+
+  StartResourceGroupingRecommendationTaskResponse({
+    required this.appArn,
+    required this.groupingId,
+    required this.status,
+    this.errorMessage,
+  });
+
+  factory StartResourceGroupingRecommendationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartResourceGroupingRecommendationTaskResponse(
+      appArn: json['appArn'] as String,
+      groupingId: json['groupingId'] as String,
+      status: ResourcesGroupingRecGenStatusType.fromString(
+          (json['status'] as String)),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final groupingId = this.groupingId;
+    final status = this.status;
+    final errorMessage = this.errorMessage;
+    return {
+      'appArn': appArn,
+      'groupingId': groupingId,
+      'status': status.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
 }

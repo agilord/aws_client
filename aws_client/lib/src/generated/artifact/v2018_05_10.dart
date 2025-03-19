@@ -647,6 +647,9 @@ class ReportDetail {
 
 /// Summary for report resource.
 class ReportSummary {
+  /// Acceptance type for report.
+  final AcceptanceType? acceptanceType;
+
   /// ARN for the report resource.
   final String? arn;
 
@@ -690,6 +693,7 @@ class ReportSummary {
   final int? version;
 
   ReportSummary({
+    this.acceptanceType,
     this.arn,
     this.category,
     this.companyName,
@@ -708,6 +712,8 @@ class ReportSummary {
 
   factory ReportSummary.fromJson(Map<String, dynamic> json) {
     return ReportSummary(
+      acceptanceType:
+          (json['acceptanceType'] as String?)?.let(AcceptanceType.fromString),
       arn: json['arn'] as String?,
       category: json['category'] as String?,
       companyName: json['companyName'] as String?,
@@ -727,6 +733,7 @@ class ReportSummary {
   }
 
   Map<String, dynamic> toJson() {
+    final acceptanceType = this.acceptanceType;
     final arn = this.arn;
     final category = this.category;
     final companyName = this.companyName;
@@ -742,6 +749,7 @@ class ReportSummary {
     final uploadState = this.uploadState;
     final version = this.version;
     return {
+      if (acceptanceType != null) 'acceptanceType': acceptanceType.value,
       if (arn != null) 'arn': arn,
       if (category != null) 'category': category,
       if (companyName != null) 'companyName': companyName,

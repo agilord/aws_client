@@ -542,17 +542,26 @@ class TimestreamInfluxDB {
   /// Parameter [identifier] :
   /// The id of the DB instance.
   ///
+  /// Parameter [dbInstanceType] :
+  /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
+  ///
   /// Parameter [dbParameterGroupIdentifier] :
   /// The id of the DB parameter group to assign to your DB instance. DB
   /// parameter groups specify how the database is configured. For example, DB
   /// parameter groups can specify the limit for query concurrency.
+  ///
+  /// Parameter [deploymentType] :
+  /// Specifies whether the DB instance will be deployed as a standalone
+  /// instance or with a Multi-AZ standby for high availability.
   ///
   /// Parameter [logDeliveryConfiguration] :
   /// Configuration for sending InfluxDB engine logs to send to specified S3
   /// bucket.
   Future<UpdateDbInstanceOutput> updateDbInstance({
     required String identifier,
+    DbInstanceType? dbInstanceType,
     String? dbParameterGroupIdentifier,
+    DeploymentType? deploymentType,
     LogDeliveryConfiguration? logDeliveryConfiguration,
   }) async {
     final headers = <String, String>{
@@ -567,8 +576,10 @@ class TimestreamInfluxDB {
       headers: headers,
       payload: {
         'identifier': identifier,
+        if (dbInstanceType != null) 'dbInstanceType': dbInstanceType.value,
         if (dbParameterGroupIdentifier != null)
           'dbParameterGroupIdentifier': dbParameterGroupIdentifier,
+        if (deploymentType != null) 'deploymentType': deploymentType.value,
         if (logDeliveryConfiguration != null)
           'logDeliveryConfiguration': logDeliveryConfiguration,
       },
@@ -1626,6 +1637,8 @@ enum Status {
   updating('UPDATING'),
   deleted('DELETED'),
   failed('FAILED'),
+  updatingDeploymentType('UPDATING_DEPLOYMENT_TYPE'),
+  updatingInstanceType('UPDATING_INSTANCE_TYPE'),
   ;
 
   final String value;

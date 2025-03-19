@@ -992,7 +992,7 @@ class FSx {
   ///
   /// <ul>
   /// <li>
-  /// For <code>SCRATCH_2</code>, <code>PERSISTENT_2</code> and
+  /// For <code>SCRATCH_2</code>, <code>PERSISTENT_2</code>, and
   /// <code>PERSISTENT_1</code> deployment types using SSD storage type, the
   /// valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
   /// </li>
@@ -1054,28 +1054,36 @@ class FSx {
   /// SDK.
   ///
   /// Parameter [fileSystemTypeVersion] :
-  /// (Optional) For FSx for Lustre file systems, sets the Lustre version for
-  /// the file system that you're creating. Valid values are <code>2.10</code>,
+  /// For FSx for Lustre file systems, sets the Lustre version for the file
+  /// system that you're creating. Valid values are <code>2.10</code>,
   /// <code>2.12</code>, and <code>2.15</code>:
   ///
   /// <ul>
   /// <li>
-  /// 2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.
+  /// <code>2.10</code> is supported by the Scratch and Persistent_1 Lustre
+  /// deployment types.
   /// </li>
   /// <li>
-  /// 2.12 and 2.15 are supported by all Lustre deployment types.
-  /// <code>2.12</code> or <code>2.15</code> is required when setting FSx for
-  /// Lustre <code>DeploymentType</code> to <code>PERSISTENT_2</code>.
+  /// <code>2.12</code> is supported by all Lustre deployment types, except for
+  /// <code>PERSISTENT_2</code> with a metadata configuration mode.
+  /// </li>
+  /// <li>
+  /// <code>2.15</code> is supported by all Lustre deployment types and is
+  /// recommended for all new file systems.
   /// </li>
   /// </ul>
-  /// Default value = <code>2.10</code>, except when <code>DeploymentType</code>
-  /// is set to <code>PERSISTENT_2</code>, then the default is
-  /// <code>2.12</code>.
-  /// <note>
-  /// If you set <code>FileSystemTypeVersion</code> to <code>2.10</code> for a
-  /// <code>PERSISTENT_2</code> Lustre deployment type, the
-  /// <code>CreateFileSystem</code> operation fails.
-  /// </note>
+  /// Default value is <code>2.10</code>, except for the following deployments:
+  ///
+  /// <ul>
+  /// <li>
+  /// Default value is <code>2.12</code> when <code>DeploymentType</code> is set
+  /// to <code>PERSISTENT_2</code> without a metadata configuration mode.
+  /// </li>
+  /// <li>
+  /// Default value is <code>2.15</code> when <code>DeploymentType</code> is set
+  /// to <code>PERSISTENT_2</code> with a metadata configuration mode.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [openZFSConfiguration] :
   /// The OpenZFS configuration for the file system that's being created.
@@ -1478,8 +1486,9 @@ class FSx {
   /// </li>
   /// <li>
   /// <code>MIXED</code> This is an advanced setting. For more information, see
-  /// <a href="fsx/latest/ONTAPGuide/volume-security-style.html">Volume security
-  /// style</a> in the Amazon FSx for NetApp ONTAP User Guide.
+  /// <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html">Volume
+  /// security style</a> in the Amazon FSx for NetApp ONTAP User Guide.
   /// </li>
   /// </ul> <p/>
   ///
@@ -1780,7 +1789,7 @@ class FSx {
   /// To delete an Amazon FSx for NetApp ONTAP file system, first delete all the
   /// volumes and storage virtual machines (SVMs) on the file system. Then
   /// provide a <code>FileSystemId</code> value to the
-  /// <code>DeleFileSystem</code> operation.
+  /// <code>DeleteFileSystem</code> operation.
   ///
   /// By default, when you delete an Amazon FSx for Windows File Server file
   /// system, a final backup is created upon deletion. This final backup isn't
@@ -1790,7 +1799,7 @@ class FSx {
   /// To delete an Amazon FSx for Lustre file system, first <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/unmounting-fs.html">unmount</a>
   /// it from every connected Amazon EC2 instance, then provide a
-  /// <code>FileSystemId</code> value to the <code>DeleFileSystem</code>
+  /// <code>FileSystemId</code> value to the <code>DeleteFileSystem</code>
   /// operation. By default, Amazon FSx will not take a final backup when the
   /// <code>DeleteFileSystem</code> operation is invoked. On file systems not
   /// linked to an Amazon S3 bucket, set <code>SkipFinalBackup</code> to
@@ -3137,6 +3146,9 @@ class FSx {
   /// <code>LustreRootSquashConfiguration</code>
   /// </li>
   /// <li>
+  /// <code>MetadataConfiguration</code>
+  /// </li>
+  /// <li>
   /// <code>PerUnitStorageThroughput</code>
   /// </li>
   /// <li>
@@ -3582,9 +3594,9 @@ class AdministrativeAction {
   final AdministrativeActionType? administrativeActionType;
   final AdministrativeActionFailureDetails? failureDetails;
 
-  /// The percentage-complete status of a <code>STORAGE_OPTIMIZATION</code>
-  /// administrative action. Does not apply to any other administrative action
-  /// type.
+  /// The percentage-complete status of a <code>STORAGE_OPTIMIZATION</code> or
+  /// <code>DOWNLOAD_DATA_FROM_BACKUP</code> administrative action. Does not apply
+  /// to any other administrative action type.
   final int? progressPercent;
 
   /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're
@@ -3612,11 +3624,27 @@ class AdministrativeAction {
   /// <li>
   /// <code>COMPLETED</code> - Amazon FSx has finished processing the
   /// administrative task.
+  ///
+  /// For a backup restore to a second-generation FSx for ONTAP file system,
+  /// indicates that all data has been downloaded to the volume, and clients now
+  /// have read-write access to volume.
   /// </li>
   /// <li>
   /// <code>UPDATED_OPTIMIZING</code> - For a storage-capacity increase update,
   /// Amazon FSx has updated the file system with the new storage capacity, and is
   /// now performing the storage-optimization process.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> - For a backup restore to a second-generation FSx for
+  /// ONTAP file system, indicates that the file metadata is being downloaded onto
+  /// the volume. The volume's Lifecycle state is CREATING.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - For a backup restore to a second-generation FSx
+  /// for ONTAP file system, indicates that all metadata has been downloaded to
+  /// the new volume and client can access data with read-only access while Amazon
+  /// FSx downloads the file data to the volume. Track the progress of this
+  /// process with the <code>ProgressPercent</code> element.
   /// </li>
   /// </ul>
   final Status? status;
@@ -3752,8 +3780,8 @@ class AdministrativeActionFailureDetails {
 /// <li>
 /// <code>STORAGE_OPTIMIZATION</code> - After the
 /// <code>FILE_SYSTEM_UPDATE</code> task to increase a file system's storage
-/// capacity has been completed successfully, a
-/// <code>STORAGE_OPTIMIZATION</code> task starts.
+/// capacity has completed successfully, a <code>STORAGE_OPTIMIZATION</code>
+/// task starts.
 ///
 /// <ul>
 /// <li>
@@ -3838,6 +3866,12 @@ class AdministrativeActionFailureDetails {
 /// System (NFS) V3 locks on an Amazon FSx for OpenZFS file system.
 /// </li>
 /// <li>
+/// <code>DOWNLOAD_DATA_FROM_BACKUP</code> - An FSx for ONTAP backup is being
+/// restored to a new volume on a second-generation file system. Once the all
+/// the file metadata is loaded onto the volume, you can mount the volume with
+/// read-only access. during this process.
+/// </li>
+/// <li>
 /// <code>VOLUME_INITIALIZE_WITH_SNAPSHOT</code> - A volume is being created
 /// from a snapshot on a different FSx for OpenZFS file system. You can initiate
 /// this from the Amazon FSx console, API (<code>CreateVolume</code>), or CLI
@@ -3866,6 +3900,7 @@ enum AdministrativeActionType {
   misconfiguredStateRecovery('MISCONFIGURED_STATE_RECOVERY'),
   volumeUpdateWithSnapshot('VOLUME_UPDATE_WITH_SNAPSHOT'),
   volumeInitializeWithSnapshot('VOLUME_INITIALIZE_WITH_SNAPSHOT'),
+  downloadDataFromBackup('DOWNLOAD_DATA_FROM_BACKUP'),
   ;
 
   final String value;
@@ -3893,7 +3928,7 @@ class AggregateConfiguration {
   /// <ul>
   /// <li>
   /// The strings in the value of <code>Aggregates</code> are not are not
-  /// formatted as <code>aggrX</code>, where X is a number between 1 and 6.
+  /// formatted as <code>aggrX</code>, where X is a number between 1 and 12.
   /// </li>
   /// <li>
   /// The value of <code>Aggregates</code> contains aggregates that are not
@@ -5015,7 +5050,9 @@ class CreateFileSystemLustreConfiguration {
   /// Choose <code>PERSISTENT_2</code> for longer-term storage and for
   /// latency-sensitive workloads that require the highest levels of
   /// IOPS/throughput. <code>PERSISTENT_2</code> supports SSD storage, and offers
-  /// higher <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB).
+  /// higher <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB). You can
+  /// optionally specify a metadata configuration mode for
+  /// <code>PERSISTENT_2</code> which supports increasing metadata performance.
   /// <code>PERSISTENT_2</code> is available in a limited number of Amazon Web
   /// Services Regions. For more information, and an up-to-date list of Amazon Web
   /// Services Regions in which <code>PERSISTENT_2</code> is available, see <a
@@ -5028,7 +5065,7 @@ class CreateFileSystemLustreConfiguration {
   /// <code>CreateFileSystem</code> operation fails.
   /// </note>
   /// Encryption of data in transit is automatically turned on when you access
-  /// <code>SCRATCH_2</code>, <code>PERSISTENT_1</code> and
+  /// <code>SCRATCH_2</code>, <code>PERSISTENT_1</code>, and
   /// <code>PERSISTENT_2</code> file systems from Amazon EC2 instances that
   /// support automatic encryption in the Amazon Web Services Regions where they
   /// are available. For more information about encryption in transit for FSx for
@@ -5106,6 +5143,10 @@ class CreateFileSystemLustreConfiguration {
   /// Logs.
   final LustreLogCreateConfiguration? logConfiguration;
 
+  /// The Lustre metadata performance configuration for the creation of an FSx for
+  /// Lustre file system using a <code>PERSISTENT_2</code> deployment type.
+  final CreateFileSystemLustreMetadataConfiguration? metadataConfiguration;
+
   /// Required with <code>PERSISTENT_1</code> and <code>PERSISTENT_2</code>
   /// deployment types, provisions the amount of read and write throughput for
   /// each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File
@@ -5152,6 +5193,7 @@ class CreateFileSystemLustreConfiguration {
     this.importPath,
     this.importedFileChunkSize,
     this.logConfiguration,
+    this.metadataConfiguration,
     this.perUnitStorageThroughput,
     this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
@@ -5169,6 +5211,7 @@ class CreateFileSystemLustreConfiguration {
     final importPath = this.importPath;
     final importedFileChunkSize = this.importedFileChunkSize;
     final logConfiguration = this.logConfiguration;
+    final metadataConfiguration = this.metadataConfiguration;
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
     final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
@@ -5188,12 +5231,69 @@ class CreateFileSystemLustreConfiguration {
       if (importedFileChunkSize != null)
         'ImportedFileChunkSize': importedFileChunkSize,
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
+      if (metadataConfiguration != null)
+        'MetadataConfiguration': metadataConfiguration,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
       if (rootSquashConfiguration != null)
         'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
+}
+
+/// The Lustre metadata performance configuration for the creation of an Amazon
+/// FSx for Lustre file system using a <code>PERSISTENT_2</code> deployment
+/// type. The configuration uses a Metadata IOPS value to set the maximum rate
+/// of metadata disk IOPS supported by the file system.
+///
+/// After creation, the file system supports increasing metadata performance.
+/// For more information on Metadata IOPS, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html#metadata-configuration">Lustre
+/// metadata performance configuration</a> in the <i>Amazon FSx for Lustre User
+/// Guide</i>.
+class CreateFileSystemLustreMetadataConfiguration {
+  /// The metadata configuration mode for provisioning Metadata IOPS for an FSx
+  /// for Lustre file system using a <code>PERSISTENT_2</code> deployment type.
+  ///
+  /// <ul>
+  /// <li>
+  /// In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the
+  /// number of Metadata IOPS for your file system based on your file system
+  /// storage capacity.
+  /// </li>
+  /// <li>
+  /// In USER_PROVISIONED mode, you specify the number of Metadata IOPS to
+  /// provision for your file system.
+  /// </li>
+  /// </ul>
+  final MetadataConfigurationMode mode;
+
+  /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to
+  /// provision for the file system. This parameter sets the maximum rate of
+  /// metadata disk IOPS supported by the file system. Valid values are
+  /// <code>1500</code>, <code>3000</code>, <code>6000</code>, <code>12000</code>,
+  /// and multiples of <code>12000</code> up to a maximum of <code>192000</code>.
+  /// <note>
+  /// Iops doesn’t have a default value. If you're using USER_PROVISIONED mode,
+  /// you can choose to specify a valid value. If you're using AUTOMATIC mode, you
+  /// cannot specify a value because FSx for Lustre automatically sets the value
+  /// based on your file system storage capacity.
+  /// </note>
+  final int? iops;
+
+  CreateFileSystemLustreMetadataConfiguration({
+    required this.mode,
+    this.iops,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final iops = this.iops;
+    return {
+      'Mode': mode.value,
+      if (iops != null) 'Iops': iops,
     };
   }
 }
@@ -5206,17 +5306,23 @@ class CreateFileSystemOntapConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>MULTI_AZ_1</code> - (Default) A high availability file system
-  /// configured for Multi-AZ redundancy to tolerate temporary Availability Zone
-  /// (AZ) unavailability.
+  /// <code>MULTI_AZ_1</code> - A high availability file system configured for
+  /// Multi-AZ redundancy to tolerate temporary Availability Zone (AZ)
+  /// unavailability. This is a first-generation FSx for ONTAP file system.
+  /// </li>
+  /// <li>
+  /// <code>MULTI_AZ_2</code> - A high availability file system configured for
+  /// Multi-AZ redundancy to tolerate temporary AZ unavailability. This is a
+  /// second-generation FSx for ONTAP file system.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
-  /// redundancy.
+  /// redundancy. This is a first-generation FSx for ONTAP file system.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_2</code> - A file system configured with multiple
-  /// high-availability (HA) pairs for Single-AZ redundancy.
+  /// high-availability (HA) pairs for Single-AZ redundancy. This is a
+  /// second-generation FSx for ONTAP file system.
   /// </li>
   /// </ul>
   /// For information about the use cases for Multi-AZ and Single-AZ deployments,
@@ -5246,13 +5352,18 @@ class CreateFileSystemOntapConfiguration {
   final String? fsxAdminPassword;
 
   /// Specifies how many high-availability (HA) pairs of file servers will power
-  /// your file system. Scale-up file systems are powered by 1 HA pair. The
-  /// default value is 1. FSx for ONTAP scale-out file systems are powered by up
-  /// to 12 HA pairs. The value of this property affects the values of
+  /// your file system. First-generation file systems are powered by 1 HA pair.
+  /// Second-generation multi-AZ file systems are powered by 1 HA pair. Second
+  /// generation single-AZ file systems are powered by up to 12 HA pairs. The
+  /// default value is 1. The value of this property affects the values of
   /// <code>StorageCapacity</code>, <code>Iops</code>, and
   /// <code>ThroughputCapacity</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html">High-availability
-  /// (HA) pairs</a> in the FSx for ONTAP user guide.
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs">High-availability
+  /// (HA) pairs</a> in the FSx for ONTAP user guide. Block storage protocol
+  /// support (iSCSI and NVMe over TCP) is disabled on file systems with more than
+  /// 6 HA pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage">Using
+  /// block storage protocols</a>.
   ///
   /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
   /// following conditions:
@@ -5263,15 +5374,15 @@ class CreateFileSystemOntapConfiguration {
   /// </li>
   /// <li>
   /// The value of <code>HAPairs</code> is greater than 1 and the value of
-  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code> or
-  /// <code>MULTI_AZ_1</code>.
+  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code>,
+  /// <code>MULTI_AZ_1</code>, or <code>MULTI_AZ_2</code>.
   /// </li>
   /// </ul>
   final int? hAPairs;
 
-  /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
-  /// This specifies the subnet in which you want the preferred file server to be
-  /// located.
+  /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>
+  /// or <code>MULTI_AZ_2</code>. This specifies the subnet in which you want the
+  /// preferred file server to be located.
   final String? preferredSubnetId;
 
   /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the
@@ -5315,8 +5426,8 @@ class CreateFileSystemOntapConfiguration {
   /// You can define either the <code>ThroughputCapacityPerHAPair</code> or the
   /// <code>ThroughputCapacity</code> when creating a file system, but not both.
   ///
-  /// This field and <code>ThroughputCapacity</code> are the same for scale-up
-  /// file systems powered by one HA pair.
+  /// This field and <code>ThroughputCapacity</code> are the same for file systems
+  /// powered by one HA pair.
   ///
   /// <ul>
   /// <li>
@@ -5324,7 +5435,10 @@ class CreateFileSystemOntapConfiguration {
   /// values are 128, 256, 512, 1024, 2048, or 4096 MBps.
   /// </li>
   /// <li>
-  /// For <code>SINGLE_AZ_2</code> file systems, valid values are 3072 or 6144
+  /// For <code>SINGLE_AZ_2</code>, valid values are 1536, 3072, or 6144 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>MULTI_AZ_2</code>, valid values are 384, 768, 1536, 3072, or 6144
   /// MBps.
   /// </li>
   /// </ul>
@@ -5340,7 +5454,7 @@ class CreateFileSystemOntapConfiguration {
   /// <li>
   /// The value of deployment type is <code>SINGLE_AZ_2</code> and
   /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
-  /// is a valid HA pair (a value between 2 and 12).
+  /// is not a valid HA pair (a value between 1 and 12).
   /// </li>
   /// <li>
   /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
@@ -5403,35 +5517,40 @@ class CreateFileSystemOntapConfiguration {
 /// The Amazon FSx for OpenZFS configuration properties for the file system that
 /// you are creating.
 class CreateFileSystemOpenZFSConfiguration {
-  /// Specifies the file system deployment type. Single AZ deployment types are
-  /// configured for redundancy within a single Availability Zone in an Amazon Web
-  /// Services Region . Valid values are the following:
+  /// Specifies the file system deployment type. Valid values are the following:
   ///
   /// <ul>
   /// <li>
-  /// <code>MULTI_AZ_1</code>- Creates file systems with high availability that
-  /// are configured for Multi-AZ redundancy to tolerate temporary unavailability
-  /// in Availability Zones (AZs). <code>Multi_AZ_1</code> is available only in
-  /// the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific
-  /// (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services
-  /// Regions.
+  /// <code>MULTI_AZ_1</code>- Creates file systems with high availability and
+  /// durability by replicating your data and supporting failover across multiple
+  /// Availability Zones in the same Amazon Web Services Region.
   /// </li>
   /// <li>
-  /// <code>SINGLE_AZ_1</code>- Creates file systems with throughput capacities of
-  /// 64 - 4,096 MB/s. <code>Single_AZ_1</code> is available in all Amazon Web
-  /// Services Regions where Amazon FSx for OpenZFS is available.
+  /// <code>SINGLE_AZ_HA_2</code>- Creates file systems with high availability and
+  /// throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache by
+  /// deploying a primary and standby file system within the same Availability
+  /// Zone.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_HA_1</code>- Creates file systems with high availability and
+  /// throughput capacities of 64 - 4,096 MB/s by deploying a primary and standby
+  /// file system within the same Availability Zone.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_2</code>- Creates file systems with throughput capacities of
-  /// 160 - 10,240 MB/s using an NVMe L2ARC cache. <code>Single_AZ_2</code> is
-  /// available only in the US East (N. Virginia), US East (Ohio), US West
-  /// (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe
-  /// (Ireland) Amazon Web Services Regions.
+  /// 160 - 10,240 MB/s using an NVMe L2ARC cache that automatically recover
+  /// within a single Availability Zone.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_1</code>- Creates file systems with throughput capacities of
+  /// 64 - 4,096 MBs that automatically recover within a single Availability Zone.
   /// </li>
   /// </ul>
-  /// For more information, see <a
+  /// For a list of which Amazon Web Services Regions each deployment type is
+  /// available in, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions">Deployment
-  /// type availability</a> and <a
+  /// type availability</a>. For more information on the differences in
+  /// performance between deployment types, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance">File
   /// system performance</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
   final OpenZFSDeploymentType deploymentType;
@@ -5787,17 +5906,14 @@ class CreateOntapVolumeConfiguration {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types">Volume
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-types">Volume
   /// types</a> in the Amazon FSx for NetApp ONTAP User Guide.
   final InputOntapVolumeType? ontapVolumeType;
 
   /// Specifies the security style for the volume. If a volume's security style is
   /// not specified, it is automatically set to the root volume's security style.
   /// The security style determines the type of permissions that FSx for ONTAP
-  /// uses to control data access. For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style">Volume
-  /// security style</a> in the <i>Amazon FSx for NetApp ONTAP User Guide</i>.
-  /// Specify one of the following values:
+  /// uses to control data access. Specify one of the following values:
   ///
   /// <ul>
   /// <li>
@@ -5819,7 +5935,7 @@ class CreateOntapVolumeConfiguration {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html">Volume
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-security-style">Volume
   /// security style</a> in the FSx for ONTAP User Guide.
   final SecurityStyle? securityStyle;
 
@@ -5873,7 +5989,7 @@ class CreateOntapVolumeConfiguration {
   /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles
   /// of volumes that you can use for different purposes, FlexVol and FlexGroup
   /// volumes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-styles.html">Volume
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-styles">Volume
   /// styles</a> in the Amazon FSx for NetApp ONTAP User Guide.
   final VolumeStyle? volumeStyle;
 
@@ -8465,7 +8581,8 @@ class FileCacheCreating {
   /// cache.
   final List<String>? dataRepositoryAssociationIds;
 
-  /// A structure providing details of any failures that occurred.
+  /// A structure providing details of any failures that occurred in creating a
+  /// cache.
   final FileCacheFailureDetails? failureDetails;
 
   /// The system-generated, unique ID of the cache.
@@ -8656,7 +8773,7 @@ class FileCacheDataRepositoryAssociation {
   /// <li>
   /// If you are not using the <code>DataRepositorySubdirectories</code>
   /// parameter, the path is to an NFS Export directory (or one of its
-  /// subdirectories) in the format <code>nsf://nfs-domain-name/exportpath</code>.
+  /// subdirectories) in the format <code>nfs://nfs-domain-name/exportpath</code>.
   /// You can therefore link a single NFS Export to a single data repository
   /// association.
   /// </li>
@@ -9330,6 +9447,56 @@ enum FileSystemLifecycle {
           throw Exception('$value is not known in enum FileSystemLifecycle'));
 }
 
+/// The Lustre metadata performance configuration of an Amazon FSx for Lustre
+/// file system using a <code>PERSISTENT_2</code> deployment type. The
+/// configuration enables the file system to support increasing metadata
+/// performance.
+class FileSystemLustreMetadataConfiguration {
+  /// The metadata configuration mode for provisioning Metadata IOPS for the file
+  /// system.
+  ///
+  /// <ul>
+  /// <li>
+  /// In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the
+  /// number of Metadata IOPS on your file system based on your file system
+  /// storage capacity.
+  /// </li>
+  /// <li>
+  /// In USER_PROVISIONED mode, you can choose to specify the number of Metadata
+  /// IOPS to provision for your file system.
+  /// </li>
+  /// </ul>
+  final MetadataConfigurationMode mode;
+
+  /// The number of Metadata IOPS provisioned for the file system. Valid values
+  /// are <code>1500</code>, <code>3000</code>, <code>6000</code>,
+  /// <code>12000</code>, and multiples of <code>12000</code> up to a maximum of
+  /// <code>192000</code>.
+  final int? iops;
+
+  FileSystemLustreMetadataConfiguration({
+    required this.mode,
+    this.iops,
+  });
+
+  factory FileSystemLustreMetadataConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return FileSystemLustreMetadataConfiguration(
+      mode: MetadataConfigurationMode.fromString((json['Mode'] as String)),
+      iops: json['Iops'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final iops = this.iops;
+    return {
+      'Mode': mode.value,
+      if (iops != null) 'Iops': iops,
+    };
+  }
+}
+
 /// An enumeration specifying the currently ongoing maintenance operation.
 enum FileSystemMaintenanceOperation {
   patching('PATCHING'),
@@ -9599,6 +9766,10 @@ class LustreFileSystemConfiguration {
   /// events for your file system to Amazon CloudWatch Logs.
   final LustreLogConfiguration? logConfiguration;
 
+  /// The Lustre metadata performance configuration for an Amazon FSx for Lustre
+  /// file system using a <code>PERSISTENT_2</code> deployment type.
+  final FileSystemLustreMetadataConfiguration? metadataConfiguration;
+
   /// You use the <code>MountName</code> value when mounting the file system.
   ///
   /// For the <code>SCRATCH_1</code> deployment type, this value is always
@@ -9647,6 +9818,7 @@ class LustreFileSystemConfiguration {
     this.deploymentType,
     this.driveCacheType,
     this.logConfiguration,
+    this.metadataConfiguration,
     this.mountName,
     this.perUnitStorageThroughput,
     this.rootSquashConfiguration,
@@ -9674,6 +9846,10 @@ class LustreFileSystemConfiguration {
           ? LustreLogConfiguration.fromJson(
               json['LogConfiguration'] as Map<String, dynamic>)
           : null,
+      metadataConfiguration: json['MetadataConfiguration'] != null
+          ? FileSystemLustreMetadataConfiguration.fromJson(
+              json['MetadataConfiguration'] as Map<String, dynamic>)
+          : null,
       mountName: json['MountName'] as String?,
       perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int?,
       rootSquashConfiguration: json['RootSquashConfiguration'] != null
@@ -9693,6 +9869,7 @@ class LustreFileSystemConfiguration {
     final deploymentType = this.deploymentType;
     final driveCacheType = this.driveCacheType;
     final logConfiguration = this.logConfiguration;
+    final metadataConfiguration = this.metadataConfiguration;
     final mountName = this.mountName;
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
     final rootSquashConfiguration = this.rootSquashConfiguration;
@@ -9710,6 +9887,8 @@ class LustreFileSystemConfiguration {
       if (deploymentType != null) 'DeploymentType': deploymentType.value,
       if (driveCacheType != null) 'DriveCacheType': driveCacheType.value,
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
+      if (metadataConfiguration != null)
+        'MetadataConfiguration': metadataConfiguration,
       if (mountName != null) 'MountName': mountName,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
@@ -9920,6 +10099,21 @@ class LustreRootSquashConfiguration {
   }
 }
 
+enum MetadataConfigurationMode {
+  automatic('AUTOMATIC'),
+  userProvisioned('USER_PROVISIONED'),
+  ;
+
+  final String value;
+
+  const MetadataConfigurationMode(this.value);
+
+  static MetadataConfigurationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum MetadataConfigurationMode'));
+}
+
 /// The configuration for a data repository association that links an Amazon
 /// File Cache resource to an NFS data repository.
 class NFSDataRepositoryConfiguration {
@@ -9984,6 +10178,7 @@ enum OntapDeploymentType {
   multiAz_1('MULTI_AZ_1'),
   singleAz_1('SINGLE_AZ_1'),
   singleAz_2('SINGLE_AZ_2'),
+  multiAz_2('MULTI_AZ_2'),
   ;
 
   final String value;
@@ -10006,17 +10201,23 @@ class OntapFileSystemConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>MULTI_AZ_1</code> - (Default) A high availability file system
-  /// configured for Multi-AZ redundancy to tolerate temporary Availability Zone
-  /// (AZ) unavailability.
+  /// <code>MULTI_AZ_1</code> - A high availability file system configured for
+  /// Multi-AZ redundancy to tolerate temporary Availability Zone (AZ)
+  /// unavailability. This is a first-generation FSx for ONTAP file system.
+  /// </li>
+  /// <li>
+  /// <code>MULTI_AZ_2</code> - A high availability file system configured for
+  /// Multi-AZ redundancy to tolerate temporary AZ unavailability. This is a
+  /// second-generation FSx for ONTAP file system.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
-  /// redundancy.
+  /// redundancy. This is a first-generation FSx for ONTAP file system.
   /// </li>
   /// <li>
   /// <code>SINGLE_AZ_2</code> - A file system configured with multiple
-  /// high-availability (HA) pairs for Single-AZ redundancy.
+  /// high-availability (HA) pairs for Single-AZ redundancy. This is a
+  /// second-generation FSx for ONTAP file system.
   /// </li>
   /// </ul>
   /// For information about the use cases for Multi-AZ and Single-AZ deployments,
@@ -10064,8 +10265,8 @@ class OntapFileSystemConfiguration {
   /// </li>
   /// <li>
   /// The value of <code>HAPairs</code> is greater than 1 and the value of
-  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code> or
-  /// <code>MULTI_AZ_1</code>.
+  /// <code>DeploymentType</code> is <code>SINGLE_AZ_1</code>,
+  /// <code>MULTI_AZ_1</code>, or <code>MULTI_AZ_2</code>.
   /// </li>
   /// </ul>
   final int? hAPairs;
@@ -10089,11 +10290,15 @@ class OntapFileSystemConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code>, valid values are
-  /// 128, 256, 512, 1024, 2048, or 4096 MBps.
+  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code> file systems, valid
+  /// values are 128, 256, 512, 1024, 2048, or 4096 MBps.
   /// </li>
   /// <li>
-  /// For <code>SINGLE_AZ_2</code>, valid values are 3072 or 6144 MBps.
+  /// For <code>SINGLE_AZ_2</code>, valid values are 1536, 3072, or 6144 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>MULTI_AZ_2</code>, valid values are 384, 768, 1536, 3072, or 6144
+  /// MBps.
   /// </li>
   /// </ul>
   /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
@@ -10107,7 +10312,7 @@ class OntapFileSystemConfiguration {
   /// <li>
   /// The value of deployment type is <code>SINGLE_AZ_2</code> and
   /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
-  /// is a valid HA pair (a value between 2 and 12).
+  /// is not a valid HA pair (a value between 1 and 12).
   /// </li>
   /// <li>
   /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
@@ -10614,6 +10819,8 @@ enum OpenZFSDataCompressionType {
 enum OpenZFSDeploymentType {
   singleAz_1('SINGLE_AZ_1'),
   singleAz_2('SINGLE_AZ_2'),
+  singleAzHa_1('SINGLE_AZ_HA_1'),
+  singleAzHa_2('SINGLE_AZ_HA_2'),
   multiAz_1('MULTI_AZ_1'),
   ;
 
@@ -10651,8 +10858,9 @@ class OpenZFSFileSystemConfiguration {
   final String? dailyAutomaticBackupStartTime;
 
   /// Specifies the file-system deployment type. Amazon FSx for OpenZFS
-  /// supports&#x2028; <code>MULTI_AZ_1</code>, <code>SINGLE_AZ_1</code>, and
-  /// <code>SINGLE_AZ_2</code>.
+  /// supports&#x2028; <code>MULTI_AZ_1</code>, <code>SINGLE_AZ_HA_2</code>,
+  /// <code>SINGLE_AZ_HA_1</code>, <code>SINGLE_AZ_2</code>, and
+  /// <code>SINGLE_AZ_1</code>.
   final OpenZFSDeploymentType? deploymentType;
   final DiskIopsConfiguration? diskIopsConfiguration;
 
@@ -11607,33 +11815,34 @@ class SelfManagedActiveDirectoryConfiguration {
 }
 
 /// Specifies changes you are making to the self-managed Microsoft Active
-/// Directory (AD) configuration to which an FSx for Windows File Server file
-/// system or an FSx for ONTAP SVM is joined.
+/// Directory configuration to which an FSx for Windows File Server file system
+/// or an FSx for ONTAP SVM is joined.
 class SelfManagedActiveDirectoryConfigurationUpdates {
   /// A list of up to three DNS server or domain controller IP addresses in your
-  /// self-managed AD domain.
+  /// self-managed Active Directory domain.
   final List<String>? dnsIps;
 
-  /// Specifies an updated fully qualified domain name of your self-managed AD
-  /// configuration.
+  /// Specifies an updated fully qualified domain name of your self-managed Active
+  /// Directory configuration.
   final String? domainName;
 
-  /// Specifies the updated name of the self-managed AD domain group whose members
-  /// are granted administrative privileges for the Amazon FSx resource.
+  /// For FSx for ONTAP file systems only - Specifies the updated name of the
+  /// self-managed Active Directory domain group whose members are granted
+  /// administrative privileges for the Amazon FSx resource.
   final String? fileSystemAdministratorsGroup;
 
   /// Specifies an updated fully qualified distinguished name of the organization
-  /// unit within your self-managed AD.
+  /// unit within your self-managed Active Directory.
   final String? organizationalUnitDistinguishedName;
 
   /// Specifies the updated password for the service account on your self-managed
-  /// AD domain. Amazon FSx uses this account to join to your self-managed AD
-  /// domain.
+  /// Active Directory domain. Amazon FSx uses this account to join to your
+  /// self-managed Active Directory domain.
   final String? password;
 
   /// Specifies the updated user name for the service account on your self-managed
-  /// AD domain. Amazon FSx uses this account to join to your self-managed AD
-  /// domain.
+  /// Active Directory domain. Amazon FSx uses this account to join to your
+  /// self-managed Active Directory domain.
   ///
   /// This account must have the permissions required to join computers to the
   /// domain in the organizational unit provided in
@@ -12040,6 +12249,7 @@ enum Status {
   pending('PENDING'),
   completed('COMPLETED'),
   updatedOptimizing('UPDATED_OPTIMIZING'),
+  optimizing('OPTIMIZING'),
   ;
 
   final String value;
@@ -12745,6 +12955,12 @@ class UpdateFileSystemLustreConfiguration {
   /// Logs.
   final LustreLogCreateConfiguration? logConfiguration;
 
+  /// The Lustre metadata performance configuration for an Amazon FSx for Lustre
+  /// file system using a <code>PERSISTENT_2</code> deployment type. When this
+  /// configuration is enabled, the file system supports increasing metadata
+  /// performance.
+  final UpdateFileSystemLustreMetadataConfiguration? metadataConfiguration;
+
   /// The throughput of an Amazon FSx for Lustre Persistent SSD-based file system,
   /// measured in megabytes per second per tebibyte (MB/s/TiB). You can increase
   /// or decrease your file system's throughput. Valid values depend on the
@@ -12781,6 +12997,7 @@ class UpdateFileSystemLustreConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.dataCompressionType,
     this.logConfiguration,
+    this.metadataConfiguration,
     this.perUnitStorageThroughput,
     this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
@@ -12792,6 +13009,7 @@ class UpdateFileSystemLustreConfiguration {
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final dataCompressionType = this.dataCompressionType;
     final logConfiguration = this.logConfiguration;
+    final metadataConfiguration = this.metadataConfiguration;
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
     final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
@@ -12804,12 +13022,68 @@ class UpdateFileSystemLustreConfiguration {
       if (dataCompressionType != null)
         'DataCompressionType': dataCompressionType.value,
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
+      if (metadataConfiguration != null)
+        'MetadataConfiguration': metadataConfiguration,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
       if (rootSquashConfiguration != null)
         'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
+}
+
+/// The Lustre metadata performance configuration update for an Amazon FSx for
+/// Lustre file system using a <code>PERSISTENT_2</code> deployment type. You
+/// can request an increase in your file system's Metadata IOPS and/or switch
+/// your file system's metadata configuration mode. For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html">Managing
+/// metadata performance</a> in the <i>Amazon FSx for Lustre User Guide</i>.
+class UpdateFileSystemLustreMetadataConfiguration {
+  /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to
+  /// provision for your file system. Valid values are <code>1500</code>,
+  /// <code>3000</code>, <code>6000</code>, <code>12000</code>, and multiples of
+  /// <code>12000</code> up to a maximum of <code>192000</code>.
+  ///
+  /// The value you provide must be greater than or equal to the current number of
+  /// Metadata IOPS provisioned for the file system.
+  final int? iops;
+
+  /// The metadata configuration mode for provisioning Metadata IOPS for an FSx
+  /// for Lustre file system using a <code>PERSISTENT_2</code> deployment type.
+  ///
+  /// <ul>
+  /// <li>
+  /// To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify
+  /// <code>USER_PROVISIONED</code> as the value for this parameter. Then use the
+  /// Iops parameter to provide a Metadata IOPS value that is greater than or
+  /// equal to the current number of Metadata IOPS provisioned for the file
+  /// system.
+  /// </li>
+  /// <li>
+  /// To switch from USER_PROVISIONED mode, specify <code>AUTOMATIC</code> as the
+  /// value for this parameter, but do not input a value for Iops.
+  /// <note>
+  /// If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the
+  /// current Metadata IOPS value is greater than the automated default, FSx for
+  /// Lustre rejects the request because downscaling Metadata IOPS is not
+  /// supported.
+  /// </note> </li>
+  /// </ul>
+  final MetadataConfigurationMode? mode;
+
+  UpdateFileSystemLustreMetadataConfiguration({
+    this.iops,
+    this.mode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final iops = this.iops;
+    final mode = this.mode;
+    return {
+      if (iops != null) 'Iops': iops,
+      if (mode != null) 'Mode': mode.value,
     };
   }
 }
@@ -12840,6 +13114,19 @@ class UpdateFileSystemOntapConfiguration {
   /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html">Managing
   /// resources using NetApp Applicaton</a>.
   final String? fsxAdminPassword;
+
+  /// Use to update the number of high-availability (HA) pairs for a
+  /// second-generation single-AZ file system. If you increase the number of HA
+  /// pairs for your file system, you must specify proportional increases for
+  /// <code>StorageCapacity</code>, <code>Iops</code>, and
+  /// <code>ThroughputCapacity</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs">High-availability
+  /// (HA) pairs</a> in the FSx for ONTAP user guide. Block storage protocol
+  /// support (iSCSI and NVMe over TCP) is disabled on file systems with more than
+  /// 6 HA pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage">Using
+  /// block storage protocols</a>.
+  final int? hAPairs;
 
   /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route
   /// tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file
@@ -12879,11 +13166,15 @@ class UpdateFileSystemOntapConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code>, valid values are
-  /// 128, 256, 512, 1024, 2048, or 4096 MBps.
+  /// For <code>SINGLE_AZ_1</code> and <code>MULTI_AZ_1</code> file systems, valid
+  /// values are 128, 256, 512, 1024, 2048, or 4096 MBps.
   /// </li>
   /// <li>
-  /// For <code>SINGLE_AZ_2</code>, valid values are 3072 or 6144 MBps.
+  /// For <code>SINGLE_AZ_2</code>, valid values are 1536, 3072, or 6144 MBps.
+  /// </li>
+  /// <li>
+  /// For <code>MULTI_AZ_2</code>, valid values are 384, 768, 1536, 3072, or 6144
+  /// MBps.
   /// </li>
   /// </ul>
   /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the
@@ -12898,7 +13189,7 @@ class UpdateFileSystemOntapConfiguration {
   /// <li>
   /// The value of deployment type is <code>SINGLE_AZ_2</code> and
   /// <code>ThroughputCapacity</code> / <code>ThroughputCapacityPerHAPair</code>
-  /// is a valid HA pair (a value between 2 and 12).
+  /// is not a valid HA pair (a value between 1 and 12).
   /// </li>
   /// <li>
   /// The value of <code>ThroughputCapacityPerHAPair</code> is not a valid value.
@@ -12913,6 +13204,7 @@ class UpdateFileSystemOntapConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.diskIopsConfiguration,
     this.fsxAdminPassword,
+    this.hAPairs,
     this.removeRouteTableIds,
     this.throughputCapacity,
     this.throughputCapacityPerHAPair,
@@ -12925,6 +13217,7 @@ class UpdateFileSystemOntapConfiguration {
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final diskIopsConfiguration = this.diskIopsConfiguration;
     final fsxAdminPassword = this.fsxAdminPassword;
+    final hAPairs = this.hAPairs;
     final removeRouteTableIds = this.removeRouteTableIds;
     final throughputCapacity = this.throughputCapacity;
     final throughputCapacityPerHAPair = this.throughputCapacityPerHAPair;
@@ -12938,6 +13231,7 @@ class UpdateFileSystemOntapConfiguration {
       if (diskIopsConfiguration != null)
         'DiskIopsConfiguration': diskIopsConfiguration,
       if (fsxAdminPassword != null) 'FsxAdminPassword': fsxAdminPassword,
+      if (hAPairs != null) 'HAPairs': hAPairs,
       if (removeRouteTableIds != null)
         'RemoveRouteTableIds': removeRouteTableIds,
       if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,

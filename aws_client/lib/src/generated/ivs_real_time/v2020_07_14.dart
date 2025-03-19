@@ -20,53 +20,46 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <b>Introduction</b>
-///
 /// The Amazon Interactive Video Service (IVS) real-time API is REST compatible,
 /// using a standard HTTP API and an AWS EventBridge event stream for responses.
 /// JSON is used for both requests and responses, including errors.
 ///
-/// Terminology:
+/// <b>Key Concepts</b>
 ///
 /// <ul>
 /// <li>
-/// A <i>stage</i> is a virtual space where participants can exchange video in
-/// real time.
+/// <b>Stage</b> — A virtual space where participants can exchange video in real
+/// time.
 /// </li>
 /// <li>
-/// A <i>participant token</i> is a token that authenticates a participant when
+/// <b>Participant token</b> — A token that authenticates a participant when
 /// they join a stage.
 /// </li>
 /// <li>
-/// A <i>participant object</i> represents participants (people) in the stage
+/// <b>Participant object</b> — Represents participants (people) in the stage
 /// and contains information about them. When a token is created, it includes a
 /// participant ID; when a participant uses that token to join a stage, the
 /// participant is associated with that participant ID. There is a 1:1 mapping
 /// between participant tokens and participants.
 /// </li>
-/// <li>
-/// Server-side composition: The <i>composition</i> process composites
-/// participants of a stage into a single video and forwards it to a set of
-/// outputs (e.g., IVS channels). Composition endpoints support this process.
-/// </li>
-/// <li>
-/// Server-side composition: A <i>composition</i> controls the look of the
-/// outputs, including how participants are positioned in the video.
-/// </li>
 /// </ul>
-/// <b>Resources</b>
-///
-/// The following resources contain information about your IVS live stream (see
-/// <a
-/// href="https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started.html">Getting
-/// Started with Amazon IVS Real-Time Streaming</a>):
+/// For server-side composition:
 ///
 /// <ul>
 /// <li>
-/// <b>Stage</b> — A stage is a virtual space where participants can exchange
-/// video in real time.
+/// <b>Composition process</b> — Composites participants of a stage into a
+/// single video and forwards it to a set of outputs (e.g., IVS channels).
+/// Composition endpoints support this process.
+/// </li>
+/// <li>
+/// <b>Composition</b> — Controls the look of the outputs, including how
+/// participants are positioned in the video.
 /// </li>
 /// </ul>
+/// For more information about your IVS live stream, also see <a
+/// href="https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started.html">Getting
+/// Started with Amazon IVS Real-Time Streaming</a>.
+///
 /// <b>Tagging</b>
 ///
 /// A <i>tag</i> is a metadata label that you assign to an AWS resource. A tag
@@ -89,133 +82,6 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// The following resource supports tagging: Stage.
 ///
 /// At most 50 tags can be applied to a resource.
-///
-/// <b>Stages Endpoints</b>
-///
-/// <ul>
-/// <li>
-/// <a>CreateParticipantToken</a> — Creates an additional token for a specified
-/// stage. This can be done after stage creation or when tokens expire.
-/// </li>
-/// <li>
-/// <a>CreateStage</a> — Creates a new stage (and optionally participant
-/// tokens).
-/// </li>
-/// <li>
-/// <a>DeleteStage</a> — Shuts down and deletes the specified stage
-/// (disconnecting all participants).
-/// </li>
-/// <li>
-/// <a>DisconnectParticipant</a> — Disconnects a specified participant and
-/// revokes the participant permanently from a specified stage.
-/// </li>
-/// <li>
-/// <a>GetParticipant</a> — Gets information about the specified participant
-/// token.
-/// </li>
-/// <li>
-/// <a>GetStage</a> — Gets information for the specified stage.
-/// </li>
-/// <li>
-/// <a>GetStageSession</a> — Gets information for the specified stage session.
-/// </li>
-/// <li>
-/// <a>ListParticipantEvents</a> — Lists events for a specified participant that
-/// occurred during a specified stage session.
-/// </li>
-/// <li>
-/// <a>ListParticipants</a> — Lists all participants in a specified stage
-/// session.
-/// </li>
-/// <li>
-/// <a>ListStages</a> — Gets summary information about all stages in your
-/// account, in the AWS region where the API request is processed.
-/// </li>
-/// <li>
-/// <a>ListStageSessions</a> — Gets all sessions for a specified stage.
-/// </li>
-/// <li>
-/// <a>UpdateStage</a> — Updates a stage’s configuration.
-/// </li>
-/// </ul>
-/// <b>Composition Endpoints</b>
-///
-/// <ul>
-/// <li>
-/// <a>GetComposition</a> — Gets information about the specified Composition
-/// resource.
-/// </li>
-/// <li>
-/// <a>ListCompositions</a> — Gets summary information about all Compositions in
-/// your account, in the AWS region where the API request is processed.
-/// </li>
-/// <li>
-/// <a>StartComposition</a> — Starts a Composition from a stage based on the
-/// configuration provided in the request.
-/// </li>
-/// <li>
-/// <a>StopComposition</a> — Stops and deletes a Composition resource. Any
-/// broadcast from the Composition resource is stopped.
-/// </li>
-/// </ul>
-/// <b>EncoderConfiguration Endpoints</b>
-///
-/// <ul>
-/// <li>
-/// <a>CreateEncoderConfiguration</a> — Creates an EncoderConfiguration object.
-/// </li>
-/// <li>
-/// <a>DeleteEncoderConfiguration</a> — Deletes an EncoderConfiguration
-/// resource. Ensures that no Compositions are using this template; otherwise,
-/// returns an error.
-/// </li>
-/// <li>
-/// <a>GetEncoderConfiguration</a> — Gets information about the specified
-/// EncoderConfiguration resource.
-/// </li>
-/// <li>
-/// <a>ListEncoderConfigurations</a> — Gets summary information about all
-/// EncoderConfigurations in your account, in the AWS region where the API
-/// request is processed.
-/// </li>
-/// </ul>
-/// <b>StorageConfiguration Endpoints</b>
-///
-/// <ul>
-/// <li>
-/// <a>CreateStorageConfiguration</a> — Creates a new storage configuration,
-/// used to enable recording to Amazon S3.
-/// </li>
-/// <li>
-/// <a>DeleteStorageConfiguration</a> — Deletes the storage configuration for
-/// the specified ARN.
-/// </li>
-/// <li>
-/// <a>GetStorageConfiguration</a> — Gets the storage configuration for the
-/// specified ARN.
-/// </li>
-/// <li>
-/// <a>ListStorageConfigurations</a> — Gets summary information about all
-/// storage configurations in your account, in the AWS region where the API
-/// request is processed.
-/// </li>
-/// </ul>
-/// <b>Tags Endpoints</b>
-///
-/// <ul>
-/// <li>
-/// <a>ListTagsForResource</a> — Gets information about AWS tags for the
-/// specified ARN.
-/// </li>
-/// <li>
-/// <a>TagResource</a> — Adds or updates tags for the AWS resource with the
-/// specified ARN.
-/// </li>
-/// <li>
-/// <a>UntagResource</a> — Removes tags from the resource with the specified
-/// ARN.
-/// </li>
-/// </ul>
 class Ivsrealtime {
   final _s.RestJsonProtocol _protocol;
   Ivsrealtime({
@@ -361,6 +227,10 @@ class Ivsrealtime {
   /// May throw [ServiceQuotaExceededException].
   /// May throw [PendingVerification].
   ///
+  /// Parameter [autoParticipantRecordingConfiguration] :
+  /// Configuration object for individual participant recording, to attach to
+  /// the new stage.
+  ///
   /// Parameter [name] :
   /// Optional name that can be specified for the stage being created.
   ///
@@ -376,11 +246,16 @@ class Ivsrealtime {
   /// and "Tag naming limits and requirements"; Amazon IVS has no constraints on
   /// tags beyond what is documented there.
   Future<CreateStageResponse> createStage({
+    AutoParticipantRecordingConfiguration?
+        autoParticipantRecordingConfiguration,
     String? name,
     List<ParticipantTokenConfiguration>? participantTokenConfigurations,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
+      if (autoParticipantRecordingConfiguration != null)
+        'autoParticipantRecordingConfiguration':
+            autoParticipantRecordingConfiguration,
       if (name != null) 'name': name,
       if (participantTokenConfigurations != null)
         'participantTokenConfigurations': participantTokenConfigurations,
@@ -463,6 +338,32 @@ class Ivsrealtime {
       payload: $payload,
       method: 'POST',
       requestUri: '/DeleteEncoderConfiguration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified public key used to sign stage participant tokens.
+  /// This invalidates future participant tokens generated using the key pair’s
+  /// private key.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [PendingVerification].
+  ///
+  /// Parameter [arn] :
+  /// ARN of the public key to be deleted.
+  Future<void> deletePublicKey({
+    required String arn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'arn': arn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeletePublicKey',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -644,6 +545,29 @@ class Ivsrealtime {
     return GetParticipantResponse.fromJson(response);
   }
 
+  /// Gets information for the specified public key.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [arn] :
+  /// ARN of the public key for which the information is to be retrieved.
+  Future<GetPublicKeyResponse> getPublicKey({
+    required String arn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'arn': arn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetPublicKey',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPublicKeyResponse.fromJson(response);
+  }
+
   /// Gets information for the specified stage.
   ///
   /// May throw [ResourceNotFoundException].
@@ -719,6 +643,46 @@ class Ivsrealtime {
       exceptionFnMap: _exceptionFns,
     );
     return GetStorageConfigurationResponse.fromJson(response);
+  }
+
+  /// Import a public key to be used for signing stage participant tokens.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  /// May throw [PendingVerification].
+  ///
+  /// Parameter [publicKeyMaterial] :
+  /// The content of the public key to be imported.
+  ///
+  /// Parameter [name] :
+  /// Name of the public key to be imported.
+  ///
+  /// Parameter [tags] :
+  /// Tags attached to the resource. Array of maps, each of the form
+  /// <code>string:string (key:value)</code>. See <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS Resources</a> for details, including restrictions that apply to tags
+  /// and "Tag naming limits and requirements"; Amazon IVS has no constraints on
+  /// tags beyond what is documented there.
+  Future<ImportPublicKeyResponse> importPublicKey({
+    required String publicKeyMaterial,
+    String? name,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'publicKeyMaterial': publicKeyMaterial,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ImportPublicKey',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ImportPublicKeyResponse.fromJson(response);
   }
 
   /// Gets summary information about all Compositions in your account, in the
@@ -874,22 +838,28 @@ class Ivsrealtime {
   /// Parameter [filterByPublished] :
   /// Filters the response list to only show participants who published during
   /// the stage session. Only one of <code>filterByUserId</code>,
-  /// <code>filterByPublished</code>, or <code>filterByState</code> can be
-  /// provided per request.
+  /// <code>filterByPublished</code>, <code>filterByState</code>, or
+  /// <code>filterByRecordingState</code> can be provided per request.
+  ///
+  /// Parameter [filterByRecordingState] :
+  /// Filters the response list to only show participants with the specified
+  /// recording state. Only one of <code>filterByUserId</code>,
+  /// <code>filterByPublished</code>, <code>filterByState</code>, or
+  /// <code>filterByRecordingState</code> can be provided per request.
   ///
   /// Parameter [filterByState] :
   /// Filters the response list to only show participants in the specified
   /// state. Only one of <code>filterByUserId</code>,
-  /// <code>filterByPublished</code>, or <code>filterByState</code> can be
-  /// provided per request.
+  /// <code>filterByPublished</code>, <code>filterByState</code>, or
+  /// <code>filterByRecordingState</code> can be provided per request.
   ///
   /// Parameter [filterByUserId] :
   /// Filters the response list to match the specified user ID. Only one of
-  /// <code>filterByUserId</code>, <code>filterByPublished</code>, or
-  /// <code>filterByState</code> can be provided per request. A
-  /// <code>userId</code> is a customer-assigned name to help identify the
-  /// token; this can be used to link a participant to a user in the customer’s
-  /// own systems.
+  /// <code>filterByUserId</code>, <code>filterByPublished</code>,
+  /// <code>filterByState</code>, or <code>filterByRecordingState</code> can be
+  /// provided per request. A <code>userId</code> is a customer-assigned name to
+  /// help identify the token; this can be used to link a participant to a user
+  /// in the customer’s own systems.
   ///
   /// Parameter [maxResults] :
   /// Maximum number of results to return. Default: 50.
@@ -901,6 +871,7 @@ class Ivsrealtime {
     required String sessionId,
     required String stageArn,
     bool? filterByPublished,
+    ParticipantRecordingFilterByRecordingState? filterByRecordingState,
     ParticipantState? filterByState,
     String? filterByUserId,
     int? maxResults,
@@ -916,6 +887,8 @@ class Ivsrealtime {
       'sessionId': sessionId,
       'stageArn': stageArn,
       if (filterByPublished != null) 'filterByPublished': filterByPublished,
+      if (filterByRecordingState != null)
+        'filterByRecordingState': filterByRecordingState.value,
       if (filterByState != null) 'filterByState': filterByState.value,
       if (filterByUserId != null) 'filterByUserId': filterByUserId,
       if (maxResults != null) 'maxResults': maxResults,
@@ -928,6 +901,41 @@ class Ivsrealtime {
       exceptionFnMap: _exceptionFns,
     );
     return ListParticipantsResponse.fromJson(response);
+  }
+
+  /// Gets summary information about all public keys in your account, in the AWS
+  /// region where the API request is processed.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results to return. Default: 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The first public key to retrieve. This is used for pagination; see the
+  /// <code>nextToken</code> response field.
+  Future<ListPublicKeysResponse> listPublicKeys({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListPublicKeys',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPublicKeysResponse.fromJson(response);
   }
 
   /// Gets all sessions for a specified stage.
@@ -1242,14 +1250,23 @@ class Ivsrealtime {
   /// Parameter [arn] :
   /// ARN of the stage to be updated.
   ///
+  /// Parameter [autoParticipantRecordingConfiguration] :
+  /// Configuration object for individual participant recording, to attach to
+  /// the stage. Note that this cannot be updated while recording is active.
+  ///
   /// Parameter [name] :
   /// Name of the stage to be updated.
   Future<UpdateStageResponse> updateStage({
     required String arn,
+    AutoParticipantRecordingConfiguration?
+        autoParticipantRecordingConfiguration,
     String? name,
   }) async {
     final $payload = <String, dynamic>{
       'arn': arn,
+      if (autoParticipantRecordingConfiguration != null)
+        'autoParticipantRecordingConfiguration':
+            autoParticipantRecordingConfiguration,
       if (name != null) 'name': name,
     };
     final response = await _protocol.send(
@@ -1259,6 +1276,45 @@ class Ivsrealtime {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateStageResponse.fromJson(response);
+  }
+}
+
+/// Object specifying a configuration for individual participant recording.
+class AutoParticipantRecordingConfiguration {
+  /// ARN of the <a>StorageConfiguration</a> resource to use for individual
+  /// participant recording. Default: <code>""</code> (empty string, no storage
+  /// configuration is specified). Individual participant recording cannot be
+  /// started unless a storage configuration is specified, when a <a>Stage</a> is
+  /// created or updated.
+  final String storageConfigurationArn;
+
+  /// Types of media to be recorded. Default: <code>AUDIO_VIDEO</code>.
+  final List<ParticipantRecordingMediaType>? mediaTypes;
+
+  AutoParticipantRecordingConfiguration({
+    required this.storageConfigurationArn,
+    this.mediaTypes,
+  });
+
+  factory AutoParticipantRecordingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AutoParticipantRecordingConfiguration(
+      storageConfigurationArn: json['storageConfigurationArn'] as String,
+      mediaTypes: (json['mediaTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ParticipantRecordingMediaType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageConfigurationArn = this.storageConfigurationArn;
+    final mediaTypes = this.mediaTypes;
+    return {
+      'storageConfigurationArn': storageConfigurationArn,
+      if (mediaTypes != null)
+        'mediaTypes': mediaTypes.map((e) => e.value).toList(),
+    };
   }
 }
 
@@ -1595,6 +1651,18 @@ class DeleteEncoderConfigurationResponse {
 
   factory DeleteEncoderConfigurationResponse.fromJson(Map<String, dynamic> _) {
     return DeleteEncoderConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeletePublicKeyResponse {
+  DeletePublicKeyResponse();
+
+  factory DeletePublicKeyResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePublicKeyResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -2109,6 +2177,30 @@ class GetParticipantResponse {
   }
 }
 
+class GetPublicKeyResponse {
+  /// The public key that is returned.
+  final PublicKey? publicKey;
+
+  GetPublicKeyResponse({
+    this.publicKey,
+  });
+
+  factory GetPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPublicKeyResponse(
+      publicKey: json['publicKey'] != null
+          ? PublicKey.fromJson(json['publicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicKey = this.publicKey;
+    return {
+      if (publicKey != null) 'publicKey': publicKey,
+    };
+  }
+}
+
 class GetStageResponse {
   /// The stage that is returned.
   final Stage? stage;
@@ -2191,6 +2283,7 @@ class GridConfiguration {
   /// This attribute name identifies the featured slot. A participant with this
   /// attribute set to <code>"true"</code> (as a string value) in
   /// <a>ParticipantTokenConfiguration</a> is placed in the featured slot.
+  /// Default: <code>""</code> (no featured participant).
   final String? featuredParticipantAttribute;
 
   /// Specifies the spacing between participant tiles in pixels. Default:
@@ -2201,13 +2294,16 @@ class GridConfiguration {
   /// composition. Default: <code>false</code>.
   final bool? omitStoppedVideo;
 
-  /// Sets the non-featured participant display mode. Default: <code>VIDEO</code>.
+  /// Sets the non-featured participant display mode, to control the aspect ratio
+  /// of video tiles. <code>VIDEO</code> is 16:9, <code>SQUARE</code> is 1:1, and
+  /// <code>PORTRAIT</code> is 3:4. Default: <code>VIDEO</code>.
   final VideoAspectRatio? videoAspectRatio;
 
-  /// Defines how video fits within the participant tile. When not set,
-  /// <code>videoFillMode</code> defaults to <code>COVER</code> fill mode for
-  /// participants in the grid and to <code>CONTAIN</code> fill mode for featured
-  /// participants.
+  /// Defines how video content fits within the participant tile:
+  /// <code>FILL</code> (stretched), <code>COVER</code> (cropped), or
+  /// <code>CONTAIN</code> (letterboxed). When not set, <code>videoFillMode</code>
+  /// defaults to <code>COVER</code> fill mode for participants in the grid and to
+  /// <code>CONTAIN</code> fill mode for featured participants.
   final VideoFillMode? videoFillMode;
 
   GridConfiguration({
@@ -2244,6 +2340,30 @@ class GridConfiguration {
       if (omitStoppedVideo != null) 'omitStoppedVideo': omitStoppedVideo,
       if (videoAspectRatio != null) 'videoAspectRatio': videoAspectRatio.value,
       if (videoFillMode != null) 'videoFillMode': videoFillMode.value,
+    };
+  }
+}
+
+class ImportPublicKeyResponse {
+  /// The public key that was imported.
+  final PublicKey? publicKey;
+
+  ImportPublicKeyResponse({
+    this.publicKey,
+  });
+
+  factory ImportPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return ImportPublicKeyResponse(
+      publicKey: json['publicKey'] != null
+          ? PublicKey.fromJson(json['publicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicKey = this.publicKey;
+    return {
+      if (publicKey != null) 'publicKey': publicKey,
     };
   }
 }
@@ -2416,6 +2536,39 @@ class ListParticipantsResponse {
   }
 }
 
+class ListPublicKeysResponse {
+  /// List of the matching public keys (summary information only).
+  final List<PublicKeySummary> publicKeys;
+
+  /// If there are more public keys than <code>maxResults</code>, use
+  /// <code>nextToken</code> in the request to get the next set.
+  final String? nextToken;
+
+  ListPublicKeysResponse({
+    required this.publicKeys,
+    this.nextToken,
+  });
+
+  factory ListPublicKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListPublicKeysResponse(
+      publicKeys: (json['publicKeys'] as List)
+          .nonNulls
+          .map((e) => PublicKeySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicKeys = this.publicKeys;
+    final nextToken = this.nextToken;
+    return {
+      'publicKeys': publicKeys,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListStageSessionsResponse {
   /// List of matching stage sessions.
   final List<StageSessionSummary> stageSessions;
@@ -2575,6 +2728,19 @@ class Participant {
   /// Whether the participant ever published to the stage session.
   final bool? published;
 
+  /// Name of the S3 bucket to where the participant is being recorded, if
+  /// individual participant recording is enabled, or <code>""</code> (empty
+  /// string), if recording is not enabled.
+  final String? recordingS3BucketName;
+
+  /// S3 prefix of the S3 bucket where the participant is being recorded, if
+  /// individual participant recording is enabled, or <code>""</code> (empty
+  /// string), if recording is not enabled.
+  final String? recordingS3Prefix;
+
+  /// The participant’s recording state.
+  final ParticipantRecordingState? recordingState;
+
   /// The participant’s SDK version.
   final String? sdkVersion;
 
@@ -2598,6 +2764,9 @@ class Participant {
     this.osVersion,
     this.participantId,
     this.published,
+    this.recordingS3BucketName,
+    this.recordingS3Prefix,
+    this.recordingState,
     this.sdkVersion,
     this.state,
     this.userId,
@@ -2615,6 +2784,10 @@ class Participant {
       osVersion: json['osVersion'] as String?,
       participantId: json['participantId'] as String?,
       published: json['published'] as bool?,
+      recordingS3BucketName: json['recordingS3BucketName'] as String?,
+      recordingS3Prefix: json['recordingS3Prefix'] as String?,
+      recordingState: (json['recordingState'] as String?)
+          ?.let(ParticipantRecordingState.fromString),
       sdkVersion: json['sdkVersion'] as String?,
       state: (json['state'] as String?)?.let(ParticipantState.fromString),
       userId: json['userId'] as String?,
@@ -2631,6 +2804,9 @@ class Participant {
     final osVersion = this.osVersion;
     final participantId = this.participantId;
     final published = this.published;
+    final recordingS3BucketName = this.recordingS3BucketName;
+    final recordingS3Prefix = this.recordingS3Prefix;
+    final recordingState = this.recordingState;
     final sdkVersion = this.sdkVersion;
     final state = this.state;
     final userId = this.userId;
@@ -2644,11 +2820,67 @@ class Participant {
       if (osVersion != null) 'osVersion': osVersion,
       if (participantId != null) 'participantId': participantId,
       if (published != null) 'published': published,
+      if (recordingS3BucketName != null)
+        'recordingS3BucketName': recordingS3BucketName,
+      if (recordingS3Prefix != null) 'recordingS3Prefix': recordingS3Prefix,
+      if (recordingState != null) 'recordingState': recordingState.value,
       if (sdkVersion != null) 'sdkVersion': sdkVersion,
       if (state != null) 'state': state.value,
       if (userId != null) 'userId': userId,
     };
   }
+}
+
+enum ParticipantRecordingFilterByRecordingState {
+  starting('STARTING'),
+  active('ACTIVE'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  failed('FAILED'),
+  ;
+
+  final String value;
+
+  const ParticipantRecordingFilterByRecordingState(this.value);
+
+  static ParticipantRecordingFilterByRecordingState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ParticipantRecordingFilterByRecordingState'));
+}
+
+enum ParticipantRecordingMediaType {
+  audioVideo('AUDIO_VIDEO'),
+  audioOnly('AUDIO_ONLY'),
+  ;
+
+  final String value;
+
+  const ParticipantRecordingMediaType(this.value);
+
+  static ParticipantRecordingMediaType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ParticipantRecordingMediaType'));
+}
+
+enum ParticipantRecordingState {
+  starting('STARTING'),
+  active('ACTIVE'),
+  stopping('STOPPING'),
+  stopped('STOPPED'),
+  failed('FAILED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const ParticipantRecordingState(this.value);
+
+  static ParticipantRecordingState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ParticipantRecordingState'));
 }
 
 enum ParticipantState {
@@ -2678,6 +2910,9 @@ class ParticipantSummary {
   /// Whether the participant ever published to the stage session.
   final bool? published;
 
+  /// The participant’s recording state.
+  final ParticipantRecordingState? recordingState;
+
   /// Whether the participant is connected to or disconnected from the stage.
   final ParticipantState? state;
 
@@ -2692,6 +2927,7 @@ class ParticipantSummary {
     this.firstJoinTime,
     this.participantId,
     this.published,
+    this.recordingState,
     this.state,
     this.userId,
   });
@@ -2701,6 +2937,8 @@ class ParticipantSummary {
       firstJoinTime: timeStampFromJson(json['firstJoinTime']),
       participantId: json['participantId'] as String?,
       published: json['published'] as bool?,
+      recordingState: (json['recordingState'] as String?)
+          ?.let(ParticipantRecordingState.fromString),
       state: (json['state'] as String?)?.let(ParticipantState.fromString),
       userId: json['userId'] as String?,
     );
@@ -2710,12 +2948,14 @@ class ParticipantSummary {
     final firstJoinTime = this.firstJoinTime;
     final participantId = this.participantId;
     final published = this.published;
+    final recordingState = this.recordingState;
     final state = this.state;
     final userId = this.userId;
     return {
       if (firstJoinTime != null) 'firstJoinTime': iso8601ToJson(firstJoinTime),
       if (participantId != null) 'participantId': participantId,
       if (published != null) 'published': published,
+      if (recordingState != null) 'recordingState': recordingState.value,
       if (state != null) 'state': state.value,
       if (userId != null) 'userId': userId,
     };
@@ -2885,6 +3125,7 @@ class PipConfiguration {
   /// This attribute name identifies the featured slot. A participant with this
   /// attribute set to <code>"true"</code> (as a string value) in
   /// <a>ParticipantTokenConfiguration</a> is placed in the featured slot.
+  /// Default: <code>""</code> (no featured participant).
   final String? featuredParticipantAttribute;
 
   /// Specifies the spacing between participant tiles in pixels. Default:
@@ -2895,8 +3136,9 @@ class PipConfiguration {
   /// composition. Default: <code>false</code>.
   final bool? omitStoppedVideo;
 
-  /// Defines PiP behavior when all participants have left. Default:
-  /// <code>STATIC</code>.
+  /// Defines PiP behavior when all participants have left: <code>STATIC</code>
+  /// (maintains original position/size) or <code>DYNAMIC</code> (expands to full
+  /// composition). Default: <code>STATIC</code>.
   final PipBehavior? pipBehavior;
 
   /// Specifies the height of the PiP window in pixels. When this is not set
@@ -2908,9 +3150,10 @@ class PipConfiguration {
   /// determined by <code>PipPosition</code>. Default: <code>0</code>.
   final int? pipOffset;
 
-  /// Identifies the PiP slot. A participant with this attribute set to
-  /// <code>"true"</code> (as a string value) in
-  /// <a>ParticipantTokenConfiguration</a> is placed in the PiP slot.
+  /// Specifies the participant for the PiP window. A participant with this
+  /// attribute set to <code>"true"</code> (as a string value) in
+  /// <a>ParticipantTokenConfiguration</a> is placed in the PiP slot. Default:
+  /// <code>""</code> (no PiP participant).
   final String? pipParticipantAttribute;
 
   /// Determines the corner position of the PiP window. Default:
@@ -2922,8 +3165,9 @@ class PipConfiguration {
   /// composition and the aspect ratio of the participant’s video.
   final int? pipWidth;
 
-  /// Defines how video fits within the participant tile. Default:
-  /// <code>COVER</code>.
+  /// Defines how video content fits within the participant tile:
+  /// <code>FILL</code> (stretched), <code>COVER</code> (cropped), or
+  /// <code>CONTAIN</code> (letterboxed). Default: <code>COVER</code>.
   final VideoFillMode? videoFillMode;
 
   PipConfiguration({
@@ -3000,6 +3244,107 @@ enum PipPosition {
   static PipPosition fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum PipPosition'));
+}
+
+/// Object specifying a public key used to sign stage participant tokens.
+class PublicKey {
+  /// Public key ARN.
+  final String? arn;
+
+  /// The public key fingerprint, a short string used to identify or verify the
+  /// full public key.
+  final String? fingerprint;
+
+  /// Public key name.
+  final String? name;
+
+  /// Public key material.
+  final String? publicKeyMaterial;
+
+  /// Tags attached to the resource. Array of maps, each of the form
+  /// <code>string:string (key:value)</code>. See <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS Resources</a> for details, including restrictions that apply to tags and
+  /// "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  /// beyond what is documented there.
+  final Map<String, String>? tags;
+
+  PublicKey({
+    this.arn,
+    this.fingerprint,
+    this.name,
+    this.publicKeyMaterial,
+    this.tags,
+  });
+
+  factory PublicKey.fromJson(Map<String, dynamic> json) {
+    return PublicKey(
+      arn: json['arn'] as String?,
+      fingerprint: json['fingerprint'] as String?,
+      name: json['name'] as String?,
+      publicKeyMaterial: json['publicKeyMaterial'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final fingerprint = this.fingerprint;
+    final name = this.name;
+    final publicKeyMaterial = this.publicKeyMaterial;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (fingerprint != null) 'fingerprint': fingerprint,
+      if (name != null) 'name': name,
+      if (publicKeyMaterial != null) 'publicKeyMaterial': publicKeyMaterial,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Summary information about a public key.
+class PublicKeySummary {
+  /// Public key ARN.
+  final String? arn;
+
+  /// Public key name.
+  final String? name;
+
+  /// Tags attached to the resource. Array of maps, each of the form
+  /// <code>string:string (key:value)</code>. See <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS Resources</a> for details, including restrictions that apply to tags and
+  /// "Tag naming limits and requirements"; Amazon IVS has no constraints on tags
+  /// beyond what is documented there.
+  final Map<String, String>? tags;
+
+  PublicKeySummary({
+    this.arn,
+    this.name,
+    this.tags,
+  });
+
+  factory PublicKeySummary.fromJson(Map<String, dynamic> json) {
+    return PublicKeySummary(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// An object representing a configuration to record a stage stream.
@@ -3145,6 +3490,14 @@ class Stage {
   /// ID of the active session within the stage.
   final String? activeSessionId;
 
+  /// Configuration object for individual participant recording, attached to the
+  /// stage.
+  final AutoParticipantRecordingConfiguration?
+      autoParticipantRecordingConfiguration;
+
+  /// Summary information about various endpoints for a stage.
+  final StageEndpoints? endpoints;
+
   /// Stage name.
   final String? name;
 
@@ -3159,6 +3512,8 @@ class Stage {
   Stage({
     required this.arn,
     this.activeSessionId,
+    this.autoParticipantRecordingConfiguration,
+    this.endpoints,
     this.name,
     this.tags,
   });
@@ -3167,6 +3522,15 @@ class Stage {
     return Stage(
       arn: json['arn'] as String,
       activeSessionId: json['activeSessionId'] as String?,
+      autoParticipantRecordingConfiguration:
+          json['autoParticipantRecordingConfiguration'] != null
+              ? AutoParticipantRecordingConfiguration.fromJson(
+                  json['autoParticipantRecordingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      endpoints: json['endpoints'] != null
+          ? StageEndpoints.fromJson(json['endpoints'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3176,13 +3540,50 @@ class Stage {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final activeSessionId = this.activeSessionId;
+    final autoParticipantRecordingConfiguration =
+        this.autoParticipantRecordingConfiguration;
+    final endpoints = this.endpoints;
     final name = this.name;
     final tags = this.tags;
     return {
       'arn': arn,
       if (activeSessionId != null) 'activeSessionId': activeSessionId,
+      if (autoParticipantRecordingConfiguration != null)
+        'autoParticipantRecordingConfiguration':
+            autoParticipantRecordingConfiguration,
+      if (endpoints != null) 'endpoints': endpoints,
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Summary information about various endpoints for a stage.
+class StageEndpoints {
+  /// Events endpoint.
+  final String? events;
+
+  /// WHIP endpoint.
+  final String? whip;
+
+  StageEndpoints({
+    this.events,
+    this.whip,
+  });
+
+  factory StageEndpoints.fromJson(Map<String, dynamic> json) {
+    return StageEndpoints(
+      events: json['events'] as String?,
+      whip: json['whip'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final whip = this.whip;
+    return {
+      if (events != null) 'events': events,
+      if (whip != null) 'whip': whip,
     };
   }
 }

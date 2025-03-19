@@ -790,6 +790,13 @@ class WorkSpaces {
   /// <li>
   /// User-decoupled WorkSpaces are only supported by Amazon WorkSpaces Core.
   /// </li>
+  /// <li>
+  /// Review your running mode to ensure you are using one that is optimal for
+  /// your needs and budget. For more information on switching running modes,
+  /// see <a
+  /// href="http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F">
+  /// Can I switch between hourly and monthly billing?</a>
+  /// </li>
   /// </ul> </note>
   ///
   /// May throw [ResourceLimitExceededException].
@@ -816,6 +823,74 @@ class WorkSpaces {
     );
 
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a pool of WorkSpaces.
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle for the pool.
+  ///
+  /// Parameter [capacity] :
+  /// The user capacity of the pool.
+  ///
+  /// Parameter [description] :
+  /// The pool description.
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for the pool.
+  ///
+  /// Parameter [poolName] :
+  /// The name of the pool.
+  ///
+  /// Parameter [applicationSettings] :
+  /// Indicates the application settings of the pool.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the pool.
+  ///
+  /// Parameter [timeoutSettings] :
+  /// Indicates the timeout settings of the pool.
+  Future<CreateWorkspacesPoolResult> createWorkspacesPool({
+    required String bundleId,
+    required Capacity capacity,
+    required String description,
+    required String directoryId,
+    required String poolName,
+    ApplicationSettingsRequest? applicationSettings,
+    List<Tag>? tags,
+    TimeoutSettings? timeoutSettings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateWorkspacesPool'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BundleId': bundleId,
+        'Capacity': capacity,
+        'Description': description,
+        'DirectoryId': directoryId,
+        'PoolName': poolName,
+        if (applicationSettings != null)
+          'ApplicationSettings': applicationSettings,
+        if (tags != null) 'Tags': tags,
+        if (timeoutSettings != null) 'TimeoutSettings': timeoutSettings,
+      },
+    );
+
+    return CreateWorkspacesPoolResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the account link invitation.
@@ -1820,16 +1895,24 @@ class WorkSpaces {
   /// The identifiers of the directories. If the value is null, all directories
   /// are retrieved.
   ///
+  /// Parameter [filters] :
+  /// The filter condition for the WorkSpaces.
+  ///
   /// Parameter [limit] :
   /// The maximum number of directories to return.
   ///
   /// Parameter [nextToken] :
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
+  ///
+  /// Parameter [workspaceDirectoryNames] :
+  /// The names of the WorkSpace directories.
   Future<DescribeWorkspaceDirectoriesResult> describeWorkspaceDirectories({
     List<String>? directoryIds,
+    List<DescribeWorkspaceDirectoriesFilter>? filters,
     int? limit,
     String? nextToken,
+    List<String>? workspaceDirectoryNames,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1849,8 +1932,11 @@ class WorkSpaces {
       headers: headers,
       payload: {
         if (directoryIds != null) 'DirectoryIds': directoryIds,
+        if (filters != null) 'Filters': filters,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
+        if (workspaceDirectoryNames != null)
+          'WorkspaceDirectoryNames': workspaceDirectoryNames,
       },
     );
 
@@ -2098,6 +2184,109 @@ class WorkSpaces {
     return DescribeWorkspacesConnectionStatusResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list that describes the streaming sessions for a specified
+  /// pool.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [poolId] :
+  /// The identifier of the pool.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  ///
+  /// Parameter [userId] :
+  /// The identifier of the user.
+  Future<DescribeWorkspacesPoolSessionsResult> describeWorkspacesPoolSessions({
+    required String poolId,
+    int? limit,
+    String? nextToken,
+    String? userId,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeWorkspacesPoolSessions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PoolId': poolId,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (userId != null) 'UserId': userId,
+      },
+    );
+
+    return DescribeWorkspacesPoolSessionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the specified WorkSpaces Pools.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [filters] :
+  /// The filter conditions for the WorkSpaces Pool to return.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  ///
+  /// Parameter [poolIds] :
+  /// The identifier of the WorkSpaces Pools.
+  Future<DescribeWorkspacesPoolsResult> describeWorkspacesPools({
+    List<DescribeWorkspacesPoolsFilter>? filters,
+    int? limit,
+    String? nextToken,
+    List<String>? poolIds,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeWorkspacesPools'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (poolIds != null) 'PoolIds': poolIds,
+      },
+    );
+
+    return DescribeWorkspacesPoolsResult.fromJson(jsonResponse.body);
+  }
+
   /// Disassociates a connection alias from a directory. Disassociating a
   /// connection alias disables cross-Region redirection between two directories
   /// in different Regions. For more information, see <a
@@ -2144,6 +2333,7 @@ class WorkSpaces {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidResourceStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [directoryId] :
   /// The identifier of the directory.
@@ -2385,7 +2575,9 @@ class WorkSpaces {
   /// time.
   /// </li>
   /// <li>
-  /// Windows 11 only supports <code>Microsoft_Office_2019</code>.
+  /// During the image import process, non-GPU WSP WorkSpaces with Windows 11
+  /// support only <code>Microsoft_Office_2019</code>. GPU WSP WorkSpaces with
+  /// Windows 11 do not support Office installation.
   /// </li>
   /// </ul> </note>
   ///
@@ -2669,6 +2861,7 @@ class WorkSpaces {
   /// May throw [InvalidParameterValuesException].
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [clientProperties] :
   /// Information about the Amazon WorkSpaces client.
@@ -2759,6 +2952,7 @@ class WorkSpaces {
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValuesException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [resourceId] :
   /// The identifier of the directory.
@@ -2782,6 +2976,40 @@ class WorkSpaces {
       payload: {
         'ResourceId': resourceId,
         'SelfservicePermissions': selfservicePermissions,
+      },
+    );
+  }
+
+  /// Modifies the specified streaming properties.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the resource.
+  ///
+  /// Parameter [streamingProperties] :
+  /// The streaming properties to configure.
+  Future<void> modifyStreamingProperties({
+    required String resourceId,
+    StreamingProperties? streamingProperties,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.ModifyStreamingProperties'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (streamingProperties != null)
+          'StreamingProperties': streamingProperties,
       },
     );
   }
@@ -3033,6 +3261,10 @@ class WorkSpaces {
   /// May throw [InvalidResourceStateException].
   /// May throw [UnsupportedNetworkConfigurationException].
   /// May throw [OperationNotSupportedException].
+  /// May throw [ResourceAlreadyExistsException].
+  ///
+  /// Parameter [activeDirectoryConfig] :
+  /// The active directory config of the directory.
   ///
   /// Parameter [directoryId] :
   /// The identifier of the directory. You cannot register a directory if it
@@ -3043,14 +3275,20 @@ class WorkSpaces {
   /// ResourceLimitExceededException error. Deregister directories that you are
   /// not using for WorkSpaces, and try again.
   ///
+  /// Parameter [enableSelfService] :
+  /// Indicates whether self-service capabilities are enabled or disabled.
+  ///
   /// Parameter [enableWorkDocs] :
   /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have
   /// enabled this parameter and WorkDocs is not available in the Region, you
   /// will receive an OperationNotSupportedException error. Set
   /// <code>EnableWorkDocs</code> to disabled, and try again.
   ///
-  /// Parameter [enableSelfService] :
-  /// Indicates whether self-service capabilities are enabled or disabled.
+  /// Parameter [idcInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the identity center instance.
+  ///
+  /// Parameter [microsoftEntraConfig] :
+  /// The details about Microsoft Entra config.
   ///
   /// Parameter [subnetIds] :
   /// The identifiers of the subnets for your virtual private cloud (VPC). Make
@@ -3070,33 +3308,66 @@ class WorkSpaces {
   /// about BYOL images, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
-  Future<void> registerWorkspaceDirectory({
-    required String directoryId,
-    required bool enableWorkDocs,
+  ///
+  /// Parameter [userIdentityType] :
+  /// The type of identity management the user is using.
+  ///
+  /// Parameter [workspaceDirectoryDescription] :
+  /// Description of the directory to register.
+  ///
+  /// Parameter [workspaceDirectoryName] :
+  /// The name of the directory to register.
+  ///
+  /// Parameter [workspaceType] :
+  /// Indicates whether the directory's WorkSpace type is personal or pools.
+  Future<RegisterWorkspaceDirectoryResult> registerWorkspaceDirectory({
+    ActiveDirectoryConfig? activeDirectoryConfig,
+    String? directoryId,
     bool? enableSelfService,
+    bool? enableWorkDocs,
+    String? idcInstanceArn,
+    MicrosoftEntraConfig? microsoftEntraConfig,
     List<String>? subnetIds,
     List<Tag>? tags,
     Tenancy? tenancy,
+    UserIdentityType? userIdentityType,
+    String? workspaceDirectoryDescription,
+    String? workspaceDirectoryName,
+    WorkspaceType? workspaceType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RegisterWorkspaceDirectory'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'DirectoryId': directoryId,
-        'EnableWorkDocs': enableWorkDocs,
+        if (activeDirectoryConfig != null)
+          'ActiveDirectoryConfig': activeDirectoryConfig,
+        if (directoryId != null) 'DirectoryId': directoryId,
         if (enableSelfService != null) 'EnableSelfService': enableSelfService,
+        if (enableWorkDocs != null) 'EnableWorkDocs': enableWorkDocs,
+        if (idcInstanceArn != null) 'IdcInstanceArn': idcInstanceArn,
+        if (microsoftEntraConfig != null)
+          'MicrosoftEntraConfig': microsoftEntraConfig,
         if (subnetIds != null) 'SubnetIds': subnetIds,
         if (tags != null) 'Tags': tags,
         if (tenancy != null) 'Tenancy': tenancy.value,
+        if (userIdentityType != null)
+          'UserIdentityType': userIdentityType.value,
+        if (workspaceDirectoryDescription != null)
+          'WorkspaceDirectoryDescription': workspaceDirectoryDescription,
+        if (workspaceDirectoryName != null)
+          'WorkspaceDirectoryName': workspaceDirectoryName,
+        if (workspaceType != null) 'WorkspaceType': workspaceType.value,
       },
     );
+
+    return RegisterWorkspaceDirectoryResult.fromJson(jsonResponse.body);
   }
 
   /// Rejects the account link invitation.
@@ -3211,7 +3482,8 @@ class WorkSpaces {
   /// Starts the specified WorkSpaces.
   ///
   /// You cannot start a WorkSpace unless it has a running mode of
-  /// <code>AutoStop</code> and a state of <code>STOPPED</code>.
+  /// <code>AutoStop</code> or <code>Manual</code> and a state of
+  /// <code>STOPPED</code>.
   ///
   /// Parameter [startWorkspaceRequests] :
   /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
@@ -3236,11 +3508,46 @@ class WorkSpaces {
     return StartWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// Starts the specified pool.
+  ///
+  /// You cannot start a pool unless it has a running mode of
+  /// <code>AutoStop</code> and a state of <code>STOPPED</code>.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [OperationInProgressException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [poolId] :
+  /// The identifier of the pool.
+  Future<void> startWorkspacesPool({
+    required String poolId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.StartWorkspacesPool'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PoolId': poolId,
+      },
+    );
+  }
+
   /// Stops the specified WorkSpaces.
   ///
   /// You cannot stop a WorkSpace unless it has a running mode of
-  /// <code>AutoStop</code> and a state of <code>AVAILABLE</code>,
-  /// <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or <code>ERROR</code>.
+  /// <code>AutoStop</code> or <code>Manual</code> and a state of
+  /// <code>AVAILABLE</code>, <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or
+  /// <code>ERROR</code>.
   ///
   /// Parameter [stopWorkspaceRequests] :
   /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
@@ -3263,6 +3570,39 @@ class WorkSpaces {
     );
 
     return StopWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Stops the specified pool.
+  ///
+  /// You cannot stop a WorkSpace pool unless it has a running mode of
+  /// <code>AutoStop</code> and a state of <code>AVAILABLE</code>,
+  /// <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or <code>ERROR</code>.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationInProgressException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [poolId] :
+  /// The identifier of the pool.
+  Future<void> stopWorkspacesPool({
+    required String poolId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.StopWorkspacesPool'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PoolId': poolId,
+      },
+    );
   }
 
   /// Terminates the specified WorkSpaces.
@@ -3320,6 +3660,64 @@ class WorkSpaces {
     );
 
     return TerminateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Terminates the specified pool.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationInProgressException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [poolId] :
+  /// The identifier of the pool.
+  Future<void> terminateWorkspacesPool({
+    required String poolId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.TerminateWorkspacesPool'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PoolId': poolId,
+      },
+    );
+  }
+
+  /// Terminates the pool session.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [OperationInProgressException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [sessionId] :
+  /// The identifier of the pool session.
+  Future<void> terminateWorkspacesPoolSession({
+    required String sessionId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.TerminateWorkspacesPoolSession'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SessionId': sessionId,
+      },
+    );
   }
 
   /// Updates a Amazon Connect client add-in. Use this action to update the name
@@ -3579,6 +3977,70 @@ class WorkSpaces {
       },
     );
   }
+
+  /// Updates the specified pool.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [OperationInProgressException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [poolId] :
+  /// The identifier of the specified pool to update.
+  ///
+  /// Parameter [applicationSettings] :
+  /// The persistent application settings for users in the pool.
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  ///
+  /// Parameter [capacity] :
+  /// The desired capacity for the pool.
+  ///
+  /// Parameter [description] :
+  /// Describes the specified pool to update.
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory.
+  ///
+  /// Parameter [timeoutSettings] :
+  /// Indicates the timeout settings of the specified pool.
+  Future<UpdateWorkspacesPoolResult> updateWorkspacesPool({
+    required String poolId,
+    ApplicationSettingsRequest? applicationSettings,
+    String? bundleId,
+    Capacity? capacity,
+    String? description,
+    String? directoryId,
+    TimeoutSettings? timeoutSettings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateWorkspacesPool'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PoolId': poolId,
+        if (applicationSettings != null)
+          'ApplicationSettings': applicationSettings,
+        if (bundleId != null) 'BundleId': bundleId,
+        if (capacity != null) 'Capacity': capacity,
+        if (description != null) 'Description': description,
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (timeoutSettings != null) 'TimeoutSettings': timeoutSettings,
+      },
+    );
+
+    return UpdateWorkspacesPoolResult.fromJson(jsonResponse.body);
+  }
 }
 
 class AcceptAccountLinkInvitationResult {
@@ -3755,6 +4217,36 @@ class AccountModification {
   }
 }
 
+/// Information about the Active Directory config.
+class ActiveDirectoryConfig {
+  /// The name of the domain.
+  final String domainName;
+
+  /// Indicates the secret ARN on the service account.
+  final String serviceAccountSecretArn;
+
+  ActiveDirectoryConfig({
+    required this.domainName,
+    required this.serviceAccountSecretArn,
+  });
+
+  factory ActiveDirectoryConfig.fromJson(Map<String, dynamic> json) {
+    return ActiveDirectoryConfig(
+      domainName: json['DomainName'] as String,
+      serviceAccountSecretArn: json['ServiceAccountSecretArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final serviceAccountSecretArn = this.serviceAccountSecretArn;
+    return {
+      'DomainName': domainName,
+      'ServiceAccountSecretArn': serviceAccountSecretArn,
+    };
+  }
+}
+
 enum Application {
   microsoftOffice_2016('Microsoft_Office_2016'),
   microsoftOffice_2019('Microsoft_Office_2019'),
@@ -3856,6 +4348,91 @@ class ApplicationResourceAssociation {
       if (stateReason != null) 'StateReason': stateReason,
     };
   }
+}
+
+/// The persistent application settings for WorkSpaces Pools users.
+class ApplicationSettingsRequest {
+  /// Enables or disables persistent application settings for users during their
+  /// pool sessions.
+  final ApplicationSettingsStatusEnum status;
+
+  /// The path prefix for the S3 bucket where users’ persistent application
+  /// settings are stored. You can allow the same persistent application settings
+  /// to be used across multiple pools by specifying the same settings group for
+  /// each pool.
+  final String? settingsGroup;
+
+  ApplicationSettingsRequest({
+    required this.status,
+    this.settingsGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final settingsGroup = this.settingsGroup;
+    return {
+      'Status': status.value,
+      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
+    };
+  }
+}
+
+/// Describes the persistent application settings for WorkSpaces Pools users.
+class ApplicationSettingsResponse {
+  /// Specifies whether persistent application settings are enabled for users
+  /// during their pool sessions.
+  final ApplicationSettingsStatusEnum status;
+
+  /// The S3 bucket where users’ persistent application settings are stored. When
+  /// persistent application settings are enabled for the first time for an
+  /// account in an Amazon Web Services Region, an S3 bucket is created. The
+  /// bucket is unique to the Amazon Web Services account and the Region.
+  final String? s3BucketName;
+
+  /// The path prefix for the S3 bucket where users’ persistent application
+  /// settings are stored.
+  final String? settingsGroup;
+
+  ApplicationSettingsResponse({
+    required this.status,
+    this.s3BucketName,
+    this.settingsGroup,
+  });
+
+  factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return ApplicationSettingsResponse(
+      status:
+          ApplicationSettingsStatusEnum.fromString((json['Status'] as String)),
+      s3BucketName: json['S3BucketName'] as String?,
+      settingsGroup: json['SettingsGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final s3BucketName = this.s3BucketName;
+    final settingsGroup = this.settingsGroup;
+    return {
+      'Status': status.value,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
+    };
+  }
+}
+
+enum ApplicationSettingsStatusEnum {
+  disabled('DISABLED'),
+  enabled('ENABLED'),
+  ;
+
+  final String value;
+
+  const ApplicationSettingsStatusEnum(this.value);
+
+  static ApplicationSettingsStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum ApplicationSettingsStatusEnum'));
 }
 
 class AssociateConnectionAliasResult {
@@ -4013,6 +4590,20 @@ enum AssociationStatus {
               throw Exception('$value is not known in enum AssociationStatus'));
 }
 
+enum AuthenticationType {
+  saml('SAML'),
+  ;
+
+  final String value;
+
+  const AuthenticationType(this.value);
+
+  static AuthenticationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AuthenticationType'));
+}
+
 class AuthorizeIpRulesResult {
   AuthorizeIpRulesResult();
 
@@ -4123,6 +4714,75 @@ enum BundleType {
   static BundleType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum BundleType'));
+}
+
+/// Describes the user capacity for a pool of WorkSpaces.
+class Capacity {
+  /// The desired number of user sessions for the WorkSpaces in the pool.
+  final int desiredUserSessions;
+
+  Capacity({
+    required this.desiredUserSessions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final desiredUserSessions = this.desiredUserSessions;
+    return {
+      'DesiredUserSessions': desiredUserSessions,
+    };
+  }
+}
+
+/// Describes the capacity status for a pool of WorkSpaces.
+class CapacityStatus {
+  /// The number of user sessions currently being used for your pool.
+  final int activeUserSessions;
+
+  /// The total number of user sessions that are available for streaming or are
+  /// currently streaming in your pool.
+  ///
+  /// ActualUserSessions = AvailableUserSessions + ActiveUserSessions
+  final int actualUserSessions;
+
+  /// The number of user sessions currently available for streaming from your
+  /// pool.
+  ///
+  /// AvailableUserSessions = ActualUserSessions - ActiveUserSessions
+  final int availableUserSessions;
+
+  /// The total number of sessions slots that are either running or pending. This
+  /// represents the total number of concurrent streaming sessions your pool can
+  /// support in a steady state.
+  final int desiredUserSessions;
+
+  CapacityStatus({
+    required this.activeUserSessions,
+    required this.actualUserSessions,
+    required this.availableUserSessions,
+    required this.desiredUserSessions,
+  });
+
+  factory CapacityStatus.fromJson(Map<String, dynamic> json) {
+    return CapacityStatus(
+      activeUserSessions: json['ActiveUserSessions'] as int,
+      actualUserSessions: json['ActualUserSessions'] as int,
+      availableUserSessions: json['AvailableUserSessions'] as int,
+      desiredUserSessions: json['DesiredUserSessions'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeUserSessions = this.activeUserSessions;
+    final actualUserSessions = this.actualUserSessions;
+    final availableUserSessions = this.availableUserSessions;
+    final desiredUserSessions = this.desiredUserSessions;
+    return {
+      'ActiveUserSessions': activeUserSessions,
+      'ActualUserSessions': actualUserSessions,
+      'AvailableUserSessions': availableUserSessions,
+      'DesiredUserSessions': desiredUserSessions,
+    };
+  }
 }
 
 /// Describes the properties of the certificate-based authentication you want to
@@ -4823,6 +5483,31 @@ class CreateWorkspaceImageResult {
   }
 }
 
+class CreateWorkspacesPoolResult {
+  /// Indicates the pool to create.
+  final WorkspacesPool? workspacesPool;
+
+  CreateWorkspacesPoolResult({
+    this.workspacesPool,
+  });
+
+  factory CreateWorkspacesPoolResult.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspacesPoolResult(
+      workspacesPool: json['WorkspacesPool'] != null
+          ? WorkspacesPool.fromJson(
+              json['WorkspacesPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspacesPool = this.workspacesPool;
+    return {
+      if (workspacesPool != null) 'WorkspacesPool': workspacesPool,
+    };
+  }
+}
+
 class CreateWorkspacesResult {
   /// Information about the WorkSpaces that could not be created.
   final List<FailedCreateWorkspaceRequest>? failedRequests;
@@ -5171,6 +5856,9 @@ class DefaultWorkspaceCreationProperties {
   /// Specifies whether the directory is enabled for Amazon WorkDocs.
   final bool? enableWorkDocs;
 
+  /// Indicates the IAM role ARN of the instance.
+  final String? instanceIamRoleArn;
+
   /// Specifies whether WorkSpace users are local administrators on their
   /// WorkSpaces.
   final bool? userEnabledAsLocalAdministrator;
@@ -5181,6 +5869,7 @@ class DefaultWorkspaceCreationProperties {
     this.enableInternetAccess,
     this.enableMaintenanceMode,
     this.enableWorkDocs,
+    this.instanceIamRoleArn,
     this.userEnabledAsLocalAdministrator,
   });
 
@@ -5192,6 +5881,7 @@ class DefaultWorkspaceCreationProperties {
       enableInternetAccess: json['EnableInternetAccess'] as bool?,
       enableMaintenanceMode: json['EnableMaintenanceMode'] as bool?,
       enableWorkDocs: json['EnableWorkDocs'] as bool?,
+      instanceIamRoleArn: json['InstanceIamRoleArn'] as String?,
       userEnabledAsLocalAdministrator:
           json['UserEnabledAsLocalAdministrator'] as bool?,
     );
@@ -5203,6 +5893,7 @@ class DefaultWorkspaceCreationProperties {
     final enableInternetAccess = this.enableInternetAccess;
     final enableMaintenanceMode = this.enableMaintenanceMode;
     final enableWorkDocs = this.enableWorkDocs;
+    final instanceIamRoleArn = this.instanceIamRoleArn;
     final userEnabledAsLocalAdministrator =
         this.userEnabledAsLocalAdministrator;
     return {
@@ -5214,6 +5905,7 @@ class DefaultWorkspaceCreationProperties {
       if (enableMaintenanceMode != null)
         'EnableMaintenanceMode': enableMaintenanceMode,
       if (enableWorkDocs != null) 'EnableWorkDocs': enableWorkDocs,
+      if (instanceIamRoleArn != null) 'InstanceIamRoleArn': instanceIamRoleArn,
       if (userEnabledAsLocalAdministrator != null)
         'UserEnabledAsLocalAdministrator': userEnabledAsLocalAdministrator,
     };
@@ -5935,6 +6627,44 @@ class DescribeWorkspaceBundlesResult {
   }
 }
 
+/// Describes the filter conditions for the WorkSpaces to return.
+class DescribeWorkspaceDirectoriesFilter {
+  /// The name of the WorkSpaces to filter.
+  final DescribeWorkspaceDirectoriesFilterName name;
+
+  /// The values for filtering WorkSpaces
+  final List<String> values;
+
+  DescribeWorkspaceDirectoriesFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+}
+
+enum DescribeWorkspaceDirectoriesFilterName {
+  userIdentityType('USER_IDENTITY_TYPE'),
+  workspaceType('WORKSPACE_TYPE'),
+  ;
+
+  final String value;
+
+  const DescribeWorkspaceDirectoriesFilterName(this.value);
+
+  static DescribeWorkspaceDirectoriesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribeWorkspaceDirectoriesFilterName'));
+}
+
 class DescribeWorkspaceDirectoriesResult {
   /// Information about the directories.
   final List<WorkspaceDirectory>? directories;
@@ -6113,6 +6843,133 @@ class DescribeWorkspacesConnectionStatusResult {
       if (nextToken != null) 'NextToken': nextToken,
       if (workspacesConnectionStatus != null)
         'WorkspacesConnectionStatus': workspacesConnectionStatus,
+    };
+  }
+}
+
+class DescribeWorkspacesPoolSessionsResult {
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  final String? nextToken;
+
+  /// Describes the pool sessions.
+  final List<WorkspacesPoolSession>? sessions;
+
+  DescribeWorkspacesPoolSessionsResult({
+    this.nextToken,
+    this.sessions,
+  });
+
+  factory DescribeWorkspacesPoolSessionsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeWorkspacesPoolSessionsResult(
+      nextToken: json['NextToken'] as String?,
+      sessions: (json['Sessions'] as List?)
+          ?.nonNulls
+          .map((e) => WorkspacesPoolSession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sessions = this.sessions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sessions != null) 'Sessions': sessions,
+    };
+  }
+}
+
+/// Describes the filter conditions for WorkSpaces Pools to return.
+class DescribeWorkspacesPoolsFilter {
+  /// The name of the pool to filter.
+  final DescribeWorkspacesPoolsFilterName name;
+
+  /// The operator values for filtering WorkSpaces Pools.
+  final DescribeWorkspacesPoolsFilterOperator operator;
+
+  /// The values for filtering WorkSpaces Pools.
+  final List<String> values;
+
+  DescribeWorkspacesPoolsFilter({
+    required this.name,
+    required this.operator,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Operator': operator.value,
+      'Values': values,
+    };
+  }
+}
+
+enum DescribeWorkspacesPoolsFilterName {
+  poolName('PoolName'),
+  ;
+
+  final String value;
+
+  const DescribeWorkspacesPoolsFilterName(this.value);
+
+  static DescribeWorkspacesPoolsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribeWorkspacesPoolsFilterName'));
+}
+
+enum DescribeWorkspacesPoolsFilterOperator {
+  equals('EQUALS'),
+  notequals('NOTEQUALS'),
+  contains('CONTAINS'),
+  notcontains('NOTCONTAINS'),
+  ;
+
+  final String value;
+
+  const DescribeWorkspacesPoolsFilterOperator(this.value);
+
+  static DescribeWorkspacesPoolsFilterOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum DescribeWorkspacesPoolsFilterOperator'));
+}
+
+class DescribeWorkspacesPoolsResult {
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  final String? nextToken;
+
+  /// Information about the WorkSpaces Pools.
+  final List<WorkspacesPool>? workspacesPools;
+
+  DescribeWorkspacesPoolsResult({
+    this.nextToken,
+    this.workspacesPools,
+  });
+
+  factory DescribeWorkspacesPoolsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspacesPoolsResult(
+      nextToken: json['NextToken'] as String?,
+      workspacesPools: (json['WorkspacesPools'] as List?)
+          ?.nonNulls
+          .map((e) => WorkspacesPool.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workspacesPools = this.workspacesPools;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workspacesPools != null) 'WorkspacesPools': workspacesPools,
     };
   }
 }
@@ -6381,6 +7238,36 @@ class GetAccountLinkResult {
     final accountLink = this.accountLink;
     return {
       if (accountLink != null) 'AccountLink': accountLink,
+    };
+  }
+}
+
+/// Specifies the configurations of the identity center.
+class IDCConfig {
+  /// The Amazon Resource Name (ARN) of the application.
+  final String? applicationArn;
+
+  /// The Amazon Resource Name (ARN) of the identity center instance.
+  final String? instanceArn;
+
+  IDCConfig({
+    this.applicationArn,
+    this.instanceArn,
+  });
+
+  factory IDCConfig.fromJson(Map<String, dynamic> json) {
+    return IDCConfig(
+      applicationArn: json['ApplicationArn'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final instanceArn = this.instanceArn;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (instanceArn != null) 'InstanceArn': instanceArn,
     };
   }
 }
@@ -6941,6 +7828,37 @@ enum LogUploadEnum {
               throw Exception('$value is not known in enum LogUploadEnum'));
 }
 
+/// Specifies the configurations of the Microsoft Entra.
+class MicrosoftEntraConfig {
+  /// The Amazon Resource Name (ARN) of the application config.
+  final String? applicationConfigSecretArn;
+
+  /// The identifier of the tenant.
+  final String? tenantId;
+
+  MicrosoftEntraConfig({
+    this.applicationConfigSecretArn,
+    this.tenantId,
+  });
+
+  factory MicrosoftEntraConfig.fromJson(Map<String, dynamic> json) {
+    return MicrosoftEntraConfig(
+      applicationConfigSecretArn: json['ApplicationConfigSecretArn'] as String?,
+      tenantId: json['TenantId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationConfigSecretArn = this.applicationConfigSecretArn;
+    final tenantId = this.tenantId;
+    return {
+      if (applicationConfigSecretArn != null)
+        'ApplicationConfigSecretArn': applicationConfigSecretArn,
+      if (tenantId != null) 'TenantId': tenantId,
+    };
+  }
+}
+
 class MigrateWorkspaceResult {
   /// The original identifier of the WorkSpace that is being migrated.
   final String? sourceWorkspaceId;
@@ -7095,6 +8013,18 @@ class ModifySelfservicePermissionsResult {
   }
 }
 
+class ModifyStreamingPropertiesResult {
+  ModifyStreamingPropertiesResult();
+
+  factory ModifyStreamingPropertiesResult.fromJson(Map<String, dynamic> _) {
+    return ModifyStreamingPropertiesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class ModifyWorkspaceAccessPropertiesResult {
   ModifyWorkspaceAccessPropertiesResult();
 
@@ -7145,6 +8075,40 @@ class ModifyWorkspaceStateResult {
   }
 }
 
+/// Describes the network details of a WorkSpaces Pool.
+class NetworkAccessConfiguration {
+  /// The resource identifier of the elastic network interface that is attached to
+  /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
+  /// identifier.
+  final String? eniId;
+
+  /// The private IP address of the elastic network interface that is attached to
+  /// instances in your VPC.
+  final String? eniPrivateIpAddress;
+
+  NetworkAccessConfiguration({
+    this.eniId,
+    this.eniPrivateIpAddress,
+  });
+
+  factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkAccessConfiguration(
+      eniId: json['EniId'] as String?,
+      eniPrivateIpAddress: json['EniPrivateIpAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eniId = this.eniId;
+    final eniPrivateIpAddress = this.eniPrivateIpAddress;
+    return {
+      if (eniId != null) 'EniId': eniId,
+      if (eniPrivateIpAddress != null)
+        'EniPrivateIpAddress': eniPrivateIpAddress,
+    };
+  }
+}
+
 /// The operating system that the image is running.
 class OperatingSystem {
   /// The operating system.
@@ -7180,6 +8144,7 @@ enum OperatingSystemName {
   windowsServer_2016('WINDOWS_SERVER_2016'),
   windowsServer_2019('WINDOWS_SERVER_2019'),
   windowsServer_2022('WINDOWS_SERVER_2022'),
+  rhel_8('RHEL_8'),
   ;
 
   final String value;
@@ -7375,14 +8340,32 @@ enum ReconnectEnum {
 }
 
 class RegisterWorkspaceDirectoryResult {
-  RegisterWorkspaceDirectoryResult();
+  /// The identifier of the directory.
+  final String? directoryId;
 
-  factory RegisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> _) {
-    return RegisterWorkspaceDirectoryResult();
+  /// The registration status of the WorkSpace directory.
+  final WorkspaceDirectoryState? state;
+
+  RegisterWorkspaceDirectoryResult({
+    this.directoryId,
+    this.state,
+  });
+
+  factory RegisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> json) {
+    return RegisterWorkspaceDirectoryResult(
+      directoryId: json['DirectoryId'] as String?,
+      state:
+          (json['State'] as String?)?.let(WorkspaceDirectoryState.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final directoryId = this.directoryId;
+    final state = this.state;
+    return {
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (state != null) 'State': state.value,
+    };
   }
 }
 
@@ -7484,22 +8467,22 @@ class RevokeIpRulesResult {
 /// Describes the root volume for a WorkSpace bundle.
 class RootStorage {
   /// The size of the root volume.
-  final String? capacity;
+  final String capacity;
 
   RootStorage({
-    this.capacity,
+    required this.capacity,
   });
 
   factory RootStorage.fromJson(Map<String, dynamic> json) {
     return RootStorage(
-      capacity: json['Capacity'] as String?,
+      capacity: json['Capacity'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     final capacity = this.capacity;
     return {
-      if (capacity != null) 'Capacity': capacity,
+      'Capacity': capacity,
     };
   }
 }
@@ -7671,6 +8654,21 @@ class SelfservicePermissions {
   }
 }
 
+enum SessionConnectionState {
+  connected('CONNECTED'),
+  notConnected('NOT_CONNECTED'),
+  ;
+
+  final String value;
+
+  const SessionConnectionState(this.value);
+
+  static SessionConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SessionConnectionState'));
+}
+
 /// Describes a snapshot.
 class Snapshot {
   /// The time when the snapshot was created.
@@ -7825,6 +8823,18 @@ class StartRequest {
   }
 }
 
+class StartWorkspacesPoolResult {
+  StartWorkspacesPoolResult();
+
+  factory StartWorkspacesPoolResult.fromJson(Map<String, dynamic> _) {
+    return StartWorkspacesPoolResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class StartWorkspacesResult {
   /// Information about the WorkSpaces that could not be started.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -7868,6 +8878,18 @@ class StopRequest {
   }
 }
 
+class StopWorkspacesPoolResult {
+  StopWorkspacesPoolResult();
+
+  factory StopWorkspacesPoolResult.fromJson(Map<String, dynamic> _) {
+    return StopWorkspacesPoolResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class StopWorkspacesResult {
   /// Information about the WorkSpaces that could not be stopped.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -7890,6 +8912,130 @@ class StopWorkspacesResult {
     final failedRequests = this.failedRequests;
     return {
       if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
+}
+
+/// Describes the storage connector.
+class StorageConnector {
+  /// The type of connector used to save user files.
+  final StorageConnectorTypeEnum connectorType;
+
+  /// Indicates if the storage connetor is enabled or disabled.
+  final StorageConnectorStatusEnum status;
+
+  StorageConnector({
+    required this.connectorType,
+    required this.status,
+  });
+
+  factory StorageConnector.fromJson(Map<String, dynamic> json) {
+    return StorageConnector(
+      connectorType: StorageConnectorTypeEnum.fromString(
+          (json['ConnectorType'] as String)),
+      status: StorageConnectorStatusEnum.fromString((json['Status'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorType = this.connectorType;
+    final status = this.status;
+    return {
+      'ConnectorType': connectorType.value,
+      'Status': status.value,
+    };
+  }
+}
+
+enum StorageConnectorStatusEnum {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const StorageConnectorStatusEnum(this.value);
+
+  static StorageConnectorStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageConnectorStatusEnum'));
+}
+
+enum StorageConnectorTypeEnum {
+  homeFolder('HOME_FOLDER'),
+  ;
+
+  final String value;
+
+  const StorageConnectorTypeEnum(this.value);
+
+  static StorageConnectorTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StorageConnectorTypeEnum'));
+}
+
+enum StreamingExperiencePreferredProtocolEnum {
+  tcp('TCP'),
+  udp('UDP'),
+  ;
+
+  final String value;
+
+  const StreamingExperiencePreferredProtocolEnum(this.value);
+
+  static StreamingExperiencePreferredProtocolEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum StreamingExperiencePreferredProtocolEnum'));
+}
+
+/// Describes the streaming properties.
+class StreamingProperties {
+  /// Indicates the storage connector used
+  final List<StorageConnector>? storageConnectors;
+
+  /// Indicates the type of preferred protocol for the streaming experience.
+  final StreamingExperiencePreferredProtocolEnum?
+      streamingExperiencePreferredProtocol;
+
+  /// Indicates the permission settings asscoiated with the user.
+  final List<UserSetting>? userSettings;
+
+  StreamingProperties({
+    this.storageConnectors,
+    this.streamingExperiencePreferredProtocol,
+    this.userSettings,
+  });
+
+  factory StreamingProperties.fromJson(Map<String, dynamic> json) {
+    return StreamingProperties(
+      storageConnectors: (json['StorageConnectors'] as List?)
+          ?.nonNulls
+          .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      streamingExperiencePreferredProtocol:
+          (json['StreamingExperiencePreferredProtocol'] as String?)
+              ?.let(StreamingExperiencePreferredProtocolEnum.fromString),
+      userSettings: (json['UserSettings'] as List?)
+          ?.nonNulls
+          .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageConnectors = this.storageConnectors;
+    final streamingExperiencePreferredProtocol =
+        this.streamingExperiencePreferredProtocol;
+    final userSettings = this.userSettings;
+    return {
+      if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+      if (streamingExperiencePreferredProtocol != null)
+        'StreamingExperiencePreferredProtocol':
+            streamingExperiencePreferredProtocol.value,
+      if (userSettings != null) 'UserSettings': userSettings,
     };
   }
 }
@@ -7970,6 +9116,31 @@ class TerminateRequest {
   }
 }
 
+class TerminateWorkspacesPoolResult {
+  TerminateWorkspacesPoolResult();
+
+  factory TerminateWorkspacesPoolResult.fromJson(Map<String, dynamic> _) {
+    return TerminateWorkspacesPoolResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TerminateWorkspacesPoolSessionResult {
+  TerminateWorkspacesPoolSessionResult();
+
+  factory TerminateWorkspacesPoolSessionResult.fromJson(
+      Map<String, dynamic> _) {
+    return TerminateWorkspacesPoolSessionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class TerminateWorkspacesResult {
   /// Information about the WorkSpaces that could not be terminated.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -7992,6 +9163,55 @@ class TerminateWorkspacesResult {
     final failedRequests = this.failedRequests;
     return {
       if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
+}
+
+/// Describes the timeout settings for a pool of WorkSpaces.
+class TimeoutSettings {
+  /// Specifies the amount of time, in seconds, that a streaming session remains
+  /// active after users disconnect. If users try to reconnect to the streaming
+  /// session after a disconnection or network interruption within the time set,
+  /// they are connected to their previous session. Otherwise, they are connected
+  /// to a new session with a new streaming instance.
+  final int? disconnectTimeoutInSeconds;
+
+  /// The amount of time in seconds a connection will stay active while idle.
+  final int? idleDisconnectTimeoutInSeconds;
+
+  /// Specifies the maximum amount of time, in seconds, that a streaming session
+  /// can remain active. If users are still connected to a streaming instance five
+  /// minutes before this limit is reached, they are prompted to save any open
+  /// documents before being disconnected. After this time elapses, the instance
+  /// is terminated and replaced by a new instance.
+  final int? maxUserDurationInSeconds;
+
+  TimeoutSettings({
+    this.disconnectTimeoutInSeconds,
+    this.idleDisconnectTimeoutInSeconds,
+    this.maxUserDurationInSeconds,
+  });
+
+  factory TimeoutSettings.fromJson(Map<String, dynamic> json) {
+    return TimeoutSettings(
+      disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
+      idleDisconnectTimeoutInSeconds:
+          json['IdleDisconnectTimeoutInSeconds'] as int?,
+      maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disconnectTimeoutInSeconds = this.disconnectTimeoutInSeconds;
+    final idleDisconnectTimeoutInSeconds = this.idleDisconnectTimeoutInSeconds;
+    final maxUserDurationInSeconds = this.maxUserDurationInSeconds;
+    return {
+      if (disconnectTimeoutInSeconds != null)
+        'DisconnectTimeoutInSeconds': disconnectTimeoutInSeconds,
+      if (idleDisconnectTimeoutInSeconds != null)
+        'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
+      if (maxUserDurationInSeconds != null)
+        'MaxUserDurationInSeconds': maxUserDurationInSeconds,
     };
   }
 }
@@ -8095,25 +9315,136 @@ class UpdateWorkspaceImagePermissionResult {
   }
 }
 
+class UpdateWorkspacesPoolResult {
+  /// Describes the specified pool.
+  final WorkspacesPool? workspacesPool;
+
+  UpdateWorkspacesPoolResult({
+    this.workspacesPool,
+  });
+
+  factory UpdateWorkspacesPoolResult.fromJson(Map<String, dynamic> json) {
+    return UpdateWorkspacesPoolResult(
+      workspacesPool: json['WorkspacesPool'] != null
+          ? WorkspacesPool.fromJson(
+              json['WorkspacesPool'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspacesPool = this.workspacesPool;
+    return {
+      if (workspacesPool != null) 'WorkspacesPool': workspacesPool,
+    };
+  }
+}
+
+enum UserIdentityType {
+  customerManaged('CUSTOMER_MANAGED'),
+  awsDirectoryService('AWS_DIRECTORY_SERVICE'),
+  awsIamIdentityCenter('AWS_IAM_IDENTITY_CENTER'),
+  ;
+
+  final String value;
+
+  const UserIdentityType(this.value);
+
+  static UserIdentityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum UserIdentityType'));
+}
+
+/// Information about the user's permission settings.
+class UserSetting {
+  /// Indicates the type of action.
+  final UserSettingActionEnum action;
+
+  /// Indicates if the setting is enabled or disabled.
+  final UserSettingPermissionEnum permission;
+
+  /// Indicates the maximum character length for the specified user setting.
+  final int? maximumLength;
+
+  UserSetting({
+    required this.action,
+    required this.permission,
+    this.maximumLength,
+  });
+
+  factory UserSetting.fromJson(Map<String, dynamic> json) {
+    return UserSetting(
+      action: UserSettingActionEnum.fromString((json['Action'] as String)),
+      permission:
+          UserSettingPermissionEnum.fromString((json['Permission'] as String)),
+      maximumLength: json['MaximumLength'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final permission = this.permission;
+    final maximumLength = this.maximumLength;
+    return {
+      'Action': action.value,
+      'Permission': permission.value,
+      if (maximumLength != null) 'MaximumLength': maximumLength,
+    };
+  }
+}
+
+enum UserSettingActionEnum {
+  clipboardCopyFromLocalDevice('CLIPBOARD_COPY_FROM_LOCAL_DEVICE'),
+  clipboardCopyToLocalDevice('CLIPBOARD_COPY_TO_LOCAL_DEVICE'),
+  printingToLocalDevice('PRINTING_TO_LOCAL_DEVICE'),
+  smartCard('SMART_CARD'),
+  ;
+
+  final String value;
+
+  const UserSettingActionEnum(this.value);
+
+  static UserSettingActionEnum fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum UserSettingActionEnum'));
+}
+
+enum UserSettingPermissionEnum {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const UserSettingPermissionEnum(this.value);
+
+  static UserSettingPermissionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum UserSettingPermissionEnum'));
+}
+
 /// Describes the user volume for a WorkSpace bundle.
 class UserStorage {
   /// The size of the user volume.
-  final String? capacity;
+  final String capacity;
 
   UserStorage({
-    this.capacity,
+    required this.capacity,
   });
 
   factory UserStorage.fromJson(Map<String, dynamic> json) {
     return UserStorage(
-      capacity: json['Capacity'] as String?,
+      capacity: json['Capacity'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     final capacity = this.capacity;
     return {
-      if (capacity != null) 'Capacity': capacity,
+      'Capacity': capacity,
     };
   }
 }
@@ -8857,6 +10188,9 @@ class WorkspaceCreationProperties {
   /// </note>
   final bool? enableWorkDocs;
 
+  /// Indicates the IAM role ARN of the instance.
+  final String? instanceIamRoleArn;
+
   /// Indicates whether users are local administrators of their WorkSpaces.
   final bool? userEnabledAsLocalAdministrator;
 
@@ -8866,6 +10200,7 @@ class WorkspaceCreationProperties {
     this.enableInternetAccess,
     this.enableMaintenanceMode,
     this.enableWorkDocs,
+    this.instanceIamRoleArn,
     this.userEnabledAsLocalAdministrator,
   });
 
@@ -8875,6 +10210,7 @@ class WorkspaceCreationProperties {
     final enableInternetAccess = this.enableInternetAccess;
     final enableMaintenanceMode = this.enableMaintenanceMode;
     final enableWorkDocs = this.enableWorkDocs;
+    final instanceIamRoleArn = this.instanceIamRoleArn;
     final userEnabledAsLocalAdministrator =
         this.userEnabledAsLocalAdministrator;
     return {
@@ -8886,6 +10222,7 @@ class WorkspaceCreationProperties {
       if (enableMaintenanceMode != null)
         'EnableMaintenanceMode': enableMaintenanceMode,
       if (enableWorkDocs != null) 'EnableWorkDocs': enableWorkDocs,
+      if (instanceIamRoleArn != null) 'InstanceIamRoleArn': instanceIamRoleArn,
       if (userEnabledAsLocalAdministrator != null)
         'UserEnabledAsLocalAdministrator': userEnabledAsLocalAdministrator,
     };
@@ -8894,6 +10231,9 @@ class WorkspaceCreationProperties {
 
 /// Describes a directory that is used with Amazon WorkSpaces.
 class WorkspaceDirectory {
+  /// Information about the Active Directory config.
+  final ActiveDirectoryConfig? activeDirectoryConfig;
+
   /// The directory alias.
   final String? alias;
 
@@ -8917,10 +10257,19 @@ class WorkspaceDirectory {
   /// The IP addresses of the DNS servers for the directory.
   final List<String>? dnsIpAddresses;
 
+  /// The error message returned.
+  final String? errorMessage;
+
+  /// Specifies details about identity center configurations.
+  final IDCConfig? iDCConfig;
+
   /// The identifier of the IAM role. This is the role that allows Amazon
   /// WorkSpaces to make calls to other services, such as Amazon EC2, on your
   /// behalf.
   final String? iamRoleId;
+
+  /// Specifies details about Microsoft Entra configurations.
+  final MicrosoftEntraConfig? microsoftEntraConfig;
 
   /// The registration code for the directory. This is the code that users enter
   /// in their Amazon WorkSpaces client application to connect to the directory.
@@ -8944,6 +10293,9 @@ class WorkspaceDirectory {
   /// the directory has been successfully deregistered.
   final WorkspaceDirectoryState? state;
 
+  /// The streaming properties to configure.
+  final StreamingProperties? streamingProperties;
+
   /// The identifiers of the subnets used with the directory.
   final List<String>? subnetIds;
 
@@ -8954,20 +10306,33 @@ class WorkspaceDirectory {
   /// Your Own Windows Desktop Images</a>.
   final Tenancy? tenancy;
 
+  /// Indicates the identity type of the specifired user.
+  final UserIdentityType? userIdentityType;
+
   /// The devices and operating systems that users can use to access WorkSpaces.
   final WorkspaceAccessProperties? workspaceAccessProperties;
 
   /// The default creation properties for all WorkSpaces in the directory.
   final DefaultWorkspaceCreationProperties? workspaceCreationProperties;
 
+  /// The description of the WorkSpace directory
+  final String? workspaceDirectoryDescription;
+
+  /// The name fo the WorkSpace directory.
+  final String? workspaceDirectoryName;
+
   /// The identifier of the security group that is assigned to new WorkSpaces.
   final String? workspaceSecurityGroupId;
+
+  /// Indicates whether the directory's WorkSpace type is personal or pools.
+  final WorkspaceType? workspaceType;
 
   /// The identifiers of the IP access control groups associated with the
   /// directory.
   final List<String>? ipGroupIds;
 
   WorkspaceDirectory({
+    this.activeDirectoryConfig,
     this.alias,
     this.certificateBasedAuthProperties,
     this.customerUserName,
@@ -8975,21 +10340,33 @@ class WorkspaceDirectory {
     this.directoryName,
     this.directoryType,
     this.dnsIpAddresses,
+    this.errorMessage,
+    this.iDCConfig,
     this.iamRoleId,
+    this.microsoftEntraConfig,
     this.registrationCode,
     this.samlProperties,
     this.selfservicePermissions,
     this.state,
+    this.streamingProperties,
     this.subnetIds,
     this.tenancy,
+    this.userIdentityType,
     this.workspaceAccessProperties,
     this.workspaceCreationProperties,
+    this.workspaceDirectoryDescription,
+    this.workspaceDirectoryName,
     this.workspaceSecurityGroupId,
+    this.workspaceType,
     this.ipGroupIds,
   });
 
   factory WorkspaceDirectory.fromJson(Map<String, dynamic> json) {
     return WorkspaceDirectory(
+      activeDirectoryConfig: json['ActiveDirectoryConfig'] != null
+          ? ActiveDirectoryConfig.fromJson(
+              json['ActiveDirectoryConfig'] as Map<String, dynamic>)
+          : null,
       alias: json['Alias'] as String?,
       certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
               null
@@ -9005,7 +10382,15 @@ class WorkspaceDirectory {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+      iDCConfig: json['IDCConfig'] != null
+          ? IDCConfig.fromJson(json['IDCConfig'] as Map<String, dynamic>)
+          : null,
       iamRoleId: json['IamRoleId'] as String?,
+      microsoftEntraConfig: json['MicrosoftEntraConfig'] != null
+          ? MicrosoftEntraConfig.fromJson(
+              json['MicrosoftEntraConfig'] as Map<String, dynamic>)
+          : null,
       registrationCode: json['RegistrationCode'] as String?,
       samlProperties: json['SamlProperties'] != null
           ? SamlProperties.fromJson(
@@ -9017,11 +10402,17 @@ class WorkspaceDirectory {
           : null,
       state:
           (json['State'] as String?)?.let(WorkspaceDirectoryState.fromString),
+      streamingProperties: json['StreamingProperties'] != null
+          ? StreamingProperties.fromJson(
+              json['StreamingProperties'] as Map<String, dynamic>)
+          : null,
       subnetIds: (json['SubnetIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
       tenancy: (json['Tenancy'] as String?)?.let(Tenancy.fromString),
+      userIdentityType: (json['UserIdentityType'] as String?)
+          ?.let(UserIdentityType.fromString),
       workspaceAccessProperties: json['WorkspaceAccessProperties'] != null
           ? WorkspaceAccessProperties.fromJson(
               json['WorkspaceAccessProperties'] as Map<String, dynamic>)
@@ -9030,7 +10421,12 @@ class WorkspaceDirectory {
           ? DefaultWorkspaceCreationProperties.fromJson(
               json['WorkspaceCreationProperties'] as Map<String, dynamic>)
           : null,
+      workspaceDirectoryDescription:
+          json['WorkspaceDirectoryDescription'] as String?,
+      workspaceDirectoryName: json['WorkspaceDirectoryName'] as String?,
       workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
+      workspaceType:
+          (json['WorkspaceType'] as String?)?.let(WorkspaceType.fromString),
       ipGroupIds: (json['ipGroupIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -9039,6 +10435,7 @@ class WorkspaceDirectory {
   }
 
   Map<String, dynamic> toJson() {
+    final activeDirectoryConfig = this.activeDirectoryConfig;
     final alias = this.alias;
     final certificateBasedAuthProperties = this.certificateBasedAuthProperties;
     final customerUserName = this.customerUserName;
@@ -9046,18 +10443,28 @@ class WorkspaceDirectory {
     final directoryName = this.directoryName;
     final directoryType = this.directoryType;
     final dnsIpAddresses = this.dnsIpAddresses;
+    final errorMessage = this.errorMessage;
+    final iDCConfig = this.iDCConfig;
     final iamRoleId = this.iamRoleId;
+    final microsoftEntraConfig = this.microsoftEntraConfig;
     final registrationCode = this.registrationCode;
     final samlProperties = this.samlProperties;
     final selfservicePermissions = this.selfservicePermissions;
     final state = this.state;
+    final streamingProperties = this.streamingProperties;
     final subnetIds = this.subnetIds;
     final tenancy = this.tenancy;
+    final userIdentityType = this.userIdentityType;
     final workspaceAccessProperties = this.workspaceAccessProperties;
     final workspaceCreationProperties = this.workspaceCreationProperties;
+    final workspaceDirectoryDescription = this.workspaceDirectoryDescription;
+    final workspaceDirectoryName = this.workspaceDirectoryName;
     final workspaceSecurityGroupId = this.workspaceSecurityGroupId;
+    final workspaceType = this.workspaceType;
     final ipGroupIds = this.ipGroupIds;
     return {
+      if (activeDirectoryConfig != null)
+        'ActiveDirectoryConfig': activeDirectoryConfig,
       if (alias != null) 'Alias': alias,
       if (certificateBasedAuthProperties != null)
         'CertificateBasedAuthProperties': certificateBasedAuthProperties,
@@ -9066,20 +10473,32 @@ class WorkspaceDirectory {
       if (directoryName != null) 'DirectoryName': directoryName,
       if (directoryType != null) 'DirectoryType': directoryType.value,
       if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (iDCConfig != null) 'IDCConfig': iDCConfig,
       if (iamRoleId != null) 'IamRoleId': iamRoleId,
+      if (microsoftEntraConfig != null)
+        'MicrosoftEntraConfig': microsoftEntraConfig,
       if (registrationCode != null) 'RegistrationCode': registrationCode,
       if (samlProperties != null) 'SamlProperties': samlProperties,
       if (selfservicePermissions != null)
         'SelfservicePermissions': selfservicePermissions,
       if (state != null) 'State': state.value,
+      if (streamingProperties != null)
+        'StreamingProperties': streamingProperties,
       if (subnetIds != null) 'SubnetIds': subnetIds,
       if (tenancy != null) 'Tenancy': tenancy.value,
+      if (userIdentityType != null) 'UserIdentityType': userIdentityType.value,
       if (workspaceAccessProperties != null)
         'WorkspaceAccessProperties': workspaceAccessProperties,
       if (workspaceCreationProperties != null)
         'WorkspaceCreationProperties': workspaceCreationProperties,
+      if (workspaceDirectoryDescription != null)
+        'WorkspaceDirectoryDescription': workspaceDirectoryDescription,
+      if (workspaceDirectoryName != null)
+        'WorkspaceDirectoryName': workspaceDirectoryName,
       if (workspaceSecurityGroupId != null)
         'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
+      if (workspaceType != null) 'WorkspaceType': workspaceType.value,
       if (ipGroupIds != null) 'ipGroupIds': ipGroupIds,
     };
   }
@@ -9106,6 +10525,8 @@ enum WorkspaceDirectoryState {
 enum WorkspaceDirectoryType {
   simpleAd('SIMPLE_AD'),
   adConnector('AD_CONNECTOR'),
+  customerManaged('CUSTOMER_MANAGED'),
+  awsIamIdentityCenter('AWS_IAM_IDENTITY_CENTER'),
   ;
 
   final String value;
@@ -9279,6 +10700,7 @@ enum WorkspaceImageIngestionProcess {
   byolGraphicspro('BYOL_GRAPHICSPRO'),
   byolGraphicsG4dn('BYOL_GRAPHICS_G4DN'),
   byolRegularWsp('BYOL_REGULAR_WSP'),
+  byolGraphicsG4dnWsp('BYOL_GRAPHICS_G4DN_WSP'),
   byolRegularByop('BYOL_REGULAR_BYOP'),
   byolGraphicsG4dnByop('BYOL_GRAPHICS_G4DN_BYOP'),
   ;
@@ -9368,6 +10790,11 @@ class WorkspaceProperties {
   /// information, see <a href="http://aws.amazon.com/workspaces/core/">Amazon
   /// WorkSpaces Core</a>.
   /// </note>
+  /// Review your running mode to ensure you are using one that is optimal for
+  /// your needs and budget. For more information on switching running modes, see
+  /// <a
+  /// href="http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F">
+  /// Can I switch between hourly and monthly billing?</a>
   final RunningMode? runningMode;
 
   /// The time after a user logs off when WorkSpaces are automatically stopped.
@@ -9465,6 +10892,12 @@ class WorkspaceRequest {
   final String? volumeEncryptionKey;
 
   /// The name of the user-decoupled WorkSpace.
+  /// <note>
+  /// <code>WorkspaceName</code> is required if <code>UserName</code> is
+  /// <code>[UNDEFINED]</code> for user-decoupled WorkSpaces.
+  /// <code>WorkspaceName</code> is not applicable if <code>UserName</code> is
+  /// specified for user-assigned WorkSpaces.
+  /// </note>
   final String? workspaceName;
 
   /// The WorkSpace properties.
@@ -9632,6 +11065,21 @@ enum WorkspaceState {
               throw Exception('$value is not known in enum WorkspaceState'));
 }
 
+enum WorkspaceType {
+  personal('PERSONAL'),
+  pools('POOLS'),
+  ;
+
+  final String value;
+
+  const WorkspaceType(this.value);
+
+  static WorkspaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum WorkspaceType'));
+}
+
 /// Describes an IP access control group.
 class WorkspacesIpGroup {
   /// The description of the group.
@@ -9677,6 +11125,324 @@ class WorkspacesIpGroup {
       if (userRules != null) 'userRules': userRules,
     };
   }
+}
+
+/// Describes a pool of WorkSpaces.
+class WorkspacesPool {
+  /// The identifier of the bundle used by the pool.
+  final String bundleId;
+
+  /// The capacity status for the pool
+  final CapacityStatus capacityStatus;
+
+  /// The time the pool was created.
+  final DateTime createdAt;
+
+  /// The identifier of the directory used by the pool.
+  final String directoryId;
+
+  /// The Amazon Resource Name (ARN) for the pool.
+  final String poolArn;
+
+  /// The identifier of a pool.
+  final String poolId;
+
+  /// The name of the pool,
+  final String poolName;
+
+  /// The current state of the pool.
+  final WorkspacesPoolState state;
+
+  /// The persistent application settings for users of the pool.
+  final ApplicationSettingsResponse? applicationSettings;
+
+  /// The description of the pool.
+  final String? description;
+
+  /// The pool errors.
+  final List<WorkspacesPoolError>? errors;
+
+  /// The amount of time that a pool session remains active after users
+  /// disconnect. If they try to reconnect to the pool session after a
+  /// disconnection or network interruption within this time interval, they are
+  /// connected to their previous session. Otherwise, they are connected to a new
+  /// session with a new pool instance.
+  final TimeoutSettings? timeoutSettings;
+
+  WorkspacesPool({
+    required this.bundleId,
+    required this.capacityStatus,
+    required this.createdAt,
+    required this.directoryId,
+    required this.poolArn,
+    required this.poolId,
+    required this.poolName,
+    required this.state,
+    this.applicationSettings,
+    this.description,
+    this.errors,
+    this.timeoutSettings,
+  });
+
+  factory WorkspacesPool.fromJson(Map<String, dynamic> json) {
+    return WorkspacesPool(
+      bundleId: json['BundleId'] as String,
+      capacityStatus: CapacityStatus.fromJson(
+          json['CapacityStatus'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      directoryId: json['DirectoryId'] as String,
+      poolArn: json['PoolArn'] as String,
+      poolId: json['PoolId'] as String,
+      poolName: json['PoolName'] as String,
+      state: WorkspacesPoolState.fromString((json['State'] as String)),
+      applicationSettings: json['ApplicationSettings'] != null
+          ? ApplicationSettingsResponse.fromJson(
+              json['ApplicationSettings'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      errors: (json['Errors'] as List?)
+          ?.nonNulls
+          .map((e) => WorkspacesPoolError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeoutSettings: json['TimeoutSettings'] != null
+          ? TimeoutSettings.fromJson(
+              json['TimeoutSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundleId = this.bundleId;
+    final capacityStatus = this.capacityStatus;
+    final createdAt = this.createdAt;
+    final directoryId = this.directoryId;
+    final poolArn = this.poolArn;
+    final poolId = this.poolId;
+    final poolName = this.poolName;
+    final state = this.state;
+    final applicationSettings = this.applicationSettings;
+    final description = this.description;
+    final errors = this.errors;
+    final timeoutSettings = this.timeoutSettings;
+    return {
+      'BundleId': bundleId,
+      'CapacityStatus': capacityStatus,
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'DirectoryId': directoryId,
+      'PoolArn': poolArn,
+      'PoolId': poolId,
+      'PoolName': poolName,
+      'State': state.value,
+      if (applicationSettings != null)
+        'ApplicationSettings': applicationSettings,
+      if (description != null) 'Description': description,
+      if (errors != null) 'Errors': errors,
+      if (timeoutSettings != null) 'TimeoutSettings': timeoutSettings,
+    };
+  }
+}
+
+/// Describes a pool error.
+class WorkspacesPoolError {
+  /// The error code.
+  final WorkspacesPoolErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  WorkspacesPoolError({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory WorkspacesPoolError.fromJson(Map<String, dynamic> json) {
+    return WorkspacesPoolError(
+      errorCode: (json['ErrorCode'] as String?)
+          ?.let(WorkspacesPoolErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+enum WorkspacesPoolErrorCode {
+  iamServiceRoleIsMissing('IAM_SERVICE_ROLE_IS_MISSING'),
+  iamServiceRoleMissingEniDescribeAction(
+      'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'),
+  iamServiceRoleMissingEniCreateAction(
+      'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'),
+  iamServiceRoleMissingEniDeleteAction(
+      'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'),
+  networkInterfaceLimitExceeded('NETWORK_INTERFACE_LIMIT_EXCEEDED'),
+  internalServiceError('INTERNAL_SERVICE_ERROR'),
+  machineRoleIsMissing('MACHINE_ROLE_IS_MISSING'),
+  stsDisabledInRegion('STS_DISABLED_IN_REGION'),
+  subnetHasInsufficientIpAddresses('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'),
+  iamServiceRoleMissingDescribeSubnetAction(
+      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'),
+  subnetNotFound('SUBNET_NOT_FOUND'),
+  imageNotFound('IMAGE_NOT_FOUND'),
+  invalidSubnetConfiguration('INVALID_SUBNET_CONFIGURATION'),
+  securityGroupsNotFound('SECURITY_GROUPS_NOT_FOUND'),
+  igwNotAttached('IGW_NOT_ATTACHED'),
+  iamServiceRoleMissingDescribeSecurityGroupsAction(
+      'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION'),
+  workspacesPoolStopped('WORKSPACES_POOL_STOPPED'),
+  workspacesPoolInstanceProvisioningFailure(
+      'WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE'),
+  domainJoinErrorFileNotFound('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND'),
+  domainJoinErrorAccessDenied('DOMAIN_JOIN_ERROR_ACCESS_DENIED'),
+  domainJoinErrorLogonFailure('DOMAIN_JOIN_ERROR_LOGON_FAILURE'),
+  domainJoinErrorInvalidParameter('DOMAIN_JOIN_ERROR_INVALID_PARAMETER'),
+  domainJoinErrorMoreData('DOMAIN_JOIN_ERROR_MORE_DATA'),
+  domainJoinErrorNoSuchDomain('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN'),
+  domainJoinErrorNotSupported('DOMAIN_JOIN_ERROR_NOT_SUPPORTED'),
+  domainJoinNerrInvalidWorkgroupName('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME'),
+  domainJoinNerrWorkstationNotStarted(
+      'DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED'),
+  domainJoinErrorDsMachineAccountQuotaExceeded(
+      'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED'),
+  domainJoinNerrPasswordExpired('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED'),
+  domainJoinInternalServiceError('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR'),
+  domainJoinErrorSecretActionPermissionIsMissing(
+      'DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING'),
+  domainJoinErrorSecretDecryptionFailure(
+      'DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE'),
+  domainJoinErrorSecretStateInvalid('DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID'),
+  domainJoinErrorSecretNotFound('DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND'),
+  domainJoinErrorSecretValueKeyNotFound(
+      'DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND'),
+  domainJoinErrorSecretInvalid('DOMAIN_JOIN_ERROR_SECRET_INVALID'),
+  bundleNotFound('BUNDLE_NOT_FOUND'),
+  directoryNotFound('DIRECTORY_NOT_FOUND'),
+  insufficientPermissionsError('INSUFFICIENT_PERMISSIONS_ERROR'),
+  defaultOuIsMissing('DEFAULT_OU_IS_MISSING'),
+  ;
+
+  final String value;
+
+  const WorkspacesPoolErrorCode(this.value);
+
+  static WorkspacesPoolErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum WorkspacesPoolErrorCode'));
+}
+
+/// Describes a pool session.
+class WorkspacesPoolSession {
+  /// The identifier of the pool.
+  final String poolId;
+
+  /// The identifier of the session.
+  final String sessionId;
+
+  /// The identifier of the user.
+  final String userId;
+
+  /// The authentication method. The user is authenticated using a WorkSpaces
+  /// Pools URL (API) or SAML 2.0 federation (SAML).
+  final AuthenticationType? authenticationType;
+
+  /// Specifies whether a user is connected to the pool session.
+  final SessionConnectionState? connectionState;
+
+  /// The time that the pool session ended.
+  final DateTime? expirationTime;
+
+  /// The identifier for the instance hosting the session.
+  final String? instanceId;
+
+  /// Describes the network details of the pool.
+  final NetworkAccessConfiguration? networkAccessConfiguration;
+
+  /// The time that the pool sission started.
+  final DateTime? startTime;
+
+  WorkspacesPoolSession({
+    required this.poolId,
+    required this.sessionId,
+    required this.userId,
+    this.authenticationType,
+    this.connectionState,
+    this.expirationTime,
+    this.instanceId,
+    this.networkAccessConfiguration,
+    this.startTime,
+  });
+
+  factory WorkspacesPoolSession.fromJson(Map<String, dynamic> json) {
+    return WorkspacesPoolSession(
+      poolId: json['PoolId'] as String,
+      sessionId: json['SessionId'] as String,
+      userId: json['UserId'] as String,
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(AuthenticationType.fromString),
+      connectionState: (json['ConnectionState'] as String?)
+          ?.let(SessionConnectionState.fromString),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      instanceId: json['InstanceId'] as String?,
+      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
+          ? NetworkAccessConfiguration.fromJson(
+              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final poolId = this.poolId;
+    final sessionId = this.sessionId;
+    final userId = this.userId;
+    final authenticationType = this.authenticationType;
+    final connectionState = this.connectionState;
+    final expirationTime = this.expirationTime;
+    final instanceId = this.instanceId;
+    final networkAccessConfiguration = this.networkAccessConfiguration;
+    final startTime = this.startTime;
+    return {
+      'PoolId': poolId,
+      'SessionId': sessionId,
+      'UserId': userId,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (connectionState != null) 'ConnectionState': connectionState.value,
+      if (expirationTime != null)
+        'ExpirationTime': unixTimestampToJson(expirationTime),
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (networkAccessConfiguration != null)
+        'NetworkAccessConfiguration': networkAccessConfiguration,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+enum WorkspacesPoolState {
+  creating('CREATING'),
+  deleting('DELETING'),
+  running('RUNNING'),
+  starting('STARTING'),
+  stopped('STOPPED'),
+  stopping('STOPPING'),
+  updating('UPDATING'),
+  ;
+
+  final String value;
+
+  const WorkspacesPoolState(this.value);
+
+  static WorkspacesPoolState fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum WorkspacesPoolState'));
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

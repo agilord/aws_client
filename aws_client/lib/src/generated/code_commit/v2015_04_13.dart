@@ -841,6 +841,7 @@ class CodeCommit {
   /// May throw [InvalidRepositoryNameException].
   /// May throw [InvalidRepositoryDescriptionException].
   /// May throw [RepositoryLimitExceededException].
+  /// May throw [OperationNotAllowedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
@@ -868,7 +869,7 @@ class CodeCommit {
   /// The ID of the encryption key. You can view the ID of an encryption key in
   /// the KMS console, or use the KMS APIs to programmatically retrieve a key
   /// ID. For more information about acceptable values for kmsKeyID, see <a
-  /// href="https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId">KeyId</a>
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId">KeyId</a>
   /// in the Decrypt API description in the <i>Key Management Service API
   /// Reference</i>.
   ///
@@ -4892,7 +4893,7 @@ class CodeCommit {
   /// The ID of the encryption key. You can view the ID of an encryption key in
   /// the KMS console, or use the KMS APIs to programmatically retrieve a key
   /// ID. For more information about acceptable values for keyID, see <a
-  /// href="https://docs.aws.amazon.com/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId">KeyId</a>
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html#KMS-Decrypt-request-KeyId">KeyId</a>
   /// in the Decrypt API description in the <i>Key Management Service API
   /// Reference</i>.
   ///
@@ -11484,6 +11485,12 @@ class NumberOfRulesExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class OperationNotAllowedException extends _s.GenericAwsException {
+  OperationNotAllowedException({String? type, String? message})
+      : super(
+            type: type, code: 'OperationNotAllowedException', message: message);
+}
+
 class OverrideAlreadySetException extends _s.GenericAwsException {
   OverrideAlreadySetException({String? type, String? message})
       : super(
@@ -12133,6 +12140,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NumberOfRuleTemplatesExceededException(type: type, message: message),
   'NumberOfRulesExceededException': (type, message) =>
       NumberOfRulesExceededException(type: type, message: message),
+  'OperationNotAllowedException': (type, message) =>
+      OperationNotAllowedException(type: type, message: message),
   'OverrideAlreadySetException': (type, message) =>
       OverrideAlreadySetException(type: type, message: message),
   'OverrideStatusRequiredException': (type, message) =>

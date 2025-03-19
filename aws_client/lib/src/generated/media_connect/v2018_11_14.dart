@@ -339,6 +339,7 @@ class MediaConnect {
     List<AddOutputRequest>? outputs,
     SetSourceRequest? source,
     FailoverConfig? sourceFailoverConfig,
+    MonitoringConfig? sourceMonitoringConfig,
     List<SetSourceRequest>? sources,
     List<VpcInterfaceRequest>? vpcInterfaces,
   }) async {
@@ -352,6 +353,8 @@ class MediaConnect {
       if (source != null) 'source': source,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
+      if (sourceMonitoringConfig != null)
+        'sourceMonitoringConfig': sourceMonitoringConfig,
       if (sources != null) 'sources': sources,
       if (vpcInterfaces != null) 'vpcInterfaces': vpcInterfaces,
     };
@@ -587,6 +590,29 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFlowSourceMetadataResponse.fromJson(response);
+  }
+
+  /// Displays the thumbnail details of a flow's source stream.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [flowArn] :
+  /// The Amazon Resource Name (ARN) of the flow.
+  Future<DescribeFlowSourceThumbnailResponse> describeFlowSourceThumbnail({
+    required String flowArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/source-thumbnail',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeFlowSourceThumbnailResponse.fromJson(response);
   }
 
   /// Displays the details of a gateway. The response includes the gateway ARN,
@@ -1593,11 +1619,14 @@ class MediaConnect {
     required String flowArn,
     UpdateMaintenance? maintenance,
     UpdateFailoverConfig? sourceFailoverConfig,
+    MonitoringConfig? sourceMonitoringConfig,
   }) async {
     final $payload = <String, dynamic>{
       if (maintenance != null) 'maintenance': maintenance,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
+      if (sourceMonitoringConfig != null)
+        'sourceMonitoringConfig': sourceMonitoringConfig,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1773,6 +1802,11 @@ class MediaConnect {
   /// latency of the stream is set to the highest number between the sender’s
   /// minimum latency and the receiver’s minimum latency.
   ///
+  /// Parameter [outputStatus] :
+  /// An indication of whether the output should transmit data or not. If you
+  /// don't specify the outputStatus field in your request, MediaConnect leaves
+  /// the value unchanged.
+  ///
   /// Parameter [port] :
   /// The port to use when content is distributed to this output.
   ///
@@ -1810,6 +1844,7 @@ class MediaConnect {
     List<MediaStreamOutputConfigurationRequest>?
         mediaStreamOutputConfigurations,
     int? minLatency,
+    OutputStatus? outputStatus,
     int? port,
     Protocol? protocol,
     String? remoteId,
@@ -1828,6 +1863,7 @@ class MediaConnect {
       if (mediaStreamOutputConfigurations != null)
         'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
+      if (outputStatus != null) 'outputStatus': outputStatus.value,
       if (port != null) 'port': port,
       if (protocol != null) 'protocol': protocol.value,
       if (remoteId != null) 'remoteId': remoteId,
@@ -2534,6 +2570,11 @@ class AddOutputRequest {
   /// The name of the output. This value must be unique within the current flow.
   final String? name;
 
+  /// An indication of whether the new output should be enabled or disabled as
+  /// soon as it is created. If you don't specify the outputStatus field in your
+  /// request, MediaConnect sets it to ENABLED.
+  final OutputStatus? outputStatus;
+
   /// The port to use when content is distributed to this output.
   final int? port;
 
@@ -2564,6 +2605,7 @@ class AddOutputRequest {
     this.mediaStreamOutputConfigurations,
     this.minLatency,
     this.name,
+    this.outputStatus,
     this.port,
     this.remoteId,
     this.senderControlPort,
@@ -2583,6 +2625,7 @@ class AddOutputRequest {
         this.mediaStreamOutputConfigurations;
     final minLatency = this.minLatency;
     final name = this.name;
+    final outputStatus = this.outputStatus;
     final port = this.port;
     final remoteId = this.remoteId;
     final senderControlPort = this.senderControlPort;
@@ -2600,6 +2643,7 @@ class AddOutputRequest {
         'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
       if (minLatency != null) 'minLatency': minLatency,
       if (name != null) 'name': name,
+      if (outputStatus != null) 'outputStatus': outputStatus.value,
       if (port != null) 'port': port,
       if (remoteId != null) 'remoteId': remoteId,
       if (senderControlPort != null) 'senderControlPort': senderControlPort,
@@ -3334,6 +3378,31 @@ class DescribeFlowSourceMetadataResponse {
   }
 }
 
+class DescribeFlowSourceThumbnailResponse {
+  final ThumbnailDetails? thumbnailDetails;
+
+  DescribeFlowSourceThumbnailResponse({
+    this.thumbnailDetails,
+  });
+
+  factory DescribeFlowSourceThumbnailResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFlowSourceThumbnailResponse(
+      thumbnailDetails: json['thumbnailDetails'] != null
+          ? ThumbnailDetails.fromJson(
+              json['thumbnailDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thumbnailDetails = this.thumbnailDetails;
+    return {
+      if (thumbnailDetails != null) 'thumbnailDetails': thumbnailDetails,
+    };
+  }
+}
+
 class DescribeGatewayInstanceResponse {
   final GatewayInstance? gatewayInstance;
 
@@ -3961,6 +4030,7 @@ class Flow {
   /// flow.
   final List<MediaStream>? mediaStreams;
   final FailoverConfig? sourceFailoverConfig;
+  final MonitoringConfig? sourceMonitoringConfig;
   final List<Source>? sources;
 
   /// The VPC Interfaces for this flow.
@@ -3979,6 +4049,7 @@ class Flow {
     this.maintenance,
     this.mediaStreams,
     this.sourceFailoverConfig,
+    this.sourceMonitoringConfig,
     this.sources,
     this.vpcInterfaces,
   });
@@ -4011,6 +4082,10 @@ class Flow {
           ? FailoverConfig.fromJson(
               json['sourceFailoverConfig'] as Map<String, dynamic>)
           : null,
+      sourceMonitoringConfig: json['sourceMonitoringConfig'] != null
+          ? MonitoringConfig.fromJson(
+              json['sourceMonitoringConfig'] as Map<String, dynamic>)
+          : null,
       sources: (json['sources'] as List?)
           ?.nonNulls
           .map((e) => Source.fromJson(e as Map<String, dynamic>))
@@ -4035,6 +4110,7 @@ class Flow {
     final maintenance = this.maintenance;
     final mediaStreams = this.mediaStreams;
     final sourceFailoverConfig = this.sourceFailoverConfig;
+    final sourceMonitoringConfig = this.sourceMonitoringConfig;
     final sources = this.sources;
     final vpcInterfaces = this.vpcInterfaces;
     return {
@@ -4051,6 +4127,8 @@ class Flow {
       if (mediaStreams != null) 'mediaStreams': mediaStreams,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
+      if (sourceMonitoringConfig != null)
+        'sourceMonitoringConfig': sourceMonitoringConfig,
       if (sources != null) 'sources': sources,
       if (vpcInterfaces != null) 'vpcInterfaces': vpcInterfaces,
     };
@@ -5694,6 +5772,30 @@ class Messages {
   }
 }
 
+/// The settings for source monitoring.
+class MonitoringConfig {
+  /// The state of thumbnail monitoring.
+  final ThumbnailState? thumbnailState;
+
+  MonitoringConfig({
+    this.thumbnailState,
+  });
+
+  factory MonitoringConfig.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfig(
+      thumbnailState:
+          (json['thumbnailState'] as String?)?.let(ThumbnailState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thumbnailState = this.thumbnailState;
+    return {
+      if (thumbnailState != null) 'thumbnailState': thumbnailState.value,
+    };
+  }
+}
+
 enum NetworkInterfaceType {
   ena('ena'),
   efa('efa'),
@@ -5835,6 +5937,9 @@ class Output {
   /// The configuration for each media stream that is associated with the output.
   final List<MediaStreamOutputConfiguration>? mediaStreamOutputConfigurations;
 
+  /// An indication of whether the output is transmitting data or not.
+  final OutputStatus? outputStatus;
+
   /// The port to use when content is distributed to this output.
   final int? port;
 
@@ -5857,6 +5962,7 @@ class Output {
     this.listenerAddress,
     this.mediaLiveInputArn,
     this.mediaStreamOutputConfigurations,
+    this.outputStatus,
     this.port,
     this.transport,
     this.vpcInterfaceAttachment,
@@ -5887,6 +5993,8 @@ class Output {
               .map((e) => MediaStreamOutputConfiguration.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
+      outputStatus:
+          (json['outputStatus'] as String?)?.let(OutputStatus.fromString),
       port: json['port'] as int?,
       transport: json['transport'] != null
           ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
@@ -5913,6 +6021,7 @@ class Output {
     final mediaLiveInputArn = this.mediaLiveInputArn;
     final mediaStreamOutputConfigurations =
         this.mediaStreamOutputConfigurations;
+    final outputStatus = this.outputStatus;
     final port = this.port;
     final transport = this.transport;
     final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
@@ -5931,12 +6040,28 @@ class Output {
       if (mediaLiveInputArn != null) 'mediaLiveInputArn': mediaLiveInputArn,
       if (mediaStreamOutputConfigurations != null)
         'mediaStreamOutputConfigurations': mediaStreamOutputConfigurations,
+      if (outputStatus != null) 'outputStatus': outputStatus.value,
       if (port != null) 'port': port,
       if (transport != null) 'transport': transport,
       if (vpcInterfaceAttachment != null)
         'vpcInterfaceAttachment': vpcInterfaceAttachment,
     };
   }
+}
+
+enum OutputStatus {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const OutputStatus(this.value);
+
+  static OutputStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum OutputStatus'));
 }
 
 enum PriceUnits {
@@ -6895,6 +7020,76 @@ enum Tcs {
   static Tcs fromString(String value) =>
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception('$value is not known in enum Tcs'));
+}
+
+/// The details of the thumbnail, including thumbnail base64 string, timecode
+/// and the time when thumbnail was generated.
+class ThumbnailDetails {
+  /// The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
+  final String flowArn;
+
+  /// Status code and messages about the flow source thumbnail.
+  final List<MessageDetail> thumbnailMessages;
+
+  /// Thumbnail Base64 string.
+  final String? thumbnail;
+
+  /// Timecode of thumbnail.
+  final String? timecode;
+
+  /// The timestamp of when thumbnail was generated.
+  final DateTime? timestamp;
+
+  ThumbnailDetails({
+    required this.flowArn,
+    required this.thumbnailMessages,
+    this.thumbnail,
+    this.timecode,
+    this.timestamp,
+  });
+
+  factory ThumbnailDetails.fromJson(Map<String, dynamic> json) {
+    return ThumbnailDetails(
+      flowArn: json['flowArn'] as String,
+      thumbnailMessages: (json['thumbnailMessages'] as List)
+          .nonNulls
+          .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      thumbnail: json['thumbnail'] as String?,
+      timecode: json['timecode'] as String?,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowArn = this.flowArn;
+    final thumbnailMessages = this.thumbnailMessages;
+    final thumbnail = this.thumbnail;
+    final timecode = this.timecode;
+    final timestamp = this.timestamp;
+    return {
+      'flowArn': flowArn,
+      'thumbnailMessages': thumbnailMessages,
+      if (thumbnail != null) 'thumbnail': thumbnail,
+      if (timecode != null) 'timecode': timecode,
+      if (timestamp != null) 'timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+enum ThumbnailState {
+  enabled('ENABLED'),
+  disabled('DISABLED'),
+  ;
+
+  final String value;
+
+  const ThumbnailState(this.value);
+
+  static ThumbnailState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ThumbnailState'));
 }
 
 /// Attributes related to the transport stream that are used in a source or

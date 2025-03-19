@@ -2136,6 +2136,12 @@ class CollectionDetail {
   /// A description of the collection.
   final String? description;
 
+  /// A failure code associated with the request.
+  final String? failureCode;
+
+  /// A message associated with the failure code.
+  final String? failureMessage;
+
   /// A unique identifier for the collection.
   final String? id;
 
@@ -2163,6 +2169,8 @@ class CollectionDetail {
     this.createdDate,
     this.dashboardEndpoint,
     this.description,
+    this.failureCode,
+    this.failureMessage,
     this.id,
     this.kmsKeyArn,
     this.lastModifiedDate,
@@ -2179,6 +2187,8 @@ class CollectionDetail {
       createdDate: json['createdDate'] as int?,
       dashboardEndpoint: json['dashboardEndpoint'] as String?,
       description: json['description'] as String?,
+      failureCode: json['failureCode'] as String?,
+      failureMessage: json['failureMessage'] as String?,
       id: json['id'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       lastModifiedDate: json['lastModifiedDate'] as int?,
@@ -2196,6 +2206,8 @@ class CollectionDetail {
     final createdDate = this.createdDate;
     final dashboardEndpoint = this.dashboardEndpoint;
     final description = this.description;
+    final failureCode = this.failureCode;
+    final failureMessage = this.failureMessage;
     final id = this.id;
     final kmsKeyArn = this.kmsKeyArn;
     final lastModifiedDate = this.lastModifiedDate;
@@ -2209,6 +2221,8 @@ class CollectionDetail {
       if (createdDate != null) 'createdDate': createdDate,
       if (dashboardEndpoint != null) 'dashboardEndpoint': dashboardEndpoint,
       if (description != null) 'description': description,
+      if (failureCode != null) 'failureCode': failureCode,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (id != null) 'id': id,
       if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
       if (lastModifiedDate != null) 'lastModifiedDate': lastModifiedDate,
@@ -4399,6 +4413,12 @@ class VpcEndpointDetail {
   /// The date the endpoint was created.
   final int? createdDate;
 
+  /// A failure code associated with the request.
+  final String? failureCode;
+
+  /// A message associated with the failure code.
+  final String? failureMessage;
+
   /// The unique identifier of the endpoint.
   final String? id;
 
@@ -4421,6 +4441,8 @@ class VpcEndpointDetail {
 
   VpcEndpointDetail({
     this.createdDate,
+    this.failureCode,
+    this.failureMessage,
     this.id,
     this.name,
     this.securityGroupIds,
@@ -4432,6 +4454,8 @@ class VpcEndpointDetail {
   factory VpcEndpointDetail.fromJson(Map<String, dynamic> json) {
     return VpcEndpointDetail(
       createdDate: json['createdDate'] as int?,
+      failureCode: json['failureCode'] as String?,
+      failureMessage: json['failureMessage'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
@@ -4449,6 +4473,8 @@ class VpcEndpointDetail {
 
   Map<String, dynamic> toJson() {
     final createdDate = this.createdDate;
+    final failureCode = this.failureCode;
+    final failureMessage = this.failureMessage;
     final id = this.id;
     final name = this.name;
     final securityGroupIds = this.securityGroupIds;
@@ -4457,6 +4483,8 @@ class VpcEndpointDetail {
     final vpcId = this.vpcId;
     return {
       if (createdDate != null) 'createdDate': createdDate,
+      if (failureCode != null) 'failureCode': failureCode,
+      if (failureMessage != null) 'failureMessage': failureMessage,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,

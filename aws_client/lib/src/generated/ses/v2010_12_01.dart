@@ -1809,6 +1809,15 @@ class Ses {
   /// May throw [ConfigurationSetSendingPausedException].
   /// May throw [AccountSendingPausedException].
   ///
+  /// Parameter [defaultTemplateData] :
+  /// A list of replacement values to apply to the template when replacement
+  /// data is not specified in a Destination object. These values act as a
+  /// default or fallback option when no other data is available.
+  ///
+  /// The template data is a JSON object, typically consisting of key-value
+  /// pairs in which the keys correspond to replacement tags in the email
+  /// template.
+  ///
   /// Parameter [destinations] :
   /// One or more <code>Destination</code> objects. All of the recipients in a
   /// <code>Destination</code> receive the same version of the email. You can
@@ -1854,15 +1863,6 @@ class Ses {
   /// Parameter [defaultTags] :
   /// A list of tags, in the form of name/value pairs, to apply to an email that
   /// you send to a destination using <code>SendBulkTemplatedEmail</code>.
-  ///
-  /// Parameter [defaultTemplateData] :
-  /// A list of replacement values to apply to the template when replacement
-  /// data is not specified in a Destination object. These values act as a
-  /// default or fallback option when no other data is available.
-  ///
-  /// The template data is a JSON object, typically consisting of key-value
-  /// pairs in which the keys correspond to replacement tags in the email
-  /// template.
   ///
   /// Parameter [replyToAddresses] :
   /// The reply-to email address(es) for the message. If the recipient replies
@@ -1917,12 +1917,12 @@ class Ses {
   /// Parameter [templateArn] :
   /// The ARN of the template to use when sending this email.
   Future<SendBulkTemplatedEmailResponse> sendBulkTemplatedEmail({
+    required String defaultTemplateData,
     required List<BulkEmailDestination> destinations,
     required String source,
     required String template,
     String? configurationSetName,
     List<MessageTag>? defaultTags,
-    String? defaultTemplateData,
     List<String>? replyToAddresses,
     String? returnPath,
     String? returnPathArn,
@@ -1930,6 +1930,7 @@ class Ses {
     String? templateArn,
   }) async {
     final $request = <String, String>{
+      'DefaultTemplateData': defaultTemplateData,
       if (destinations.isEmpty)
         'Destinations': ''
       else
@@ -1947,8 +1948,6 @@ class Ses {
           for (var i1 = 0; i1 < defaultTags.length; i1++)
             for (var e3 in defaultTags[i1].toQueryMap().entries)
               'DefaultTags.member.${i1 + 1}.${e3.key}': e3.value,
-      if (defaultTemplateData != null)
-        'DefaultTemplateData': defaultTemplateData,
       if (replyToAddresses != null)
         if (replyToAddresses.isEmpty)
           'ReplyToAddresses': ''
@@ -6900,25 +6899,50 @@ class S3Action {
   /// The name of the Amazon S3 bucket for incoming email.
   final String bucketName;
 
-  /// The customer master key that Amazon SES should use to encrypt your emails
-  /// before saving them to the Amazon S3 bucket. You can use the default master
-  /// key or a custom master key that you created in Amazon Web Services KMS as
+  /// The ARN of the IAM role to be used by Amazon Simple Email Service while
+  /// writing to the Amazon S3 bucket, optionally encrypting your mail via the
+  /// provided customer managed key, and publishing to the Amazon SNS topic. This
+  /// role should have access to the following APIs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>s3:PutObject</code>, <code>kms:Encrypt</code> and
+  /// <code>kms:GenerateDataKey</code> for the given Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>kms:GenerateDataKey</code> for the given Amazon Web Services KMS
+  /// customer managed key.
+  /// </li>
+  /// <li>
+  /// <code>sns:Publish</code> for the given Amazon SNS topic.
+  /// </li>
+  /// </ul> <note>
+  /// If an IAM role ARN is provided, the role (and only the role) is used to
+  /// access all the given resources (Amazon S3 bucket, Amazon Web Services KMS
+  /// customer managed key and Amazon SNS topic). Therefore, setting up individual
+  /// resource access permissions is not required.
+  /// </note>
+  final String? iamRoleArn;
+
+  /// The customer managed key that Amazon SES should use to encrypt your emails
+  /// before saving them to the Amazon S3 bucket. You can use the default managed
+  /// key or a custom managed key that you created in Amazon Web Services KMS as
   /// follows:
   ///
   /// <ul>
   /// <li>
-  /// To use the default master key, provide an ARN in the form of
+  /// To use the default managed key, provide an ARN in the form of
   /// <code>arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses</code>.
   /// For example, if your Amazon Web Services account ID is 123456789012 and you
-  /// want to use the default master key in the US West (Oregon) Region, the ARN
+  /// want to use the default managed key in the US West (Oregon) Region, the ARN
   /// of the default master key would be
   /// <code>arn:aws:kms:us-west-2:123456789012:alias/aws/ses</code>. If you use
-  /// the default master key, you don't need to perform any extra steps to give
+  /// the default managed key, you don't need to perform any extra steps to give
   /// Amazon SES permission to use the key.
   /// </li>
   /// <li>
-  /// To use a custom master key that you created in Amazon Web Services KMS,
-  /// provide the ARN of the master key and ensure that you add a statement to
+  /// To use a custom managed key that you created in Amazon Web Services KMS,
+  /// provide the ARN of the managed key and ensure that you add a statement to
   /// your key's policy to give Amazon SES permission to use it. For more
   /// information about giving permissions, see the <a
   /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
@@ -6927,7 +6951,7 @@ class S3Action {
   /// </ul>
   /// For more information about key policies, see the <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Amazon
-  /// Web Services KMS Developer Guide</a>. If you do not specify a master key,
+  /// Web Services KMS Developer Guide</a>. If you do not specify a managed key,
   /// Amazon SES does not encrypt your emails.
   /// <important>
   /// Your mail is encrypted by Amazon SES using the Amazon S3 encryption client
@@ -6939,7 +6963,7 @@ class S3Action {
   /// <a href="http://aws.amazon.com/sdk-for-java/">Amazon Web Services SDK for
   /// Java</a> and <a href="http://aws.amazon.com/sdk-for-ruby/">Amazon Web
   /// Services SDK for Ruby</a> only. For more information about client-side
-  /// encryption using Amazon Web Services KMS master keys, see the <a
+  /// encryption using Amazon Web Services KMS managed keys, see the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
   /// S3 Developer Guide</a>.
   /// </important>
@@ -6962,6 +6986,7 @@ class S3Action {
 
   S3Action({
     required this.bucketName,
+    this.iamRoleArn,
     this.kmsKeyArn,
     this.objectKeyPrefix,
     this.topicArn,
@@ -6969,6 +6994,7 @@ class S3Action {
   factory S3Action.fromXml(_s.XmlElement elem) {
     return S3Action(
       bucketName: _s.extractXmlStringValue(elem, 'BucketName')!,
+      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
       kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
       objectKeyPrefix: _s.extractXmlStringValue(elem, 'ObjectKeyPrefix'),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
@@ -6977,11 +7003,13 @@ class S3Action {
 
   Map<String, dynamic> toJson() {
     final bucketName = this.bucketName;
+    final iamRoleArn = this.iamRoleArn;
     final kmsKeyArn = this.kmsKeyArn;
     final objectKeyPrefix = this.objectKeyPrefix;
     final topicArn = this.topicArn;
     return {
       'BucketName': bucketName,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
       if (topicArn != null) 'TopicArn': topicArn,
@@ -6990,11 +7018,13 @@ class S3Action {
 
   Map<String, String> toQueryMap() {
     final bucketName = this.bucketName;
+    final iamRoleArn = this.iamRoleArn;
     final kmsKeyArn = this.kmsKeyArn;
     final objectKeyPrefix = this.objectKeyPrefix;
     final topicArn = this.topicArn;
     return {
       'BucketName': bucketName,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
       if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
       if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
       if (topicArn != null) 'TopicArn': topicArn,

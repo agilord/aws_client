@@ -345,19 +345,22 @@ class NetworkManager {
   /// The Connect peer address.
   ///
   /// Parameter [bgpOptions] :
-  /// The Connect peer BGP options.
+  /// The Connect peer BGP options. This only applies only when the protocol is
+  /// <code>GRE</code>.
   ///
   /// Parameter [clientToken] :
   /// The client token associated with the request.
   ///
   /// Parameter [coreNetworkAddress] :
-  /// A Connect peer core network address.
+  /// A Connect peer core network address. This only applies only when the
+  /// protocol is <code>GRE</code>.
   ///
   /// Parameter [insideCidrBlocks] :
   /// The inside IP addresses used for BGP peering.
   ///
   /// Parameter [subnetArn] :
-  /// The subnet ARN for the Connect peer.
+  /// The subnet ARN for the Connect peer. This only applies only when the
+  /// protocol is NO_ENCAP.
   ///
   /// Parameter [tags] :
   /// The tags associated with the peer request.
@@ -1986,13 +1989,25 @@ class NetworkManager {
   ///
   /// <ul>
   /// <li>
+  /// <code>attachment</code>
+  /// </li>
+  /// <li>
+  /// <code>connect-peer</code>
+  /// </li>
+  /// <li>
   /// <code>connection</code>
+  /// </li>
+  /// <li>
+  /// <code>core-network</code>
   /// </li>
   /// <li>
   /// <code>device</code>
   /// </li>
   /// <li>
   /// <code>link</code>
+  /// </li>
+  /// <li>
+  /// <code>peering</code>
   /// </li>
   /// <li>
   /// <code>site</code>
@@ -2100,13 +2115,25 @@ class NetworkManager {
   ///
   /// <ul>
   /// <li>
+  /// <code>attachment</code>
+  /// </li>
+  /// <li>
+  /// <code>connect-peer</code>
+  /// </li>
+  /// <li>
   /// <code>connection</code>
+  /// </li>
+  /// <li>
+  /// <code>core-network</code>
   /// </li>
   /// <li>
   /// <code>device</code>
   /// </li>
   /// <li>
   /// <code>link</code>
+  /// </li>
+  /// <li>
+  /// <code>peering</code>
   /// </li>
   /// <li>
   /// <code>site</code>
@@ -2216,64 +2243,63 @@ class NetworkManager {
   ///
   /// <ul>
   /// <li>
-  /// <code>dxcon</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_Connection.html">Connection</a>.
+  /// <code>dxcon</code>
   /// </li>
   /// <li>
-  /// <code>dx-gateway</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_DirectConnectGateway.html">DirectConnectGateway</a>.
+  /// <code>dx-gateway</code>
   /// </li>
   /// <li>
-  /// <code>dx-vif</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_VirtualInterface.html">VirtualInterface</a>.
+  /// <code>dx-vif</code>
   /// </li>
   /// </ul>
   /// The following are the supported resource types for Network Manager:
   ///
   /// <ul>
   /// <li>
-  /// <code>connection</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Connection.html">Connection</a>.
+  /// <code>attachment</code>
   /// </li>
   /// <li>
-  /// <code>device</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Device.html">Device</a>.
+  /// <code>connect-peer</code>
   /// </li>
   /// <li>
-  /// <code>link</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Link.html">Link</a>.
+  /// <code>connection</code>
   /// </li>
   /// <li>
-  /// <code>site</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Site.html">Site</a>.
+  /// <code>core-network</code>
+  /// </li>
+  /// <li>
+  /// <code>device</code>
+  /// </li>
+  /// <li>
+  /// <code>link</code>
+  /// </li>
+  /// <li>
+  /// <code>peering</code>
+  /// </li>
+  /// <li>
+  /// <code>site</code>
   /// </li>
   /// </ul>
   /// The following are the supported resource types for Amazon VPC:
   ///
   /// <ul>
   /// <li>
-  /// <code>customer-gateway</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CustomerGateway.html">CustomerGateway</a>.
+  /// <code>customer-gateway</code>
   /// </li>
   /// <li>
-  /// <code>transit-gateway</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGateway.html">TransitGateway</a>.
+  /// <code>transit-gateway</code>
   /// </li>
   /// <li>
-  /// <code>transit-gateway-attachment</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayAttachment.html">TransitGatewayAttachment</a>.
+  /// <code>transit-gateway-attachment</code>
   /// </li>
   /// <li>
-  /// <code>transit-gateway-connect-peer</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayConnectPeer.html">TransitGatewayConnectPeer</a>.
+  /// <code>transit-gateway-connect-peer</code>
   /// </li>
   /// <li>
-  /// <code>transit-gateway-route-table</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayRouteTable.html">TransitGatewayRouteTable</a>.
+  /// <code>transit-gateway-route-table</code>
   /// </li>
   /// <li>
-  /// <code>vpn-connection</code> - The definition model is <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpnConnection.html">VpnConnection</a>.
+  /// <code>vpn-connection</code>
   /// </li>
   /// </ul>
   Future<GetNetworkResourcesResponse> getNetworkResources({
@@ -2421,54 +2447,14 @@ class NetworkManager {
   /// The ARN of the resource.
   ///
   /// Parameter [resourceType] :
-  /// The resource type.
-  ///
-  /// The following are the supported resource types for Direct Connect:
+  /// The resource type. The following are the supported resource types:
   ///
   /// <ul>
   /// <li>
-  /// <code>dxcon</code>
-  /// </li>
-  /// <li>
-  /// <code>dx-gateway</code>
-  /// </li>
-  /// <li>
-  /// <code>dx-vif</code>
-  /// </li>
-  /// </ul>
-  /// The following are the supported resource types for Network Manager:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>connection</code>
-  /// </li>
-  /// <li>
-  /// <code>device</code>
-  /// </li>
-  /// <li>
-  /// <code>link</code>
-  /// </li>
-  /// <li>
-  /// <code>site</code>
-  /// </li>
-  /// </ul>
-  /// The following are the supported resource types for Amazon VPC:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>customer-gateway</code>
-  /// </li>
-  /// <li>
-  /// <code>transit-gateway</code>
-  /// </li>
-  /// <li>
-  /// <code>transit-gateway-attachment</code>
+  /// <code>connect-peer</code>
   /// </li>
   /// <li>
   /// <code>transit-gateway-connect-peer</code>
-  /// </li>
-  /// <li>
-  /// <code>transit-gateway-route-table</code>
   /// </li>
   /// <li>
   /// <code>vpn-connection</code>
@@ -4000,8 +3986,18 @@ class Attachment {
   /// The Region where the edge is located.
   final String? edgeLocation;
 
+  /// Describes the error associated with the attachment request.
+  final List<AttachmentError>? lastModificationErrors;
+
+  /// The name of the network function group.
+  final String? networkFunctionGroupName;
+
   /// The ID of the attachment account owner.
   final String? ownerAccountId;
+
+  /// Describes a proposed change to a network function group associated with the
+  /// attachment.
+  final ProposedNetworkFunctionGroupChange? proposedNetworkFunctionGroupChange;
 
   /// The attachment to move from one segment to another.
   final ProposedSegmentChange? proposedSegmentChange;
@@ -4029,7 +4025,10 @@ class Attachment {
     this.coreNetworkId,
     this.createdAt,
     this.edgeLocation,
+    this.lastModificationErrors,
+    this.networkFunctionGroupName,
     this.ownerAccountId,
+    this.proposedNetworkFunctionGroupChange,
     this.proposedSegmentChange,
     this.resourceArn,
     this.segmentName,
@@ -4048,7 +4047,18 @@ class Attachment {
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => AttachmentError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
+      proposedNetworkFunctionGroupChange:
+          json['ProposedNetworkFunctionGroupChange'] != null
+              ? ProposedNetworkFunctionGroupChange.fromJson(
+                  json['ProposedNetworkFunctionGroupChange']
+                      as Map<String, dynamic>)
+              : null,
       proposedSegmentChange: json['ProposedSegmentChange'] != null
           ? ProposedSegmentChange.fromJson(
               json['ProposedSegmentChange'] as Map<String, dynamic>)
@@ -4072,7 +4082,11 @@ class Attachment {
     final coreNetworkId = this.coreNetworkId;
     final createdAt = this.createdAt;
     final edgeLocation = this.edgeLocation;
+    final lastModificationErrors = this.lastModificationErrors;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
     final ownerAccountId = this.ownerAccountId;
+    final proposedNetworkFunctionGroupChange =
+        this.proposedNetworkFunctionGroupChange;
     final proposedSegmentChange = this.proposedSegmentChange;
     final resourceArn = this.resourceArn;
     final segmentName = this.segmentName;
@@ -4088,7 +4102,14 @@ class Attachment {
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (proposedNetworkFunctionGroupChange != null)
+        'ProposedNetworkFunctionGroupChange':
+            proposedNetworkFunctionGroupChange,
       if (proposedSegmentChange != null)
         'ProposedSegmentChange': proposedSegmentChange,
       if (resourceArn != null) 'ResourceArn': resourceArn,
@@ -4098,6 +4119,71 @@ class Attachment {
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
+}
+
+/// Describes the error associated with an attachment request.
+class AttachmentError {
+  /// The error code for the attachment request.
+  final AttachmentErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// The ID of the attachment request.
+  final String? requestId;
+
+  /// The ARN of the requested attachment resource.
+  final String? resourceArn;
+
+  AttachmentError({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory AttachmentError.fromJson(Map<String, dynamic> json) {
+    return AttachmentError(
+      code: (json['Code'] as String?)?.let(AttachmentErrorCode.fromString),
+      message: json['Message'] as String?,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+enum AttachmentErrorCode {
+  vpcNotFound('VPC_NOT_FOUND'),
+  subnetNotFound('SUBNET_NOT_FOUND'),
+  subnetDuplicatedInAvailabilityZone('SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE'),
+  subnetNoFreeAddresses('SUBNET_NO_FREE_ADDRESSES'),
+  subnetUnsupportedAvailabilityZone('SUBNET_UNSUPPORTED_AVAILABILITY_ZONE'),
+  subnetNoIpv6Cidrs('SUBNET_NO_IPV6_CIDRS'),
+  vpnConnectionNotFound('VPN_CONNECTION_NOT_FOUND'),
+  maximumNoEncapLimitExceeded('MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED'),
+  ;
+
+  final String value;
+
+  const AttachmentErrorCode(this.value);
+
+  static AttachmentErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AttachmentErrorCode'));
 }
 
 enum AttachmentState {
@@ -4240,6 +4326,7 @@ enum ChangeStatus {
 
 enum ChangeType {
   coreNetworkSegment('CORE_NETWORK_SEGMENT'),
+  networkFunctionGroup('NETWORK_FUNCTION_GROUP'),
   coreNetworkEdge('CORE_NETWORK_EDGE'),
   attachmentMapping('ATTACHMENT_MAPPING'),
   attachmentRoutePropagation('ATTACHMENT_ROUTE_PROPAGATION'),
@@ -4345,10 +4432,14 @@ class ConnectPeer {
   /// The Connect peer Regions where edges are located.
   final String? edgeLocation;
 
+  /// Describes the error associated with the attachment request.
+  final List<ConnectPeerError>? lastModificationErrors;
+
   /// The state of the Connect peer.
   final ConnectPeerState? state;
 
-  /// The subnet ARN for the Connect peer.
+  /// The subnet ARN for the Connect peer. This only applies only when the
+  /// protocol is NO_ENCAP.
   final String? subnetArn;
 
   /// The list of key-value tags associated with the Connect peer.
@@ -4361,6 +4452,7 @@ class ConnectPeer {
     this.coreNetworkId,
     this.createdAt,
     this.edgeLocation,
+    this.lastModificationErrors,
     this.state,
     this.subnetArn,
     this.tags,
@@ -4377,6 +4469,10 @@ class ConnectPeer {
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectPeerError.fromJson(e as Map<String, dynamic>))
+          .toList(),
       state: (json['State'] as String?)?.let(ConnectPeerState.fromString),
       subnetArn: json['SubnetArn'] as String?,
       tags: (json['Tags'] as List?)
@@ -4393,6 +4489,7 @@ class ConnectPeer {
     final coreNetworkId = this.coreNetworkId;
     final createdAt = this.createdAt;
     final edgeLocation = this.edgeLocation;
+    final lastModificationErrors = this.lastModificationErrors;
     final state = this.state;
     final subnetArn = this.subnetArn;
     final tags = this.tags;
@@ -4404,6 +4501,8 @@ class ConnectPeer {
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
       if (state != null) 'State': state.value,
       if (subnetArn != null) 'SubnetArn': subnetArn,
       if (tags != null) 'Tags': tags,
@@ -4580,6 +4679,69 @@ class ConnectPeerConfiguration {
       if (protocol != null) 'Protocol': protocol.value,
     };
   }
+}
+
+/// Describes an error associated with a Connect peer request
+class ConnectPeerError {
+  /// The error code for the Connect peer request.
+  final ConnectPeerErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// The ID of the Connect peer request.
+  final String? requestId;
+
+  /// The ARN of the requested Connect peer resource.
+  final String? resourceArn;
+
+  ConnectPeerError({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory ConnectPeerError.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerError(
+      code: (json['Code'] as String?)?.let(ConnectPeerErrorCode.fromString),
+      message: json['Message'] as String?,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+enum ConnectPeerErrorCode {
+  edgeLocationNoFreeIps('EDGE_LOCATION_NO_FREE_IPS'),
+  edgeLocationPeerDuplicate('EDGE_LOCATION_PEER_DUPLICATE'),
+  subnetNotFound('SUBNET_NOT_FOUND'),
+  ipOutsideSubnetCidrRange('IP_OUTSIDE_SUBNET_CIDR_RANGE'),
+  invalidInsideCidrBlock('INVALID_INSIDE_CIDR_BLOCK'),
+  noAssociatedCidrBlock('NO_ASSOCIATED_CIDR_BLOCK'),
+  ;
+
+  final String value;
+
+  const ConnectPeerErrorCode(this.value);
+
+  static ConnectPeerErrorCode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ConnectPeerErrorCode'));
 }
 
 enum ConnectPeerState {
@@ -4876,6 +5038,9 @@ class CoreNetwork {
   /// The ID of the global network that your core network is a part of.
   final String? globalNetworkId;
 
+  /// The network function groups associated with a core network.
+  final List<CoreNetworkNetworkFunctionGroup>? networkFunctionGroups;
+
   /// The segments within a core network.
   final List<CoreNetworkSegment>? segments;
 
@@ -4892,6 +5057,7 @@ class CoreNetwork {
     this.description,
     this.edges,
     this.globalNetworkId,
+    this.networkFunctionGroups,
     this.segments,
     this.state,
     this.tags,
@@ -4908,6 +5074,11 @@ class CoreNetwork {
           .map((e) => CoreNetworkEdge.fromJson(e as Map<String, dynamic>))
           .toList(),
       globalNetworkId: json['GlobalNetworkId'] as String?,
+      networkFunctionGroups: (json['NetworkFunctionGroups'] as List?)
+          ?.nonNulls
+          .map((e) => CoreNetworkNetworkFunctionGroup.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       segments: (json['Segments'] as List?)
           ?.nonNulls
           .map((e) => CoreNetworkSegment.fromJson(e as Map<String, dynamic>))
@@ -4927,6 +5098,7 @@ class CoreNetwork {
     final description = this.description;
     final edges = this.edges;
     final globalNetworkId = this.globalNetworkId;
+    final networkFunctionGroups = this.networkFunctionGroups;
     final segments = this.segments;
     final state = this.state;
     final tags = this.tags;
@@ -4937,6 +5109,8 @@ class CoreNetwork {
       if (description != null) 'Description': description,
       if (edges != null) 'Edges': edges,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (networkFunctionGroups != null)
+        'NetworkFunctionGroups': networkFunctionGroups,
       if (segments != null) 'Segments': segments,
       if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
@@ -5086,6 +5260,9 @@ class CoreNetworkChangeEventValues {
   /// The edge location for the core network change event.
   final String? edgeLocation;
 
+  /// The changed network function group name.
+  final String? networkFunctionGroupName;
+
   /// The segment name if the change event is associated with a segment.
   final String? segmentName;
 
@@ -5093,6 +5270,7 @@ class CoreNetworkChangeEventValues {
     this.attachmentId,
     this.cidr,
     this.edgeLocation,
+    this.networkFunctionGroupName,
     this.segmentName,
   });
 
@@ -5101,6 +5279,7 @@ class CoreNetworkChangeEventValues {
       attachmentId: json['AttachmentId'] as String?,
       cidr: json['Cidr'] as String?,
       edgeLocation: json['EdgeLocation'] as String?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
       segmentName: json['SegmentName'] as String?,
     );
   }
@@ -5109,11 +5288,14 @@ class CoreNetworkChangeEventValues {
     final attachmentId = this.attachmentId;
     final cidr = this.cidr;
     final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
     final segmentName = this.segmentName;
     return {
       if (attachmentId != null) 'AttachmentId': attachmentId,
       if (cidr != null) 'Cidr': cidr,
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
       if (segmentName != null) 'SegmentName': segmentName,
     };
   }
@@ -5136,8 +5318,15 @@ class CoreNetworkChangeValues {
   /// The inside IP addresses used for core network change values.
   final List<String>? insideCidrBlocks;
 
+  /// The network function group name if the change event is associated with a
+  /// network function group.
+  final String? networkFunctionGroupName;
+
   /// The names of the segments in a core network.
   final String? segmentName;
+
+  /// Describes the service insertion action.
+  final List<ServiceInsertionAction>? serviceInsertionActions;
 
   /// The shared segments for a core network change value.
   final List<String>? sharedSegments;
@@ -5148,7 +5337,9 @@ class CoreNetworkChangeValues {
     this.destinationIdentifier,
     this.edgeLocations,
     this.insideCidrBlocks,
+    this.networkFunctionGroupName,
     this.segmentName,
+    this.serviceInsertionActions,
     this.sharedSegments,
   });
 
@@ -5165,7 +5356,13 @@ class CoreNetworkChangeValues {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
       segmentName: json['SegmentName'] as String?,
+      serviceInsertionActions: (json['ServiceInsertionActions'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ServiceInsertionAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sharedSegments: (json['SharedSegments'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5179,7 +5376,9 @@ class CoreNetworkChangeValues {
     final destinationIdentifier = this.destinationIdentifier;
     final edgeLocations = this.edgeLocations;
     final insideCidrBlocks = this.insideCidrBlocks;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
     final segmentName = this.segmentName;
+    final serviceInsertionActions = this.serviceInsertionActions;
     final sharedSegments = this.sharedSegments;
     return {
       if (asn != null) 'Asn': asn,
@@ -5188,7 +5387,11 @@ class CoreNetworkChangeValues {
         'DestinationIdentifier': destinationIdentifier,
       if (edgeLocations != null) 'EdgeLocations': edgeLocations,
       if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
       if (segmentName != null) 'SegmentName': segmentName,
+      if (serviceInsertionActions != null)
+        'ServiceInsertionActions': serviceInsertionActions,
       if (sharedSegments != null) 'SharedSegments': sharedSegments,
     };
   }
@@ -5230,6 +5433,79 @@ class CoreNetworkEdge {
       if (asn != null) 'Asn': asn,
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
       if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+    };
+  }
+}
+
+/// Describes a network function group.
+class CoreNetworkNetworkFunctionGroup {
+  /// The core network edge locations.
+  final List<String>? edgeLocations;
+
+  /// The name of the network function group.
+  final String? name;
+
+  /// The segments associated with the network function group.
+  final ServiceInsertionSegments? segments;
+
+  CoreNetworkNetworkFunctionGroup({
+    this.edgeLocations,
+    this.name,
+    this.segments,
+  });
+
+  factory CoreNetworkNetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkNetworkFunctionGroup(
+      edgeLocations: (json['EdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      segments: json['Segments'] != null
+          ? ServiceInsertionSegments.fromJson(
+              json['Segments'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeLocations = this.edgeLocations;
+    final name = this.name;
+    final segments = this.segments;
+    return {
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
+      if (name != null) 'Name': name,
+      if (segments != null) 'Segments': segments,
+    };
+  }
+}
+
+/// Describes a core network
+class CoreNetworkNetworkFunctionGroupIdentifier {
+  /// The ID of the core network.
+  final String? coreNetworkId;
+
+  /// The location for the core network edge.
+  final String? edgeLocation;
+
+  /// The network function group name.
+  final String? networkFunctionGroupName;
+
+  CoreNetworkNetworkFunctionGroupIdentifier({
+    this.coreNetworkId,
+    this.edgeLocation,
+    this.networkFunctionGroupName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkId = this.coreNetworkId;
+    final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    return {
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
     };
   }
 }
@@ -6522,6 +6798,39 @@ class DisassociateTransitGatewayConnectPeerResponse {
       if (transitGatewayConnectPeerAssociation != null)
         'TransitGatewayConnectPeerAssociation':
             transitGatewayConnectPeerAssociation,
+    };
+  }
+}
+
+/// Describes the edge that's used for the override.
+class EdgeOverride {
+  /// The list of edge locations.
+  final List<List<String>>? edgeSets;
+
+  /// The edge that should be used when overriding the current edge order.
+  final String? useEdge;
+
+  EdgeOverride({
+    this.edgeSets,
+    this.useEdge,
+  });
+
+  factory EdgeOverride.fromJson(Map<String, dynamic> json) {
+    return EdgeOverride(
+      edgeSets: (json['EdgeSets'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+      useEdge: json['UseEdge'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeSets = this.edgeSets;
+    final useEdge = this.useEdge;
+    return {
+      if (edgeSets != null) 'EdgeSets': edgeSets,
+      if (useEdge != null) 'UseEdge': useEdge,
     };
   }
 }
@@ -7872,6 +8181,29 @@ class Location {
   }
 }
 
+/// Describes a network function group for service insertion.
+class NetworkFunctionGroup {
+  /// The name of the network function group.
+  final String? name;
+
+  NetworkFunctionGroup({
+    this.name,
+  });
+
+  factory NetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
+    return NetworkFunctionGroup(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 /// Describes a network resource.
 class NetworkResource {
   /// The Amazon Web Services account ID.
@@ -7921,13 +8253,25 @@ class NetworkResource {
   ///
   /// <ul>
   /// <li>
+  /// <code>attachment</code>
+  /// </li>
+  /// <li>
+  /// <code>connect-peer</code>
+  /// </li>
+  /// <li>
   /// <code>connection</code>
+  /// </li>
+  /// <li>
+  /// <code>core-network</code>
   /// </li>
   /// <li>
   /// <code>device</code>
   /// </li>
   /// <li>
   /// <code>link</code>
+  /// </li>
+  /// <li>
+  /// <code>peering</code>
   /// </li>
   /// <li>
   /// <code>site</code>
@@ -8180,6 +8524,9 @@ class NetworkRouteDestination {
   /// The edge location for the network destination.
   final String? edgeLocation;
 
+  /// The network function group name associated with the destination.
+  final String? networkFunctionGroupName;
+
   /// The ID of the resource.
   final String? resourceId;
 
@@ -8195,6 +8542,7 @@ class NetworkRouteDestination {
   NetworkRouteDestination({
     this.coreNetworkAttachmentId,
     this.edgeLocation,
+    this.networkFunctionGroupName,
     this.resourceId,
     this.resourceType,
     this.segmentName,
@@ -8205,6 +8553,7 @@ class NetworkRouteDestination {
     return NetworkRouteDestination(
       coreNetworkAttachmentId: json['CoreNetworkAttachmentId'] as String?,
       edgeLocation: json['EdgeLocation'] as String?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       segmentName: json['SegmentName'] as String?,
@@ -8215,6 +8564,7 @@ class NetworkRouteDestination {
   Map<String, dynamic> toJson() {
     final coreNetworkAttachmentId = this.coreNetworkAttachmentId;
     final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
     final resourceId = this.resourceId;
     final resourceType = this.resourceType;
     final segmentName = this.segmentName;
@@ -8223,6 +8573,8 @@ class NetworkRouteDestination {
       if (coreNetworkAttachmentId != null)
         'CoreNetworkAttachmentId': coreNetworkAttachmentId,
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
       if (segmentName != null) 'SegmentName': segmentName,
@@ -8426,6 +8778,9 @@ class Peering {
   /// The edge location for the peer.
   final String? edgeLocation;
 
+  /// Describes the error associated with the Connect peer request.
+  final List<PeeringError>? lastModificationErrors;
+
   /// The ID of the account owner.
   final String? ownerAccountId;
 
@@ -8449,6 +8804,7 @@ class Peering {
     this.coreNetworkId,
     this.createdAt,
     this.edgeLocation,
+    this.lastModificationErrors,
     this.ownerAccountId,
     this.peeringId,
     this.peeringType,
@@ -8463,6 +8819,10 @@ class Peering {
       coreNetworkId: json['CoreNetworkId'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       edgeLocation: json['EdgeLocation'] as String?,
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => PeeringError.fromJson(e as Map<String, dynamic>))
+          .toList(),
       ownerAccountId: json['OwnerAccountId'] as String?,
       peeringId: json['PeeringId'] as String?,
       peeringType:
@@ -8481,6 +8841,7 @@ class Peering {
     final coreNetworkId = this.coreNetworkId;
     final createdAt = this.createdAt;
     final edgeLocation = this.edgeLocation;
+    final lastModificationErrors = this.lastModificationErrors;
     final ownerAccountId = this.ownerAccountId;
     final peeringId = this.peeringId;
     final peeringType = this.peeringType;
@@ -8492,6 +8853,8 @@ class Peering {
       if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
       if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (peeringId != null) 'PeeringId': peeringId,
       if (peeringType != null) 'PeeringType': peeringType.value,
@@ -8500,6 +8863,81 @@ class Peering {
       if (tags != null) 'Tags': tags,
     };
   }
+}
+
+/// Describes an error associated with a peering request.
+class PeeringError {
+  /// The error code for the peering request.
+  final PeeringErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// Provides additional information about missing permissions for the peering
+  /// error.
+  final PermissionsErrorContext? missingPermissionsContext;
+
+  /// The ID of the Peering request.
+  final String? requestId;
+
+  /// The ARN of the requested peering resource.
+  final String? resourceArn;
+
+  PeeringError({
+    this.code,
+    this.message,
+    this.missingPermissionsContext,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory PeeringError.fromJson(Map<String, dynamic> json) {
+    return PeeringError(
+      code: (json['Code'] as String?)?.let(PeeringErrorCode.fromString),
+      message: json['Message'] as String?,
+      missingPermissionsContext: json['MissingPermissionsContext'] != null
+          ? PermissionsErrorContext.fromJson(
+              json['MissingPermissionsContext'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final missingPermissionsContext = this.missingPermissionsContext;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (missingPermissionsContext != null)
+        'MissingPermissionsContext': missingPermissionsContext,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+enum PeeringErrorCode {
+  transitGatewayNotFound('TRANSIT_GATEWAY_NOT_FOUND'),
+  transitGatewayPeersLimitExceeded('TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED'),
+  missingPermissions('MISSING_PERMISSIONS'),
+  internalError('INTERNAL_ERROR'),
+  edgeLocationPeerDuplicate('EDGE_LOCATION_PEER_DUPLICATE'),
+  invalidTransitGatewayState('INVALID_TRANSIT_GATEWAY_STATE'),
+  ;
+
+  final String value;
+
+  const PeeringErrorCode(this.value);
+
+  static PeeringErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum PeeringErrorCode'));
 }
 
 enum PeeringState {
@@ -8530,6 +8968,74 @@ enum PeeringType {
   static PeeringType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum PeeringType'));
+}
+
+/// Describes additional information about missing permissions.
+class PermissionsErrorContext {
+  /// The missing permissions.
+  final String? missingPermission;
+
+  PermissionsErrorContext({
+    this.missingPermission,
+  });
+
+  factory PermissionsErrorContext.fromJson(Map<String, dynamic> json) {
+    return PermissionsErrorContext(
+      missingPermission: json['MissingPermission'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missingPermission = this.missingPermission;
+    return {
+      if (missingPermission != null) 'MissingPermission': missingPermission,
+    };
+  }
+}
+
+/// Describes proposed changes to a network function group.
+class ProposedNetworkFunctionGroupChange {
+  /// The proposed new attachment policy rule number for the network function
+  /// group.
+  final int? attachmentPolicyRuleNumber;
+
+  /// The proposed name change for the network function group name.
+  final String? networkFunctionGroupName;
+
+  /// The list of proposed changes to the key-value tags associated with the
+  /// network function group.
+  final List<Tag>? tags;
+
+  ProposedNetworkFunctionGroupChange({
+    this.attachmentPolicyRuleNumber,
+    this.networkFunctionGroupName,
+    this.tags,
+  });
+
+  factory ProposedNetworkFunctionGroupChange.fromJson(
+      Map<String, dynamic> json) {
+    return ProposedNetworkFunctionGroupChange(
+      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final tags = this.tags;
+    return {
+      if (attachmentPolicyRuleNumber != null)
+        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Describes a proposed segment change. In some cases, the segment change must
@@ -9078,6 +9584,10 @@ enum RouteState {
 
 /// Describes a route table.
 class RouteTableIdentifier {
+  /// The route table identifier associated with the network function group.
+  final CoreNetworkNetworkFunctionGroupIdentifier?
+      coreNetworkNetworkFunctionGroup;
+
   /// The segment edge in a core network.
   final CoreNetworkSegmentEdgeIdentifier? coreNetworkSegmentEdge;
 
@@ -9087,14 +9597,19 @@ class RouteTableIdentifier {
   final String? transitGatewayRouteTableArn;
 
   RouteTableIdentifier({
+    this.coreNetworkNetworkFunctionGroup,
     this.coreNetworkSegmentEdge,
     this.transitGatewayRouteTableArn,
   });
 
   Map<String, dynamic> toJson() {
+    final coreNetworkNetworkFunctionGroup =
+        this.coreNetworkNetworkFunctionGroup;
     final coreNetworkSegmentEdge = this.coreNetworkSegmentEdge;
     final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
     return {
+      if (coreNetworkNetworkFunctionGroup != null)
+        'CoreNetworkNetworkFunctionGroup': coreNetworkNetworkFunctionGroup,
       if (coreNetworkSegmentEdge != null)
         'CoreNetworkSegmentEdge': coreNetworkSegmentEdge,
       if (transitGatewayRouteTableArn != null)
@@ -9106,6 +9621,7 @@ class RouteTableIdentifier {
 enum RouteTableType {
   transitGatewayRouteTable('TRANSIT_GATEWAY_ROUTE_TABLE'),
   coreNetworkSegment('CORE_NETWORK_SEGMENT'),
+  networkFunctionGroup('NETWORK_FUNCTION_GROUP'),
   ;
 
   final String value;
@@ -9130,6 +9646,130 @@ enum RouteType {
   static RouteType fromString(String value) => values.firstWhere(
       (e) => e.value == value,
       orElse: () => throw Exception('$value is not known in enum RouteType'));
+}
+
+enum SegmentActionServiceInsertion {
+  sendVia('send-via'),
+  sendTo('send-to'),
+  ;
+
+  final String value;
+
+  const SegmentActionServiceInsertion(this.value);
+
+  static SegmentActionServiceInsertion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SegmentActionServiceInsertion'));
+}
+
+enum SendViaMode {
+  dualHop('dual-hop'),
+  singleHop('single-hop'),
+  ;
+
+  final String value;
+
+  const SendViaMode(this.value);
+
+  static SendViaMode fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum SendViaMode'));
+}
+
+/// Describes the action that the service insertion will take for any segments
+/// associated with it.
+class ServiceInsertionAction {
+  /// The action the service insertion takes for traffic. <code>send-via</code>
+  /// sends east-west traffic between attachments. <code>send-to</code> sends
+  /// north-south traffic to the security appliance, and then from that to either
+  /// the Internet or to an on-premesis location.
+  final SegmentActionServiceInsertion? action;
+
+  /// Describes the mode packets take for the <code>send-via</code> action. This
+  /// is not used when the action is <code>send-to</code>. <code>dual-hop</code>
+  /// packets traverse attachments in both the source to the destination core
+  /// network edges. This mode requires that an inspection attachment must be
+  /// present in all Regions of the service insertion-enabled segments. For
+  /// <code>single-hop</code>, packets traverse a single intermediate inserted
+  /// attachment. You can use <code>EdgeOverride</code> to specify a specific edge
+  /// to use.
+  final SendViaMode? mode;
+
+  /// The list of network function groups and any edge overrides for the chosen
+  /// service insertion action. Used for both <code>send-to</code> or
+  /// <code>send-via</code>.
+  final Via? via;
+
+  /// The list of destination segments if the service insertion action is
+  /// <code>send-via</code>.
+  final WhenSentTo? whenSentTo;
+
+  ServiceInsertionAction({
+    this.action,
+    this.mode,
+    this.via,
+    this.whenSentTo,
+  });
+
+  factory ServiceInsertionAction.fromJson(Map<String, dynamic> json) {
+    return ServiceInsertionAction(
+      action: (json['Action'] as String?)
+          ?.let(SegmentActionServiceInsertion.fromString),
+      mode: (json['Mode'] as String?)?.let(SendViaMode.fromString),
+      via: json['Via'] != null
+          ? Via.fromJson(json['Via'] as Map<String, dynamic>)
+          : null,
+      whenSentTo: json['WhenSentTo'] != null
+          ? WhenSentTo.fromJson(json['WhenSentTo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final mode = this.mode;
+    final via = this.via;
+    final whenSentTo = this.whenSentTo;
+    return {
+      if (action != null) 'Action': action.value,
+      if (mode != null) 'Mode': mode.value,
+      if (via != null) 'Via': via,
+      if (whenSentTo != null) 'WhenSentTo': whenSentTo,
+    };
+  }
+}
+
+/// Describes the segments associated with the service insertion action.
+class ServiceInsertionSegments {
+  /// The list of segments associated with the <code>send-to</code> action.
+  final List<String>? sendTo;
+
+  /// The list of segments associated with the <code>send-via</code> action.
+  final List<String>? sendVia;
+
+  ServiceInsertionSegments({
+    this.sendTo,
+    this.sendVia,
+  });
+
+  factory ServiceInsertionSegments.fromJson(Map<String, dynamic> json) {
+    return ServiceInsertionSegments(
+      sendTo:
+          (json['SendTo'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      sendVia:
+          (json['SendVia'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sendTo = this.sendTo;
+    final sendVia = this.sendVia;
+    return {
+      if (sendTo != null) 'SendTo': sendTo,
+      if (sendVia != null) 'SendVia': sendVia,
+    };
+  }
 }
 
 /// Describes a site.
@@ -9830,6 +10470,47 @@ class UpdateVpcAttachmentResponse {
   }
 }
 
+/// The list of network function groups and edge overrides for the service
+/// insertion action. Used for both the <code>send-to</code> and
+/// <code>send-via</code> actions.
+class Via {
+  /// The list of network function groups associated with the service insertion
+  /// action.
+  final List<NetworkFunctionGroup>? networkFunctionGroups;
+
+  /// Describes any edge overrides. An edge override is a specific edge to be used
+  /// for traffic.
+  final List<EdgeOverride>? withEdgeOverrides;
+
+  Via({
+    this.networkFunctionGroups,
+    this.withEdgeOverrides,
+  });
+
+  factory Via.fromJson(Map<String, dynamic> json) {
+    return Via(
+      networkFunctionGroups: (json['NetworkFunctionGroups'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkFunctionGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      withEdgeOverrides: (json['WithEdgeOverrides'] as List?)
+          ?.nonNulls
+          .map((e) => EdgeOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkFunctionGroups = this.networkFunctionGroups;
+    final withEdgeOverrides = this.withEdgeOverrides;
+    return {
+      if (networkFunctionGroups != null)
+        'NetworkFunctionGroups': networkFunctionGroups,
+      if (withEdgeOverrides != null) 'WithEdgeOverrides': withEdgeOverrides,
+    };
+  }
+}
+
 /// Describes a VPC attachment.
 class VpcAttachment {
   /// Provides details about the VPC attachment.
@@ -9904,6 +10585,35 @@ class VpcOptions {
       if (applianceModeSupport != null)
         'ApplianceModeSupport': applianceModeSupport,
       if (ipv6Support != null) 'Ipv6Support': ipv6Support,
+    };
+  }
+}
+
+/// Displays a list of the destination segments. Used only when the service
+/// insertion action is <code>send-to</code>.
+class WhenSentTo {
+  /// The list of destination segments when the service insertion action is
+  /// <code>send-to</code>.
+  final List<String>? whenSentToSegmentsList;
+
+  WhenSentTo({
+    this.whenSentToSegmentsList,
+  });
+
+  factory WhenSentTo.fromJson(Map<String, dynamic> json) {
+    return WhenSentTo(
+      whenSentToSegmentsList: (json['WhenSentToSegmentsList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final whenSentToSegmentsList = this.whenSentToSegmentsList;
+    return {
+      if (whenSentToSegmentsList != null)
+        'WhenSentToSegmentsList': whenSentToSegmentsList,
     };
   }
 }

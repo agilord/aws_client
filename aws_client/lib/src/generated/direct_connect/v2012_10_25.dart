@@ -113,8 +113,9 @@ class DirectConnect {
         jsonResponse.body);
   }
 
+  /// <note>
   /// Deprecated. Use <a>AllocateHostedConnection</a> instead.
-  ///
+  /// </note>
   /// Creates a hosted connection on an interconnect.
   ///
   /// Allocates a VLAN number and a specified amount of bandwidth for use by a
@@ -193,9 +194,10 @@ class DirectConnect {
   ///
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
-  /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note
-  /// that only those Direct Connect Partners who have met specific requirements
-  /// are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+  /// 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and
+  /// 25Gbps. Note that only those Direct Connect Partners who have met specific
+  /// requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or
+  /// 25Gbps hosted connection.
   ///
   /// Parameter [connectionId] :
   /// The ID of the interconnect or LAG.
@@ -1129,7 +1131,7 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   ///
   /// Parameter [bandwidth] :
-  /// The port bandwidth, in Gbps. The possible values are 1 and 10.
+  /// The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
   ///
   /// Parameter [interconnectName] :
   /// The name of the interconnect.
@@ -1182,12 +1184,13 @@ class DirectConnect {
   /// the Link Aggregation Control Protocol (LACP) to aggregate multiple
   /// interfaces, enabling you to treat them as a single interface.
   ///
-  /// All connections in a LAG must use the same bandwidth (either 1Gbps or
-  /// 10Gbps) and must terminate at the same Direct Connect endpoint.
+  /// All connections in a LAG must use the same bandwidth (either 1Gbps,
+  /// 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect
+  /// endpoint.
   ///
-  /// You can have up to 10 dedicated connections per LAG. Regardless of this
-  /// limit, if you request more connections for the LAG than Direct Connect can
-  /// allocate on a single endpoint, no LAG is created.
+  /// You can have up to 10 dedicated connections per location. Regardless of
+  /// this limit, if you request more connections for the LAG than Direct
+  /// Connect can allocate on a single endpoint, no LAG is created..
   ///
   /// You can specify an existing physical dedicated connection or interconnect
   /// to include in the LAG (which counts towards the total number of
@@ -1210,7 +1213,7 @@ class DirectConnect {
   ///
   /// Parameter [connectionsBandwidth] :
   /// The bandwidth of the individual physical dedicated connections bundled by
-  /// the LAG. The possible values are 1Gbps and 10Gbps.
+  /// the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
   ///
   /// Parameter [lagName] :
   /// The name of the LAG.
@@ -1221,7 +1224,8 @@ class DirectConnect {
   /// Parameter [numberOfConnections] :
   /// The number of physical dedicated connections initially provisioned and
   /// bundled by the LAG. You can have a maximum of four connections when the
-  /// port speed is 1G or 10G, or two when the port speed is 100G.
+  /// port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or
+  /// 400Gbps.
   ///
   /// Parameter [childConnectionTags] :
   /// The tags to associate with the automtically created LAGs.
@@ -1291,7 +1295,7 @@ class DirectConnect {
   /// virtual interface to a VGW only provides access to a single VPC within the
   /// same Region.
   ///
-  /// Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an
+  /// Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an
   /// update to the underlying physical connection if it wasn't updated to
   /// support jumbo frames. Updating the connection disrupts network
   /// connectivity for all virtual interfaces associated with the connection for
@@ -1708,8 +1712,9 @@ class DirectConnect {
     return DeleteVirtualInterfaceResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
   /// Deprecated. Use <a>DescribeLoa</a> instead.
-  ///
+  /// </note>
   /// Gets the LOA-CFA for a connection.
   ///
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is
@@ -1789,8 +1794,9 @@ class DirectConnect {
     return Connections.fromJson(jsonResponse.body);
   }
 
+  /// <note>
   /// Deprecated. Use <a>DescribeHostedConnections</a> instead.
-  ///
+  /// </note>
   /// Lists the connections that have been provisioned on the specified
   /// interconnect.
   /// <note>
@@ -2135,8 +2141,9 @@ class DirectConnect {
     return Connections.fromJson(jsonResponse.body);
   }
 
+  /// <note>
   /// Deprecated. Use <a>DescribeLoa</a> instead.
-  ///
+  /// </note>
   /// Gets the LOA-CFA for the specified interconnect.
   ///
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is
@@ -2378,6 +2385,11 @@ class DirectConnect {
     return DescribeTagsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// Deprecated. Use <code>DescribeVpnGateways</code> instead. See <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html">DescribeVPNGateways</a>
+  /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
+  /// </note>
   /// Lists the virtual private gateways owned by the Amazon Web Services
   /// account.
   ///
@@ -2954,7 +2966,7 @@ class DirectConnect {
   /// Updates the specified attributes of the specified virtual private
   /// interface.
   ///
-  /// Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an
+  /// Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an
   /// update to the underlying physical connection if it wasn't updated to
   /// support jumbo frames. Updating the connection disrupts network
   /// connectivity for all virtual interfaces associated with the connection for
@@ -2973,7 +2985,7 @@ class DirectConnect {
   ///
   /// Parameter [mtu] :
   /// The maximum transmission unit (MTU), in bytes. The supported values are
-  /// 1500 and 9001. The default value is 1500.
+  /// 1500 and 8500. The default value is 1500.
   ///
   /// Parameter [virtualInterfaceName] :
   /// The name of the virtual private interface.
@@ -3007,6 +3019,8 @@ class DirectConnect {
 }
 
 class AcceptDirectConnectGatewayAssociationProposalResult {
+  /// Information about an association between a Direct Connect gateway and a
+  /// virtual gateway or transit gateway.
   final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   AcceptDirectConnectGatewayAssociationProposalResult({
@@ -3051,6 +3065,7 @@ enum AddressFamily {
 }
 
 class AllocateTransitVirtualInterfaceResult {
+  /// Information about the transit virtual interface.
   final VirtualInterface? virtualInterface;
 
   AllocateTransitVirtualInterfaceResult({
@@ -3989,6 +4004,7 @@ class CreateDirectConnectGatewayResult {
 }
 
 class CreateTransitVirtualInterfaceResult {
+  /// Information about a virtual interface.
   final VirtualInterface? virtualInterface;
 
   CreateTransitVirtualInterfaceResult({
@@ -5379,7 +5395,7 @@ class Lag {
   final List<Connection>? connections;
 
   /// The individual bandwidth of the physical connections bundled by the LAG. The
-  /// possible values are 1Gbps and 10Gbps.
+  /// possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
   final String? connectionsBandwidth;
 
   /// The LAG MAC Security (MACsec) encryption mode.
@@ -5443,8 +5459,10 @@ class Lag {
   /// operational for the LAG itself to be operational.
   final int? minimumLinks;
 
-  /// The number of physical dedicated connections bundled by the LAG, up to a
-  /// maximum of 10.
+  /// The number of physical dedicated connections initially provisioned and
+  /// bundled by the LAG. You can have a maximum of four connections when the port
+  /// speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400
+  /// Gbps.
   final int? numberOfConnections;
 
   /// The ID of the Amazon Web Services account that owns the LAG.
@@ -5939,7 +5957,7 @@ class NewPrivateVirtualInterface {
   final bool? enableSiteLink;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 9001. The default value is 1500.
+  /// and 8500. The default value is 1500.
   final int? mtu;
 
   /// The tags associated with the private virtual interface.
@@ -6025,7 +6043,7 @@ class NewPrivateVirtualInterfaceAllocation {
   final String? customerAddress;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 9001. The default value is 1500.
+  /// and 8500. The default value is 1500.
   final int? mtu;
 
   /// The tags associated with the private virtual interface.
@@ -6616,6 +6634,8 @@ class UntagResourceResponse {
 }
 
 class UpdateDirectConnectGatewayAssociationResult {
+  /// Information about an association between a Direct Connect gateway and a
+  /// virtual private gateway or transit gateway.
   final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   UpdateDirectConnectGatewayAssociationResult({
@@ -6645,6 +6665,8 @@ class UpdateDirectConnectGatewayAssociationResult {
 }
 
 class UpdateDirectConnectGatewayResponse {
+  /// Informaiton about a Direct Connect gateway, which enables you to connect
+  /// virtual interfaces and virtual private gateways or transit gateways.
   final DirectConnectGateway? directConnectGateway;
 
   UpdateDirectConnectGatewayResponse({
@@ -6872,8 +6894,8 @@ class VirtualInterface {
   /// </ul>
   final VirtualInterfaceState? virtualInterfaceState;
 
-  /// The type of virtual interface. The possible values are <code>private</code>
-  /// and <code>public</code>.
+  /// The type of virtual interface. The possible values are <code>private</code>,
+  /// <code>public</code> and <code>transit</code>.
   final String? virtualInterfaceType;
 
   /// The ID of the VLAN.

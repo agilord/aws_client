@@ -115,12 +115,6 @@ class MQ {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   ///
-  /// Parameter [autoMinorVersionUpgrade] :
-  /// Enables automatic upgrades to new minor versions for brokers, as new
-  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
-  /// during the scheduled maintenance window of the broker or after a manual
-  /// broker reboot. Set to true by default, if no value is specified.
-  ///
   /// Parameter [brokerName] :
   /// Required. The broker's name. This value must be unique in your Amazon Web
   /// Services account, 1-50 characters long, must contain only letters,
@@ -140,12 +134,6 @@ class MQ {
   /// Required. The type of broker engine. Currently, Amazon MQ supports
   /// ACTIVEMQ and RABBITMQ.
   ///
-  /// Parameter [engineVersion] :
-  /// Required. The broker engine's version. For a list of supported engine
-  /// versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
-  ///
   /// Parameter [hostInstanceType] :
   /// Required. The broker's instance type.
   ///
@@ -163,6 +151,16 @@ class MQ {
   /// Parameter [authenticationStrategy] :
   /// Optional. The authentication strategy used to secure the broker. The
   /// default is SIMPLE.
+  ///
+  /// Parameter [autoMinorVersionUpgrade] :
+  /// Enables automatic upgrades to new patch versions for brokers as new
+  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
+  /// during the scheduled maintenance window or after a manual broker reboot.
+  /// Set to true by default, if no value is specified.
+  /// <note>
+  /// Must be set to true for ActiveMQ brokers version 5.18 and above and for
+  /// RabbitMQ brokers version 3.13 and above.
+  /// </note>
   ///
   /// Parameter [configuration] :
   /// A list of information about the configuration.
@@ -186,6 +184,14 @@ class MQ {
   ///
   /// Parameter [encryptionOptions] :
   /// Encryption options for the broker.
+  ///
+  /// Parameter [engineVersion] :
+  /// The broker engine version. Defaults to the latest available version for
+  /// the specified broker engine type. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   ///
   /// Parameter [ldapServerMetadata] :
   /// Optional. The metadata of the LDAP server used to authenticate and
@@ -227,20 +233,20 @@ class MQ {
   /// Parameter [tags] :
   /// Create tags when creating the broker.
   Future<CreateBrokerResponse> createBroker({
-    required bool autoMinorVersionUpgrade,
     required String brokerName,
     required DeploymentMode deploymentMode,
     required EngineType engineType,
-    required String engineVersion,
     required String hostInstanceType,
     required bool publiclyAccessible,
     required List<User> users,
     AuthenticationStrategy? authenticationStrategy,
+    bool? autoMinorVersionUpgrade,
     ConfigurationId? configuration,
     String? creatorRequestId,
     DataReplicationMode? dataReplicationMode,
     String? dataReplicationPrimaryBrokerArn,
     EncryptionOptions? encryptionOptions,
+    String? engineVersion,
     LdapServerMetadataInput? ldapServerMetadata,
     Logs? logs,
     WeeklyStartTime? maintenanceWindowStartTime,
@@ -250,16 +256,16 @@ class MQ {
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
-      'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       'brokerName': brokerName,
       'deploymentMode': deploymentMode.value,
       'engineType': engineType.value,
-      'engineVersion': engineVersion,
       'hostInstanceType': hostInstanceType,
       'publiclyAccessible': publiclyAccessible,
       'users': users,
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.value,
+      if (autoMinorVersionUpgrade != null)
+        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (configuration != null) 'configuration': configuration,
       'creatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
       if (dataReplicationMode != null)
@@ -267,6 +273,7 @@ class MQ {
       if (dataReplicationPrimaryBrokerArn != null)
         'dataReplicationPrimaryBrokerArn': dataReplicationPrimaryBrokerArn,
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
+      if (engineVersion != null) 'engineVersion': engineVersion,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
@@ -297,12 +304,6 @@ class MQ {
   /// Required. The type of broker engine. Currently, Amazon MQ supports
   /// ACTIVEMQ and RABBITMQ.
   ///
-  /// Parameter [engineVersion] :
-  /// Required. The broker engine's version. For a list of supported engine
-  /// versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
-  ///
   /// Parameter [name] :
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
@@ -312,21 +313,29 @@ class MQ {
   /// Optional. The authentication strategy associated with the configuration.
   /// The default is SIMPLE.
   ///
+  /// Parameter [engineVersion] :
+  /// The broker engine version. Defaults to the latest available version for
+  /// the specified broker engine type. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
+  ///
   /// Parameter [tags] :
   /// Create tags when creating the configuration.
   Future<CreateConfigurationResponse> createConfiguration({
     required EngineType engineType,
-    required String engineVersion,
     required String name,
     AuthenticationStrategy? authenticationStrategy,
+    String? engineVersion,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'engineType': engineType.value,
-      'engineVersion': engineVersion,
       'name': name,
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.value,
+      if (engineVersion != null) 'engineVersion': engineVersion,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -939,10 +948,13 @@ class MQ {
   /// default is SIMPLE.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// Enables automatic upgrades to new minor versions for brokers, as new
+  /// Enables automatic upgrades to new patch versions for brokers as new
   /// versions are released and supported by Amazon MQ. Automatic upgrades occur
-  /// during the scheduled maintenance window of the broker or after a manual
-  /// broker reboot.
+  /// during the scheduled maintenance window or after a manual broker reboot.
+  /// <note>
+  /// Must be set to true for ActiveMQ brokers version 5.18 and above and for
+  /// RabbitMQ brokers version 3.13 and above.
+  /// </note>
   ///
   /// Parameter [configuration] :
   /// A list of information about the configuration.
@@ -951,9 +963,16 @@ class MQ {
   /// Defines whether this broker is a part of a data replication pair.
   ///
   /// Parameter [engineVersion] :
-  /// The broker engine version. For a list of supported engine versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
+  /// <note>
+  /// When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13
+  /// and above, you must have autoMinorVersionUpgrade set to true for the
+  /// broker.
+  /// </note>
   ///
   /// Parameter [hostInstanceType] :
   /// The broker's host instance type to upgrade to. For a list of supported
@@ -1470,10 +1489,13 @@ class Configuration {
   /// and RABBITMQ.
   final EngineType engineType;
 
-  /// Required. The broker engine's version. For a list of supported engine
-  /// versions, see, <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version. Defaults to the latest available version for the
+  /// specified broker engine type. For a list of supported engine versions, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   final String engineVersion;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
@@ -2012,10 +2034,9 @@ class DescribeBrokerResponse {
   /// SIMPLE.
   final AuthenticationStrategy? authenticationStrategy;
 
-  /// Enables automatic upgrades to new minor versions for brokers, as new
-  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
-  /// during the scheduled maintenance window of the broker or after a manual
-  /// broker reboot.
+  /// Enables automatic upgrades to new patch versions for brokers as new versions
+  /// are released and supported by Amazon MQ. Automatic upgrades occur during the
+  /// scheduled maintenance window or after a manual broker reboot.
   final bool? autoMinorVersionUpgrade;
 
   /// The broker's Amazon Resource Name (ARN).
@@ -2059,9 +2080,11 @@ class DescribeBrokerResponse {
   /// RABBITMQ.
   final EngineType? engineType;
 
-  /// The broker engine's version. For a list of supported engine versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   final String? engineVersion;
 
   /// The broker's instance type.
@@ -2090,10 +2113,11 @@ class DescribeBrokerResponse {
   /// after reboot.
   final DataReplicationMode? pendingDataReplicationMode;
 
-  /// The broker engine version to upgrade to. For a list of supported engine
-  /// versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version to upgrade to. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   final String? pendingEngineVersion;
 
   /// The broker's host instance type to upgrade to. For a list of supported
@@ -2358,10 +2382,13 @@ class DescribeConfigurationResponse {
   /// and RABBITMQ.
   final EngineType? engineType;
 
-  /// Required. The broker engine's version. For a list of supported engine
-  /// versions, see, <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version. Defaults to the latest available version for the
+  /// specified broker engine type. For a list of supported engine versions, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   final String? engineVersion;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
@@ -3267,9 +3294,9 @@ class UpdateBrokerResponse {
   /// is SIMPLE.
   final AuthenticationStrategy? authenticationStrategy;
 
-  /// The new boolean value that specifies whether broker engines automatically
-  /// upgrade to new minor versions as new versions are released and supported by
-  /// Amazon MQ.
+  /// Enables automatic upgrades to new patch versions for brokers as new versions
+  /// are released and supported by Amazon MQ. Automatic upgrades occur during the
+  /// scheduled maintenance window or after a manual broker reboot.
   final bool? autoMinorVersionUpgrade;
 
   /// Required. The unique ID that Amazon MQ generates for the broker.
@@ -3285,10 +3312,11 @@ class UpdateBrokerResponse {
   /// Describes whether this broker is a part of a data replication pair.
   final DataReplicationMode? dataReplicationMode;
 
-  /// The broker engine version to upgrade to. For a list of supported engine
-  /// versions, see <a
-  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
-  /// engines</a>.
+  /// The broker engine version to upgrade to. For more information, see the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html">ActiveMQ
+  /// version management</a> and the <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html">RabbitMQ
+  /// version management</a> sections in the Amazon MQ Developer Guide.
   final String? engineVersion;
 
   /// The broker's host instance type to upgrade to. For a list of supported

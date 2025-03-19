@@ -20,9 +20,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Fault Injection Service is a managed service that enables you to perform
-/// fault injection experiments on your Amazon Web Services workloads. For more
-/// information, see the <a
+/// Amazon Web Services Fault Injection Service is a managed service that
+/// enables you to perform fault injection experiments on your Amazon Web
+/// Services workloads. For more information, see the <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/">Fault Injection
 /// Service User Guide</a>.
 class Fis {
@@ -319,6 +319,24 @@ class Fis {
       exceptionFnMap: _exceptionFns,
     );
     return GetExperimentTemplateResponse.fromJson(response);
+  }
+
+  /// Gets information about the specified safety lever.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the safety lever.
+  Future<GetSafetyLeverResponse> getSafetyLever({
+    required String id,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/safetyLevers/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSafetyLeverResponse.fromJson(response);
   }
 
   /// Gets information about the specified target account configuration of the
@@ -805,6 +823,33 @@ class Fis {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateExperimentTemplateResponse.fromJson(response);
+  }
+
+  /// Updates the specified safety lever state.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the safety lever.
+  ///
+  /// Parameter [state] :
+  /// The state of the safety lever.
+  Future<UpdateSafetyLeverStateResponse> updateSafetyLeverState({
+    required String id,
+    required UpdateSafetyLeverStateInput state,
+  }) async {
+    final $payload = <String, dynamic>{
+      'state': state,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/safetyLevers/${Uri.encodeComponent(id)}/state',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSafetyLeverStateResponse.fromJson(response);
   }
 
   /// Updates the target account configuration for the specified experiment
@@ -1665,6 +1710,43 @@ class ExperimentCloudWatchLogsLogConfiguration {
   }
 }
 
+/// Describes the error when an experiment has <code>failed</code>.
+class ExperimentError {
+  /// The Amazon Web Services Account ID where the experiment failure occurred.
+  final String? accountId;
+
+  /// The error code for the failed experiment.
+  final String? code;
+
+  /// Context for the section of the experiment template that failed.
+  final String? location;
+
+  ExperimentError({
+    this.accountId,
+    this.code,
+    this.location,
+  });
+
+  factory ExperimentError.fromJson(Map<String, dynamic> json) {
+    return ExperimentError(
+      accountId: json['accountId'] as String?,
+      code: json['code'] as String?,
+      location: json['location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final code = this.code;
+    final location = this.location;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (code != null) 'code': code,
+      if (location != null) 'location': location,
+    };
+  }
+}
+
 /// Describes the configuration for experiment logging.
 class ExperimentLogConfiguration {
   /// The configuration for experiment logging to Amazon CloudWatch Logs.
@@ -1783,6 +1865,10 @@ class ExperimentS3LogConfiguration {
 
 /// Describes the state of an experiment.
 class ExperimentState {
+  /// The error information of the experiment when the action has
+  /// <code>failed</code>.
+  final ExperimentError? error;
+
   /// The reason for the state.
   final String? reason;
 
@@ -1790,21 +1876,27 @@ class ExperimentState {
   final ExperimentStatus? status;
 
   ExperimentState({
+    this.error,
     this.reason,
     this.status,
   });
 
   factory ExperimentState.fromJson(Map<String, dynamic> json) {
     return ExperimentState(
+      error: json['error'] != null
+          ? ExperimentError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
       reason: json['reason'] as String?,
       status: (json['status'] as String?)?.let(ExperimentStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final error = this.error;
     final reason = this.reason;
     final status = this.status;
     return {
+      if (error != null) 'error': error,
       if (reason != null) 'reason': reason,
       if (status != null) 'status': status.value,
     };
@@ -1819,6 +1911,7 @@ enum ExperimentStatus {
   stopping('stopping'),
   stopped('stopped'),
   failed('failed'),
+  cancelled('cancelled'),
   ;
 
   final String value;
@@ -2788,6 +2881,30 @@ class GetExperimentTemplateResponse {
   }
 }
 
+class GetSafetyLeverResponse {
+  /// Information about the safety lever.
+  final SafetyLever? safetyLever;
+
+  GetSafetyLeverResponse({
+    this.safetyLever,
+  });
+
+  factory GetSafetyLeverResponse.fromJson(Map<String, dynamic> json) {
+    return GetSafetyLeverResponse(
+      safetyLever: json['safetyLever'] != null
+          ? SafetyLever.fromJson(json['safetyLever'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final safetyLever = this.safetyLever;
+    return {
+      if (safetyLever != null) 'safetyLever': safetyLever,
+    };
+  }
+}
+
 class GetTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final TargetAccountConfiguration? targetAccountConfiguration;
@@ -3144,6 +3261,106 @@ class ResolvedTarget {
       if (targetName != null) 'targetName': targetName,
     };
   }
+}
+
+/// Describes a safety lever.
+class SafetyLever {
+  /// The Amazon Resource Name (ARN) of the safety lever.
+  final String? arn;
+
+  /// The ID of the safety lever.
+  final String? id;
+
+  /// The state of the safety lever.
+  final SafetyLeverState? state;
+
+  SafetyLever({
+    this.arn,
+    this.id,
+    this.state,
+  });
+
+  factory SafetyLever.fromJson(Map<String, dynamic> json) {
+    return SafetyLever(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      state: json['state'] != null
+          ? SafetyLeverState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final state = this.state;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// Describes the state of the safety lever.
+class SafetyLeverState {
+  /// The reason for the state of the safety lever.
+  final String? reason;
+
+  /// The state of the safety lever.
+  final SafetyLeverStatus? status;
+
+  SafetyLeverState({
+    this.reason,
+    this.status,
+  });
+
+  factory SafetyLeverState.fromJson(Map<String, dynamic> json) {
+    return SafetyLeverState(
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.let(SafetyLeverStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+enum SafetyLeverStatus {
+  disengaged('disengaged'),
+  engaged('engaged'),
+  engaging('engaging'),
+  ;
+
+  final String value;
+
+  const SafetyLeverStatus(this.value);
+
+  static SafetyLeverStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum SafetyLeverStatus'));
+}
+
+enum SafetyLeverStatusInput {
+  disengaged('disengaged'),
+  engaged('engaged'),
+  ;
+
+  final String value;
+
+  const SafetyLeverStatusInput(this.value);
+
+  static SafetyLeverStatusInput fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum SafetyLeverStatusInput'));
 }
 
 /// Specifies experiment options for running an experiment.
@@ -3598,6 +3815,53 @@ class UpdateExperimentTemplateTargetInput {
       if (parameters != null) 'parameters': parameters,
       if (resourceArns != null) 'resourceArns': resourceArns,
       if (resourceTags != null) 'resourceTags': resourceTags,
+    };
+  }
+}
+
+/// Specifies a state for a safety lever.
+class UpdateSafetyLeverStateInput {
+  /// The reason for updating the state of the safety lever.
+  final String reason;
+
+  /// The updated state of the safety lever.
+  final SafetyLeverStatusInput status;
+
+  UpdateSafetyLeverStateInput({
+    required this.reason,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      'reason': reason,
+      'status': status.value,
+    };
+  }
+}
+
+class UpdateSafetyLeverStateResponse {
+  /// Information about the safety lever.
+  final SafetyLever? safetyLever;
+
+  UpdateSafetyLeverStateResponse({
+    this.safetyLever,
+  });
+
+  factory UpdateSafetyLeverStateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSafetyLeverStateResponse(
+      safetyLever: json['safetyLever'] != null
+          ? SafetyLever.fromJson(json['safetyLever'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final safetyLever = this.safetyLever;
+    return {
+      if (safetyLever != null) 'safetyLever': safetyLever,
     };
   }
 }

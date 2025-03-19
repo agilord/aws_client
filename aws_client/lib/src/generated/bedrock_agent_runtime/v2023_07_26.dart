@@ -50,8 +50,112 @@ class AgentsForAmazonBedrockRuntime {
     _protocol.close();
   }
 
+  /// Deletes memory from the specified memory identifier.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [DependencyFailedException].
+  /// May throw [BadGatewayException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [agentAliasId] :
+  /// The unique identifier of an alias of an agent.
+  ///
+  /// Parameter [agentId] :
+  /// The unique identifier of the agent to which the alias belongs.
+  ///
+  /// Parameter [memoryId] :
+  /// The unique identifier of the memory.
+  Future<void> deleteAgentMemory({
+    required String agentAliasId,
+    required String agentId,
+    String? memoryId,
+  }) async {
+    final $query = <String, List<String>>{
+      if (memoryId != null) 'memoryId': [memoryId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/agents/${Uri.encodeComponent(agentId)}/agentAliases/${Uri.encodeComponent(agentAliasId)}/memories',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Gets the sessions stored in the memory of the agent.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [DependencyFailedException].
+  /// May throw [BadGatewayException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [agentAliasId] :
+  /// The unique identifier of an alias of an agent.
+  ///
+  /// Parameter [agentId] :
+  /// The unique identifier of the agent to which the alias belongs.
+  ///
+  /// Parameter [memoryId] :
+  /// The unique identifier of the memory.
+  ///
+  /// Parameter [memoryType] :
+  /// The type of memory.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of items to return in the response. If the total number
+  /// of results is greater than this value, use the token returned in the
+  /// response in the <code>nextToken</code> field when making another request
+  /// to return the next batch of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If the total number of results is greater than the maxItems value provided
+  /// in the request, enter the token returned in the <code>nextToken</code>
+  /// field in the response in this field to return the next batch of results.
+  Future<GetAgentMemoryResponse> getAgentMemory({
+    required String agentAliasId,
+    required String agentId,
+    required String memoryId,
+    required MemoryType memoryType,
+    int? maxItems,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      'memoryId': [memoryId],
+      'memoryType': [memoryType.value],
+      if (maxItems != null) 'maxItems': [maxItems.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/agents/${Uri.encodeComponent(agentId)}/agentAliases/${Uri.encodeComponent(agentAliasId)}/memories',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAgentMemoryResponse.fromJson(response);
+  }
+
   /// <note>
-  /// The CLI doesn't support <code>InvokeAgent</code>.
+  /// The CLI doesn't support streaming operations in Amazon Bedrock, including
+  /// <code>InvokeAgent</code>.
   /// </note>
   /// Sends a prompt for the agent to process and respond to. Note the following
   /// fields for the request:
@@ -139,6 +243,9 @@ class AgentsForAmazonBedrockRuntime {
   /// ignored.
   /// </note>
   ///
+  /// Parameter [memoryId] :
+  /// The unique identifier of the agent memory.
+  ///
   /// Parameter [sessionState] :
   /// Contains parameters that specify various attributes of the session. For
   /// more information, see <a
@@ -156,12 +263,14 @@ class AgentsForAmazonBedrockRuntime {
     bool? enableTrace,
     bool? endSession,
     String? inputText,
+    String? memoryId,
     SessionState? sessionState,
   }) async {
     final $payload = <String, dynamic>{
       if (enableTrace != null) 'enableTrace': enableTrace,
       if (endSession != null) 'endSession': endSession,
       if (inputText != null) 'inputText': inputText,
+      if (memoryId != null) 'memoryId': memoryId,
       if (sessionState != null) 'sessionState': sessionState,
     };
     final response = await _protocol.sendRaw(
@@ -178,6 +287,58 @@ class AgentsForAmazonBedrockRuntime {
           response.headers, 'x-amzn-bedrock-agent-content-type')!,
       sessionId: _s.extractHeaderStringValue(
           response.headers, 'x-amz-bedrock-agent-session-id')!,
+      memoryId: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-bedrock-agent-memory-id'),
+    );
+  }
+
+  /// Invokes an alias of a flow to run the inputs that you specify and return
+  /// the output of each node as a stream. If there's an error, the error is
+  /// returned. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html">Test
+  /// a flow in Amazon Bedrock</a> in the Amazon Bedrock User Guide.
+  /// <note>
+  /// The CLI doesn't support streaming operations in Amazon Bedrock, including
+  /// <code>InvokeFlow</code>.
+  /// </note>
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [DependencyFailedException].
+  /// May throw [BadGatewayException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [flowAliasIdentifier] :
+  /// The unique identifier of the flow alias.
+  ///
+  /// Parameter [flowIdentifier] :
+  /// The unique identifier of the flow.
+  ///
+  /// Parameter [inputs] :
+  /// A list of objects, each containing information about an input into the
+  /// flow.
+  Future<InvokeFlowResponse> invokeFlow({
+    required String flowAliasIdentifier,
+    required String flowIdentifier,
+    required List<FlowInput> inputs,
+  }) async {
+    final $payload = <String, dynamic>{
+      'inputs': inputs,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/flows/${Uri.encodeComponent(flowIdentifier)}/aliases/${Uri.encodeComponent(flowAliasIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return InvokeFlowResponse(
+      responseStream: FlowResponseStream.fromJson($json),
     );
   }
 
@@ -258,8 +419,12 @@ class AgentsForAmazonBedrockRuntime {
   /// Contains details about the session with the knowledge base.
   ///
   /// Parameter [sessionId] :
-  /// The unique identifier of the session. Reuse the same value to continue the
-  /// same session with the knowledge base.
+  /// The unique identifier of the session. When you first make a
+  /// <code>RetrieveAndGenerate</code> request, Amazon Bedrock automatically
+  /// generates this value. You must reuse this value for all subsequent
+  /// requests in the same conversational session. This value allows Amazon
+  /// Bedrock to maintain context and knowledge from previous interactions. You
+  /// can't explicitly set the <code>sessionId</code> yourself.
   Future<RetrieveAndGenerateResponse> retrieveAndGenerate({
     required RetrieveAndGenerateInput input,
     RetrieveAndGenerateConfiguration? retrieveAndGenerateConfiguration,
@@ -318,8 +483,17 @@ class ActionGroupInvocationInput {
   /// The path to the API to call, based off the action group.
   final String? apiPath;
 
+  /// How fulfillment of the action is handled. For more information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/action-handle.html">Handling
+  /// fulfillment of the action</a>.
+  final ExecutionType? executionType;
+
   /// The function in the action group to call.
   final String? function;
+
+  /// The unique identifier of the invocation. Only returned if the
+  /// <code>executionType</code> is <code>RETURN_CONTROL</code>.
+  final String? invocationId;
 
   /// The parameters in the Lambda input event.
   final List<Parameter>? parameters;
@@ -333,7 +507,9 @@ class ActionGroupInvocationInput {
   ActionGroupInvocationInput({
     this.actionGroupName,
     this.apiPath,
+    this.executionType,
     this.function,
+    this.invocationId,
     this.parameters,
     this.requestBody,
     this.verb,
@@ -343,7 +519,10 @@ class ActionGroupInvocationInput {
     return ActionGroupInvocationInput(
       actionGroupName: json['actionGroupName'] as String?,
       apiPath: json['apiPath'] as String?,
+      executionType:
+          (json['executionType'] as String?)?.let(ExecutionType.fromString),
       function: json['function'] as String?,
+      invocationId: json['invocationId'] as String?,
       parameters: (json['parameters'] as List?)
           ?.nonNulls
           .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
@@ -358,14 +537,18 @@ class ActionGroupInvocationInput {
   Map<String, dynamic> toJson() {
     final actionGroupName = this.actionGroupName;
     final apiPath = this.apiPath;
+    final executionType = this.executionType;
     final function = this.function;
+    final invocationId = this.invocationId;
     final parameters = this.parameters;
     final requestBody = this.requestBody;
     final verb = this.verb;
     return {
       if (actionGroupName != null) 'actionGroupName': actionGroupName,
       if (apiPath != null) 'apiPath': apiPath,
+      if (executionType != null) 'executionType': executionType.value,
       if (function != null) 'function': function,
+      if (invocationId != null) 'invocationId': invocationId,
       if (parameters != null) 'parameters': parameters,
       if (requestBody != null) 'requestBody': requestBody,
       if (verb != null) 'verb': verb,
@@ -397,6 +580,22 @@ class ActionGroupInvocationOutput {
   }
 }
 
+enum ActionInvocationType {
+  result('RESULT'),
+  userConfirmation('USER_CONFIRMATION'),
+  userConfirmationAndResult('USER_CONFIRMATION_AND_RESULT'),
+  ;
+
+  final String value;
+
+  const ActionInvocationType(this.value);
+
+  static ActionInvocationType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum ActionInvocationType'));
+}
+
 class AdditionalModelRequestFieldsValue {
   AdditionalModelRequestFieldsValue();
 
@@ -421,6 +620,9 @@ class ApiInvocationInput {
   /// The action group that the API operation belongs to.
   final String actionGroup;
 
+  /// Contains information about the API operation to invoke.
+  final ActionInvocationType? actionInvocationType;
+
   /// The path to the API operation.
   final String? apiPath;
 
@@ -437,6 +639,7 @@ class ApiInvocationInput {
 
   ApiInvocationInput({
     required this.actionGroup,
+    this.actionInvocationType,
     this.apiPath,
     this.httpMethod,
     this.parameters,
@@ -446,6 +649,8 @@ class ApiInvocationInput {
   factory ApiInvocationInput.fromJson(Map<String, dynamic> json) {
     return ApiInvocationInput(
       actionGroup: json['actionGroup'] as String,
+      actionInvocationType: (json['actionInvocationType'] as String?)
+          ?.let(ActionInvocationType.fromString),
       apiPath: json['apiPath'] as String?,
       httpMethod: json['httpMethod'] as String?,
       parameters: (json['parameters'] as List?)
@@ -460,12 +665,15 @@ class ApiInvocationInput {
 
   Map<String, dynamic> toJson() {
     final actionGroup = this.actionGroup;
+    final actionInvocationType = this.actionInvocationType;
     final apiPath = this.apiPath;
     final httpMethod = this.httpMethod;
     final parameters = this.parameters;
     final requestBody = this.requestBody;
     return {
       'actionGroup': actionGroup,
+      if (actionInvocationType != null)
+        'actionInvocationType': actionInvocationType.value,
       if (apiPath != null) 'apiPath': apiPath,
       if (httpMethod != null) 'httpMethod': httpMethod,
       if (parameters != null) 'parameters': parameters,
@@ -576,6 +784,10 @@ class ApiResult {
   /// The path to the API operation.
   final String? apiPath;
 
+  /// Controls the API operations or functions to invoke based on the user
+  /// confirmation.
+  final ConfirmationState? confirmationState;
+
   /// The HTTP method for the API operation.
   final String? httpMethod;
 
@@ -596,6 +808,7 @@ class ApiResult {
   ApiResult({
     required this.actionGroup,
     this.apiPath,
+    this.confirmationState,
     this.httpMethod,
     this.httpStatusCode,
     this.responseBody,
@@ -605,6 +818,7 @@ class ApiResult {
   Map<String, dynamic> toJson() {
     final actionGroup = this.actionGroup;
     final apiPath = this.apiPath;
+    final confirmationState = this.confirmationState;
     final httpMethod = this.httpMethod;
     final httpStatusCode = this.httpStatusCode;
     final responseBody = this.responseBody;
@@ -612,6 +826,8 @@ class ApiResult {
     return {
       'actionGroup': actionGroup,
       if (apiPath != null) 'apiPath': apiPath,
+      if (confirmationState != null)
+        'confirmationState': confirmationState.value,
       if (httpMethod != null) 'httpMethod': httpMethod,
       if (httpStatusCode != null) 'httpStatusCode': httpStatusCode,
       if (responseBody != null) 'responseBody': responseBody,
@@ -706,6 +922,30 @@ class ByteContentDoc {
   }
 }
 
+/// The property contains the file to chat with, along with its attributes.
+class ByteContentFile {
+  /// The raw bytes of the file to attach. The maximum size of all files that is
+  /// attached is 10MB. You can attach a maximum of 5 files.
+  final Uint8List data;
+
+  /// The MIME type of data contained in the file used for chat.
+  final String mediaType;
+
+  ByteContentFile({
+    required this.data,
+    required this.mediaType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final mediaType = this.mediaType;
+    return {
+      'data': base64Encode(data),
+      'mediaType': mediaType,
+    };
+  }
+}
+
 /// An object containing a segment of the generated response that is based on a
 /// source in the knowledge base, alongside information about the source.
 ///
@@ -758,6 +998,98 @@ class Citation {
         'retrievedReferences': retrievedReferences,
     };
   }
+}
+
+/// Contains information about the code interpreter being invoked.
+class CodeInterpreterInvocationInput {
+  /// The code for the code interpreter to use.
+  final String? code;
+
+  /// Files that are uploaded for code interpreter to use.
+  final List<String>? files;
+
+  CodeInterpreterInvocationInput({
+    this.code,
+    this.files,
+  });
+
+  factory CodeInterpreterInvocationInput.fromJson(Map<String, dynamic> json) {
+    return CodeInterpreterInvocationInput(
+      code: json['code'] as String?,
+      files:
+          (json['files'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final files = this.files;
+    return {
+      if (code != null) 'code': code,
+      if (files != null) 'files': files,
+    };
+  }
+}
+
+/// Contains the JSON-formatted string returned by the API invoked by the code
+/// interpreter.
+class CodeInterpreterInvocationOutput {
+  /// Contains the error returned from code execution.
+  final String? executionError;
+
+  /// Contains the successful output returned from code execution
+  final String? executionOutput;
+
+  /// Indicates if the execution of the code timed out.
+  final bool? executionTimeout;
+
+  /// Contains output files, if generated by code execution.
+  final List<String>? files;
+
+  CodeInterpreterInvocationOutput({
+    this.executionError,
+    this.executionOutput,
+    this.executionTimeout,
+    this.files,
+  });
+
+  factory CodeInterpreterInvocationOutput.fromJson(Map<String, dynamic> json) {
+    return CodeInterpreterInvocationOutput(
+      executionError: json['executionError'] as String?,
+      executionOutput: json['executionOutput'] as String?,
+      executionTimeout: json['executionTimeout'] as bool?,
+      files:
+          (json['files'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionError = this.executionError;
+    final executionOutput = this.executionOutput;
+    final executionTimeout = this.executionTimeout;
+    final files = this.files;
+    return {
+      if (executionError != null) 'executionError': executionError,
+      if (executionOutput != null) 'executionOutput': executionOutput,
+      if (executionTimeout != null) 'executionTimeout': executionTimeout,
+      if (files != null) 'files': files,
+    };
+  }
+}
+
+enum ConfirmationState {
+  confirm('CONFIRM'),
+  deny('DENY'),
+  ;
+
+  final String value;
+
+  const ConfirmationState(this.value);
+
+  static ConfirmationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ConfirmationState'));
 }
 
 /// There was a conflict performing an operation. Resolve the conflict and retry
@@ -825,6 +1157,18 @@ enum CreationMode {
               throw Exception('$value is not known in enum CreationMode'));
 }
 
+class DeleteAgentMemoryResponse {
+  DeleteAgentMemoryResponse();
+
+  factory DeleteAgentMemoryResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAgentMemoryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// There was an issue with a dependency. Check the resource configurations and
 /// retry the request.
 class DependencyFailedException implements _s.AwsException {
@@ -854,6 +1198,33 @@ class DependencyFailedException implements _s.AwsException {
       if (resourceName != null) 'resourceName': resourceName,
     };
   }
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+enum ExecutionType {
+  lambda('LAMBDA'),
+  returnControl('RETURN_CONTROL'),
+  ;
+
+  final String value;
+
+  const ExecutionType(this.value);
+
+  static ExecutionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ExecutionType'));
 }
 
 /// The unique external source of the content contained in the wrapper object.
@@ -1006,6 +1377,91 @@ class FailureTrace {
   }
 }
 
+/// Contains intermediate response for code interpreter if any files have been
+/// generated.
+class FilePart {
+  /// Files containing intermediate response for the user.
+  final List<OutputFile>? files;
+
+  FilePart({
+    this.files,
+  });
+
+  factory FilePart.fromJson(Map<String, dynamic> json) {
+    return FilePart(
+      files: (json['files'] as List?)
+          ?.nonNulls
+          .map((e) => OutputFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final files = this.files;
+    return {
+      if (files != null) 'files': files,
+    };
+  }
+}
+
+/// The source file of the content contained in the wrapper object.
+class FileSource {
+  /// The source type of the files to attach.
+  final FileSourceType sourceType;
+
+  /// The data and the text of the attached files.
+  final ByteContentFile? byteContent;
+
+  /// The s3 location of the files to attach.
+  final S3ObjectFile? s3Location;
+
+  FileSource({
+    required this.sourceType,
+    this.byteContent,
+    this.s3Location,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sourceType = this.sourceType;
+    final byteContent = this.byteContent;
+    final s3Location = this.s3Location;
+    return {
+      'sourceType': sourceType.value,
+      if (byteContent != null) 'byteContent': byteContent,
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
+}
+
+enum FileSourceType {
+  s3('S3'),
+  byteContent('BYTE_CONTENT'),
+  ;
+
+  final String value;
+
+  const FileSourceType(this.value);
+
+  static FileSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum FileSourceType'));
+}
+
+enum FileUseCase {
+  codeInterpreter('CODE_INTERPRETER'),
+  chat('CHAT'),
+  ;
+
+  final String value;
+
+  const FileUseCase(this.value);
+
+  static FileUseCase fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum FileUseCase'));
+}
+
 /// Specifies the name that the metadata attribute must match and the value to
 /// which to compare the value of the metadata attribute. For more information,
 /// see <a
@@ -1074,6 +1530,358 @@ class FinalResponse {
   }
 }
 
+/// Contains information about why a flow completed.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_ResponseSyntax">InvokeFlow
+/// response</a>
+/// </li>
+/// </ul>
+class FlowCompletionEvent {
+  /// The reason that the flow completed.
+  final FlowCompletionReason completionReason;
+
+  FlowCompletionEvent({
+    required this.completionReason,
+  });
+
+  factory FlowCompletionEvent.fromJson(Map<String, dynamic> json) {
+    return FlowCompletionEvent(
+      completionReason:
+          FlowCompletionReason.fromString((json['completionReason'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionReason = this.completionReason;
+    return {
+      'completionReason': completionReason.value,
+    };
+  }
+}
+
+enum FlowCompletionReason {
+  success('SUCCESS'),
+  ;
+
+  final String value;
+
+  const FlowCompletionReason(this.value);
+
+  static FlowCompletionReason fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum FlowCompletionReason'));
+}
+
+/// Contains information about an input into the prompt flow and where to send
+/// it.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax">InvokeFlow
+/// request</a>
+/// </li>
+/// </ul>
+class FlowInput {
+  /// Contains information about an input into the prompt flow.
+  final FlowInputContent content;
+
+  /// The name of the flow input node that begins the prompt flow.
+  final String nodeName;
+
+  /// The name of the output from the flow input node that begins the prompt flow.
+  final String nodeOutputName;
+
+  FlowInput({
+    required this.content,
+    required this.nodeName,
+    required this.nodeOutputName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final nodeName = this.nodeName;
+    final nodeOutputName = this.nodeOutputName;
+    return {
+      'content': content,
+      'nodeName': nodeName,
+      'nodeOutputName': nodeOutputName,
+    };
+  }
+}
+
+/// Contains information about an input into the flow.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax">InvokeFlow
+/// request</a>
+/// </li>
+/// </ul>
+class FlowInputContent {
+  /// The input to send to the prompt flow input node.
+  final Document? document;
+
+  FlowInputContent({
+    this.document,
+  });
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    return {
+      if (document != null) 'document': document,
+    };
+  }
+}
+
+/// Contains information about the content in an output from prompt flow
+/// invocation.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_RequestSyntax">InvokeFlow
+/// request</a>
+/// </li>
+/// </ul>
+class FlowOutputContent {
+  /// The content in the output.
+  final Document? document;
+
+  FlowOutputContent({
+    this.document,
+  });
+
+  factory FlowOutputContent.fromJson(Map<String, dynamic> json) {
+    return FlowOutputContent(
+      document: json['document'] != null
+          ? Document.fromJson(json['document'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    return {
+      if (document != null) 'document': document,
+    };
+  }
+}
+
+/// Contains information about an output from prompt flow invoction.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_ResponseSyntax">InvokeFlow
+/// response</a>
+/// </li>
+/// </ul>
+class FlowOutputEvent {
+  /// The content in the output.
+  final FlowOutputContent content;
+
+  /// The name of the flow output node that the output is from.
+  final String nodeName;
+
+  /// The type of the node that the output is from.
+  final NodeType nodeType;
+
+  FlowOutputEvent({
+    required this.content,
+    required this.nodeName,
+    required this.nodeType,
+  });
+
+  factory FlowOutputEvent.fromJson(Map<String, dynamic> json) {
+    return FlowOutputEvent(
+      content:
+          FlowOutputContent.fromJson(json['content'] as Map<String, dynamic>),
+      nodeName: json['nodeName'] as String,
+      nodeType: NodeType.fromString((json['nodeType'] as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final nodeName = this.nodeName;
+    final nodeType = this.nodeType;
+    return {
+      'content': content,
+      'nodeName': nodeName,
+      'nodeType': nodeType.value,
+    };
+  }
+}
+
+/// The output of the flow.
+///
+/// This data type is used in the following API operations:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeFlow.html#API_agent_InvokeFlow_ResponseSyntax">InvokeFlow
+/// response</a>
+/// </li>
+/// </ul>
+class FlowResponseStream {
+  /// The request is denied because of missing access permissions. Check your
+  /// permissions and retry your request.
+  final AccessDeniedException? accessDeniedException;
+
+  /// There was an issue with a dependency due to a server issue. Retry your
+  /// request.
+  final BadGatewayException? badGatewayException;
+
+  /// There was a conflict performing an operation. Resolve the conflict and retry
+  /// your request.
+  final ConflictException? conflictException;
+
+  /// There was an issue with a dependency. Check the resource configurations and
+  /// retry the request.
+  final DependencyFailedException? dependencyFailedException;
+
+  /// Contains information about why the flow completed.
+  final FlowCompletionEvent? flowCompletionEvent;
+
+  /// Contains information about an output from flow invocation.
+  final FlowOutputEvent? flowOutputEvent;
+
+  /// An internal server error occurred. Retry your request.
+  final InternalServerException? internalServerException;
+
+  /// The specified resource Amazon Resource Name (ARN) was not found. Check the
+  /// Amazon Resource Name (ARN) and try your request again.
+  final ResourceNotFoundException? resourceNotFoundException;
+
+  /// The number of requests exceeds the service quota. Resubmit your request
+  /// later.
+  final ServiceQuotaExceededException? serviceQuotaExceededException;
+
+  /// The number of requests exceeds the limit. Resubmit your request later.
+  final ThrottlingException? throttlingException;
+
+  /// Input validation failed. Check your request parameters and retry the
+  /// request.
+  final ValidationException? validationException;
+
+  FlowResponseStream({
+    this.accessDeniedException,
+    this.badGatewayException,
+    this.conflictException,
+    this.dependencyFailedException,
+    this.flowCompletionEvent,
+    this.flowOutputEvent,
+    this.internalServerException,
+    this.resourceNotFoundException,
+    this.serviceQuotaExceededException,
+    this.throttlingException,
+    this.validationException,
+  });
+
+  factory FlowResponseStream.fromJson(Map<String, dynamic> json) {
+    return FlowResponseStream(
+      accessDeniedException: json['accessDeniedException'] != null
+          ? AccessDeniedException.fromJson(
+              json['accessDeniedException'] as Map<String, dynamic>)
+          : null,
+      badGatewayException: json['badGatewayException'] != null
+          ? BadGatewayException.fromJson(
+              json['badGatewayException'] as Map<String, dynamic>)
+          : null,
+      conflictException: json['conflictException'] != null
+          ? ConflictException.fromJson(
+              json['conflictException'] as Map<String, dynamic>)
+          : null,
+      dependencyFailedException: json['dependencyFailedException'] != null
+          ? DependencyFailedException.fromJson(
+              json['dependencyFailedException'] as Map<String, dynamic>)
+          : null,
+      flowCompletionEvent: json['flowCompletionEvent'] != null
+          ? FlowCompletionEvent.fromJson(
+              json['flowCompletionEvent'] as Map<String, dynamic>)
+          : null,
+      flowOutputEvent: json['flowOutputEvent'] != null
+          ? FlowOutputEvent.fromJson(
+              json['flowOutputEvent'] as Map<String, dynamic>)
+          : null,
+      internalServerException: json['internalServerException'] != null
+          ? InternalServerException.fromJson(
+              json['internalServerException'] as Map<String, dynamic>)
+          : null,
+      resourceNotFoundException: json['resourceNotFoundException'] != null
+          ? ResourceNotFoundException.fromJson(
+              json['resourceNotFoundException'] as Map<String, dynamic>)
+          : null,
+      serviceQuotaExceededException:
+          json['serviceQuotaExceededException'] != null
+              ? ServiceQuotaExceededException.fromJson(
+                  json['serviceQuotaExceededException'] as Map<String, dynamic>)
+              : null,
+      throttlingException: json['throttlingException'] != null
+          ? ThrottlingException.fromJson(
+              json['throttlingException'] as Map<String, dynamic>)
+          : null,
+      validationException: json['validationException'] != null
+          ? ValidationException.fromJson(
+              json['validationException'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessDeniedException = this.accessDeniedException;
+    final badGatewayException = this.badGatewayException;
+    final conflictException = this.conflictException;
+    final dependencyFailedException = this.dependencyFailedException;
+    final flowCompletionEvent = this.flowCompletionEvent;
+    final flowOutputEvent = this.flowOutputEvent;
+    final internalServerException = this.internalServerException;
+    final resourceNotFoundException = this.resourceNotFoundException;
+    final serviceQuotaExceededException = this.serviceQuotaExceededException;
+    final throttlingException = this.throttlingException;
+    final validationException = this.validationException;
+    return {
+      if (accessDeniedException != null)
+        'accessDeniedException': accessDeniedException,
+      if (badGatewayException != null)
+        'badGatewayException': badGatewayException,
+      if (conflictException != null) 'conflictException': conflictException,
+      if (dependencyFailedException != null)
+        'dependencyFailedException': dependencyFailedException,
+      if (flowCompletionEvent != null)
+        'flowCompletionEvent': flowCompletionEvent,
+      if (flowOutputEvent != null) 'flowOutputEvent': flowOutputEvent,
+      if (internalServerException != null)
+        'internalServerException': internalServerException,
+      if (resourceNotFoundException != null)
+        'resourceNotFoundException': resourceNotFoundException,
+      if (serviceQuotaExceededException != null)
+        'serviceQuotaExceededException': serviceQuotaExceededException,
+      if (throttlingException != null)
+        'throttlingException': throttlingException,
+      if (validationException != null)
+        'validationException': validationException,
+    };
+  }
+}
+
 /// Contains information about the function that the agent predicts should be
 /// called.
 ///
@@ -1090,6 +1898,9 @@ class FunctionInvocationInput {
   /// The action group that the function belongs to.
   final String actionGroup;
 
+  /// Contains information about the function to invoke,
+  final ActionInvocationType? actionInvocationType;
+
   /// The name of the function.
   final String? function;
 
@@ -1098,6 +1909,7 @@ class FunctionInvocationInput {
 
   FunctionInvocationInput({
     required this.actionGroup,
+    this.actionInvocationType,
     this.function,
     this.parameters,
   });
@@ -1105,6 +1917,8 @@ class FunctionInvocationInput {
   factory FunctionInvocationInput.fromJson(Map<String, dynamic> json) {
     return FunctionInvocationInput(
       actionGroup: json['actionGroup'] as String,
+      actionInvocationType: (json['actionInvocationType'] as String?)
+          ?.let(ActionInvocationType.fromString),
       function: json['function'] as String?,
       parameters: (json['parameters'] as List?)
           ?.nonNulls
@@ -1115,10 +1929,13 @@ class FunctionInvocationInput {
 
   Map<String, dynamic> toJson() {
     final actionGroup = this.actionGroup;
+    final actionInvocationType = this.actionInvocationType;
     final function = this.function;
     final parameters = this.parameters;
     return {
       'actionGroup': actionGroup,
+      if (actionInvocationType != null)
+        'actionInvocationType': actionInvocationType.value,
       if (function != null) 'function': function,
       if (parameters != null) 'parameters': parameters,
     };
@@ -1188,6 +2005,10 @@ class FunctionResult {
   /// The action group that the function belongs to.
   final String actionGroup;
 
+  /// Contains the user confirmation information about the function that was
+  /// called.
+  final ConfirmationState? confirmationState;
+
   /// The name of the function that was called.
   final String? function;
 
@@ -1204,6 +2025,7 @@ class FunctionResult {
 
   FunctionResult({
     required this.actionGroup,
+    this.confirmationState,
     this.function,
     this.responseBody,
     this.responseState,
@@ -1211,11 +2033,14 @@ class FunctionResult {
 
   Map<String, dynamic> toJson() {
     final actionGroup = this.actionGroup;
+    final confirmationState = this.confirmationState;
     final function = this.function;
     final responseBody = this.responseBody;
     final responseState = this.responseState;
     return {
       'actionGroup': actionGroup,
+      if (confirmationState != null)
+        'confirmationState': confirmationState.value,
       if (function != null) 'function': function,
       if (responseBody != null) 'responseBody': responseBody,
       if (responseState != null) 'responseState': responseState.value,
@@ -1315,6 +2140,40 @@ class GenerationConfiguration {
         'guardrailConfiguration': guardrailConfiguration,
       if (inferenceConfig != null) 'inferenceConfig': inferenceConfig,
       if (promptTemplate != null) 'promptTemplate': promptTemplate,
+    };
+  }
+}
+
+class GetAgentMemoryResponse {
+  /// Contains details of the sessions stored in the memory
+  final List<Memory>? memoryContents;
+
+  /// If the total number of results is greater than the maxItems value provided
+  /// in the request, use this token when making another request in the
+  /// <code>nextToken</code> field to return the next batch of results.
+  final String? nextToken;
+
+  GetAgentMemoryResponse({
+    this.memoryContents,
+    this.nextToken,
+  });
+
+  factory GetAgentMemoryResponse.fromJson(Map<String, dynamic> json) {
+    return GetAgentMemoryResponse(
+      memoryContents: (json['memoryContents'] as List?)
+          ?.nonNulls
+          .map((e) => Memory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memoryContents = this.memoryContents;
+    final nextToken = this.nextToken;
+    return {
+      if (memoryContents != null) 'memoryContents': memoryContents,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -2060,7 +2919,7 @@ class InferenceConfiguration {
   /// following token at each point of generation. The value that you set for
   /// <code>Top P</code> determines the number of most-likely candidates from
   /// which the model chooses the next token in the sequence. For example, if you
-  /// set <code>topP</code> to 80, the model only selects the next token from the
+  /// set <code>topP</code> to 0.8, the model only selects the next token from the
   /// top 80% of the probability distribution of next tokens.
   final double? topP;
 
@@ -2101,6 +2960,35 @@ class InferenceConfiguration {
   }
 }
 
+/// Contains details of the source files.
+class InputFile {
+  /// The name of the source file.
+  final String name;
+
+  /// Specifies where the files are located.
+  final FileSource source;
+
+  /// Specifies how the source files will be used by the code interpreter.
+  final FileUseCase useCase;
+
+  InputFile({
+    required this.name,
+    required this.source,
+    required this.useCase,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final source = this.source;
+    final useCase = this.useCase;
+    return {
+      'name': name,
+      'source': source,
+      'useCase': useCase.value,
+    };
+  }
+}
+
 /// An internal server error occurred. Retry your request.
 class InternalServerException implements _s.AwsException {
   final String? message;
@@ -2129,6 +3017,9 @@ class InvocationInput {
   /// Contains information about the action group to be invoked.
   final ActionGroupInvocationInput? actionGroupInvocationInput;
 
+  /// Contains information about the code interpreter to be invoked.
+  final CodeInterpreterInvocationInput? codeInterpreterInvocationInput;
+
   /// Specifies whether the agent is invoking an action group or a knowledge base.
   final InvocationType? invocationType;
 
@@ -2141,6 +3032,7 @@ class InvocationInput {
 
   InvocationInput({
     this.actionGroupInvocationInput,
+    this.codeInterpreterInvocationInput,
     this.invocationType,
     this.knowledgeBaseLookupInput,
     this.traceId,
@@ -2151,6 +3043,11 @@ class InvocationInput {
       actionGroupInvocationInput: json['actionGroupInvocationInput'] != null
           ? ActionGroupInvocationInput.fromJson(
               json['actionGroupInvocationInput'] as Map<String, dynamic>)
+          : null,
+      codeInterpreterInvocationInput: json['codeInterpreterInvocationInput'] !=
+              null
+          ? CodeInterpreterInvocationInput.fromJson(
+              json['codeInterpreterInvocationInput'] as Map<String, dynamic>)
           : null,
       invocationType:
           (json['invocationType'] as String?)?.let(InvocationType.fromString),
@@ -2164,12 +3061,15 @@ class InvocationInput {
 
   Map<String, dynamic> toJson() {
     final actionGroupInvocationInput = this.actionGroupInvocationInput;
+    final codeInterpreterInvocationInput = this.codeInterpreterInvocationInput;
     final invocationType = this.invocationType;
     final knowledgeBaseLookupInput = this.knowledgeBaseLookupInput;
     final traceId = this.traceId;
     return {
       if (actionGroupInvocationInput != null)
         'actionGroupInvocationInput': actionGroupInvocationInput,
+      if (codeInterpreterInvocationInput != null)
+        'codeInterpreterInvocationInput': codeInterpreterInvocationInput,
       if (invocationType != null) 'invocationType': invocationType.value,
       if (knowledgeBaseLookupInput != null)
         'knowledgeBaseLookupInput': knowledgeBaseLookupInput,
@@ -2269,6 +3169,7 @@ enum InvocationType {
   actionGroup('ACTION_GROUP'),
   knowledgeBase('KNOWLEDGE_BASE'),
   finish('FINISH'),
+  actionGroupCodeInterpreter('ACTION_GROUP_CODE_INTERPRETER'),
   ;
 
   final String value;
@@ -2292,18 +3193,69 @@ class InvokeAgentResponse {
   /// The unique identifier of the session with the agent.
   final String sessionId;
 
+  /// The unique identifier of the agent memory.
+  final String? memoryId;
+
   InvokeAgentResponse({
     required this.completion,
     required this.contentType,
     required this.sessionId,
+    this.memoryId,
   });
 
   Map<String, dynamic> toJson() {
     final completion = this.completion;
     final contentType = this.contentType;
     final sessionId = this.sessionId;
+    final memoryId = this.memoryId;
     return {
       'completion': completion,
+    };
+  }
+}
+
+class InvokeFlowResponse {
+  /// The output of the flow, returned as a stream. If there's an error, the error
+  /// is returned.
+  final FlowResponseStream responseStream;
+
+  InvokeFlowResponse({
+    required this.responseStream,
+  });
+
+  Map<String, dynamic> toJson() {
+    final responseStream = this.responseStream;
+    return {
+      'responseStream': responseStream,
+    };
+  }
+}
+
+/// Configurations to apply to a knowledge base attached to the agent during
+/// query. For more information, see <a
+/// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html#session-state-kb">Knowledge
+/// base retrieval configurations</a>.
+class KnowledgeBaseConfiguration {
+  /// The unique identifier for a knowledge base attached to the agent.
+  final String knowledgeBaseId;
+
+  /// The configurations to apply to the knowledge base during query. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
+  /// configurations</a>.
+  final KnowledgeBaseRetrievalConfiguration retrievalConfiguration;
+
+  KnowledgeBaseConfiguration({
+    required this.knowledgeBaseId,
+    required this.retrievalConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseId = this.knowledgeBaseId;
+    final retrievalConfiguration = this.retrievalConfiguration;
+    return {
+      'knowledgeBaseId': knowledgeBaseId,
+      'retrievalConfiguration': retrievalConfiguration,
     };
   }
 }
@@ -2393,8 +3345,8 @@ class KnowledgeBaseQuery {
   }
 }
 
-/// Contains configurations for the knowledge base query and retrieval process.
-/// For more information, see <a
+/// Contains configurations for knowledge base query. For more information, see
+/// <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query
 /// configurations</a>.
 ///
@@ -2520,9 +3472,13 @@ class KnowledgeBaseRetrieveAndGenerateConfiguration {
   /// The ARN of the foundation model used to generate a response.
   final String modelArn;
 
-  /// Contains configurations for response generation based on the knowwledge base
+  /// Contains configurations for response generation based on the knowledge base
   /// query results.
   final GenerationConfiguration? generationConfiguration;
+
+  /// Settings for how the model processes the prompt prior to retrieval and
+  /// generation.
+  final OrchestrationConfiguration? orchestrationConfiguration;
 
   /// Contains configurations for how to retrieve and return the knowledge base
   /// query.
@@ -2532,6 +3488,7 @@ class KnowledgeBaseRetrieveAndGenerateConfiguration {
     required this.knowledgeBaseId,
     required this.modelArn,
     this.generationConfiguration,
+    this.orchestrationConfiguration,
     this.retrievalConfiguration,
   });
 
@@ -2539,12 +3496,15 @@ class KnowledgeBaseRetrieveAndGenerateConfiguration {
     final knowledgeBaseId = this.knowledgeBaseId;
     final modelArn = this.modelArn;
     final generationConfiguration = this.generationConfiguration;
+    final orchestrationConfiguration = this.orchestrationConfiguration;
     final retrievalConfiguration = this.retrievalConfiguration;
     return {
       'knowledgeBaseId': knowledgeBaseId,
       'modelArn': modelArn,
       if (generationConfiguration != null)
         'generationConfiguration': generationConfiguration,
+      if (orchestrationConfiguration != null)
+        'orchestrationConfiguration': orchestrationConfiguration,
       if (retrievalConfiguration != null)
         'retrievalConfiguration': retrievalConfiguration,
     };
@@ -2606,6 +3566,123 @@ class KnowledgeBaseVectorSearchConfiguration {
       if (numberOfResults != null) 'numberOfResults': numberOfResults,
       if (overrideSearchType != null)
         'overrideSearchType': overrideSearchType.value,
+    };
+  }
+}
+
+/// Contains sessions summaries.
+class Memory {
+  /// Contains summary of a session.
+  final MemorySessionSummary? sessionSummary;
+
+  Memory({
+    this.sessionSummary,
+  });
+
+  factory Memory.fromJson(Map<String, dynamic> json) {
+    return Memory(
+      sessionSummary: json['sessionSummary'] != null
+          ? MemorySessionSummary.fromJson(
+              json['sessionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionSummary = this.sessionSummary;
+    return {
+      if (sessionSummary != null) 'sessionSummary': sessionSummary,
+    };
+  }
+}
+
+/// Contains details of a session summary.
+class MemorySessionSummary {
+  /// The unique identifier of the memory where the session summary is stored.
+  final String? memoryId;
+
+  /// The time when the memory duration for the session is set to end.
+  final DateTime? sessionExpiryTime;
+
+  /// The identifier for this session.
+  final String? sessionId;
+
+  /// The start time for this session.
+  final DateTime? sessionStartTime;
+
+  /// The summarized text for this session.
+  final String? summaryText;
+
+  MemorySessionSummary({
+    this.memoryId,
+    this.sessionExpiryTime,
+    this.sessionId,
+    this.sessionStartTime,
+    this.summaryText,
+  });
+
+  factory MemorySessionSummary.fromJson(Map<String, dynamic> json) {
+    return MemorySessionSummary(
+      memoryId: json['memoryId'] as String?,
+      sessionExpiryTime: timeStampFromJson(json['sessionExpiryTime']),
+      sessionId: json['sessionId'] as String?,
+      sessionStartTime: timeStampFromJson(json['sessionStartTime']),
+      summaryText: json['summaryText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memoryId = this.memoryId;
+    final sessionExpiryTime = this.sessionExpiryTime;
+    final sessionId = this.sessionId;
+    final sessionStartTime = this.sessionStartTime;
+    final summaryText = this.summaryText;
+    return {
+      if (memoryId != null) 'memoryId': memoryId,
+      if (sessionExpiryTime != null)
+        'sessionExpiryTime': iso8601ToJson(sessionExpiryTime),
+      if (sessionId != null) 'sessionId': sessionId,
+      if (sessionStartTime != null)
+        'sessionStartTime': iso8601ToJson(sessionStartTime),
+      if (summaryText != null) 'summaryText': summaryText,
+    };
+  }
+}
+
+enum MemoryType {
+  sessionSummary('SESSION_SUMMARY'),
+  ;
+
+  final String value;
+
+  const MemoryType(this.value);
+
+  static MemoryType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum MemoryType'));
+}
+
+/// Provides details of the foundation model.
+class Metadata {
+  /// Contains details of the foundation model usage.
+  final Usage? usage;
+
+  Metadata({
+    this.usage,
+  });
+
+  factory Metadata.fromJson(Map<String, dynamic> json) {
+    return Metadata(
+      usage: json['usage'] != null
+          ? Usage.fromJson(json['usage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final usage = this.usage;
+    return {
+      if (usage != null) 'usage': usage,
     };
   }
 }
@@ -2708,12 +3785,35 @@ class ModelInvocationInput {
   }
 }
 
+enum NodeType {
+  flowInputNode('FlowInputNode'),
+  flowOutputNode('FlowOutputNode'),
+  lambdaFunctionNode('LambdaFunctionNode'),
+  knowledgeBaseNode('KnowledgeBaseNode'),
+  promptNode('PromptNode'),
+  conditionNode('ConditionNode'),
+  lexNode('LexNode'),
+  ;
+
+  final String value;
+
+  const NodeType(this.value);
+
+  static NodeType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw Exception('$value is not known in enum NodeType'));
+}
+
 /// Contains the result or output of an action group or knowledge base, or the
 /// response to the user.
 class Observation {
   /// Contains the JSON-formatted string returned by the API invoked by the action
   /// group.
   final ActionGroupInvocationOutput? actionGroupInvocationOutput;
+
+  /// Contains the JSON-formatted string returned by the API invoked by the code
+  /// interpreter.
+  final CodeInterpreterInvocationOutput? codeInterpreterInvocationOutput;
 
   /// Contains details about the response to the user.
   final FinalResponse? finalResponse;
@@ -2754,6 +3854,7 @@ class Observation {
 
   Observation({
     this.actionGroupInvocationOutput,
+    this.codeInterpreterInvocationOutput,
     this.finalResponse,
     this.knowledgeBaseLookupOutput,
     this.repromptResponse,
@@ -2767,6 +3868,12 @@ class Observation {
           ? ActionGroupInvocationOutput.fromJson(
               json['actionGroupInvocationOutput'] as Map<String, dynamic>)
           : null,
+      codeInterpreterInvocationOutput:
+          json['codeInterpreterInvocationOutput'] != null
+              ? CodeInterpreterInvocationOutput.fromJson(
+                  json['codeInterpreterInvocationOutput']
+                      as Map<String, dynamic>)
+              : null,
       finalResponse: json['finalResponse'] != null
           ? FinalResponse.fromJson(
               json['finalResponse'] as Map<String, dynamic>)
@@ -2786,6 +3893,8 @@ class Observation {
 
   Map<String, dynamic> toJson() {
     final actionGroupInvocationOutput = this.actionGroupInvocationOutput;
+    final codeInterpreterInvocationOutput =
+        this.codeInterpreterInvocationOutput;
     final finalResponse = this.finalResponse;
     final knowledgeBaseLookupOutput = this.knowledgeBaseLookupOutput;
     final repromptResponse = this.repromptResponse;
@@ -2794,12 +3903,76 @@ class Observation {
     return {
       if (actionGroupInvocationOutput != null)
         'actionGroupInvocationOutput': actionGroupInvocationOutput,
+      if (codeInterpreterInvocationOutput != null)
+        'codeInterpreterInvocationOutput': codeInterpreterInvocationOutput,
       if (finalResponse != null) 'finalResponse': finalResponse,
       if (knowledgeBaseLookupOutput != null)
         'knowledgeBaseLookupOutput': knowledgeBaseLookupOutput,
       if (repromptResponse != null) 'repromptResponse': repromptResponse,
       if (traceId != null) 'traceId': traceId,
       if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// Settings for how the model processes the prompt prior to retrieval and
+/// generation.
+class OrchestrationConfiguration {
+  /// To split up the prompt and retrieve multiple sources, set the transformation
+  /// type to <code>QUERY_DECOMPOSITION</code>.
+  final QueryTransformationConfiguration queryTransformationConfiguration;
+
+  OrchestrationConfiguration({
+    required this.queryTransformationConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final queryTransformationConfiguration =
+        this.queryTransformationConfiguration;
+    return {
+      'queryTransformationConfiguration': queryTransformationConfiguration,
+    };
+  }
+}
+
+/// The foundation model output from the orchestration step.
+class OrchestrationModelInvocationOutput {
+  /// Contains information about the foundation model output.
+  final Metadata? metadata;
+
+  /// Contains details of the raw response from the foundation model output.
+  final RawResponse? rawResponse;
+
+  /// The unique identifier of the trace.
+  final String? traceId;
+
+  OrchestrationModelInvocationOutput({
+    this.metadata,
+    this.rawResponse,
+    this.traceId,
+  });
+
+  factory OrchestrationModelInvocationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return OrchestrationModelInvocationOutput(
+      metadata: json['metadata'] != null
+          ? Metadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      rawResponse: json['rawResponse'] != null
+          ? RawResponse.fromJson(json['rawResponse'] as Map<String, dynamic>)
+          : null,
+      traceId: json['traceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final rawResponse = this.rawResponse;
+    final traceId = this.traceId;
+    return {
+      if (metadata != null) 'metadata': metadata,
+      if (rawResponse != null) 'rawResponse': rawResponse,
+      if (traceId != null) 'traceId': traceId,
     };
   }
 }
@@ -2829,6 +4002,10 @@ class OrchestrationTrace {
   /// </ul>
   final ModelInvocationInput? modelInvocationInput;
 
+  /// Contains information pertaining to the output from the foundation model that
+  /// is being invoked.
+  final OrchestrationModelInvocationOutput? modelInvocationOutput;
+
   /// Details about the observation (the output of the action group Lambda or
   /// knowledge base) made by the agent.
   final Observation? observation;
@@ -2841,6 +4018,7 @@ class OrchestrationTrace {
   OrchestrationTrace({
     this.invocationInput,
     this.modelInvocationInput,
+    this.modelInvocationOutput,
     this.observation,
     this.rationale,
   });
@@ -2855,6 +4033,10 @@ class OrchestrationTrace {
           ? ModelInvocationInput.fromJson(
               json['modelInvocationInput'] as Map<String, dynamic>)
           : null,
+      modelInvocationOutput: json['modelInvocationOutput'] != null
+          ? OrchestrationModelInvocationOutput.fromJson(
+              json['modelInvocationOutput'] as Map<String, dynamic>)
+          : null,
       observation: json['observation'] != null
           ? Observation.fromJson(json['observation'] as Map<String, dynamic>)
           : null,
@@ -2867,14 +4049,54 @@ class OrchestrationTrace {
   Map<String, dynamic> toJson() {
     final invocationInput = this.invocationInput;
     final modelInvocationInput = this.modelInvocationInput;
+    final modelInvocationOutput = this.modelInvocationOutput;
     final observation = this.observation;
     final rationale = this.rationale;
     return {
       if (invocationInput != null) 'invocationInput': invocationInput,
       if (modelInvocationInput != null)
         'modelInvocationInput': modelInvocationInput,
+      if (modelInvocationOutput != null)
+        'modelInvocationOutput': modelInvocationOutput,
       if (observation != null) 'observation': observation,
       if (rationale != null) 'rationale': rationale,
+    };
+  }
+}
+
+/// Contains details of the response from code interpreter.
+class OutputFile {
+  /// The byte count of files that contains response from code interpreter.
+  final Uint8List? bytes;
+
+  /// The name of the file containing response from code interpreter.
+  final String? name;
+
+  /// The type of file that contains response from the code interpreter.
+  final String? type;
+
+  OutputFile({
+    this.bytes,
+    this.name,
+    this.type,
+  });
+
+  factory OutputFile.fromJson(Map<String, dynamic> json) {
+    return OutputFile(
+      bytes: _s.decodeNullableUint8List(json['bytes'] as String?),
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (bytes != null) 'bytes': base64Encode(bytes),
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
     };
   }
 }
@@ -3274,6 +4496,38 @@ class PropertyParameters {
   }
 }
 
+/// To split up the prompt and retrieve multiple sources, set the transformation
+/// type to <code>QUERY_DECOMPOSITION</code>.
+class QueryTransformationConfiguration {
+  /// The type of transformation to apply to the prompt.
+  final QueryTransformationType type;
+
+  QueryTransformationConfiguration({
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.value,
+    };
+  }
+}
+
+enum QueryTransformationType {
+  queryDecomposition('QUERY_DECOMPOSITION'),
+  ;
+
+  final String value;
+
+  const QueryTransformationType(this.value);
+
+  static QueryTransformationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => throw Exception(
+              '$value is not known in enum QueryTransformationType'));
+}
+
 /// Contains the reasoning, based on the input, that the agent uses to justify
 /// carrying out an action group or getting information from a knowledge base.
 class Rationale {
@@ -3301,6 +4555,29 @@ class Rationale {
     return {
       if (text != null) 'text': text,
       if (traceId != null) 'traceId': traceId,
+    };
+  }
+}
+
+/// Contains the raw output from the foundation model.
+class RawResponse {
+  /// The foundation model's raw output content.
+  final String? content;
+
+  RawResponse({
+    this.content,
+  });
+
+  factory RawResponse.fromJson(Map<String, dynamic> json) {
+    return RawResponse(
+      content: json['content'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    return {
+      if (content != null) 'content': content,
     };
   }
 }
@@ -3424,6 +4701,10 @@ class ResponseStream {
   /// retry the request.
   final DependencyFailedException? dependencyFailedException;
 
+  /// Contains intermediate response for code interpreter if any files have been
+  /// generated.
+  final FilePart? files;
+
   /// An internal server error occurred. Retry your request.
   final InternalServerException? internalServerException;
 
@@ -3462,6 +4743,7 @@ class ResponseStream {
     this.chunk,
     this.conflictException,
     this.dependencyFailedException,
+    this.files,
     this.internalServerException,
     this.resourceNotFoundException,
     this.returnControl,
@@ -3491,6 +4773,9 @@ class ResponseStream {
       dependencyFailedException: json['dependencyFailedException'] != null
           ? DependencyFailedException.fromJson(
               json['dependencyFailedException'] as Map<String, dynamic>)
+          : null,
+      files: json['files'] != null
+          ? FilePart.fromJson(json['files'] as Map<String, dynamic>)
           : null,
       internalServerException: json['internalServerException'] != null
           ? InternalServerException.fromJson(
@@ -3529,6 +4814,7 @@ class ResponseStream {
     final chunk = this.chunk;
     final conflictException = this.conflictException;
     final dependencyFailedException = this.dependencyFailedException;
+    final files = this.files;
     final internalServerException = this.internalServerException;
     final resourceNotFoundException = this.resourceNotFoundException;
     final returnControl = this.returnControl;
@@ -3545,6 +4831,7 @@ class ResponseStream {
       if (conflictException != null) 'conflictException': conflictException,
       if (dependencyFailedException != null)
         'dependencyFailedException': dependencyFailedException,
+      if (files != null) 'files': files,
       if (internalServerException != null)
         'internalServerException': internalServerException,
       if (resourceNotFoundException != null)
@@ -3764,6 +5051,30 @@ class RetrievalFilter {
   }
 }
 
+/// The Confluence data source location.
+class RetrievalResultConfluenceLocation {
+  /// The Confluence host URL for the data source location.
+  final String? url;
+
+  RetrievalResultConfluenceLocation({
+    this.url,
+  });
+
+  factory RetrievalResultConfluenceLocation.fromJson(
+      Map<String, dynamic> json) {
+    return RetrievalResultConfluenceLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
+    };
+  }
+}
+
 /// Contains the cited text from the data source.
 ///
 /// This data type is used in the following API operations:
@@ -3807,7 +5118,7 @@ class RetrievalResultContent {
   }
 }
 
-/// Contains information about the location of the data source.
+/// Contains information about the data source location.
 ///
 /// This data type is used in the following API operations:
 ///
@@ -3829,39 +5140,83 @@ class RetrievalResultContent {
 /// </li>
 /// </ul>
 class RetrievalResultLocation {
-  /// The type of the location of the data source.
+  /// The type of data source location.
   final RetrievalResultLocationType type;
 
-  /// Contains the S3 location of the data source.
+  /// The Confluence data source location.
+  final RetrievalResultConfluenceLocation? confluenceLocation;
+
+  /// The S3 data source location.
   final RetrievalResultS3Location? s3Location;
+
+  /// The Salesforce data source location.
+  final RetrievalResultSalesforceLocation? salesforceLocation;
+
+  /// The SharePoint data source location.
+  final RetrievalResultSharePointLocation? sharePointLocation;
+
+  /// The web URL/URLs data source location.
+  final RetrievalResultWebLocation? webLocation;
 
   RetrievalResultLocation({
     required this.type,
+    this.confluenceLocation,
     this.s3Location,
+    this.salesforceLocation,
+    this.sharePointLocation,
+    this.webLocation,
   });
 
   factory RetrievalResultLocation.fromJson(Map<String, dynamic> json) {
     return RetrievalResultLocation(
       type: RetrievalResultLocationType.fromString((json['type'] as String)),
+      confluenceLocation: json['confluenceLocation'] != null
+          ? RetrievalResultConfluenceLocation.fromJson(
+              json['confluenceLocation'] as Map<String, dynamic>)
+          : null,
       s3Location: json['s3Location'] != null
           ? RetrievalResultS3Location.fromJson(
               json['s3Location'] as Map<String, dynamic>)
+          : null,
+      salesforceLocation: json['salesforceLocation'] != null
+          ? RetrievalResultSalesforceLocation.fromJson(
+              json['salesforceLocation'] as Map<String, dynamic>)
+          : null,
+      sharePointLocation: json['sharePointLocation'] != null
+          ? RetrievalResultSharePointLocation.fromJson(
+              json['sharePointLocation'] as Map<String, dynamic>)
+          : null,
+      webLocation: json['webLocation'] != null
+          ? RetrievalResultWebLocation.fromJson(
+              json['webLocation'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
+    final confluenceLocation = this.confluenceLocation;
     final s3Location = this.s3Location;
+    final salesforceLocation = this.salesforceLocation;
+    final sharePointLocation = this.sharePointLocation;
+    final webLocation = this.webLocation;
     return {
       'type': type.value,
+      if (confluenceLocation != null) 'confluenceLocation': confluenceLocation,
       if (s3Location != null) 's3Location': s3Location,
+      if (salesforceLocation != null) 'salesforceLocation': salesforceLocation,
+      if (sharePointLocation != null) 'sharePointLocation': sharePointLocation,
+      if (webLocation != null) 'webLocation': webLocation,
     };
   }
 }
 
 enum RetrievalResultLocationType {
   s3('S3'),
+  web('WEB'),
+  confluence('CONFLUENCE'),
+  salesforce('SALESFORCE'),
+  sharepoint('SHAREPOINT'),
   ;
 
   final String value;
@@ -3886,7 +5241,7 @@ class RetrievalResultMetadataValue {
   }
 }
 
-/// Contains the S3 location of the data source.
+/// The S3 data source location.
 ///
 /// This data type is used in the following API operations:
 ///
@@ -3908,7 +5263,7 @@ class RetrievalResultMetadataValue {
 /// </li>
 /// </ul>
 class RetrievalResultS3Location {
-  /// The S3 URI of the data source.
+  /// The S3 URI for the data source location.
   final String? uri;
 
   RetrievalResultS3Location({
@@ -3925,6 +5280,77 @@ class RetrievalResultS3Location {
     final uri = this.uri;
     return {
       if (uri != null) 'uri': uri,
+    };
+  }
+}
+
+/// The Salesforce data source location.
+class RetrievalResultSalesforceLocation {
+  /// The Salesforce host URL for the data source location.
+  final String? url;
+
+  RetrievalResultSalesforceLocation({
+    this.url,
+  });
+
+  factory RetrievalResultSalesforceLocation.fromJson(
+      Map<String, dynamic> json) {
+    return RetrievalResultSalesforceLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// The SharePoint data source location.
+class RetrievalResultSharePointLocation {
+  /// The SharePoint site URL for the data source location.
+  final String? url;
+
+  RetrievalResultSharePointLocation({
+    this.url,
+  });
+
+  factory RetrievalResultSharePointLocation.fromJson(
+      Map<String, dynamic> json) {
+    return RetrievalResultSharePointLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// The web URL/URLs data source location.
+class RetrievalResultWebLocation {
+  /// The web URL/URLs for the data source location.
+  final String? url;
+
+  RetrievalResultWebLocation({
+    this.url,
+  });
+
+  factory RetrievalResultWebLocation.fromJson(Map<String, dynamic> json) {
+    return RetrievalResultWebLocation(
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'url': url,
     };
   }
 }
@@ -4037,8 +5463,12 @@ class RetrieveAndGenerateResponse {
   /// Contains the response generated from querying the knowledge base.
   final RetrieveAndGenerateOutput output;
 
-  /// The unique identifier of the session. Reuse the same value to continue the
-  /// same session with the knowledge base.
+  /// The unique identifier of the session. When you first make a
+  /// <code>RetrieveAndGenerate</code> request, Amazon Bedrock automatically
+  /// generates this value. You must reuse this value for all subsequent requests
+  /// in the same conversational session. This value allows Amazon Bedrock to
+  /// maintain context and knowledge from previous interactions. You can't
+  /// explicitly set the <code>sessionId</code> yourself.
   final String sessionId;
 
   /// A list of segments of the generated response that are based on sources in
@@ -4288,6 +5718,23 @@ class S3ObjectDoc {
   }
 }
 
+/// Contains details of the s3 object where the source file is located.
+class S3ObjectFile {
+  /// The uri of the s3 object.
+  final String uri;
+
+  S3ObjectFile({
+    required this.uri,
+  });
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      'uri': uri,
+    };
+  }
+}
+
 enum SearchType {
   hybrid('HYBRID'),
   semantic('SEMANTIC'),
@@ -4337,6 +5784,9 @@ class ServiceQuotaExceededException implements _s.AwsException {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control
 /// session context</a>.
 class SessionState {
+  /// Contains information about the files used by code interpreter.
+  final List<InputFile>? files;
+
   /// The identifier of the invocation of an action. This value must match the
   /// <code>invocationId</code> returned in the <code>InvokeAgent</code> response
   /// for the action whose results are provided in the
@@ -4347,6 +5797,10 @@ class SessionState {
   /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control
   /// session context</a>.
   final String? invocationId;
+
+  /// An array of configurations, each of which applies to a knowledge base
+  /// attached to the agent.
+  final List<KnowledgeBaseConfiguration>? knowledgeBaseConfigurations;
 
   /// Contains attributes that persist across a prompt and the values of those
   /// attributes. These attributes replace the $prompt_session_attributes$
@@ -4372,19 +5826,26 @@ class SessionState {
   final Map<String, String>? sessionAttributes;
 
   SessionState({
+    this.files,
     this.invocationId,
+    this.knowledgeBaseConfigurations,
     this.promptSessionAttributes,
     this.returnControlInvocationResults,
     this.sessionAttributes,
   });
 
   Map<String, dynamic> toJson() {
+    final files = this.files;
     final invocationId = this.invocationId;
+    final knowledgeBaseConfigurations = this.knowledgeBaseConfigurations;
     final promptSessionAttributes = this.promptSessionAttributes;
     final returnControlInvocationResults = this.returnControlInvocationResults;
     final sessionAttributes = this.sessionAttributes;
     return {
+      if (files != null) 'files': files,
       if (invocationId != null) 'invocationId': invocationId,
+      if (knowledgeBaseConfigurations != null)
+        'knowledgeBaseConfigurations': knowledgeBaseConfigurations,
       if (promptSessionAttributes != null)
         'promptSessionAttributes': promptSessionAttributes,
       if (returnControlInvocationResults != null)
@@ -4736,6 +6197,37 @@ enum Type {
   static Type fromString(String value) =>
       values.firstWhere((e) => e.value == value,
           orElse: () => throw Exception('$value is not known in enum Type'));
+}
+
+/// Contains information of the usage of the foundation model.
+class Usage {
+  /// Contains information about the input tokens from the foundation model usage.
+  final int? inputTokens;
+
+  /// Contains information about the output tokens from the foundation model
+  /// usage.
+  final int? outputTokens;
+
+  Usage({
+    this.inputTokens,
+    this.outputTokens,
+  });
+
+  factory Usage.fromJson(Map<String, dynamic> json) {
+    return Usage(
+      inputTokens: json['inputTokens'] as int?,
+      outputTokens: json['outputTokens'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputTokens = this.inputTokens;
+    final outputTokens = this.outputTokens;
+    return {
+      if (inputTokens != null) 'inputTokens': inputTokens,
+      if (outputTokens != null) 'outputTokens': outputTokens,
+    };
+  }
 }
 
 /// Input validation failed. Check your request parameters and retry the

@@ -20,7 +20,32 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Chatbot API
+/// The <i>AWS Chatbot API Reference</i> provides descriptions, API request
+/// parameters, and the XML response for each of the AWS Chatbot API actions.
+///
+/// AWS Chatbot APIs are currently available in the following Regions:
+///
+/// <ul>
+/// <li>
+/// US East (Ohio) - <code>us-east-2</code>
+/// </li>
+/// <li>
+/// US West (Oregon) - <code>us-west-2</code>
+/// </li>
+/// <li>
+/// Asia Pacific (Singapore) - <code>ap-southeast-1</code>
+/// </li>
+/// <li>
+/// Europe (Ireland) - <code>eu-west-1</code>
+/// </li>
+/// </ul>
+/// The AWS Chatbot console can only be used in US East (Ohio). Your
+/// configuration data however, is stored in each of the relevant available
+/// Regions.
+/// <note>
+/// Your AWS CloudTrail events are logged in whatever Region you call from, not
+/// US East (N. Virginia) by default.
+/// </note>
 class Chatbot {
   final _s.RestJsonProtocol _protocol;
   Chatbot({
@@ -33,6 +58,7 @@ class Chatbot {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'chatbot',
+            signingName: 'chatbot',
           ),
           region: region,
           credentials: credentials,
@@ -49,38 +75,49 @@ class Chatbot {
     _protocol.close();
   }
 
-  /// Creates Chime Webhook Configuration
+  /// Creates an AWS Chatbot configuration for Amazon Chime.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidRequestException].
-  /// May throw [CreateChimeWebhookConfigurationException].
   /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [CreateChimeWebhookConfigurationException].
   ///
   /// Parameter [configurationName] :
   /// The name of the configuration.
   ///
   /// Parameter [iamRoleArn] :
-  /// This is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [snsTopicArns] :
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   ///
   /// Parameter [webhookDescription] :
-  /// Description of the webhook. Recommend using the convention
-  /// `RoomName/WebhookName`. See Chime setup tutorial for more details:
-  /// https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+  /// A description of the webhook. We recommend using the convention
+  /// <code>RoomName/WebhookName</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html">Tutorial:
+  /// Get started with Amazon Chime</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [webhookUrl] :
-  /// URL for the Chime webhook.
+  /// The URL for the Amazon Chime webhook.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [tags] :
-  /// A list of tags to apply to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   Future<CreateChimeWebhookConfigurationResult>
       createChimeWebhookConfiguration({
     required String configurationName,
@@ -109,13 +146,13 @@ class Chatbot {
     return CreateChimeWebhookConfigurationResult.fromJson(response);
   }
 
-  /// Creates MS Teams Channel Configuration
+  /// Creates an AWS Chatbot configuration for Microsoft Teams.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidRequestException].
-  /// May throw [CreateTeamsChannelConfigurationException].
   /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [CreateTeamsChannelConfigurationException].
   ///
   /// Parameter [channelId] :
   /// The ID of the Microsoft Teams channel.
@@ -124,17 +161,23 @@ class Chatbot {
   /// The name of the configuration.
   ///
   /// Parameter [iamRoleArn] :
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [teamId] :
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams
-  /// in the AWS Chatbot console. Then you can copy and paste the team ID from
-  /// the console. For more details, see steps 1-4 in Get started with Microsoft
-  /// Teams in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste
+  /// the team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   ///
   /// Parameter [tenantId] :
   /// The ID of the Microsoft Teams tenant.
@@ -144,17 +187,20 @@ class Chatbot {
   ///
   /// Parameter [guardrailPolicyArns] :
   /// The list of IAM policy ARNs that are applied as channel guardrails. The
-  /// AWS managed 'AdministratorAccess' policy is applied by default if this is
-  /// not set.
+  /// AWS managed <code>AdministratorAccess</code> policy is applied by default
+  /// if this is not set.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [snsTopicArns] :
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   ///
   /// Parameter [tags] :
-  /// A list of tags to apply to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   ///
   /// Parameter [teamName] :
   /// The name of the Microsoft Teams Team.
@@ -201,47 +247,55 @@ class Chatbot {
     return CreateTeamsChannelConfigurationResult.fromJson(response);
   }
 
-  /// Creates Slack Channel Configuration
+  /// Creates an AWS Chatbot confugration for Slack.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidRequestException].
-  /// May throw [CreateSlackChannelConfigurationException].
   /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [CreateSlackChannelConfigurationException].
   ///
   /// Parameter [configurationName] :
   /// The name of the configuration.
   ///
   /// Parameter [iamRoleArn] :
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [slackChannelId] :
-  /// The ID of the Slack channel. To get the ID, open Slack, right click on the
-  /// channel name in the left pane, then choose Copy Link. The channel ID is
-  /// the 9-character string at the end of the URL. For example, ABCBBLZZZ.
+  /// The ID of the Slack channel.
+  ///
+  /// To get this ID, open Slack, right click on the channel name in the left
+  /// pane, then choose Copy Link. The channel ID is the 9-character string at
+  /// the end of the URL. For example, ABCBBLZZZ.
   ///
   /// Parameter [slackTeamId] :
   /// The ID of the Slack workspace authorized with AWS Chatbot.
   ///
   /// Parameter [guardrailPolicyArns] :
   /// The list of IAM policy ARNs that are applied as channel guardrails. The
-  /// AWS managed 'AdministratorAccess' policy is applied by default if this is
-  /// not set.
+  /// AWS managed <code>AdministratorAccess</code> policy is applied by default
+  /// if this is not set.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [slackChannelName] :
-  /// The name of the Slack Channel.
+  /// The name of the Slack channel.
   ///
   /// Parameter [snsTopicArns] :
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   ///
   /// Parameter [tags] :
-  /// A list of tags to apply to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   ///
   /// Parameter [userAuthorizationRequired] :
   /// Enables use of a user role requirement in your chat configuration.
@@ -281,15 +335,15 @@ class Chatbot {
     return CreateSlackChannelConfigurationResult.fromJson(response);
   }
 
-  /// Deletes a Chime Webhook Configuration
+  /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [DeleteChimeWebhookConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the ChimeWebhookConfiguration to delete.
+  /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete.
   Future<void> deleteChimeWebhookConfiguration({
     required String chatConfigurationArn,
   }) async {
@@ -304,15 +358,16 @@ class Chatbot {
     );
   }
 
-  /// Deletes MS Teams Channel Configuration
+  /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [DeleteTeamsChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the MicrosoftTeamsChannelConfiguration to delete.
+  /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// associated with the user identity to delete.
   Future<void> deleteMicrosoftTeamsChannelConfiguration({
     required String chatConfigurationArn,
   }) async {
@@ -335,11 +390,14 @@ class Chatbot {
   /// May throw [DeleteTeamsConfiguredTeamException].
   ///
   /// Parameter [teamId] :
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams
-  /// in the AWS Chatbot console. Then you can copy and paste the team ID from
-  /// the console. For more details, see steps 1-4 in Get started with Microsoft
-  /// Teams in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams team authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste
+  /// the team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   Future<void> deleteMicrosoftTeamsConfiguredTeam({
     required String teamId,
   }) async {
@@ -354,7 +412,7 @@ class Chatbot {
     );
   }
 
-  /// Deletes a Teams user identity
+  /// Identifes a user level permission for a channel configuration.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -365,7 +423,7 @@ class Chatbot {
   /// identity to delete.
   ///
   /// Parameter [userId] :
-  /// Id from Microsoft Teams for user.
+  /// The Microsoft Teams user ID.
   Future<void> deleteMicrosoftTeamsUserIdentity({
     required String chatConfigurationArn,
     required String userId,
@@ -382,15 +440,15 @@ class Chatbot {
     );
   }
 
-  /// Deletes Slack Channel Configuration
+  /// Deletes a Slack channel configuration for AWS Chatbot
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [DeleteSlackChannelConfigurationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the SlackChannelConfiguration to delete.
+  /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to delete.
   Future<void> deleteSlackChannelConfiguration({
     required String chatConfigurationArn,
   }) async {
@@ -405,11 +463,11 @@ class Chatbot {
     );
   }
 
-  /// Deletes a Slack user identity
+  /// Deletes a user level permission for a Slack channel configuration.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [DeleteSlackUserIdentityException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [chatConfigurationArn] :
   /// The ARN of the SlackChannelConfiguration associated with the user identity
@@ -419,7 +477,7 @@ class Chatbot {
   /// The ID of the Slack workspace authorized with AWS Chatbot.
   ///
   /// Parameter [slackUserId] :
-  /// The ID of the user in Slack.
+  /// The ID of the user in Slack
   Future<void> deleteSlackUserIdentity({
     required String chatConfigurationArn,
     required String slackTeamId,
@@ -461,15 +519,16 @@ class Chatbot {
     );
   }
 
-  /// Lists Chime Webhook Configurations optionally filtered by
+  /// Lists Amazon Chime webhook configurations optionally filtered by
   /// ChatConfigurationArn
   ///
-  /// May throw [DescribeChimeWebhookConfigurationsException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [DescribeChimeWebhookConfigurationsException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// An optional ARN of a ChimeWebhookConfiguration to describe.
+  /// An optional Amazon Resource Number (ARN) of a ChimeWebhookConfiguration to
+  /// describe.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -508,15 +567,16 @@ class Chatbot {
     return DescribeChimeWebhookConfigurationsResult.fromJson(response);
   }
 
-  /// Lists Slack Channel Configurations optionally filtered by
+  /// Lists Slack channel configurations optionally filtered by
   /// ChatConfigurationArn
   ///
-  /// May throw [DescribeSlackChannelConfigurationsException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [DescribeSlackChannelConfigurationsException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// An optional ARN of a SlackChannelConfiguration to describe.
+  /// An optional Amazon Resource Number (ARN) of a SlackChannelConfiguration to
+  /// describe.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -562,8 +622,8 @@ class Chatbot {
   /// May throw [DescribeSlackUserIdentitiesException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the SlackChannelConfiguration associated with the user
-  /// identities to describe.
+  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration
+  /// associated with the user identities to describe.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -601,11 +661,12 @@ class Chatbot {
     return DescribeSlackUserIdentitiesResult.fromJson(response);
   }
 
-  /// Lists all authorized Slack Workspaces for AWS Account
+  /// List all authorized Slack workspaces connected to the AWS Account
+  /// onboarded with AWS Chatbot.
   ///
+  /// May throw [InvalidParameterException].
   /// May throw [DescribeSlackWorkspacesException].
   /// May throw [InvalidRequestException].
-  /// May throw [InvalidParameterException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -640,10 +701,10 @@ class Chatbot {
     return DescribeSlackWorkspacesResult.fromJson(response);
   }
 
-  /// Get Chatbot account level preferences
+  /// Returns AWS Chatbot account preferences.
   ///
-  /// May throw [GetAccountPreferencesException].
   /// May throw [InvalidRequestException].
+  /// May throw [GetAccountPreferencesException].
   Future<GetAccountPreferencesResult> getAccountPreferences() async {
     final response = await _protocol.send(
       payload: null,
@@ -654,14 +715,15 @@ class Chatbot {
     return GetAccountPreferencesResult.fromJson(response);
   }
 
-  /// Get a single MS Teams Channel Configurations
+  /// Returns a Microsoft Teams channel configuration in an AWS account.
   ///
-  /// May throw [GetTeamsChannelConfigurationException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [GetTeamsChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the MicrosoftTeamsChannelConfiguration to retrieve.
+  /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// to retrieve.
   Future<GetTeamsChannelConfigurationResult>
       getMicrosoftTeamsChannelConfiguration({
     required String chatConfigurationArn,
@@ -678,10 +740,11 @@ class Chatbot {
     return GetTeamsChannelConfigurationResult.fromJson(response);
   }
 
-  /// Lists MS Teams Channel Configurations optionally filtered by TeamId
+  /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS
+  /// account.
   ///
-  /// May throw [ListTeamsChannelConfigurationsException].
   /// May throw [InvalidParameterException].
+  /// May throw [ListTeamsChannelConfigurationsException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
@@ -696,11 +759,14 @@ class Chatbot {
   /// specified by MaxResults.
   ///
   /// Parameter [teamId] :
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams
-  /// in the AWS Chatbot console. Then you can copy and paste the team ID from
-  /// the console. For more details, see steps 1-4 in Get started with Microsoft
-  /// Teams in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste
+  /// the team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   Future<ListTeamsChannelConfigurationsResult>
       listMicrosoftTeamsChannelConfigurations({
     int? maxResults,
@@ -727,11 +793,11 @@ class Chatbot {
     return ListTeamsChannelConfigurationsResult.fromJson(response);
   }
 
-  /// Lists all authorized MS teams for AWS Account
+  /// Lists all authorized Microsoft Teams for an AWS Account
   ///
-  /// May throw [ListMicrosoftTeamsConfiguredTeamsException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ListMicrosoftTeamsConfiguredTeamsException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -767,15 +833,15 @@ class Chatbot {
     return ListMicrosoftTeamsConfiguredTeamsResult.fromJson(response);
   }
 
-  /// Lists all Microsoft Teams user identities with a mapped role.
+  /// A list all Microsoft Teams user identities with a mapped role.
   ///
-  /// May throw [ListMicrosoftTeamsUserIdentitiesException].
-  /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ListMicrosoftTeamsUserIdentitiesException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user
-  /// identities to list.
+  /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// associated with the user identities to list.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response. If more results
@@ -814,14 +880,15 @@ class Chatbot {
     return ListMicrosoftTeamsUserIdentitiesResult.fromJson(response);
   }
 
-  /// Retrieves the list of tags applied to a configuration.
+  /// Lists all of the tags associated with the Amazon Resource Name (ARN) that
+  /// you specify. The resource can be a user, server, or role.
   ///
-  /// May throw [InternalServiceError].
   /// May throw [ServiceUnavailableException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the configuration.
+  /// The ARN you specified to list the tags of.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
@@ -837,11 +904,13 @@ class Chatbot {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// Applies the supplied tags to a configuration.
+  /// Attaches a key-value pair to a resource, as identified by its Amazon
+  /// Resource Name (ARN). Resources are users, servers, roles, and other
+  /// entities.
   ///
-  /// May throw [InternalServiceError].
   /// May throw [ServiceUnavailableException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
@@ -865,17 +934,23 @@ class Chatbot {
     );
   }
 
-  /// Removes the supplied tags from a configuration
+  /// Detaches a key-value pair from a resource, as identified by its Amazon
+  /// Resource Name (ARN). Resources are users, servers, roles, and other
+  /// entities.
   ///
-  /// May throw [InternalServiceError].
   /// May throw [ServiceUnavailableException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceError].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the configuration.
+  /// The value of the resource that will have the tag removed. An Amazon
+  /// Resource Name (ARN) is an identifier for a specific AWS resource, such as
+  /// a server, user, or role.
   ///
   /// Parameter [tagKeys] :
-  /// A list of tag keys to remove from the configuration.
+  /// TagKeys are key-value pairs assigned to ARNs that can be used to group and
+  /// search for resources by type. This metadata can be attached to resources
+  /// for any purpose.
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -892,22 +967,24 @@ class Chatbot {
     );
   }
 
-  /// Update Chatbot account level preferences
+  /// Updates AWS Chatbot account preferences.
   ///
-  /// May throw [UpdateAccountPreferencesException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [UpdateAccountPreferencesException].
   ///
   /// Parameter [trainingDataCollectionEnabled] :
-  /// Turns on training data collection. This helps improve the AWS Chatbot
-  /// experience by allowing AWS Chatbot to store and use your customer
-  /// information, such as AWS Chatbot configurations, notifications, user
-  /// inputs, AWS Chatbot generated responses, and interaction data. This data
-  /// helps us to continuously improve and develop Artificial Intelligence (AI)
-  /// technologies. Your data is not shared with any third parties and is
-  /// protected using sophisticated controls to prevent unauthorized access and
-  /// misuse. AWS Chatbot does not store or use interactions in chat channels
-  /// with Amazon Q for training AWS Chatbot’s AI technologies.
+  /// Turns on training data collection.
+  ///
+  /// This helps improve the AWS Chatbot experience by allowing AWS Chatbot to
+  /// store and use your customer information, such as AWS Chatbot
+  /// configurations, notifications, user inputs, AWS Chatbot generated
+  /// responses, and interaction data. This data helps us to continuously
+  /// improve and develop Artificial Intelligence (AI) technologies. Your data
+  /// is not shared with any third parties and is protected using sophisticated
+  /// controls to prevent unauthorized access and misuse. AWS Chatbot does not
+  /// store or use interactions in chat channels with Amazon Q for training AI
+  /// technologies for AWS Chatbot.
   ///
   /// Parameter [userAuthorizationRequired] :
   /// Enables use of a user role requirement in your chat configuration.
@@ -930,35 +1007,44 @@ class Chatbot {
     return UpdateAccountPreferencesResult.fromJson(response);
   }
 
-  /// Updates a Chime Webhook Configuration
+  /// Updates a Amazon Chime webhook configuration.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [UpdateChimeWebhookConfigurationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the ChimeWebhookConfiguration to update.
+  /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration to
+  /// update.
   ///
   /// Parameter [iamRoleArn] :
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [snsTopicArns] :
   /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
   ///
   /// Parameter [webhookDescription] :
-  /// Description of the webhook. Recommend using the convention
-  /// `RoomName/WebhookName`. See Chime setup tutorial for more details:
-  /// https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+  /// A description of the webhook. We recommend using the convention
+  /// <code>RoomName/WebhookName</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html">Tutorial:
+  /// Get started with Amazon Chime</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [webhookUrl] :
-  /// URL for the Chime webhook.
+  /// The URL for the Amazon Chime webhook.
   Future<UpdateChimeWebhookConfigurationResult>
       updateChimeWebhookConfiguration({
     required String chatConfigurationArn,
@@ -985,38 +1071,44 @@ class Chatbot {
     return UpdateChimeWebhookConfigurationResult.fromJson(response);
   }
 
-  /// Updates MS Teams Channel Configuration
+  /// Updates an Microsoft Teams channel configuration.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UpdateTeamsChannelConfigurationException].
   ///
   /// Parameter [channelId] :
   /// The ID of the Microsoft Teams channel.
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the MicrosoftTeamsChannelConfiguration to update.
+  /// The Amazon Resource Number (ARN) of the TeamsChannelConfiguration to
+  /// update.
   ///
   /// Parameter [channelName] :
   /// The name of the Microsoft Teams channel.
   ///
   /// Parameter [guardrailPolicyArns] :
   /// The list of IAM policy ARNs that are applied as channel guardrails. The
-  /// AWS managed 'AdministratorAccess' policy is applied by default if this is
-  /// not set.
+  /// AWS managed <code>AdministratorAccess</code> policy is applied by default
+  /// if this is not set.
   ///
   /// Parameter [iamRoleArn] :
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [snsTopicArns] :
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   ///
   /// Parameter [userAuthorizationRequired] :
   /// Enables use of a user role requirement in your chat configuration.
@@ -1052,40 +1144,48 @@ class Chatbot {
     return UpdateTeamsChannelConfigurationResult.fromJson(response);
   }
 
-  /// Updates Slack Channel Configuration
+  /// Updates a Slack channel configuration.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UpdateSlackChannelConfigurationException].
   ///
   /// Parameter [chatConfigurationArn] :
-  /// The ARN of the SlackChannelConfiguration to update.
+  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration to
+  /// update.
   ///
   /// Parameter [slackChannelId] :
-  /// The ID of the Slack channel. To get the ID, open Slack, right click on the
-  /// channel name in the left pane, then choose Copy Link. The channel ID is
-  /// the 9-character string at the end of the URL. For example, ABCBBLZZZ.
+  /// The ID of the Slack channel.
+  ///
+  /// To get this ID, open Slack, right click on the channel name in the left
+  /// pane, then choose Copy Link. The channel ID is the 9-character string at
+  /// the end of the URL. For example, ABCBBLZZZ.
   ///
   /// Parameter [guardrailPolicyArns] :
   /// The list of IAM policy ARNs that are applied as channel guardrails. The
-  /// AWS managed 'AdministratorAccess' policy is applied by default if this is
-  /// not set.
+  /// AWS managed <code>AdministratorAccess</code> policy is applied by default
+  /// if this is not set.
   ///
   /// Parameter [iamRoleArn] :
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS
-  /// Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the
+  /// service-linked role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   ///
   /// Parameter [loggingLevel] :
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   ///
   /// Parameter [slackChannelName] :
-  /// The name of the Slack Channel.
+  /// The name of the Slack channel.
   ///
   /// Parameter [snsTopicArns] :
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   ///
   /// Parameter [userAuthorizationRequired] :
   /// Enables use of a user role requirement in your chat configuration.
@@ -1122,17 +1222,19 @@ class Chatbot {
   }
 }
 
-/// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+/// Preferences related to AWS Chatbot usage in the calling AWS account.
 class AccountPreferences {
-  /// Turns on training data collection. This helps improve the AWS Chatbot
-  /// experience by allowing AWS Chatbot to store and use your customer
-  /// information, such as AWS Chatbot configurations, notifications, user inputs,
-  /// AWS Chatbot generated responses, and interaction data. This data helps us to
-  /// continuously improve and develop Artificial Intelligence (AI) technologies.
-  /// Your data is not shared with any third parties and is protected using
-  /// sophisticated controls to prevent unauthorized access and misuse. AWS
-  /// Chatbot does not store or use interactions in chat channels with Amazon Q
-  /// for training AWS Chatbot’s AI technologies.
+  /// Turns on training data collection.
+  ///
+  /// This helps improve the AWS Chatbot experience by allowing AWS Chatbot to
+  /// store and use your customer information, such as AWS Chatbot configurations,
+  /// notifications, user inputs, AWS Chatbot generated responses, and interaction
+  /// data. This data helps us to continuously improve and develop Artificial
+  /// Intelligence (AI) technologies. Your data is not shared with any third
+  /// parties and is protected using sophisticated controls to prevent
+  /// unauthorized access and misuse. AWS Chatbot does not store or use
+  /// interactions in chat channels with Amazon Q for training AI technologies for
+  /// AWS Chatbot.
   final bool? trainingDataCollectionEnabled;
 
   /// Enables use of a user role requirement in your chat configuration.
@@ -1165,31 +1267,39 @@ class AccountPreferences {
 
 /// An AWS Chatbot configuration for Amazon Chime.
 class ChimeWebhookConfiguration {
-  /// The ARN of the ChimeWebhookConfiguration.
+  /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration.
   final String chatConfigurationArn;
 
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
   final String iamRoleArn;
 
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   final List<String> snsTopicArns;
 
-  /// Description of the webhook. Recommend using the convention
-  /// `RoomName/WebhookName`. See Chime setup tutorial for more details:
-  /// https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
+  /// A description of the webhook. We recommend using the convention
+  /// <code>RoomName/WebhookName</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html">Tutorial:
+  /// Get started with Amazon Chime</a> in the <i> AWS Chatbot Administrator
+  /// Guide</i>.
   final String webhookDescription;
 
   /// The name of the configuration.
   final String? configurationName;
 
-  /// Specifies the logging level for this configuration. This property affects
-  /// the log entries pushed to Amazon CloudWatch Logs.Logging levels include
-  /// ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   final String? loggingLevel;
 
-  /// A list of tags applied to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   final List<Tag>? tags;
 
   ChimeWebhookConfiguration({
@@ -1240,13 +1350,16 @@ class ChimeWebhookConfiguration {
   }
 }
 
-/// A Microsoft Teams team that has been authorized with AWS Chatbot.
+/// A Microsoft Teams team that is authorized with AWS Chatbot.
 class ConfiguredTeam {
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams in
-  /// the AWS Chatbot console. Then you can copy and paste the team ID from the
-  /// console. For more details, see steps 1-4 in Get started with Microsoft Teams
-  /// in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the
+  /// team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   final String teamId;
 
   /// The ID of the Microsoft Teams tenant.
@@ -1282,7 +1395,7 @@ class ConfiguredTeam {
 }
 
 class CreateChimeWebhookConfigurationResult {
-  /// Chime webhook configuration.
+  /// An Amazon Chime webhook configuration.
   final ChimeWebhookConfiguration? webhookConfiguration;
 
   CreateChimeWebhookConfigurationResult({
@@ -1458,7 +1571,7 @@ class DescribeChimeWebhookConfigurationsResult {
   /// by MaxResults.
   final String? nextToken;
 
-  /// A list of Chime webhooks associated with the account.
+  /// A list of Amazon Chime webhooks associated with the account.
   final List<ChimeWebhookConfiguration>? webhookConfigurations;
 
   DescribeChimeWebhookConfigurationsResult({
@@ -1571,7 +1684,7 @@ class DescribeSlackWorkspacesResult {
   /// by MaxResults.
   final String? nextToken;
 
-  /// A list of Slack Workspaces registered with AWS Chatbot.
+  /// A list of Slack workspaces registered with AWS Chatbot.
   final List<SlackWorkspace>? slackWorkspaces;
 
   DescribeSlackWorkspacesResult({
@@ -1600,7 +1713,7 @@ class DescribeSlackWorkspacesResult {
 }
 
 class GetAccountPreferencesResult {
-  /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+  /// The preferences related to AWS Chatbot usage in the calling AWS account.
   final AccountPreferences? accountPreferences;
 
   GetAccountPreferencesResult({
@@ -1652,8 +1765,7 @@ class GetTeamsChannelConfigurationResult {
 }
 
 class ListMicrosoftTeamsConfiguredTeamsResult {
-  /// A list of teams in Microsoft Teams that have been configured with AWS
-  /// Chatbot.
+  /// A list of teams in Microsoft Teams that are configured with AWS Chatbot.
   final List<ConfiguredTeam>? configuredTeams;
 
   /// An optional token returned from a prior request. Use this token for
@@ -1726,7 +1838,8 @@ class ListMicrosoftTeamsUserIdentitiesResult {
 }
 
 class ListTagsForResourceResponse {
-  /// A list of tags applied to the configuration.
+  /// Key-value pairs that are assigned to a resource, usually for the purpose of
+  /// grouping and searching for items. Tags are metadata that you define.
   final List<Tag>? tags;
 
   ListTagsForResourceResponse({
@@ -1790,26 +1903,31 @@ class ListTeamsChannelConfigurationsResult {
 
 /// An AWS Chatbot configuration for Slack.
 class SlackChannelConfiguration {
-  /// The ARN of the SlackChannelConfiguration.
+  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration.
   final String chatConfigurationArn;
 
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
   final String iamRoleArn;
 
-  /// The ID of the Slack channel. To get the ID, open Slack, right click on the
-  /// channel name in the left pane, then choose Copy Link. The channel ID is the
-  /// 9-character string at the end of the URL. For example, ABCBBLZZZ.
+  /// The ID of the Slack channel.
+  ///
+  /// To get this ID, open Slack, right click on the channel name in the left
+  /// pane, then choose Copy Link. The channel ID is the 9-character string at the
+  /// end of the URL. For example, ABCBBLZZZ.
   final String slackChannelId;
 
-  /// The name of the Slack Channel.
+  /// The name of the Slack channel.
   final String slackChannelName;
 
-  /// The ID of the Slack workspace authorized with AWS Chatbot.
+  /// The ID of the Slack workspace authorized with Amazon Chime.
   final String slackTeamId;
 
-  /// Name of the Slack Workspace.
+  /// Name of the Slack workspace.
   final String slackTeamName;
 
   /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
@@ -1819,14 +1937,16 @@ class SlackChannelConfiguration {
   final String? configurationName;
 
   /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS
-  /// managed 'AdministratorAccess' policy is applied by default if this is not
-  /// set.
+  /// managed <code>AdministratorAccess</code> policy is applied by default if
+  /// this is not set.
   final List<String>? guardrailPolicyArns;
 
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   final String? loggingLevel;
 
-  /// A list of tags applied to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   final List<Tag>? tags;
 
   /// Enables use of a user role requirement in your chat configuration.
@@ -1905,24 +2025,28 @@ class SlackChannelConfiguration {
   }
 }
 
-/// Identifes a User level permission for a channel configuration.
+/// Identifes a user level permission for a channel configuration.
 class SlackUserIdentity {
-  /// The ARN of the SlackChannelConfiguration associated with the user identity.
+  /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated
+  /// with the user identity to delete.
   final String chatConfigurationArn;
 
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
   final String iamRoleArn;
 
   /// The ID of the Slack workspace authorized with AWS Chatbot.
   final String slackTeamId;
 
-  /// The ID of the user in Slack.
+  /// The ID of the user in Slack
   final String slackUserId;
 
-  /// The AWS user identity ARN used to associate a Slack User Identity with an
-  /// IAM Role.
+  /// The AWS user identity ARN used to associate a Slack user ID with an IAM
+  /// Role.
   final String? awsUserIdentity;
 
   SlackUserIdentity({
@@ -1959,12 +2083,12 @@ class SlackUserIdentity {
   }
 }
 
-/// A Slack Workspace.
+/// A Slack workspace.
 class SlackWorkspace {
   /// The ID of the Slack workspace authorized with AWS Chatbot.
   final String slackTeamId;
 
-  /// Name of the Slack Workspace.
+  /// The name of the Slack workspace.
   final String slackTeamName;
 
   SlackWorkspace({
@@ -1989,12 +2113,20 @@ class SlackWorkspace {
   }
 }
 
-/// A tag applied to the configuration.
+/// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and
+/// tag values are both required, but tag values can be empty (null) strings.
+/// <important>
+/// Do not include confidential or sensitive information in this field.
+/// </important>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
+/// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
+/// Guide</i>.
 class Tag {
-  /// The tag key.
+  /// The key of the tag.
   final String tagKey;
 
-  /// The tag value.
+  /// The value of the tag.
   final String tagValue;
 
   Tag({
@@ -2036,22 +2168,30 @@ class TeamsChannelConfiguration {
   /// The ID of the Microsoft Teams channel.
   final String channelId;
 
-  /// The ARN of the MicrosoftTeamsChannelConfiguration.
+  /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// associated with the user identity to delete.
   final String chatConfigurationArn;
 
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
   final String iamRoleArn;
 
-  /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
+  /// The Amazon Resource Names (ARNs) of the SNS topics that deliver
+  /// notifications to AWS Chatbot.
   final List<String> snsTopicArns;
 
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams in
-  /// the AWS Chatbot console. Then you can copy and paste the team ID from the
-  /// console. For more details, see steps 1-4 in Get started with Microsoft Teams
-  /// in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the
+  /// team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   final String teamId;
 
   /// The ID of the Microsoft Teams tenant.
@@ -2064,14 +2204,16 @@ class TeamsChannelConfiguration {
   final String? configurationName;
 
   /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS
-  /// managed 'AdministratorAccess' policy is applied by default if this is not
-  /// set.
+  /// managed <code>AdministratorAccess</code> policy is applied by default if
+  /// this is not set.
   final List<String>? guardrailPolicyArns;
 
-  /// Logging levels include ERROR, INFO, or NONE.
+  /// Logging levels include <code>ERROR</code>, <code>INFO</code>, or
+  /// <code>NONE</code>.
   final String? loggingLevel;
 
-  /// A list of tags applied to the configuration.
+  /// A map of tags assigned to a resource. A tag is a string-to-string map of
+  /// key-value pairs.
   final List<Tag>? tags;
 
   /// The name of the Microsoft Teams Team.
@@ -2159,23 +2301,29 @@ class TeamsChannelConfiguration {
 
 /// Identifes a user level permission for a channel configuration.
 class TeamsUserIdentity {
-  /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user
-  /// identity.
+  /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
+  /// associated with the user identity to delete.
   final String chatConfigurationArn;
 
-  /// The ARN of the IAM role that defines the permissions for AWS Chatbot. This
-  /// is a user-defined role that AWS Chatbot will assume. This is not the
-  /// service-linked role. For more information, see IAM Policies for AWS Chatbot.
+  /// A user-defined role that AWS Chatbot assumes. This is not the service-linked
+  /// role.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html">IAM
+  /// policies for AWS Chatbot</a> in the <i> AWS Chatbot Administrator Guide</i>.
   final String iamRoleArn;
 
-  /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team
-  /// ID, you must perform the initial authorization flow with Microsoft Teams in
-  /// the AWS Chatbot console. Then you can copy and paste the team ID from the
-  /// console. For more details, see steps 1-4 in Get started with Microsoft Teams
-  /// in the AWS Chatbot Administrator Guide.
+  /// The ID of the Microsoft Teams authorized with AWS Chatbot.
+  ///
+  /// To get the team ID, you must perform the initial authorization flow with
+  /// Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the
+  /// team ID from the console. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chatbot/latest/adminguide/teams-setup.html#teams-client-setup">Step
+  /// 1: Configure a Microsoft Teams client</a> in the <i> AWS Chatbot
+  /// Administrator Guide</i>.
   final String teamId;
 
-  /// The AWS user identity ARN used to associate a Microsoft Teams User Identity
+  /// The AWS user identity ARN used to associate a Microsoft Teams user Identity
   /// with an IAM Role.
   final String? awsUserIdentity;
 
@@ -2185,7 +2333,7 @@ class TeamsUserIdentity {
   /// The ID of the Microsoft Teams tenant.
   final String? teamsTenantId;
 
-  /// Id from Microsoft Teams for user.
+  /// The Microsoft Teams user ID.
   final String? userId;
 
   TeamsUserIdentity({
@@ -2243,7 +2391,7 @@ class UntagResourceResponse {
 }
 
 class UpdateAccountPreferencesResult {
-  /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
+  /// Preferences related to AWS Chatbot usage in the calling AWS account.
   final AccountPreferences? accountPreferences;
 
   UpdateAccountPreferencesResult({
@@ -2268,7 +2416,7 @@ class UpdateAccountPreferencesResult {
 }
 
 class UpdateChimeWebhookConfigurationResult {
-  /// Chime webhook configuration.
+  /// A Amazon Chime webhook configuration.
   final ChimeWebhookConfiguration? webhookConfiguration;
 
   UpdateChimeWebhookConfigurationResult({

@@ -766,10 +766,9 @@ class Redshift {
   /// Working with Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
-  /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code> | <code>ra3.xlplus</code> |
-  /// <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
+  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [additionalInfo] :
   /// Reserved.
@@ -1066,7 +1065,7 @@ class Redshift {
   /// these ranges.)
   /// </li>
   /// <li>
-  /// For clusters with ds2 or dc2 nodes - Select a port within the range
+  /// For clusters with dc2 nodes - Select a port within the range
   /// <code>1150-65535</code>.
   /// </li>
   /// </ul>
@@ -6971,10 +6970,9 @@ class Redshift {
   /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
-  /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code> | <code>ra3.xlplus</code> |
-  /// <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
+  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [numberOfNodes] :
   /// The new number of nodes of the cluster. If you specify a new number of
@@ -7000,7 +6998,7 @@ class Redshift {
   /// these ranges.)
   /// </li>
   /// <li>
-  /// For clusters with ds2 or dc2 nodes - Select a port within the range
+  /// For clusters with dc2 nodes - Select a port within the range
   /// <code>1150-65535</code>.
   /// </li>
   /// </ul>
@@ -8167,22 +8165,10 @@ class Redshift {
   ///
   /// <ul>
   /// <li>
-  /// dc1.large (if your cluster is in a VPC)
-  /// </li>
-  /// <li>
-  /// dc1.8xlarge (if your cluster is in a VPC)
-  /// </li>
-  /// <li>
   /// dc2.large
   /// </li>
   /// <li>
   /// dc2.8xlarge
-  /// </li>
-  /// <li>
-  /// ds2.xlarge
-  /// </li>
-  /// <li>
-  /// ds2.8xlarge
   /// </li>
   /// <li>
   /// ra3.xlplus
@@ -8510,16 +8496,9 @@ class Redshift {
   /// Parameter [nodeType] :
   /// The node type that the restored cluster will be provisioned with.
   ///
-  /// Default: The node type of the cluster from which the snapshot was taken.
-  /// You can modify this if you are using any DS node type. In that case, you
-  /// can choose to restore into another DS node type of the same size. For
-  /// example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into
-  /// ds2.xlarge. If you have a DC instance type, you must restore into that
-  /// same instance type and size. In other words, you can only restore a
-  /// dc1.large instance type into another dc1.large instance type or dc2.large
-  /// instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore
-  /// to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more
-  /// information about node types, see <a
+  /// If you have a DC instance type, you must restore into that same instance
+  /// type and size. In other words, you can only restore a dc2.large node type
+  /// into another dc2 type. For more information about node types, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes">
   /// About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
@@ -8537,7 +8516,7 @@ class Redshift {
   ///
   /// Default: The same port as the original cluster.
   ///
-  /// Valid values: For clusters with ds2 or dc2 nodes, must be within the range
+  /// Valid values: For clusters with DC2 nodes, must be within the range
   /// <code>1150</code>-<code>65535</code>. For clusters with ra3 nodes, must be
   /// within the ranges <code>5431</code>-<code>5455</code> or
   /// <code>8191</code>-<code>8215</code>.
@@ -14376,7 +14355,7 @@ class NodeConfigurationOption {
   /// The category of the node configuration recommendation.
   final Mode? mode;
 
-  /// The node type, such as, "ds2.8xlarge".
+  /// The node type, such as, "ra3.4xlarge".
   final String? nodeType;
 
   /// The number of nodes.
@@ -15649,7 +15628,7 @@ class ReservedNodeExchangeStatus {
   /// The identifier of the source reserved node.
   final String? sourceReservedNodeId;
 
-  /// The source reserved-node type, for example ds2.xlarge.
+  /// The source reserved-node type, for example ra3.4xlarge.
   final String? sourceReservedNodeType;
 
   /// The status of the reserved-node exchange request. Statuses include
@@ -16307,25 +16286,25 @@ class RestoreFromClusterSnapshotResult {
 class RestoreStatus {
   /// The number of megabytes per second being transferred from the backup
   /// storage. Returns the average rate for a completed backup. This field is only
-  /// updated when you restore to DC2 and DS2 node types.
+  /// updated when you restore to DC2 node types.
   final double? currentRestoreRateInMegaBytesPerSecond;
 
   /// The amount of time an in-progress restore has been running, or the amount of
   /// time it took a completed restore to finish. This field is only updated when
-  /// you restore to DC2 and DS2 node types.
+  /// you restore to DC2 node types.
   final int? elapsedTimeInSeconds;
 
   /// The estimate of the time remaining before the restore will complete. Returns
   /// 0 for a completed restore. This field is only updated when you restore to
-  /// DC2 and DS2 node types.
+  /// DC2 node types.
   final int? estimatedTimeToCompletionInSeconds;
 
   /// The number of megabytes that have been transferred from snapshot storage.
-  /// This field is only updated when you restore to DC2 and DS2 node types.
+  /// This field is only updated when you restore to DC2 node types.
   final int? progressInMegaBytes;
 
   /// The size of the set of snapshot data used to restore the cluster. This field
-  /// is only updated when you restore to DC2 and DS2 node types.
+  /// is only updated when you restore to DC2 node types.
   final int? snapshotSizeInMegaBytes;
 
   /// The status of the restore action. Returns starting, restoring, completed, or
@@ -16624,7 +16603,7 @@ class ScheduledAction {
   /// A JSON format string of the Amazon Redshift API operation with input
   /// parameters.
   ///
-  /// "<code>{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}</code>".
+  /// "<code>{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}</code>".
   final ScheduledActionType? targetAction;
 
   ScheduledAction({

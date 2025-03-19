@@ -328,6 +328,7 @@ class AuditManager {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assessmentReportsDestination] :
   /// The assessment report storage destination for the assessment that's being
@@ -1346,12 +1347,20 @@ class AuditManager {
     return GetOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Gets a list of all of the Amazon Web Services that you can choose to
-  /// include in your assessment. When you <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html">create
-  /// an assessment</a>, specify which of these services you want to include to
-  /// narrow the assessment's <a
-  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Scope.html">scope</a>.
+  /// Gets a list of the Amazon Web Services from which Audit Manager can
+  /// collect evidence.
+  ///
+  /// Audit Manager defines which Amazon Web Services are in scope for an
+  /// assessment. Audit Manager infers this scope by examining the assessment’s
+  /// controls and their data sources, and then mapping this information to one
+  /// or more of the corresponding Amazon Web Services that are in this list.
+  /// <note>
+  /// For information about why it's no longer possible to specify services in
+  /// scope manually, see <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services">I
+  /// can't edit the services in scope for my assessment</a> in the
+  /// <i>Troubleshooting</i> section of the Audit Manager user guide.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1405,6 +1414,13 @@ class AuditManager {
   ///
   /// Parameter [controlDomainId] :
   /// The unique identifier for the control domain.
+  ///
+  /// Audit Manager supports the control domains that are provided by Amazon Web
+  /// Services Control Catalog. For information about how to find a list of
+  /// available control domains, see <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog
+  /// API Reference.
   ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
@@ -1607,6 +1623,13 @@ class AuditManager {
 
   /// Lists the latest analytics data for control domains across all of your
   /// active assessments.
+  ///
+  /// Audit Manager supports the control domains that are provided by Amazon Web
+  /// Services Control Catalog. For information about how to find a list of
+  /// available control domains, see <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog
+  /// API Reference.
   /// <note>
   /// A control domain is listed only if at least one of the controls within
   /// that domain collected evidence on the <code>lastUpdated</code> date of
@@ -1651,6 +1674,13 @@ class AuditManager {
 
   /// Lists analytics data for control domains within a specified active
   /// assessment.
+  ///
+  /// Audit Manager supports the control domains that are provided by Amazon Web
+  /// Services Control Catalog. For information about how to find a list of
+  /// available control domains, see <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog
+  /// API Reference.
   /// <note>
   /// A control domain is listed only if at least one of the controls within
   /// that domain collected evidence on the <code>lastUpdated</code> date of
@@ -1716,6 +1746,13 @@ class AuditManager {
   /// Parameter [controlDomainId] :
   /// The unique identifier for the control domain.
   ///
+  /// Audit Manager supports the control domains that are provided by Amazon Web
+  /// Services Control Catalog. For information about how to find a list of
+  /// available control domains, see <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog
+  /// API Reference.
+  ///
   /// Parameter [maxResults] :
   /// Represents the maximum number of results on a page or for an API request
   /// call.
@@ -1756,16 +1793,41 @@ class AuditManager {
   /// May throw [InternalServerException].
   ///
   /// Parameter [controlType] :
-  /// The type of control, such as a standard control or a custom control.
+  /// A filter that narrows the list of controls to a specific type.
+  ///
+  /// Parameter [controlCatalogId] :
+  /// A filter that narrows the list of controls to a specific resource from the
+  /// Amazon Web Services Control Catalog.
+  ///
+  /// To use this parameter, specify the ARN of the Control Catalog resource.
+  /// You can specify either a control domain, a control objective, or a common
+  /// control. For information about how to find the ARNs for these resources,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a>, <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html">
+  /// <code>ListObjectives</code> </a>, and <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html">
+  /// <code>ListCommonControls</code> </a>.
+  /// <note>
+  /// You can only filter by one Control Catalog resource at a time. Specifying
+  /// multiple resource ARNs isn’t currently supported. If you want to filter by
+  /// more than one ARN, we recommend that you run the <code>ListControls</code>
+  /// operation separately for each ARN.
+  /// </note>
+  /// Alternatively, specify <code>UNCATEGORIZED</code> to list controls that
+  /// aren't mapped to a Control Catalog resource. For example, this operation
+  /// might return a list of custom controls that don't belong to any control
+  /// domain or control objective.
   ///
   /// Parameter [maxResults] :
-  /// Represents the maximum number of results on a page or for an API request
-  /// call.
+  /// The maximum number of results on a page or for an API request call.
   ///
   /// Parameter [nextToken] :
   /// The pagination token that's used to fetch the next set of results.
   Future<ListControlsResponse> listControls({
     required ControlType controlType,
+    String? controlCatalogId,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1777,6 +1839,7 @@ class AuditManager {
     );
     final $query = <String, List<String>>{
       'controlType': [controlType.value],
+      if (controlCatalogId != null) 'controlCatalogId': [controlCatalogId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1807,7 +1870,7 @@ class AuditManager {
   /// Parameter [nextToken] :
   /// The pagination token that's used to fetch the next set of results.
   Future<ListKeywordsForDataSourceResponse> listKeywordsForDataSource({
-    required SourceType source,
+    required DataSourceType source,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2090,6 +2153,7 @@ class AuditManager {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -4142,6 +4206,12 @@ class Control {
   /// The name of the control.
   final String? name;
 
+  /// The state of the control. The <code>END_OF_SUPPORT</code> state is
+  /// applicable to standard controls only. This state indicates that the standard
+  /// control can still be used to collect evidence, but Audit Manager is no
+  /// longer updating or maintaining that control.
+  final ControlState? state;
+
   /// The tags associated with the control.
   final Map<String, String>? tags;
 
@@ -4165,6 +4235,7 @@ class Control {
     this.lastUpdatedAt,
     this.lastUpdatedBy,
     this.name,
+    this.state,
     this.tags,
     this.testingInformation,
     this.type,
@@ -4187,6 +4258,7 @@ class Control {
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       lastUpdatedBy: json['lastUpdatedBy'] as String?,
       name: json['name'] as String?,
+      state: (json['state'] as String?)?.let(ControlState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       testingInformation: json['testingInformation'] as String?,
@@ -4207,6 +4279,7 @@ class Control {
     final lastUpdatedAt = this.lastUpdatedAt;
     final lastUpdatedBy = this.lastUpdatedBy;
     final name = this.name;
+    final state = this.state;
     final tags = this.tags;
     final testingInformation = this.testingInformation;
     final type = this.type;
@@ -4226,6 +4299,7 @@ class Control {
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
       if (name != null) 'name': name,
+      if (state != null) 'state': state.value,
       if (tags != null) 'tags': tags,
       if (testingInformation != null) 'testingInformation': testingInformation,
       if (type != null) 'type': type.value,
@@ -4284,7 +4358,13 @@ class ControlDomainInsights {
   /// associated with the control domain.
   final EvidenceInsights? evidenceInsights;
 
-  /// The unique identifier for the control domain.
+  /// The unique identifier for the control domain. Audit Manager supports the
+  /// control domains that are provided by Amazon Web Services Control Catalog.
+  /// For information about how to find a list of available control domains, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html">
+  /// <code>ListDomains</code> </a> in the Amazon Web Services Control Catalog API
+  /// Reference.
   final String? id;
 
   /// The time when the control domain insights were last updated.
@@ -4470,10 +4550,26 @@ class ControlMappingSource {
   final String? sourceName;
 
   /// The setup option for the data source. This option reflects if the evidence
-  /// collection is automated or manual.
+  /// collection method is automated or manual. If you don’t provide a value for
+  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
+  /// populates the correct value based on the <code>sourceType</code> that you
+  /// specify.
   final SourceSetUpOption? sourceSetUpOption;
 
-  /// Specifies one of the five data source types for evidence collection.
+  /// Specifies which type of data source is used to collect evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// The source can be an individual data source type, such as
+  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
+  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
+  /// <code>MANUAL</code>.
+  /// </li>
+  /// <li>
+  /// The source can also be a managed grouping of data sources, such as a
+  /// <code>Core_Control</code> or a <code>Common_Control</code>.
+  /// </li>
+  /// </ul>
   final SourceType? sourceType;
 
   /// The instructions for troubleshooting the control.
@@ -4666,6 +4762,21 @@ enum ControlSetStatus {
               throw Exception('$value is not known in enum ControlSetStatus'));
 }
 
+enum ControlState {
+  active('ACTIVE'),
+  endOfSupport('END_OF_SUPPORT'),
+  ;
+
+  final String value;
+
+  const ControlState(this.value);
+
+  static ControlState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum ControlState'));
+}
+
 enum ControlStatus {
   underReview('UNDER_REVIEW'),
   reviewed('REVIEWED'),
@@ -4685,6 +4796,7 @@ enum ControlStatus {
 enum ControlType {
   standard('Standard'),
   custom('Custom'),
+  core('Core'),
   ;
 
   final String value;
@@ -4814,8 +4926,8 @@ class CreateAssessmentResponse {
   }
 }
 
-/// The control mapping fields that represent the source for evidence
-/// collection, along with related parameters and metadata. This doesn't contain
+/// The mapping attributes that determine the evidence source for a given
+/// control, along with related parameters and metadata. This doesn't contain
 /// <code>mappingID</code>.
 class CreateControlMappingSource {
   /// The description of the data source that determines where Audit Manager
@@ -4829,11 +4941,27 @@ class CreateControlMappingSource {
   /// The name of the control mapping data source.
   final String? sourceName;
 
-  /// The setup option for the data source, which reflects if the evidence
-  /// collection is automated or manual.
+  /// The setup option for the data source. This option reflects if the evidence
+  /// collection method is automated or manual. If you don’t provide a value for
+  /// <code>sourceSetUpOption</code>, Audit Manager automatically infers and
+  /// populates the correct value based on the <code>sourceType</code> that you
+  /// specify.
   final SourceSetUpOption? sourceSetUpOption;
 
-  /// Specifies one of the five types of data sources for evidence collection.
+  /// Specifies which type of data source is used to collect evidence.
+  ///
+  /// <ul>
+  /// <li>
+  /// The source can be an individual data source type, such as
+  /// <code>AWS_Cloudtrail</code>, <code>AWS_Config</code>,
+  /// <code>AWS_Security_Hub</code>, <code>AWS_API_Call</code>, or
+  /// <code>MANUAL</code>.
+  /// </li>
+  /// <li>
+  /// The source can also be a managed grouping of data sources, such as a
+  /// <code>Core_Control</code> or a <code>Common_Control</code>.
+  /// </li>
+  /// </ul>
   final SourceType? sourceType;
 
   /// The instructions for troubleshooting the control.
@@ -4948,6 +5076,24 @@ class CreateDelegationRequest {
       if (roleType != null) 'roleType': roleType.value,
     };
   }
+}
+
+enum DataSourceType {
+  awsCloudtrail('AWS_Cloudtrail'),
+  awsConfig('AWS_Config'),
+  awsSecurityHub('AWS_Security_Hub'),
+  awsApiCall('AWS_API_Call'),
+  manual('MANUAL'),
+  ;
+
+  final String value;
+
+  const DataSourceType(this.value);
+
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              throw Exception('$value is not known in enum DataSourceType'));
 }
 
 /// The default s3 bucket where Audit Manager saves the files that you export
@@ -6946,7 +7092,7 @@ class ListControlsResponse {
 }
 
 class ListKeywordsForDataSourceResponse {
-  /// The list of keywords for the event mapping source.
+  /// The list of keywords for the control mapping source.
   final List<String>? keywords;
 
   /// The pagination token that's used to fetch the next set of results.
@@ -7333,8 +7479,20 @@ enum RoleType {
       orElse: () => throw Exception('$value is not known in enum RoleType'));
 }
 
-/// The wrapper that contains the Amazon Web Services accounts and services that
-/// are in scope for the assessment.
+/// The wrapper that contains the Amazon Web Services accounts that are in scope
+/// for the assessment.
+/// <note>
+/// You no longer need to specify which Amazon Web Services are in scope when
+/// you create or update an assessment. Audit Manager infers the services in
+/// scope by examining your assessment controls and their data sources, and then
+/// mapping this information to the relevant Amazon Web Services.
+///
+/// If an underlying data source changes for your assessment, we automatically
+/// update the services scope as needed to reflect the correct Amazon Web
+/// Services. This ensures that your assessment collects accurate and
+/// comprehensive evidence about all of the relevant services in your AWS
+/// environment.
+/// </note>
 class Scope {
   /// The Amazon Web Services accounts that are included in the scope of the
   /// assessment.
@@ -7342,6 +7500,11 @@ class Scope {
 
   /// The Amazon Web Services services that are included in the scope of the
   /// assessment.
+  /// <important>
+  /// This API parameter is no longer supported. If you use this parameter to
+  /// specify one or more Amazon Web Services, Audit Manager ignores this input.
+  /// Instead, the value for <code>awsServices</code> will show as empty.
+  /// </important>
   final List<AWSService>? awsServices;
 
   Scope({
@@ -7839,6 +8002,8 @@ enum SourceType {
   awsSecurityHub('AWS_Security_Hub'),
   awsApiCall('AWS_API_Call'),
   manual('MANUAL'),
+  commonControl('Common_Control'),
+  coreControl('Core_Control'),
   ;
 
   final String value;

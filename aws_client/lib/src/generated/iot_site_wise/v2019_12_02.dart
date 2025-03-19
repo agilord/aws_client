@@ -617,7 +617,7 @@ class IoTSiteWise {
   /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetModelName] :
-  /// A unique, friendly name for the asset model.
+  /// A unique name for the asset model.
   ///
   /// Parameter [assetModelCompositeModels] :
   /// The composite models that are part of this asset model. It groups
@@ -628,7 +628,10 @@ class IoTSiteWise {
   /// <note>
   /// When creating custom composite models, you need to use <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">CreateAssetModelCompositeModel</a>.
-  /// For more information, see &lt;LINK&gt;.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html">Creating
+  /// custom composite models (Components)</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [assetModelDescription] :
@@ -760,6 +763,7 @@ class IoTSiteWise {
   /// <code>composedAssetModelId</code>.
   ///
   /// May throw [ConflictingOperationException].
+  /// May throw [PreconditionFailedException].
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -768,7 +772,7 @@ class IoTSiteWise {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [assetModelCompositeModelName] :
-  /// A unique, friendly name for the composite model.
+  /// A unique name for the composite model.
   ///
   /// Parameter [assetModelCompositeModelType] :
   /// The composite model type. Valid values are <code>AWS/ALARM</code>,
@@ -796,7 +800,9 @@ class IoTSiteWise {
   ///
   /// Parameter [assetModelCompositeModelProperties] :
   /// The property definitions of the composite model. For more information, see
-  /// &lt;LINK&gt;.
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models">
+  /// Inline custom composite models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// You can specify up to 200 properties per composite model. For more
   /// information, see <a
@@ -809,7 +815,27 @@ class IoTSiteWise {
   /// idempotent request is required.
   ///
   /// Parameter [composedAssetModelId] :
-  /// The ID of a composite model on this asset.
+  /// The ID of a component model which is reused to create this composite
+  /// model.
+  ///
+  /// Parameter [ifMatch] :
+  /// The expected current entity tag (ETag) for the asset model’s latest or
+  /// active version (specified using <code>matchForVersionType</code>). The
+  /// create request is rejected if the tag does not match the latest or active
+  /// version's current entity tag. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [ifNoneMatch] :
+  /// Accepts <b>*</b> to reject the create request if an active version
+  /// (specified using <code>matchForVersionType</code> as <code>ACTIVE</code>)
+  /// already exists for the asset model.
+  ///
+  /// Parameter [matchForVersionType] :
+  /// Specifies the asset model version type (<code>LATEST</code> or
+  /// <code>ACTIVE</code>) used in conjunction with <code>If-Match</code> or
+  /// <code>If-None-Match</code> headers to determine the target ETag for the
+  /// create operation.
   ///
   /// Parameter [parentAssetModelCompositeModelId] :
   /// The ID of the parent composite model in this asset model relationship.
@@ -824,8 +850,17 @@ class IoTSiteWise {
     List<AssetModelPropertyDefinition>? assetModelCompositeModelProperties,
     String? clientToken,
     String? composedAssetModelId,
+    String? ifMatch,
+    String? ifNoneMatch,
+    AssetModelVersionType? matchForVersionType,
     String? parentAssetModelCompositeModelId,
   }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (matchForVersionType != null)
+        'Match-For-Version-Type': matchForVersionType.value,
+    };
     final $payload = <String, dynamic>{
       'assetModelCompositeModelName': assetModelCompositeModelName,
       'assetModelCompositeModelType': assetModelCompositeModelType,
@@ -851,6 +886,7 @@ class IoTSiteWise {
       method: 'POST',
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetModelCompositeModelResponse.fromJson(response);
@@ -1007,7 +1043,7 @@ class IoTSiteWise {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [gatewayName] :
-  /// A unique, friendly name for the gateway.
+  /// A unique name for the gateway.
   ///
   /// Parameter [gatewayPlatform] :
   /// The gateway's platform. You can only specify one platform in a gateway.
@@ -1305,6 +1341,7 @@ class IoTSiteWise {
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   /// May throw [ConflictingOperationException].
+  /// May throw [PreconditionFailedException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model to delete. This can be either the actual ID in
@@ -1317,10 +1354,38 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [ifMatch] :
+  /// The expected current entity tag (ETag) for the asset model’s latest or
+  /// active version (specified using <code>matchForVersionType</code>). The
+  /// delete request is rejected if the tag does not match the latest or active
+  /// version's current entity tag. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [ifNoneMatch] :
+  /// Accepts <b>*</b> to reject the delete request if an active version
+  /// (specified using <code>matchForVersionType</code> as <code>ACTIVE</code>)
+  /// already exists for the asset model.
+  ///
+  /// Parameter [matchForVersionType] :
+  /// Specifies the asset model version type (<code>LATEST</code> or
+  /// <code>ACTIVE</code>) used in conjunction with <code>If-Match</code> or
+  /// <code>If-None-Match</code> headers to determine the target ETag for the
+  /// delete operation.
   Future<DeleteAssetModelResponse> deleteAssetModel({
     required String assetModelId,
     String? clientToken,
+    String? ifMatch,
+    String? ifNoneMatch,
+    AssetModelVersionType? matchForVersionType,
   }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (matchForVersionType != null)
+        'Match-For-Version-Type': matchForVersionType.value,
+    };
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1329,6 +1394,7 @@ class IoTSiteWise {
       method: 'DELETE',
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetModelResponse.fromJson(response);
@@ -1347,6 +1413,7 @@ class IoTSiteWise {
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   /// May throw [ConflictingOperationException].
+  /// May throw [PreconditionFailedException].
   ///
   /// Parameter [assetModelCompositeModelId] :
   /// The ID of a composite model on this asset model.
@@ -1358,12 +1425,40 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [ifMatch] :
+  /// The expected current entity tag (ETag) for the asset model’s latest or
+  /// active version (specified using <code>matchForVersionType</code>). The
+  /// delete request is rejected if the tag does not match the latest or active
+  /// version's current entity tag. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [ifNoneMatch] :
+  /// Accepts <b>*</b> to reject the delete request if an active version
+  /// (specified using <code>matchForVersionType</code> as <code>ACTIVE</code>)
+  /// already exists for the asset model.
+  ///
+  /// Parameter [matchForVersionType] :
+  /// Specifies the asset model version type (<code>LATEST</code> or
+  /// <code>ACTIVE</code>) used in conjunction with <code>If-Match</code> or
+  /// <code>If-None-Match</code> headers to determine the target ETag for the
+  /// delete operation.
   Future<DeleteAssetModelCompositeModelResponse>
       deleteAssetModelCompositeModel({
     required String assetModelCompositeModelId,
     required String assetModelId,
     String? clientToken,
+    String? ifMatch,
+    String? ifNoneMatch,
+    AssetModelVersionType? matchForVersionType,
   }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (matchForVersionType != null)
+        'Match-For-Version-Type': matchForVersionType.value,
+    };
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -1373,6 +1468,7 @@ class IoTSiteWise {
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetModelCompositeModelResponse.fromJson(response);
@@ -1413,6 +1509,7 @@ class IoTSiteWise {
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
@@ -1696,24 +1793,69 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// Parameter [assetModelVersion] :
+  /// The version alias that specifies the latest or active version of the asset
+  /// model. The details are returned in the response. The default value is
+  /// <code>LATEST</code>. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
   /// Parameter [excludeProperties] :
   /// Whether or not to exclude asset model properties from the response.
   Future<DescribeAssetModelResponse> describeAssetModel({
     required String assetModelId,
+    String? assetModelVersion,
     bool? excludeProperties,
   }) async {
     final $query = <String, List<String>>{
+      if (assetModelVersion != null) 'assetModelVersion': [assetModelVersion],
       if (excludeProperties != null)
         'excludeProperties': [excludeProperties.toString()],
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeAssetModelResponse.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeAssetModelResponse(
+      assetModelArn: $json['assetModelArn'] as String,
+      assetModelCreationDate: nonNullableTimeStampFromJson(
+          $json['assetModelCreationDate'] as Object),
+      assetModelDescription: $json['assetModelDescription'] as String,
+      assetModelHierarchies: ($json['assetModelHierarchies'] as List)
+          .nonNulls
+          .map((e) => AssetModelHierarchy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetModelId: $json['assetModelId'] as String,
+      assetModelLastUpdateDate: nonNullableTimeStampFromJson(
+          $json['assetModelLastUpdateDate'] as Object),
+      assetModelName: $json['assetModelName'] as String,
+      assetModelProperties: ($json['assetModelProperties'] as List)
+          .nonNulls
+          .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetModelStatus: AssetModelStatus.fromJson(
+          $json['assetModelStatus'] as Map<String, dynamic>),
+      assetModelCompositeModelSummaries:
+          ($json['assetModelCompositeModelSummaries'] as List?)
+              ?.nonNulls
+              .map((e) => AssetModelCompositeModelSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetModelCompositeModels: ($json['assetModelCompositeModels'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetModelCompositeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetModelExternalId: $json['assetModelExternalId'] as String?,
+      assetModelType:
+          ($json['assetModelType'] as String?)?.let(AssetModelType.fromString),
+      assetModelVersion: $json['assetModelVersion'] as String?,
+      eTag: _s.extractHeaderStringValue(response.headers, 'ETag'),
+    );
   }
 
   /// Retrieves information about an asset model composite model (also known as
@@ -1739,16 +1881,28 @@ class IoTSiteWise {
   /// it has one. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [assetModelVersion] :
+  /// The version alias that specifies the latest or active version of the asset
+  /// model. The details are returned in the response. The default value is
+  /// <code>LATEST</code>. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
   Future<DescribeAssetModelCompositeModelResponse>
       describeAssetModelCompositeModel({
     required String assetModelCompositeModelId,
     required String assetModelId,
+    String? assetModelVersion,
   }) async {
+    final $query = <String, List<String>>{
+      if (assetModelVersion != null) 'assetModelVersion': [assetModelVersion],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetModelCompositeModelResponse.fromJson(response);
@@ -2910,6 +3064,13 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// Parameter [assetModelVersion] :
+  /// The version alias that specifies the latest or active version of the asset
+  /// model. The details are returned in the response. The default value is
+  /// <code>LATEST</code>. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for each paginated request.
   ///
@@ -2919,6 +3080,7 @@ class IoTSiteWise {
   /// The token to be used for the next set of paginated results.
   Future<ListAssetModelCompositeModelsResponse> listAssetModelCompositeModels({
     required String assetModelId,
+    String? assetModelVersion,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2929,6 +3091,7 @@ class IoTSiteWise {
       250,
     );
     final $query = <String, List<String>>{
+      if (assetModelVersion != null) 'assetModelVersion': [assetModelVersion],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2959,6 +3122,13 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// Parameter [assetModelVersion] :
+  /// The version alias that specifies the latest or active version of the asset
+  /// model. The details are returned in the response. The default value is
+  /// <code>LATEST</code>. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
   /// Parameter [filter] :
   /// Filters the requested list of asset model properties. You can choose one
   /// of the following options:
@@ -2983,6 +3153,7 @@ class IoTSiteWise {
   /// The token to be used for the next set of paginated results.
   Future<ListAssetModelPropertiesResponse> listAssetModelProperties({
     required String assetModelId,
+    String? assetModelVersion,
     ListAssetModelPropertiesFilter? filter,
     int? maxResults,
     String? nextToken,
@@ -2994,6 +3165,7 @@ class IoTSiteWise {
       250,
     );
     final $query = <String, List<String>>{
+      if (assetModelVersion != null) 'assetModelVersion': [assetModelVersion],
       if (filter != null) 'filter': [filter.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -3016,12 +3188,13 @@ class IoTSiteWise {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelTypes] :
-  /// The type of asset model.
+  /// The type of asset model. If you don't provide an
+  /// <code>assetModelTypes</code>, all types of asset models are returned.
   ///
   /// <ul>
   /// <li>
-  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
-  /// assets. Can't be included as a component in another asset model.
+  /// <b>ASSET_MODEL</b> – An asset model that you can use to create assets.
+  /// Can't be included as a component in another asset model.
   /// </li>
   /// <li>
   /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
@@ -3029,6 +3202,13 @@ class IoTSiteWise {
   /// from this type of asset model.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [assetModelVersion] :
+  /// The version alias that specifies the latest or active version of the asset
+  /// model. The details are returned in the response. The default value is
+  /// <code>LATEST</code>. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return for each paginated request.
@@ -3039,6 +3219,7 @@ class IoTSiteWise {
   /// The token to be used for the next set of paginated results.
   Future<ListAssetModelsResponse> listAssetModels({
     List<AssetModelType>? assetModelTypes,
+    String? assetModelVersion,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -3051,6 +3232,7 @@ class IoTSiteWise {
     final $query = <String, List<String>>{
       if (assetModelTypes != null)
         'assetModelTypes': assetModelTypes.map((e) => e.value).toList(),
+      if (assetModelVersion != null) 'assetModelVersion': [assetModelVersion],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -3280,11 +3462,10 @@ class IoTSiteWise {
   ///
   /// <ul>
   /// <li>
-  /// List child assets associated to a parent asset by a hierarchy that you
-  /// specify.
+  /// <code>CHILD</code> - List all child assets associated to the asset.
   /// </li>
   /// <li>
-  /// List an asset's parent asset.
+  /// <code>PARENT</code> - List the asset's parent asset.
   /// </li>
   /// </ul>
   ///
@@ -3301,18 +3482,15 @@ class IoTSiteWise {
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// Parameter [hierarchyId] :
+  /// (Optional) If you don't provide a <code>hierarchyId</code>, all the
+  /// immediate assets in the <code>traversalDirection</code> will be returned.
+  ///
   /// The ID of the hierarchy by which child assets are associated to the asset.
   /// (This can be either the actual ID in UUID format, or else
   /// <code>externalId:</code> followed by the external ID, if it has one. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
-  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.) To
-  /// find a hierarchy ID, use the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAsset.html">DescribeAsset</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html">DescribeAssetModel</a>
-  /// operations. This parameter is required if you choose <code>CHILD</code>
-  /// for <code>traversalDirection</code>.
+  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.)
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html">Asset
@@ -3333,8 +3511,7 @@ class IoTSiteWise {
   /// <ul>
   /// <li>
   /// <code>CHILD</code> – The list includes all child assets associated to the
-  /// asset. The <code>hierarchyId</code> parameter is required if you choose
-  /// <code>CHILD</code>.
+  /// asset.
   /// </li>
   /// <li>
   /// <code>PARENT</code> – The list includes the asset's parent asset.
@@ -4095,18 +4272,23 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html">Updating
   /// assets and models</a> in the <i>IoT SiteWise User Guide</i>.
   /// <important>
-  /// This operation overwrites the existing model with the provided model. To
-  /// avoid deleting your asset model's properties or hierarchies, you must
-  /// include their IDs and definitions in the updated asset model payload. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModel.html">DescribeAssetModel</a>.
-  ///
   /// If you remove a property from an asset model, IoT SiteWise deletes all
-  /// previous data for that property. If you remove a hierarchy definition from
-  /// an asset model, IoT SiteWise disassociates every asset associated with
-  /// that hierarchy. You can't change the type or data type of an existing
-  /// property.
-  /// </important>
+  /// previous data for that property. You can’t change the type or data type of
+  /// an existing property.
+  ///
+  /// To replace an existing asset model property with a new one with the same
+  /// <code>name</code>, do the following:
+  /// <ol>
+  /// <li>
+  /// Submit an <code>UpdateAssetModel</code> request with the entire existing
+  /// property removed.
+  /// </li>
+  /// <li>
+  /// Submit a second <code>UpdateAssetModel</code> request that includes the
+  /// new property. The new asset property will have the same <code>name</code>
+  /// as the previous one and IoT SiteWise will generate a new unique
+  /// <code>id</code>.
+  /// </li> </ol> </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -4115,6 +4297,7 @@ class IoTSiteWise {
   /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ConflictingOperationException].
+  /// May throw [PreconditionFailedException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model to update. This can be either the actual ID in
@@ -4124,7 +4307,7 @@ class IoTSiteWise {
   /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// Parameter [assetModelName] :
-  /// A unique, friendly name for the asset model.
+  /// A unique name for the asset model.
   ///
   /// Parameter [assetModelCompositeModels] :
   /// The composite models that are part of this asset model. It groups
@@ -4135,7 +4318,10 @@ class IoTSiteWise {
   /// <note>
   /// When creating custom composite models, you need to use <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">CreateAssetModelCompositeModel</a>.
-  /// For more information, see &lt;LINK&gt;.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html">Creating
+  /// custom composite models (Components)</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
   /// </note>
   ///
   /// Parameter [assetModelDescription] :
@@ -4175,6 +4361,25 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [ifMatch] :
+  /// The expected current entity tag (ETag) for the asset model’s latest or
+  /// active version (specified using <code>matchForVersionType</code>). The
+  /// update request is rejected if the tag does not match the latest or active
+  /// version's current entity tag. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [ifNoneMatch] :
+  /// Accepts <b>*</b> to reject the update request if an active version
+  /// (specified using <code>matchForVersionType</code> as <code>ACTIVE</code>)
+  /// already exists for the asset model.
+  ///
+  /// Parameter [matchForVersionType] :
+  /// Specifies the asset model version type (<code>LATEST</code> or
+  /// <code>ACTIVE</code>) used in conjunction with <code>If-Match</code> or
+  /// <code>If-None-Match</code> headers to determine the target ETag for the
+  /// update operation.
   Future<UpdateAssetModelResponse> updateAssetModel({
     required String assetModelId,
     required String assetModelName,
@@ -4184,7 +4389,16 @@ class IoTSiteWise {
     List<AssetModelHierarchy>? assetModelHierarchies,
     List<AssetModelProperty>? assetModelProperties,
     String? clientToken,
+    String? ifMatch,
+    String? ifNoneMatch,
+    AssetModelVersionType? matchForVersionType,
   }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (matchForVersionType != null)
+        'Match-For-Version-Type': matchForVersionType.value,
+    };
     final $payload = <String, dynamic>{
       'assetModelName': assetModelName,
       if (assetModelCompositeModels != null)
@@ -4203,6 +4417,7 @@ class IoTSiteWise {
       payload: $payload,
       method: 'PUT',
       requestUri: '/asset-models/${Uri.encodeComponent(assetModelId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetModelResponse.fromJson(response);
@@ -4233,6 +4448,7 @@ class IoTSiteWise {
   /// </li> </ol> </important>
   ///
   /// May throw [ConflictingOperationException].
+  /// May throw [PreconditionFailedException].
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -4244,7 +4460,7 @@ class IoTSiteWise {
   /// The ID of a composite model on this asset model.
   ///
   /// Parameter [assetModelCompositeModelName] :
-  /// A unique, friendly name for the composite model.
+  /// A unique name for the composite model.
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model, in UUID format.
@@ -4259,7 +4475,9 @@ class IoTSiteWise {
   ///
   /// Parameter [assetModelCompositeModelProperties] :
   /// The property definitions of the composite model. For more information, see
-  /// &lt;LINK&gt;.
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models">
+  /// Inline custom composite models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
   /// You can specify up to 200 properties per composite model. For more
   /// information, see <a
@@ -4270,6 +4488,25 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [ifMatch] :
+  /// The expected current entity tag (ETag) for the asset model’s latest or
+  /// active version (specified using <code>matchForVersionType</code>). The
+  /// update request is rejected if the tag does not match the latest or active
+  /// version's current entity tag. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// Parameter [ifNoneMatch] :
+  /// Accepts <b>*</b> to reject the update request if an active version
+  /// (specified using <code>matchForVersionType</code> as <code>ACTIVE</code>)
+  /// already exists for the asset model.
+  ///
+  /// Parameter [matchForVersionType] :
+  /// Specifies the asset model version type (<code>LATEST</code> or
+  /// <code>ACTIVE</code>) used in conjunction with <code>If-Match</code> or
+  /// <code>If-None-Match</code> headers to determine the target ETag for the
+  /// update operation.
   Future<UpdateAssetModelCompositeModelResponse>
       updateAssetModelCompositeModel({
     required String assetModelCompositeModelId,
@@ -4279,7 +4516,16 @@ class IoTSiteWise {
     String? assetModelCompositeModelExternalId,
     List<AssetModelProperty>? assetModelCompositeModelProperties,
     String? clientToken,
+    String? ifMatch,
+    String? ifNoneMatch,
+    AssetModelVersionType? matchForVersionType,
   }) async {
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (matchForVersionType != null)
+        'Match-For-Version-Type': matchForVersionType.value,
+    };
     final $payload = <String, dynamic>{
       'assetModelCompositeModelName': assetModelCompositeModelName,
       if (assetModelCompositeModelDescription != null)
@@ -4298,6 +4544,7 @@ class IoTSiteWise {
       method: 'PUT',
       requestUri:
           '/asset-models/${Uri.encodeComponent(assetModelId)}/composite-models/${Uri.encodeComponent(assetModelCompositeModelId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetModelCompositeModelResponse.fromJson(response);
@@ -4446,7 +4693,7 @@ class IoTSiteWise {
   /// The ID of the gateway to update.
   ///
   /// Parameter [gatewayName] :
-  /// A unique, friendly name for the gateway.
+  /// A unique name for the gateway.
   Future<void> updateGateway({
     required String gatewayId,
     required String gatewayName,
@@ -5409,28 +5656,17 @@ class AssetModelCompositeModelPathSegment {
 
 /// Contains a summary of the composite model.
 class AssetModelCompositeModelSummary {
-  /// The ID of the the composite model that this summary describes..
+  /// The ID of the composite model that this summary describes..
   final String id;
 
-  /// The name of the the composite model that this summary describes..
+  /// The name of the composite model that this summary describes..
   final String name;
 
-  /// The type of asset model.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
-  /// assets. Can't be included as a component in another asset model.
-  /// </li>
-  /// <li>
-  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
-  /// composite models of other asset models. You can't create assets directly
-  /// from this type of asset model.
-  /// </li>
-  /// </ul>
+  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
+  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
   final String type;
 
-  /// The description of the the composite model that this summary describes..
+  /// The description of the composite model that this summary describes..
   final String? description;
 
   /// The external ID of a composite model on this asset model. For more
@@ -6022,6 +6258,9 @@ class AssetModelSummary {
   /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
   final String? externalId;
 
+  /// The version number of the asset model.
+  final String? version;
+
   AssetModelSummary({
     required this.arn,
     required this.creationDate,
@@ -6032,6 +6271,7 @@ class AssetModelSummary {
     required this.status,
     this.assetModelType,
     this.externalId,
+    this.version,
   });
 
   factory AssetModelSummary.fromJson(Map<String, dynamic> json) {
@@ -6048,6 +6288,7 @@ class AssetModelSummary {
       assetModelType:
           (json['assetModelType'] as String?)?.let(AssetModelType.fromString),
       externalId: json['externalId'] as String?,
+      version: json['version'] as String?,
     );
   }
 
@@ -6061,6 +6302,7 @@ class AssetModelSummary {
     final status = this.status;
     final assetModelType = this.assetModelType;
     final externalId = this.externalId;
+    final version = this.version;
     return {
       'arn': arn,
       'creationDate': unixTimestampToJson(creationDate),
@@ -6071,6 +6313,7 @@ class AssetModelSummary {
       'status': status,
       if (assetModelType != null) 'assetModelType': assetModelType.value,
       if (externalId != null) 'externalId': externalId,
+      if (version != null) 'version': version,
     };
   }
 }
@@ -6088,6 +6331,21 @@ enum AssetModelType {
       values.firstWhere((e) => e.value == value,
           orElse: () =>
               throw Exception('$value is not known in enum AssetModelType'));
+}
+
+enum AssetModelVersionType {
+  latest('LATEST'),
+  active('ACTIVE'),
+  ;
+
+  final String value;
+
+  const AssetModelVersionType(this.value);
+
+  static AssetModelVersionType fromString(String value) => values.firstWhere(
+      (e) => e.value == value,
+      orElse: () =>
+          throw Exception('$value is not known in enum AssetModelVersionType'));
 }
 
 /// Contains asset property information.
@@ -7833,6 +8091,7 @@ enum CapabilitySyncStatus {
   outOfSync('OUT_OF_SYNC'),
   syncFailed('SYNC_FAILED'),
   unknown('UNKNOWN'),
+  notApplicable('NOT_APPLICABLE'),
   ;
 
   final String value;
@@ -9285,6 +9544,22 @@ class DescribeAssetModelResponse {
   /// </ul>
   final AssetModelType? assetModelType;
 
+  /// The version of the asset model. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? assetModelVersion;
+
+  /// The entity tag (ETag) is a hash of the retrieved version of the asset model.
+  /// It's used to make concurrent updates safely to the resource. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">
+  /// Optimistic locking for asset model writes</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? eTag;
+
   DescribeAssetModelResponse({
     required this.assetModelArn,
     required this.assetModelCreationDate,
@@ -9299,44 +9574,9 @@ class DescribeAssetModelResponse {
     this.assetModelCompositeModels,
     this.assetModelExternalId,
     this.assetModelType,
+    this.assetModelVersion,
+    this.eTag,
   });
-
-  factory DescribeAssetModelResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAssetModelResponse(
-      assetModelArn: json['assetModelArn'] as String,
-      assetModelCreationDate: nonNullableTimeStampFromJson(
-          json['assetModelCreationDate'] as Object),
-      assetModelDescription: json['assetModelDescription'] as String,
-      assetModelHierarchies: (json['assetModelHierarchies'] as List)
-          .nonNulls
-          .map((e) => AssetModelHierarchy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetModelId: json['assetModelId'] as String,
-      assetModelLastUpdateDate: nonNullableTimeStampFromJson(
-          json['assetModelLastUpdateDate'] as Object),
-      assetModelName: json['assetModelName'] as String,
-      assetModelProperties: (json['assetModelProperties'] as List)
-          .nonNulls
-          .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
-      assetModelCompositeModelSummaries:
-          (json['assetModelCompositeModelSummaries'] as List?)
-              ?.nonNulls
-              .map((e) => AssetModelCompositeModelSummary.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetModelCompositeModels: (json['assetModelCompositeModels'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetModelCompositeModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetModelExternalId: json['assetModelExternalId'] as String?,
-      assetModelType:
-          (json['assetModelType'] as String?)?.let(AssetModelType.fromString),
-    );
-  }
 
   Map<String, dynamic> toJson() {
     final assetModelArn = this.assetModelArn;
@@ -9353,6 +9593,8 @@ class DescribeAssetModelResponse {
     final assetModelCompositeModels = this.assetModelCompositeModels;
     final assetModelExternalId = this.assetModelExternalId;
     final assetModelType = this.assetModelType;
+    final assetModelVersion = this.assetModelVersion;
+    final eTag = this.eTag;
     return {
       'assetModelArn': assetModelArn,
       'assetModelCreationDate': unixTimestampToJson(assetModelCreationDate),
@@ -9370,6 +9612,7 @@ class DescribeAssetModelResponse {
       if (assetModelExternalId != null)
         'assetModelExternalId': assetModelExternalId,
       if (assetModelType != null) 'assetModelType': assetModelType.value,
+      if (assetModelVersion != null) 'assetModelVersion': assetModelVersion,
     };
   }
 }
@@ -10866,9 +11109,13 @@ class GatewayPlatform {
   /// A gateway that runs on IoT Greengrass V2.
   final GreengrassV2? greengrassV2;
 
+  /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+  final SiemensIE? siemensIE;
+
   GatewayPlatform({
     this.greengrass,
     this.greengrassV2,
+    this.siemensIE,
   });
 
   factory GatewayPlatform.fromJson(Map<String, dynamic> json) {
@@ -10879,15 +11126,20 @@ class GatewayPlatform {
       greengrassV2: json['greengrassV2'] != null
           ? GreengrassV2.fromJson(json['greengrassV2'] as Map<String, dynamic>)
           : null,
+      siemensIE: json['siemensIE'] != null
+          ? SiemensIE.fromJson(json['siemensIE'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final greengrass = this.greengrass;
     final greengrassV2 = this.greengrassV2;
+    final siemensIE = this.siemensIE;
     return {
       if (greengrass != null) 'greengrass': greengrass,
       if (greengrassV2 != null) 'greengrassV2': greengrassV2,
+      if (siemensIE != null) 'siemensIE': siemensIE,
     };
   }
 }
@@ -10900,7 +11152,7 @@ class GatewaySummary {
   /// The ID of the gateway device.
   final String gatewayId;
 
-  /// The name of the asset.
+  /// The name of the gateway.
   final String gatewayName;
 
   /// The date the gateway was last updated, in Unix epoch time.
@@ -11102,10 +11354,10 @@ class Greengrass {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
   /// of the Greengrass group. For more information about how to find a group's
   /// ARN, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/latest/apireference/listgroups-get.html">ListGroups</a>
+  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/listgroups-get.html">ListGroups</a>
   /// and <a
-  /// href="https://docs.aws.amazon.com/greengrass/latest/apireference/getgroup-get.html">GetGroup</a>
-  /// in the <i>IoT Greengrass API Reference</i>.
+  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/getgroup-get.html">GetGroup</a>
+  /// in the <i>IoT Greengrass V1 API Reference</i>.
   final String groupArn;
 
   Greengrass({
@@ -13361,6 +13613,30 @@ enum ScalarType {
       orElse: () => throw Exception('$value is not known in enum ScalarType'));
 }
 
+/// Contains details for a SiteWise Edge gateway that runs on a Siemens
+/// Industrial Edge Device.
+class SiemensIE {
+  /// The name of the IoT Thing for your SiteWise Edge gateway.
+  final String iotCoreThingName;
+
+  SiemensIE({
+    required this.iotCoreThingName,
+  });
+
+  factory SiemensIE.fromJson(Map<String, dynamic> json) {
+    return SiemensIE(
+      iotCoreThingName: json['iotCoreThingName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iotCoreThingName = this.iotCoreThingName;
+    return {
+      'iotCoreThingName': iotCoreThingName,
+    };
+  }
+}
+
 enum StorageType {
   sitewiseDefaultStorage('SITEWISE_DEFAULT_STORAGE'),
   multiLayerStorage('MULTI_LAYER_STORAGE'),
@@ -14098,8 +14374,7 @@ class Variant {
   /// Asset property data of type double (floating point number).
   final double? doubleValue;
 
-  /// Asset property data of type integer (number that's greater than or equal to
-  /// zero).
+  /// Asset property data of type integer (whole number).
   final int? integerValue;
 
   /// Asset property data of type string (sequence of characters).
@@ -14209,6 +14484,12 @@ class LimitExceededException extends _s.GenericAwsException {
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+class PreconditionFailedException extends _s.GenericAwsException {
+  PreconditionFailedException({String? type, String? message})
+      : super(
+            type: type, code: 'PreconditionFailedException', message: message);
+}
+
 class QueryTimeoutException extends _s.GenericAwsException {
   QueryTimeoutException({String? type, String? message})
       : super(type: type, code: 'QueryTimeoutException', message: message);
@@ -14264,6 +14545,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidRequestException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'PreconditionFailedException': (type, message) =>
+      PreconditionFailedException(type: type, message: message),
   'QueryTimeoutException': (type, message) =>
       QueryTimeoutException(type: type, message: message),
   'ResourceAlreadyExistsException': (type, message) =>

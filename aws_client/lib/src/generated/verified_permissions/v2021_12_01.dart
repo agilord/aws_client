@@ -304,37 +304,41 @@ class VerifiedPermissions {
     return BatchIsAuthorizedWithTokenOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a reference to an Amazon Cognito user pool as an external identity
-  /// provider (IdP).
+  /// Adds an identity source to a policy store–an Amazon Cognito user pool or
+  /// OpenID Connect (OIDC) identity provider (IdP).
   ///
   /// After you create an identity source, you can use the identities provided
   /// by the IdP as proxies for the principal in authorization queries that use
   /// the <a
   /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
-  /// operation. These identities take the form of tokens that contain claims
-  /// about the user, such as IDs, attributes and group memberships. Amazon
-  /// Cognito provides both identity tokens and access tokens, and Verified
-  /// Permissions can use either or both. Any combination of identity and access
-  /// tokens results in the same Cedar principal. Verified Permissions
-  /// automatically translates the information about the identities into the
-  /// standard Cedar attributes that can be evaluated by your policies. Because
-  /// the Amazon Cognito identity and access tokens can contain different
-  /// information, the tokens you choose to use determine which principal
-  /// attributes are available to access when evaluating Cedar policies.
+  /// or <a
+  /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html">BatchIsAuthorizedWithToken</a>
+  /// API operations. These identities take the form of tokens that contain
+  /// claims about the user, such as IDs, attributes and group memberships.
+  /// Identity sources provide identity (ID) tokens and access tokens. Verified
+  /// Permissions derives information about your user and session from token
+  /// claims. Access tokens provide action <code>context</code> to your
+  /// policies, and ID tokens provide principal <code>Attributes</code>.
   /// <important>
-  /// If you delete a Amazon Cognito user pool or user, tokens from that deleted
-  /// pool or that deleted user continue to be usable until they expire.
+  /// Tokens from an identity source user continue to be usable until they
+  /// expire. Token revocation and resource deletion have no effect on the
+  /// validity of a token in your policy store
   /// </important> <note>
-  /// To reference a user from this identity source in your Cedar policies, use
-  /// the following syntax.
+  /// To reference a user from this identity source in your Cedar policies,
+  /// refer to the following syntax examples.
   ///
-  /// <i>IdentityType::"&lt;CognitoUserPoolIdentifier&gt;|&lt;CognitoClientId&gt;</i>
-  ///
-  /// Where <code>IdentityType</code> is the string that you provide to the
-  /// <code>PrincipalEntityType</code> parameter for this operation. The
-  /// <code>CognitoUserPoolId</code> and <code>CognitoClientId</code> are
-  /// defined by the Amazon Cognito user pool.
-  /// </note> <note>
+  /// <ul>
+  /// <li>
+  /// Amazon Cognito user pool: <code>Namespace::[Entity type]::[User pool
+  /// ID]|[user principal attribute]</code>, for example
+  /// <code>MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
+  /// </li>
+  /// <li>
+  /// OpenID Connect (OIDC) provider: <code>Namespace::[Entity
+  /// type]::[principalIdClaim]|[user principal attribute]</code>, for example
+  /// <code>MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222</code>.
+  /// </li>
+  /// </ul> </note> <note>
   /// Verified Permissions is <i> <a
   /// href="https://wikipedia.org/wiki/Eventual_consistency">eventually
   /// consistent</a> </i>. It can take a few seconds for a new or changed
@@ -353,13 +357,6 @@ class VerifiedPermissions {
   /// Parameter [configuration] :
   /// Specifies the details required to communicate with the identity provider
   /// (IdP) associated with this identity source.
-  /// <note>
-  /// At this time, the only valid member of this structure is a Amazon Cognito
-  /// user pool configuration.
-  ///
-  /// You must specify a <code>UserPoolArn</code>, and optionally, a
-  /// <code>ClientId</code>.
-  /// </note>
   ///
   /// Parameter [policyStoreId] :
   /// Specifies the ID of the policy store in which you want to store this
@@ -1094,8 +1091,9 @@ class VerifiedPermissions {
   /// Verified Permissions validates each token that is specified in a request
   /// by checking its expiration date and its signature.
   /// <important>
-  /// If you delete a Amazon Cognito user pool or user, tokens from that deleted
-  /// pool or that deleted user continue to be usable until they expire.
+  /// Tokens from an identity source user continue to be usable until they
+  /// expire. Token revocation and resource deletion have no effect on the
+  /// validity of a token in your policy store
   /// </important>
   ///
   /// May throw [ValidationException].
@@ -1508,8 +1506,8 @@ class VerifiedPermissions {
     return PutSchemaOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates the specified identity source to use a new identity provider (IdP)
-  /// source, or to change the mapping of identities from the IdP to a different
+  /// Updates the specified identity source to use a new identity provider
+  /// (IdP), or to change the mapping of identities from the IdP to a different
   /// principal entity type.
   /// <note>
   /// Verified Permissions is <i> <a
@@ -2363,7 +2361,7 @@ class CognitoGroupConfigurationItem {
 /// Amazon Cognito user pool used as an identity provider for Verified
 /// Permissions.
 ///
-/// This data type is used as a field that is part of an <a
+/// This data type part of a <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
 /// structure that is used as a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
@@ -2557,13 +2555,7 @@ class CognitoUserPoolConfigurationItem {
 }
 
 /// Contains configuration information used when creating a new identity source.
-/// <note>
-/// At this time, the only valid member of this structure is a Amazon Cognito
-/// user pool configuration.
 ///
-/// Specifies a <code>userPoolArn</code>, a <code>groupConfiguration</code>, and
-/// a <code>ClientId</code>.
-/// </note>
 /// This data type is used as a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>
 /// operation.
@@ -2581,15 +2573,27 @@ class Configuration {
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
 
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfiguration? openIdConnectConfiguration;
+
   Configuration({
     this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
   });
 
   Map<String, dynamic> toJson() {
     final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
     return {
       if (cognitoUserPoolConfiguration != null)
         'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
     };
   }
 }
@@ -2614,8 +2618,17 @@ class ConfigurationDetail {
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfigurationDetail? cognitoUserPoolConfiguration;
 
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfigurationDetail? openIdConnectConfiguration;
+
   ConfigurationDetail({
     this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
   });
 
   factory ConfigurationDetail.fromJson(Map<String, dynamic> json) {
@@ -2624,14 +2637,21 @@ class ConfigurationDetail {
           ? CognitoUserPoolConfigurationDetail.fromJson(
               json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
           : null,
+      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
+          ? OpenIdConnectConfigurationDetail.fromJson(
+              json['openIdConnectConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
     return {
       if (cognitoUserPoolConfiguration != null)
         'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
     };
   }
 }
@@ -2656,8 +2676,17 @@ class ConfigurationItem {
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfigurationItem? cognitoUserPoolConfiguration;
 
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  ///
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  final OpenIdConnectConfigurationItem? openIdConnectConfiguration;
+
   ConfigurationItem({
     this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
   });
 
   factory ConfigurationItem.fromJson(Map<String, dynamic> json) {
@@ -2666,14 +2695,21 @@ class ConfigurationItem {
           ? CognitoUserPoolConfigurationItem.fromJson(
               json['cognitoUserPoolConfiguration'] as Map<String, dynamic>)
           : null,
+      openIdConnectConfiguration: json['openIdConnectConfiguration'] != null
+          ? OpenIdConnectConfigurationItem.fromJson(
+              json['openIdConnectConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
     return {
       if (cognitoUserPoolConfiguration != null)
         'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
     };
   }
 }
@@ -3136,7 +3172,14 @@ class EntityItem {
   /// A list of attributes for the entity.
   final Map<String, AttributeValue>? attributes;
 
-  /// The parents in the hierarchy that contains the entity.
+  /// The parent entities in the hierarchy that contains the entity. A principal
+  /// or resource entity can be defined with at most 99 <i>transitive parents</i>
+  /// per authorization request.
+  ///
+  /// A transitive parent is an entity in the hierarchy of entities including all
+  /// direct parents, and parents of parents. For example, a user can be a member
+  /// of 91 groups if one of those groups is a member of eight groups, for a total
+  /// of 100: one entity, 91 entity parents, and eight parents of parents.
   final List<EntityIdentifier>? parents;
 
   EntityItem({
@@ -4057,6 +4100,686 @@ class ListPolicyTemplatesOutput {
   }
 }
 
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectAccessTokenConfiguration {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfiguration({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectAccessTokenConfigurationDetail {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfigurationDetail({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectAccessTokenConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectAccessTokenConfigurationDetail(
+      audiences: (json['audiences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectAccessTokenConfigurationItem {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectAccessTokenConfigurationItem({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectAccessTokenConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectAccessTokenConfigurationItem(
+      audiences: (json['audiences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectConfiguration {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelection tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfiguration? groupConfiguration;
+
+  OpenIdConnectConfiguration({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectConfigurationDetail {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelectionDetail tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfigurationDetail? groupConfiguration;
+
+  OpenIdConnectConfigurationDetail({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  factory OpenIdConnectConfigurationDetail.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectConfigurationDetail(
+      issuer: json['issuer'] as String,
+      tokenSelection: OpenIdConnectTokenSelectionDetail.fromJson(
+          json['tokenSelection'] as Map<String, dynamic>),
+      entityIdPrefix: json['entityIdPrefix'] as String?,
+      groupConfiguration: json['groupConfiguration'] != null
+          ? OpenIdConnectGroupConfigurationDetail.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationItem</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectConfigurationItem {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final OpenIdConnectTokenSelectionItem tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final OpenIdConnectGroupConfigurationItem? groupConfiguration;
+
+  OpenIdConnectConfigurationItem({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  factory OpenIdConnectConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectConfigurationItem(
+      issuer: json['issuer'] as String,
+      tokenSelection: OpenIdConnectTokenSelectionItem.fromJson(
+          json['tokenSelection'] as Map<String, dynamic>),
+      entityIdPrefix: json['entityIdPrefix'] as String?,
+      groupConfiguration: json['groupConfiguration'] != null
+          ? OpenIdConnectGroupConfigurationItem.fromJson(
+              json['groupConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectGroupConfiguration {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfiguration({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectGroupConfigurationDetail {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfigurationDetail({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  factory OpenIdConnectGroupConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectGroupConfigurationDetail(
+      groupClaim: json['groupClaim'] as String,
+      groupEntityType: json['groupEntityType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySourcea</a>.
+class OpenIdConnectGroupConfigurationItem {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  OpenIdConnectGroupConfigurationItem({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  factory OpenIdConnectGroupConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectGroupConfigurationItem(
+      groupClaim: json['groupClaim'] as String,
+      groupEntityType: json['groupEntityType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectIdentityTokenConfiguration {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfiguration({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectIdentityTokenConfigurationDetail {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfigurationDetail({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectIdentityTokenConfigurationDetail(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectIdentityTokenConfigurationItem {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  OpenIdConnectIdentityTokenConfigurationItem({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  factory OpenIdConnectIdentityTokenConfigurationItem.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectIdentityTokenConfigurationItem(
+      clientIds: (json['clientIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalIdClaim: json['principalIdClaim'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+class OpenIdConnectTokenSelection {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfiguration? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
+
+  OpenIdConnectTokenSelection({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
+/// structure, which is a parameter of <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+class OpenIdConnectTokenSelectionDetail {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfigurationDetail? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfigurationDetail? identityTokenOnly;
+
+  OpenIdConnectTokenSelectionDetail({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  factory OpenIdConnectTokenSelectionDetail.fromJson(
+      Map<String, dynamic> json) {
+    return OpenIdConnectTokenSelectionDetail(
+      accessTokenOnly: json['accessTokenOnly'] != null
+          ? OpenIdConnectAccessTokenConfigurationDetail.fromJson(
+              json['accessTokenOnly'] as Map<String, dynamic>)
+          : null,
+      identityTokenOnly: json['identityTokenOnly'] != null
+          ? OpenIdConnectIdentityTokenConfigurationDetail.fromJson(
+              json['identityTokenOnly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
+/// structure, which is a parameter of <a
+/// href="http://amazonaws.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+class OpenIdConnectTokenSelectionItem {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectAccessTokenConfigurationItem? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final OpenIdConnectIdentityTokenConfigurationItem? identityTokenOnly;
+
+  OpenIdConnectTokenSelectionItem({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  factory OpenIdConnectTokenSelectionItem.fromJson(Map<String, dynamic> json) {
+    return OpenIdConnectTokenSelectionItem(
+      accessTokenOnly: json['accessTokenOnly'] != null
+          ? OpenIdConnectAccessTokenConfigurationItem.fromJson(
+              json['accessTokenOnly'] as Map<String, dynamic>)
+          : null,
+      identityTokenOnly: json['identityTokenOnly'] != null
+          ? OpenIdConnectIdentityTokenConfigurationItem.fromJson(
+              json['identityTokenOnly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
+    };
+  }
+}
+
 enum OpenIdIssuer {
   cognito('COGNITO'),
   ;
@@ -4846,28 +5569,31 @@ class UpdateCognitoUserPoolConfiguration {
   }
 }
 
-/// Contains an updated configuration to replace the configuration in an
-/// existing identity source.
-/// <note>
-/// At this time, the only valid member of this structure is a Amazon Cognito
-/// user pool configuration.
-///
-/// You must specify a <code>userPoolArn</code>, and optionally, a
-/// <code>ClientId</code>.
-/// </note>
+/// Contains an update to replace the configuration in an existing identity
+/// source.
 class UpdateConfiguration {
   /// Contains configuration details of a Amazon Cognito user pool.
   final UpdateCognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
 
+  /// Contains configuration details of an OpenID Connect (OIDC) identity
+  /// provider, or identity source, that Verified Permissions can use to generate
+  /// entities from authenticated identities. It specifies the issuer URL, token
+  /// type that you want to use, and policy store entity details.
+  final UpdateOpenIdConnectConfiguration? openIdConnectConfiguration;
+
   UpdateConfiguration({
     this.cognitoUserPoolConfiguration,
+    this.openIdConnectConfiguration,
   });
 
   Map<String, dynamic> toJson() {
     final cognitoUserPoolConfiguration = this.cognitoUserPoolConfiguration;
+    final openIdConnectConfiguration = this.openIdConnectConfiguration;
     return {
       if (cognitoUserPoolConfiguration != null)
         'cognitoUserPoolConfiguration': cognitoUserPoolConfiguration,
+      if (openIdConnectConfiguration != null)
+        'openIdConnectConfiguration': openIdConnectConfiguration,
     };
   }
 }
@@ -4912,6 +5638,195 @@ class UpdateIdentitySourceOutput {
       'identitySourceId': identitySourceId,
       'lastUpdatedDate': iso8601ToJson(lastUpdatedDate),
       'policyStoreId': policyStoreId,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// access token claims. Contains the claim that you want to identify as the
+/// principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectAccessTokenConfiguration {
+  /// The access token <code>aud</code> claim values that you want to accept in
+  /// your policy store. For example, <code>https://myapp.example.com,
+  /// https://myapp2.example.com</code>.
+  final List<String>? audiences;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  UpdateOpenIdConnectAccessTokenConfiguration({
+    this.audiences,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final audiences = this.audiences;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (audiences != null) 'audiences': audiences,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// Contains configuration details of an OpenID Connect (OIDC) identity
+/// provider, or identity source, that Verified Permissions can use to generate
+/// entities from authenticated identities. It specifies the issuer URL, token
+/// type that you want to use, and policy store entity details.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateConfiguration.html">UpdateConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectConfiguration {
+  /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
+  /// discovery endpoint at the path
+  /// <code>.well-known/openid-configuration</code>.
+  final String issuer;
+
+  /// The token type that you want to process from your OIDC identity provider.
+  /// Your policy store can process either identity (ID) or access tokens from a
+  /// given OIDC identity source.
+  final UpdateOpenIdConnectTokenSelection tokenSelection;
+
+  /// A descriptive string that you want to prefix to user entities from your OIDC
+  /// identity provider. For example, if you set an <code>entityIdPrefix</code> of
+  /// <code>MyOIDCProvider</code>, you can reference principals in your policies
+  /// in the format <code>MyCorp::User::MyOIDCProvider|Carlos</code>.
+  final String? entityIdPrefix;
+
+  /// The claim in OIDC identity provider tokens that indicates a user's group
+  /// membership, and the entity type that you want to map it to. For example,
+  /// this object can map the contents of a <code>groups</code> claim to
+  /// <code>MyCorp::UserGroup</code>.
+  final UpdateOpenIdConnectGroupConfiguration? groupConfiguration;
+
+  UpdateOpenIdConnectConfiguration({
+    required this.issuer,
+    required this.tokenSelection,
+    this.entityIdPrefix,
+    this.groupConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final tokenSelection = this.tokenSelection;
+    final entityIdPrefix = this.entityIdPrefix;
+    final groupConfiguration = this.groupConfiguration;
+    return {
+      'issuer': issuer,
+      'tokenSelection': tokenSelection,
+      if (entityIdPrefix != null) 'entityIdPrefix': entityIdPrefix,
+      if (groupConfiguration != null) 'groupConfiguration': groupConfiguration,
+    };
+  }
+}
+
+/// The claim in OIDC identity provider tokens that indicates a user's group
+/// membership, and the entity type that you want to map it to. For example,
+/// this object can map the contents of a <code>groups</code> claim to
+/// <code>MyCorp::UserGroup</code>.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectGroupConfiguration {
+  /// The token claim that you want Verified Permissions to interpret as group
+  /// membership. For example, <code>groups</code>.
+  final String groupClaim;
+
+  /// The policy store entity type that you want to map your users' group claim
+  /// to. For example, <code>MyCorp::UserGroup</code>. A group entity type is an
+  /// entity that can have a user entity type as a member.
+  final String groupEntityType;
+
+  UpdateOpenIdConnectGroupConfiguration({
+    required this.groupClaim,
+    required this.groupEntityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final groupClaim = this.groupClaim;
+    final groupEntityType = this.groupEntityType;
+    return {
+      'groupClaim': groupClaim,
+      'groupEntityType': groupEntityType,
+    };
+  }
+}
+
+/// The configuration of an OpenID Connect (OIDC) identity source for handling
+/// identity (ID) token claims. Contains the claim that you want to identify as
+/// the principal in an authorization request, and the values of the
+/// <code>aud</code> claim, or audiences, that you want to accept.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectIdentityTokenConfiguration {
+  /// The ID token audience, or client ID, claim values that you want to accept in
+  /// your policy store from an OIDC identity provider. For example,
+  /// <code>1example23456789, 2example10111213</code>.
+  final List<String>? clientIds;
+
+  /// The claim that determines the principal in OIDC access tokens. For example,
+  /// <code>sub</code>.
+  final String? principalIdClaim;
+
+  UpdateOpenIdConnectIdentityTokenConfiguration({
+    this.clientIds,
+    this.principalIdClaim,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clientIds = this.clientIds;
+    final principalIdClaim = this.principalIdClaim;
+    return {
+      if (clientIds != null) 'clientIds': clientIds,
+      if (principalIdClaim != null) 'principalIdClaim': principalIdClaim,
+    };
+  }
+}
+
+/// The token type that you want to process from your OIDC identity provider.
+/// Your policy store can process either identity (ID) or access tokens from a
+/// given OIDC identity source.
+///
+/// This data type is part of a <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
+/// structure, which is a parameter to <a
+/// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+class UpdateOpenIdConnectTokenSelection {
+  /// The OIDC configuration for processing access tokens. Contains allowed
+  /// audience claims, for example <code>https://auth.example.com</code>, and the
+  /// claim that you want to map to the principal, for example <code>sub</code>.
+  final UpdateOpenIdConnectAccessTokenConfiguration? accessTokenOnly;
+
+  /// The OIDC configuration for processing identity (ID) tokens. Contains allowed
+  /// client ID claims, for example <code>1example23456789</code>, and the claim
+  /// that you want to map to the principal, for example <code>sub</code>.
+  final UpdateOpenIdConnectIdentityTokenConfiguration? identityTokenOnly;
+
+  UpdateOpenIdConnectTokenSelection({
+    this.accessTokenOnly,
+    this.identityTokenOnly,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accessTokenOnly = this.accessTokenOnly;
+    final identityTokenOnly = this.identityTokenOnly;
+    return {
+      if (accessTokenOnly != null) 'accessTokenOnly': accessTokenOnly,
+      if (identityTokenOnly != null) 'identityTokenOnly': identityTokenOnly,
     };
   }
 }

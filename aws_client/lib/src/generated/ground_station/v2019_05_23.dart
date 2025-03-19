@@ -4160,6 +4160,13 @@ class MissionProfileListItem {
 }
 
 /// Ephemeris data in Orbit Ephemeris Message (OEM) format.
+///
+/// AWS Ground Station processes OEM Customer Provided Ephemerides according to
+/// the <a href="https://public.ccsds.org/Pubs/502x0b3e1.pdf">CCSDS standard</a>
+/// with some extra restrictions. OEM files should be in KVN format. For more
+/// detail about the OEM format that AWS Ground Station supports, see <a
+/// href="https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format">OEM
+/// ephemeris format</a> in the AWS Ground Station user guide.
 class OEMEphemeris {
   /// The data for an OEM ephemeris, supplied directly in the request rather than
   /// through an S3 object.

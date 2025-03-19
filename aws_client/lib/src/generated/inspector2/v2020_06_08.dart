@@ -2231,17 +2231,27 @@ class AccountAggregationResponse {
   /// The Amazon Web Services account ID.
   final String? accountId;
 
+  /// The number of findings that have an exploit available.
+  final int? exploitAvailableCount;
+
+  /// Details about the number of fixes.
+  final int? fixAvailableCount;
+
   /// The number of findings by severity.
   final SeverityCounts? severityCounts;
 
   AccountAggregationResponse({
     this.accountId,
+    this.exploitAvailableCount,
+    this.fixAvailableCount,
     this.severityCounts,
   });
 
   factory AccountAggregationResponse.fromJson(Map<String, dynamic> json) {
     return AccountAggregationResponse(
       accountId: json['accountId'] as String?,
+      exploitAvailableCount: json['exploitAvailableCount'] as int?,
+      fixAvailableCount: json['fixAvailableCount'] as int?,
       severityCounts: json['severityCounts'] != null
           ? SeverityCounts.fromJson(
               json['severityCounts'] as Map<String, dynamic>)
@@ -2251,9 +2261,14 @@ class AccountAggregationResponse {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final exploitAvailableCount = this.exploitAvailableCount;
+    final fixAvailableCount = this.fixAvailableCount;
     final severityCounts = this.severityCounts;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (exploitAvailableCount != null)
+        'exploitAvailableCount': exploitAvailableCount,
+      if (fixAvailableCount != null) 'fixAvailableCount': fixAvailableCount,
       if (severityCounts != null) 'severityCounts': severityCounts,
     };
   }
@@ -6744,6 +6759,10 @@ enum ErrorCode {
   resourceScanNotDisabled('RESOURCE_SCAN_NOT_DISABLED'),
   disassociateAllMembers('DISASSOCIATE_ALL_MEMBERS'),
   accountIsIsolated('ACCOUNT_IS_ISOLATED'),
+  ec2SsmResourceDataSyncLimitExceeded(
+      'EC2_SSM_RESOURCE_DATA_SYNC_LIMIT_EXCEEDED'),
+  ec2SsmAssociationVersionLimitExceeded(
+      'EC2_SSM_ASSOCIATION_VERSION_LIMIT_EXCEEDED'),
   ;
 
   final String value;
@@ -7991,17 +8010,27 @@ class FindingTypeAggregationResponse {
   /// The ID of the Amazon Web Services account associated with the findings.
   final String? accountId;
 
+  /// The number of findings that have an exploit available.
+  final int? exploitAvailableCount;
+
+  /// Details about the number of fixes.
+  final int? fixAvailableCount;
+
   /// The value to sort results by.
   final SeverityCounts? severityCounts;
 
   FindingTypeAggregationResponse({
     this.accountId,
+    this.exploitAvailableCount,
+    this.fixAvailableCount,
     this.severityCounts,
   });
 
   factory FindingTypeAggregationResponse.fromJson(Map<String, dynamic> json) {
     return FindingTypeAggregationResponse(
       accountId: json['accountId'] as String?,
+      exploitAvailableCount: json['exploitAvailableCount'] as int?,
+      fixAvailableCount: json['fixAvailableCount'] as int?,
       severityCounts: json['severityCounts'] != null
           ? SeverityCounts.fromJson(
               json['severityCounts'] as Map<String, dynamic>)
@@ -8011,9 +8040,14 @@ class FindingTypeAggregationResponse {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
+    final exploitAvailableCount = this.exploitAvailableCount;
+    final fixAvailableCount = this.fixAvailableCount;
     final severityCounts = this.severityCounts;
     return {
       if (accountId != null) 'accountId': accountId,
+      if (exploitAvailableCount != null)
+        'exploitAvailableCount': exploitAvailableCount,
+      if (fixAvailableCount != null) 'fixAvailableCount': fixAvailableCount,
       if (severityCounts != null) 'severityCounts': severityCounts,
     };
   }
@@ -11396,6 +11430,10 @@ enum ScanStatusReason {
   deepInspectionCollectionTimeLimitExceeded(
       'DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED'),
   deepInspectionNoInventory('DEEP_INSPECTION_NO_INVENTORY'),
+  agentlessInstanceStorageLimitExceeded(
+      'AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED'),
+  agentlessInstanceCollectionTimeLimitExceeded(
+      'AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED'),
   ;
 
   final String value;
