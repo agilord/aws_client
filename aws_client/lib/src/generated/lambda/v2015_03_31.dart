@@ -8181,6 +8181,7 @@ enum LastUpdateStatusReasonCode {
   invalidRuntime('InvalidRuntime'),
   invalidZipFileException('InvalidZipFileException'),
   functionError('FunctionError'),
+  creating('Creating'),
   ;
 
   final String value;
