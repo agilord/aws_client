@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+- Fix a missing enum value in LambdaUpdateStatusReasonCode
+
 ## 0.7.0
 
 - Generate all the APIs with version v2.1692.0 of the AWS SDK
