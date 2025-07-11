@@ -236,5 +236,8 @@ void _fixApi(Api api) {
   if (api.directoryName == 's3') {
     final checksum = api.shapes['ChecksumAlgorithm']!;
     checksum.enumeration!.add('CRC64NVME');
+  } else if (api.directoryName == 'lambda' &&
+      api.metadata.apiVersion == '2015-03-31') {
+    api.shapes['LastUpdateStatusReasonCode']!.enumeration!.add('Creating');
   }
 }

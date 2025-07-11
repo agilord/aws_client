@@ -1,6 +1,6 @@
 name: aws_client
 description: Auto-generated client libraries for accessing Amazon Web Services (AWS) APIs
-version: 0.7.0
+version: 0.7.1
 repository: https://github.com/agilord/aws_client
 topics:
   - aws
