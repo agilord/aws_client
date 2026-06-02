@@ -40,7 +40,6 @@ class JsonProtocol {
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
-    // If credentials are provided, override credentials provider
     if (credentials != null) {
       credentialsProvider = ({Client? client}) => Future.value(credentials);
     } else {
@@ -67,17 +66,24 @@ class JsonProtocol {
     dynamic payload,
   }) async {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
-    uri = uri.replace(queryParameters: {
-      ...uri.queryParameters,
-      ...?queryParams,
-    });
+
+    if (queryParams != null && queryParams.isNotEmpty) {
+      uri = uri.replace(queryParameters: {
+        ...uri.queryParameters,
+        for (final entry in queryParams.entries)
+          if (entry.value.isNotEmpty) entry.key: entry.value.last,
+      });
+    }
+
     final rq = Request(
       method,
       uri,
     );
     rq.headers.addAll(headers ?? {});
     if (payload != null) {
-      rq.body = json.encode(payload);
+      final encoded = utf8.encode(json.encode(payload));
+      rq.bodyBytes = encoded;
+      rq.headers['Content-Length'] = encoded.length.toString();
     }
 
     if (signed) {
@@ -107,8 +113,6 @@ class JsonProtocol {
         ? <String, dynamic>{}
         : (jsonDecode(body) as Map<String, dynamic>?)!;
 
-    // TODO: replace return type with Map<String, dynamic> and discard the
-    // JsonResponse class. The generated code will have to adjust as well.
     return JsonResponse(rs.headers, {
       ...parsedBody,
       ...rs.headers,
