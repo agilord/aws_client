@@ -78,6 +78,10 @@ class GenericAwsException implements AwsException {
 
 typedef AwsExceptionFn = AwsException Function(String type, String message);
 
+AwsExceptionFn? lookupExceptionFn(
+        Map<String, AwsExceptionFn> exceptionFnMap, String code) =>
+    exceptionFnMap[code] ?? exceptionFnMap['${code}Exception'];
+
 XmlElement? extractXmlChild(XmlElement elem, String name) {
   if (name == elem.localName) {
     return elem;
@@ -313,7 +317,7 @@ void throwException(StreamedResponse rs, String body,
     message = statusCode;
   }
 
-  final fn = exceptionFnMap[type];
+  final fn = lookupExceptionFn(exceptionFnMap, type);
   final exception = fn != null
       ? fn(type, message ?? '')
       : GenericAwsException(

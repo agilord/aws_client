@@ -100,7 +100,7 @@ class QueryProtocol {
       final type = error.findElements('Type').first.innerText;
       final code = error.findElements('Code').first.innerText;
       final message = error.findElements('Message').first.innerText;
-      final fn = exceptionFnMap[code];
+      final fn = lookupExceptionFn(exceptionFnMap, code);
       final exception = fn != null
           ? fn(type, message)
           : GenericAwsException(type: type, code: code, message: message);
