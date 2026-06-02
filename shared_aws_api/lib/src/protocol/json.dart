@@ -40,6 +40,7 @@ class JsonProtocol {
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
 
+    // If credentials are provided, override credentials provider
     if (credentials != null) {
       credentialsProvider = ({Client? client}) => Future.value(credentials);
     } else {
@@ -113,6 +114,8 @@ class JsonProtocol {
         ? <String, dynamic>{}
         : (jsonDecode(body) as Map<String, dynamic>?)!;
 
+    // TODO: replace return type with Map<String, dynamic> and discard the
+    // JsonResponse class. The generated code will have to adjust as well.
     return JsonResponse(rs.headers, {
       ...parsedBody,
       ...rs.headers,
