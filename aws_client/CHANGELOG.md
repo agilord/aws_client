@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+- Removed clients for AWS services that are no longer part of the AWS SDK:
+  Alexa for Business, Backup Storage, CodeStar (`code_star`), GameSparks,
+  Honeycode, IoT RoboRunner, Macie Classic (`macie`; use `macie2`) and Mobile.
+
 ## 0.7.1
 
 - Fix a missing enum value in LambdaUpdateStatusReasonCode
