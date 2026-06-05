@@ -89,7 +89,7 @@ class RestXmlProtocol {
         final type = error.findElements('Type').first.innerText;
         final code = error.findElements('Code').first.innerText;
         final message = error.findElements('Message').first.innerText;
-        final fn = exceptionFnMap[code];
+        final fn = lookupExceptionFn(exceptionFnMap, code);
         final exception = fn != null
             ? fn(type, message)
             : GenericAwsException(type: type, code: code, message: message);
@@ -97,7 +97,11 @@ class RestXmlProtocol {
       } else if (elem?.name.local == 'Error') {
         final code = elem!.findElements('Code').first.innerText;
         final message = elem.findElements('Message').first.innerText;
-        throw GenericAwsException(code: code, message: message);
+        final fn = lookupExceptionFn(exceptionFnMap, code);
+        final exception = fn != null
+            ? fn('', message)
+            : GenericAwsException(code: code, message: message);
+        throw exception;
       } else {
         throwException(rs, body, exceptionFnMap);
       }
