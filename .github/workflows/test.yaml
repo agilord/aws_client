@@ -16,27 +16,24 @@ jobs:
       - name: Print Dart SDK version
         run: dart --version
 
+      - name: Dart pub get
+        run: dart pub get
+
       - name: Check formatting
         run: dart format . --set-exit-if-changed --language-version=3.0
-
-      - name: Analyze generator package
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: generator
 
       - name: Generate aws_client
         run: dart bin/generate.dart generate
         working-directory: generator
 
-      - name: Analyze aws_client package (highest dependencies)
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: aws_client
+      - name: Analyze packages (highest dependencies)
+        run: dart analyze --fatal-infos
 
       - name: "check for uncommitted changes"
         run: git diff --exit-code --stat -- .
 
       - name: Analyze aws_client package (lowest dependencies)
         run: dart pub downgrade && dart analyze --fatal-infos
-        working-directory: aws_client
 
   test:
     name: Test
