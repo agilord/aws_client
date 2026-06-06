@@ -159,5 +159,32 @@ void main() {
 
       expect(updateRet.attributes['test'], equals(1337));
     });
+
+    test('number values keep their int/double type', () async {
+      final dc = mockedDocumentClient({
+        'Item': {
+          'anInt': {'N': '42'},
+          'aDouble': {'N': '42.5'},
+          'scientific': {'N': '1e10'},
+          'numberSet': {
+            'NS': ['1', '2.5', '3']
+          },
+        },
+      });
+
+      final ret = await dc.get(tableName: 'foo', key: {'Key': 'bar'});
+      final item = ret.item;
+
+      expect(item['anInt'], isA<int>());
+      expect(item['anInt'], equals(42));
+      expect(item['aDouble'], isA<double>());
+      expect(item['aDouble'], equals(42.5));
+      // Scientific notation has no '.', but is not a valid int literal.
+      expect(item['scientific'], isA<double>());
+      expect(item['scientific'], equals(1e10));
+      expect(item['numberSet'], equals([1, 2.5, 3]));
+      expect((item['numberSet'] as List)[0], isA<int>());
+      expect((item['numberSet'] as List)[1], isA<double>());
+    });
   });
 }

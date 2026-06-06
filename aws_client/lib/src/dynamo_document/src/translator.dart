@@ -37,7 +37,7 @@ dynamic toDartType(AttributeValue value) {
   if (value.nullValue ?? false) {
     return null;
   } else if (value.n != null) {
-    return double.parse(value.n!);
+    return num.parse(value.n!);
   } else if (value.s != null) {
     return value.s;
   } else if (value.boolValue != null) {
@@ -49,7 +49,7 @@ dynamic toDartType(AttributeValue value) {
   } else if (value.m != null) {
     return value.m!.map((k, v) => MapEntry(k, toDartType(v)));
   } else if (value.ns != null) {
-    return value.ns!.map(double.parse).toList();
+    return value.ns!.map(num.parse).toList();
   } else if (value.bs != null) {
     return value.bs;
   } else if (value.ss != null) {
