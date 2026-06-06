@@ -3,8 +3,10 @@ description: Code generator for package:aws_client
 version: 0.2.0
 publish_to: none
 
+resolution: workspace
+
 environment:
-  sdk: '^3.0.0'
+  sdk: '^3.5.0'
 
 dependencies:
   analyzer: ^6.0.0

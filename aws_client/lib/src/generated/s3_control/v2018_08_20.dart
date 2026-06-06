@@ -93,7 +93,7 @@ class S3Control {
           .toXml(
         'AssociateAccessGrantsIdentityCenterRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -212,7 +212,7 @@ class S3Control {
           .toXml(
         'CreateAccessGrantRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -272,7 +272,7 @@ class S3Control {
           .toXml(
         'CreateAccessGrantsInstanceRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -356,7 +356,7 @@ class S3Control {
           .toXml(
         'CreateAccessGrantsLocationRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -475,7 +475,7 @@ class S3Control {
           .toXml(
         'CreateAccessPointRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -538,7 +538,7 @@ class S3Control {
           .toXml(
         'CreateAccessPointForObjectLambdaRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -844,7 +844,7 @@ class S3Control {
           .toXml(
         'CreateJobRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -926,7 +926,7 @@ class S3Control {
           .toXml(
         'CreateMultiRegionAccessPointRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -986,7 +986,7 @@ class S3Control {
           .toXml(
         'CreateStorageLensGroupRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -1849,7 +1849,7 @@ class S3Control {
           .toXml(
         'DeleteMultiRegionAccessPointRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -4508,7 +4508,7 @@ class S3Control {
           .toXml(
         'PutAccessGrantsInstanceResourcePolicyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -4559,7 +4559,7 @@ class S3Control {
           .toXml(
         'PutAccessPointConfigurationForObjectLambdaRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -4641,7 +4641,7 @@ class S3Control {
           .toXml(
         'PutAccessPointPolicyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -4698,7 +4698,7 @@ class S3Control {
           .toXml(
         'PutAccessPointPolicyForObjectLambdaRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -4872,7 +4872,7 @@ class S3Control {
           .toXml(
         'PutBucketPolicyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5370,7 +5370,7 @@ class S3Control {
               .toXml(
         'PutJobTaggingRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5437,7 +5437,7 @@ class S3Control {
           .toXml(
         'PutMultiRegionAccessPointPolicyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5547,7 +5547,7 @@ class S3Control {
           .toXml(
         'PutStorageLensConfigurationRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5601,7 +5601,7 @@ class S3Control {
           .toXml(
         'PutStorageLensConfigurationTaggingRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5680,7 +5680,7 @@ class S3Control {
           .toXml(
         'SubmitMultiRegionAccessPointRoutesRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5743,7 +5743,7 @@ class S3Control {
           .toXml(
         'TagResourceRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -5859,7 +5859,7 @@ class S3Control {
           .toXml(
         'UpdateAccessGrantsLocationRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -6051,7 +6051,7 @@ class S3Control {
           .toXml(
         'UpdateStorageLensGroupRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://awss3control.amazonaws.com/doc/2018-08-20/'),
         ],
       ),
@@ -6093,7 +6093,7 @@ class AbortIncompleteMultipartUpload {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6135,7 +6135,7 @@ class AccessControlTranslation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6191,7 +6191,7 @@ class AccessGrantsLocationConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6382,7 +6382,7 @@ class AccountLevel {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6429,7 +6429,7 @@ class ActivityMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6477,7 +6477,7 @@ class AdvancedCostOptimizationMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6525,7 +6525,7 @@ class AdvancedDataProtectionMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6568,7 +6568,7 @@ class AssociateAccessGrantsIdentityCenterRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6833,7 +6833,7 @@ class AwsLambdaTransformation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6949,7 +6949,7 @@ class BucketLevel {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7034,7 +7034,7 @@ class CloudWatchMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7157,13 +7157,14 @@ class CreateAccessGrantRequest {
       if (s3PrefixType != null)
         _s.encodeXmlStringValue('S3PrefixType', s3PrefixType.value),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7327,13 +7328,14 @@ class CreateAccessGrantsInstanceRequest {
       if (identityCenterArn != null)
         _s.encodeXmlStringValue('IdentityCenterArn', identityCenterArn),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7478,13 +7480,14 @@ class CreateAccessGrantsLocationRequest {
       _s.encodeXmlStringValue('LocationScope', locationScope),
       _s.encodeXmlStringValue('IAMRoleArn', iAMRoleArn),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7593,7 +7596,7 @@ class CreateAccessPointForObjectLambdaRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7720,7 +7723,7 @@ class CreateAccessPointRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7793,7 +7796,7 @@ class CreateBucketConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7947,7 +7950,7 @@ class CreateJobRequest {
       _s.encodeXmlStringValue('RoleArn', roleArn),
       if (tags != null)
         _s.XmlElement(
-            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
       if (manifestGenerator != null)
         manifestGenerator.toXml('ManifestGenerator'),
     ];
@@ -7955,7 +7958,7 @@ class CreateJobRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8034,14 +8037,14 @@ class CreateMultiRegionAccessPointInput {
       _s.encodeXmlStringValue('Name', name),
       if (publicAccessBlock != null)
         publicAccessBlock.toXml('PublicAccessBlock'),
-      _s.XmlElement(
-          _s.XmlName('Regions'), [], regions.map((e) => e.toXml('Region'))),
+      _s.XmlElement(_s.XmlName.parts('Regions'), [],
+          regions.map((e) => e.toXml('Region'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8090,7 +8093,7 @@ class CreateMultiRegionAccessPointRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8156,13 +8159,14 @@ class CreateStorageLensGroupRequest {
     final $children = <_s.XmlNode>[
       storageLensGroup.toXml('StorageLensGroup'),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8272,7 +8276,7 @@ class DeleteMarkerReplication {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8326,7 +8330,7 @@ class DeleteMultiRegionAccessPointInput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8374,7 +8378,7 @@ class DeleteMultiRegionAccessPointRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8589,7 +8593,7 @@ class Destination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8636,7 +8640,7 @@ class DetailedStatusCodesMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8689,7 +8693,7 @@ class EncryptionConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8760,17 +8764,17 @@ class Exclude {
     final regions = this.regions;
     final $children = <_s.XmlNode>[
       if (buckets != null)
-        _s.XmlElement(_s.XmlName('Buckets'), [],
+        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
             buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [],
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
             regions.map((e) => _s.encodeXmlStringValue('Region', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8812,7 +8816,7 @@ class ExistingObjectReplication {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8904,7 +8908,7 @@ class GeneratedManifestEncryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -9985,7 +9989,7 @@ class Grantee {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10044,17 +10048,17 @@ class Include {
     final regions = this.regions;
     final $children = <_s.XmlNode>[
       if (buckets != null)
-        _s.XmlElement(_s.XmlName('Buckets'), [],
+        _s.XmlElement(_s.XmlName.parts('Buckets'), [],
             buckets.map((e) => _s.encodeXmlStringValue('Arn', e))),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [],
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
             regions.map((e) => _s.encodeXmlStringValue('Region', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10395,7 +10399,7 @@ class JobManifest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10468,7 +10472,7 @@ class JobManifestGenerator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10595,7 +10599,7 @@ class JobManifestGeneratorFilter {
         _s.encodeXmlDateTimeValue('CreatedBefore', createdBefore),
       if (objectReplicationStatuses != null)
         _s.XmlElement(
-            _s.XmlName('ObjectReplicationStatuses'),
+            _s.XmlName.parts('ObjectReplicationStatuses'),
             [],
             objectReplicationStatuses
                 .map((e) => _s.encodeXmlStringValue('member', e.value))),
@@ -10609,7 +10613,7 @@ class JobManifestGeneratorFilter {
             'ObjectSizeLessThanBytes', objectSizeLessThanBytes),
       if (matchAnyStorageClass != null)
         _s.XmlElement(
-            _s.XmlName('MatchAnyStorageClass'),
+            _s.XmlName.parts('MatchAnyStorageClass'),
             [],
             matchAnyStorageClass
                 .map((e) => _s.encodeXmlStringValue('member', e.value))),
@@ -10618,7 +10622,7 @@ class JobManifestGeneratorFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10685,7 +10689,7 @@ class JobManifestLocation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10734,14 +10738,14 @@ class JobManifestSpec {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Format', format.value),
       if (fields != null)
-        _s.XmlElement(_s.XmlName('Fields'), [],
+        _s.XmlElement(_s.XmlName.parts('Fields'), [],
             fields.map((e) => _s.encodeXmlStringValue('member', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10899,7 +10903,7 @@ class JobOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11032,7 +11036,7 @@ class JobReport {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11174,20 +11178,20 @@ class KeyNameConstraint {
     final matchAnySuffix = this.matchAnySuffix;
     final $children = <_s.XmlNode>[
       if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName('MatchAnyPrefix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
             matchAnyPrefix.map((e) => _s.encodeXmlStringValue('member', e))),
       if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName('MatchAnySuffix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
             matchAnySuffix.map((e) => _s.encodeXmlStringValue('member', e))),
       if (matchAnySubstring != null)
-        _s.XmlElement(_s.XmlName('MatchAnySubstring'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnySubstring'), [],
             matchAnySubstring.map((e) => _s.encodeXmlStringValue('member', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11277,10 +11281,10 @@ class LambdaInvokeOperation {
             'InvocationSchemaVersion', invocationSchemaVersion),
       if (userArguments != null)
         _s.XmlElement(
-            _s.XmlName('UserArguments'),
+            _s.XmlName.parts('UserArguments'),
             [],
             userArguments.entries.map((e) => _s.XmlElement(
-                    _s.XmlName('entry'), [], <_s.XmlNode>[
+                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
                   _s.encodeXmlStringValue('key', e.key),
                   _s.encodeXmlStringValue('value', e.value)
                 ]))),
@@ -11289,7 +11293,7 @@ class LambdaInvokeOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11317,13 +11321,13 @@ class LifecycleConfiguration {
     final $children = <_s.XmlNode>[
       if (rules != null)
         _s.XmlElement(
-            _s.XmlName('Rules'), [], rules.map((e) => e.toXml('Rule'))),
+            _s.XmlName.parts('Rules'), [], rules.map((e) => e.toXml('Rule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11387,7 +11391,7 @@ class LifecycleExpiration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11515,11 +11519,11 @@ class LifecycleRule {
       if (filter != null) filter.toXml('Filter'),
       _s.encodeXmlStringValue('Status', status.value),
       if (transitions != null)
-        _s.XmlElement(_s.XmlName('Transitions'), [],
+        _s.XmlElement(_s.XmlName.parts('Transitions'), [],
             transitions.map((e) => e.toXml('Transition'))),
       if (noncurrentVersionTransitions != null)
         _s.XmlElement(
-            _s.XmlName('NoncurrentVersionTransitions'),
+            _s.XmlName.parts('NoncurrentVersionTransitions'),
             [],
             noncurrentVersionTransitions
                 .map((e) => e.toXml('NoncurrentVersionTransition'))),
@@ -11532,7 +11536,7 @@ class LifecycleRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11598,7 +11602,7 @@ class LifecycleRuleAndOperator {
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null)
         _s.XmlElement(
-            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
       if (objectSizeGreaterThan != null)
         _s.encodeXmlIntValue('ObjectSizeGreaterThan', objectSizeGreaterThan),
       if (objectSizeLessThan != null)
@@ -11608,7 +11612,7 @@ class LifecycleRuleAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11692,7 +11696,7 @@ class LifecycleRuleFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12586,7 +12590,7 @@ class MatchObjectAge {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12637,7 +12641,7 @@ class MatchObjectSize {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12691,7 +12695,7 @@ class Metrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12932,7 +12936,7 @@ class MultiRegionAccessPointRoute {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13053,7 +13057,7 @@ class NoncurrentVersionExpiration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13108,7 +13112,7 @@ class NoncurrentVersionTransition {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13296,12 +13300,12 @@ class ObjectLambdaConfiguration {
             'CloudWatchMetricsEnabled', cloudWatchMetricsEnabled),
       if (allowedFeatures != null)
         _s.XmlElement(
-            _s.XmlName('AllowedFeatures'),
+            _s.XmlName.parts('AllowedFeatures'),
             [],
             allowedFeatures.map(
                 (e) => _s.encodeXmlStringValue('AllowedFeature', e.value))),
       _s.XmlElement(
-          _s.XmlName('TransformationConfigurations'),
+          _s.XmlName.parts('TransformationConfigurations'),
           [],
           transformationConfigurations
               .map((e) => e.toXml('TransformationConfiguration'))),
@@ -13310,7 +13314,7 @@ class ObjectLambdaConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13349,7 +13353,7 @@ class ObjectLambdaContentTransformation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13397,7 +13401,7 @@ class ObjectLambdaTransformationConfiguration {
     final actions = this.actions;
     final contentTransformation = this.contentTransformation;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('Actions'), [],
+      _s.XmlElement(_s.XmlName.parts('Actions'), [],
           actions.map((e) => _s.encodeXmlStringValue('Action', e.value))),
       contentTransformation.toXml('ContentTransformation'),
     ];
@@ -13405,7 +13409,7 @@ class ObjectLambdaTransformationConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13552,7 +13556,7 @@ class PrefixLevel {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13599,7 +13603,7 @@ class PrefixLevelStorageMetrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13759,7 +13763,7 @@ class PublicAccessBlockConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13805,7 +13809,7 @@ class PutAccessGrantsInstanceResourcePolicyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13886,7 +13890,7 @@ class PutAccessPointConfigurationForObjectLambdaRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13930,7 +13934,7 @@ class PutAccessPointPolicyForObjectLambdaRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13992,7 +13996,7 @@ class PutAccessPointPolicyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14057,7 +14061,7 @@ class PutBucketPolicyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14095,13 +14099,14 @@ class PutJobTaggingRequest {
     final jobId = this.jobId;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+      _s.XmlElement(
+          _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14162,7 +14167,7 @@ class PutMultiRegionAccessPointPolicyInput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14211,7 +14216,7 @@ class PutMultiRegionAccessPointPolicyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14284,13 +14289,14 @@ class PutStorageLensConfigurationRequest {
     final $children = <_s.XmlNode>[
       storageLensConfiguration.toXml('StorageLensConfiguration'),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14330,13 +14336,14 @@ class PutStorageLensConfigurationTaggingRequest {
     final configId = this.configId;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+      _s.XmlElement(
+          _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14398,7 +14405,7 @@ class Region {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14542,7 +14549,7 @@ class ReplicaModifications {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14609,13 +14616,14 @@ class ReplicationConfiguration {
     final rules = this.rules;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Role', role),
-      _s.XmlElement(_s.XmlName('Rules'), [], rules.map((e) => e.toXml('Rule'))),
+      _s.XmlElement(
+          _s.XmlName.parts('Rules'), [], rules.map((e) => e.toXml('Rule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14788,7 +14796,7 @@ class ReplicationRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14847,13 +14855,13 @@ class ReplicationRuleAndOperator {
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
       if (tags != null)
         _s.XmlElement(
-            _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+            _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14931,7 +14939,7 @@ class ReplicationRuleFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15039,7 +15047,7 @@ class ReplicationTime {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15098,7 +15106,7 @@ class ReplicationTimeValue {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15155,14 +15163,14 @@ class S3AccessControlList {
     final $children = <_s.XmlNode>[
       owner.toXml('Owner'),
       if (grants != null)
-        _s.XmlElement(
-            _s.XmlName('Grants'), [], grants.map((e) => e.toXml('member'))),
+        _s.XmlElement(_s.XmlName.parts('Grants'), [],
+            grants.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15216,7 +15224,7 @@ class S3AccessControlPolicy {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15307,7 +15315,7 @@ class S3BucketDestination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15620,7 +15628,7 @@ class S3CopyObjectOperation {
         _s.encodeXmlStringValue(
             'CannedAccessControlList', cannedAccessControlList.value),
       if (accessControlGrants != null)
-        _s.XmlElement(_s.XmlName('AccessControlGrants'), [],
+        _s.XmlElement(_s.XmlName.parts('AccessControlGrants'), [],
             accessControlGrants.map((e) => e.toXml('member'))),
       if (metadataDirective != null)
         _s.encodeXmlStringValue('MetadataDirective', metadataDirective.value),
@@ -15630,7 +15638,7 @@ class S3CopyObjectOperation {
       if (newObjectMetadata != null)
         newObjectMetadata.toXml('NewObjectMetadata'),
       if (newObjectTagging != null)
-        _s.XmlElement(_s.XmlName('NewObjectTagging'), [],
+        _s.XmlElement(_s.XmlName.parts('NewObjectTagging'), [],
             newObjectTagging.map((e) => e.toXml('member'))),
       if (redirectLocation != null)
         _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
@@ -15662,7 +15670,7 @@ class S3CopyObjectOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15690,7 +15698,7 @@ class S3DeleteObjectTaggingOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15787,7 +15795,7 @@ class S3Grant {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15846,7 +15854,7 @@ class S3Grantee {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15933,7 +15941,7 @@ class S3InitiateRestoreObjectOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16028,7 +16036,7 @@ class S3JobManifestGenerator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16116,7 +16124,7 @@ class S3ManifestOutputLocation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16172,7 +16180,7 @@ class S3ObjectLockLegalHold {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16355,10 +16363,10 @@ class S3ObjectMetadata {
         _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
       if (userMetadata != null)
         _s.XmlElement(
-            _s.XmlName('UserMetadata'),
+            _s.XmlName.parts('UserMetadata'),
             [],
             userMetadata.entries.map((e) => _s.XmlElement(
-                    _s.XmlName('entry'), [], <_s.XmlNode>[
+                    _s.XmlName.parts('entry'), [], <_s.XmlNode>[
                   _s.encodeXmlStringValue('key', e.key),
                   _s.encodeXmlStringValue('value', e.value)
                 ]))),
@@ -16378,7 +16386,7 @@ class S3ObjectMetadata {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16425,7 +16433,7 @@ class S3ObjectOwner {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16484,7 +16492,7 @@ class S3ReplicateObjectOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16542,7 +16550,7 @@ class S3Retention {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16602,7 +16610,7 @@ class S3SetObjectAclOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16649,7 +16657,7 @@ class S3SetObjectLegalHoldOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16713,7 +16721,7 @@ class S3SetObjectRetentionOperation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16750,14 +16758,14 @@ class S3SetObjectTaggingOperation {
     final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       if (tagSet != null)
-        _s.XmlElement(
-            _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
+        _s.XmlElement(_s.XmlName.parts('TagSet'), [],
+            tagSet.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16823,7 +16831,7 @@ class S3Tag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16863,7 +16871,7 @@ class SSEKMS {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16902,7 +16910,7 @@ class SSEKMSEncryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16928,7 +16936,7 @@ class SSES3 {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16954,7 +16962,7 @@ class SSES3Encryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17017,7 +17025,7 @@ class SelectionCriteria {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17094,7 +17102,7 @@ class SourceSelectionCriteria {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17138,7 +17146,7 @@ class SseKmsEncryptedObjects {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17194,7 +17202,7 @@ class StorageLensAwsOrg {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17309,7 +17317,7 @@ class StorageLensConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17369,7 +17377,7 @@ class StorageLensDataExport {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17415,7 +17423,7 @@ class StorageLensDataExportEncryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17481,7 +17489,7 @@ class StorageLensGroup {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17561,13 +17569,13 @@ class StorageLensGroupAndOperator {
     final matchObjectSize = this.matchObjectSize;
     final $children = <_s.XmlNode>[
       if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName('MatchAnyPrefix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
             matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
       if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName('MatchAnySuffix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
             matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
       if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName('MatchAnyTag'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
             matchAnyTag.map((e) => e.toXml('Tag'))),
       if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
       if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
@@ -17576,7 +17584,7 @@ class StorageLensGroupAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17683,13 +17691,13 @@ class StorageLensGroupFilter {
     final or = this.or;
     final $children = <_s.XmlNode>[
       if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName('MatchAnyPrefix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
             matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
       if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName('MatchAnySuffix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
             matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
       if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName('MatchAnyTag'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
             matchAnyTag.map((e) => e.toXml('Tag'))),
       if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
       if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
@@ -17700,7 +17708,7 @@ class StorageLensGroupFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17743,7 +17751,7 @@ class StorageLensGroupLevel {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17793,17 +17801,17 @@ class StorageLensGroupLevelSelectionCriteria {
     final include = this.include;
     final $children = <_s.XmlNode>[
       if (include != null)
-        _s.XmlElement(_s.XmlName('Include'), [],
+        _s.XmlElement(_s.XmlName.parts('Include'), [],
             include.map((e) => _s.encodeXmlStringValue('Arn', e))),
       if (exclude != null)
-        _s.XmlElement(_s.XmlName('Exclude'), [],
+        _s.XmlElement(_s.XmlName.parts('Exclude'), [],
             exclude.map((e) => _s.encodeXmlStringValue('Arn', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17881,13 +17889,13 @@ class StorageLensGroupOrOperator {
     final matchObjectSize = this.matchObjectSize;
     final $children = <_s.XmlNode>[
       if (matchAnyPrefix != null)
-        _s.XmlElement(_s.XmlName('MatchAnyPrefix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyPrefix'), [],
             matchAnyPrefix.map((e) => _s.encodeXmlStringValue('Prefix', e))),
       if (matchAnySuffix != null)
-        _s.XmlElement(_s.XmlName('MatchAnySuffix'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnySuffix'), [],
             matchAnySuffix.map((e) => _s.encodeXmlStringValue('Suffix', e))),
       if (matchAnyTag != null)
-        _s.XmlElement(_s.XmlName('MatchAnyTag'), [],
+        _s.XmlElement(_s.XmlName.parts('MatchAnyTag'), [],
             matchAnyTag.map((e) => e.toXml('Tag'))),
       if (matchObjectAge != null) matchObjectAge.toXml('MatchObjectAge'),
       if (matchObjectSize != null) matchObjectSize.toXml('MatchObjectSize'),
@@ -17896,7 +17904,7 @@ class StorageLensGroupOrOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17942,7 +17950,7 @@ class StorageLensTag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17982,14 +17990,14 @@ class SubmitMultiRegionAccessPointRoutesRequest {
     final mrap = this.mrap;
     final routeUpdates = this.routeUpdates;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('RouteUpdates'), [],
+      _s.XmlElement(_s.XmlName.parts('RouteUpdates'), [],
           routeUpdates.map((e) => e.toXml('Route'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18063,7 +18071,7 @@ class Tag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18104,13 +18112,14 @@ class TagResourceRequest {
     final resourceArn = this.resourceArn;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('Tags'), [], tags.map((e) => e.toXml('Tag'))),
+      _s.XmlElement(
+          _s.XmlName.parts('Tags'), [], tags.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18150,13 +18159,13 @@ class Tagging {
     final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       _s.XmlElement(
-          _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
+          _s.XmlName.parts('TagSet'), [], tagSet.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18220,7 +18229,7 @@ class Transition {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18309,7 +18318,7 @@ class UpdateAccessGrantsLocationRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18480,7 +18489,7 @@ class UpdateStorageLensGroupRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18524,7 +18533,7 @@ class VersioningConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18562,7 +18571,7 @@ class VpcConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );

@@ -242,7 +242,7 @@ class CloudFront {
           .toXml(
         'CopyDistributionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -694,7 +694,7 @@ class CloudFront {
           .toXml(
         'CreateFunctionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -817,7 +817,7 @@ class CloudFront {
           .toXml(
         'CreateKeyValueStoreRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -1047,7 +1047,7 @@ class CloudFront {
           .toXml(
         'CreateRealtimeLogConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -1651,7 +1651,7 @@ class CloudFront {
       payload: DeleteRealtimeLogConfigRequest(arn: arn, name: name).toXml(
         'DeleteRealtimeLogConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -2509,7 +2509,7 @@ class CloudFront {
       payload: GetRealtimeLogConfigRequest(arn: arn, name: name).toXml(
         'GetRealtimeLogConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -3102,7 +3102,7 @@ class CloudFront {
           .toXml(
         'ListDistributionsByRealtimeLogConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -3900,7 +3900,7 @@ class CloudFront {
           .toXml(
         'TestFunctionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -4539,7 +4539,7 @@ class CloudFront {
           .toXml(
         'UpdateFunctionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -4643,7 +4643,7 @@ class CloudFront {
           .toXml(
         'UpdateKeyValueStoreRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -4878,7 +4878,7 @@ class CloudFront {
           .toXml(
         'UpdateRealtimeLogConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
         ],
       ),
@@ -5197,14 +5197,14 @@ class Aliases {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('CNAME', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5280,7 +5280,7 @@ class AllowedMethods {
     final cachedMethods = this.cachedMethods;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('Method', e.value))),
       if (cachedMethods != null) cachedMethods.toXml('CachedMethods'),
     ];
@@ -5288,7 +5288,7 @@ class AllowedMethods {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5735,7 +5735,7 @@ class CacheBehavior {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5782,14 +5782,14 @@ class CacheBehaviors {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('CacheBehavior'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5990,7 +5990,7 @@ class CachePolicyConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6080,7 +6080,7 @@ class CachePolicyCookiesConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6158,7 +6158,7 @@ class CachePolicyHeadersConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6309,7 +6309,7 @@ class CachePolicyQueryStringsConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6424,14 +6424,14 @@ class CachedMethods {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('Method', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6557,7 +6557,7 @@ class CloudFrontOriginAccessIdentityConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6829,7 +6829,7 @@ class ContentTypeProfile {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6887,7 +6887,7 @@ class ContentTypeProfileConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6931,14 +6931,14 @@ class ContentTypeProfiles {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('ContentTypeProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7038,7 +7038,7 @@ class ContinuousDeploymentPolicyConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7176,7 +7176,7 @@ class ContinuousDeploymentSingleHeaderConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7226,7 +7226,7 @@ class ContinuousDeploymentSingleWeightConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7269,14 +7269,14 @@ class CookieNames {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7388,7 +7388,7 @@ class CookiePreference {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7457,7 +7457,7 @@ class CopyDistributionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7726,7 +7726,7 @@ class CreateFunctionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7851,7 +7851,7 @@ class CreateKeyValueStoreRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8030,9 +8030,9 @@ class CreateRealtimeLogConfigRequest {
     final name = this.name;
     final samplingRate = this.samplingRate;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(
-          _s.XmlName('EndPoints'), [], endPoints.map((e) => e.toXml('member'))),
-      _s.XmlElement(_s.XmlName('Fields'), [],
+      _s.XmlElement(_s.XmlName.parts('EndPoints'), [],
+          endPoints.map((e) => e.toXml('member'))),
+      _s.XmlElement(_s.XmlName.parts('Fields'), [],
           fields.map((e) => _s.encodeXmlStringValue('Field', e))),
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlIntValue('SamplingRate', samplingRate),
@@ -8041,7 +8041,7 @@ class CreateRealtimeLogConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8290,7 +8290,7 @@ class CustomErrorResponse {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8351,14 +8351,14 @@ class CustomErrorResponses {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('CustomErrorResponse'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8404,14 +8404,14 @@ class CustomHeaders {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('OriginCustomHeader'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8543,7 +8543,7 @@ class CustomOriginConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8938,7 +8938,7 @@ class DefaultCacheBehavior {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8990,7 +8990,7 @@ class DeleteRealtimeLogConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -9525,7 +9525,7 @@ class DistributionConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -9566,7 +9566,7 @@ class DistributionConfigWithTags {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -9951,14 +9951,14 @@ class EncryptionEntities {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('EncryptionEntity'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10022,7 +10022,7 @@ class EncryptionEntity {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10075,7 +10075,7 @@ class EndPoint {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10210,7 +10210,7 @@ class FieldLevelEncryptionConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10368,7 +10368,7 @@ class FieldLevelEncryptionProfileConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10572,14 +10572,14 @@ class FieldPatterns {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('FieldPattern', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10766,7 +10766,7 @@ class ForwardedValues {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10833,7 +10833,7 @@ class FunctionAssociation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10881,14 +10881,14 @@ class FunctionAssociations {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('FunctionAssociation'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10949,7 +10949,7 @@ class FunctionConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11216,14 +11216,14 @@ class GeoRestriction {
       _s.encodeXmlStringValue('RestrictionType', restrictionType.value),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Location', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11792,7 +11792,7 @@ class GetRealtimeLogConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11952,14 +11952,14 @@ class Headers {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12031,7 +12031,7 @@ class ImportSource {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12158,7 +12158,7 @@ class InvalidationBatch {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12406,7 +12406,7 @@ class KeyGroupConfig {
     final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('PublicKey', e))),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -12414,7 +12414,7 @@ class KeyGroupConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12612,7 +12612,7 @@ class KeyValueStoreAssociation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12656,14 +12656,14 @@ class KeyValueStoreAssociations {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('KeyValueStoreAssociation'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12764,7 +12764,7 @@ class KinesisStreamConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12855,7 +12855,7 @@ class LambdaFunctionAssociation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12914,14 +12914,14 @@ class LambdaFunctionAssociations {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('LambdaFunctionAssociation'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13103,7 +13103,7 @@ class ListDistributionsByRealtimeLogConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13472,7 +13472,7 @@ class LoggingConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13557,7 +13557,7 @@ class MonitoringSubscription {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13777,7 +13777,7 @@ class Origin {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -13924,7 +13924,7 @@ class OriginAccessControlConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14169,7 +14169,7 @@ class OriginCustomHeader {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14232,7 +14232,7 @@ class OriginGroup {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14273,7 +14273,7 @@ class OriginGroupFailoverCriteria {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14310,7 +14310,7 @@ class OriginGroupMember {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14354,14 +14354,14 @@ class OriginGroupMembers {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => e.toXml('OriginGroupMember'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14403,14 +14403,14 @@ class OriginGroups {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(
-            _s.XmlName('Items'), [], items.map((e) => e.toXml('OriginGroup'))),
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
+            items.map((e) => e.toXml('OriginGroup'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14591,7 +14591,7 @@ class OriginRequestPolicyConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14679,7 +14679,7 @@ class OriginRequestPolicyCookiesConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14774,7 +14774,7 @@ class OriginRequestPolicyHeadersConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -14924,7 +14924,7 @@ class OriginRequestPolicyQueryStringsConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15042,7 +15042,7 @@ class OriginShield {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15088,14 +15088,14 @@ class OriginSslProtocols {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('SslProtocol', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15140,13 +15140,13 @@ class Origins {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(
-          _s.XmlName('Items'), [], items.map((e) => e.toXml('Origin'))),
+          _s.XmlName.parts('Items'), [], items.map((e) => e.toXml('Origin'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15318,7 +15318,7 @@ class ParametersInCacheKeyAndForwardedToOrigin {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15367,14 +15367,14 @@ class Paths {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Path', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15508,7 +15508,7 @@ class PublicKeyConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15674,7 +15674,7 @@ class QueryArgProfile {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15730,7 +15730,7 @@ class QueryArgProfileConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15776,14 +15776,14 @@ class QueryArgProfiles {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('QueryArgProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15841,14 +15841,14 @@ class QueryStringCacheKeys {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -15891,14 +15891,14 @@ class QueryStringNames {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16065,7 +16065,7 @@ class RealtimeMetricsSubscriptionConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16202,14 +16202,14 @@ class ResponseHeadersPolicyAccessControlAllowHeaders {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('Header', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16289,14 +16289,14 @@ class ResponseHeadersPolicyAccessControlAllowMethods {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('Method', e.value))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16367,14 +16367,14 @@ class ResponseHeadersPolicyAccessControlAllowOrigins {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlStringValue('Origin', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16425,14 +16425,14 @@ class ResponseHeadersPolicyAccessControlExposeHeaders {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Header', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16552,7 +16552,7 @@ class ResponseHeadersPolicyConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16609,7 +16609,7 @@ class ResponseHeadersPolicyContentSecurityPolicy {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16655,7 +16655,7 @@ class ResponseHeadersPolicyContentTypeOptions {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16810,7 +16810,7 @@ class ResponseHeadersPolicyCorsConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16868,7 +16868,7 @@ class ResponseHeadersPolicyCustomHeader {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16914,14 +16914,14 @@ class ResponseHeadersPolicyCustomHeadersConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('ResponseHeadersPolicyCustomHeader'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16982,7 +16982,7 @@ class ResponseHeadersPolicyFrameOptions {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17118,7 +17118,7 @@ class ResponseHeadersPolicyReferrerPolicy {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17157,7 +17157,7 @@ class ResponseHeadersPolicyRemoveHeader {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17203,14 +17203,14 @@ class ResponseHeadersPolicyRemoveHeadersConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => e.toXml('ResponseHeadersPolicyRemoveHeader'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17352,7 +17352,7 @@ class ResponseHeadersPolicySecurityHeadersConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17422,7 +17422,7 @@ class ResponseHeadersPolicyServerTimingHeadersConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17504,7 +17504,7 @@ class ResponseHeadersPolicyStrictTransportSecurity {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17647,7 +17647,7 @@ class ResponseHeadersPolicyXSSProtection {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17688,7 +17688,7 @@ class Restrictions {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17754,7 +17754,7 @@ class S3Origin {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17827,7 +17827,7 @@ class S3OriginConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17900,7 +17900,7 @@ class SessionStickinessConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17995,14 +17995,14 @@ class StagingDistributionDnsNames {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('DnsName', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18045,14 +18045,14 @@ class StatusCodes {
     final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(_s.XmlName('Items'), [],
+      _s.XmlElement(_s.XmlName.parts('Items'), [],
           items.map((e) => _s.encodeXmlIntValue('StatusCode', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18270,7 +18270,7 @@ class StreamingDistributionConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18311,7 +18311,7 @@ class StreamingDistributionConfigWithTags {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18569,7 +18569,7 @@ class StreamingLoggingConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18624,7 +18624,7 @@ class Tag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18651,14 +18651,14 @@ class TagKeys {
     final items = this.items;
     final $children = <_s.XmlNode>[
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('Key', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18693,13 +18693,13 @@ class Tags {
     final $children = <_s.XmlNode>[
       if (items != null)
         _s.XmlElement(
-            _s.XmlName('Items'), [], items.map((e) => e.toXml('Tag'))),
+            _s.XmlName.parts('Items'), [], items.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18755,7 +18755,7 @@ class TestFunctionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18901,7 +18901,7 @@ class TrafficConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18956,14 +18956,14 @@ class TrustedKeyGroups {
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('KeyGroup', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19017,14 +19017,14 @@ class TrustedSigners {
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
+        _s.XmlElement(_s.XmlName.parts('Items'), [],
             items.map((e) => _s.encodeXmlStringValue('AwsAccountNumber', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19236,7 +19236,7 @@ class UpdateFunctionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19321,7 +19321,7 @@ class UpdateKeyValueStoreRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19470,10 +19470,10 @@ class UpdateRealtimeLogConfigRequest {
     final samplingRate = this.samplingRate;
     final $children = <_s.XmlNode>[
       if (endPoints != null)
-        _s.XmlElement(_s.XmlName('EndPoints'), [],
+        _s.XmlElement(_s.XmlName.parts('EndPoints'), [],
             endPoints.map((e) => e.toXml('member'))),
       if (fields != null)
-        _s.XmlElement(_s.XmlName('Fields'), [],
+        _s.XmlElement(_s.XmlName.parts('Fields'), [],
             fields.map((e) => _s.encodeXmlStringValue('Field', e))),
       if (name != null) _s.encodeXmlStringValue('Name', name),
       if (arn != null) _s.encodeXmlStringValue('ARN', arn),
@@ -19484,7 +19484,7 @@ class UpdateRealtimeLogConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19847,7 +19847,7 @@ class ViewerCertificate {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );

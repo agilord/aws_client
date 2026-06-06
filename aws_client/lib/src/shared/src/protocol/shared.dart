@@ -170,7 +170,7 @@ bool _parseBool(String value) {
 }
 
 XmlElement encodeXmlStringValue(String name, String value) {
-  return XmlElement(XmlName(name), [], [XmlText(value)]);
+  return XmlElement(XmlName.parts(name), [], [XmlText(value)]);
 }
 
 XmlElement encodeXmlBoolValue(String name, bool value) {
@@ -285,7 +285,7 @@ Future<XmlElement> xmlFromResponse(StreamedResponse rs,
     }
     return elem;
   } else {
-    return XmlElement(XmlName('empty'));
+    return XmlElement(XmlName.parts('empty'));
   }
 }
 

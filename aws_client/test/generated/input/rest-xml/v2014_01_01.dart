@@ -95,7 +95,7 @@ class StaticInputShape {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -125,7 +125,7 @@ class MemberRefInputShape {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );

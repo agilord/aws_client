@@ -169,8 +169,8 @@ String encodeXmlCode(Shape shape, String variable,
     final valueCode = encodeXmlCode(shape.value!.shapeClass!, 'e.value',
         value: shape.value, nullability: Nullability.none);
     final fn =
-        "$variable${nullability.inputNullAware}.entries.map((e) => _s.XmlElement(_s.XmlName('entry'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
-    return '_s.XmlElement(_s.XmlName(\'$elemName\'), [], $fn)';
+        "$variable${nullability.inputNullAware}.entries.map((e) => _s.XmlElement(_s.XmlName.parts('entry'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
+    return '_s.XmlElement(_s.XmlName.parts(\'$elemName\'), [], $fn)';
   } else if (shape.type == 'list') {
     final flattened = shape.flattened || (structureMember?.flattened ?? false);
     final valueCode = encodeXmlCode(shape.member!.shapeClass!, 'e',
@@ -183,7 +183,7 @@ String encodeXmlCode(Shape shape, String variable,
     if (flattened) {
       fn = '...$fn';
     } else {
-      fn = '_s.XmlElement(_s.XmlName(\'$elemName\'), [], $fn)';
+      fn = '_s.XmlElement(_s.XmlName.parts(\'$elemName\'), [], $fn)';
     }
     return fn;
   } else if (shape.type == 'structure') {

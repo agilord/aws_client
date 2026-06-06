@@ -178,7 +178,7 @@ class Route53 {
           .toXml(
         'AssociateVPCWithHostedZoneRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -267,7 +267,7 @@ class Route53 {
           .toXml(
         'ChangeCidrCollectionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -403,7 +403,7 @@ class Route53 {
           .toXml(
         'ChangeResourceRecordSetsRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -469,7 +469,7 @@ class Route53 {
           .toXml(
         'ChangeTagsForResourceRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -504,7 +504,7 @@ class Route53 {
           .toXml(
         'CreateCidrCollectionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -614,7 +614,7 @@ class Route53 {
           .toXml(
         'CreateHealthCheckRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -789,7 +789,7 @@ class Route53 {
           .toXml(
         'CreateHostedZoneRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -894,7 +894,7 @@ class Route53 {
           .toXml(
         'CreateKeySigningKeyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1088,7 +1088,7 @@ class Route53 {
           .toXml(
         'CreateQueryLoggingConfigRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1197,7 +1197,7 @@ class Route53 {
           .toXml(
         'CreateReusableDelegationSetRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1244,7 +1244,7 @@ class Route53 {
           .toXml(
         'CreateTrafficPolicyRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1335,7 +1335,7 @@ class Route53 {
           .toXml(
         'CreateTrafficPolicyInstanceRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1389,7 +1389,7 @@ class Route53 {
           .toXml(
         'CreateTrafficPolicyVersionRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1443,7 +1443,7 @@ class Route53 {
           .toXml(
         'CreateVPCAssociationAuthorizationRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1823,7 +1823,7 @@ class Route53 {
           .toXml(
         'DeleteVPCAssociationAuthorizationRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -1939,7 +1939,7 @@ class Route53 {
           .toXml(
         'DisassociateVPCFromHostedZoneRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -3354,7 +3354,7 @@ class Route53 {
           .toXml(
         'ListTagsForResourcesRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -4320,7 +4320,7 @@ class Route53 {
           .toXml(
         'UpdateHealthCheckRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -4352,7 +4352,7 @@ class Route53 {
       payload: UpdateHostedZoneCommentRequest(id: id, comment: comment).toXml(
         'UpdateHostedZoneCommentRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -4398,7 +4398,7 @@ class Route53 {
           .toXml(
         'UpdateTrafficPolicyCommentRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -4492,7 +4492,7 @@ class Route53 {
           .toXml(
         'UpdateTrafficPolicyInstanceRequest',
         attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
               'https://route53.amazonaws.com/doc/2013-04-01/'),
         ],
       ),
@@ -4664,7 +4664,7 @@ class AlarmIdentifier {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5073,7 +5073,7 @@ class AliasTarget {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5125,7 +5125,7 @@ class AssociateVPCWithHostedZoneRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5212,7 +5212,7 @@ class Change {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5263,14 +5263,14 @@ class ChangeBatch {
     final comment = this.comment;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-      _s.XmlElement(
-          _s.XmlName('Changes'), [], changes.map((e) => e.toXml('Change'))),
+      _s.XmlElement(_s.XmlName.parts('Changes'), [],
+          changes.map((e) => e.toXml('Change'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5330,14 +5330,14 @@ class ChangeCidrCollectionRequest {
     final $children = <_s.XmlNode>[
       if (collectionVersion != null)
         _s.encodeXmlIntValue('CollectionVersion', collectionVersion),
-      _s.XmlElement(
-          _s.XmlName('Changes'), [], changes.map((e) => e.toXml('member'))),
+      _s.XmlElement(_s.XmlName.parts('Changes'), [],
+          changes.map((e) => e.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5453,7 +5453,7 @@ class ChangeResourceRecordSetsRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5556,17 +5556,17 @@ class ChangeTagsForResourceRequest {
     final removeTagKeys = this.removeTagKeys;
     final $children = <_s.XmlNode>[
       if (addTags != null)
-        _s.XmlElement(
-            _s.XmlName('AddTags'), [], addTags.map((e) => e.toXml('Tag'))),
+        _s.XmlElement(_s.XmlName.parts('AddTags'), [],
+            addTags.map((e) => e.toXml('Tag'))),
       if (removeTagKeys != null)
-        _s.XmlElement(_s.XmlName('RemoveTagKeys'), [],
+        _s.XmlElement(_s.XmlName.parts('RemoveTagKeys'), [],
             removeTagKeys.map((e) => _s.encodeXmlStringValue('Key', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5697,14 +5697,14 @@ class CidrCollectionChange {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('LocationName', locationName),
       _s.encodeXmlStringValue('Action', action.value),
-      _s.XmlElement(_s.XmlName('CidrList'), [],
+      _s.XmlElement(_s.XmlName.parts('CidrList'), [],
           cidrList.map((e) => _s.encodeXmlStringValue('Cidr', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -5770,7 +5770,7 @@ class CidrRoutingConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6025,7 +6025,7 @@ class Coordinates {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6067,7 +6067,7 @@ class CreateCidrCollectionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6158,7 +6158,7 @@ class CreateHealthCheckRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6289,7 +6289,7 @@ class CreateHostedZoneRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6436,7 +6436,7 @@ class CreateKeySigningKeyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6512,7 +6512,7 @@ class CreateQueryLoggingConfigRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6582,7 +6582,7 @@ class CreateReusableDelegationSetRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6675,7 +6675,7 @@ class CreateTrafficPolicyInstanceRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6750,7 +6750,7 @@ class CreateTrafficPolicyRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6824,7 +6824,7 @@ class CreateTrafficPolicyVersionRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -6891,7 +6891,7 @@ class CreateVPCAssociationAuthorizationRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7204,7 +7204,7 @@ class DeleteVPCAssociationAuthorizationRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7318,7 +7318,7 @@ class DisassociateVPCFromHostedZoneRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7463,7 +7463,7 @@ class GeoLocation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -7632,7 +7632,7 @@ class GeoProximityLocation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8734,13 +8734,13 @@ class HealthCheckConfig {
         _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
       if (childHealthChecks != null)
         _s.XmlElement(
-            _s.XmlName('ChildHealthChecks'),
+            _s.XmlName.parts('ChildHealthChecks'),
             [],
             childHealthChecks
                 .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
       if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [],
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
             regions.map((e) => _s.encodeXmlStringValue('Region', e.value))),
       if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
       if (insufficientDataHealthStatus != null)
@@ -8753,7 +8753,7 @@ class HealthCheckConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -8960,7 +8960,7 @@ class HostedZoneConfig {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10093,14 +10093,14 @@ class ListTagsForResourcesRequest {
     final resourceIds = this.resourceIds;
     final resourceType = this.resourceType;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('ResourceIds'), [],
+      _s.XmlElement(_s.XmlName.parts('ResourceIds'), [],
           resourceIds.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -10699,7 +10699,7 @@ class ResourceRecord {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11400,7 +11400,7 @@ class ResourceRecordSet {
         _s.encodeXmlBoolValue('MultiValueAnswer', multiValueAnswer),
       if (ttl != null) _s.encodeXmlIntValue('TTL', ttl),
       if (resourceRecords != null)
-        _s.XmlElement(_s.XmlName('ResourceRecords'), [],
+        _s.XmlElement(_s.XmlName.parts('ResourceRecords'), [],
             resourceRecords.map((e) => e.toXml('ResourceRecord'))),
       if (aliasTarget != null) aliasTarget.toXml('AliasTarget'),
       if (healthCheckId != null)
@@ -11417,7 +11417,7 @@ class ResourceRecordSet {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -11709,7 +11709,7 @@ class Tag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12487,13 +12487,13 @@ class UpdateHealthCheckRequest {
         _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
       if (childHealthChecks != null)
         _s.XmlElement(
-            _s.XmlName('ChildHealthChecks'),
+            _s.XmlName.parts('ChildHealthChecks'),
             [],
             childHealthChecks
                 .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
       if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [],
+        _s.XmlElement(_s.XmlName.parts('Regions'), [],
             regions.map((e) => _s.encodeXmlStringValue('Region', e.value))),
       if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
       if (insufficientDataHealthStatus != null)
@@ -12501,7 +12501,7 @@ class UpdateHealthCheckRequest {
             'InsufficientDataHealthStatus', insufficientDataHealthStatus.value),
       if (resetElements != null)
         _s.XmlElement(
-            _s.XmlName('ResetElements'),
+            _s.XmlName.parts('ResetElements'),
             [],
             resetElements.map((e) =>
                 _s.encodeXmlStringValue('ResettableElementName', e.value))),
@@ -12510,7 +12510,7 @@ class UpdateHealthCheckRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12575,7 +12575,7 @@ class UpdateHostedZoneCommentRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12646,7 +12646,7 @@ class UpdateTrafficPolicyCommentRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12728,7 +12728,7 @@ class UpdateTrafficPolicyInstanceRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -12806,7 +12806,7 @@ class VPC {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
