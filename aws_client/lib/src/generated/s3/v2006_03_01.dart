@@ -15132,8 +15132,8 @@ class S3 {
           .toXml(
         'SelectObjectContentRequest',
         attributes: [
-          _s.XmlAttribute(
-              _s.XmlName('xmlns'), 'http://s3.amazonaws.com/doc/2006-03-01/'),
+          _s.XmlAttribute(_s.XmlName.parts('xmlns'),
+              'http://s3.amazonaws.com/doc/2006-03-01/'),
         ],
       ),
       exceptionFnMap: _exceptionFns,
@@ -16618,7 +16618,7 @@ class AbortIncompleteMultipartUpload {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16666,7 +16666,7 @@ class AccelerateConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16701,7 +16701,7 @@ class AccessControlPolicy {
     final owner = this.owner;
     final $children = <_s.XmlNode>[
       if (grants != null)
-        _s.XmlElement(_s.XmlName('AccessControlList'), [],
+        _s.XmlElement(_s.XmlName.parts('AccessControlList'), [],
             grants.map((e) => e.toXml('Grant'))),
       if (owner != null) owner.toXml('Owner'),
     ];
@@ -16709,7 +16709,7 @@ class AccessControlPolicy {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16750,7 +16750,7 @@ class AccessControlTranslation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16800,7 +16800,7 @@ class AnalyticsAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16860,7 +16860,7 @@ class AnalyticsConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16898,7 +16898,7 @@ class AnalyticsExportDestination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -16956,7 +16956,7 @@ class AnalyticsFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17029,7 +17029,7 @@ class AnalyticsS3BucketDestination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17176,7 +17176,7 @@ class BucketInfo {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17211,7 +17211,7 @@ class BucketLifecycleConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17283,7 +17283,7 @@ class BucketLoggingStatus {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17363,7 +17363,7 @@ class CORSConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17458,7 +17458,7 @@ class CORSRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17583,7 +17583,7 @@ class CSVInput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17668,7 +17668,7 @@ class CSVOutput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -17847,7 +17847,7 @@ class CloudFunctionConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18046,7 +18046,7 @@ class CompletedMultipartUpload {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18168,7 +18168,7 @@ class CompletedPart {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18256,7 +18256,7 @@ class Condition {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18585,7 +18585,7 @@ class CreateBucketConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18846,7 +18846,7 @@ class DefaultRetention {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -18894,7 +18894,7 @@ class Delete {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19006,7 +19006,7 @@ class DeleteMarkerReplication {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19282,7 +19282,7 @@ class Destination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19368,7 +19368,7 @@ class Encryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -19421,7 +19421,7 @@ class EncryptionConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -20930,7 +20930,7 @@ class ErrorDocument {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -21001,7 +21001,7 @@ class EventBridgeConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -21046,7 +21046,7 @@ class ExistingObjectReplication {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -21168,7 +21168,7 @@ class FilterRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -22268,7 +22268,7 @@ class GlacierJobParameters {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -22317,7 +22317,7 @@ class Grant {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -22424,12 +22424,12 @@ class Grantee {
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
-      _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
+      _s.XmlAttribute(_s.XmlName.parts('xsi', prefix: 'xmlns'),
           'http://www.w3.org/2001/XMLSchema-instance'),
-      _s.XmlAttribute(_s.XmlName('xsi:type'), type.value),
+      _s.XmlAttribute(_s.XmlName.parts('xsi:type'), type.value),
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -22873,7 +22873,7 @@ class IndexDocument {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -22970,7 +22970,7 @@ class InputSerialization {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23034,7 +23034,7 @@ class IntelligentTieringAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23109,7 +23109,7 @@ class IntelligentTieringConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23174,7 +23174,7 @@ class IntelligentTieringFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23295,7 +23295,7 @@ class InventoryConfiguration {
           'IncludedObjectVersions', includedObjectVersions.value),
       if (optionalFields != null)
         _s.XmlElement(
-            _s.XmlName('OptionalFields'),
+            _s.XmlName.parts('OptionalFields'),
             [],
             optionalFields
                 .map((e) => _s.encodeXmlStringValue('Field', e.value))),
@@ -23305,7 +23305,7 @@ class InventoryConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23344,7 +23344,7 @@ class InventoryDestination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23391,7 +23391,7 @@ class InventoryEncryption {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23429,7 +23429,7 @@ class InventoryFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23588,7 +23588,7 @@ class InventoryS3BucketDestination {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23627,7 +23627,7 @@ class InventorySchedule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23659,7 +23659,7 @@ class JSONInput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23693,7 +23693,7 @@ class JSONOutput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23776,7 +23776,7 @@ class LambdaFunctionConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23812,7 +23812,7 @@ class LifecycleConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -23882,7 +23882,7 @@ class LifecycleExpiration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -24029,7 +24029,7 @@ class LifecycleRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -24100,7 +24100,7 @@ class LifecycleRuleAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -24189,7 +24189,7 @@ class LifecycleRuleFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25201,7 +25201,7 @@ class LocationInfo {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25291,7 +25291,7 @@ class LoggingEnabled {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('TargetBucket', targetBucket),
       if (targetGrants != null)
-        _s.XmlElement(_s.XmlName('TargetGrants'), [],
+        _s.XmlElement(_s.XmlName.parts('TargetGrants'), [],
             targetGrants.map((e) => e.toXml('Grant'))),
       _s.encodeXmlStringValue('TargetPrefix', targetPrefix),
       if (targetObjectKeyFormat != null)
@@ -25301,7 +25301,7 @@ class LoggingEnabled {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25385,7 +25385,7 @@ class MetadataEntry {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25437,7 +25437,7 @@ class Metrics {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25495,7 +25495,7 @@ class MetricsAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25551,7 +25551,7 @@ class MetricsConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25622,7 +25622,7 @@ class MetricsFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25779,7 +25779,7 @@ class NoncurrentVersionExpiration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25862,7 +25862,7 @@ class NoncurrentVersionTransition {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -25950,7 +25950,7 @@ class NotificationConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26018,7 +26018,7 @@ class NotificationConfigurationDeprecated {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26058,7 +26058,7 @@ class NotificationConfigurationFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26266,7 +26266,7 @@ class ObjectIdentifier {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26322,7 +26322,7 @@ class ObjectLockConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26375,7 +26375,7 @@ class ObjectLockLegalHold {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26457,7 +26457,7 @@ class ObjectLockRetention {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26515,7 +26515,7 @@ class ObjectLockRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26827,7 +26827,7 @@ class OutputLocation {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26867,7 +26867,7 @@ class OutputSerialization {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26944,7 +26944,7 @@ class Owner {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -26996,7 +26996,7 @@ class OwnershipControls {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27034,7 +27034,7 @@ class OwnershipControlsRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27055,7 +27055,7 @@ class ParquetInput {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27222,7 +27222,7 @@ class PartitionedPrefix {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27458,7 +27458,7 @@ class PublicAccessBlockConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27777,7 +27777,7 @@ class QueueConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27847,7 +27847,7 @@ class QueueConfigurationDeprecated {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -27993,7 +27993,7 @@ class Redirect {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28042,7 +28042,7 @@ class RedirectAllRequestsTo {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28090,7 +28090,7 @@ class ReplicaModifications {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28157,7 +28157,7 @@ class ReplicationConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28309,7 +28309,7 @@ class ReplicationRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28371,7 +28371,7 @@ class ReplicationRuleAndOperator {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28452,7 +28452,7 @@ class ReplicationRuleFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28537,7 +28537,7 @@ class ReplicationTime {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28592,7 +28592,7 @@ class ReplicationTimeValue {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28667,7 +28667,7 @@ class RequestPaymentConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28701,7 +28701,7 @@ class RequestProgress {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28808,7 +28808,7 @@ class RestoreRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -28933,7 +28933,7 @@ class RoutingRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29062,7 +29062,7 @@ class Rule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29099,7 +29099,7 @@ class S3KeyFilter {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29179,11 +29179,11 @@ class S3Location {
       if (cannedACL != null)
         _s.encodeXmlStringValue('CannedACL', cannedACL.value),
       if (accessControlList != null)
-        _s.XmlElement(_s.XmlName('AccessControlList'), [],
+        _s.XmlElement(_s.XmlName.parts('AccessControlList'), [],
             accessControlList.map((e) => e.toXml('Grant'))),
       if (tagging != null) tagging.toXml('Tagging'),
       if (userMetadata != null)
-        _s.XmlElement(_s.XmlName('UserMetadata'), [],
+        _s.XmlElement(_s.XmlName.parts('UserMetadata'), [],
             userMetadata.map((e) => e.toXml('MetadataEntry'))),
       if (storageClass != null)
         _s.encodeXmlStringValue('StorageClass', storageClass.value),
@@ -29192,7 +29192,7 @@ class S3Location {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29230,7 +29230,7 @@ class SSEKMS {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29256,7 +29256,7 @@ class SSES3 {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29309,7 +29309,7 @@ class ScanRange {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29528,7 +29528,7 @@ class SelectObjectContentRequest {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29584,7 +29584,7 @@ class SelectParameters {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29734,7 +29734,7 @@ class ServerSideEncryptionByDefault {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29775,7 +29775,7 @@ class ServerSideEncryptionConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29877,7 +29877,7 @@ class ServerSideEncryptionRule {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -29977,7 +29977,7 @@ class SimplePrefix {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30048,7 +30048,7 @@ class SourceSelectionCriteria {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30090,7 +30090,7 @@ class SseKmsEncryptedObjects {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30229,7 +30229,7 @@ class StorageClassAnalysis {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30280,7 +30280,7 @@ class StorageClassAnalysisDataExport {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30340,7 +30340,7 @@ class Tag {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30367,13 +30367,13 @@ class Tagging {
     final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       _s.XmlElement(
-          _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('Tag'))),
+          _s.XmlName.parts('TagSet'), [], tagSet.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30442,7 +30442,7 @@ class TargetGrant {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30494,7 +30494,7 @@ class TargetObjectKeyFormat {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30567,7 +30567,7 @@ class Tiering {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30638,7 +30638,7 @@ class TopicConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30709,7 +30709,7 @@ class TopicConfigurationDeprecated {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -30774,7 +30774,7 @@ class Transition {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -31040,7 +31040,7 @@ class VersioningConfiguration {
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );
@@ -31096,14 +31096,14 @@ class WebsiteConfiguration {
       if (redirectAllRequestsTo != null)
         redirectAllRequestsTo.toXml('RedirectAllRequestsTo'),
       if (routingRules != null)
-        _s.XmlElement(_s.XmlName('RoutingRules'), [],
+        _s.XmlElement(_s.XmlName.parts('RoutingRules'), [],
             routingRules.map((e) => e.toXml('RoutingRule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
     ];
     return _s.XmlElement(
-      _s.XmlName(elemName),
+      _s.XmlName.parts(elemName),
       $attributes,
       $children,
     );

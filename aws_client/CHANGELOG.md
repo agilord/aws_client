@@ -2,12 +2,11 @@
 
 ## 0.8.0
 
-- Removed clients for AWS services that are no longer part of the AWS SDK:
-  Alexa for Business, Backup Storage, CodeStar (`code_star`), GameSparks,
-  Honeycode, IoT RoboRunner, Macie Classic (`macie`; use `macie2`) and Mobile.
-- `DocumentClient` now decodes DynamoDB numbers (`N`/`NS`) as `int` when the
-  value is integral and `double` otherwise, instead of always returning
-  `double`.
+- Removed clients for AWS services dropped from the AWS SDK: Alexa for Business, Backup Storage, CodeStar (`code_star`), GameSparks, Honeycode, IoT RoboRunner, Macie Classic (`macie`; use `macie2`) and Mobile.
+- `DocumentClient` decodes integral DynamoDB numbers (`N`/`NS`) as `int` instead of always `double`.
+- Require `package:xml` 7.x (drops `xml` 6.x support).
+- Support compilation to WebAssembly (Wasm).
+- Raise the minimum Dart SDK to `3.4.0`.
 
 ## 0.7.1
 

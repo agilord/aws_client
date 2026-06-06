@@ -376,17 +376,17 @@ static $name fromString(String value) => values.firstWhere((e) => e.value == val
         }
         for (final member in membersToAttribute) {
           final nsPrefix = member.xmlNamespace?.prefix ?? '';
-          final namespaceCode = nsPrefix.isNotEmpty ? ", '$nsPrefix'" : '';
+          final namespaceCode = nsPrefix.isNotEmpty ? ", prefix: '$nsPrefix'" : '';
           final isEnum = member.shapeClass?.enumeration?.isNotEmpty ?? false;
           if (!member.isRequired) {
             writeln('if (${member.fieldName} != null)');
           }
           writeln(
-              "_s.XmlAttribute(_s.XmlName('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.value' : ''}),");
+              "_s.XmlAttribute(_s.XmlName.parts('${member.locationName ?? member.name}'$namespaceCode), ${member.fieldName}${isEnum ? '.value' : ''}),");
         }
         writeln('];');
         writeln(
-            '    return _s.XmlElement(_s.XmlName(elemName), \$attributes, \$children,);');
+            '    return _s.XmlElement(_s.XmlName.parts(elemName), \$attributes, \$children,);');
         writeln('  }');
       }
 
@@ -574,9 +574,10 @@ String toEnumerationFieldName(String value) {
 }
 
 String xmlNamespaceToCode(XmlNamespace namespace, {String importPrefix = ''}) {
-  final nameCode =
-      namespace.prefix != null ? "'${namespace.prefix}', 'xmlns'" : "'xmlns'";
-  return "${importPrefix}XmlAttribute(${importPrefix}XmlName($nameCode), '${namespace.uri}')";
+  final nameCode = namespace.prefix != null
+      ? "'${namespace.prefix}', prefix: 'xmlns'"
+      : "'xmlns'";
+  return "${importPrefix}XmlAttribute(${importPrefix}XmlName.parts($nameCode), '${namespace.uri}')";
 }
 
 String extractHeaderCode(Member member, String variable) {

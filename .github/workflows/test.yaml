@@ -27,12 +27,16 @@ jobs:
         run: dart bin/generate.dart generate
         working-directory: generator
 
-      - name: Analyze aws_client package
+      - name: Analyze aws_client package (highest dependencies)
         run: dart pub get && dart analyze --fatal-infos
         working-directory: aws_client
 
       - name: "check for uncommitted changes"
         run: git diff --exit-code --stat -- .
+
+      - name: Analyze aws_client package (lowest dependencies)
+        run: dart pub downgrade && dart analyze --fatal-infos
+        working-directory: aws_client
 
   test:
     name: Test
