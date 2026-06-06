@@ -5,8 +5,10 @@ repository: https://github.com/agilord/aws_client
 topics:
   - aws
 
+resolution: workspace
+
 environment:
-  sdk: '^3.4.0'
+  sdk: '^3.5.0'
 
 dependencies:
   crypto: ^3.0.1

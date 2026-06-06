@@ -376,7 +376,8 @@ static $name fromString(String value) => values.firstWhere((e) => e.value == val
         }
         for (final member in membersToAttribute) {
           final nsPrefix = member.xmlNamespace?.prefix ?? '';
-          final namespaceCode = nsPrefix.isNotEmpty ? ", prefix: '$nsPrefix'" : '';
+          final namespaceCode =
+              nsPrefix.isNotEmpty ? ", prefix: '$nsPrefix'" : '';
           final isEnum = member.shapeClass?.enumeration?.isNotEmpty ?? false;
           if (!member.isRequired) {
             writeln('if (${member.fieldName} != null)');

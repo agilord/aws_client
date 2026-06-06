@@ -6,7 +6,7 @@
 - `DocumentClient` decodes integral DynamoDB numbers (`N`/`NS`) as `int` instead of always `double`.
 - Require `package:xml` 7.x (drops `xml` 6.x support).
 - Support compilation to WebAssembly (Wasm).
-- Raise the minimum Dart SDK to `3.4.0`.
+- Raise the minimum Dart SDK to `3.5.0`.
 
 ## 0.7.1
 
