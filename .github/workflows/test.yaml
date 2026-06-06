@@ -7,7 +7,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze all apis
+    name: Analyze
     runs-on: ubuntu-latest
     steps:
       - uses: dart-lang/setup-dart@v1
@@ -19,29 +19,13 @@ jobs:
       - name: Check formatting
         run: dart format . --set-exit-if-changed --language-version=3.0
 
-      - name: Analyze shared_aws_api package
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: shared_aws_api
-
-      - name: Analyze aws_credential_providers package
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: aws_credential_providers
-
       - name: Analyze generator package
         run: dart pub get && dart analyze --fatal-infos
         working-directory: generator
 
-      - name: Generate all apis
-        run: dart bin/generate.dart generate --no-pub
+      - name: Generate aws_client
+        run: dart bin/generate.dart generate
         working-directory: generator
-
-      - name: Analyze all_apis package
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: all_apis
-
-      - name: Analyze document_client package
-        run: dart pub get && dart analyze --fatal-infos
-        working-directory: document_client
 
       - name: Analyze aws_client package
         run: dart pub get && dart analyze --fatal-infos
@@ -51,23 +35,19 @@ jobs:
         run: git diff --exit-code --stat -- .
 
   test:
-    name: Test all packages
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
 
-      - name: Run tests on shared_aws_api
-        run: dart pub get && dart test
-        working-directory: shared_aws_api
-
       - name: Run tests on generator
         run: dart pub get && dart test
         working-directory: generator
-      
-      - name: Run tests on document_client
-        run: dart pub get && dart test
-        working-directory: document_client
+
+      - name: Run tests on aws_client
+        run: dart pub get && dart test test/generated test/protocol test/validation test/dynamo_document
+        working-directory: aws_client
 
   localstack:
     name: LocalStack smoke tests
@@ -81,7 +61,7 @@ jobs:
         working-directory: aws_client
 
       - name: Run smoke tests on aws_client
-        run: dart pub get && dart test
+        run: dart pub get && dart test test/localstack
         working-directory: aws_client
 
       - name: Stop LocalStack

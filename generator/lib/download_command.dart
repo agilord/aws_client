@@ -31,6 +31,12 @@ class DownloadCommand extends Command {
             File(argResults!['config-file'] as String).readAsStringSync())))
         as Map<String, dynamic>);
     print('Downloading JSON definitions from Github...');
+    // Start from a clean slate so models that were dropped from the SDK don't
+    // linger and get regenerated again.
+    final apisDir = Directory('apis');
+    if (apisDir.existsSync()) {
+      apisDir.deleteSync(recursive: true);
+    }
     await _fetchApiDefinitions(config!.awsSdkJsReference);
     print('Definitions downloaded');
   }

@@ -4,10 +4,10 @@ import '../../shared/shared.dart';
 /// Example usage with default chain:
 ///
 /// ```dart
-/// import 'package:aws_credential_providers/aws_credential_providers.dart';
+/// import 'package:aws_client/credential_providers.dart';
 /// import 'package:aws_client/sts_2011_06_15.dart';
 ///
-/// final sts = STS(
+/// final sts = Sts(
 ///  credentialsProvider: ChainedCredentialProvider([
 ///     fromEnvironment,
 ///     fromIni,

@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../utils/aws_names.dart';
-
 import '../utils/case.dart';
 import 'descriptor.dart';
 import 'operation.dart';
@@ -10,8 +8,6 @@ part 'api.g.dart';
 
 @JsonSerializable(createToJson: false)
 class Api {
-  static bool isGeneratingSinglePackage = false;
-
   final String? version;
   final Metadata metadata;
   final Map<String, Operation> operations;
@@ -68,57 +64,7 @@ class Api {
 
   bool get generateToXml => usesRestXmlProtocol;
 
-  String get directoryPath {
-    // TODO: lowercase directory name
-    return metadata.className;
-  }
-
-  String get fileBasename {
-    if (isGeneratingSinglePackage) {
-      return _singlePackageFileBasename;
-    }
-    // TODO: lowercase file name
-    return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
-  }
-
-  String get _singlePackageFileBasename =>
-      'v${metadata.apiVersion.replaceAll('-', '_')}';
-
-  bool get isRecognized => packageBaseName != null;
-
-  String get packageName {
-    if (packageBaseName == null) {
-      throw ArgumentError('API not recognized: $fileBasename');
-    }
-    return 'aws_${packageBaseName?.replaceAll('-', '_')}_api';
-  }
-
-  String? get packageBaseName {
-    final candidates = <String?>[
-      metadata.uid?.split('-20').first,
-      metadata.className.toLowerCase(),
-      metadata.endpointPrefix
-    ];
-    final identified = candidates
-        .firstWhere((c) => awsCliServiceNames.contains(c), orElse: () => null);
-    if (identified != null) {
-      return identified;
-    }
-
-    final mapped = {
-      'codedeploy-2014-10-06': 'deploy',
-      'elasticloadbalancing-2012-06-01': 'elb',
-      'elasticloadbalancingv2-2015-12-01': 'elbv2',
-      'devices-2018-05-14': 'iot1click-devices',
-      'runtime.lex-2016-11-28': 'lex-runtime',
-      'entitlement.marketplace-2017-01-11': 'marketplace-entitlement',
-      'runtime.sagemaker-2017-05-13': 'sagemaker-runtime',
-    }[fileBasename];
-    if (mapped != null && awsCliServiceNames.contains(mapped)) {
-      return mapped;
-    }
-    return null;
-  }
+  String get fileBasename => 'v${metadata.apiVersion.replaceAll('-', '_')}';
 
   List<String>? _exceptions;
 
@@ -213,16 +159,6 @@ class Metadata {
   );
 
   String get className {
-    if (Api.isGeneratingSinglePackage) {
-      return _singlePackageClassName;
-    }
-
-    final name = (serviceAbbreviation ?? serviceFullName)
-        .replaceAll(RegExp(r'^Amazon|AWS\s*|\(.*|\s+|\W+'), '');
-    return name.substring(0, 1).toUpperCase() + name.substring(1);
-  }
-
-  String get _singlePackageClassName {
     final baseName = (serviceAbbreviation ?? serviceFullName)
         .replaceAll(RegExp(r'^Amazon|AWS\s*'), '');
 

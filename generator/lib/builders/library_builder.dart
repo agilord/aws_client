@@ -17,7 +17,7 @@ import 'protocols/rest_xml_builder.dart';
 import 'protocols/service_builder.dart';
 
 String buildService(Api api,
-    {String sharedLibraryPath = 'package:shared_aws_api'}) {
+    {String sharedLibraryPath = 'package:aws_client/src/shared'}) {
   api.initReferences();
 
   ServiceBuilder builder;
@@ -300,7 +300,7 @@ static $name fromString(String value) => values.firstWhere((e) => e.value == val
         writeln('  }');
       }
 
-      if (shape.generateToJson || Api.isGeneratingSinglePackage) {
+      {
         writeln('\n\n  Map<String, dynamic> toJson() {');
         for (var member in shape.members) {
           writeln('final ${member.fieldName} = this.${member.fieldName};');
