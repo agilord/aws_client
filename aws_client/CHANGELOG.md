@@ -5,6 +5,9 @@
 - Removed clients for AWS services that are no longer part of the AWS SDK:
   Alexa for Business, Backup Storage, CodeStar (`code_star`), GameSparks,
   Honeycode, IoT RoboRunner, Macie Classic (`macie`; use `macie2`) and Mobile.
+- `DocumentClient` now decodes DynamoDB numbers (`N`/`NS`) as `int` when the
+  value is integral and `double` otherwise, instead of always returning
+  `double`.
 
 ## 0.7.1
 
