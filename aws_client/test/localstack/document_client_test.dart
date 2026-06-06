@@ -26,8 +26,7 @@ void main() {
         ),
       );
 
-  test('DocumentClient preserves int vs double on number round-trip',
-      () async {
+  test('DocumentClient preserves int vs double on number round-trip', () async {
     final tableName = uniqueName('doc');
     await createTable(tableName);
 
