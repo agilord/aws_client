@@ -96,8 +96,7 @@ abstract class ServiceBuilder {
 
       // A field the caller already promoted to non-null (e.g. an `??=`'d
       // idempotency token) needs no guard — it would be a dead null check.
-      if (!member.isRequired &&
-          !guaranteedNonNull.contains(member.fieldName)) {
+      if (!member.isRequired && !guaranteedNonNull.contains(member.fieldName)) {
         out.writeln('if(${member.fieldName} != null)');
       }
       if (member.shapeClass?.type == 'map') {

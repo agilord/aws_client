@@ -88,8 +88,7 @@ void _writeRequestTest(StringBuffer code, Api api, Operation operation,
   if (headers != null) {
     for (final h in headers.keys) {
       final value = _dartString(headers[h]);
-      final expectCode =
-          h == 'Content-Type' ? 'startsWith($value)' : value;
+      final expectCode = h == 'Content-Type' ? 'startsWith($value)' : value;
       code.writeln("  expect(request.headers['$h'], $expectCode);");
     }
   }
