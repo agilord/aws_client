@@ -43,8 +43,24 @@ void main() {
           skipped: 1,
           excludedOps: 2),
     ]);
-    expect(md,
-        contains('| **total** | **60** | **15** | **11** | **4** | **3** |'));
+    expect(
+        md,
+        contains(
+            '| **total** | **60** | **0** | **60** | **15** | **11** | **4** | **3** |'));
+  });
+
+  test('renderReadiness reports server vectors as out-of-scope, not skipped', () {
+    final md = renderReadiness([
+      ProtocolReadiness(
+          protocol: 'restJson1',
+          corpusVectors: 40,
+          vectors: 10,
+          skipped: 3,
+          excludedOps: 1,
+          outOfScope: 6),
+    ]);
+    // Corpus 40, Server 6, Applicable 34, Vectors 10, Passing 7, Skipped 3.
+    expect(md, contains('| restJson1 | 40 | 6 | 34 | 10 | 7 | 3 | 1 |'));
   });
 
   test('renderReadiness marks a whole-client build failure distinctly', () {

@@ -51,24 +51,4 @@ void main() {
       emptyString: "",
     );
   });
-
-  test('RestJsonServersAcceptStaticQueryParamAsEmptyString', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.url,
-          equalsPathAndQuery('/OmitsNullSerializesEmptyString?Empty'));
-      expect(request.method, equalsIgnoringCase('GET'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.omitsNullSerializesEmptyString(
-      emptyString: "",
-    );
-  });
 }

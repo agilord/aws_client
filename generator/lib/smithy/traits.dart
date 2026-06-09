@@ -23,6 +23,7 @@ class TraitIds {
   static const length = 'smithy.api#length';
   static const range = 'smithy.api#range';
   static const pattern = 'smithy.api#pattern';
+  static const mediaType = 'smithy.api#mediaType';
   static const error = 'smithy.api#error';
   static const httpError = 'smithy.api#httpError';
   static const jsonName = 'smithy.api#jsonName';

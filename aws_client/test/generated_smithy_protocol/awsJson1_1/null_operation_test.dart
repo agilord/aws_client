@@ -34,28 +34,6 @@ void main() {
     );
   });
 
-  test('AwsJson11ServersDontDeserializeNullStructureValues', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r'''{
-    "string": null
-}'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.1'));
-      expect(request.headers['X-Amz-Target'], 'JsonProtocol.NullOperation');
-      expect(request.url, equalsPathAndQuery('/'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = JsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.nullOperation();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
-
   test('AwsJson11StructuresDontDeserializeNullValues', () async {
     final client = MockClient((request) async {
       return Response(
@@ -63,22 +41,6 @@ void main() {
     "string": null
 }''',
           200,
-          headers: {"Content-Type": "application/x-amz-json-1.1"});
-    });
-
-    final service = JsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    final output = await service.nullOperation();
-    expect(output.string, isNull);
-  });
-
-  test('AwsJson11ServersDontSerializeNullStructureValues', () async {
-    final client = MockClient((request) async {
-      return Response(r'''{}''', 200,
           headers: {"Content-Type": "application/x-amz-json-1.1"});
     });
 

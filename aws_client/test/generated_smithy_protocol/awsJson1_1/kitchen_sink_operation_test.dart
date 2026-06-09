@@ -57,8 +57,8 @@ void main() {
     );
 
     await service.kitchenSinkOperation(
-      jsonValue:
-          "{\"string\":\"value\",\"number\":1234.5,\"boolTrue\":true,\"boolFalse\":false,\"array\":[1,2,3,4],\"object\":{\"key\":\"value\"},\"null\":null}",
+      jsonValue: jsonDecode(
+          "{\"string\":\"value\",\"number\":1234.5,\"boolTrue\":true,\"boolFalse\":false,\"array\":[1,2,3,4],\"object\":{\"key\":\"value\"},\"null\":null}"),
     );
   });
 

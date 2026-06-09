@@ -53,7 +53,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
       }
     }
 
-    buildRequestHeaders(operation, buf);
+    buildRequestHeaders(operation, buf, guaranteedNonNull: autoFilled);
     buildRequestQueryParams(operation, buf, guaranteedNonNull: autoFilled);
     String? payloadArg;
     if (shapeClass?.payload != null) {

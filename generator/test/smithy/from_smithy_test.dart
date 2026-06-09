@@ -271,4 +271,200 @@ void main() {
       expect(api.shapes['Nested']!.membersMap!.keys, contains('leaf'));
     });
   });
+
+  group('apiFromSmithy @error shapes', () {
+    final model = _model({
+      'example#MyService': {
+        'type': 'service',
+        'version': '2018-01-01',
+        'operations': [
+          {'target': 'example#MyOp'}
+        ],
+        'traits': {
+          'aws.protocols#awsJson1_1': <String, Object?>{},
+          'aws.api#service': {'sdkId': 'Example', 'endpointPrefix': 'example'},
+          'aws.auth#sigv4': {'name': 'example'},
+        },
+      },
+      'example#MyOp': {
+        'type': 'operation',
+        'input': {'target': 'example#MyInput'},
+        'errors': [
+          {'target': 'example#NoMembersError'},
+          {'target': 'example#MessageError'},
+        ],
+        'traits': <String, Object?>{},
+      },
+      'example#MyInput': {
+        'type': 'structure',
+        'members': <String, Object?>{},
+        'traits': <String, Object?>{},
+      },
+      'example#NoMembersError': {
+        'type': 'structure',
+        'members': <String, Object?>{},
+        'traits': {
+          'smithy.api#error': 'client',
+        },
+      },
+      'example#MessageError': {
+        'type': 'structure',
+        'members': {
+          'message': {'target': 'smithy.api#String'},
+        },
+        'traits': {
+          'smithy.api#error': 'client',
+        },
+      },
+    });
+
+    final api = apiFromSmithy(model, uid: 'example-2018-01-01');
+
+    test('error shapes are not emitted into api.shapes', () {
+      expect(api.shapes.containsKey('NoMembersError'), isFalse);
+      expect(api.shapes.containsKey('MessageError'), isFalse);
+    });
+
+    test('error shapes are still collected as exceptions', () {
+      expect(api.exceptions, contains('NoMembersError'));
+      expect(api.exceptions, contains('MessageError'));
+    });
+  });
+
+  group('apiFromSmithy @error shape referenced as a member', () {
+    final model = _model({
+      'example#MyService': {
+        'type': 'service',
+        'version': '2018-01-01',
+        'operations': [
+          {'target': 'example#MyOp'}
+        ],
+        'traits': {
+          'aws.protocols#restJson1': <String, Object?>{},
+          'aws.api#service': {'sdkId': 'Example', 'endpointPrefix': 'example'},
+          'aws.auth#sigv4': {'name': 'example'},
+        },
+      },
+      'example#MyOp': {
+        'type': 'operation',
+        'output': {'target': 'example#MyOutput'},
+        'traits': <String, Object?>{},
+      },
+      'example#MyOutput': {
+        'type': 'structure',
+        'members': {
+          'stream': {'target': 'example#Events'},
+        },
+        'traits': <String, Object?>{},
+      },
+      'example#Events': {
+        'type': 'union',
+        'members': {
+          'error': {'target': 'example#ErrorEvent'},
+        },
+        'traits': {'smithy.api#streaming': <String, Object?>{}},
+      },
+      'example#ErrorEvent': {
+        'type': 'structure',
+        'members': <String, Object?>{},
+        'traits': {'smithy.api#error': 'client'},
+      },
+    });
+
+    final api = apiFromSmithy(model, uid: 'example-2018-01-01');
+
+    test('the member-referenced error shape is kept in api.shapes', () {
+      expect(api.shapes.containsKey('ErrorEvent'), isTrue);
+    });
+  });
+
+  group('apiFromSmithy @mediaType(application/json) -> jsonvalue', () {
+    // Legacy v2 marks JSON-string members with `jsonvalue: true` (exposed as
+    // Dart Object, auto-encoded). The v3 models carry the same thing as a string
+    // shape with `@mediaType("application/json")`; map it back to jsonvalue.
+    final model = _model({
+      'example#MyService': {
+        'type': 'service',
+        'version': '2018-01-01',
+        'operations': [
+          {'target': 'example#MyOp'}
+        ],
+        'traits': {
+          'aws.protocols#restJson1': <String, Object?>{},
+          'aws.api#service': {'sdkId': 'Example', 'endpointPrefix': 'example'},
+          'aws.auth#sigv4': {'name': 'example'},
+        },
+      },
+      'example#MyOp': {
+        'type': 'operation',
+        'output': {'target': 'example#MyOutput'},
+        'traits': <String, Object?>{},
+      },
+      'example#MyOutput': {
+        'type': 'structure',
+        'members': {
+          'attributes': {'target': 'example#JsonString'},
+          'note': {'target': 'example#MarkdownString'},
+          'plain': {'target': 'smithy.api#String'},
+        },
+        'traits': <String, Object?>{},
+      },
+      'example#JsonString': {
+        'type': 'string',
+        'traits': {'smithy.api#mediaType': 'application/json'},
+      },
+      'example#MarkdownString': {
+        'type': 'string',
+        'traits': {'smithy.api#mediaType': 'text/markdown'},
+      },
+    });
+
+    final api = apiFromSmithy(model, uid: 'example-2018-01-01');
+    final members = api.shapes['MyOutput']!.membersMap!;
+
+    test('application/json member becomes jsonvalue', () {
+      expect(members['attributes']!.jsonvalue, isTrue);
+    });
+
+    test('non-json mediaType (text/markdown) stays a plain string', () {
+      expect(members['note']!.jsonvalue, isFalse);
+    });
+
+    test('a plain string member is not jsonvalue', () {
+      expect(members['plain']!.jsonvalue, isFalse);
+    });
+  });
+
+  group('apiFromSmithy version fallback from docId', () {
+    // A few real models (e.g. acm-pca) omit the service `version`. The legacy IR
+    // requires an apiVersion, so it's recovered from the `aws.api#service`
+    // `docId` (`<prefix>-<version>`).
+    SmithyModel modelWithoutVersion() => _model({
+          'example#MyService': {
+            'type': 'service',
+            'operations': [
+              {'target': 'example#MyOp'}
+            ],
+            'traits': {
+              'aws.protocols#restJson1': <String, Object?>{},
+              'aws.api#service': {
+                'sdkId': 'Example',
+                'endpointPrefix': 'acm-pca',
+                'docId': 'acm-pca-2017-08-22',
+              },
+              'aws.auth#sigv4': {'name': 'example'},
+            },
+          },
+          'example#MyOp': {
+            'type': 'operation',
+            'traits': <String, Object?>{},
+          },
+        });
+
+    test('derives apiVersion from the docId date suffix', () {
+      final api = apiFromSmithy(modelWithoutVersion(), uid: 'acm-pca');
+      expect(api.metadata.apiVersion, '2017-08-22');
+      expect(api.fileBasename, 'v2017_08_22');
+    });
+  });
 }

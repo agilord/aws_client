@@ -1825,50 +1825,6 @@ class GreetingWithErrorsOutput {
   }
 }
 
-/// This error is thrown when a request is invalid.
-class ComplexError implements _s.AwsException {
-  final String? header;
-  final ComplexNestedErrorData? nested;
-  final String? topLevel;
-
-  ComplexError({
-    this.header,
-    this.nested,
-    this.topLevel,
-  });
-
-  Map<String, dynamic> toJson() {
-    final header = this.header;
-    final nested = this.nested;
-    final topLevel = this.topLevel;
-    return {
-      if (nested != null) 'Nested': nested,
-      if (topLevel != null) 'TopLevel': topLevel,
-    };
-  }
-}
-
-/// This error is thrown when an invalid greeting value is provided.
-class InvalidGreeting implements _s.AwsException {
-  final String? message;
-
-  InvalidGreeting({
-    this.message,
-  });
-  factory InvalidGreeting.fromXml(_s.XmlElement elem) {
-    return InvalidGreeting(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class HttpEmptyPrefixHeadersOutput {
   final Map<String, String>? prefixHeaders;
   final String? specificHeader;
@@ -5063,27 +5019,18 @@ enum StringEnum {
       orElse: () => throw Exception('$value is not known in enum StringEnum'));
 }
 
-class ComplexNestedErrorData {
-  final String? foo;
+class ComplexError extends _s.GenericAwsException {
+  ComplexError({String? type, String? message})
+      : super(type: type, code: 'ComplexError', message: message);
+}
 
-  ComplexNestedErrorData({
-    this.foo,
-  });
-  factory ComplexNestedErrorData.fromXml(_s.XmlElement elem) {
-    return ComplexNestedErrorData(
-      foo: _s.extractXmlStringValue(elem, 'Foo'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final foo = this.foo;
-    return {
-      if (foo != null) 'Foo': foo,
-    };
-  }
+class InvalidGreeting extends _s.GenericAwsException {
+  InvalidGreeting({String? type, String? message})
+      : super(type: type, code: 'InvalidGreeting', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ComplexError': (type, message) => ComplexError(),
-  'InvalidGreeting': (type, message) => InvalidGreeting(message: message),
+  'ComplexError': (type, message) => ComplexError(type: type, message: message),
+  'InvalidGreeting': (type, message) =>
+      InvalidGreeting(type: type, message: message),
 };

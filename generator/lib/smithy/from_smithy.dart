@@ -33,8 +33,15 @@ Api apiFromSmithy(SmithyModel model, {required String uid, String? serviceId}) {
       svcTrait['arnNamespace'] ??
       signingName) as String?;
 
+  final apiVersion =
+      service.version ?? _versionFromDocId(svcTrait['docId'] as String?);
+  if (apiVersion == null) {
+    throw UnsupportedError(
+        'from_smithy: service ${serviceEntry.key} has no version');
+  }
+
   final metadata = Metadata(
-    apiVersion: service.version!,
+    apiVersion: apiVersion,
     endpointPrefix: endpointPrefix!,
     protocol: protocol,
     protocols: [protocol],
@@ -61,12 +68,20 @@ Api apiFromSmithy(SmithyModel model, {required String uid, String? serviceId}) {
   final reachable = _reachableShapeIds(model,
       [for (final ref in _collectOperations(model, service)) ref.target]);
 
+  final memberReferenced = <String>{
+    for (final id in reachable)
+      if (model.shapes[id] != null)
+        for (final ref in _memberTargets(model.shapes[id]!)) ref,
+  };
+
   final dataShapeIds = [
     for (final id in reachable)
       if (model.shapes[id] != null &&
           !const {'service', 'operation', 'resource'}
               .contains(model.shapes[id]!.type) &&
-          !model.shapes[id]!.traits.containsKey('smithy.api#mixin'))
+          !model.shapes[id]!.traits.containsKey('smithy.api#mixin') &&
+          !(model.shapes[id]!.traits.has(TraitIds.error) &&
+              !memberReferenced.contains(id)))
         id
   ];
 
@@ -120,6 +135,21 @@ List<ShapeRef> _collectOperations(SmithyModel model, SmithyShape service) {
   service.operations?.forEach(add);
   service.resources?.forEach(walkResource);
   return refs;
+}
+
+String? _versionFromDocId(String? docId) {
+  if (docId == null) return null;
+  final match = RegExp(r'\d{4}-\d{2}-\d{2}$').firstMatch(docId);
+  return match?.group(0);
+}
+
+Iterable<String> _memberTargets(SmithyShape shape) sync* {
+  for (final ref in shape.members?.values ?? const <ShapeRef>[]) {
+    yield ref.target;
+  }
+  if (shape.member != null) yield shape.member!.target;
+  if (shape.key != null) yield shape.key!.target;
+  if (shape.value != null) yield shape.value!.target;
 }
 
 Set<String> _reachableShapeIds(SmithyModel model, List<String> operationIds) {
@@ -221,7 +251,7 @@ Shape _shape(SmithyShape shape, SmithyModel model, bool rest, bool xml,
     case 'set':
       return Shape(
         type: 'list',
-        member: _memberDescriptor(shape.member!, xml, resolve),
+        member: _memberDescriptor(shape.member!, model, xml, resolve),
         flattened: xml && shape.traits.has(TraitIds.xmlFlattened),
         min: _bound(shape, 'min'),
         max: _bound(shape, 'max'),
@@ -231,8 +261,8 @@ Shape _shape(SmithyShape shape, SmithyModel model, bool rest, bool xml,
     case 'map':
       return Shape(
         type: 'map',
-        key: _memberDescriptor(shape.key!, xml, resolve),
-        value: _memberDescriptor(shape.value!, xml, resolve),
+        key: _memberDescriptor(shape.key!, model, xml, resolve),
+        value: _memberDescriptor(shape.value!, model, xml, resolve),
         xmlNamespace: xml ? _xmlNs(shape.traits) : null,
         documentation: _doc(shape.documentation),
       );
@@ -259,7 +289,7 @@ Shape _structure(SmithyShape shape, SmithyModel model, bool rest, bool xml,
   String? payload;
   _effectiveMembers(shape, model).forEach((name, ref) {
     if (rest && ref.traits.has(TraitIds.httpPayload)) payload = name;
-    members[name] = _member(name, ref, rest, xml, resolve);
+    members[name] = _member(name, ref, model, rest, xml, resolve);
     if (ref.isRequired) required.add(name);
   });
   return Shape(
@@ -273,7 +303,7 @@ Shape _structure(SmithyShape shape, SmithyModel model, bool rest, bool xml,
   );
 }
 
-Member _member(String name, ShapeRef ref, bool rest, bool xml,
+Member _member(String name, ShapeRef ref, SmithyModel model, bool rest, bool xml,
     String Function(String) resolve) {
   final t = ref.traits;
   String? location;
@@ -306,16 +336,24 @@ Member _member(String name, ShapeRef ref, bool rest, bool xml,
     xmlAttribute: xml && t.has(TraitIds.xmlAttribute),
     xmlNamespace: xml ? _xmlNs(t) : null,
     timestampFormat: _timestampFormat(t.string(TraitIds.timestampFormat)),
+    jsonvalue: _isJsonValue(ref, model),
   );
 }
 
-Descriptor _memberDescriptor(
-        ShapeRef ref, bool xml, String Function(String) resolve) =>
+Descriptor _memberDescriptor(ShapeRef ref, SmithyModel model, bool xml,
+        String Function(String) resolve) =>
     Descriptor(
       shape: resolve(ref.target),
       locationName: xml ? ref.traits.string(TraitIds.xmlName) : null,
       xmlNamespace: xml ? _xmlNs(ref.traits) : null,
+      jsonvalue: _isJsonValue(ref, model),
     );
+
+bool _isJsonValue(ShapeRef ref, SmithyModel model) {
+  const json = 'application/json';
+  if (ref.traits.string(TraitIds.mediaType) == json) return true;
+  return model.shapes[ref.target]?.traits.string(TraitIds.mediaType) == json;
+}
 
 XmlNamespace? _xmlNs(Map<String, Object?> traits) {
   final ns = traits.object(TraitIds.xmlNamespace);

@@ -18,9 +18,7 @@ const smithyProtocolTestsDir =
     '$smithyPackageDir/test/generated_smithy_protocol';
 const _sharedLibraryPath = 'package:aws_client/src/shared';
 
-// Generated coverage report — written to the gitignored .notes/ (repo root),
-// not the committed test tree.
-const _readinessFile = '../.notes/smithy-readiness.md';
+const _readinessFile = '$smithyProtocolTestsDir/readiness.md';
 
 Future<void> generateSmithyProtocolTests({
   required Map<String, String> skipList,
@@ -62,16 +60,17 @@ Future<void> generateSmithyProtocolTests({
             : a);
     final protocolId = serviceEntry.value.protocolTraitId;
 
-    var corpusVectors = 0;
+    var corpusVectors = 0, outOfScope = 0;
     for (final s in model.shapes.values.where((s) => s.type == 'operation')) {
       for (final key in const [
         'smithy.test#httpRequestTests',
         'smithy.test#httpResponseTests',
       ]) {
-        corpusVectors += (s.traits[key] as List? ?? const [])
+        final matching = (s.traits[key] as List? ?? const [])
             .cast<Map>()
-            .where((m) => m['protocol'] == protocolId || m['protocol'] == null)
-            .length;
+            .where((m) => m['protocol'] == protocolId || m['protocol'] == null);
+        corpusVectors += matching.length;
+        outOfScope += matching.where((m) => m['appliesTo'] == 'server').length;
       }
     }
 
@@ -92,6 +91,7 @@ Future<void> generateSmithyProtocolTests({
           vectors: 0,
           skipped: 0,
           excludedOps: opCount,
+          outOfScope: outOfScope,
           buildFailed: true));
       continue;
     }
@@ -111,6 +111,7 @@ Future<void> generateSmithyProtocolTests({
           .cast<Map>()
           .map((m) => m.cast<String, dynamic>())
           .where((m) => m['protocol'] == protocolId || m['protocol'] == null)
+          .where((m) => m['appliesTo'] != 'server')
           .toList();
       final requestTests =
           only(entry.value.traits['smithy.test#httpRequestTests']);
@@ -173,7 +174,8 @@ Future<void> generateSmithyProtocolTests({
         corpusVectors: corpusVectors,
         vectors: vectors,
         skipped: skipped,
-        excludedOps: excludedOps));
+        excludedOps: excludedOps,
+        outOfScope: outOfScope));
   }
 
   final staleSkips = staleSkipKeys(skipList, emittedIds);

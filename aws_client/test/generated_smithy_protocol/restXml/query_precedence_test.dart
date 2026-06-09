@@ -35,28 +35,4 @@ void main() {
       foo: "named",
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
-
-  test('RestXmlServersPutAllQueryParamsInMap', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(
-          request.url, equalsPathAndQuery('/Precedence?bar=named&qux=fromMap'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('<Response></Response>', 200);
-    });
-
-    final service = RestXmlProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.queryPrecedence(
-      baz: {
-        "bar": "named",
-        "qux": "fromMap",
-      },
-      foo: "named",
-    );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 }

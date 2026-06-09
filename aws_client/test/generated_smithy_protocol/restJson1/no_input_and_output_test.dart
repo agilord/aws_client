@@ -29,24 +29,6 @@ void main() {
     await service.noInputAndOutput();
   });
 
-  test('RestJsonNoInputAndOutputAllowsAccept', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.headers['Accept'], 'application/json');
-      expect(request.url, equalsPathAndQuery('/NoInputAndOutputOutput'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.noInputAndOutput();
-  });
-
   test('RestJsonNoInputAndOutputWithJson', () async {
     final client = MockClient((request) async {
       return Response(r'''{}''', 200,

@@ -62,6 +62,11 @@ String buildParameters(Shape? shape, Member? member, Object? params,
   if (shape == null) return '';
   if (params == null) return isRoot ? '' : 'null';
 
+  if (params is String &&
+      ((member?.jsonvalue ?? false) || (descriptor?.jsonvalue ?? false))) {
+    return 'jsonDecode(${jsonEncode(params)})';
+  }
+
   if (shape.type == 'list') {
     final resultList = params as List;
     return '[${resultList.map((e) => buildParameters(shape.member!.shapeClass, null, e, descriptor: shape.member)).where((e) => e != 'null').join(', ')}]';

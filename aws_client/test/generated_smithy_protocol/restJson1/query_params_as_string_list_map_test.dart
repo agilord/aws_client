@@ -34,28 +34,4 @@ void main() {
       qux: "named",
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
-
-  test('RestJsonServersQueryParamsStringListMap', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.url,
-          equalsPathAndQuery('/StringListMap?corge=named&baz=bar&baz=qux'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.queryParamsAsStringListMap(
-      foo: {
-        "corge": ["named"],
-        "baz": ["bar", "qux"],
-      },
-      qux: "named",
-    );
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 }

@@ -28,22 +28,6 @@ void main() {
     expect(output.status, 201);
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('RestJsonHttpResponseCodeDefaultsToModeledCode', () async {
-    final client = MockClient((request) async {
-      return Response(r'''{}''', 200,
-          headers: {"Content-Type": "application/json"});
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    final output = await service.httpResponseCode();
-    expect(output.status, isNull);
-  });
-
   test('RestJsonHttpResponseCodeWithNoPayload', () async {
     final client = MockClient((request) async {
       return Response(r'''''', 201, headers: {});

@@ -409,72 +409,6 @@ class GreetingWithErrorsOutput {
   }
 }
 
-/// This error is thrown when a request is invalid.
-class ComplexError implements _s.AwsException {
-  final ComplexNestedErrorData? nested;
-  final String? topLevel;
-
-  ComplexError({
-    this.nested,
-    this.topLevel,
-  });
-
-  factory ComplexError.fromJson(Map<String, dynamic> json) {
-    return ComplexError(
-      nested: json['Nested'] != null
-          ? ComplexNestedErrorData.fromJson(
-              json['Nested'] as Map<String, dynamic>)
-          : null,
-      topLevel: json['TopLevel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nested = this.nested;
-    final topLevel = this.topLevel;
-    return {
-      if (nested != null) 'Nested': nested,
-      if (topLevel != null) 'TopLevel': topLevel,
-    };
-  }
-}
-
-/// This error has test cases that test some of the dark corners of Amazon
-/// service framework history. It should only be implemented by clients.
-class FooError implements _s.AwsException {
-  FooError();
-
-  factory FooError.fromJson(Map<String, dynamic> _) {
-    return FooError();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// This error is thrown when an invalid greeting value is provided.
-class InvalidGreeting implements _s.AwsException {
-  final String? message;
-
-  InvalidGreeting({
-    this.message,
-  });
-
-  factory InvalidGreeting.fromJson(Map<String, dynamic> json) {
-    return InvalidGreeting(
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class JsonUnionsOutput {
   final MyUnion? contents;
 
@@ -1290,27 +1224,6 @@ class GreetingStruct {
   }
 }
 
-class ComplexNestedErrorData {
-  final String? foo;
-
-  ComplexNestedErrorData({
-    this.foo,
-  });
-
-  factory ComplexNestedErrorData.fromJson(Map<String, dynamic> json) {
-    return ComplexNestedErrorData(
-      foo: json['Fooooo'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final foo = this.foo;
-    return {
-      if (foo != null) 'Fooooo': foo,
-    };
-  }
-}
-
 class Document {
   Document();
 
@@ -1323,8 +1236,24 @@ class Document {
   }
 }
 
+class ComplexError extends _s.GenericAwsException {
+  ComplexError({String? type, String? message})
+      : super(type: type, code: 'ComplexError', message: message);
+}
+
+class FooError extends _s.GenericAwsException {
+  FooError({String? type, String? message})
+      : super(type: type, code: 'FooError', message: message);
+}
+
+class InvalidGreeting extends _s.GenericAwsException {
+  InvalidGreeting({String? type, String? message})
+      : super(type: type, code: 'InvalidGreeting', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ComplexError': (type, message) => ComplexError(),
-  'FooError': (type, message) => FooError(),
-  'InvalidGreeting': (type, message) => InvalidGreeting(message: message),
+  'ComplexError': (type, message) => ComplexError(type: type, message: message),
+  'FooError': (type, message) => FooError(type: type, message: message),
+  'InvalidGreeting': (type, message) =>
+      InvalidGreeting(type: type, message: message),
 };

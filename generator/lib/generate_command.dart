@@ -294,11 +294,17 @@ export 'src/credential_providers/aws_credential_providers.dart';
 }
 
 void _fixApi(Api api) {
+  void addEnumValue(String shape, String value) {
+    final enumeration = api.shapes[shape]?.enumeration;
+    if (enumeration != null && !enumeration.contains(value)) {
+      enumeration.add(value);
+    }
+  }
+
   if (api.directoryName == 's3') {
-    final checksum = api.shapes['ChecksumAlgorithm']!;
-    checksum.enumeration!.add('CRC64NVME');
+    addEnumValue('ChecksumAlgorithm', 'CRC64NVME');
   } else if (api.directoryName == 'lambda' &&
       api.metadata.apiVersion == '2015-03-31') {
-    api.shapes['LastUpdateStatusReasonCode']!.enumeration!.add('Creating');
+    addEnumValue('LastUpdateStatusReasonCode', 'Creating');
   }
 }

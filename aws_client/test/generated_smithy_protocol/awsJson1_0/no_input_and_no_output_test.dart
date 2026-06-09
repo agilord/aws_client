@@ -32,26 +32,6 @@ void main() {
     await service.noInputAndNoOutput();
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('AwsJson10ServiceSupportsNoPayloadForNoInput', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.headers['X-Amz-Target'], 'JsonRpc10.NoInputAndNoOutput');
-      expect(request.url, equalsPathAndQuery('/'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = JsonRpc10(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.noInputAndNoOutput();
-  });
-
   test('AwsJson10HandlesEmptyOutputShape', () async {
     final client = MockClient((request) async {
       return Response(r'''{}''', 200,

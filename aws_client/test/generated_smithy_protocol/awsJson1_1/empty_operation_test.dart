@@ -70,26 +70,6 @@ void main() {
     await service.emptyOperation();
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('json_1_1_service_supports_empty_payload_for_no_input_shape', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.1'));
-      expect(request.headers['X-Amz-Target'], 'JsonProtocol.EmptyOperation');
-      expect(request.url, equalsPathAndQuery('/'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = JsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.emptyOperation();
-  });
-
   test('handles_empty_output_shape', () async {
     final client = MockClient((request) async {
       return Response(r'''{}''', 200,

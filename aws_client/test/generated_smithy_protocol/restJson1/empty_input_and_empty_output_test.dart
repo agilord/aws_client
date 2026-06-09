@@ -29,24 +29,6 @@ void main() {
     await service.emptyInputAndEmptyOutput();
   });
 
-  test('RestJsonEmptyInputAndEmptyOutputWithJson', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r'''{}'''));
-      expect(request.headers['Content-Type'], startsWith('application/json'));
-      expect(request.url, equalsPathAndQuery('/EmptyInputAndEmptyOutput'));
-      expect(request.method, equalsIgnoringCase('POST'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.emptyInputAndEmptyOutput();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
-
   test('RestJsonEmptyInputAndEmptyOutput', () async {
     final client = MockClient((request) async {
       return Response(r'''{}''', 200,

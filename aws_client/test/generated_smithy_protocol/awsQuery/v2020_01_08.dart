@@ -840,75 +840,6 @@ class GreetingWithErrorsOutput {
   }
 }
 
-/// This error is thrown when a request is invalid.
-class ComplexError implements _s.AwsException {
-  final ComplexNestedErrorData? nested;
-  final String? topLevel;
-
-  ComplexError({
-    this.nested,
-    this.topLevel,
-  });
-  factory ComplexError.fromXml(_s.XmlElement elem) {
-    return ComplexError(
-      nested: _s
-          .extractXmlChild(elem, 'Nested')
-          ?.let(ComplexNestedErrorData.fromXml),
-      topLevel: _s.extractXmlStringValue(elem, 'TopLevel'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nested = this.nested;
-    final topLevel = this.topLevel;
-    return {
-      if (nested != null) 'Nested': nested,
-      if (topLevel != null) 'TopLevel': topLevel,
-    };
-  }
-}
-
-class CustomCodeError implements _s.AwsException {
-  final String? message;
-
-  CustomCodeError({
-    this.message,
-  });
-  factory CustomCodeError.fromXml(_s.XmlElement elem) {
-    return CustomCodeError(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-/// This error is thrown when an invalid greeting value is provided.
-class InvalidGreeting implements _s.AwsException {
-  final String? message;
-
-  InvalidGreeting({
-    this.message,
-  });
-  factory InvalidGreeting.fromXml(_s.XmlElement elem) {
-    return InvalidGreeting(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class IgnoresWrappingXmlNameOutput {
   final String? foo;
 
@@ -1663,28 +1594,25 @@ class StructArg {
   }
 }
 
-class ComplexNestedErrorData {
-  final String? foo;
+class ComplexError extends _s.GenericAwsException {
+  ComplexError({String? type, String? message})
+      : super(type: type, code: 'ComplexError', message: message);
+}
 
-  ComplexNestedErrorData({
-    this.foo,
-  });
-  factory ComplexNestedErrorData.fromXml(_s.XmlElement elem) {
-    return ComplexNestedErrorData(
-      foo: _s.extractXmlStringValue(elem, 'Foo'),
-    );
-  }
+class CustomCodeError extends _s.GenericAwsException {
+  CustomCodeError({String? type, String? message})
+      : super(type: type, code: 'CustomCodeError', message: message);
+}
 
-  Map<String, dynamic> toJson() {
-    final foo = this.foo;
-    return {
-      if (foo != null) 'Foo': foo,
-    };
-  }
+class InvalidGreeting extends _s.GenericAwsException {
+  InvalidGreeting({String? type, String? message})
+      : super(type: type, code: 'InvalidGreeting', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ComplexError': (type, message) => ComplexError(),
-  'CustomCodeError': (type, message) => CustomCodeError(message: message),
-  'InvalidGreeting': (type, message) => InvalidGreeting(message: message),
+  'ComplexError': (type, message) => ComplexError(type: type, message: message),
+  'CustomCodeError': (type, message) =>
+      CustomCodeError(type: type, message: message),
+  'InvalidGreeting': (type, message) =>
+      InvalidGreeting(type: type, message: message),
 };

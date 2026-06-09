@@ -37,31 +37,6 @@ void main() {
     );
   });
 
-  test('RestJsonHttpEmptyPrefixHeadersRequestServer', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r''''''));
-      expect(request.headers['x-foo'], 'Foo');
-      expect(request.headers['hello'], 'There');
-      expect(request.url, equalsPathAndQuery('/HttpEmptyPrefixHeaders'));
-      expect(request.method, equalsIgnoringCase('GET'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.httpEmptyPrefixHeaders(
-      prefixHeaders: {
-        "x-foo": "Foo",
-        "hello": "There",
-      },
-      specificHeader: "There",
-    );
-  });
-
   test('RestJsonHttpEmptyPrefixHeadersResponseClient', () async {
     final client = MockClient((request) async {
       return Response('{}', 200, headers: {"x-foo": "Foo", "hello": "There"});
@@ -78,21 +53,4 @@ void main() {
     expect(output.prefixHeaders?['hello'], "There");
     expect(output.specificHeader, "There");
   });
-
-  test('RestJsonHttpEmptyPrefixHeadersResponseServer', () async {
-    final client = MockClient((request) async {
-      return Response('{}', 200, headers: {"x-foo": "Foo", "hello": "There"});
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    final output = await service.httpEmptyPrefixHeaders();
-    expect(output.prefixHeaders?['x-foo'], "Foo");
-    expect(output.prefixHeaders?['hello'], "Hello");
-    expect(output.specificHeader, "There");
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 }

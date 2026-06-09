@@ -43,6 +43,9 @@ String extractJsonCode(Shape shape, String variable,
     return '($variable as Map<String, dynamic>$nullAware)$nullAware.map((k, e) => MapEntry($keyCode, $valueCode))';
   } else if (shape.type == 'list') {
     final nullAware = nullability.outputNullable ? '?' : '';
+    if (shape.member!.shapeClass!.type == 'document') {
+      return '($variable as List$nullAware)$nullAware.nonNulls.toList()';
+    }
     var closureCode = extractJsonCode(shape.member!.shapeClass!, 'e',
         nullability: Nullability.none);
     closureCode = _createClosure('e', closureCode);

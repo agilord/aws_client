@@ -1311,10 +1311,11 @@ class RestJsonProtocol {
   }
 
   Future<void> malformedString({
-    String? blob,
+    Object? blob,
   }) async {
     final headers = <String, String>{
-      if (blob != null) 'amz-media-typed-header': blob.toString(),
+      if (blob != null)
+        'amz-media-typed-header': base64Encode(utf8.encode(jsonEncode(blob))),
     };
     await _protocol.send(
       payload: null,
@@ -1509,10 +1510,10 @@ class RestJsonProtocol {
 
   /// This example ensures that mediaType strings are base64 encoded in headers.
   Future<MediaTypeHeaderOutput> mediaTypeHeader({
-    String? json,
+    Object? json,
   }) async {
     final headers = <String, String>{
-      if (json != null) 'X-Json': json.toString(),
+      if (json != null) 'X-Json': base64Encode(utf8.encode(jsonEncode(json))),
     };
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1523,7 +1524,7 @@ class RestJsonProtocol {
     );
     final $json = await _s.jsonFromResponse(response);
     return MediaTypeHeaderOutput(
-      json: _s.extractHeaderStringValue(response.headers, 'X-Json'),
+      json: _s.extractHeaderJsonValue(response.headers, 'X-Json'),
     );
   }
 
@@ -2398,27 +2399,6 @@ class DuplexStreamWithInitialMessagesOutput {
   }
 }
 
-class ServiceUnavailableError implements _s.AwsException {
-  final String? message;
-
-  ServiceUnavailableError({
-    this.message,
-  });
-
-  factory ServiceUnavailableError.fromJson(Map<String, dynamic> json) {
-    return ServiceUnavailableError(
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'message': message,
-    };
-  }
-}
-
 class EmptyInputAndEmptyOutputOutput {
   EmptyInputAndEmptyOutputOutput();
 
@@ -2462,76 +2442,6 @@ class GreetingWithErrorsOutput {
   Map<String, dynamic> toJson() {
     final greeting = this.greeting;
     return {};
-  }
-}
-
-/// This error is thrown when a request is invalid.
-class ComplexError implements _s.AwsException {
-  final String? header;
-  final ComplexNestedErrorData? nested;
-  final String? topLevel;
-
-  ComplexError({
-    this.header,
-    this.nested,
-    this.topLevel,
-  });
-
-  factory ComplexError.fromJson(Map<String, dynamic> json) {
-    return ComplexError(
-      header: json['X-Header'] as String?,
-      nested: json['Nested'] != null
-          ? ComplexNestedErrorData.fromJson(
-              json['Nested'] as Map<String, dynamic>)
-          : null,
-      topLevel: json['TopLevel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final header = this.header;
-    final nested = this.nested;
-    final topLevel = this.topLevel;
-    return {
-      if (nested != null) 'Nested': nested,
-      if (topLevel != null) 'TopLevel': topLevel,
-    };
-  }
-}
-
-/// This error has test cases that test some of the dark corners of Amazon
-/// service framework history. It should only be implemented by clients.
-class FooError implements _s.AwsException {
-  FooError();
-
-  factory FooError.fromJson(Map<String, dynamic> _) {
-    return FooError();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// This error is thrown when an invalid greeting value is provided.
-class InvalidGreeting implements _s.AwsException {
-  final String? message;
-
-  InvalidGreeting({
-    this.message,
-  });
-
-  factory InvalidGreeting.fromJson(Map<String, dynamic> json) {
-    return InvalidGreeting(
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
   }
 }
 
@@ -3197,7 +3107,7 @@ class MalformedAcceptWithPayloadOutput {
 }
 
 class MediaTypeHeaderOutput {
-  final String? json;
+  final Object? json;
 
   MediaTypeHeaderOutput({
     this.json,
@@ -4791,27 +4701,6 @@ enum StringEnum {
       orElse: () => throw Exception('$value is not known in enum StringEnum'));
 }
 
-class ComplexNestedErrorData {
-  final String? foo;
-
-  ComplexNestedErrorData({
-    this.foo,
-  });
-
-  factory ComplexNestedErrorData.fromJson(Map<String, dynamic> json) {
-    return ComplexNestedErrorData(
-      foo: json['Fooooo'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final foo = this.foo;
-    return {
-      if (foo != null) 'Fooooo': foo,
-    };
-  }
-}
-
 class SingletonEventStream {
   final SingletonEvent? singleton;
 
@@ -4868,11 +4757,32 @@ class Unit {
   }
 }
 
+class ComplexError extends _s.GenericAwsException {
+  ComplexError({String? type, String? message})
+      : super(type: type, code: 'ComplexError', message: message);
+}
+
+class FooError extends _s.GenericAwsException {
+  FooError({String? type, String? message})
+      : super(type: type, code: 'FooError', message: message);
+}
+
+class InvalidGreeting extends _s.GenericAwsException {
+  InvalidGreeting({String? type, String? message})
+      : super(type: type, code: 'InvalidGreeting', message: message);
+}
+
+class ServiceUnavailableError extends _s.GenericAwsException {
+  ServiceUnavailableError({String? type, String? message})
+      : super(type: type, code: 'ServiceUnavailableError', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ComplexError': (type, message) => ComplexError(),
+  'ComplexError': (type, message) => ComplexError(type: type, message: message),
   'ErrorEvent': (type, message) => ErrorEvent(message: message),
-  'FooError': (type, message) => FooError(),
-  'InvalidGreeting': (type, message) => InvalidGreeting(message: message),
+  'FooError': (type, message) => FooError(type: type, message: message),
+  'InvalidGreeting': (type, message) =>
+      InvalidGreeting(type: type, message: message),
   'ServiceUnavailableError': (type, message) =>
-      ServiceUnavailableError(message: message),
+      ServiceUnavailableError(type: type, message: message),
 };

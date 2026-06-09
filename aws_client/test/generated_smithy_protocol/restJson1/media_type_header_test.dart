@@ -28,7 +28,7 @@ void main() {
     );
 
     await service.mediaTypeHeader(
-      json: "true",
+      json: jsonDecode("true"),
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 

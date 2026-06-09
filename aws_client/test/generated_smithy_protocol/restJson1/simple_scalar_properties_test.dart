@@ -72,26 +72,6 @@ void main() {
     );
   });
 
-  test('RestJsonServersDontSerializeNullStructureValues', () async {
-    final client = MockClient((request) async {
-      expect(request.body, equalsJson(r'''{
-    "stringValue": null
-}'''));
-      expect(request.headers['Content-Type'], startsWith('application/json'));
-      expect(request.url, equalsPathAndQuery('/SimpleScalarProperties'));
-      expect(request.method, equalsIgnoringCase('PUT'));
-      return Response('{}', 200);
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    await service.simpleScalarProperties();
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
-
   test('RestJsonSupportsNaNFloatInputs', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
@@ -229,31 +209,6 @@ void main() {
     expect(output.stringValue, isNull);
     expect(output.trueBooleanValue, isNull);
   });
-
-  test('RestJsonServersDontSerializeNullStructureValues', () async {
-    final client = MockClient((request) async {
-      return Response(r'''{}''', 200,
-          headers: {"Content-Type": "application/json"});
-    });
-
-    final service = RestJsonProtocol(
-      client: client,
-      region: 'us-east-1',
-      credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
-    );
-
-    final output = await service.simpleScalarProperties();
-    expect(output.byteValue, isNull);
-    expect(output.doubleValue, isNull);
-    expect(output.falseBooleanValue, isNull);
-    expect(output.floatValue, isNull);
-    expect(output.foo, isNull);
-    expect(output.integerValue, isNull);
-    expect(output.longValue, isNull);
-    expect(output.shortValue, isNull);
-    expect(output.stringValue, isNull);
-    expect(output.trueBooleanValue, isNull);
-  }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
   test('RestJsonSupportsNaNFloatInputs', () async {
     final client = MockClient((request) async {

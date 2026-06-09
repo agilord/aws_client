@@ -10,7 +10,8 @@ abstract class ServiceBuilder {
 
   String operationContent(Operation operation);
 
-  void buildRequestHeaders(Operation operation, StringBuffer out) {
+  void buildRequestHeaders(Operation operation, StringBuffer out,
+      {Set<String> guaranteedNonNull = const {}}) {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasHeaderMembers) return;
 
@@ -18,7 +19,7 @@ abstract class ServiceBuilder {
     for (var m in sc.headerMembers) {
       final headerName = m.locationName ?? m.shapeClass?.locationName ?? m.name;
       final location = m.location ?? m.shapeClass?.location;
-      if (!m.isRequired) {
+      if (!m.isRequired && !guaranteedNonNull.contains(m.fieldName)) {
         out.writeln('if (${m.fieldName} != null)');
       }
       if (location == 'headers') {

@@ -289,7 +289,7 @@ class JsonProtocol {
     DateTime? httpdateTimestamp,
     int? integer,
     DateTime? iso8601Timestamp,
-    String? jsonValue,
+    Object? jsonValue,
     List<List<String>>? listOfLists,
     List<Map<String, String>>? listOfMapsOfStrings,
     List<String>? listOfStrings,
@@ -329,7 +329,7 @@ class JsonProtocol {
         if (integer != null) 'Integer': integer,
         if (iso8601Timestamp != null)
           'Iso8601Timestamp': iso8601ToJson(iso8601Timestamp),
-        if (jsonValue != null) 'JsonValue': jsonValue,
+        if (jsonValue != null) 'JsonValue': jsonEncode(jsonValue),
         if (listOfLists != null) 'ListOfLists': listOfLists,
         if (listOfMapsOfStrings != null)
           'ListOfMapsOfStrings': listOfMapsOfStrings,
@@ -565,72 +565,6 @@ class GreetingWithErrorsOutput {
   }
 }
 
-/// This error is thrown when a request is invalid.
-class ComplexError implements _s.AwsException {
-  final ComplexNestedErrorData? nested;
-  final String? topLevel;
-
-  ComplexError({
-    this.nested,
-    this.topLevel,
-  });
-
-  factory ComplexError.fromJson(Map<String, dynamic> json) {
-    return ComplexError(
-      nested: json['Nested'] != null
-          ? ComplexNestedErrorData.fromJson(
-              json['Nested'] as Map<String, dynamic>)
-          : null,
-      topLevel: json['TopLevel'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nested = this.nested;
-    final topLevel = this.topLevel;
-    return {
-      if (nested != null) 'Nested': nested,
-      if (topLevel != null) 'TopLevel': topLevel,
-    };
-  }
-}
-
-/// This error has test cases that test some of the dark corners of Amazon
-/// service framework history. It should only be implemented by clients.
-class FooError implements _s.AwsException {
-  FooError();
-
-  factory FooError.fromJson(Map<String, dynamic> _) {
-    return FooError();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// This error is thrown when an invalid greeting value is provided.
-class InvalidGreeting implements _s.AwsException {
-  final String? message;
-
-  InvalidGreeting({
-    this.message,
-  });
-
-  factory InvalidGreeting.fromJson(Map<String, dynamic> json) {
-    return InvalidGreeting(
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
 class JsonEnumsInputOutput {
   final FooEnum? fooEnum1;
   final FooEnum? fooEnum2;
@@ -771,7 +705,7 @@ class KitchenSink {
   final DateTime? httpdateTimestamp;
   final int? integer;
   final DateTime? iso8601Timestamp;
-  final String? jsonValue;
+  final Object? jsonValue;
   final List<List<String>>? listOfLists;
   final List<Map<String, String>>? listOfMapsOfStrings;
   final List<String>? listOfStrings;
@@ -831,7 +765,9 @@ class KitchenSink {
       httpdateTimestamp: timeStampFromJson(json['HttpdateTimestamp']),
       integer: json['Integer'] as int?,
       iso8601Timestamp: timeStampFromJson(json['Iso8601Timestamp']),
-      jsonValue: json['JsonValue'] as String?,
+      jsonValue: json['JsonValue'] == null
+          ? null
+          : jsonDecode(json['JsonValue'] as String),
       listOfLists: (json['ListOfLists'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -926,7 +862,7 @@ class KitchenSink {
       if (integer != null) 'Integer': integer,
       if (iso8601Timestamp != null)
         'Iso8601Timestamp': iso8601ToJson(iso8601Timestamp),
-      if (jsonValue != null) 'JsonValue': jsonValue,
+      if (jsonValue != null) 'JsonValue': jsonEncode(jsonValue),
       if (listOfLists != null) 'ListOfLists': listOfLists,
       if (listOfMapsOfStrings != null)
         'ListOfMapsOfStrings': listOfMapsOfStrings,
@@ -948,77 +884,6 @@ class KitchenSink {
       if (unixTimestamp != null)
         'UnixTimestamp': unixTimestampToJson(unixTimestamp),
     };
-  }
-}
-
-class ErrorWithMembers implements _s.AwsException {
-  final String? code;
-  final KitchenSink? complexData;
-  final int? integerField;
-  final List<String>? listField;
-  final Map<String, String>? mapField;
-  final String? message;
-
-  /// abc
-  final String? stringField;
-
-  ErrorWithMembers({
-    this.code,
-    this.complexData,
-    this.integerField,
-    this.listField,
-    this.mapField,
-    this.message,
-    this.stringField,
-  });
-
-  factory ErrorWithMembers.fromJson(Map<String, dynamic> json) {
-    return ErrorWithMembers(
-      code: json['Code'] as String?,
-      complexData: json['ComplexData'] != null
-          ? KitchenSink.fromJson(json['ComplexData'] as Map<String, dynamic>)
-          : null,
-      integerField: json['IntegerField'] as int?,
-      listField: (json['ListField'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      mapField: (json['MapField'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      message: json['Message'] as String?,
-      stringField: json['StringField'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final complexData = this.complexData;
-    final integerField = this.integerField;
-    final listField = this.listField;
-    final mapField = this.mapField;
-    final message = this.message;
-    final stringField = this.stringField;
-    return {
-      if (code != null) 'Code': code,
-      if (complexData != null) 'ComplexData': complexData,
-      if (integerField != null) 'IntegerField': integerField,
-      if (listField != null) 'ListField': listField,
-      if (mapField != null) 'MapField': mapField,
-      if (message != null) 'Message': message,
-      if (stringField != null) 'StringField': stringField,
-    };
-  }
-}
-
-class ErrorWithoutMembers implements _s.AwsException {
-  ErrorWithoutMembers();
-
-  factory ErrorWithoutMembers.fromJson(Map<String, dynamic> _) {
-    return ErrorWithoutMembers();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -1306,31 +1171,38 @@ class GreetingStruct {
   }
 }
 
-class ComplexNestedErrorData {
-  final String? foo;
+class ComplexError extends _s.GenericAwsException {
+  ComplexError({String? type, String? message})
+      : super(type: type, code: 'ComplexError', message: message);
+}
 
-  ComplexNestedErrorData({
-    this.foo,
-  });
+class ErrorWithMembers extends _s.GenericAwsException {
+  ErrorWithMembers({String? type, String? message})
+      : super(type: type, code: 'ErrorWithMembers', message: message);
+}
 
-  factory ComplexNestedErrorData.fromJson(Map<String, dynamic> json) {
-    return ComplexNestedErrorData(
-      foo: json['Fooooo'] as String?,
-    );
-  }
+class ErrorWithoutMembers extends _s.GenericAwsException {
+  ErrorWithoutMembers({String? type, String? message})
+      : super(type: type, code: 'ErrorWithoutMembers', message: message);
+}
 
-  Map<String, dynamic> toJson() {
-    final foo = this.foo;
-    return {
-      if (foo != null) 'Fooooo': foo,
-    };
-  }
+class FooError extends _s.GenericAwsException {
+  FooError({String? type, String? message})
+      : super(type: type, code: 'FooError', message: message);
+}
+
+class InvalidGreeting extends _s.GenericAwsException {
+  InvalidGreeting({String? type, String? message})
+      : super(type: type, code: 'InvalidGreeting', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ComplexError': (type, message) => ComplexError(),
-  'ErrorWithMembers': (type, message) => ErrorWithMembers(message: message),
-  'ErrorWithoutMembers': (type, message) => ErrorWithoutMembers(),
-  'FooError': (type, message) => FooError(),
-  'InvalidGreeting': (type, message) => InvalidGreeting(message: message),
+  'ComplexError': (type, message) => ComplexError(type: type, message: message),
+  'ErrorWithMembers': (type, message) =>
+      ErrorWithMembers(type: type, message: message),
+  'ErrorWithoutMembers': (type, message) =>
+      ErrorWithoutMembers(type: type, message: message),
+  'FooError': (type, message) => FooError(type: type, message: message),
+  'InvalidGreeting': (type, message) =>
+      InvalidGreeting(type: type, message: message),
 };
