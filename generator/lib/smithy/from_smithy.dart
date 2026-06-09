@@ -303,8 +303,8 @@ Shape _structure(SmithyShape shape, SmithyModel model, bool rest, bool xml,
   );
 }
 
-Member _member(String name, ShapeRef ref, SmithyModel model, bool rest, bool xml,
-    String Function(String) resolve) {
+Member _member(String name, ShapeRef ref, SmithyModel model, bool rest,
+    bool xml, String Function(String) resolve) {
   final t = ref.traits;
   String? location;
   String? locationName =

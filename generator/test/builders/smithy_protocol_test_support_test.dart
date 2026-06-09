@@ -49,7 +49,8 @@ void main() {
             '| **total** | **60** | **0** | **60** | **15** | **11** | **4** | **3** |'));
   });
 
-  test('renderReadiness reports server vectors as out-of-scope, not skipped', () {
+  test('renderReadiness reports server vectors as out-of-scope, not skipped',
+      () {
     final md = renderReadiness([
       ProtocolReadiness(
           protocol: 'restJson1',
