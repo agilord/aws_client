@@ -82,6 +82,11 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       payloadMember = outputShape!.membersMap![outputShape.payload];
       isBlobResponse = payloadMember!.shapeClass!.type == 'blob';
     }
+    final payloadShape = payloadMember?.shapeClass;
+    final isRawPayload = payloadShape != null &&
+        (payloadShape.type == 'blob' ||
+            (payloadShape.type == 'string' &&
+                payloadShape.className != 'string'));
     final isInlineExtraction =
         payloadMember != null || outputShape?.hasHeaderMembers == true;
     final hasOutputShape = outputShape != null;
@@ -100,7 +105,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
     if (operation.hasReturnType) {
       final outputShape = operation.output!.shapeClass;
-      if (!isBlobResponse && isInlineExtraction) {
+      if (!isRawPayload && isInlineExtraction) {
         buf.writeln('final \$json = await _s.jsonFromResponse(response);');
       }
 
@@ -112,12 +117,19 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           buf.writeln(
               '${payloadMember!.fieldName}: await response.stream.toBytes(),');
         } else if (payloadMember != null) {
-          final className = payloadMember.shapeClass!.className;
-          if (className == 'string') {
-            buf.writeln('${payloadMember.fieldName}: jsonEncode(\$json),');
-          } else {
+          final shape = payloadMember.shapeClass!;
+          final field = payloadMember.fieldName;
+          if (shape.className == 'string') {
+            buf.writeln('$field: jsonEncode(\$json),');
+          } else if (shape.enumeration?.isNotEmpty ?? false) {
             buf.writeln(
-                '${payloadMember.fieldName}: $className.fromJson(\$json),');
+                '$field: ${shape.className}.fromString(await response.stream.bytesToString()),');
+          } else if (shape.type == 'string') {
+            buf.writeln('$field: await response.stream.bytesToString(),');
+          } else if (shape.type == 'document') {
+            buf.writeln('$field: \$json,');
+          } else {
+            buf.writeln('$field: ${shape.className}.fromJson(\$json),');
           }
         } else {
           for (var member in outputShape.members.where((m) => m.isBody)) {

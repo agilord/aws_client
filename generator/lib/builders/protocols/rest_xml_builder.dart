@@ -101,13 +101,15 @@ class RestXmlServiceBuilder extends ServiceBuilder {
           'resultWrapper: \'${operation.output!.resultWrapper}\',';
     }
 
-    var isBlobPayload = false, isStringPayload = false;
+    var isBlobPayload = false, isStringPayload = false, isEnumPayload = false;
     Member? payloadMember;
     final outputShape = operation.output?.shapeClass;
     if (outputShape?.payload != null) {
       payloadMember = outputShape!.membersMap![outputShape.payload];
       isBlobPayload = payloadMember!.shapeClass!.type == 'blob';
-      isStringPayload = payloadMember.dartType == 'String';
+      isEnumPayload =
+          payloadMember.shapeClass!.enumeration?.isNotEmpty ?? false;
+      isStringPayload = !isEnumPayload && payloadMember.dartType == 'String';
     }
     final isInlineExtraction =
         payloadMember != null || outputShape?.hasHeaderMembers == true;
@@ -120,7 +122,10 @@ class RestXmlServiceBuilder extends ServiceBuilder {
         '${operation.hasReturnType ? 'final \$result =' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}(${params.join('\n')});');
 
     if (operation.hasReturnType) {
-      if (!isBlobPayload && !isStringPayload && isInlineExtraction) {
+      if (!isBlobPayload &&
+          !isStringPayload &&
+          !isEnumPayload &&
+          isInlineExtraction) {
         buf.writeln(
             'final \$elem = await _s.xmlFromResponse(\$result$resultWrapperParam);');
       }
@@ -136,6 +141,9 @@ class RestXmlServiceBuilder extends ServiceBuilder {
         } else if (isStringPayload) {
           buf.writeln(
               '${payloadMember!.fieldName}: await \$result.stream.bytesToString(),');
+        } else if (isEnumPayload) {
+          buf.writeln(
+              '${payloadMember!.fieldName}: ${payloadMember.shapeClass!.className}.fromString(await \$result.stream.bytesToString()),');
         } else if (payloadMember != null) {
           buf.writeln(
               '${payloadMember.fieldName}: ${payloadMember.shapeClass!.className}.fromXml(\$elem),');

@@ -7,17 +7,17 @@ part of 'api.dart';
 // **************************************************************************
 
 Api _$ApiFromJson(Map<String, dynamic> json) => Api(
-      Metadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      (json['operations'] as Map<String, dynamic>).map(
+      metadata: Metadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      operations: (json['operations'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, Operation.fromJson(e as Map<String, dynamic>)),
       ),
-      (json['shapes'] as Map<String, dynamic>).map(
+      shapes: (json['shapes'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, Shape.fromJson(e as Map<String, dynamic>)),
       ),
-      json['version'] as String?,
-      json['documentation'] as String?,
-      json['examples'] as Map<String, dynamic>?,
-      (json['authorizers'] as Map<String, dynamic>?)?.map(
+      version: json['version'] as String?,
+      documentation: json['documentation'] as String?,
+      examples: json['examples'] as Map<String, dynamic>?,
+      authorizers: (json['authorizers'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, Authorizer.fromJson(e as Map<String, dynamic>)),
       ),
     );
@@ -50,29 +50,30 @@ Metadata _$MetadataFromJson(Map<String, dynamic> json) {
     ],
   );
   return Metadata(
-    json['apiVersion'] as String,
-    json['endpointPrefix'] as String,
-    json['signingName'] as String?,
-    json['globalEndpoint'] as String?,
-    json['signatureVersion'] as String?,
-    json['jsonVersion'] as String?,
-    json['targetPrefix'] as String?,
-    json['protocol'] as String,
-    json['timeStampFormat'] as String?,
-    json['xmlNamespaceUri'] as String?,
-    json['serviceAbbreviation'] as String?,
-    json['serviceFullName'] as String,
-    json['serviceId'] as String?,
-    json['uid'] as String?,
-    json['xmlNamespace'] as String?,
-    json['checksumFormat'] as String?,
-    (json['protocolSettings'] as Map<String, dynamic>?)?.map(
+    apiVersion: json['apiVersion'] as String,
+    endpointPrefix: json['endpointPrefix'] as String,
+    protocol: json['protocol'] as String,
+    serviceFullName: json['serviceFullName'] as String,
+    signingName: json['signingName'] as String?,
+    globalEndpoint: json['globalEndpoint'] as String?,
+    signatureVersion: json['signatureVersion'] as String?,
+    jsonVersion: json['jsonVersion'] as String?,
+    targetPrefix: json['targetPrefix'] as String?,
+    timeStampFormat: json['timeStampFormat'] as String?,
+    xmlNamespaceUri: json['xmlNamespaceUri'] as String?,
+    serviceAbbreviation: json['serviceAbbreviation'] as String?,
+    serviceId: json['serviceId'] as String?,
+    uid: json['uid'] as String?,
+    xmlNamespace: json['xmlNamespace'] as String?,
+    checksumFormat: json['checksumFormat'] as String?,
+    protocolSettings: (json['protocolSettings'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    (json['protocols'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    json['auth'],
-    json['awsQueryCompatible'],
-    json['ripServiceName'] as String?,
+    protocols:
+        (json['protocols'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    auth: json['auth'],
+    awsQueryCompatible: json['awsQueryCompatible'],
+    ripServiceName: json['ripServiceName'] as String?,
   );
 }
 

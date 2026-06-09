@@ -32,6 +32,8 @@ String extractJsonCode(Shape shape, String variable,
     } else {
       return '$encoder as Object';
     }
+  } else if (shape.type == 'document') {
+    return nullability.outputNullable ? variable : '$variable as Object';
   } else if (shape.type == 'map') {
     final nullAware = nullability.outputNullable ? '?' : '';
     final keyCode = extractJsonCode(shape.key!.shapeClass!, 'k',

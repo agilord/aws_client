@@ -34,27 +34,27 @@ class Operation {
   final bool httpChecksumRequired;
   final String? methodNameOverride;
 
-  Operation(
-    this.name,
-    this.http,
-    this.authtype,
+  Operation({
+    required this.name,
+    required this.http,
+    this.authtype = '',
     this.input,
     this.output,
     this.errors,
     this.documentation,
     this.documentationUrl,
-    this.idempotent,
-    this.deprecated,
+    this.idempotent = false,
+    this.deprecated = false,
     this.deprecatedMessage,
     this.endpoint,
     this.alias,
     this.endpointdiscovery,
-    this.endpointoperation,
+    this.endpointoperation = false,
     this.internal,
     this.internalonly,
-    this.httpChecksumRequired,
+    this.httpChecksumRequired = false,
     this.methodNameOverride,
-  );
+  });
 
   factory Operation.fromJson(Map<String, dynamic> json) =>
       _$OperationFromJson(json);
@@ -104,11 +104,11 @@ class Http {
   final String requestUri;
   final int? responseCode;
 
-  const Http(
-    this.method,
-    this.requestUri,
+  const Http({
+    this.method = 'POST',
+    this.requestUri = '/',
     this.responseCode,
-  );
+  });
 
   factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
 

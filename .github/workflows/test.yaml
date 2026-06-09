@@ -47,7 +47,7 @@ jobs:
         working-directory: generator
 
       - name: Run tests on aws_client
-        run: dart pub get && dart test test/generated test/protocol test/validation test/dynamo_document
+        run: dart pub get && dart test test/generated test/generated_smithy_protocol test/protocol test/validation test/dynamo_document
         working-directory: aws_client
 
   localstack:

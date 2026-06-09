@@ -509,6 +509,17 @@ String extractXmlCode(Shape shapeRef,
       if (memberShape.enumeration != null) {
         fn += '.map(${uppercaseName(memberShape.name)}.fromString).toList()';
       }
+    } else if (memberShape.type == 'list' || memberShape.type == 'map') {
+      // Nested list/map has no .fromXml; recurse so each member element is
+      // parsed as a container for the inner collection.
+      final inner = extractXmlCode(memberShape,
+          elemVar: 'e',
+          elemName: memberElemName,
+          flattened: true,
+          container: container,
+          nullability: Nullability.none);
+      fn = '$elemVar.findElements(\'$memberElemName\')'
+          '.map((e) => $inner).toList()';
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map(${shapeRef.member!.dartType}.fromXml).toList()';
@@ -584,6 +595,9 @@ String xmlNamespaceToCode(XmlNamespace namespace, {String importPrefix = ''}) {
 String extractHeaderCode(Member member, String variable) {
   if (member.shapeClass!.type == 'map') {
     return '_s.extractHeaderMapValues($variable, \'${member.locationName ?? member.name}\')';
+  } else if (member.shapeClass!.type == 'list' ||
+      member.shapeClass!.type == 'set') {
+    return extractHeaderListCode(member, variable);
   } else if (member.shapeClass?.enumeration?.isNotEmpty ?? false) {
     member.shapeClass?.isTopLevelOutputEnum = true;
     return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.let(${uppercaseName(member.dartType)}.fromString)';
@@ -597,6 +611,35 @@ String extractHeaderCode(Member member, String variable) {
     }
     return '_s.extractHeader${uppercaseName(member.dartType)}Value($variable, \'${member.locationName ?? member.name}\'$extraParameters)';
   }
+}
+
+String extractHeaderListCode(Member member, String variable) {
+  final headerName = member.locationName ?? member.name;
+  final elementShape = member.shapeClass!.member!.shapeClass!;
+  final isEnum = elementShape.enumeration?.isNotEmpty ?? false;
+  // http-date (rfc822) values contain a comma, so the list splits on every
+  // second comma rather than every comma.
+  final isHttpDate = elementShape.type == 'timestamp' &&
+      (elementShape.timestampFormat == null ||
+          elementShape.timestampFormat == 'rfc822');
+  final base = "_s.extractHeaderListValues($variable, '$headerName'"
+      "${isHttpDate ? ', isHttpDateList: true' : ''})";
+
+  if (!isEnum && elementShape.type == 'string') return base;
+
+  final String mapper;
+  if (isEnum) {
+    mapper = '${elementShape.className}.fromString';
+  } else {
+    mapper = switch (elementShape.type) {
+      'integer' || 'long' => 'int.parse',
+      'double' || 'float' => '(e) => num.parse(e).toDouble()',
+      'boolean' => "(e) => e.toLowerCase() == 'true'",
+      'timestamp' => '_s.nonNullableTimeStampFromJson',
+      _ => '(e) => e',
+    };
+  }
+  return '$base?.map($mapper).toList()';
 }
 
 extension Utils<T> on Iterable<T> {
