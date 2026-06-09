@@ -1,6 +1,6 @@
 {
-  "awsJson1_0/OperationWithNestedStructure": "response-test harness calls op with no input, but input has a @required member; see .notes/smithy-ir-gaps.md",
-  "awsJson1_1/SparseNullsOperation": "@sparse not supported (IR gap); see .notes/smithy-ir-gaps.md",
-  "restJson1/OperationWithNestedStructure": "response-test harness calls op with no input, but input has a @required member; see .notes/smithy-ir-gaps.md",
-  "restJson1/SparseJsonMaps": "@sparse not supported (IR gap); see .notes/smithy-ir-gaps.md"
+  "awsJson1_0/operation_with_nested_structure": "response-test harness calls op with no input, but input has a @required member",
+  "awsJson1_1/sparse_nulls_operation": "@sparse not supported (IR gap)",
+  "restJson1/operation_with_nested_structure": "response-test harness calls op with no input, but input has a @required member",
+  "restJson1/sparse_json_maps": "@sparse not supported (IR gap)"
 }

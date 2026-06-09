@@ -32,7 +32,7 @@ void main() {
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
-    final output = await service.xmlEmptyMaps();
+    await service.xmlEmptyMaps();
   });
 
   test('QueryXmlEmptySelfClosedMaps', () async {
@@ -54,6 +54,6 @@ void main() {
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
-    final output = await service.xmlEmptyMaps();
+    await service.xmlEmptyMaps();
   });
 }

@@ -52,7 +52,7 @@ void main() {
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
-    final output = await service.xmlEmptyMaps();
+    await service.xmlEmptyMaps();
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
   test('XmlEmptySelfClosedMaps', () async {
@@ -72,6 +72,6 @@ void main() {
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
-    final output = await service.xmlEmptyMaps();
+    await service.xmlEmptyMaps();
   });
 }

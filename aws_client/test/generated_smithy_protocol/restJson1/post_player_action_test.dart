@@ -56,6 +56,6 @@ void main() {
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
     );
 
-    final output = await service.postPlayerAction();
+    await service.postPlayerAction();
   });
 }

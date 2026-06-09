@@ -22,8 +22,12 @@ abstract class ServiceBuilder {
         out.writeln('if (${m.fieldName} != null)');
       }
       if (location == 'headers') {
-        out.writeln(
-            "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
+        if (headerName.isEmpty) {
+          out.writeln('...${m.fieldName},');
+        } else {
+          out.writeln(
+              "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
+        }
       } else {
         final variable = m.fieldName;
         var converter = '$variable.toString()';
@@ -80,7 +84,8 @@ abstract class ServiceBuilder {
     return uri;
   }
 
-  void buildRequestQueryParams(Operation operation, StringBuffer out) {
+  void buildRequestQueryParams(Operation operation, StringBuffer out,
+      {Set<String> guaranteedNonNull = const {}}) {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasQueryMembers) return;
 
@@ -89,7 +94,10 @@ abstract class ServiceBuilder {
       final location =
           member.locationName ?? member.shapeClass?.locationName ?? member.name;
 
-      if (!member.isRequired) {
+      // A field the caller already promoted to non-null (e.g. an `??=`'d
+      // idempotency token) needs no guard — it would be a dead null check.
+      if (!member.isRequired &&
+          !guaranteedNonNull.contains(member.fieldName)) {
         out.writeln('if(${member.fieldName} != null)');
       }
       if (member.shapeClass?.type == 'map') {
@@ -146,7 +154,10 @@ String _encodeQueryCode(Shape shape, String variable,
       code = 'e.toString()';
     }
     if (code != 'e') {
-      return '$variable.map((e) => $code).toList()';
+      final tearoff = RegExp(r'^([\w.$]+)\(e\)$').firstMatch(code);
+      return tearoff != null
+          ? '$variable.map(${tearoff.group(1)}).toList()'
+          : '$variable.map((e) => $code).toList()';
     }
   } else if (shape.type == 'timestamp') {
     final timestampFormat =

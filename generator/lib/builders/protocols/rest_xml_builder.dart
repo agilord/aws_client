@@ -43,16 +43,18 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final input = operation.input;
     final shapeClass = operation.input?.shapeClass;
 
+    final autoFilled = <String>{};
     if (shapeClass != null) {
       for (var m in shapeClass.members) {
         if (m.idempotencyToken) {
           buf.writeln('${m.fieldName} ??= _s.generateIdempotencyToken();');
+          autoFilled.add(m.fieldName);
         }
       }
     }
 
     buildRequestHeaders(operation, buf);
-    buildRequestQueryParams(operation, buf);
+    buildRequestQueryParams(operation, buf, guaranteedNonNull: autoFilled);
     String? payloadArg;
     if (shapeClass?.payload != null) {
       final payloadMember =

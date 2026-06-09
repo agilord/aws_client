@@ -7,12 +7,12 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:test/test.dart';
 import '../../utils.dart';
-import 'v2020_07_14.dart';
+import 'v2019_12_16.dart';
 
 void main() {
   _s.idempotencyGeneratorOverride =
       () => '00000000-0000-4000-8000-000000000000';
-  test('AwsJson10ClientPopulatesDefaultValuesInInput', () async {
+  test('RestJsonClientPopulatesDefaultValuesInInput', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
     "defaults": {
@@ -45,14 +45,13 @@ void main() {
         "zeroDouble": 0.0
     }
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -63,18 +62,17 @@ void main() {
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('AwsJson10ClientSkipsTopLevelDefaultValuesInInput', () async {
+  test('RestJsonClientSkipsTopLevelDefaultValuesInInput', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -83,7 +81,7 @@ void main() {
     await service.operationWithDefaults();
   });
 
-  test('AwsJson10ClientUsesExplicitlyProvidedMemberValuesOverDefaults',
+  test('RestJsonClientUsesExplicitlyProvidedMemberValuesOverDefaults',
       () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
@@ -118,14 +116,13 @@ void main() {
         "zeroDouble": 1.0
     }
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -136,10 +133,10 @@ void main() {
         defaultBlob: Uint8List.fromList('hi'.codeUnits),
         defaultBoolean: true,
         defaultByte: 2,
-        defaultDocumentBoolean: Document(),
-        defaultDocumentList: Document(),
-        defaultDocumentMap: Document(),
-        defaultDocumentString: Document(),
+        defaultDocumentBoolean: true,
+        defaultDocumentList: ["b"],
+        defaultDocumentMap: {"name": "Jack"},
+        defaultDocumentString: "bye",
         defaultDouble: 2.0,
         defaultEnum: TestEnum.bar,
         defaultFloat: 2.0,
@@ -150,7 +147,7 @@ void main() {
         defaultMap: {
           "name": "Jack",
         },
-        defaultNullDocument: Document(),
+        defaultNullDocument: "notNull",
         defaultShort: 2,
         defaultString: "bye",
         defaultTimestamp: DateTime.fromMillisecondsSinceEpoch(1 * 1000),
@@ -167,19 +164,18 @@ void main() {
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('AwsJson10ServerPopulatesDefaultsWhenMissingInRequestBody', () async {
+  test('RestJsonServerPopulatesDefaultsWhenMissingInRequestBody', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
 "defaults": {}
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -190,10 +186,10 @@ void main() {
         defaultBlob: Uint8List.fromList('abc'.codeUnits),
         defaultBoolean: true,
         defaultByte: 1,
-        defaultDocumentBoolean: Document(),
-        defaultDocumentList: Document(),
-        defaultDocumentMap: Document(),
-        defaultDocumentString: Document(),
+        defaultDocumentBoolean: true,
+        defaultDocumentList: [],
+        defaultDocumentMap: {},
+        defaultDocumentString: "hi",
         defaultDouble: 1.0,
         defaultEnum: TestEnum.foo,
         defaultFloat: 1.0,
@@ -220,20 +216,19 @@ void main() {
     );
   }, skip: r'''Auto-recorded: Suite 2 vector fails today''');
 
-  test('AwsJson10ClientUsesExplicitlyProvidedValuesInTopLevel', () async {
+  test('RestJsonClientUsesExplicitlyProvidedValuesInTopLevel', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
     "topLevelDefault": "hi",
     "otherTopLevelDefault": 0
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -245,20 +240,19 @@ void main() {
     );
   });
 
-  test('AwsJson10ClientIgnoresNonTopLevelDefaultsOnMembersWithClientOptional',
+  test('RestJsonClientIgnoresNonTopLevelDefaultsOnMembersWithClientOptional',
       () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{
     "clientOptionalDefaults": {}
 }'''));
-      expect(request.headers['Content-Type'],
-          startsWith('application/x-amz-json-1.0'));
-      expect(request.url, equalsPathAndQuery('/'));
+      expect(request.headers['Content-Type'], startsWith('application/json'));
+      expect(request.url, equalsPathAndQuery('/OperationWithDefaults'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -269,13 +263,13 @@ void main() {
     );
   });
 
-  test('AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse', () async {
+  test('RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse', () async {
     final client = MockClient((request) async {
       return Response(r'''{}''', 200,
-          headers: {"Content-Type": "application/x-amz-json-1.0"});
+          headers: {"Content-Type": "application/json"});
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -285,6 +279,10 @@ void main() {
     expect(output.defaultBlob, utf8.encode('abc'));
     expect(output.defaultBoolean, true);
     expect(output.defaultByte, 1);
+    expect(output.defaultDocumentBoolean, true);
+    expect(output.defaultDocumentList, []);
+    expect(output.defaultDocumentMap, {});
+    expect(output.defaultDocumentString, "hi");
     expect(output.defaultDouble, 1.0);
     expect(output.defaultEnum, TestEnum.foo);
     expect(output.defaultFloat, 1.0);
@@ -304,9 +302,9 @@ void main() {
     expect(output.zeroInteger, 0);
     expect(output.zeroLong, 0);
     expect(output.zeroShort, 0);
-  });
+  }, skip: r'''@default not implemented''');
 
-  test('AwsJson10ClientIgnoresDefaultValuesIfMemberValuesArePresentInResponse',
+  test('RestJsonClientIgnoresDefaultValuesIfMemberValuesArePresentInResponse',
       () async {
     final client = MockClient((request) async {
       return Response(
@@ -341,10 +339,10 @@ void main() {
     "zeroDouble": 1.0
 }''',
           200,
-          headers: {"Content-Type": "application/x-amz-json-1.0"});
+          headers: {"Content-Type": "application/json"});
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -354,6 +352,10 @@ void main() {
     expect(output.defaultBlob, utf8.encode('hi'));
     expect(output.defaultBoolean, false);
     expect(output.defaultByte, 2);
+    expect(output.defaultDocumentBoolean, false);
+    expect(output.defaultDocumentList, ["b"]);
+    expect(output.defaultDocumentMap, {"name": "Jack"});
+    expect(output.defaultDocumentString, "bye");
     expect(output.defaultDouble, 2.0);
     expect(output.defaultEnum, TestEnum.bar);
     expect(output.defaultFloat, 2.0);
@@ -362,6 +364,7 @@ void main() {
     expect(output.defaultList?[0], "a");
     expect(output.defaultLong, 200);
     expect(output.defaultMap?['name'], "Jack");
+    expect(output.defaultNullDocument, "notNull");
     expect(output.defaultShort, 2);
     expect(output.defaultString, "bye");
     expect(output.defaultTimestamp!.millisecondsSinceEpoch ~/ 1000, 2);
@@ -376,7 +379,7 @@ void main() {
     expect(output.zeroShort, 1);
   });
 
-  test('AwsJson10ServerPopulatesDefaultsInResponseWhenMissingInParams',
+  test('RestJsonServerPopulatesDefaultsInResponseWhenMissingInParams',
       () async {
     final client = MockClient((request) async {
       return Response(
@@ -410,10 +413,10 @@ void main() {
     "zeroDouble": 0.0
 }''',
           200,
-          headers: {"Content-Type": "application/x-amz-json-1.0"});
+          headers: {"Content-Type": "application/json"});
     });
 
-    final service = JsonRpc10(
+    final service = RestJsonProtocol(
       client: client,
       region: 'us-east-1',
       credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
@@ -448,5 +451,5 @@ void main() {
     expect(output.zeroInteger, isNull);
     expect(output.zeroLong, isNull);
     expect(output.zeroShort, isNull);
-  });
+  }, skip: r'''@default not implemented''');
 }

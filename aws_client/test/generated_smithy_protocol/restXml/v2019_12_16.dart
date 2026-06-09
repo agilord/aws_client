@@ -103,8 +103,7 @@ class RestXmlProtocol {
       if (queryTimestamp != null)
         'Timestamp': [_s.iso8601ToJson(queryTimestamp).toString()],
       if (queryTimestampList != null)
-        'TimestampList':
-            queryTimestampList.map((e) => _s.iso8601ToJson(e)).toList(),
+        'TimestampList': queryTimestampList.map(_s.iso8601ToJson).toList(),
     };
     await _protocol.send(
       method: 'GET',
@@ -329,8 +328,7 @@ class RestXmlProtocol {
     String? specificHeader,
   }) async {
     final headers = <String, String>{
-      if (prefixHeaders != null)
-        ...prefixHeaders.map((key, value) => MapEntry('$key', value)),
+      if (prefixHeaders != null) ...prefixHeaders,
       if (specificHeader != null) 'hello': specificHeader.toString(),
     };
     final $result = await _protocol.sendRaw(
@@ -867,7 +865,7 @@ class RestXmlProtocol {
   }) async {
     token ??= _s.generateIdempotencyToken();
     final $query = <String, List<String>>{
-      if (token != null) 'token': [token],
+      'token': [token],
     };
     await _protocol.send(
       method: 'POST',

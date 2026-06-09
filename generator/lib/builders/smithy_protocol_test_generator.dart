@@ -7,6 +7,7 @@ import '../model/api.dart';
 import '../smithy/ast.dart';
 import '../smithy/from_smithy.dart';
 import '../smithy/traits.dart';
+import '../utils/case.dart';
 import 'library_builder.dart';
 import 'smithy_protocol_test_builder.dart';
 import 'smithy_protocol_test_support.dart';
@@ -104,6 +105,7 @@ Future<void> generateSmithyProtocolTests({
     for (final entry
         in model.shapes.entries.where((e) => e.value.type == 'operation')) {
       final localName = entry.key.split('#').last;
+      final fileBase = snakeCase(splitWords(localName));
 
       List<Map<String, dynamic>> only(Object? raw) => (raw as List? ?? const [])
           .cast<Map>()
@@ -123,7 +125,7 @@ Future<void> generateSmithyProtocolTests({
       }
       if (!processed.add(localName)) continue;
 
-      final opKey = '$protocol/$localName';
+      final opKey = '$protocol/$fileBase';
       candidateOpKeys.add(opKey);
       if (excludeList.containsKey(opKey)) {
         excludedOps++;
@@ -147,7 +149,7 @@ Future<void> generateSmithyProtocolTests({
         vectors++;
         if (skipList.containsKey(id)) skipped++;
       }
-      testFiles['$baseDir/${localName}_test.dart'] = testCode;
+      testFiles['$baseDir/${fileBase}_test.dart'] = testCode;
     }
 
     // Omit the client when all ops are excluded; dead code breaks dart analyze.

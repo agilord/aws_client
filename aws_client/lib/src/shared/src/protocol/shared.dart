@@ -186,12 +186,12 @@ XmlElement encodeXmlDoubleValue(String name, double value) {
 }
 
 XmlElement encodeXmlDateTimeValue(String name, DateTime value,
-    {String Function(DateTime)? formatter}) {
+    {Object Function(DateTime)? formatter}) {
   value = value.toUtc();
 
   formatter ??= iso8601ToJson;
 
-  final output = formatter(value);
+  final output = formatter(value).toString();
 
   return encodeXmlStringValue(name, output);
 }

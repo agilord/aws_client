@@ -39,7 +39,7 @@ void main() {
   test('RestJsonInputAndOutputWithQuotedStringHeaders', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(request.headers['X-StringList'], '"b,c", "\"def\"", a');
+      expect(request.headers['X-StringList'], '"b,c", "\\"def\\"", a');
       expect(request.url, equalsPathAndQuery('/InputAndOutputWithHeaders'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200);

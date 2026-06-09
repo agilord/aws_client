@@ -64,6 +64,14 @@ String _skipSuffix(String id, Map<String, String> skipReasons) {
   return reason != null ? ", skip: r'''$reason'''" : '';
 }
 
+String _dartString(Object? v) {
+  final s = '$v'
+      .replaceAll(r'\', r'\\')
+      .replaceAll("'", r"\'")
+      .replaceAll(r'$', r'\$');
+  return "'$s'";
+}
+
 void _writeRequestTest(StringBuffer code, Api api, Operation operation,
     Map<String, dynamic> test, Map<String, String> skipReasons) {
   final id = test['id'] as String;
@@ -79,9 +87,9 @@ void _writeRequestTest(StringBuffer code, Api api, Operation operation,
   final headers = (test['headers'] as Map?)?.cast<String, dynamic>();
   if (headers != null) {
     for (final h in headers.keys) {
-      final value = headers[h];
+      final value = _dartString(headers[h]);
       final expectCode =
-          h == 'Content-Type' ? "startsWith('$value')" : "'$value'";
+          h == 'Content-Type' ? 'startsWith($value)' : value;
       code.writeln("  expect(request.headers['$h'], $expectCode);");
     }
   }
@@ -136,8 +144,15 @@ final service = ${api.metadata.className}(client: client, region: 'us-east-1',
   if (!operation.hasReturnType) {
     code.writeln('await service.${operation.methodName}();');
   } else {
-    code.writeln('final output = await service.${operation.methodName}();');
-    visitExpect(code, 'output', operation.output!.shapeClass!, null, params);
+    final expectations = StringBuffer();
+    visitExpect(
+        expectations, 'output', operation.output!.shapeClass!, null, params);
+    if (expectations.isEmpty) {
+      code.writeln('await service.${operation.methodName}();');
+    } else {
+      code.writeln('final output = await service.${operation.methodName}();');
+      code.write(expectations);
+    }
   }
   code.writeln('}${_skipSuffix(id, skipReasons)});');
   code.writeln('');

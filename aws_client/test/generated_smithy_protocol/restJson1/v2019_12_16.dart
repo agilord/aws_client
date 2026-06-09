@@ -102,8 +102,7 @@ class RestJsonProtocol {
       if (queryTimestamp != null)
         'Timestamp': [_s.iso8601ToJson(queryTimestamp).toString()],
       if (queryTimestampList != null)
-        'TimestampList':
-            queryTimestampList.map((e) => _s.iso8601ToJson(e)).toList(),
+        'TimestampList': queryTimestampList.map(_s.iso8601ToJson).toList(),
     };
     await _protocol.send(
       payload: null,
@@ -381,8 +380,7 @@ class RestJsonProtocol {
     String? specificHeader,
   }) async {
     final headers = <String, String>{
-      if (prefixHeaders != null)
-        ...prefixHeaders.map((key, value) => MapEntry('$key', value)),
+      if (prefixHeaders != null) ...prefixHeaders,
       if (specificHeader != null) 'hello': specificHeader.toString(),
     };
     final response = await _protocol.sendRaw(
@@ -1652,8 +1650,7 @@ class RestJsonProtocol {
         'IntegerList': queryIntegerList.map((e) => e.toString()).toList(),
       if (queryStringList != null) 'StringList': queryStringList,
       if (queryTimestampList != null)
-        'TimestampList':
-            queryTimestampList.map((e) => _s.iso8601ToJson(e)).toList(),
+        'TimestampList': queryTimestampList.map(_s.iso8601ToJson).toList(),
     };
     await _protocol.send(
       payload: null,
