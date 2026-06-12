@@ -26,18 +26,18 @@ class Descriptor {
   final bool jsonvalue;
   final String? payload;
 
-  Descriptor(
-    this.shape,
+  Descriptor({
+    required this.shape,
     this.resultWrapper,
     this.locationName,
     this.documentation,
-    this.exception,
+    this.exception = false,
     this.error,
-    this.fault,
+    this.fault = false,
     this.xmlNamespace,
-    this.jsonvalue,
+    this.jsonvalue = false,
     this.payload,
-  );
+  });
 
   factory Descriptor.fromJson(Map<String, dynamic> json) =>
       _$DescriptorFromJson(json);
@@ -48,6 +48,8 @@ class Descriptor {
 
     if (shapeRef.enumeration != null) {
       return shapeRef.className;
+    } else if (shapeRefType == 'document') {
+      return 'Object';
     } else if (shapeRefType.isBasicType()) {
       return shapeRefType.getDartType(api);
     } else if (shapeRefType.isMapOrList()) {

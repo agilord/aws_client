@@ -186,12 +186,12 @@ XmlElement encodeXmlDoubleValue(String name, double value) {
 }
 
 XmlElement encodeXmlDateTimeValue(String name, DateTime value,
-    {String Function(DateTime)? formatter}) {
+    {Object Function(DateTime)? formatter}) {
   value = value.toUtc();
 
   formatter ??= iso8601ToJson;
 
-  final output = formatter(value);
+  final output = formatter(value).toString();
 
   return encodeXmlStringValue(name, output);
 }
@@ -246,6 +246,53 @@ Map<String, String>? extractHeaderMapValues(
   return Map<String, String>.fromEntries(headers.entries
       .where((e) => e.key.toLowerCase().startsWith(name.toLowerCase()))
       .map((e) => MapEntry(e.key.substring(name.length), e.value)));
+}
+
+List<String>? extractHeaderListValues(Map<String, String> headers, String name,
+    {bool isHttpDateList = false}) {
+  final value = extractHeaderStringValue(headers, name);
+  if (value == null) return null;
+  if (value.trim().isEmpty) return <String>[];
+  return isHttpDateList
+      ? _splitHttpDateHeaderList(value)
+      : _splitHeaderList(value);
+}
+
+List<String> _splitHeaderList(String value) {
+  final result = <String>[];
+  final buf = StringBuffer();
+  var inQuotes = false;
+  for (var i = 0; i < value.length; i++) {
+    final ch = value[i];
+    if (inQuotes) {
+      if (ch == r'\' && i + 1 < value.length) {
+        buf.write(value[++i]);
+      } else if (ch == '"') {
+        inQuotes = false;
+      } else {
+        buf.write(ch);
+      }
+    } else if (ch == '"') {
+      inQuotes = true;
+    } else if (ch == ',') {
+      result.add(buf.toString().trim());
+      buf.clear();
+    } else {
+      buf.write(ch);
+    }
+  }
+  result.add(buf.toString().trim());
+  return result;
+}
+
+// http-date values contain one comma each, so list separators fall on every second comma.
+List<String> _splitHttpDateHeaderList(String value) {
+  final parts = value.split(',');
+  final result = <String>[];
+  for (var i = 0; i + 1 < parts.length; i += 2) {
+    result.add('${parts[i]},${parts[i + 1]}'.trim());
+  }
+  return result;
 }
 
 String extractService(Uri uri) {

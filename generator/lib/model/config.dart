@@ -6,7 +6,9 @@ part 'config.g.dart';
 class Config {
   final String awsSdkJsReference;
 
-  Config(this.awsSdkJsReference);
+  final String? awsSdkJsV3Reference;
+
+  Config(this.awsSdkJsReference, {this.awsSdkJsV3Reference});
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 }

@@ -10,7 +10,8 @@ abstract class ServiceBuilder {
 
   String operationContent(Operation operation);
 
-  void buildRequestHeaders(Operation operation, StringBuffer out) {
+  void buildRequestHeaders(Operation operation, StringBuffer out,
+      {Set<String> guaranteedNonNull = const {}}) {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasHeaderMembers) return;
 
@@ -18,12 +19,16 @@ abstract class ServiceBuilder {
     for (var m in sc.headerMembers) {
       final headerName = m.locationName ?? m.shapeClass?.locationName ?? m.name;
       final location = m.location ?? m.shapeClass?.location;
-      if (!m.isRequired) {
+      if (!m.isRequired && !guaranteedNonNull.contains(m.fieldName)) {
         out.writeln('if (${m.fieldName} != null)');
       }
       if (location == 'headers') {
-        out.writeln(
-            "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
+        if (headerName.isEmpty) {
+          out.writeln('...${m.fieldName},');
+        } else {
+          out.writeln(
+              "...${m.fieldName}.map((key, value) => MapEntry('$headerName\$key', value)),");
+        }
       } else {
         final variable = m.fieldName;
         var converter = '$variable.toString()';
@@ -60,29 +65,28 @@ abstract class ServiceBuilder {
                 '{${m.locationName ?? m.name}+'
               ])
           .toSet();
+
+      uri = uri.split('/').map((part) {
+        if (!allMembersToReplace.any((e) => part.contains(e)) &&
+            !part.contains('?')) {
+          return Uri.encodeComponent(part);
+        }
+        return part;
+      }).join('/');
       for (var m in sc.uriMembers) {
-        final fieldCode = _encodePath(m.shapeClass!, m.fieldName);
+        final fieldCode = _encodePath(m.shapeClass!, m.fieldName, member: m);
+        final name = m.locationName ?? m.name;
         uri = uri
-            .split('/')
-            .map((part) {
-              if (!allMembersToReplace.any((e) => part.contains(e)) &&
-                  !part.contains('Uri.encodeComponent') &&
-                  !part.contains('?')) {
-                return Uri.encodeComponent(part);
-              }
-              return part;
-            })
-            .join('/')
-            .replaceAll('{${m.locationName ?? m.name}}',
-                '\${Uri.encodeComponent($fieldCode)}')
-            .replaceAll('{${m.locationName ?? m.name}+}',
+            .replaceAll('{$name}', '\${Uri.encodeComponent($fieldCode)}')
+            .replaceAll('{$name+}',
                 "\${$fieldCode.split('/').map(Uri.encodeComponent).join('/')}");
       }
     }
     return uri;
   }
 
-  void buildRequestQueryParams(Operation operation, StringBuffer out) {
+  void buildRequestQueryParams(Operation operation, StringBuffer out,
+      {Set<String> guaranteedNonNull = const {}}) {
     final sc = operation.input?.shapeClass;
     if (sc == null || !sc.hasQueryMembers) return;
 
@@ -91,7 +95,9 @@ abstract class ServiceBuilder {
       final location =
           member.locationName ?? member.shapeClass?.locationName ?? member.name;
 
-      if (!member.isRequired) {
+      // A field the caller already promoted to non-null (e.g. an `??=`'d
+      // idempotency token) needs no guard — it would be a dead null check.
+      if (!member.isRequired && !guaranteedNonNull.contains(member.fieldName)) {
         out.writeln('if(${member.fieldName} != null)');
       }
       if (member.shapeClass?.type == 'map') {
@@ -142,10 +148,16 @@ String _encodeQueryCode(Shape shape, String variable,
     shape.isTopLevelInputEnum = true;
     return '$variable.value';
   } else if (shape.type == 'list') {
-    final code = _encodeQueryCode(shape.member!.shapeClass!, 'e',
-        descriptor: shape.member!);
+    final memberShape = shape.member!.shapeClass!;
+    var code = _encodeQueryCode(memberShape, 'e', descriptor: shape.member!);
+    if (code == 'e' && memberShape.type != 'string') {
+      code = 'e.toString()';
+    }
     if (code != 'e') {
-      return '$variable.map((e) => $code).toList()';
+      final tearoff = RegExp(r'^([\w.$]+)\(e\)$').firstMatch(code);
+      return tearoff != null
+          ? '$variable.map(${tearoff.group(1)}).toList()'
+          : '$variable.map((e) => $code).toList()';
     }
   } else if (shape.type == 'timestamp') {
     final timestampFormat =
@@ -157,11 +169,16 @@ String _encodeQueryCode(Shape shape, String variable,
   return variable;
 }
 
-String _encodePath(Shape shape, String variable) {
+String _encodePath(Shape shape, String variable, {Member? member}) {
   if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
     return '$variable.value';
-  } else if (const ['integer', 'long'].contains(shape.type)) {
+  } else if (shape.type == 'timestamp') {
+    final fmt = member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
+    final code = '_s.${fmt}ToJson($variable)';
+    return fmt == 'unixTimestamp' ? '$code.toString()' : code;
+  } else if (const ['integer', 'long', 'double', 'float', 'boolean']
+      .contains(shape.type)) {
     return '$variable.toString()';
   }
 

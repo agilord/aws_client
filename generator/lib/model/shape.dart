@@ -70,8 +70,8 @@ class Shape {
   final bool requiresLength;
   late List<Member> _members;
 
-  Shape(
-    this.type,
+  Shape({
+    required this.type,
     this.enumeration,
     this.required,
     this.membersMap,
@@ -83,26 +83,26 @@ class Shape {
     this.documentation,
     this.location,
     this.streaming,
-    this.deprecated,
+    this.deprecated = false,
     this.deprecatedMessage,
     this.member,
     this.xmlOrder,
-    this.sensitive,
+    this.sensitive = false,
     this.payload,
-    this.box,
+    this.box = false,
     this.error,
-    this.exception,
-    this.wrapper,
+    this.exception = false,
+    this.wrapper = false,
     this.timestampFormat,
-    this.fault,
-    this.flattened,
+    this.fault = false,
+    this.flattened = false,
     this.locationName,
-    this.event,
+    this.event = false,
     this.xmlNamespace,
-    this.eventstream,
-    this.union,
-    this.requiresLength,
-  ) {
+    this.eventstream = false,
+    this.union = false,
+    this.requiresLength = false,
+  }) {
     if (membersMap != null) {
       for (var e in membersMap!.entries) {
         e.value.name = e.key;
@@ -238,27 +238,27 @@ class Member {
   final List<String>? tags;
   final String? timestampFormat;
 
-  Member(
-    this.shape,
+  Member({
+    required this.shape,
     this.documentation,
     this.enumeration,
     this.location,
     this.locationName,
     this.queryName,
-    this.idempotencyToken,
-    this.hostLabel,
-    this.deprecated,
+    this.idempotencyToken = false,
+    this.hostLabel = false,
+    this.deprecated = false,
     this.xmlNamespace,
     this.deprecatedMessage,
-    this.box,
-    this.jsonvalue,
-    this.flattened,
-    this.streaming,
-    this.xmlAttribute,
-    this.eventpayload,
+    this.box = false,
+    this.jsonvalue = false,
+    this.flattened = false,
+    this.streaming = false,
+    this.xmlAttribute = false,
+    this.eventpayload = false,
     this.tags,
     this.timestampFormat,
-  ) {
+  }) {
     _isRequired = location == 'uri';
   }
 
@@ -293,6 +293,8 @@ class Member {
     // There should be an enum for enumerated parameters
     else if (shapeClass?.enumeration != null) {
       return shapeClass!.className;
+    } else if (type == 'document') {
+      return 'Object';
     } else if (type!.isBasicType()) {
       return type.getDartType(api);
     } else if (type.isMapOrList()) {
@@ -319,27 +321,41 @@ extension NameStuff on String? {
   bool get isAllUpperCase => this!.toUpperCase() == this;
 
   bool get isReserved => <String>{
+        'assert',
         'bool',
         'break',
         'case',
+        'catch',
+        'class',
+        'const',
         'continue',
         'default',
         'do',
         'dynamic',
         'else',
         'enum',
+        'extends',
         'false',
         'final',
+        'finally',
         'for',
         'if',
         'in',
         'is',
         'new',
         'null',
+        'rethrow',
         'return',
+        'super',
+        'switch',
         'this',
+        'throw',
         'true',
+        'try',
         'var',
+        'void',
+        'while',
+        'with',
       }.contains(this);
 
   bool get isEnumReserved =>

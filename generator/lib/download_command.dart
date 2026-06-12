@@ -12,11 +12,18 @@ class DownloadCommand extends Command {
   Config? config;
 
   DownloadCommand([this.config]) {
-    argParser.addOption(
-      'config-file',
-      help: 'Configuration file describing package generation.',
-      defaultsTo: 'config.yaml',
-    );
+    argParser
+      ..addOption(
+        'config-file',
+        help: 'Configuration file describing package generation.',
+        defaultsTo: 'config.yaml',
+      )
+      ..addFlag(
+        'smithy',
+        help: 'Also download the Smithy models (from aws-sdk-js-v3) into '
+            'smithy_apis/.',
+        defaultsTo: false,
+      );
   }
 
   @override
@@ -39,6 +46,22 @@ class DownloadCommand extends Command {
     }
     await _fetchApiDefinitions(config!.awsSdkJsReference);
     print('Definitions downloaded');
+
+    if (argResults?['smithy'] == true) {
+      final reference = config!.awsSdkJsV3Reference;
+      if (reference == null) {
+        throw StateError(
+            'awsSdkJsV3Reference is not set in the config file; cannot '
+            'download Smithy models.');
+      }
+      print('Downloading Smithy models from aws-sdk-js-v3...');
+      final smithyDir = Directory('smithy_apis');
+      if (smithyDir.existsSync()) {
+        smithyDir.deleteSync(recursive: true);
+      }
+      await _fetchSmithyModels(reference);
+      print('Smithy models downloaded');
+    }
   }
 }
 
@@ -73,6 +96,24 @@ Future<void> _fetchApiDefinitions(String reference) async {
         const ['lib/region_config_data.json', 'apis/metadata.json']
             .contains(filename)) {
       File(path.join('apis/config', path.basename(filename)))
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(file.content as List<int>);
+    }
+  }
+}
+
+Future<void> _fetchSmithyModels(String reference) async {
+  final response = await http.get(Uri.https(
+      'api.github.com', '/repos/aws/aws-sdk-js-v3/zipball/$reference'));
+  final archive = ZipDecoder().decodeBytes(response.bodyBytes);
+  const modelsDir = 'codegen/sdk-codegen/aws-models/';
+  for (final file in archive) {
+    final filename = file.name.split('/').skip(1).join('/');
+    if (file.isFile &&
+        filename.startsWith(modelsDir) &&
+        filename.endsWith('.json')) {
+      final newfile = File('smithy_apis/${path.basename(filename)}');
+      newfile
         ..createSync(recursive: true)
         ..writeAsBytesSync(file.content as List<int>);
     }

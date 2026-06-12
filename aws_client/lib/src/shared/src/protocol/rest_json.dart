@@ -76,10 +76,13 @@ class RestJsonProtocol {
     if (payload != null) {
       if (payload is List<int>) {
         rq.bodyBytes = payload;
+        rq.headers['content-type'] = 'application/octet-stream';
       } else if (payload is String) {
         rq.body = payload;
+        rq.headers['content-type'] = 'text/plain';
       } else {
         rq.body = json.encode(payload);
+        rq.headers['content-type'] = 'application/json';
       }
     }
     rq.headers['accept'] = 'application/json';

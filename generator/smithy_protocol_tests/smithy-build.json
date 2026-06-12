@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "maven": {
+    "dependencies": [
+      "software.amazon.smithy:smithy-aws-traits:1.71.0",
+      "software.amazon.smithy:smithy-protocol-test-traits:1.71.0",
+      "software.amazon.smithy:smithy-validation-model:1.71.0"
+    ]
+  }
+}

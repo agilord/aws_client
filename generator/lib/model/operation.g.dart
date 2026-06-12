@@ -7,33 +7,33 @@ part of 'operation.dart';
 // **************************************************************************
 
 Operation _$OperationFromJson(Map<String, dynamic> json) => Operation(
-      json['name'] as String,
-      Http.fromJson(json['http'] as Map<String, dynamic>),
-      json['authtype'] as String? ?? '',
-      json['input'] == null
+      name: json['name'] as String,
+      http: Http.fromJson(json['http'] as Map<String, dynamic>),
+      authtype: json['authtype'] as String? ?? '',
+      input: json['input'] == null
           ? null
           : Descriptor.fromJson(json['input'] as Map<String, dynamic>),
-      json['output'] == null
+      output: json['output'] == null
           ? null
           : Descriptor.fromJson(json['output'] as Map<String, dynamic>),
-      (json['errors'] as List<dynamic>?)
+      errors: (json['errors'] as List<dynamic>?)
           ?.map((e) => Descriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['documentation'] as String?,
-      json['documentationUrl'] as String?,
-      json['idempotent'] as bool? ?? false,
-      json['deprecated'] as bool? ?? false,
-      json['deprecatedMessage'] as String?,
-      json['endpoint'] == null
+      documentation: json['documentation'] as String?,
+      documentationUrl: json['documentationUrl'] as String?,
+      idempotent: json['idempotent'] as bool? ?? false,
+      deprecated: json['deprecated'] as bool? ?? false,
+      deprecatedMessage: json['deprecatedMessage'] as String?,
+      endpoint: json['endpoint'] == null
           ? null
           : EndPoint.fromJson(json['endpoint'] as Map<String, dynamic>),
-      json['alias'] as String?,
-      json['endpointdiscovery'] as Map<String, dynamic>?,
-      json['endpointoperation'] as bool? ?? false,
-      json['internal'] as bool?,
-      json['internalonly'] as bool?,
-      json['httpChecksumRequired'] as bool? ?? false,
-      json['methodNameOverride'] as String?,
+      alias: json['alias'] as String?,
+      endpointdiscovery: json['endpointdiscovery'] as Map<String, dynamic>?,
+      endpointoperation: json['endpointoperation'] as bool? ?? false,
+      internal: json['internal'] as bool?,
+      internalonly: json['internalonly'] as bool?,
+      httpChecksumRequired: json['httpChecksumRequired'] as bool? ?? false,
+      methodNameOverride: json['methodNameOverride'] as String?,
     );
 
 EndPoint _$EndPointFromJson(Map<String, dynamic> json) {
@@ -52,8 +52,8 @@ Http _$HttpFromJson(Map<String, dynamic> json) {
     allowedKeys: const ['method', 'requestUri', 'responseCode'],
   );
   return Http(
-    json['method'] as String? ?? 'POST',
-    json['requestUri'] as String? ?? '/',
-    (json['responseCode'] as num?)?.toInt(),
+    method: json['method'] as String? ?? 'POST',
+    requestUri: json['requestUri'] as String? ?? '/',
+    responseCode: (json['responseCode'] as num?)?.toInt(),
   );
 }
