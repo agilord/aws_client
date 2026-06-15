@@ -2788,7 +2788,8 @@ class DeleteStudioResponse {
 
   factory DeleteStudioResponse.fromJson(Map<String, dynamic> json) {
     return DeleteStudioResponse(
-      studio: Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      studio: Studio.fromJson((json['studio'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3211,7 +3212,8 @@ class GetStudioResponse {
 
   factory GetStudioResponse.fromJson(Map<String, dynamic> json) {
     return GetStudioResponse(
-      studio: Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      studio: Studio.fromJson((json['studio'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4183,7 +4185,7 @@ class ListStudiosResponse {
 
   factory ListStudiosResponse.fromJson(Map<String, dynamic> json) {
     return ListStudiosResponse(
-      studios: (json['studios'] as List)
+      studios: ((json['studios'] as List?) ?? const [])
           .nonNulls
           .map((e) => Studio.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4443,7 +4445,8 @@ class StartStudioSSOConfigurationRepairResponse {
   factory StartStudioSSOConfigurationRepairResponse.fromJson(
       Map<String, dynamic> json) {
     return StartStudioSSOConfigurationRepairResponse(
-      studio: Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      studio: Studio.fromJson((json['studio'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4575,11 +4578,11 @@ class StreamConfiguration {
     return StreamConfiguration(
       clipboardMode:
           StreamingClipboardMode.fromString((json['clipboardMode'] as String)),
-      ec2InstanceTypes: (json['ec2InstanceTypes'] as List)
+      ec2InstanceTypes: ((json['ec2InstanceTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamingInstanceType.fromString((e as String)))
           .toList(),
-      streamingImageIds: (json['streamingImageIds'] as List)
+      streamingImageIds: ((json['streamingImageIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -4817,7 +4820,7 @@ class StreamConfigurationSessionStorage {
   factory StreamConfigurationSessionStorage.fromJson(
       Map<String, dynamic> json) {
     return StreamConfigurationSessionStorage(
-      mode: (json['mode'] as List)
+      mode: ((json['mode'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamingSessionStorageMode.fromString((e as String)))
           .toList(),
@@ -6647,7 +6650,8 @@ class UpdateStudioResponse {
 
   factory UpdateStudioResponse.fromJson(Map<String, dynamic> json) {
     return UpdateStudioResponse(
-      studio: Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      studio: Studio.fromJson((json['studio'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -6686,7 +6690,7 @@ class ValidationResult {
       state: LaunchProfileValidationState.fromString((json['state'] as String)),
       statusCode: LaunchProfileValidationStatusCode.fromString(
           (json['statusCode'] as String)),
-      statusMessage: json['statusMessage'] as String,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
       type: LaunchProfileValidationType.fromString((json['type'] as String)),
     );
   }

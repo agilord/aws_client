@@ -1527,8 +1527,8 @@ class BaselineSummary {
 
   factory BaselineSummary.fromJson(Map<String, dynamic> json) {
     return BaselineSummary(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -1807,8 +1807,8 @@ class CreateLandingZoneOutput {
 
   factory CreateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
     return CreateLandingZoneOutput(
-      arn: json['arn'] as String,
-      operationIdentifier: json['operationIdentifier'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -1834,7 +1834,7 @@ class DeleteLandingZoneOutput {
 
   factory DeleteLandingZoneOutput.fromJson(Map<String, dynamic> json) {
     return DeleteLandingZoneOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -1858,7 +1858,7 @@ class DisableBaselineOutput {
 
   factory DisableBaselineOutput.fromJson(Map<String, dynamic> json) {
     return DisableBaselineOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -1881,7 +1881,7 @@ class DisableControlOutput {
 
   factory DisableControlOutput.fromJson(Map<String, dynamic> json) {
     return DisableControlOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -1989,8 +1989,8 @@ class EnableBaselineOutput {
 
   factory EnableBaselineOutput.fromJson(Map<String, dynamic> json) {
     return EnableBaselineOutput(
-      arn: json['arn'] as String,
-      operationIdentifier: json['operationIdentifier'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -2019,7 +2019,7 @@ class EnableControlOutput {
 
   factory EnableControlOutput.fromJson(Map<String, dynamic> json) {
     return EnableControlOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
       arn: json['arn'] as String?,
     );
   }
@@ -2065,11 +2065,12 @@ class EnabledBaselineDetails {
 
   factory EnabledBaselineDetails.fromJson(Map<String, dynamic> json) {
     return EnabledBaselineDetails(
-      arn: json['arn'] as String,
-      baselineIdentifier: json['baselineIdentifier'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
       statusSummary: EnablementStatusSummary.fromJson(
-          json['statusSummary'] as Map<String, dynamic>),
-      targetIdentifier: json['targetIdentifier'] as String,
+          (json['statusSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
       baselineVersion: json['baselineVersion'] as String?,
       parameters: (json['parameters'] as List?)
           ?.nonNulls
@@ -2176,9 +2177,10 @@ class EnabledBaselineParameterSummary {
 
   factory EnabledBaselineParameterSummary.fromJson(Map<String, dynamic> json) {
     return EnabledBaselineParameterSummary(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       value: EnabledBaselineParameterDocument.fromJson(
-          json['value'] as Map<String, dynamic>),
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2219,11 +2221,12 @@ class EnabledBaselineSummary {
 
   factory EnabledBaselineSummary.fromJson(Map<String, dynamic> json) {
     return EnabledBaselineSummary(
-      arn: json['arn'] as String,
-      baselineIdentifier: json['baselineIdentifier'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
       statusSummary: EnablementStatusSummary.fromJson(
-          json['statusSummary'] as Map<String, dynamic>),
-      targetIdentifier: json['targetIdentifier'] as String,
+          (json['statusSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
       baselineVersion: json['baselineVersion'] as String?,
     );
   }
@@ -2399,8 +2402,9 @@ class EnabledControlParameterSummary {
 
   factory EnabledControlParameterSummary.fromJson(Map<String, dynamic> json) {
     return EnabledControlParameterSummary(
-      key: json['key'] as String,
-      value: Document.fromJson(json['value'] as Map<String, dynamic>),
+      key: (json['key'] as String?) ?? '',
+      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2548,7 +2552,8 @@ class GetBaselineOperationOutput {
   factory GetBaselineOperationOutput.fromJson(Map<String, dynamic> json) {
     return GetBaselineOperationOutput(
       baselineOperation: BaselineOperation.fromJson(
-          json['baselineOperation'] as Map<String, dynamic>),
+          (json['baselineOperation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2578,8 +2583,8 @@ class GetBaselineOutput {
 
   factory GetBaselineOutput.fromJson(Map<String, dynamic> json) {
     return GetBaselineOutput(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -2607,7 +2612,8 @@ class GetControlOperationOutput {
   factory GetControlOperationOutput.fromJson(Map<String, dynamic> json) {
     return GetControlOperationOutput(
       controlOperation: ControlOperation.fromJson(
-          json['controlOperation'] as Map<String, dynamic>),
+          (json['controlOperation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2656,7 +2662,8 @@ class GetEnabledControlOutput {
   factory GetEnabledControlOutput.fromJson(Map<String, dynamic> json) {
     return GetEnabledControlOutput(
       enabledControlDetails: EnabledControlDetails.fromJson(
-          json['enabledControlDetails'] as Map<String, dynamic>),
+          (json['enabledControlDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2679,7 +2686,8 @@ class GetLandingZoneOperationOutput {
   factory GetLandingZoneOperationOutput.fromJson(Map<String, dynamic> json) {
     return GetLandingZoneOperationOutput(
       operationDetails: LandingZoneOperationDetail.fromJson(
-          json['operationDetails'] as Map<String, dynamic>),
+          (json['operationDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2702,7 +2710,8 @@ class GetLandingZoneOutput {
   factory GetLandingZoneOutput.fromJson(Map<String, dynamic> json) {
     return GetLandingZoneOutput(
       landingZone: LandingZoneDetail.fromJson(
-          json['landingZone'] as Map<String, dynamic>),
+          (json['landingZone'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2747,8 +2756,9 @@ class LandingZoneDetail {
 
   factory LandingZoneDetail.fromJson(Map<String, dynamic> json) {
     return LandingZoneDetail(
-      manifest: Manifest.fromJson(json['manifest'] as Map<String, dynamic>),
-      version: json['version'] as String,
+      manifest: Manifest.fromJson((json['manifest'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      version: (json['version'] as String?) ?? '',
       arn: json['arn'] as String?,
       driftStatus: json['driftStatus'] != null
           ? LandingZoneDriftStatusSummary.fromJson(
@@ -3075,7 +3085,7 @@ class ListBaselinesOutput {
 
   factory ListBaselinesOutput.fromJson(Map<String, dynamic> json) {
     return ListBaselinesOutput(
-      baselines: (json['baselines'] as List)
+      baselines: ((json['baselines'] as List?) ?? const [])
           .nonNulls
           .map((e) => BaselineSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3107,7 +3117,7 @@ class ListControlOperationsOutput {
 
   factory ListControlOperationsOutput.fromJson(Map<String, dynamic> json) {
     return ListControlOperationsOutput(
-      controlOperations: (json['controlOperations'] as List)
+      controlOperations: ((json['controlOperations'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ControlOperationSummary.fromJson(e as Map<String, dynamic>))
@@ -3140,7 +3150,7 @@ class ListEnabledBaselinesOutput {
 
   factory ListEnabledBaselinesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnabledBaselinesOutput(
-      enabledBaselines: (json['enabledBaselines'] as List)
+      enabledBaselines: ((json['enabledBaselines'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => EnabledBaselineSummary.fromJson(e as Map<String, dynamic>))
@@ -3175,7 +3185,7 @@ class ListEnabledControlsOutput {
 
   factory ListEnabledControlsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnabledControlsOutput(
-      enabledControls: (json['enabledControls'] as List)
+      enabledControls: ((json['enabledControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnabledControlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3208,7 +3218,8 @@ class ListLandingZoneOperationsOutput {
 
   factory ListLandingZoneOperationsOutput.fromJson(Map<String, dynamic> json) {
     return ListLandingZoneOperationsOutput(
-      landingZoneOperations: (json['landingZoneOperations'] as List)
+      landingZoneOperations: ((json['landingZoneOperations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               LandingZoneOperationSummary.fromJson(e as Map<String, dynamic>))
@@ -3242,7 +3253,7 @@ class ListLandingZonesOutput {
 
   factory ListLandingZonesOutput.fromJson(Map<String, dynamic> json) {
     return ListLandingZonesOutput(
-      landingZones: (json['landingZones'] as List)
+      landingZones: ((json['landingZones'] as List?) ?? const [])
           .nonNulls
           .map((e) => LandingZoneSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3270,8 +3281,9 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3338,7 +3350,7 @@ class ResetEnabledBaselineOutput {
 
   factory ResetEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
     return ResetEnabledBaselineOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3362,7 +3374,7 @@ class ResetLandingZoneOutput {
 
   factory ResetLandingZoneOutput.fromJson(Map<String, dynamic> json) {
     return ResetLandingZoneOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3411,7 +3423,7 @@ class UpdateEnabledBaselineOutput {
 
   factory UpdateEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnabledBaselineOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3434,7 +3446,7 @@ class UpdateEnabledControlOutput {
 
   factory UpdateEnabledControlOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnabledControlOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3458,7 +3470,7 @@ class UpdateLandingZoneOutput {
 
   factory UpdateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
     return UpdateLandingZoneOutput(
-      operationIdentifier: json['operationIdentifier'] as String,
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
     );
   }
 

@@ -2682,7 +2682,7 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressDefinition: json['AddressDefinition'] as String,
+      addressDefinition: (json['AddressDefinition'] as String?) ?? '',
     );
   }
 
@@ -3167,8 +3167,9 @@ class CreateFirewallPolicyResponse {
   factory CreateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreateFirewallPolicyResponse(
       firewallPolicyResponse: FirewallPolicyResponse.fromJson(
-          json['FirewallPolicyResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['FirewallPolicyResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 
@@ -3246,8 +3247,9 @@ class CreateRuleGroupResponse {
   factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateRuleGroupResponse(
       ruleGroupResponse: RuleGroupResponse.fromJson(
-          json['RuleGroupResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['RuleGroupResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 
@@ -3292,9 +3294,10 @@ class CreateTLSInspectionConfigurationResponse {
     return CreateTLSInspectionConfigurationResponse(
       tLSInspectionConfigurationResponse:
           TLSInspectionConfigurationResponse.fromJson(
-              json['TLSInspectionConfigurationResponse']
-                  as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+              (json['TLSInspectionConfigurationResponse']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 
@@ -3349,8 +3352,9 @@ class CustomAction {
   factory CustomAction.fromJson(Map<String, dynamic> json) {
     return CustomAction(
       actionDefinition: ActionDefinition.fromJson(
-          json['ActionDefinition'] as Map<String, dynamic>),
-      actionName: json['ActionName'] as String,
+          (json['ActionDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      actionName: (json['ActionName'] as String?) ?? '',
     );
   }
 
@@ -3376,7 +3380,8 @@ class DeleteFirewallPolicyResponse {
   factory DeleteFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFirewallPolicyResponse(
       firewallPolicyResponse: FirewallPolicyResponse.fromJson(
-          json['FirewallPolicyResponse'] as Map<String, dynamic>),
+          (json['FirewallPolicyResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3444,7 +3449,8 @@ class DeleteRuleGroupResponse {
   factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return DeleteRuleGroupResponse(
       ruleGroupResponse: RuleGroupResponse.fromJson(
-          json['RuleGroupResponse'] as Map<String, dynamic>),
+          (json['RuleGroupResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3472,8 +3478,9 @@ class DeleteTLSInspectionConfigurationResponse {
     return DeleteTLSInspectionConfigurationResponse(
       tLSInspectionConfigurationResponse:
           TLSInspectionConfigurationResponse.fromJson(
-              json['TLSInspectionConfigurationResponse']
-                  as Map<String, dynamic>),
+              (json['TLSInspectionConfigurationResponse']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -3516,8 +3523,9 @@ class DescribeFirewallPolicyResponse {
   factory DescribeFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFirewallPolicyResponse(
       firewallPolicyResponse: FirewallPolicyResponse.fromJson(
-          json['FirewallPolicyResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['FirewallPolicyResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
       firewallPolicy: json['FirewallPolicy'] != null
           ? FirewallPolicy.fromJson(
               json['FirewallPolicy'] as Map<String, dynamic>)
@@ -3701,8 +3709,8 @@ class DescribeRuleGroupMetadataResponse {
   factory DescribeRuleGroupMetadataResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeRuleGroupMetadataResponse(
-      ruleGroupArn: json['RuleGroupArn'] as String,
-      ruleGroupName: json['RuleGroupName'] as String,
+      ruleGroupArn: (json['RuleGroupArn'] as String?) ?? '',
+      ruleGroupName: (json['RuleGroupName'] as String?) ?? '',
       capacity: json['Capacity'] as int?,
       description: json['Description'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -3778,8 +3786,9 @@ class DescribeRuleGroupResponse {
   factory DescribeRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRuleGroupResponse(
       ruleGroupResponse: RuleGroupResponse.fromJson(
-          json['RuleGroupResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['RuleGroupResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
       ruleGroup: json['RuleGroup'] != null
           ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
           : null,
@@ -3851,9 +3860,10 @@ class DescribeTLSInspectionConfigurationResponse {
     return DescribeTLSInspectionConfigurationResponse(
       tLSInspectionConfigurationResponse:
           TLSInspectionConfigurationResponse.fromJson(
-              json['TLSInspectionConfigurationResponse']
-                  as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+              (json['TLSInspectionConfigurationResponse']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
       tLSInspectionConfiguration: json['TLSInspectionConfiguration'] != null
           ? TLSInspectionConfiguration.fromJson(
               json['TLSInspectionConfiguration'] as Map<String, dynamic>)
@@ -3898,7 +3908,7 @@ class Dimension {
 
   factory Dimension.fromJson(Map<String, dynamic> json) {
     return Dimension(
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4111,13 +4121,13 @@ class Firewall {
 
   factory Firewall.fromJson(Map<String, dynamic> json) {
     return Firewall(
-      firewallId: json['FirewallId'] as String,
-      firewallPolicyArn: json['FirewallPolicyArn'] as String,
-      subnetMappings: (json['SubnetMappings'] as List)
+      firewallId: (json['FirewallId'] as String?) ?? '',
+      firewallPolicyArn: (json['FirewallPolicyArn'] as String?) ?? '',
+      subnetMappings: ((json['SubnetMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      vpcId: json['VpcId'] as String,
+      vpcId: (json['VpcId'] as String?) ?? '',
       deleteProtection: json['DeleteProtection'] as bool?,
       description: json['Description'] as String?,
       encryptionConfiguration: json['EncryptionConfiguration'] != null
@@ -4305,12 +4315,13 @@ class FirewallPolicy {
 
   factory FirewallPolicy.fromJson(Map<String, dynamic> json) {
     return FirewallPolicy(
-      statelessDefaultActions: (json['StatelessDefaultActions'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      statelessDefaultActions:
+          ((json['StatelessDefaultActions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
       statelessFragmentDefaultActions:
-          (json['StatelessFragmentDefaultActions'] as List)
+          ((json['StatelessFragmentDefaultActions'] as List?) ?? const [])
               .nonNulls
               .map((e) => e as String)
               .toList(),
@@ -4476,9 +4487,9 @@ class FirewallPolicyResponse {
 
   factory FirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
     return FirewallPolicyResponse(
-      firewallPolicyArn: json['FirewallPolicyArn'] as String,
-      firewallPolicyId: json['FirewallPolicyId'] as String,
-      firewallPolicyName: json['FirewallPolicyName'] as String,
+      firewallPolicyArn: (json['FirewallPolicyArn'] as String?) ?? '',
+      firewallPolicyId: (json['FirewallPolicyId'] as String?) ?? '',
+      firewallPolicyName: (json['FirewallPolicyName'] as String?) ?? '',
       consumedStatefulRuleCapacity:
           json['ConsumedStatefulRuleCapacity'] as int?,
       consumedStatelessRuleCapacity:
@@ -4746,13 +4757,13 @@ class Header {
 
   factory Header.fromJson(Map<String, dynamic> json) {
     return Header(
-      destination: json['Destination'] as String,
-      destinationPort: json['DestinationPort'] as String,
+      destination: (json['Destination'] as String?) ?? '',
+      destinationPort: (json['DestinationPort'] as String?) ?? '',
       direction:
           StatefulRuleDirection.fromString((json['Direction'] as String)),
       protocol: StatefulRuleProtocol.fromString((json['Protocol'] as String)),
-      source: json['Source'] as String,
-      sourcePort: json['SourcePort'] as String,
+      source: (json['Source'] as String?) ?? '',
+      sourcePort: (json['SourcePort'] as String?) ?? '',
     );
   }
 
@@ -4802,7 +4813,7 @@ class IPSet {
 
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
-      definition: (json['Definition'] as List)
+      definition: ((json['Definition'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -5169,7 +5180,8 @@ class LogDestinationConfig {
 
   factory LogDestinationConfig.fromJson(Map<String, dynamic> json) {
     return LogDestinationConfig(
-      logDestination: (json['LogDestination'] as Map<String, dynamic>)
+      logDestination: ((json['LogDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
       logDestinationType:
           LogDestinationType.fromString((json['LogDestinationType'] as String)),
@@ -5232,7 +5244,8 @@ class LoggingConfiguration {
 
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
-      logDestinationConfigs: (json['LogDestinationConfigs'] as List)
+      logDestinationConfigs: ((json['LogDestinationConfigs'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => LogDestinationConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5453,8 +5466,8 @@ class PortRange {
 
   factory PortRange.fromJson(Map<String, dynamic> json) {
     return PortRange(
-      fromPort: json['FromPort'] as int,
-      toPort: json['ToPort'] as int,
+      fromPort: (json['FromPort'] as int?) ?? 0,
+      toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
 
@@ -5507,7 +5520,7 @@ class PublishMetricAction {
 
   factory PublishMetricAction.fromJson(Map<String, dynamic> json) {
     return PublishMetricAction(
-      dimensions: (json['Dimensions'] as List)
+      dimensions: ((json['Dimensions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5677,10 +5690,13 @@ class RuleDefinition {
 
   factory RuleDefinition.fromJson(Map<String, dynamic> json) {
     return RuleDefinition(
-      actions:
-          (json['Actions'] as List).nonNulls.map((e) => e as String).toList(),
+      actions: ((json['Actions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       matchAttributes: MatchAttributes.fromJson(
-          json['MatchAttributes'] as Map<String, dynamic>),
+          (json['MatchAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5735,8 +5751,9 @@ class RuleGroup {
 
   factory RuleGroup.fromJson(Map<String, dynamic> json) {
     return RuleGroup(
-      rulesSource:
-          RulesSource.fromJson(json['RulesSource'] as Map<String, dynamic>),
+      rulesSource: RulesSource.fromJson(
+          (json['RulesSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       referenceSets: json['ReferenceSets'] != null
           ? ReferenceSets.fromJson(
               json['ReferenceSets'] as Map<String, dynamic>)
@@ -5900,9 +5917,9 @@ class RuleGroupResponse {
 
   factory RuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return RuleGroupResponse(
-      ruleGroupArn: json['RuleGroupArn'] as String,
-      ruleGroupId: json['RuleGroupId'] as String,
-      ruleGroupName: json['RuleGroupName'] as String,
+      ruleGroupArn: (json['RuleGroupArn'] as String?) ?? '',
+      ruleGroupId: (json['RuleGroupId'] as String?) ?? '',
+      ruleGroupName: (json['RuleGroupName'] as String?) ?? '',
       analysisResults: (json['AnalysisResults'] as List?)
           ?.nonNulls
           .map((e) => AnalysisResult.fromJson(e as Map<String, dynamic>))
@@ -6010,7 +6027,7 @@ class RuleOption {
 
   factory RuleOption.fromJson(Map<String, dynamic> json) {
     return RuleOption(
-      keyword: json['Keyword'] as String,
+      keyword: (json['Keyword'] as String?) ?? '',
       settings: (json['Settings'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6200,12 +6217,14 @@ class RulesSourceList {
     return RulesSourceList(
       generatedRulesType:
           GeneratedRulesType.fromString((json['GeneratedRulesType'] as String)),
-      targetTypes: (json['TargetTypes'] as List)
+      targetTypes: ((json['TargetTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => TargetType.fromString((e as String)))
           .toList(),
-      targets:
-          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
+      targets: ((json['Targets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -6626,8 +6645,9 @@ class StatefulRule {
   factory StatefulRule.fromJson(Map<String, dynamic> json) {
     return StatefulRule(
       action: StatefulAction.fromString((json['Action'] as String)),
-      header: Header.fromJson(json['Header'] as Map<String, dynamic>),
-      ruleOptions: (json['RuleOptions'] as List)
+      header: Header.fromJson((json['Header'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      ruleOptions: ((json['RuleOptions'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleOption.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6718,7 +6738,7 @@ class StatefulRuleGroupReference {
 
   factory StatefulRuleGroupReference.fromJson(Map<String, dynamic> json) {
     return StatefulRuleGroupReference(
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
       override: json['Override'] != null
           ? StatefulRuleGroupOverride.fromJson(
               json['Override'] as Map<String, dynamic>)
@@ -6831,9 +6851,10 @@ class StatelessRule {
 
   factory StatelessRule.fromJson(Map<String, dynamic> json) {
     return StatelessRule(
-      priority: json['Priority'] as int,
+      priority: (json['Priority'] as int?) ?? 0,
       ruleDefinition: RuleDefinition.fromJson(
-          json['RuleDefinition'] as Map<String, dynamic>),
+          (json['RuleDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6867,8 +6888,8 @@ class StatelessRuleGroupReference {
 
   factory StatelessRuleGroupReference.fromJson(Map<String, dynamic> json) {
     return StatelessRuleGroupReference(
-      priority: json['Priority'] as int,
-      resourceArn: json['ResourceArn'] as String,
+      priority: (json['Priority'] as int?) ?? 0,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }
 
@@ -6903,7 +6924,7 @@ class StatelessRulesAndCustomActions {
 
   factory StatelessRulesAndCustomActions.fromJson(Map<String, dynamic> json) {
     return StatelessRulesAndCustomActions(
-      statelessRules: (json['StatelessRules'] as List)
+      statelessRules: ((json['StatelessRules'] as List?) ?? const [])
           .nonNulls
           .map((e) => StatelessRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6959,7 +6980,7 @@ class SubnetMapping {
 
   factory SubnetMapping.fromJson(Map<String, dynamic> json) {
     return SubnetMapping(
-      subnetId: json['SubnetId'] as String,
+      subnetId: (json['SubnetId'] as String?) ?? '',
       iPAddressType:
           (json['IPAddressType'] as String?)?.let(IPAddressType.fromString),
     );
@@ -7086,7 +7107,7 @@ class TCPFlagField {
 
   factory TCPFlagField.fromJson(Map<String, dynamic> json) {
     return TCPFlagField(
-      flags: (json['Flags'] as List)
+      flags: ((json['Flags'] as List?) ?? const [])
           .nonNulls
           .map((e) => TCPFlag.fromString((e as String)))
           .toList(),
@@ -7252,11 +7273,11 @@ class TLSInspectionConfigurationResponse {
       Map<String, dynamic> json) {
     return TLSInspectionConfigurationResponse(
       tLSInspectionConfigurationArn:
-          json['TLSInspectionConfigurationArn'] as String,
+          (json['TLSInspectionConfigurationArn'] as String?) ?? '',
       tLSInspectionConfigurationId:
-          json['TLSInspectionConfigurationId'] as String,
+          (json['TLSInspectionConfigurationId'] as String?) ?? '',
       tLSInspectionConfigurationName:
-          json['TLSInspectionConfigurationName'] as String,
+          (json['TLSInspectionConfigurationName'] as String?) ?? '',
       certificateAuthority: json['CertificateAuthority'] != null
           ? TlsCertificateData.fromJson(
               json['CertificateAuthority'] as Map<String, dynamic>)
@@ -7340,8 +7361,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7709,8 +7730,9 @@ class UpdateFirewallPolicyResponse {
   factory UpdateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFirewallPolicyResponse(
       firewallPolicyResponse: FirewallPolicyResponse.fromJson(
-          json['FirewallPolicyResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['FirewallPolicyResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 
@@ -7790,8 +7812,9 @@ class UpdateRuleGroupResponse {
   factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRuleGroupResponse(
       ruleGroupResponse: RuleGroupResponse.fromJson(
-          json['RuleGroupResponse'] as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+          (json['RuleGroupResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 
@@ -7899,9 +7922,10 @@ class UpdateTLSInspectionConfigurationResponse {
     return UpdateTLSInspectionConfigurationResponse(
       tLSInspectionConfigurationResponse:
           TLSInspectionConfigurationResponse.fromJson(
-              json['TLSInspectionConfigurationResponse']
-                  as Map<String, dynamic>),
-      updateToken: json['UpdateToken'] as String,
+              (json['TLSInspectionConfigurationResponse']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      updateToken: (json['UpdateToken'] as String?) ?? '',
     );
   }
 

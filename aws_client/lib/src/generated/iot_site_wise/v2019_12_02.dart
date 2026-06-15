@@ -1821,24 +1821,27 @@ class IoTSiteWise {
     );
     final $json = await _s.jsonFromResponse(response);
     return DescribeAssetModelResponse(
-      assetModelArn: $json['assetModelArn'] as String,
-      assetModelCreationDate: nonNullableTimeStampFromJson(
-          $json['assetModelCreationDate'] as Object),
-      assetModelDescription: $json['assetModelDescription'] as String,
-      assetModelHierarchies: ($json['assetModelHierarchies'] as List)
+      assetModelArn: ($json['assetModelArn'] as String?) ?? '',
+      assetModelCreationDate:
+          nonNullableTimeStampFromJson($json['assetModelCreationDate'] ?? 0),
+      assetModelDescription: ($json['assetModelDescription'] as String?) ?? '',
+      assetModelHierarchies: (($json['assetModelHierarchies'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AssetModelHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      assetModelId: $json['assetModelId'] as String,
-      assetModelLastUpdateDate: nonNullableTimeStampFromJson(
-          $json['assetModelLastUpdateDate'] as Object),
-      assetModelName: $json['assetModelName'] as String,
-      assetModelProperties: ($json['assetModelProperties'] as List)
+      assetModelId: ($json['assetModelId'] as String?) ?? '',
+      assetModelLastUpdateDate:
+          nonNullableTimeStampFromJson($json['assetModelLastUpdateDate'] ?? 0),
+      assetModelName: ($json['assetModelName'] as String?) ?? '',
+      assetModelProperties: (($json['assetModelProperties'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
       assetModelStatus: AssetModelStatus.fromJson(
-          $json['assetModelStatus'] as Map<String, dynamic>),
+          ($json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       assetModelCompositeModelSummaries:
           ($json['assetModelCompositeModelSummaries'] as List?)
               ?.nonNulls
@@ -4908,10 +4911,12 @@ class AccessPolicySummary {
 
   factory AccessPolicySummary.fromJson(Map<String, dynamic> json) {
     return AccessPolicySummary(
-      id: json['id'] as String,
-      identity: Identity.fromJson(json['identity'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      identity: Identity.fromJson((json['identity'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       permission: Permission.fromString((json['permission'] as String)),
-      resource: Resource.fromJson(json['resource'] as Map<String, dynamic>),
+      resource: Resource.fromJson((json['resource'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       creationDate: timeStampFromJson(json['creationDate']),
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
     );
@@ -4956,9 +4961,9 @@ class ActionDefinition {
 
   factory ActionDefinition.fromJson(Map<String, dynamic> json) {
     return ActionDefinition(
-      actionDefinitionId: json['actionDefinitionId'] as String,
-      actionName: json['actionName'] as String,
-      actionType: json['actionType'] as String,
+      actionDefinitionId: (json['actionDefinitionId'] as String?) ?? '',
+      actionName: (json['actionName'] as String?) ?? '',
+      actionType: (json['actionType'] as String?) ?? '',
     );
   }
 
@@ -4985,7 +4990,7 @@ class ActionPayload {
 
   factory ActionPayload.fromJson(Map<String, dynamic> json) {
     return ActionPayload(
-      stringValue: json['stringValue'] as String,
+      stringValue: (json['stringValue'] as String?) ?? '',
     );
   }
 
@@ -5076,8 +5081,9 @@ class AggregatedValue {
 
   factory AggregatedValue.fromJson(Map<String, dynamic> json) {
     return AggregatedValue(
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
-      value: Aggregates.fromJson(json['value'] as Map<String, dynamic>),
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+      value: Aggregates.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       quality: (json['quality'] as String?)?.let(Quality.fromString),
     );
   }
@@ -5180,7 +5186,7 @@ class Alarms {
 
   factory Alarms.fromJson(Map<String, dynamic> json) {
     return Alarms(
-      alarmRoleArn: json['alarmRoleArn'] as String,
+      alarmRoleArn: (json['alarmRoleArn'] as String?) ?? '',
       notificationLambdaArn: json['notificationLambdaArn'] as String?,
     );
   }
@@ -5231,12 +5237,12 @@ class AssetCompositeModel {
 
   factory AssetCompositeModel.fromJson(Map<String, dynamic> json) {
     return AssetCompositeModel(
-      name: json['name'] as String,
-      properties: (json['properties'] as List)
+      name: (json['name'] as String?) ?? '',
+      properties: ((json['properties'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
@@ -5339,15 +5345,15 @@ class AssetCompositeModelSummary {
 
   factory AssetCompositeModelSummary.fromJson(Map<String, dynamic> json) {
     return AssetCompositeModelSummary(
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      path: (json['path'] as List)
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      path: ((json['path'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetCompositeModelPathSegment.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       externalId: json['externalId'] as String?,
     );
   }
@@ -5403,9 +5409,9 @@ class AssetErrorDetails {
 
   factory AssetErrorDetails.fromJson(Map<String, dynamic> json) {
     return AssetErrorDetails(
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
       code: AssetErrorCode.fromString((json['code'] as String)),
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -5449,7 +5455,7 @@ class AssetHierarchy {
 
   factory AssetHierarchy.fromJson(Map<String, dynamic> json) {
     return AssetHierarchy(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
     );
@@ -5535,8 +5541,8 @@ class AssetModelCompositeModel {
 
   factory AssetModelCompositeModel.fromJson(Map<String, dynamic> json) {
     return AssetModelCompositeModel(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
@@ -5689,9 +5695,9 @@ class AssetModelCompositeModelSummary {
 
   factory AssetModelCompositeModelSummary.fromJson(Map<String, dynamic> json) {
     return AssetModelCompositeModelSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      type: json['type'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
       path: (json['path'] as List?)
@@ -5787,8 +5793,8 @@ class AssetModelHierarchy {
 
   factory AssetModelHierarchy.fromJson(Map<String, dynamic> json) {
     return AssetModelHierarchy(
-      childAssetModelId: json['childAssetModelId'] as String,
-      name: json['name'] as String,
+      childAssetModelId: (json['childAssetModelId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
     );
@@ -5933,8 +5939,9 @@ class AssetModelProperty {
   factory AssetModelProperty.fromJson(Map<String, dynamic> json) {
     return AssetModelProperty(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      name: json['name'] as String,
-      type: PropertyType.fromJson(json['type'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      type: PropertyType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       dataTypeSpec: json['dataTypeSpec'] as String?,
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
@@ -6117,8 +6124,9 @@ class AssetModelPropertySummary {
   factory AssetModelPropertySummary.fromJson(Map<String, dynamic> json) {
     return AssetModelPropertySummary(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      name: json['name'] as String,
-      type: PropertyType.fromJson(json['type'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      type: PropertyType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       assetModelCompositeModelId: json['assetModelCompositeModelId'] as String?,
       dataTypeSpec: json['dataTypeSpec'] as String?,
       externalId: json['externalId'] as String?,
@@ -6276,15 +6284,15 @@ class AssetModelSummary {
 
   factory AssetModelSummary.fromJson(Map<String, dynamic> json) {
     return AssetModelSummary(
-      arn: json['arn'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      lastUpdateDate:
-          nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
-      name: json['name'] as String,
-      status: AssetModelStatus.fromJson(json['status'] as Map<String, dynamic>),
+      arn: (json['arn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetModelStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       assetModelType:
           (json['assetModelType'] as String?)?.let(AssetModelType.fromString),
       externalId: json['externalId'] as String?,
@@ -6403,8 +6411,8 @@ class AssetProperty {
   factory AssetProperty.fromJson(Map<String, dynamic> json) {
     return AssetProperty(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       alias: json['alias'] as String?,
       dataTypeSpec: json['dataTypeSpec'] as String?,
       externalId: json['externalId'] as String?,
@@ -6515,7 +6523,7 @@ class AssetPropertySummary {
 
   factory AssetPropertySummary.fromJson(Map<String, dynamic> json) {
     return AssetPropertySummary(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       alias: json['alias'] as String?,
       assetCompositeModelId: json['assetCompositeModelId'] as String?,
       externalId: json['externalId'] as String?,
@@ -6572,9 +6580,11 @@ class AssetPropertyValue {
 
   factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
     return AssetPropertyValue(
-      timestamp:
-          TimeInNanos.fromJson(json['timestamp'] as Map<String, dynamic>),
-      value: Variant.fromJson(json['value'] as Map<String, dynamic>),
+      timestamp: TimeInNanos.fromJson(
+          (json['timestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       quality: (json['quality'] as String?)?.let(Quality.fromString),
     );
   }
@@ -6757,19 +6767,18 @@ class AssetSummary {
 
   factory AssetSummary.fromJson(Map<String, dynamic> json) {
     return AssetSummary(
-      arn: json['arn'] as String,
-      assetModelId: json['assetModelId'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      hierarchies: (json['hierarchies'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      hierarchies: ((json['hierarchies'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      lastUpdateDate:
-          nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
-      name: json['name'] as String,
-      status: AssetStatus.fromJson(json['status'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
     );
@@ -6855,19 +6864,18 @@ class AssociatedAssetsSummary {
 
   factory AssociatedAssetsSummary.fromJson(Map<String, dynamic> json) {
     return AssociatedAssetsSummary(
-      arn: json['arn'] as String,
-      assetModelId: json['assetModelId'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      hierarchies: (json['hierarchies'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      hierarchies: ((json['hierarchies'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      lastUpdateDate:
-          nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
-      name: json['name'] as String,
-      status: AssetStatus.fromJson(json['status'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       description: json['description'] as String?,
       externalId: json['externalId'] as String?,
     );
@@ -7146,10 +7154,10 @@ class BatchGetAssetPropertyAggregatesErrorEntry {
   factory BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyAggregatesErrorEntry(
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorMessage: json['errorMessage'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -7186,8 +7194,7 @@ class BatchGetAssetPropertyAggregatesErrorInfo {
     return BatchGetAssetPropertyAggregatesErrorInfo(
       errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorTimestamp:
-          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
     );
   }
 
@@ -7231,17 +7238,17 @@ class BatchGetAssetPropertyAggregatesResponse {
   factory BatchGetAssetPropertyAggregatesResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyAggregatesResponse(
-      errorEntries: (json['errorEntries'] as List)
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      skippedEntries: (json['skippedEntries'] as List)
+      skippedEntries: ((json['skippedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      successEntries: (json['successEntries'] as List)
+      successEntries: ((json['successEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7290,7 +7297,7 @@ class BatchGetAssetPropertyAggregatesSkippedEntry {
     return BatchGetAssetPropertyAggregatesSkippedEntry(
       completionStatus: BatchEntryCompletionStatus.fromString(
           (json['completionStatus'] as String)),
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorInfo: json['errorInfo'] != null
           ? BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
               json['errorInfo'] as Map<String, dynamic>)
@@ -7329,11 +7336,11 @@ class BatchGetAssetPropertyAggregatesSuccessEntry {
   factory BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyAggregatesSuccessEntry(
-      aggregatedValues: (json['aggregatedValues'] as List)
+      aggregatedValues: ((json['aggregatedValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
     );
   }
 
@@ -7443,10 +7450,10 @@ class BatchGetAssetPropertyValueErrorEntry {
   factory BatchGetAssetPropertyValueErrorEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueErrorEntry(
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorMessage: json['errorMessage'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -7480,8 +7487,7 @@ class BatchGetAssetPropertyValueErrorInfo {
     return BatchGetAssetPropertyValueErrorInfo(
       errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorTimestamp:
-          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
     );
   }
 
@@ -7618,10 +7624,10 @@ class BatchGetAssetPropertyValueHistoryErrorEntry {
   factory BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueHistoryErrorEntry(
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorMessage: json['errorMessage'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -7655,8 +7661,7 @@ class BatchGetAssetPropertyValueHistoryErrorInfo {
     return BatchGetAssetPropertyValueHistoryErrorInfo(
       errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorTimestamp:
-          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
     );
   }
 
@@ -7700,17 +7705,17 @@ class BatchGetAssetPropertyValueHistoryResponse {
   factory BatchGetAssetPropertyValueHistoryResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueHistoryResponse(
-      errorEntries: (json['errorEntries'] as List)
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      skippedEntries: (json['skippedEntries'] as List)
+      skippedEntries: ((json['skippedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      successEntries: (json['successEntries'] as List)
+      successEntries: ((json['successEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7759,7 +7764,7 @@ class BatchGetAssetPropertyValueHistorySkippedEntry {
     return BatchGetAssetPropertyValueHistorySkippedEntry(
       completionStatus: BatchEntryCompletionStatus.fromString(
           (json['completionStatus'] as String)),
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorInfo: json['errorInfo'] != null
           ? BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
               json['errorInfo'] as Map<String, dynamic>)
@@ -7797,11 +7802,13 @@ class BatchGetAssetPropertyValueHistorySuccessEntry {
   factory BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueHistorySuccessEntry(
-      assetPropertyValueHistory: (json['assetPropertyValueHistory'] as List)
+      assetPropertyValueHistory: ((json['assetPropertyValueHistory']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
     );
   }
 
@@ -7845,17 +7852,17 @@ class BatchGetAssetPropertyValueResponse {
   factory BatchGetAssetPropertyValueResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueResponse(
-      errorEntries: (json['errorEntries'] as List)
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueErrorEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      skippedEntries: (json['skippedEntries'] as List)
+      skippedEntries: ((json['skippedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueSkippedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      successEntries: (json['successEntries'] as List)
+      successEntries: ((json['successEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetAssetPropertyValueSuccessEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7904,7 +7911,7 @@ class BatchGetAssetPropertyValueSkippedEntry {
     return BatchGetAssetPropertyValueSkippedEntry(
       completionStatus: BatchEntryCompletionStatus.fromString(
           (json['completionStatus'] as String)),
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       errorInfo: json['errorInfo'] != null
           ? BatchGetAssetPropertyValueErrorInfo.fromJson(
               json['errorInfo'] as Map<String, dynamic>)
@@ -7940,7 +7947,7 @@ class BatchGetAssetPropertyValueSuccessEntry {
   factory BatchGetAssetPropertyValueSuccessEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchGetAssetPropertyValueSuccessEntry(
-      entryId: json['entryId'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
       assetPropertyValue: json['assetPropertyValue'] != null
           ? AssetPropertyValue.fromJson(
               json['assetPropertyValue'] as Map<String, dynamic>)
@@ -7979,8 +7986,8 @@ class BatchPutAssetPropertyError {
     return BatchPutAssetPropertyError(
       errorCode: BatchPutAssetPropertyValueErrorCode.fromString(
           (json['errorCode'] as String)),
-      errorMessage: json['errorMessage'] as String,
-      timestamps: (json['timestamps'] as List)
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      timestamps: ((json['timestamps'] as List?) ?? const [])
           .nonNulls
           .map((e) => TimeInNanos.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8017,8 +8024,8 @@ class BatchPutAssetPropertyErrorEntry {
 
   factory BatchPutAssetPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
     return BatchPutAssetPropertyErrorEntry(
-      entryId: json['entryId'] as String,
-      errors: (json['errors'] as List)
+      entryId: (json['entryId'] as String?) ?? '',
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchPutAssetPropertyError.fromJson(e as Map<String, dynamic>))
@@ -8070,7 +8077,7 @@ class BatchPutAssetPropertyValueResponse {
   factory BatchPutAssetPropertyValueResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchPutAssetPropertyValueResponse(
-      errorEntries: (json['errorEntries'] as List)
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchPutAssetPropertyErrorEntry.fromJson(
               e as Map<String, dynamic>))
@@ -8208,10 +8215,11 @@ class CompositeModelProperty {
 
   factory CompositeModelProperty.fromJson(Map<String, dynamic> json) {
     return CompositeModelProperty(
-      assetProperty:
-          Property.fromJson(json['assetProperty'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      type: json['type'] as String,
+      assetProperty: Property.fromJson(
+          (json['assetProperty'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       externalId: json['externalId'] as String?,
       id: json['id'] as String?,
     );
@@ -8308,10 +8316,11 @@ class CompositionRelationshipSummary {
 
   factory CompositionRelationshipSummary.fromJson(Map<String, dynamic> json) {
     return CompositionRelationshipSummary(
-      assetModelCompositeModelId: json['assetModelCompositeModelId'] as String,
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
       assetModelCompositeModelType:
-          json['assetModelCompositeModelType'] as String,
-      assetModelId: json['assetModelId'] as String,
+          (json['assetModelCompositeModelType'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
     );
   }
 
@@ -8358,7 +8367,7 @@ class ConfigurationErrorDetails {
   factory ConfigurationErrorDetails.fromJson(Map<String, dynamic> json) {
     return ConfigurationErrorDetails(
       code: ErrorCode.fromString((json['code'] as String)),
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -8439,8 +8448,8 @@ class CreateAccessPolicyResponse {
 
   factory CreateAccessPolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreateAccessPolicyResponse(
-      accessPolicyArn: json['accessPolicyArn'] as String,
-      accessPolicyId: json['accessPolicyId'] as String,
+      accessPolicyArn: (json['accessPolicyArn'] as String?) ?? '',
+      accessPolicyId: (json['accessPolicyId'] as String?) ?? '',
     );
   }
 
@@ -8472,15 +8481,17 @@ class CreateAssetModelCompositeModelResponse {
   factory CreateAssetModelCompositeModelResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAssetModelCompositeModelResponse(
-      assetModelCompositeModelId: json['assetModelCompositeModelId'] as String,
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
       assetModelCompositeModelPath:
-          (json['assetModelCompositeModelPath'] as List)
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8520,10 +8531,11 @@ class CreateAssetModelResponse {
 
   factory CreateAssetModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateAssetModelResponse(
-      assetModelArn: json['assetModelArn'] as String,
-      assetModelId: json['assetModelId'] as String,
+      assetModelArn: (json['assetModelArn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8563,10 +8575,11 @@ class CreateAssetResponse {
 
   factory CreateAssetResponse.fromJson(Map<String, dynamic> json) {
     return CreateAssetResponse(
-      assetArn: json['assetArn'] as String,
-      assetId: json['assetId'] as String,
-      assetStatus:
-          AssetStatus.fromJson(json['assetStatus'] as Map<String, dynamic>),
+      assetArn: (json['assetArn'] as String?) ?? '',
+      assetId: (json['assetId'] as String?) ?? '',
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8628,8 +8641,8 @@ class CreateBulkImportJobResponse {
 
   factory CreateBulkImportJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateBulkImportJobResponse(
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
     );
   }
@@ -8664,8 +8677,8 @@ class CreateDashboardResponse {
 
   factory CreateDashboardResponse.fromJson(Map<String, dynamic> json) {
     return CreateDashboardResponse(
-      dashboardArn: json['dashboardArn'] as String,
-      dashboardId: json['dashboardId'] as String,
+      dashboardArn: (json['dashboardArn'] as String?) ?? '',
+      dashboardId: (json['dashboardId'] as String?) ?? '',
     );
   }
 
@@ -8698,8 +8711,8 @@ class CreateGatewayResponse {
 
   factory CreateGatewayResponse.fromJson(Map<String, dynamic> json) {
     return CreateGatewayResponse(
-      gatewayArn: json['gatewayArn'] as String,
-      gatewayId: json['gatewayId'] as String,
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      gatewayId: (json['gatewayId'] as String?) ?? '',
     );
   }
 
@@ -8748,12 +8761,13 @@ class CreatePortalResponse {
 
   factory CreatePortalResponse.fromJson(Map<String, dynamic> json) {
     return CreatePortalResponse(
-      portalArn: json['portalArn'] as String,
-      portalId: json['portalId'] as String,
-      portalStartUrl: json['portalStartUrl'] as String,
-      portalStatus:
-          PortalStatus.fromJson(json['portalStatus'] as Map<String, dynamic>),
-      ssoApplicationId: json['ssoApplicationId'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
+      portalId: (json['portalId'] as String?) ?? '',
+      portalStartUrl: (json['portalStartUrl'] as String?) ?? '',
+      portalStatus: PortalStatus.fromJson(
+          (json['portalStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ssoApplicationId: (json['ssoApplicationId'] as String?) ?? '',
     );
   }
 
@@ -8791,8 +8805,8 @@ class CreateProjectResponse {
 
   factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
     return CreateProjectResponse(
-      projectArn: json['projectArn'] as String,
-      projectId: json['projectId'] as String,
+      projectArn: (json['projectArn'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
     );
   }
 
@@ -8817,7 +8831,7 @@ class Csv {
 
   factory Csv.fromJson(Map<String, dynamic> json) {
     return Csv(
-      columnNames: (json['columnNames'] as List)
+      columnNames: ((json['columnNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => ColumnName.fromString((e as String)))
           .toList(),
@@ -8855,8 +8869,8 @@ class CustomerManagedS3Storage {
 
   factory CustomerManagedS3Storage.fromJson(Map<String, dynamic> json) {
     return CustomerManagedS3Storage(
-      roleArn: json['roleArn'] as String,
-      s3ResourceArn: json['s3ResourceArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      s3ResourceArn: (json['s3ResourceArn'] as String?) ?? '',
     );
   }
 
@@ -8897,8 +8911,8 @@ class DashboardSummary {
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) {
     return DashboardSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       creationDate: timeStampFromJson(json['creationDate']),
       description: json['description'] as String?,
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
@@ -8996,7 +9010,8 @@ class DeleteAssetModelCompositeModelResponse {
       Map<String, dynamic> json) {
     return DeleteAssetModelCompositeModelResponse(
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9020,7 +9035,8 @@ class DeleteAssetModelResponse {
   factory DeleteAssetModelResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAssetModelResponse(
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9043,8 +9059,9 @@ class DeleteAssetResponse {
 
   factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAssetResponse(
-      assetStatus:
-          AssetStatus.fromJson(json['assetStatus'] as Map<String, dynamic>),
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9079,8 +9096,9 @@ class DeletePortalResponse {
 
   factory DeletePortalResponse.fromJson(Map<String, dynamic> json) {
     return DeletePortalResponse(
-      portalStatus:
-          PortalStatus.fromJson(json['portalStatus'] as Map<String, dynamic>),
+      portalStatus: PortalStatus.fromJson(
+          (json['portalStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9145,18 +9163,20 @@ class DescribeAccessPolicyResponse {
 
   factory DescribeAccessPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccessPolicyResponse(
-      accessPolicyArn: json['accessPolicyArn'] as String,
-      accessPolicyCreationDate: nonNullableTimeStampFromJson(
-          json['accessPolicyCreationDate'] as Object),
-      accessPolicyId: json['accessPolicyId'] as String,
+      accessPolicyArn: (json['accessPolicyArn'] as String?) ?? '',
+      accessPolicyCreationDate:
+          nonNullableTimeStampFromJson(json['accessPolicyCreationDate'] ?? 0),
+      accessPolicyId: (json['accessPolicyId'] as String?) ?? '',
       accessPolicyIdentity: Identity.fromJson(
-          json['accessPolicyIdentity'] as Map<String, dynamic>),
-      accessPolicyLastUpdateDate: nonNullableTimeStampFromJson(
-          json['accessPolicyLastUpdateDate'] as Object),
+          (json['accessPolicyIdentity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      accessPolicyLastUpdateDate:
+          nonNullableTimeStampFromJson(json['accessPolicyLastUpdateDate'] ?? 0),
       accessPolicyPermission:
           Permission.fromString((json['accessPolicyPermission'] as String)),
       accessPolicyResource: Resource.fromJson(
-          json['accessPolicyResource'] as Map<String, dynamic>),
+          (json['accessPolicyResource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9207,14 +9227,15 @@ class DescribeActionResponse {
 
   factory DescribeActionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeActionResponse(
-      actionDefinitionId: json['actionDefinitionId'] as String,
-      actionId: json['actionId'] as String,
-      actionPayload:
-          ActionPayload.fromJson(json['actionPayload'] as Map<String, dynamic>),
-      executionTime:
-          nonNullableTimeStampFromJson(json['executionTime'] as Object),
+      actionDefinitionId: (json['actionDefinitionId'] as String?) ?? '',
+      actionId: (json['actionId'] as String?) ?? '',
+      actionPayload: ActionPayload.fromJson(
+          (json['actionPayload'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionTime: nonNullableTimeStampFromJson(json['executionTime'] ?? 0),
       targetResource: TargetResource.fromJson(
-          json['targetResource'] as Map<String, dynamic>),
+          (json['targetResource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9290,27 +9311,31 @@ class DescribeAssetCompositeModelResponse {
       Map<String, dynamic> json) {
     return DescribeAssetCompositeModelResponse(
       assetCompositeModelDescription:
-          json['assetCompositeModelDescription'] as String,
-      assetCompositeModelId: json['assetCompositeModelId'] as String,
-      assetCompositeModelName: json['assetCompositeModelName'] as String,
-      assetCompositeModelPath: (json['assetCompositeModelPath'] as List)
-          .nonNulls
-          .map((e) => AssetCompositeModelPathSegment.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+          (json['assetCompositeModelDescription'] as String?) ?? '',
+      assetCompositeModelId: (json['assetCompositeModelId'] as String?) ?? '',
+      assetCompositeModelName:
+          (json['assetCompositeModelName'] as String?) ?? '',
+      assetCompositeModelPath:
+          ((json['assetCompositeModelPath'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetCompositeModelPathSegment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       assetCompositeModelProperties:
-          (json['assetCompositeModelProperties'] as List)
+          ((json['assetCompositeModelProperties'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
               .toList(),
-      assetCompositeModelSummaries: (json['assetCompositeModelSummaries']
-              as List)
+      assetCompositeModelSummaries: ((json['assetCompositeModelSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               AssetCompositeModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      assetCompositeModelType: json['assetCompositeModelType'] as String,
-      assetId: json['assetId'] as String,
+      assetCompositeModelType:
+          (json['assetCompositeModelType'] as String?) ?? '',
+      assetId: (json['assetId'] as String?) ?? '',
       actionDefinitions: (json['actionDefinitions'] as List?)
           ?.nonNulls
           .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
@@ -9404,31 +9429,32 @@ class DescribeAssetModelCompositeModelResponse {
       Map<String, dynamic> json) {
     return DescribeAssetModelCompositeModelResponse(
       assetModelCompositeModelDescription:
-          json['assetModelCompositeModelDescription'] as String,
-      assetModelCompositeModelId: json['assetModelCompositeModelId'] as String,
+          (json['assetModelCompositeModelDescription'] as String?) ?? '',
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
       assetModelCompositeModelName:
-          json['assetModelCompositeModelName'] as String,
+          (json['assetModelCompositeModelName'] as String?) ?? '',
       assetModelCompositeModelPath:
-          (json['assetModelCompositeModelPath'] as List)
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModelProperties:
-          (json['assetModelCompositeModelProperties'] as List)
+          ((json['assetModelCompositeModelProperties'] as List?) ?? const [])
               .nonNulls
               .map(
                   (e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModelSummaries:
-          (json['assetModelCompositeModelSummaries'] as List)
+          ((json['assetModelCompositeModelSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetModelCompositeModelSummary.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelCompositeModelType:
-          json['assetModelCompositeModelType'] as String,
-      assetModelId: json['assetModelId'] as String,
+          (json['assetModelCompositeModelType'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
       actionDefinitions: (json['actionDefinitions'] as List?)
           ?.nonNulls
           .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
@@ -9654,9 +9680,9 @@ class DescribeAssetPropertyResponse {
 
   factory DescribeAssetPropertyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAssetPropertyResponse(
-      assetId: json['assetId'] as String,
-      assetModelId: json['assetModelId'] as String,
-      assetName: json['assetName'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      assetName: (json['assetName'] as String?) ?? '',
       assetExternalId: json['assetExternalId'] as String?,
       assetProperty: json['assetProperty'] != null
           ? Property.fromJson(json['assetProperty'] as Map<String, dynamic>)
@@ -9755,24 +9781,25 @@ class DescribeAssetResponse {
 
   factory DescribeAssetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAssetResponse(
-      assetArn: json['assetArn'] as String,
+      assetArn: (json['assetArn'] as String?) ?? '',
       assetCreationDate:
-          nonNullableTimeStampFromJson(json['assetCreationDate'] as Object),
-      assetHierarchies: (json['assetHierarchies'] as List)
+          nonNullableTimeStampFromJson(json['assetCreationDate'] ?? 0),
+      assetHierarchies: ((json['assetHierarchies'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
       assetLastUpdateDate:
-          nonNullableTimeStampFromJson(json['assetLastUpdateDate'] as Object),
-      assetModelId: json['assetModelId'] as String,
-      assetName: json['assetName'] as String,
-      assetProperties: (json['assetProperties'] as List)
+          nonNullableTimeStampFromJson(json['assetLastUpdateDate'] ?? 0),
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      assetName: (json['assetName'] as String?) ?? '',
+      assetProperties: ((json['assetProperties'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
-      assetStatus:
-          AssetStatus.fromJson(json['assetStatus'] as Map<String, dynamic>),
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       assetCompositeModelSummaries: (json['assetCompositeModelSummaries']
               as List?)
           ?.nonNulls
@@ -9908,20 +9935,22 @@ class DescribeBulkImportJobResponse {
   factory DescribeBulkImportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBulkImportJobResponse(
       errorReportLocation: ErrorReportLocation.fromJson(
-          json['errorReportLocation'] as Map<String, dynamic>),
-      files: (json['files'] as List)
+          (json['errorReportLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      files: ((json['files'] as List?) ?? const [])
           .nonNulls
           .map((e) => File.fromJson(e as Map<String, dynamic>))
           .toList(),
       jobConfiguration: JobConfiguration.fromJson(
-          json['jobConfiguration'] as Map<String, dynamic>),
+          (json['jobConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       jobCreationDate:
-          nonNullableTimeStampFromJson(json['jobCreationDate'] as Object),
-      jobId: json['jobId'] as String,
+          nonNullableTimeStampFromJson(json['jobCreationDate'] ?? 0),
+      jobId: (json['jobId'] as String?) ?? '',
       jobLastUpdateDate:
-          nonNullableTimeStampFromJson(json['jobLastUpdateDate'] as Object),
-      jobName: json['jobName'] as String,
-      jobRoleArn: json['jobRoleArn'] as String,
+          nonNullableTimeStampFromJson(json['jobLastUpdateDate'] ?? 0),
+      jobName: (json['jobName'] as String?) ?? '',
+      jobRoleArn: (json['jobRoleArn'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       adaptiveIngestion: json['adaptiveIngestion'] as bool?,
       deleteFilesAfterImport: json['deleteFilesAfterImport'] as bool?,
@@ -10001,15 +10030,15 @@ class DescribeDashboardResponse {
 
   factory DescribeDashboardResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDashboardResponse(
-      dashboardArn: json['dashboardArn'] as String,
+      dashboardArn: (json['dashboardArn'] as String?) ?? '',
       dashboardCreationDate:
-          nonNullableTimeStampFromJson(json['dashboardCreationDate'] as Object),
-      dashboardDefinition: json['dashboardDefinition'] as String,
-      dashboardId: json['dashboardId'] as String,
-      dashboardLastUpdateDate: nonNullableTimeStampFromJson(
-          json['dashboardLastUpdateDate'] as Object),
-      dashboardName: json['dashboardName'] as String,
-      projectId: json['projectId'] as String,
+          nonNullableTimeStampFromJson(json['dashboardCreationDate'] ?? 0),
+      dashboardDefinition: (json['dashboardDefinition'] as String?) ?? '',
+      dashboardId: (json['dashboardId'] as String?) ?? '',
+      dashboardLastUpdateDate:
+          nonNullableTimeStampFromJson(json['dashboardLastUpdateDate'] ?? 0),
+      dashboardName: (json['dashboardName'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       dashboardDescription: json['dashboardDescription'] as String?,
     );
   }
@@ -10060,7 +10089,8 @@ class DescribeDefaultEncryptionConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeDefaultEncryptionConfigurationResponse(
       configurationStatus: ConfigurationStatus.fromJson(
-          json['configurationStatus'] as Map<String, dynamic>),
+          (json['configurationStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       encryptionType:
           EncryptionType.fromString((json['encryptionType'] as String)),
       kmsKeyArn: json['kmsKeyArn'] as String?,
@@ -10120,11 +10150,12 @@ class DescribeGatewayCapabilityConfigurationResponse {
   factory DescribeGatewayCapabilityConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeGatewayCapabilityConfigurationResponse(
-      capabilityConfiguration: json['capabilityConfiguration'] as String,
-      capabilityNamespace: json['capabilityNamespace'] as String,
+      capabilityConfiguration:
+          (json['capabilityConfiguration'] as String?) ?? '',
+      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
       capabilitySyncStatus: CapabilitySyncStatus.fromString(
           (json['capabilitySyncStatus'] as String)),
-      gatewayId: json['gatewayId'] as String,
+      gatewayId: (json['gatewayId'] as String?) ?? '',
     );
   }
 
@@ -10183,18 +10214,17 @@ class DescribeGatewayResponse {
 
   factory DescribeGatewayResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGatewayResponse(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      gatewayArn: json['gatewayArn'] as String,
-      gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      gatewayId: json['gatewayId'] as String,
-      gatewayName: json['gatewayName'] as String,
-      lastUpdateDate:
-          nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      gatewayCapabilitySummaries:
+          ((json['gatewayCapabilitySummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      gatewayId: (json['gatewayId'] as String?) ?? '',
+      gatewayName: (json['gatewayName'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
       gatewayPlatform: json['gatewayPlatform'] != null
           ? GatewayPlatform.fromJson(
               json['gatewayPlatform'] as Map<String, dynamic>)
@@ -10233,7 +10263,8 @@ class DescribeLoggingOptionsResponse {
   factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeLoggingOptionsResponse(
       loggingOptions: LoggingOptions.fromJson(
-          json['loggingOptions'] as Map<String, dynamic>),
+          (json['loggingOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10329,18 +10360,19 @@ class DescribePortalResponse {
 
   factory DescribePortalResponse.fromJson(Map<String, dynamic> json) {
     return DescribePortalResponse(
-      portalArn: json['portalArn'] as String,
-      portalClientId: json['portalClientId'] as String,
-      portalContactEmail: json['portalContactEmail'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
+      portalClientId: (json['portalClientId'] as String?) ?? '',
+      portalContactEmail: (json['portalContactEmail'] as String?) ?? '',
       portalCreationDate:
-          nonNullableTimeStampFromJson(json['portalCreationDate'] as Object),
-      portalId: json['portalId'] as String,
+          nonNullableTimeStampFromJson(json['portalCreationDate'] ?? 0),
+      portalId: (json['portalId'] as String?) ?? '',
       portalLastUpdateDate:
-          nonNullableTimeStampFromJson(json['portalLastUpdateDate'] as Object),
-      portalName: json['portalName'] as String,
-      portalStartUrl: json['portalStartUrl'] as String,
-      portalStatus:
-          PortalStatus.fromJson(json['portalStatus'] as Map<String, dynamic>),
+          nonNullableTimeStampFromJson(json['portalLastUpdateDate'] ?? 0),
+      portalName: (json['portalName'] as String?) ?? '',
+      portalStartUrl: (json['portalStartUrl'] as String?) ?? '',
+      portalStatus: PortalStatus.fromJson(
+          (json['portalStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       alarms: json['alarms'] != null
           ? Alarms.fromJson(json['alarms'] as Map<String, dynamic>)
           : null,
@@ -10432,14 +10464,14 @@ class DescribeProjectResponse {
 
   factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProjectResponse(
-      portalId: json['portalId'] as String,
-      projectArn: json['projectArn'] as String,
+      portalId: (json['portalId'] as String?) ?? '',
+      projectArn: (json['projectArn'] as String?) ?? '',
       projectCreationDate:
-          nonNullableTimeStampFromJson(json['projectCreationDate'] as Object),
-      projectId: json['projectId'] as String,
+          nonNullableTimeStampFromJson(json['projectCreationDate'] ?? 0),
+      projectId: (json['projectId'] as String?) ?? '',
       projectLastUpdateDate:
-          nonNullableTimeStampFromJson(json['projectLastUpdateDate'] as Object),
-      projectName: json['projectName'] as String,
+          nonNullableTimeStampFromJson(json['projectLastUpdateDate'] ?? 0),
+      projectName: (json['projectName'] as String?) ?? '',
       projectDescription: json['projectDescription'] as String?,
     );
   }
@@ -10539,7 +10571,8 @@ class DescribeStorageConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeStorageConfigurationResponse(
       configurationStatus: ConfigurationStatus.fromJson(
-          json['configurationStatus'] as Map<String, dynamic>),
+          (json['configurationStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       storageType: StorageType.fromString((json['storageType'] as String)),
       disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
           ?.let(DisassociatedDataStorageState.fromString),
@@ -10642,12 +10675,12 @@ class DescribeTimeSeriesResponse {
   factory DescribeTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTimeSeriesResponse(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      timeSeriesArn: json['timeSeriesArn'] as String,
-      timeSeriesCreationDate: nonNullableTimeStampFromJson(
-          json['timeSeriesCreationDate'] as Object),
-      timeSeriesId: json['timeSeriesId'] as String,
-      timeSeriesLastUpdateDate: nonNullableTimeStampFromJson(
-          json['timeSeriesLastUpdateDate'] as Object),
+      timeSeriesArn: (json['timeSeriesArn'] as String?) ?? '',
+      timeSeriesCreationDate:
+          nonNullableTimeStampFromJson(json['timeSeriesCreationDate'] ?? 0),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+      timeSeriesLastUpdateDate:
+          nonNullableTimeStampFromJson(json['timeSeriesLastUpdateDate'] ?? 0),
       alias: json['alias'] as String?,
       assetId: json['assetId'] as String?,
       dataTypeSpec: json['dataTypeSpec'] as String?,
@@ -10695,7 +10728,7 @@ class DetailedError {
   factory DetailedError.fromJson(Map<String, dynamic> json) {
     return DetailedError(
       code: DetailedErrorCode.fromString((json['code'] as String)),
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -10788,7 +10821,7 @@ class ErrorDetails {
   factory ErrorDetails.fromJson(Map<String, dynamic> json) {
     return ErrorDetails(
       code: ErrorCode.fromString((json['code'] as String)),
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
       details: (json['details'] as List?)
           ?.nonNulls
           .map((e) => DetailedError.fromJson(e as Map<String, dynamic>))
@@ -10831,8 +10864,8 @@ class ErrorReportLocation {
 
   factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
     return ErrorReportLocation(
-      bucket: json['bucket'] as String,
-      prefix: json['prefix'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      prefix: (json['prefix'] as String?) ?? '',
     );
   }
 
@@ -10856,7 +10889,7 @@ class ExecuteActionResponse {
 
   factory ExecuteActionResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteActionResponse(
-      actionId: json['actionId'] as String,
+      actionId: (json['actionId'] as String?) ?? '',
     );
   }
 
@@ -10925,8 +10958,9 @@ class ExpressionVariable {
 
   factory ExpressionVariable.fromJson(Map<String, dynamic> json) {
     return ExpressionVariable(
-      name: json['name'] as String,
-      value: VariableValue.fromJson(json['value'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      value: VariableValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -10961,8 +10995,8 @@ class File {
 
   factory File.fromJson(Map<String, dynamic> json) {
     return File(
-      bucket: json['bucket'] as String,
-      key: json['key'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
       versionId: json['versionId'] as String?,
     );
   }
@@ -11085,7 +11119,7 @@ class GatewayCapabilitySummary {
 
   factory GatewayCapabilitySummary.fromJson(Map<String, dynamic> json) {
     return GatewayCapabilitySummary(
-      capabilityNamespace: json['capabilityNamespace'] as String,
+      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
       capabilitySyncStatus: CapabilitySyncStatus.fromString(
           (json['capabilitySyncStatus'] as String)),
     );
@@ -11176,12 +11210,10 @@ class GatewaySummary {
 
   factory GatewaySummary.fromJson(Map<String, dynamic> json) {
     return GatewaySummary(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      gatewayId: json['gatewayId'] as String,
-      gatewayName: json['gatewayName'] as String,
-      lastUpdateDate:
-          nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      gatewayId: (json['gatewayId'] as String?) ?? '',
+      gatewayName: (json['gatewayName'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
       gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -11229,7 +11261,7 @@ class GetAssetPropertyAggregatesResponse {
   factory GetAssetPropertyAggregatesResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAssetPropertyAggregatesResponse(
-      aggregatedValues: (json['aggregatedValues'] as List)
+      aggregatedValues: ((json['aggregatedValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11263,7 +11295,9 @@ class GetAssetPropertyValueHistoryResponse {
   factory GetAssetPropertyValueHistoryResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAssetPropertyValueHistoryResponse(
-      assetPropertyValueHistory: (json['assetPropertyValueHistory'] as List)
+      assetPropertyValueHistory: ((json['assetPropertyValueHistory']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11323,7 +11357,7 @@ class GetInterpolatedAssetPropertyValuesResponse {
       Map<String, dynamic> json) {
     return GetInterpolatedAssetPropertyValuesResponse(
       interpolatedAssetPropertyValues:
-          (json['interpolatedAssetPropertyValues'] as List)
+          ((json['interpolatedAssetPropertyValues'] as List?) ?? const [])
               .nonNulls
               .map((e) => InterpolatedAssetPropertyValue.fromJson(
                   e as Map<String, dynamic>))
@@ -11366,7 +11400,7 @@ class Greengrass {
 
   factory Greengrass.fromJson(Map<String, dynamic> json) {
     return Greengrass(
-      groupArn: json['groupArn'] as String,
+      groupArn: (json['groupArn'] as String?) ?? '',
     );
   }
 
@@ -11396,7 +11430,7 @@ class GreengrassV2 {
 
   factory GreengrassV2.fromJson(Map<String, dynamic> json) {
     return GreengrassV2(
-      coreDeviceThingName: json['coreDeviceThingName'] as String,
+      coreDeviceThingName: (json['coreDeviceThingName'] as String?) ?? '',
     );
   }
 
@@ -11419,7 +11453,7 @@ class GroupIdentity {
 
   factory GroupIdentity.fromJson(Map<String, dynamic> json) {
     return GroupIdentity(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -11447,7 +11481,7 @@ class IAMRoleIdentity {
 
   factory IAMRoleIdentity.fromJson(Map<String, dynamic> json) {
     return IAMRoleIdentity(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -11477,7 +11511,7 @@ class IAMUserIdentity {
 
   factory IAMUserIdentity.fromJson(Map<String, dynamic> json) {
     return IAMUserIdentity(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -11650,8 +11684,8 @@ class ImageLocation {
 
   factory ImageLocation.fromJson(Map<String, dynamic> json) {
     return ImageLocation(
-      id: json['id'] as String,
-      url: json['url'] as String,
+      id: (json['id'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
     );
   }
 
@@ -11677,9 +11711,11 @@ class InterpolatedAssetPropertyValue {
 
   factory InterpolatedAssetPropertyValue.fromJson(Map<String, dynamic> json) {
     return InterpolatedAssetPropertyValue(
-      timestamp:
-          TimeInNanos.fromJson(json['timestamp'] as Map<String, dynamic>),
-      value: Variant.fromJson(json['value'] as Map<String, dynamic>),
+      timestamp: TimeInNanos.fromJson(
+          (json['timestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -11705,8 +11741,9 @@ class JobConfiguration {
 
   factory JobConfiguration.fromJson(Map<String, dynamic> json) {
     return JobConfiguration(
-      fileFormat:
-          FileFormat.fromJson(json['fileFormat'] as Map<String, dynamic>),
+      fileFormat: FileFormat.fromJson(
+          (json['fileFormat'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11783,8 +11820,8 @@ class JobSummary {
 
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: JobStatus.fromString((json['status'] as String)),
     );
   }
@@ -11816,7 +11853,8 @@ class ListAccessPoliciesResponse {
 
   factory ListAccessPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessPoliciesResponse(
-      accessPolicySummaries: (json['accessPolicySummaries'] as List)
+      accessPolicySummaries: ((json['accessPolicySummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AccessPolicySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11849,11 +11887,11 @@ class ListActionsResponse {
 
   factory ListActionsResponse.fromJson(Map<String, dynamic> json) {
     return ListActionsResponse(
-      actionSummaries: (json['actionSummaries'] as List)
+      actionSummaries: ((json['actionSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String,
+      nextToken: (json['nextToken'] as String?) ?? '',
     );
   }
 
@@ -11884,7 +11922,7 @@ class ListAssetModelCompositeModelsResponse {
       Map<String, dynamic> json) {
     return ListAssetModelCompositeModelsResponse(
       assetModelCompositeModelSummaries:
-          (json['assetModelCompositeModelSummaries'] as List)
+          ((json['assetModelCompositeModelSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetModelCompositeModelSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -11935,11 +11973,12 @@ class ListAssetModelPropertiesResponse {
 
   factory ListAssetModelPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetModelPropertiesResponse(
-      assetModelPropertySummaries: (json['assetModelPropertySummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              AssetModelPropertySummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      assetModelPropertySummaries:
+          ((json['assetModelPropertySummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  AssetModelPropertySummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -11969,7 +12008,7 @@ class ListAssetModelsResponse {
 
   factory ListAssetModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetModelsResponse(
-      assetModelSummaries: (json['assetModelSummaries'] as List)
+      assetModelSummaries: ((json['assetModelSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12017,7 +12056,8 @@ class ListAssetPropertiesResponse {
 
   factory ListAssetPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetPropertiesResponse(
-      assetPropertySummaries: (json['assetPropertySummaries'] as List)
+      assetPropertySummaries: ((json['assetPropertySummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AssetPropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12050,11 +12090,12 @@ class ListAssetRelationshipsResponse {
 
   factory ListAssetRelationshipsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetRelationshipsResponse(
-      assetRelationshipSummaries: (json['assetRelationshipSummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              AssetRelationshipSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      assetRelationshipSummaries:
+          ((json['assetRelationshipSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  AssetRelationshipSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -12099,7 +12140,7 @@ class ListAssetsResponse {
 
   factory ListAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssetsResponse(
-      assetSummaries: (json['assetSummaries'] as List)
+      assetSummaries: ((json['assetSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12132,7 +12173,7 @@ class ListAssociatedAssetsResponse {
 
   factory ListAssociatedAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssociatedAssetsResponse(
-      assetSummaries: (json['assetSummaries'] as List)
+      assetSummaries: ((json['assetSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AssociatedAssetsSummary.fromJson(e as Map<String, dynamic>))
@@ -12186,7 +12227,7 @@ class ListBulkImportJobsResponse {
 
   factory ListBulkImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListBulkImportJobsResponse(
-      jobSummaries: (json['jobSummaries'] as List)
+      jobSummaries: ((json['jobSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12221,7 +12262,7 @@ class ListCompositionRelationshipsResponse {
       Map<String, dynamic> json) {
     return ListCompositionRelationshipsResponse(
       compositionRelationshipSummaries:
-          (json['compositionRelationshipSummaries'] as List)
+          ((json['compositionRelationshipSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => CompositionRelationshipSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -12256,7 +12297,7 @@ class ListDashboardsResponse {
 
   factory ListDashboardsResponse.fromJson(Map<String, dynamic> json) {
     return ListDashboardsResponse(
-      dashboardSummaries: (json['dashboardSummaries'] as List)
+      dashboardSummaries: ((json['dashboardSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => DashboardSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12289,7 +12330,7 @@ class ListGatewaysResponse {
 
   factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
     return ListGatewaysResponse(
-      gatewaySummaries: (json['gatewaySummaries'] as List)
+      gatewaySummaries: ((json['gatewaySummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => GatewaySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12355,8 +12396,10 @@ class ListProjectAssetsResponse {
 
   factory ListProjectAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectAssetsResponse(
-      assetIds:
-          (json['assetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      assetIds: ((json['assetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -12386,7 +12429,7 @@ class ListProjectsResponse {
 
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
-      projectSummaries: (json['projectSummaries'] as List)
+      projectSummaries: ((json['projectSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12445,7 +12488,7 @@ class ListTimeSeriesResponse {
 
   factory ListTimeSeriesResponse.fromJson(Map<String, dynamic> json) {
     return ListTimeSeriesResponse(
-      timeSeriesSummaries: (json['TimeSeriesSummaries'] as List)
+      timeSeriesSummaries: ((json['TimeSeriesSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => TimeSeriesSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12561,7 +12604,8 @@ class MeasurementProcessingConfig {
   factory MeasurementProcessingConfig.fromJson(Map<String, dynamic> json) {
     return MeasurementProcessingConfig(
       forwardingConfig: ForwardingConfig.fromJson(
-          json['forwardingConfig'] as Map<String, dynamic>),
+          (json['forwardingConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12618,12 +12662,13 @@ class Metric {
 
   factory Metric.fromJson(Map<String, dynamic> json) {
     return Metric(
-      expression: json['expression'] as String,
-      variables: (json['variables'] as List)
+      expression: (json['expression'] as String?) ?? '',
+      variables: ((json['variables'] as List?) ?? const [])
           .nonNulls
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
-      window: MetricWindow.fromJson(json['window'] as Map<String, dynamic>),
+      window: MetricWindow.fromJson((json['window'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       processingConfig: json['processingConfig'] != null
           ? MetricProcessingConfig.fromJson(
               json['processingConfig'] as Map<String, dynamic>)
@@ -12755,7 +12800,8 @@ class MultiLayerStorage {
   factory MultiLayerStorage.fromJson(Map<String, dynamic> json) {
     return MultiLayerStorage(
       customerManagedS3Storage: CustomerManagedS3Storage.fromJson(
-          json['customerManagedS3Storage'] as Map<String, dynamic>),
+          (json['customerManagedS3Storage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12805,7 +12851,7 @@ class PortalResource {
 
   factory PortalResource.fromJson(Map<String, dynamic> json) {
     return PortalResource(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -12912,10 +12958,11 @@ class PortalSummary {
 
   factory PortalSummary.fromJson(Map<String, dynamic> json) {
     return PortalSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      startUrl: json['startUrl'] as String,
-      status: PortalStatus.fromJson(json['status'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      startUrl: (json['startUrl'] as String?) ?? '',
+      status: PortalStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       creationDate: timeStampFromJson(json['creationDate']),
       description: json['description'] as String?,
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
@@ -12958,7 +13005,7 @@ class ProjectResource {
 
   factory ProjectResource.fromJson(Map<String, dynamic> json) {
     return ProjectResource(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -12997,8 +13044,8 @@ class ProjectSummary {
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       creationDate: timeStampFromJson(json['creationDate']),
       description: json['description'] as String?,
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
@@ -13078,8 +13125,8 @@ class Property {
   factory Property.fromJson(Map<String, dynamic> json) {
     return Property(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       alias: json['alias'] as String?,
       externalId: json['externalId'] as String?,
       notification: json['notification'] != null
@@ -13161,7 +13208,7 @@ class PropertyNotification {
   factory PropertyNotification.fromJson(Map<String, dynamic> json) {
     return PropertyNotification(
       state: PropertyNotificationState.fromString((json['state'] as String)),
-      topic: json['topic'] as String,
+      topic: (json['topic'] as String?) ?? '',
     );
   }
 
@@ -13327,7 +13374,8 @@ class PutDefaultEncryptionConfigurationResponse {
       Map<String, dynamic> json) {
     return PutDefaultEncryptionConfigurationResponse(
       configurationStatus: ConfigurationStatus.fromJson(
-          json['configurationStatus'] as Map<String, dynamic>),
+          (json['configurationStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       encryptionType:
           EncryptionType.fromString((json['encryptionType'] as String)),
       kmsKeyArn: json['kmsKeyArn'] as String?,
@@ -13425,7 +13473,8 @@ class PutStorageConfigurationResponse {
   factory PutStorageConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return PutStorageConfigurationResponse(
       configurationStatus: ConfigurationStatus.fromJson(
-          json['configurationStatus'] as Map<String, dynamic>),
+          (json['configurationStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       storageType: StorageType.fromString((json['storageType'] as String)),
       disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
           ?.let(DisassociatedDataStorageState.fromString),
@@ -13581,7 +13630,7 @@ class Row {
 
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
-      data: (json['data'] as List)
+      data: ((json['data'] as List?) ?? const [])
           .nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13625,7 +13674,7 @@ class SiemensIE {
 
   factory SiemensIE.fromJson(Map<String, dynamic> json) {
     return SiemensIE(
-      iotCoreThingName: json['iotCoreThingName'] as String,
+      iotCoreThingName: (json['iotCoreThingName'] as String?) ?? '',
     );
   }
 
@@ -13674,7 +13723,7 @@ class TargetResource {
 
   factory TargetResource.fromJson(Map<String, dynamic> json) {
     return TargetResource(
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
     );
   }
 
@@ -13716,7 +13765,7 @@ class TimeInNanos {
 
   factory TimeInNanos.fromJson(Map<String, dynamic> json) {
     return TimeInNanos(
-      timeInSeconds: json['timeInSeconds'] as int,
+      timeInSeconds: (json['timeInSeconds'] as int?) ?? 0,
       offsetInNanos: json['offsetInNanos'] as int?,
     );
   }
@@ -13804,12 +13853,12 @@ class TimeSeriesSummary {
   factory TimeSeriesSummary.fromJson(Map<String, dynamic> json) {
     return TimeSeriesSummary(
       dataType: PropertyDataType.fromString((json['dataType'] as String)),
-      timeSeriesArn: json['timeSeriesArn'] as String,
-      timeSeriesCreationDate: nonNullableTimeStampFromJson(
-          json['timeSeriesCreationDate'] as Object),
-      timeSeriesId: json['timeSeriesId'] as String,
-      timeSeriesLastUpdateDate: nonNullableTimeStampFromJson(
-          json['timeSeriesLastUpdateDate'] as Object),
+      timeSeriesArn: (json['timeSeriesArn'] as String?) ?? '',
+      timeSeriesCreationDate:
+          nonNullableTimeStampFromJson(json['timeSeriesCreationDate'] ?? 0),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+      timeSeriesLastUpdateDate:
+          nonNullableTimeStampFromJson(json['timeSeriesLastUpdateDate'] ?? 0),
       alias: json['alias'] as String?,
       assetId: json['assetId'] as String?,
       dataTypeSpec: json['dataTypeSpec'] as String?,
@@ -13878,8 +13927,8 @@ class Transform {
 
   factory Transform.fromJson(Map<String, dynamic> json) {
     return Transform(
-      expression: json['expression'] as String,
-      variables: (json['variables'] as List)
+      expression: (json['expression'] as String?) ?? '',
+      variables: ((json['variables'] as List?) ?? const [])
           .nonNulls
           .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14067,7 +14116,7 @@ class TumblingWindow {
 
   factory TumblingWindow.fromJson(Map<String, dynamic> json) {
     return TumblingWindow(
-      interval: json['interval'] as String,
+      interval: (json['interval'] as String?) ?? '',
       offset: json['offset'] as String?,
     );
   }
@@ -14120,13 +14169,14 @@ class UpdateAssetModelCompositeModelResponse {
       Map<String, dynamic> json) {
     return UpdateAssetModelCompositeModelResponse(
       assetModelCompositeModelPath:
-          (json['assetModelCompositeModelPath'] as List)
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
               .nonNulls
               .map((e) => AssetModelCompositeModelPathSegment.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -14152,7 +14202,8 @@ class UpdateAssetModelResponse {
   factory UpdateAssetModelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAssetModelResponse(
       assetModelStatus: AssetModelStatus.fromJson(
-          json['assetModelStatus'] as Map<String, dynamic>),
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -14175,8 +14226,9 @@ class UpdateAssetResponse {
 
   factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAssetResponse(
-      assetStatus:
-          AssetStatus.fromJson(json['assetStatus'] as Map<String, dynamic>),
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -14233,7 +14285,7 @@ class UpdateGatewayCapabilityConfigurationResponse {
   factory UpdateGatewayCapabilityConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateGatewayCapabilityConfigurationResponse(
-      capabilityNamespace: json['capabilityNamespace'] as String,
+      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
       capabilitySyncStatus: CapabilitySyncStatus.fromString(
           (json['capabilitySyncStatus'] as String)),
     );
@@ -14260,8 +14312,9 @@ class UpdatePortalResponse {
 
   factory UpdatePortalResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePortalResponse(
-      portalStatus:
-          PortalStatus.fromJson(json['portalStatus'] as Map<String, dynamic>),
+      portalStatus: PortalStatus.fromJson(
+          (json['portalStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -14296,7 +14349,7 @@ class UserIdentity {
 
   factory UserIdentity.fromJson(Map<String, dynamic> json) {
     return UserIdentity(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 

@@ -164,8 +164,8 @@ class Identity {
 
   factory Identity.fromJson(Map<String, dynamic> json) {
     return Identity(
-      sourceIp: json['sourceIp'] as String,
-      userAgent: json['userAgent'] as String,
+      sourceIp: (json['sourceIp'] as String?) ?? '',
+      userAgent: (json['userAgent'] as String?) ?? '',
     );
   }
 

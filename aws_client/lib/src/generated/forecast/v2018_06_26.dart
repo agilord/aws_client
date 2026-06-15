@@ -4603,9 +4603,9 @@ class Action {
 
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       operation: Operation.fromString((json['Operation'] as String)),
-      value: json['Value'] as double,
+      value: (json['Value'] as double?) ?? 0,
     );
   }
 
@@ -4869,7 +4869,7 @@ class AdditionalDataset {
 
   factory AdditionalDataset.fromJson(Map<String, dynamic> json) {
     return AdditionalDataset(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       configuration: (json['Configuration'] as Map<String, dynamic>?)?.map((k,
               e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -4962,8 +4962,9 @@ class AttributeConfig {
 
   factory AttributeConfig.fromJson(Map<String, dynamic> json) {
     return AttributeConfig(
-      attributeName: json['AttributeName'] as String,
-      transformations: (json['Transformations'] as Map<String, dynamic>)
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      transformations: ((json['Transformations'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -5089,9 +5090,11 @@ class CategoricalParameterRange {
 
   factory CategoricalParameterRange.fromJson(Map<String, dynamic> json) {
     return CategoricalParameterRange(
-      name: json['Name'] as String,
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5167,9 +5170,9 @@ class ContinuousParameterRange {
 
   factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) {
     return ContinuousParameterRange(
-      maxValue: json['MaxValue'] as double,
-      minValue: json['MinValue'] as double,
-      name: json['Name'] as String,
+      maxValue: (json['MaxValue'] as double?) ?? 0,
+      minValue: (json['MinValue'] as double?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
       scalingType:
           (json['ScalingType'] as String?)?.let(ScalingType.fromString),
     );
@@ -5526,7 +5529,7 @@ class DataConfig {
 
   factory DataConfig.fromJson(Map<String, dynamic> json) {
     return DataConfig(
-      datasetGroupArn: json['DatasetGroupArn'] as String,
+      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
       additionalDatasets: (json['AdditionalDatasets'] as List?)
           ?.nonNulls
           .map((e) => AdditionalDataset.fromJson(e as Map<String, dynamic>))
@@ -5564,7 +5567,8 @@ class DataDestination {
 
   factory DataDestination.fromJson(Map<String, dynamic> json) {
     return DataDestination(
-      s3Config: S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5590,7 +5594,8 @@ class DataSource {
 
   factory DataSource.fromJson(Map<String, dynamic> json) {
     return DataSource(
-      s3Config: S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -8094,8 +8099,8 @@ class EncryptionConfig {
 
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
-      kMSKeyArn: json['KMSKeyArn'] as String,
-      roleArn: json['RoleArn'] as String,
+      kMSKeyArn: (json['KMSKeyArn'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
     );
   }
 
@@ -8633,7 +8638,7 @@ class Featurization {
 
   factory Featurization.fromJson(Map<String, dynamic> json) {
     return Featurization(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       featurizationPipeline: (json['FeaturizationPipeline'] as List?)
           ?.nonNulls
           .map((e) => FeaturizationMethod.fromJson(e as Map<String, dynamic>))
@@ -8738,7 +8743,7 @@ class FeaturizationConfig {
 
   factory FeaturizationConfig.fromJson(Map<String, dynamic> json) {
     return FeaturizationConfig(
-      forecastFrequency: json['ForecastFrequency'] as String,
+      forecastFrequency: (json['ForecastFrequency'] as String?) ?? '',
       featurizations: (json['Featurizations'] as List?)
           ?.nonNulls
           .map((e) => Featurization.fromJson(e as Map<String, dynamic>))
@@ -9297,7 +9302,7 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      datasetGroupArn: json['DatasetGroupArn'] as String,
+      datasetGroupArn: (json['DatasetGroupArn'] as String?) ?? '',
       supplementaryFeatures: (json['SupplementaryFeatures'] as List?)
           ?.nonNulls
           .map((e) => SupplementaryFeature.fromJson(e as Map<String, dynamic>))
@@ -9361,9 +9366,9 @@ class IntegerParameterRange {
 
   factory IntegerParameterRange.fromJson(Map<String, dynamic> json) {
     return IntegerParameterRange(
-      maxValue: json['MaxValue'] as int,
-      minValue: json['MinValue'] as int,
-      name: json['Name'] as String,
+      maxValue: (json['MaxValue'] as int?) ?? 0,
+      minValue: (json['MinValue'] as int?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
       scalingType:
           (json['ScalingType'] as String?)?.let(ScalingType.fromString),
     );
@@ -10865,8 +10870,8 @@ class S3Config {
 
   factory S3Config.fromJson(Map<String, dynamic> json) {
     return S3Config(
-      path: json['Path'] as String,
-      roleArn: json['RoleArn'] as String,
+      path: (json['Path'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       kMSKeyArn: json['KMSKeyArn'] as String?,
     );
   }
@@ -11344,8 +11349,8 @@ class SupplementaryFeature {
 
   factory SupplementaryFeature.fromJson(Map<String, dynamic> json) {
     return SupplementaryFeature(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -11414,8 +11419,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -11600,8 +11605,8 @@ class TimeSeriesCondition {
 
   factory TimeSeriesCondition.fromJson(Map<String, dynamic> json) {
     return TimeSeriesCondition(
-      attributeName: json['AttributeName'] as String,
-      attributeValue: json['AttributeValue'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      attributeValue: (json['AttributeValue'] as String?) ?? '',
       condition: Condition.fromString((json['Condition'] as String)),
     );
   }
@@ -11698,8 +11703,10 @@ class TimeSeriesReplacementsDataSource {
 
   factory TimeSeriesReplacementsDataSource.fromJson(Map<String, dynamic> json) {
     return TimeSeriesReplacementsDataSource(
-      s3Config: S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
-      schema: Schema.fromJson(json['Schema'] as Map<String, dynamic>),
+      s3Config: S3Config.fromJson((json['S3Config'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      schema: Schema.fromJson((json['Schema'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       format: json['Format'] as String?,
       timestampFormat: json['TimestampFormat'] as String?,
     );

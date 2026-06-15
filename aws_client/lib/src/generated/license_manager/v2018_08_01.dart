@@ -2842,8 +2842,8 @@ class BorrowConfiguration {
 
   factory BorrowConfiguration.fromJson(Map<String, dynamic> json) {
     return BorrowConfiguration(
-      allowEarlyCheckIn: json['AllowEarlyCheckIn'] as bool,
-      maxTimeToLiveInMinutes: json['MaxTimeToLiveInMinutes'] as int,
+      allowEarlyCheckIn: (json['AllowEarlyCheckIn'] as bool?) ?? false,
+      maxTimeToLiveInMinutes: (json['MaxTimeToLiveInMinutes'] as int?) ?? 0,
     );
   }
 
@@ -3385,7 +3385,7 @@ class DatetimeRange {
 
   factory DatetimeRange.fromJson(Map<String, dynamic> json) {
     return DatetimeRange(
-      begin: json['Begin'] as String,
+      begin: (json['Begin'] as String?) ?? '',
       end: json['End'] as String?,
     );
   }
@@ -3548,7 +3548,7 @@ class Entitlement {
 
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       unit: EntitlementUnit.fromString((json['Unit'] as String)),
       allowCheckIn: json['AllowCheckIn'] as bool?,
       maxCount: json['MaxCount'] as int?,
@@ -3594,7 +3594,7 @@ class EntitlementData {
 
   factory EntitlementData.fromJson(Map<String, dynamic> json) {
     return EntitlementData(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
       value: json['Value'] as String?,
     );
@@ -3715,8 +3715,8 @@ class EntitlementUsage {
 
   factory EntitlementUsage.fromJson(Map<String, dynamic> json) {
     return EntitlementUsage(
-      consumedValue: json['ConsumedValue'] as String,
-      name: json['Name'] as String,
+      consumedValue: (json['ConsumedValue'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       unit: EntitlementDataUnit.fromString((json['Unit'] as String)),
       maxCount: json['MaxCount'] as String?,
     );
@@ -4280,18 +4280,18 @@ class Grant {
 
   factory Grant.fromJson(Map<String, dynamic> json) {
     return Grant(
-      grantArn: json['GrantArn'] as String,
-      grantName: json['GrantName'] as String,
+      grantArn: (json['GrantArn'] as String?) ?? '',
+      grantName: (json['GrantName'] as String?) ?? '',
       grantStatus: GrantStatus.fromString((json['GrantStatus'] as String)),
-      grantedOperations: (json['GrantedOperations'] as List)
+      grantedOperations: ((json['GrantedOperations'] as List?) ?? const [])
           .nonNulls
           .map((e) => AllowedOperation.fromString((e as String)))
           .toList(),
-      granteePrincipalArn: json['GranteePrincipalArn'] as String,
-      homeRegion: json['HomeRegion'] as String,
-      licenseArn: json['LicenseArn'] as String,
-      parentArn: json['ParentArn'] as String,
-      version: json['Version'] as String,
+      granteePrincipalArn: (json['GranteePrincipalArn'] as String?) ?? '',
+      homeRegion: (json['HomeRegion'] as String?) ?? '',
+      licenseArn: (json['LicenseArn'] as String?) ?? '',
+      parentArn: (json['ParentArn'] as String?) ?? '',
+      version: (json['Version'] as String?) ?? '',
       options: json['Options'] != null
           ? Options.fromJson(json['Options'] as Map<String, dynamic>)
           : null,
@@ -5277,7 +5277,8 @@ class LicenseSpecification {
 
   factory LicenseSpecification.fromJson(Map<String, dynamic> json) {
     return LicenseSpecification(
-      licenseConfigurationArn: json['LicenseConfigurationArn'] as String,
+      licenseConfigurationArn:
+          (json['LicenseConfigurationArn'] as String?) ?? '',
       amiAssociationScope: json['AmiAssociationScope'] as String?,
     );
   }
@@ -6029,7 +6030,7 @@ class OrganizationConfiguration {
 
   factory OrganizationConfiguration.fromJson(Map<String, dynamic> json) {
     return OrganizationConfiguration(
-      enableIntegration: json['EnableIntegration'] as bool,
+      enableIntegration: (json['EnableIntegration'] as bool?) ?? false,
     );
   }
 
@@ -6129,12 +6130,12 @@ class ProductInformation {
   factory ProductInformation.fromJson(Map<String, dynamic> json) {
     return ProductInformation(
       productInformationFilterList:
-          (json['ProductInformationFilterList'] as List)
+          ((json['ProductInformationFilterList'] as List?) ?? const [])
               .nonNulls
               .map((e) =>
                   ProductInformationFilter.fromJson(e as Map<String, dynamic>))
               .toList(),
-      resourceType: json['ResourceType'] as String,
+      resourceType: (json['ResourceType'] as String?) ?? '',
     );
   }
 
@@ -6168,9 +6169,9 @@ class ProductInformationFilter {
   factory ProductInformationFilter.fromJson(Map<String, dynamic> json) {
     return ProductInformationFilter(
       productInformationFilterComparator:
-          json['ProductInformationFilterComparator'] as String,
+          (json['ProductInformationFilterComparator'] as String?) ?? '',
       productInformationFilterName:
-          json['ProductInformationFilterName'] as String,
+          (json['ProductInformationFilterName'] as String?) ?? '',
       productInformationFilterValue:
           (json['ProductInformationFilterValue'] as List?)
               ?.nonNulls
@@ -6204,7 +6205,7 @@ class ProvisionalConfiguration {
 
   factory ProvisionalConfiguration.fromJson(Map<String, dynamic> json) {
     return ProvisionalConfiguration(
-      maxTimeToLiveInMinutes: json['MaxTimeToLiveInMinutes'] as int,
+      maxTimeToLiveInMinutes: (json['MaxTimeToLiveInMinutes'] as int?) ?? 0,
     );
   }
 
@@ -6343,10 +6344,11 @@ class ReportContext {
 
   factory ReportContext.fromJson(Map<String, dynamic> json) {
     return ReportContext(
-      licenseConfigurationArns: (json['licenseConfigurationArns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      licenseConfigurationArns:
+          ((json['licenseConfigurationArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 

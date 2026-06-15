@@ -1341,7 +1341,7 @@ class AddNotificationChannelResponse {
 
   factory AddNotificationChannelResponse.fromJson(Map<String, dynamic> json) {
     return AddNotificationChannelResponse(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -1461,7 +1461,7 @@ class AnomalyReportedTimeRange {
 
   factory AnomalyReportedTimeRange.fromJson(Map<String, dynamic> json) {
     return AnomalyReportedTimeRange(
-      openTime: nonNullableTimeStampFromJson(json['OpenTime'] as Object),
+      openTime: nonNullableTimeStampFromJson(json['OpenTime'] ?? 0),
       closeTime: timeStampFromJson(json['CloseTime']),
     );
   }
@@ -1641,7 +1641,7 @@ class AnomalyTimeRange {
 
   factory AnomalyTimeRange.fromJson(Map<String, dynamic> json) {
     return AnomalyTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       endTime: timeStampFromJson(json['EndTime']),
     );
   }
@@ -2187,10 +2187,10 @@ class DescribeAccountHealthResponse {
 
   factory DescribeAccountHealthResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountHealthResponse(
-      metricsAnalyzed: json['MetricsAnalyzed'] as int,
-      openProactiveInsights: json['OpenProactiveInsights'] as int,
-      openReactiveInsights: json['OpenReactiveInsights'] as int,
-      resourceHours: json['ResourceHours'] as int,
+      metricsAnalyzed: (json['MetricsAnalyzed'] as int?) ?? 0,
+      openProactiveInsights: (json['OpenProactiveInsights'] as int?) ?? 0,
+      openReactiveInsights: (json['OpenReactiveInsights'] as int?) ?? 0,
+      resourceHours: (json['ResourceHours'] as int?) ?? 0,
       analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
     );
   }
@@ -2236,9 +2236,9 @@ class DescribeAccountOverviewResponse {
   factory DescribeAccountOverviewResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccountOverviewResponse(
       meanTimeToRecoverInMilliseconds:
-          json['MeanTimeToRecoverInMilliseconds'] as int,
-      proactiveInsights: json['ProactiveInsights'] as int,
-      reactiveInsights: json['ReactiveInsights'] as int,
+          (json['MeanTimeToRecoverInMilliseconds'] as int?) ?? 0,
+      proactiveInsights: (json['ProactiveInsights'] as int?) ?? 0,
+      reactiveInsights: (json['ReactiveInsights'] as int?) ?? 0,
     );
   }
 
@@ -2404,10 +2404,10 @@ class DescribeOrganizationHealthResponse {
   factory DescribeOrganizationHealthResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOrganizationHealthResponse(
-      metricsAnalyzed: json['MetricsAnalyzed'] as int,
-      openProactiveInsights: json['OpenProactiveInsights'] as int,
-      openReactiveInsights: json['OpenReactiveInsights'] as int,
-      resourceHours: json['ResourceHours'] as int,
+      metricsAnalyzed: (json['MetricsAnalyzed'] as int?) ?? 0,
+      openProactiveInsights: (json['OpenProactiveInsights'] as int?) ?? 0,
+      openReactiveInsights: (json['OpenReactiveInsights'] as int?) ?? 0,
+      resourceHours: (json['ResourceHours'] as int?) ?? 0,
     );
   }
 
@@ -2442,8 +2442,8 @@ class DescribeOrganizationOverviewResponse {
   factory DescribeOrganizationOverviewResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOrganizationOverviewResponse(
-      proactiveInsights: json['ProactiveInsights'] as int,
-      reactiveInsights: json['ReactiveInsights'] as int,
+      proactiveInsights: (json['ProactiveInsights'] as int?) ?? 0,
+      reactiveInsights: (json['ReactiveInsights'] as int?) ?? 0,
     );
   }
 
@@ -3184,7 +3184,7 @@ class InsightTimeRange {
 
   factory InsightTimeRange.fromJson(Map<String, dynamic> json) {
     return InsightTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       endTime: timeStampFromJson(json['EndTime']),
     );
   }
@@ -3406,11 +3406,11 @@ class ListAnomalousLogGroupsResponse {
 
   factory ListAnomalousLogGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListAnomalousLogGroupsResponse(
-      anomalousLogGroups: (json['AnomalousLogGroups'] as List)
+      anomalousLogGroups: ((json['AnomalousLogGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnomalousLogGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
-      insightId: json['InsightId'] as String,
+      insightId: (json['InsightId'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -3491,7 +3491,7 @@ class ListEventsResponse {
 
   factory ListEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventsResponse(
-      events: (json['Events'] as List)
+      events: ((json['Events'] as List?) ?? const [])
           .nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3696,8 +3696,9 @@ class ListMonitoredResourcesResponse {
 
   factory ListMonitoredResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListMonitoredResourcesResponse(
-      monitoredResourceIdentifiers: (json['MonitoredResourceIdentifiers']
-              as List)
+      monitoredResourceIdentifiers: ((json['MonitoredResourceIdentifiers']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               MonitoredResourceIdentifier.fromJson(e as Map<String, dynamic>))
@@ -4158,7 +4159,8 @@ class NotificationChannelConfig {
 
   factory NotificationChannelConfig.fromJson(Map<String, dynamic> json) {
     return NotificationChannelConfig(
-      sns: SnsChannelConfig.fromJson(json['Sns'] as Map<String, dynamic>),
+      sns: SnsChannelConfig.fromJson(
+          (json['Sns'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       filters: json['Filters'] != null
           ? NotificationFilterConfig.fromJson(
               json['Filters'] as Map<String, dynamic>)
@@ -4891,7 +4893,7 @@ class PredictionTimeRange {
 
   factory PredictionTimeRange.fromJson(Map<String, dynamic> json) {
     return PredictionTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       endTime: timeStampFromJson(json['EndTime']),
     );
   }
@@ -7154,9 +7156,11 @@ class TagCollection {
 
   factory TagCollection.fromJson(Map<String, dynamic> json) {
     return TagCollection(
-      appBoundaryKey: json['AppBoundaryKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -7210,9 +7214,11 @@ class TagCollectionFilter {
 
   factory TagCollectionFilter.fromJson(Map<String, dynamic> json) {
     return TagCollectionFilter(
-      appBoundaryKey: json['AppBoundaryKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -7272,9 +7278,11 @@ class TagCostEstimationResourceCollectionFilter {
   factory TagCostEstimationResourceCollectionFilter.fromJson(
       Map<String, dynamic> json) {
     return TagCostEstimationResourceCollectionFilter(
-      appBoundaryKey: json['AppBoundaryKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 

@@ -4111,7 +4111,7 @@ class Monitor {
 
   factory Monitor.fromJson(Map<String, dynamic> json) {
     return Monitor(
-      alarmArn: json['AlarmArn'] as String,
+      alarmArn: (json['AlarmArn'] as String?) ?? '',
       alarmRoleArn: json['AlarmRoleArn'] as String?,
     );
   }
@@ -4249,7 +4249,7 @@ class Validator {
 
   factory Validator.fromJson(Map<String, dynamic> json) {
     return Validator(
-      content: json['Content'] as String,
+      content: (json['Content'] as String?) ?? '',
       type: ValidatorType.fromString((json['Type'] as String)),
     );
   }

@@ -1355,11 +1355,11 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressLine1: json['AddressLine1'] as String,
-      city: json['City'] as String,
-      countryCode: json['CountryCode'] as String,
-      postalCode: json['PostalCode'] as String,
-      stateOrRegion: json['StateOrRegion'] as String,
+      addressLine1: (json['AddressLine1'] as String?) ?? '',
+      city: (json['City'] as String?) ?? '',
+      countryCode: (json['CountryCode'] as String?) ?? '',
+      postalCode: (json['PostalCode'] as String?) ?? '',
+      stateOrRegion: (json['StateOrRegion'] as String?) ?? '',
       addressLine2: json['AddressLine2'] as String?,
       addressLine3: json['AddressLine3'] as String?,
       contactName: json['ContactName'] as String?,
@@ -1558,7 +1558,7 @@ class CapacityTaskFailure {
 
   factory CapacityTaskFailure.fromJson(Map<String, dynamic> json) {
     return CapacityTaskFailure(
-      reason: json['Reason'] as String,
+      reason: (json['Reason'] as String?) ?? '',
       type: (json['Type'] as String?)?.let(CapacityTaskFailureType.fromString),
     );
   }
@@ -2431,8 +2431,8 @@ class InstanceTypeCapacity {
 
   factory InstanceTypeCapacity.fromJson(Map<String, dynamic> json) {
     return InstanceTypeCapacity(
-      count: json['Count'] as int,
-      instanceType: json['InstanceType'] as String,
+      count: (json['Count'] as int?) ?? 0,
+      instanceType: (json['InstanceType'] as String?) ?? '',
     );
   }
 

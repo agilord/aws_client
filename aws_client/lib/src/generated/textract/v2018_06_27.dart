@@ -2138,7 +2138,7 @@ class AnalyzeIDDetections {
 
   factory AnalyzeIDDetections.fromJson(Map<String, dynamic> json) {
     return AnalyzeIDDetections(
-      text: json['Text'] as String,
+      text: (json['Text'] as String?) ?? '',
       confidence: json['Confidence'] as double?,
       normalizedValue: json['NormalizedValue'] != null
           ? NormalizedValue.fromJson(
@@ -4645,7 +4645,7 @@ class OutputConfig {
 
   factory OutputConfig.fromJson(Map<String, dynamic> json) {
     return OutputConfig(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3Prefix: json['S3Prefix'] as String?,
     );
   }
@@ -4679,11 +4679,11 @@ class PageClassification {
 
   factory PageClassification.fromJson(Map<String, dynamic> json) {
     return PageClassification(
-      pageNumber: (json['PageNumber'] as List)
+      pageNumber: ((json['PageNumber'] as List?) ?? const [])
           .nonNulls
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pageType: (json['PageType'] as List)
+      pageType: ((json['PageType'] as List?) ?? const [])
           .nonNulls
           .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4831,7 +4831,7 @@ class Query {
 
   factory Query.fromJson(Map<String, dynamic> json) {
     return Query(
-      text: json['Text'] as String,
+      text: (json['Text'] as String?) ?? '',
       alias: json['Alias'] as String?,
       pages:
           (json['Pages'] as List?)?.nonNulls.map((e) => e as String).toList(),

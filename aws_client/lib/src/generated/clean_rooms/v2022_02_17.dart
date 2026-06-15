@@ -3174,7 +3174,7 @@ class AggregateColumn {
 
   factory AggregateColumn.fromJson(Map<String, dynamic> json) {
     return AggregateColumn(
-      columnNames: (json['columnNames'] as List)
+      columnNames: ((json['columnNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3234,8 +3234,8 @@ class AggregationConstraint {
 
   factory AggregationConstraint.fromJson(Map<String, dynamic> json) {
     return AggregationConstraint(
-      columnName: json['columnName'] as String,
-      minimum: json['minimum'] as int,
+      columnName: (json['columnName'] as String?) ?? '',
+      minimum: (json['minimum'] as int?) ?? 0,
       type: AggregationType.fromString((json['type'] as String)),
     );
   }
@@ -3316,7 +3316,7 @@ class AnalysisParameter {
 
   factory AnalysisParameter.fromJson(Map<String, dynamic> json) {
     return AnalysisParameter(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       type: ParameterType.fromString((json['type'] as String)),
       defaultValue: json['defaultValue'] as String?,
     );
@@ -3366,13 +3366,14 @@ class AnalysisRule {
 
   factory AnalysisRule.fromJson(Map<String, dynamic> json) {
     return AnalysisRule(
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
-      policy:
-          AnalysisRulePolicy.fromJson(json['policy'] as Map<String, dynamic>),
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      policy: AnalysisRulePolicy.fromJson(
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: AnalysisRuleType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -3445,23 +3446,23 @@ class AnalysisRuleAggregation {
 
   factory AnalysisRuleAggregation.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleAggregation(
-      aggregateColumns: (json['aggregateColumns'] as List)
+      aggregateColumns: ((json['aggregateColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => AggregateColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dimensionColumns: (json['dimensionColumns'] as List)
+      dimensionColumns: ((json['dimensionColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      joinColumns: (json['joinColumns'] as List)
+      joinColumns: ((json['joinColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      outputConstraints: (json['outputConstraints'] as List)
+      outputConstraints: ((json['outputConstraints'] as List?) ?? const [])
           .nonNulls
           .map((e) => AggregationConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scalarFunctions: (json['scalarFunctions'] as List)
+      scalarFunctions: ((json['scalarFunctions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScalarFunctions.fromString((e as String)))
           .toList(),
@@ -3533,7 +3534,7 @@ class AnalysisRuleCustom {
 
   factory AnalysisRuleCustom.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleCustom(
-      allowedAnalyses: (json['allowedAnalyses'] as List)
+      allowedAnalyses: ((json['allowedAnalyses'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3595,11 +3596,11 @@ class AnalysisRuleIdMappingTable {
 
   factory AnalysisRuleIdMappingTable.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleIdMappingTable(
-      joinColumns: (json['joinColumns'] as List)
+      joinColumns: ((json['joinColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      queryConstraints: (json['queryConstraints'] as List)
+      queryConstraints: ((json['queryConstraints'] as List?) ?? const [])
           .nonNulls
           .map((e) => QueryConstraint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3648,11 +3649,11 @@ class AnalysisRuleList {
 
   factory AnalysisRuleList.fromJson(Map<String, dynamic> json) {
     return AnalysisRuleList(
-      joinColumns: (json['joinColumns'] as List)
+      joinColumns: ((json['joinColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      listColumns: (json['listColumns'] as List)
+      listColumns: ((json['listColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3896,18 +3897,22 @@ class AnalysisTemplate {
 
   factory AnalysisTemplate.fromJson(Map<String, dynamic> json) {
     return AnalysisTemplate(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       format: AnalysisFormat.fromString((json['format'] as String)),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      schema: AnalysisSchema.fromJson(json['schema'] as Map<String, dynamic>),
-      source: AnalysisSource.fromJson(json['source'] as Map<String, dynamic>),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      schema: AnalysisSchema.fromJson(
+          (json['schema'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      source: AnalysisSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       analysisParameters: (json['analysisParameters'] as List?)
           ?.nonNulls
           .map((e) => AnalysisParameter.fromJson(e as Map<String, dynamic>))
@@ -4006,15 +4011,15 @@ class AnalysisTemplateSummary {
 
   factory AnalysisTemplateSummary.fromJson(Map<String, dynamic> json) {
     return AnalysisTemplateSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -4126,7 +4131,7 @@ class AnalysisTemplateValidationStatusReason {
   factory AnalysisTemplateValidationStatusReason.fromJson(
       Map<String, dynamic> json) {
     return AnalysisTemplateValidationStatusReason(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -4188,9 +4193,9 @@ class BatchGetCollaborationAnalysisTemplateError {
   factory BatchGetCollaborationAnalysisTemplateError.fromJson(
       Map<String, dynamic> json) {
     return BatchGetCollaborationAnalysisTemplateError(
-      arn: json['arn'] as String,
-      code: json['code'] as String,
-      message: json['message'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -4223,13 +4228,14 @@ class BatchGetCollaborationAnalysisTemplateOutput {
   factory BatchGetCollaborationAnalysisTemplateOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchGetCollaborationAnalysisTemplateOutput(
-      collaborationAnalysisTemplates: (json['collaborationAnalysisTemplates']
-              as List)
+      collaborationAnalysisTemplates: ((json['collaborationAnalysisTemplates']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               CollaborationAnalysisTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetCollaborationAnalysisTemplateError.fromJson(
               e as Map<String, dynamic>))
@@ -4270,9 +4276,9 @@ class BatchGetSchemaAnalysisRuleError {
 
   factory BatchGetSchemaAnalysisRuleError.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaAnalysisRuleError(
-      code: json['code'] as String,
-      message: json['message'] as String,
-      name: json['name'] as String,
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       type: AnalysisRuleType.fromString((json['type'] as String)),
     );
   }
@@ -4306,11 +4312,11 @@ class BatchGetSchemaAnalysisRuleOutput {
 
   factory BatchGetSchemaAnalysisRuleOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaAnalysisRuleOutput(
-      analysisRules: (json['analysisRules'] as List)
+      analysisRules: ((json['analysisRules'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnalysisRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetSchemaAnalysisRuleError.fromJson(
               e as Map<String, dynamic>))
@@ -4347,9 +4353,9 @@ class BatchGetSchemaError {
 
   factory BatchGetSchemaError.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaError(
-      code: json['code'] as String,
-      message: json['message'] as String,
-      name: json['name'] as String,
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4380,11 +4386,11 @@ class BatchGetSchemaOutput {
 
   factory BatchGetSchemaOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetSchemaOutput(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetSchemaError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemas: (json['schemas'] as List)
+      schemas: ((json['schemas'] as List?) ?? const [])
           .nonNulls
           .map((e) => Schema.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4464,16 +4470,16 @@ class Collaboration {
 
   factory Collaboration.fromJson(Map<String, dynamic> json) {
     return Collaboration(
-      arn: json['arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      creatorDisplayName: json['creatorDisplayName'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      creatorDisplayName: (json['creatorDisplayName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       memberStatus: MemberStatus.fromString((json['memberStatus'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       queryLogStatus: CollaborationQueryLogStatus.fromString(
           (json['queryLogStatus'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       dataEncryptionMetadata: json['dataEncryptionMetadata'] != null
           ? DataEncryptionMetadata.fromJson(
               json['dataEncryptionMetadata'] as Map<String, dynamic>)
@@ -4582,17 +4588,21 @@ class CollaborationAnalysisTemplate {
 
   factory CollaborationAnalysisTemplate.fromJson(Map<String, dynamic> json) {
     return CollaborationAnalysisTemplate(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
       format: AnalysisFormat.fromString((json['format'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      schema: AnalysisSchema.fromJson(json['schema'] as Map<String, dynamic>),
-      source: AnalysisSource.fromJson(json['source'] as Map<String, dynamic>),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      schema: AnalysisSchema.fromJson(
+          (json['schema'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      source: AnalysisSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       analysisParameters: (json['analysisParameters'] as List?)
           ?.nonNulls
           .map((e) => AnalysisParameter.fromJson(e as Map<String, dynamic>))
@@ -4688,14 +4698,14 @@ class CollaborationAnalysisTemplateSummary {
   factory CollaborationAnalysisTemplateSummary.fromJson(
       Map<String, dynamic> json) {
     return CollaborationAnalysisTemplateSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -4775,15 +4785,16 @@ class CollaborationConfiguredAudienceModelAssociation {
   factory CollaborationConfiguredAudienceModelAssociation.fromJson(
       Map<String, dynamic> json) {
     return CollaborationConfiguredAudienceModelAssociation(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -4861,14 +4872,14 @@ class CollaborationConfiguredAudienceModelAssociationSummary {
   factory CollaborationConfiguredAudienceModelAssociationSummary.fromJson(
       Map<String, dynamic> json) {
     return CollaborationConfiguredAudienceModelAssociationSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -4957,19 +4968,21 @@ class CollaborationIdNamespaceAssociation {
   factory CollaborationIdNamespaceAssociation.fromJson(
       Map<String, dynamic> json) {
     return CollaborationIdNamespaceAssociation(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inputReferenceProperties:
           IdNamespaceAssociationInputReferenceProperties.fromJson(
-              json['inputReferenceProperties'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+              (json['inputReferenceProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       idMappingConfig: json['idMappingConfig'] != null
           ? IdMappingConfig.fromJson(
@@ -5069,19 +5082,21 @@ class CollaborationIdNamespaceAssociationSummary {
   factory CollaborationIdNamespaceAssociationSummary.fromJson(
       Map<String, dynamic> json) {
     return CollaborationIdNamespaceAssociationSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inputReferenceProperties:
           IdNamespaceAssociationInputReferencePropertiesSummary.fromJson(
-              json['inputReferenceProperties'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+              (json['inputReferenceProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -5165,16 +5180,20 @@ class CollaborationPrivacyBudgetSummary {
   factory CollaborationPrivacyBudgetSummary.fromJson(
       Map<String, dynamic> json) {
     return CollaborationPrivacyBudgetSummary(
-      budget: PrivacyBudget.fromJson(json['budget'] as Map<String, dynamic>),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
-      privacyBudgetTemplateArn: json['privacyBudgetTemplateArn'] as String,
-      privacyBudgetTemplateId: json['privacyBudgetTemplateId'] as String,
+      budget: PrivacyBudget.fromJson(
+          (json['budget'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      privacyBudgetTemplateArn:
+          (json['privacyBudgetTemplateArn'] as String?) ?? '',
+      privacyBudgetTemplateId:
+          (json['privacyBudgetTemplateId'] as String?) ?? '',
       type: PrivacyBudgetType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -5265,19 +5284,20 @@ class CollaborationPrivacyBudgetTemplate {
   factory CollaborationPrivacyBudgetTemplate.fromJson(
       Map<String, dynamic> json) {
     return CollaborationPrivacyBudgetTemplate(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       autoRefresh: PrivacyBudgetTemplateAutoRefresh.fromString(
           (json['autoRefresh'] as String)),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       parameters: PrivacyBudgetTemplateParametersOutput.fromJson(
-          json['parameters'] as Map<String, dynamic>),
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privacyBudgetType:
           PrivacyBudgetType.fromString((json['privacyBudgetType'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -5353,15 +5373,15 @@ class CollaborationPrivacyBudgetTemplateSummary {
   factory CollaborationPrivacyBudgetTemplateSummary.fromJson(
       Map<String, dynamic> json) {
     return CollaborationPrivacyBudgetTemplateSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       privacyBudgetType:
           PrivacyBudgetType.fromString((json['privacyBudgetType'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -5451,14 +5471,14 @@ class CollaborationSummary {
 
   factory CollaborationSummary.fromJson(Map<String, dynamic> json) {
     return CollaborationSummary(
-      arn: json['arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      creatorDisplayName: json['creatorDisplayName'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      creatorDisplayName: (json['creatorDisplayName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       memberStatus: MemberStatus.fromString((json['memberStatus'] as String)),
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       membershipArn: json['membershipArn'] as String?,
       membershipId: json['membershipId'] as String?,
     );
@@ -5505,8 +5525,8 @@ class Column {
 
   factory Column.fromJson(Map<String, dynamic> json) {
     return Column(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -5617,17 +5637,19 @@ class ConfiguredAudienceModelAssociation {
   factory ConfiguredAudienceModelAssociation.fromJson(
       Map<String, dynamic> json) {
     return ConfiguredAudienceModelAssociation(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      manageResourcePolicies: json['manageResourcePolicies'] as bool,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      manageResourcePolicies:
+          (json['manageResourcePolicies'] as bool?) ?? false,
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -5720,16 +5742,17 @@ class ConfiguredAudienceModelAssociationSummary {
   factory ConfiguredAudienceModelAssociationSummary.fromJson(
       Map<String, dynamic> json) {
     return ConfiguredAudienceModelAssociationSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -5812,23 +5835,24 @@ class ConfiguredTable {
 
   factory ConfiguredTable.fromJson(Map<String, dynamic> json) {
     return ConfiguredTable(
-      allowedColumns: (json['allowedColumns'] as List)
+      allowedColumns: ((json['allowedColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
       analysisMethod:
           AnalysisMethod.fromString((json['analysisMethod'] as String)),
-      analysisRuleTypes: (json['analysisRuleTypes'] as List)
+      analysisRuleTypes: ((json['analysisRuleTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ConfiguredTableAnalysisRuleType.fromString((e as String)))
           .toList(),
-      arn: json['arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       tableReference: TableReference.fromJson(
-          json['tableReference'] as Map<String, dynamic>),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+          (json['tableReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -5891,14 +5915,15 @@ class ConfiguredTableAnalysisRule {
 
   factory ConfiguredTableAnalysisRule.fromJson(Map<String, dynamic> json) {
     return ConfiguredTableAnalysisRule(
-      configuredTableArn: json['configuredTableArn'] as String,
-      configuredTableId: json['configuredTableId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      configuredTableArn: (json['configuredTableArn'] as String?) ?? '',
+      configuredTableId: (json['configuredTableId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
       policy: ConfiguredTableAnalysisRulePolicy.fromJson(
-          json['policy'] as Map<String, dynamic>),
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type:
           ConfiguredTableAnalysisRuleType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -6067,16 +6092,16 @@ class ConfiguredTableAssociation {
 
   factory ConfiguredTableAssociation.fromJson(Map<String, dynamic> json) {
     return ConfiguredTableAssociation(
-      arn: json['arn'] as String,
-      configuredTableArn: json['configuredTableArn'] as String,
-      configuredTableId: json['configuredTableId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      roleArn: json['roleArn'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      configuredTableArn: (json['configuredTableArn'] as String?) ?? '',
+      configuredTableId: (json['configuredTableId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       analysisRuleTypes: (json['analysisRuleTypes'] as List?)
           ?.nonNulls
           .map((e) => ConfiguredTableAssociationAnalysisRuleType.fromString(
@@ -6159,16 +6184,17 @@ class ConfiguredTableAssociationAnalysisRule {
       Map<String, dynamic> json) {
     return ConfiguredTableAssociationAnalysisRule(
       configuredTableAssociationArn:
-          json['configuredTableAssociationArn'] as String,
+          (json['configuredTableAssociationArn'] as String?) ?? '',
       configuredTableAssociationId:
-          json['configuredTableAssociationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      membershipIdentifier: json['membershipIdentifier'] as String,
+          (json['configuredTableAssociationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      membershipIdentifier: (json['membershipIdentifier'] as String?) ?? '',
       policy: ConfiguredTableAssociationAnalysisRulePolicy.fromJson(
-          json['policy'] as Map<String, dynamic>),
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: ConfiguredTableAssociationAnalysisRuleType.fromString(
           (json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -6461,14 +6487,14 @@ class ConfiguredTableAssociationSummary {
   factory ConfiguredTableAssociationSummary.fromJson(
       Map<String, dynamic> json) {
     return ConfiguredTableAssociationSummary(
-      arn: json['arn'] as String,
-      configuredTableId: json['configuredTableId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      configuredTableId: (json['configuredTableId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -6532,15 +6558,15 @@ class ConfiguredTableSummary {
     return ConfiguredTableSummary(
       analysisMethod:
           AnalysisMethod.fromString((json['analysisMethod'] as String)),
-      analysisRuleTypes: (json['analysisRuleTypes'] as List)
+      analysisRuleTypes: ((json['analysisRuleTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ConfiguredTableAnalysisRuleType.fromString((e as String)))
           .toList(),
-      arn: json['arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -6575,7 +6601,8 @@ class CreateAnalysisTemplateOutput {
   factory CreateAnalysisTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreateAnalysisTemplateOutput(
       analysisTemplate: AnalysisTemplate.fromJson(
-          json['analysisTemplate'] as Map<String, dynamic>),
+          (json['analysisTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6597,8 +6624,9 @@ class CreateCollaborationOutput {
 
   factory CreateCollaborationOutput.fromJson(Map<String, dynamic> json) {
     return CreateCollaborationOutput(
-      collaboration:
-          Collaboration.fromJson(json['collaboration'] as Map<String, dynamic>),
+      collaboration: Collaboration.fromJson(
+          (json['collaboration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6623,8 +6651,9 @@ class CreateConfiguredAudienceModelAssociationOutput {
     return CreateConfiguredAudienceModelAssociationOutput(
       configuredAudienceModelAssociation:
           ConfiguredAudienceModelAssociation.fromJson(
-              json['configuredAudienceModelAssociation']
-                  as Map<String, dynamic>),
+              (json['configuredAudienceModelAssociation']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -6649,7 +6678,8 @@ class CreateConfiguredTableAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return CreateConfiguredTableAnalysisRuleOutput(
       analysisRule: ConfiguredTableAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6675,7 +6705,8 @@ class CreateConfiguredTableAssociationAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return CreateConfiguredTableAssociationAnalysisRuleOutput(
       analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6699,7 +6730,8 @@ class CreateConfiguredTableAssociationOutput {
       Map<String, dynamic> json) {
     return CreateConfiguredTableAssociationOutput(
       configuredTableAssociation: ConfiguredTableAssociation.fromJson(
-          json['configuredTableAssociation'] as Map<String, dynamic>),
+          (json['configuredTableAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6722,7 +6754,8 @@ class CreateConfiguredTableOutput {
   factory CreateConfiguredTableOutput.fromJson(Map<String, dynamic> json) {
     return CreateConfiguredTableOutput(
       configuredTable: ConfiguredTable.fromJson(
-          json['configuredTable'] as Map<String, dynamic>),
+          (json['configuredTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6745,7 +6778,8 @@ class CreateIdMappingTableOutput {
   factory CreateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
     return CreateIdMappingTableOutput(
       idMappingTable: IdMappingTable.fromJson(
-          json['idMappingTable'] as Map<String, dynamic>),
+          (json['idMappingTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6769,7 +6803,8 @@ class CreateIdNamespaceAssociationOutput {
       Map<String, dynamic> json) {
     return CreateIdNamespaceAssociationOutput(
       idNamespaceAssociation: IdNamespaceAssociation.fromJson(
-          json['idNamespaceAssociation'] as Map<String, dynamic>),
+          (json['idNamespaceAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6791,8 +6826,9 @@ class CreateMembershipOutput {
 
   factory CreateMembershipOutput.fromJson(Map<String, dynamic> json) {
     return CreateMembershipOutput(
-      membership:
-          Membership.fromJson(json['membership'] as Map<String, dynamic>),
+      membership: Membership.fromJson(
+          (json['membership'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6816,7 +6852,8 @@ class CreatePrivacyBudgetTemplateOutput {
       Map<String, dynamic> json) {
     return CreatePrivacyBudgetTemplateOutput(
       privacyBudgetTemplate: PrivacyBudgetTemplate.fromJson(
-          json['privacyBudgetTemplate'] as Map<String, dynamic>),
+          (json['privacyBudgetTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6858,11 +6895,11 @@ class DataEncryptionMetadata {
 
   factory DataEncryptionMetadata.fromJson(Map<String, dynamic> json) {
     return DataEncryptionMetadata(
-      allowCleartext: json['allowCleartext'] as bool,
-      allowDuplicates: json['allowDuplicates'] as bool,
+      allowCleartext: (json['allowCleartext'] as bool?) ?? false,
+      allowDuplicates: (json['allowDuplicates'] as bool?) ?? false,
       allowJoinsOnColumnsWithDifferentNames:
-          json['allowJoinsOnColumnsWithDifferentNames'] as bool,
-      preserveNulls: json['preserveNulls'] as bool,
+          (json['allowJoinsOnColumnsWithDifferentNames'] as bool?) ?? false,
+      preserveNulls: (json['preserveNulls'] as bool?) ?? false,
     );
   }
 
@@ -7066,7 +7103,7 @@ class DifferentialPrivacyColumn {
 
   factory DifferentialPrivacyColumn.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyColumn(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -7093,7 +7130,7 @@ class DifferentialPrivacyConfiguration {
 
   factory DifferentialPrivacyConfiguration.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyConfiguration(
-      columns: (json['columns'] as List)
+      columns: ((json['columns'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DifferentialPrivacyColumn.fromJson(e as Map<String, dynamic>))
@@ -7121,11 +7158,12 @@ class DifferentialPrivacyParameters {
 
   factory DifferentialPrivacyParameters.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyParameters(
-      sensitivityParameters: (json['sensitivityParameters'] as List)
-          .nonNulls
-          .map((e) => DifferentialPrivacySensitivityParameters.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      sensitivityParameters:
+          ((json['sensitivityParameters'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => DifferentialPrivacySensitivityParameters.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -7155,7 +7193,7 @@ class DifferentialPrivacyPreviewAggregation {
   factory DifferentialPrivacyPreviewAggregation.fromJson(
       Map<String, dynamic> json) {
     return DifferentialPrivacyPreviewAggregation(
-      maxCount: json['maxCount'] as int,
+      maxCount: (json['maxCount'] as int?) ?? 0,
       type: DifferentialPrivacyAggregationType.fromString(
           (json['type'] as String)),
     );
@@ -7213,12 +7251,12 @@ class DifferentialPrivacyPrivacyBudget {
 
   factory DifferentialPrivacyPrivacyBudget.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyPrivacyBudget(
-      aggregations: (json['aggregations'] as List)
+      aggregations: ((json['aggregations'] as List?) ?? const [])
           .nonNulls
           .map((e) => DifferentialPrivacyPrivacyBudgetAggregation.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      epsilon: json['epsilon'] as int,
+      epsilon: (json['epsilon'] as int?) ?? 0,
     );
   }
 
@@ -7255,8 +7293,8 @@ class DifferentialPrivacyPrivacyBudgetAggregation {
   factory DifferentialPrivacyPrivacyBudgetAggregation.fromJson(
       Map<String, dynamic> json) {
     return DifferentialPrivacyPrivacyBudgetAggregation(
-      maxCount: json['maxCount'] as int,
-      remainingCount: json['remainingCount'] as int,
+      maxCount: (json['maxCount'] as int?) ?? 0,
+      remainingCount: (json['remainingCount'] as int?) ?? 0,
       type: DifferentialPrivacyAggregationType.fromString(
           (json['type'] as String)),
     );
@@ -7286,7 +7324,7 @@ class DifferentialPrivacyPrivacyImpact {
 
   factory DifferentialPrivacyPrivacyImpact.fromJson(Map<String, dynamic> json) {
     return DifferentialPrivacyPrivacyImpact(
-      aggregations: (json['aggregations'] as List)
+      aggregations: ((json['aggregations'] as List?) ?? const [])
           .nonNulls
           .map((e) => DifferentialPrivacyPreviewAggregation.fromJson(
               e as Map<String, dynamic>))
@@ -7330,10 +7368,10 @@ class DifferentialPrivacySensitivityParameters {
   factory DifferentialPrivacySensitivityParameters.fromJson(
       Map<String, dynamic> json) {
     return DifferentialPrivacySensitivityParameters(
-      aggregationExpression: json['aggregationExpression'] as String,
+      aggregationExpression: (json['aggregationExpression'] as String?) ?? '',
       aggregationType: DifferentialPrivacyAggregationType.fromString(
           (json['aggregationType'] as String)),
-      userContributionLimit: json['userContributionLimit'] as int,
+      userContributionLimit: (json['userContributionLimit'] as int?) ?? 0,
       maxColumnValue: json['maxColumnValue'] as double?,
       minColumnValue: json['minColumnValue'] as double?,
     );
@@ -7400,8 +7438,8 @@ class DifferentialPrivacyTemplateParametersOutput {
   factory DifferentialPrivacyTemplateParametersOutput.fromJson(
       Map<String, dynamic> json) {
     return DifferentialPrivacyTemplateParametersOutput(
-      epsilon: json['epsilon'] as int,
-      usersNoisePerQuery: json['usersNoisePerQuery'] as int,
+      epsilon: (json['epsilon'] as int?) ?? 0,
+      usersNoisePerQuery: (json['usersNoisePerQuery'] as int?) ?? 0,
     );
   }
 
@@ -7507,7 +7545,8 @@ class GetAnalysisTemplateOutput {
   factory GetAnalysisTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetAnalysisTemplateOutput(
       analysisTemplate: AnalysisTemplate.fromJson(
-          json['analysisTemplate'] as Map<String, dynamic>),
+          (json['analysisTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7531,7 +7570,8 @@ class GetCollaborationAnalysisTemplateOutput {
       Map<String, dynamic> json) {
     return GetCollaborationAnalysisTemplateOutput(
       collaborationAnalysisTemplate: CollaborationAnalysisTemplate.fromJson(
-          json['collaborationAnalysisTemplate'] as Map<String, dynamic>),
+          (json['collaborationAnalysisTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7557,8 +7597,9 @@ class GetCollaborationConfiguredAudienceModelAssociationOutput {
     return GetCollaborationConfiguredAudienceModelAssociationOutput(
       collaborationConfiguredAudienceModelAssociation:
           CollaborationConfiguredAudienceModelAssociation.fromJson(
-              json['collaborationConfiguredAudienceModelAssociation']
-                  as Map<String, dynamic>),
+              (json['collaborationConfiguredAudienceModelAssociation']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -7585,8 +7626,9 @@ class GetCollaborationIdNamespaceAssociationOutput {
     return GetCollaborationIdNamespaceAssociationOutput(
       collaborationIdNamespaceAssociation:
           CollaborationIdNamespaceAssociation.fromJson(
-              json['collaborationIdNamespaceAssociation']
-                  as Map<String, dynamic>),
+              (json['collaborationIdNamespaceAssociation']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -7610,8 +7652,9 @@ class GetCollaborationOutput {
 
   factory GetCollaborationOutput.fromJson(Map<String, dynamic> json) {
     return GetCollaborationOutput(
-      collaboration:
-          Collaboration.fromJson(json['collaboration'] as Map<String, dynamic>),
+      collaboration: Collaboration.fromJson(
+          (json['collaboration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7636,8 +7679,9 @@ class GetCollaborationPrivacyBudgetTemplateOutput {
     return GetCollaborationPrivacyBudgetTemplateOutput(
       collaborationPrivacyBudgetTemplate:
           CollaborationPrivacyBudgetTemplate.fromJson(
-              json['collaborationPrivacyBudgetTemplate']
-                  as Map<String, dynamic>),
+              (json['collaborationPrivacyBudgetTemplate']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -7664,8 +7708,9 @@ class GetConfiguredAudienceModelAssociationOutput {
     return GetConfiguredAudienceModelAssociationOutput(
       configuredAudienceModelAssociation:
           ConfiguredAudienceModelAssociation.fromJson(
-              json['configuredAudienceModelAssociation']
-                  as Map<String, dynamic>),
+              (json['configuredAudienceModelAssociation']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -7690,7 +7735,8 @@ class GetConfiguredTableAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return GetConfiguredTableAnalysisRuleOutput(
       analysisRule: ConfiguredTableAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7716,7 +7762,8 @@ class GetConfiguredTableAssociationAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return GetConfiguredTableAssociationAnalysisRuleOutput(
       analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7740,7 +7787,8 @@ class GetConfiguredTableAssociationOutput {
       Map<String, dynamic> json) {
     return GetConfiguredTableAssociationOutput(
       configuredTableAssociation: ConfiguredTableAssociation.fromJson(
-          json['configuredTableAssociation'] as Map<String, dynamic>),
+          (json['configuredTableAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7763,7 +7811,8 @@ class GetConfiguredTableOutput {
   factory GetConfiguredTableOutput.fromJson(Map<String, dynamic> json) {
     return GetConfiguredTableOutput(
       configuredTable: ConfiguredTable.fromJson(
-          json['configuredTable'] as Map<String, dynamic>),
+          (json['configuredTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7786,7 +7835,8 @@ class GetIdMappingTableOutput {
   factory GetIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
     return GetIdMappingTableOutput(
       idMappingTable: IdMappingTable.fromJson(
-          json['idMappingTable'] as Map<String, dynamic>),
+          (json['idMappingTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7809,7 +7859,8 @@ class GetIdNamespaceAssociationOutput {
   factory GetIdNamespaceAssociationOutput.fromJson(Map<String, dynamic> json) {
     return GetIdNamespaceAssociationOutput(
       idNamespaceAssociation: IdNamespaceAssociation.fromJson(
-          json['idNamespaceAssociation'] as Map<String, dynamic>),
+          (json['idNamespaceAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7831,8 +7882,9 @@ class GetMembershipOutput {
 
   factory GetMembershipOutput.fromJson(Map<String, dynamic> json) {
     return GetMembershipOutput(
-      membership:
-          Membership.fromJson(json['membership'] as Map<String, dynamic>),
+      membership: Membership.fromJson(
+          (json['membership'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7855,7 +7907,8 @@ class GetPrivacyBudgetTemplateOutput {
   factory GetPrivacyBudgetTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetPrivacyBudgetTemplateOutput(
       privacyBudgetTemplate: PrivacyBudgetTemplate.fromJson(
-          json['privacyBudgetTemplate'] as Map<String, dynamic>),
+          (json['privacyBudgetTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7878,7 +7931,8 @@ class GetProtectedQueryOutput {
   factory GetProtectedQueryOutput.fromJson(Map<String, dynamic> json) {
     return GetProtectedQueryOutput(
       protectedQuery: ProtectedQuery.fromJson(
-          json['protectedQuery'] as Map<String, dynamic>),
+          (json['protectedQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7900,8 +7954,9 @@ class GetSchemaAnalysisRuleOutput {
 
   factory GetSchemaAnalysisRuleOutput.fromJson(Map<String, dynamic> json) {
     return GetSchemaAnalysisRuleOutput(
-      analysisRule:
-          AnalysisRule.fromJson(json['analysisRule'] as Map<String, dynamic>),
+      analysisRule: AnalysisRule.fromJson(
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7923,7 +7978,8 @@ class GetSchemaOutput {
 
   factory GetSchemaOutput.fromJson(Map<String, dynamic> json) {
     return GetSchemaOutput(
-      schema: Schema.fromJson(json['schema'] as Map<String, dynamic>),
+      schema: Schema.fromJson((json['schema'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -7950,8 +8006,8 @@ class GlueTableReference {
 
   factory GlueTableReference.fromJson(Map<String, dynamic> json) {
     return GlueTableReference(
-      databaseName: json['databaseName'] as String,
-      tableName: json['tableName'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
     );
   }
 
@@ -7979,7 +8035,8 @@ class IdMappingConfig {
 
   factory IdMappingConfig.fromJson(Map<String, dynamic> json) {
     return IdMappingConfig(
-      allowUseAsDimensionColumn: json['allowUseAsDimensionColumn'] as bool,
+      allowUseAsDimensionColumn:
+          (json['allowUseAsDimensionColumn'] as bool?) ?? false,
     );
   }
 
@@ -8053,19 +8110,21 @@ class IdMappingTable {
 
   factory IdMappingTable.fromJson(Map<String, dynamic> json) {
     return IdMappingTable(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdMappingTableInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inputReferenceProperties: IdMappingTableInputReferenceProperties.fromJson(
-          json['inputReferenceProperties'] as Map<String, dynamic>),
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+          (json['inputReferenceProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
@@ -8124,8 +8183,9 @@ class IdMappingTableInputReferenceConfig {
   factory IdMappingTableInputReferenceConfig.fromJson(
       Map<String, dynamic> json) {
     return IdMappingTableInputReferenceConfig(
-      inputReferenceArn: json['inputReferenceArn'] as String,
-      manageResourcePolicies: json['manageResourcePolicies'] as bool,
+      inputReferenceArn: (json['inputReferenceArn'] as String?) ?? '',
+      manageResourcePolicies:
+          (json['manageResourcePolicies'] as bool?) ?? false,
     );
   }
 
@@ -8151,11 +8211,12 @@ class IdMappingTableInputReferenceProperties {
   factory IdMappingTableInputReferenceProperties.fromJson(
       Map<String, dynamic> json) {
     return IdMappingTableInputReferenceProperties(
-      idMappingTableInputSource: (json['idMappingTableInputSource'] as List)
-          .nonNulls
-          .map((e) =>
-              IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      idMappingTableInputSource:
+          ((json['idMappingTableInputSource'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -8182,7 +8243,8 @@ class IdMappingTableInputSource {
 
   factory IdMappingTableInputSource.fromJson(Map<String, dynamic> json) {
     return IdMappingTableInputSource(
-      idNamespaceAssociationId: json['idNamespaceAssociationId'] as String,
+      idNamespaceAssociationId:
+          (json['idNamespaceAssociationId'] as String?) ?? '',
       type: IdNamespaceType.fromString((json['type'] as String)),
     );
   }
@@ -8211,11 +8273,12 @@ class IdMappingTableSchemaTypeProperties {
   factory IdMappingTableSchemaTypeProperties.fromJson(
       Map<String, dynamic> json) {
     return IdMappingTableSchemaTypeProperties(
-      idMappingTableInputSource: (json['idMappingTableInputSource'] as List)
-          .nonNulls
-          .map((e) =>
-              IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      idMappingTableInputSource:
+          ((json['idMappingTableInputSource'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  IdMappingTableInputSource.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -8281,17 +8344,18 @@ class IdMappingTableSummary {
 
   factory IdMappingTableSummary.fromJson(Map<String, dynamic> json) {
     return IdMappingTableSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdMappingTableInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -8387,20 +8451,22 @@ class IdNamespaceAssociation {
 
   factory IdNamespaceAssociation.fromJson(Map<String, dynamic> json) {
     return IdNamespaceAssociation(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inputReferenceProperties:
           IdNamespaceAssociationInputReferenceProperties.fromJson(
-              json['inputReferenceProperties'] as Map<String, dynamic>),
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+              (json['inputReferenceProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       idMappingConfig: json['idMappingConfig'] != null
           ? IdMappingConfig.fromJson(
@@ -8464,8 +8530,9 @@ class IdNamespaceAssociationInputReferenceConfig {
   factory IdNamespaceAssociationInputReferenceConfig.fromJson(
       Map<String, dynamic> json) {
     return IdNamespaceAssociationInputReferenceConfig(
-      inputReferenceArn: json['inputReferenceArn'] as String,
-      manageResourcePolicies: json['manageResourcePolicies'] as bool,
+      inputReferenceArn: (json['inputReferenceArn'] as String?) ?? '',
+      manageResourcePolicies:
+          (json['manageResourcePolicies'] as bool?) ?? false,
     );
   }
 
@@ -8497,10 +8564,11 @@ class IdNamespaceAssociationInputReferenceProperties {
   factory IdNamespaceAssociationInputReferenceProperties.fromJson(
       Map<String, dynamic> json) {
     return IdNamespaceAssociationInputReferenceProperties(
-      idMappingWorkflowsSupported: (json['idMappingWorkflowsSupported'] as List)
-          .nonNulls
-          .map((e) => Document.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      idMappingWorkflowsSupported:
+          ((json['idMappingWorkflowsSupported'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Document.fromJson(e as Map<String, dynamic>))
+              .toList(),
       idNamespaceType:
           IdNamespaceType.fromString((json['idNamespaceType'] as String)),
     );
@@ -8603,20 +8671,22 @@ class IdNamespaceAssociationSummary {
 
   factory IdNamespaceAssociationSummary.fromJson(Map<String, dynamic> json) {
     return IdNamespaceAssociationSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig.fromJson(
-          json['inputReferenceConfig'] as Map<String, dynamic>),
+          (json['inputReferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inputReferenceProperties:
           IdNamespaceAssociationInputReferencePropertiesSummary.fromJson(
-              json['inputReferenceProperties'] as Map<String, dynamic>),
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      name: json['name'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+              (json['inputReferenceProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -8710,11 +8780,12 @@ class ListAnalysisTemplatesOutput {
 
   factory ListAnalysisTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListAnalysisTemplatesOutput(
-      analysisTemplateSummaries: (json['analysisTemplateSummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              AnalysisTemplateSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      analysisTemplateSummaries:
+          ((json['analysisTemplateSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  AnalysisTemplateSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -8747,7 +8818,8 @@ class ListCollaborationAnalysisTemplatesOutput {
       Map<String, dynamic> json) {
     return ListCollaborationAnalysisTemplatesOutput(
       collaborationAnalysisTemplateSummaries:
-          (json['collaborationAnalysisTemplateSummaries'] as List)
+          ((json['collaborationAnalysisTemplateSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => CollaborationAnalysisTemplateSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -8787,8 +8859,9 @@ class ListCollaborationConfiguredAudienceModelAssociationsOutput {
       Map<String, dynamic> json) {
     return ListCollaborationConfiguredAudienceModelAssociationsOutput(
       collaborationConfiguredAudienceModelAssociationSummaries:
-          (json['collaborationConfiguredAudienceModelAssociationSummaries']
-                  as List)
+          ((json['collaborationConfiguredAudienceModelAssociationSummaries']
+                      as List?) ??
+                  const [])
               .nonNulls
               .map((e) => CollaborationConfiguredAudienceModelAssociationSummary
                   .fromJson(e as Map<String, dynamic>))
@@ -8827,7 +8900,8 @@ class ListCollaborationIdNamespaceAssociationsOutput {
       Map<String, dynamic> json) {
     return ListCollaborationIdNamespaceAssociationsOutput(
       collaborationIdNamespaceAssociationSummaries:
-          (json['collaborationIdNamespaceAssociationSummaries'] as List)
+          ((json['collaborationIdNamespaceAssociationSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => CollaborationIdNamespaceAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -8868,7 +8942,8 @@ class ListCollaborationPrivacyBudgetTemplatesOutput {
       Map<String, dynamic> json) {
     return ListCollaborationPrivacyBudgetTemplatesOutput(
       collaborationPrivacyBudgetTemplateSummaries:
-          (json['collaborationPrivacyBudgetTemplateSummaries'] as List)
+          ((json['collaborationPrivacyBudgetTemplateSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => CollaborationPrivacyBudgetTemplateSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -8907,7 +8982,7 @@ class ListCollaborationPrivacyBudgetsOutput {
       Map<String, dynamic> json) {
     return ListCollaborationPrivacyBudgetsOutput(
       collaborationPrivacyBudgetSummaries:
-          (json['collaborationPrivacyBudgetSummaries'] as List)
+          ((json['collaborationPrivacyBudgetSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => CollaborationPrivacyBudgetSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -8943,7 +9018,7 @@ class ListCollaborationsOutput {
 
   factory ListCollaborationsOutput.fromJson(Map<String, dynamic> json) {
     return ListCollaborationsOutput(
-      collaborationList: (json['collaborationList'] as List)
+      collaborationList: ((json['collaborationList'] as List?) ?? const [])
           .nonNulls
           .map((e) => CollaborationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8978,7 +9053,8 @@ class ListConfiguredAudienceModelAssociationsOutput {
       Map<String, dynamic> json) {
     return ListConfiguredAudienceModelAssociationsOutput(
       configuredAudienceModelAssociationSummaries:
-          (json['configuredAudienceModelAssociationSummaries'] as List)
+          ((json['configuredAudienceModelAssociationSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => ConfiguredAudienceModelAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -9017,7 +9093,7 @@ class ListConfiguredTableAssociationsOutput {
       Map<String, dynamic> json) {
     return ListConfiguredTableAssociationsOutput(
       configuredTableAssociationSummaries:
-          (json['configuredTableAssociationSummaries'] as List)
+          ((json['configuredTableAssociationSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => ConfiguredTableAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -9053,7 +9129,8 @@ class ListConfiguredTablesOutput {
 
   factory ListConfiguredTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListConfiguredTablesOutput(
-      configuredTableSummaries: (json['configuredTableSummaries'] as List)
+      configuredTableSummaries: ((json['configuredTableSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => ConfiguredTableSummary.fromJson(e as Map<String, dynamic>))
@@ -9086,7 +9163,8 @@ class ListIdMappingTablesOutput {
 
   factory ListIdMappingTablesOutput.fromJson(Map<String, dynamic> json) {
     return ListIdMappingTablesOutput(
-      idMappingTableSummaries: (json['idMappingTableSummaries'] as List)
+      idMappingTableSummaries: ((json['idMappingTableSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => IdMappingTableSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9119,8 +9197,9 @@ class ListIdNamespaceAssociationsOutput {
   factory ListIdNamespaceAssociationsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListIdNamespaceAssociationsOutput(
-      idNamespaceAssociationSummaries: (json['idNamespaceAssociationSummaries']
-              as List)
+      idNamespaceAssociationSummaries: ((json['idNamespaceAssociationSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               IdNamespaceAssociationSummary.fromJson(e as Map<String, dynamic>))
@@ -9155,7 +9234,7 @@ class ListMembersOutput {
 
   factory ListMembersOutput.fromJson(Map<String, dynamic> json) {
     return ListMembersOutput(
-      memberSummaries: (json['memberSummaries'] as List)
+      memberSummaries: ((json['memberSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => MemberSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9188,7 +9267,7 @@ class ListMembershipsOutput {
 
   factory ListMembershipsOutput.fromJson(Map<String, dynamic> json) {
     return ListMembershipsOutput(
-      membershipSummaries: (json['membershipSummaries'] as List)
+      membershipSummaries: ((json['membershipSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => MembershipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9222,8 +9301,9 @@ class ListPrivacyBudgetTemplatesOutput {
 
   factory ListPrivacyBudgetTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListPrivacyBudgetTemplatesOutput(
-      privacyBudgetTemplateSummaries: (json['privacyBudgetTemplateSummaries']
-              as List)
+      privacyBudgetTemplateSummaries: ((json['privacyBudgetTemplateSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               PrivacyBudgetTemplateSummary.fromJson(e as Map<String, dynamic>))
@@ -9259,7 +9339,8 @@ class ListPrivacyBudgetsOutput {
 
   factory ListPrivacyBudgetsOutput.fromJson(Map<String, dynamic> json) {
     return ListPrivacyBudgetsOutput(
-      privacyBudgetSummaries: (json['privacyBudgetSummaries'] as List)
+      privacyBudgetSummaries: ((json['privacyBudgetSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => PrivacyBudgetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9292,7 +9373,7 @@ class ListProtectedQueriesOutput {
 
   factory ListProtectedQueriesOutput.fromJson(Map<String, dynamic> json) {
     return ListProtectedQueriesOutput(
-      protectedQueries: (json['protectedQueries'] as List)
+      protectedQueries: ((json['protectedQueries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProtectedQuerySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9325,7 +9406,7 @@ class ListSchemasOutput {
 
   factory ListSchemasOutput.fromJson(Map<String, dynamic> json) {
     return ListSchemasOutput(
-      schemaSummaries: (json['schemaSummaries'] as List)
+      schemaSummaries: ((json['schemaSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => SchemaSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9353,8 +9434,9 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -9484,17 +9566,18 @@ class MemberSummary {
 
   factory MemberSummary.fromJson(Map<String, dynamic> json) {
     return MemberSummary(
-      abilities: (json['abilities'] as List)
+      abilities: ((json['abilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
-      accountId: json['accountId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      displayName: json['displayName'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      displayName: (json['displayName'] as String?) ?? '',
       paymentConfiguration: PaymentConfiguration.fromJson(
-          json['paymentConfiguration'] as Map<String, dynamic>),
+          (json['paymentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: MemberStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       membershipArn: json['membershipArn'] as String?,
       membershipId: json['membershipId'] as String?,
     );
@@ -9590,26 +9673,27 @@ class Membership {
 
   factory Membership.fromJson(Map<String, dynamic> json) {
     return Membership(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
       collaborationCreatorAccountId:
-          json['collaborationCreatorAccountId'] as String,
+          (json['collaborationCreatorAccountId'] as String?) ?? '',
       collaborationCreatorDisplayName:
-          json['collaborationCreatorDisplayName'] as String,
-      collaborationId: json['collaborationId'] as String,
-      collaborationName: json['collaborationName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      memberAbilities: (json['memberAbilities'] as List)
+          (json['collaborationCreatorDisplayName'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      collaborationName: (json['collaborationName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      memberAbilities: ((json['memberAbilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
       paymentConfiguration: MembershipPaymentConfiguration.fromJson(
-          json['paymentConfiguration'] as Map<String, dynamic>),
+          (json['paymentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       queryLogStatus: MembershipQueryLogStatus.fromString(
           (json['queryLogStatus'] as String)),
       status: MembershipStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       defaultResultConfiguration: json['defaultResultConfiguration'] != null
           ? MembershipProtectedQueryResultConfiguration.fromJson(
               json['defaultResultConfiguration'] as Map<String, dynamic>)
@@ -9667,7 +9751,8 @@ class MembershipPaymentConfiguration {
   factory MembershipPaymentConfiguration.fromJson(Map<String, dynamic> json) {
     return MembershipPaymentConfiguration(
       queryCompute: MembershipQueryComputePaymentConfig.fromJson(
-          json['queryCompute'] as Map<String, dynamic>),
+          (json['queryCompute'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9724,7 +9809,8 @@ class MembershipProtectedQueryResultConfiguration {
       Map<String, dynamic> json) {
     return MembershipProtectedQueryResultConfiguration(
       outputConfiguration: MembershipProtectedQueryOutputConfiguration.fromJson(
-          json['outputConfiguration'] as Map<String, dynamic>),
+          (json['outputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       roleArn: json['roleArn'] as String?,
     );
   }
@@ -9770,7 +9856,7 @@ class MembershipQueryComputePaymentConfig {
   factory MembershipQueryComputePaymentConfig.fromJson(
       Map<String, dynamic> json) {
     return MembershipQueryComputePaymentConfig(
-      isResponsible: json['isResponsible'] as bool,
+      isResponsible: (json['isResponsible'] as bool?) ?? false,
     );
   }
 
@@ -9869,24 +9955,25 @@ class MembershipSummary {
 
   factory MembershipSummary.fromJson(Map<String, dynamic> json) {
     return MembershipSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
       collaborationCreatorAccountId:
-          json['collaborationCreatorAccountId'] as String,
+          (json['collaborationCreatorAccountId'] as String?) ?? '',
       collaborationCreatorDisplayName:
-          json['collaborationCreatorDisplayName'] as String,
-      collaborationId: json['collaborationId'] as String,
-      collaborationName: json['collaborationName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      memberAbilities: (json['memberAbilities'] as List)
+          (json['collaborationCreatorDisplayName'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      collaborationName: (json['collaborationName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      memberAbilities: ((json['memberAbilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => MemberAbility.fromString((e as String)))
           .toList(),
       paymentConfiguration: MembershipPaymentConfiguration.fromJson(
-          json['paymentConfiguration'] as Map<String, dynamic>),
+          (json['paymentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: MembershipStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -9963,7 +10050,8 @@ class PaymentConfiguration {
   factory PaymentConfiguration.fromJson(Map<String, dynamic> json) {
     return PaymentConfiguration(
       queryCompute: QueryComputePaymentConfig.fromJson(
-          json['queryCompute'] as Map<String, dynamic>),
+          (json['queryCompute'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9986,7 +10074,7 @@ class PopulateIdMappingTableOutput {
 
   factory PopulateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
     return PopulateIdMappingTableOutput(
-      idMappingJobId: json['idMappingJobId'] as String,
+      idMappingJobId: (json['idMappingJobId'] as String?) ?? '',
     );
   }
 
@@ -10010,8 +10098,9 @@ class PreviewPrivacyImpactOutput {
 
   factory PreviewPrivacyImpactOutput.fromJson(Map<String, dynamic> json) {
     return PreviewPrivacyImpactOutput(
-      privacyImpact:
-          PrivacyImpact.fromJson(json['privacyImpact'] as Map<String, dynamic>),
+      privacyImpact: PrivacyImpact.fromJson(
+          (json['privacyImpact'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10127,17 +10216,21 @@ class PrivacyBudgetSummary {
 
   factory PrivacyBudgetSummary.fromJson(Map<String, dynamic> json) {
     return PrivacyBudgetSummary(
-      budget: PrivacyBudget.fromJson(json['budget'] as Map<String, dynamic>),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      privacyBudgetTemplateArn: json['privacyBudgetTemplateArn'] as String,
-      privacyBudgetTemplateId: json['privacyBudgetTemplateId'] as String,
+      budget: PrivacyBudget.fromJson(
+          (json['budget'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      privacyBudgetTemplateArn:
+          (json['privacyBudgetTemplateArn'] as String?) ?? '',
+      privacyBudgetTemplateId:
+          (json['privacyBudgetTemplateId'] as String?) ?? '',
       type: PrivacyBudgetType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -10230,20 +10323,21 @@ class PrivacyBudgetTemplate {
 
   factory PrivacyBudgetTemplate.fromJson(Map<String, dynamic> json) {
     return PrivacyBudgetTemplate(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       autoRefresh: PrivacyBudgetTemplateAutoRefresh.fromString(
           (json['autoRefresh'] as String)),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
       parameters: PrivacyBudgetTemplateParametersOutput.fromJson(
-          json['parameters'] as Map<String, dynamic>),
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privacyBudgetType:
           PrivacyBudgetType.fromString((json['privacyBudgetType'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -10384,16 +10478,16 @@ class PrivacyBudgetTemplateSummary {
 
   factory PrivacyBudgetTemplateSummary.fromJson(Map<String, dynamic> json) {
     return PrivacyBudgetTemplateSummary(
-      arn: json['arn'] as String,
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
       privacyBudgetType:
           PrivacyBudgetType.fromString((json['privacyBudgetType'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -10536,10 +10630,10 @@ class ProtectedQuery {
 
   factory ProtectedQuery.fromJson(Map<String, dynamic> json) {
     return ProtectedQuery(
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
       status: ProtectedQueryStatus.fromString((json['status'] as String)),
       differentialPrivacy: json['differentialPrivacy'] != null
           ? DifferentialPrivacyParameters.fromJson(
@@ -10612,8 +10706,8 @@ class ProtectedQueryError {
 
   factory ProtectedQueryError.fromJson(Map<String, dynamic> json) {
     return ProtectedQueryError(
-      code: json['code'] as String,
-      message: json['message'] as String,
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -10639,7 +10733,7 @@ class ProtectedQueryMemberOutputConfiguration {
   factory ProtectedQueryMemberOutputConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ProtectedQueryMemberOutputConfiguration(
-      accountId: json['accountId'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
     );
   }
 
@@ -10738,8 +10832,9 @@ class ProtectedQueryResult {
 
   factory ProtectedQueryResult.fromJson(Map<String, dynamic> json) {
     return ProtectedQueryResult(
-      output:
-          ProtectedQueryOutput.fromJson(json['output'] as Map<String, dynamic>),
+      output: ProtectedQueryOutput.fromJson(
+          (json['output'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10764,7 +10859,8 @@ class ProtectedQueryResultConfiguration {
       Map<String, dynamic> json) {
     return ProtectedQueryResultConfiguration(
       outputConfiguration: ProtectedQueryOutputConfiguration.fromJson(
-          json['outputConfiguration'] as Map<String, dynamic>),
+          (json['outputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10787,7 +10883,7 @@ class ProtectedQueryS3Output {
 
   factory ProtectedQueryS3Output.fromJson(Map<String, dynamic> json) {
     return ProtectedQueryS3Output(
-      location: json['location'] as String,
+      location: (json['location'] as String?) ?? '',
     );
   }
 
@@ -10819,7 +10915,7 @@ class ProtectedQueryS3OutputConfiguration {
   factory ProtectedQueryS3OutputConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ProtectedQueryS3OutputConfiguration(
-      bucket: json['bucket'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
       resultFormat: ResultFormat.fromString((json['resultFormat'] as String)),
       keyPrefix: json['keyPrefix'] as String?,
     );
@@ -10889,7 +10985,7 @@ class ProtectedQuerySingleMemberOutput {
 
   factory ProtectedQuerySingleMemberOutput.fromJson(Map<String, dynamic> json) {
     return ProtectedQuerySingleMemberOutput(
-      accountId: json['accountId'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
     );
   }
 
@@ -10977,11 +11073,12 @@ class ProtectedQuerySummary {
 
   factory ProtectedQuerySummary.fromJson(Map<String, dynamic> json) {
     return ProtectedQuerySummary(
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      id: json['id'] as String,
-      membershipArn: json['membershipArn'] as String,
-      membershipId: json['membershipId'] as String,
-      receiverConfigurations: (json['receiverConfigurations'] as List)
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      membershipArn: (json['membershipArn'] as String?) ?? '',
+      membershipId: (json['membershipId'] as String?) ?? '',
+      receiverConfigurations: ((json['receiverConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ReceiverConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11045,7 +11142,7 @@ class QueryComputePaymentConfig {
 
   factory QueryComputePaymentConfig.fromJson(Map<String, dynamic> json) {
     return QueryComputePaymentConfig(
-      isResponsible: json['isResponsible'] as bool,
+      isResponsible: (json['isResponsible'] as bool?) ?? false,
     );
   }
 
@@ -11265,30 +11362,30 @@ class Schema {
 
   factory Schema.fromJson(Map<String, dynamic> json) {
     return Schema(
-      analysisRuleTypes: (json['analysisRuleTypes'] as List)
+      analysisRuleTypes: ((json['analysisRuleTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnalysisRuleType.fromString((e as String)))
           .toList(),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      columns: (json['columns'] as List)
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      columns: ((json['columns'] as List?) ?? const [])
           .nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      description: json['description'] as String,
-      name: json['name'] as String,
-      partitionKeys: (json['partitionKeys'] as List)
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      partitionKeys: ((json['partitionKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemaStatusDetails: (json['schemaStatusDetails'] as List)
+      schemaStatusDetails: ((json['schemaStatusDetails'] as List?) ?? const [])
           .nonNulls
           .map((e) => SchemaStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: SchemaType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       analysisMethod:
           (json['analysisMethod'] as String?)?.let(AnalysisMethod.fromString),
       schemaTypeProperties: json['schemaTypeProperties'] != null
@@ -11470,7 +11567,7 @@ class SchemaStatusReason {
   factory SchemaStatusReason.fromJson(Map<String, dynamic> json) {
     return SchemaStatusReason(
       code: SchemaStatusReasonCode.fromString((json['code'] as String)),
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -11555,17 +11652,17 @@ class SchemaSummary {
 
   factory SchemaSummary.fromJson(Map<String, dynamic> json) {
     return SchemaSummary(
-      analysisRuleTypes: (json['analysisRuleTypes'] as List)
+      analysisRuleTypes: ((json['analysisRuleTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnalysisRuleType.fromString((e as String)))
           .toList(),
-      collaborationArn: json['collaborationArn'] as String,
-      collaborationId: json['collaborationId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      creatorAccountId: json['creatorAccountId'] as String,
-      name: json['name'] as String,
+      collaborationArn: (json['collaborationArn'] as String?) ?? '',
+      collaborationId: (json['collaborationId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      creatorAccountId: (json['creatorAccountId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       type: SchemaType.fromString((json['type'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       analysisMethod:
           (json['analysisMethod'] as String?)?.let(AnalysisMethod.fromString),
     );
@@ -11646,7 +11743,8 @@ class StartProtectedQueryOutput {
   factory StartProtectedQueryOutput.fromJson(Map<String, dynamic> json) {
     return StartProtectedQueryOutput(
       protectedQuery: ProtectedQuery.fromJson(
-          json['protectedQuery'] as Map<String, dynamic>),
+          (json['protectedQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11734,7 +11832,8 @@ class UpdateAnalysisTemplateOutput {
   factory UpdateAnalysisTemplateOutput.fromJson(Map<String, dynamic> json) {
     return UpdateAnalysisTemplateOutput(
       analysisTemplate: AnalysisTemplate.fromJson(
-          json['analysisTemplate'] as Map<String, dynamic>),
+          (json['analysisTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11756,8 +11855,9 @@ class UpdateCollaborationOutput {
 
   factory UpdateCollaborationOutput.fromJson(Map<String, dynamic> json) {
     return UpdateCollaborationOutput(
-      collaboration:
-          Collaboration.fromJson(json['collaboration'] as Map<String, dynamic>),
+      collaboration: Collaboration.fromJson(
+          (json['collaboration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11782,8 +11882,9 @@ class UpdateConfiguredAudienceModelAssociationOutput {
     return UpdateConfiguredAudienceModelAssociationOutput(
       configuredAudienceModelAssociation:
           ConfiguredAudienceModelAssociation.fromJson(
-              json['configuredAudienceModelAssociation']
-                  as Map<String, dynamic>),
+              (json['configuredAudienceModelAssociation']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -11808,7 +11909,8 @@ class UpdateConfiguredTableAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return UpdateConfiguredTableAnalysisRuleOutput(
       analysisRule: ConfiguredTableAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11834,7 +11936,8 @@ class UpdateConfiguredTableAssociationAnalysisRuleOutput {
       Map<String, dynamic> json) {
     return UpdateConfiguredTableAssociationAnalysisRuleOutput(
       analysisRule: ConfiguredTableAssociationAnalysisRule.fromJson(
-          json['analysisRule'] as Map<String, dynamic>),
+          (json['analysisRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11858,7 +11961,8 @@ class UpdateConfiguredTableAssociationOutput {
       Map<String, dynamic> json) {
     return UpdateConfiguredTableAssociationOutput(
       configuredTableAssociation: ConfiguredTableAssociation.fromJson(
-          json['configuredTableAssociation'] as Map<String, dynamic>),
+          (json['configuredTableAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11881,7 +11985,8 @@ class UpdateConfiguredTableOutput {
   factory UpdateConfiguredTableOutput.fromJson(Map<String, dynamic> json) {
     return UpdateConfiguredTableOutput(
       configuredTable: ConfiguredTable.fromJson(
-          json['configuredTable'] as Map<String, dynamic>),
+          (json['configuredTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11904,7 +12009,8 @@ class UpdateIdMappingTableOutput {
   factory UpdateIdMappingTableOutput.fromJson(Map<String, dynamic> json) {
     return UpdateIdMappingTableOutput(
       idMappingTable: IdMappingTable.fromJson(
-          json['idMappingTable'] as Map<String, dynamic>),
+          (json['idMappingTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11928,7 +12034,8 @@ class UpdateIdNamespaceAssociationOutput {
       Map<String, dynamic> json) {
     return UpdateIdNamespaceAssociationOutput(
       idNamespaceAssociation: IdNamespaceAssociation.fromJson(
-          json['idNamespaceAssociation'] as Map<String, dynamic>),
+          (json['idNamespaceAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11949,8 +12056,9 @@ class UpdateMembershipOutput {
 
   factory UpdateMembershipOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMembershipOutput(
-      membership:
-          Membership.fromJson(json['membership'] as Map<String, dynamic>),
+      membership: Membership.fromJson(
+          (json['membership'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11974,7 +12082,8 @@ class UpdatePrivacyBudgetTemplateOutput {
       Map<String, dynamic> json) {
     return UpdatePrivacyBudgetTemplateOutput(
       privacyBudgetTemplate: PrivacyBudgetTemplate.fromJson(
-          json['privacyBudgetTemplate'] as Map<String, dynamic>),
+          (json['privacyBudgetTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11997,7 +12106,8 @@ class UpdateProtectedQueryOutput {
   factory UpdateProtectedQueryOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProtectedQueryOutput(
       protectedQuery: ProtectedQuery.fromJson(
-          json['protectedQuery'] as Map<String, dynamic>),
+          (json['protectedQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

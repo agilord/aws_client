@@ -2341,7 +2341,7 @@ class AmazonMskCluster {
 
   factory AmazonMskCluster.fromJson(Map<String, dynamic> json) {
     return AmazonMskCluster(
-      mskClusterArn: json['mskClusterArn'] as String,
+      mskClusterArn: (json['mskClusterArn'] as String?) ?? '',
     );
   }
 
@@ -2487,7 +2487,7 @@ class BrokerEBSVolumeInfo {
 
   factory BrokerEBSVolumeInfo.fromJson(Map<String, dynamic> json) {
     return BrokerEBSVolumeInfo(
-      kafkaBrokerNodeId: json['kafkaBrokerNodeId'] as String,
+      kafkaBrokerNodeId: (json['kafkaBrokerNodeId'] as String?) ?? '',
       provisionedThroughput: json['provisionedThroughput'] != null
           ? ProvisionedThroughput.fromJson(
               json['provisionedThroughput'] as Map<String, dynamic>)
@@ -2614,11 +2614,11 @@ class BrokerNodeGroupInfo {
 
   factory BrokerNodeGroupInfo.fromJson(Map<String, dynamic> json) {
     return BrokerNodeGroupInfo(
-      clientSubnets: (json['clientSubnets'] as List)
+      clientSubnets: ((json['clientSubnets'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      instanceType: json['instanceType'] as String,
+      instanceType: (json['instanceType'] as String?) ?? '',
       brokerAZDistribution: (json['brokerAZDistribution'] as String?)
           ?.let(BrokerAZDistribution.fromString),
       connectivityInfo: json['connectivityInfo'] != null
@@ -2938,7 +2938,7 @@ class CloudWatchLogs {
 
   factory CloudWatchLogs.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogs(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       logGroup: json['logGroup'] as String?,
     );
   }
@@ -3735,8 +3735,9 @@ class Provisioned {
   factory Provisioned.fromJson(Map<String, dynamic> json) {
     return Provisioned(
       brokerNodeGroupInfo: BrokerNodeGroupInfo.fromJson(
-          json['brokerNodeGroupInfo'] as Map<String, dynamic>),
-      numberOfBrokerNodes: json['numberOfBrokerNodes'] as int,
+          (json['brokerNodeGroupInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      numberOfBrokerNodes: (json['numberOfBrokerNodes'] as int?) ?? 0,
       clientAuthentication: json['clientAuthentication'] != null
           ? ClientAuthentication.fromJson(
               json['clientAuthentication'] as Map<String, dynamic>)
@@ -3824,8 +3825,10 @@ class VpcConfig {
 
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3894,7 +3897,7 @@ class Serverless {
 
   factory Serverless.fromJson(Map<String, dynamic> json) {
     return Serverless(
-      vpcConfigs: (json['vpcConfigs'] as List)
+      vpcConfigs: ((json['vpcConfigs'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3955,7 +3958,7 @@ class ClientVpcConnection {
 
   factory ClientVpcConnection.fromJson(Map<String, dynamic> json) {
     return ClientVpcConnection(
-      vpcConnectionArn: json['vpcConnectionArn'] as String,
+      vpcConnectionArn: (json['vpcConnectionArn'] as String?) ?? '',
       authentication: json['authentication'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       owner: json['owner'] as String?,
@@ -4024,8 +4027,8 @@ class VpcConnection {
 
   factory VpcConnection.fromJson(Map<String, dynamic> json) {
     return VpcConnection(
-      targetClusterArn: json['targetClusterArn'] as String,
-      vpcConnectionArn: json['vpcConnectionArn'] as String,
+      targetClusterArn: (json['targetClusterArn'] as String?) ?? '',
+      vpcConnectionArn: (json['vpcConnectionArn'] as String?) ?? '',
       authentication: json['authentication'] as String?,
       creationTime: timeStampFromJson(json['creationTime']),
       state: (json['state'] as String?)?.let(VpcConnectionState.fromString),
@@ -4145,17 +4148,17 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      kafkaVersions: (json['kafkaVersions'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      kafkaVersions: ((json['kafkaVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
       latestRevision: ConfigurationRevision.fromJson(
-          json['latestRevision'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['latestRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       state: ConfigurationState.fromString((json['state'] as String)),
     );
   }
@@ -4201,8 +4204,8 @@ class ConfigurationInfo {
 
   factory ConfigurationInfo.fromJson(Map<String, dynamic> json) {
     return ConfigurationInfo(
-      arn: json['arn'] as String,
-      revision: json['revision'] as int,
+      arn: (json['arn'] as String?) ?? '',
+      revision: (json['revision'] as int?) ?? 0,
     );
   }
 
@@ -4243,9 +4246,8 @@ class ConfigurationRevision {
 
   factory ConfigurationRevision.fromJson(Map<String, dynamic> json) {
     return ConfigurationRevision(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      revision: json['revision'] as int,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      revision: (json['revision'] as int?) ?? 0,
       description: json['description'] as String?,
     );
   }
@@ -4347,10 +4349,11 @@ class ConsumerGroupReplication {
 
   factory ConsumerGroupReplication.fromJson(Map<String, dynamic> json) {
     return ConsumerGroupReplication(
-      consumerGroupsToReplicate: (json['consumerGroupsToReplicate'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      consumerGroupsToReplicate:
+          ((json['consumerGroupsToReplicate'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
       consumerGroupsToExclude: (json['consumerGroupsToExclude'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5757,7 +5760,7 @@ class EncryptionAtRest {
 
   factory EncryptionAtRest.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRest(
-      dataVolumeKMSKeyId: json['dataVolumeKMSKeyId'] as String,
+      dataVolumeKMSKeyId: (json['dataVolumeKMSKeyId'] as String?) ?? '',
     );
   }
 
@@ -5945,7 +5948,7 @@ class Firehose {
 
   factory Firehose.fromJson(Map<String, dynamic> json) {
     return Firehose(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       deliveryStream: json['deliveryStream'] as String?,
     );
   }
@@ -6202,8 +6205,10 @@ class KafkaClusterClientVpcConfig {
 
   factory KafkaClusterClientVpcConfig.fromJson(Map<String, dynamic> json) {
     return KafkaClusterClientVpcConfig(
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6831,8 +6836,9 @@ class LoggingInfo {
 
   factory LoggingInfo.fromJson(Map<String, dynamic> json) {
     return LoggingInfo(
-      brokerLogs:
-          BrokerLogs.fromJson(json['brokerLogs'] as Map<String, dynamic>),
+      brokerLogs: BrokerLogs.fromJson(
+          (json['brokerLogs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7027,7 +7033,7 @@ class NodeExporter {
 
   factory NodeExporter.fromJson(Map<String, dynamic> json) {
     return NodeExporter(
-      enabledInBroker: json['enabledInBroker'] as bool,
+      enabledInBroker: (json['enabledInBroker'] as bool?) ?? false,
     );
   }
 
@@ -7054,7 +7060,7 @@ class NodeExporterInfo {
 
   factory NodeExporterInfo.fromJson(Map<String, dynamic> json) {
     return NodeExporterInfo(
-      enabledInBroker: json['enabledInBroker'] as bool,
+      enabledInBroker: (json['enabledInBroker'] as bool?) ?? false,
     );
   }
 
@@ -7081,7 +7087,7 @@ class JmxExporter {
 
   factory JmxExporter.fromJson(Map<String, dynamic> json) {
     return JmxExporter(
-      enabledInBroker: json['enabledInBroker'] as bool,
+      enabledInBroker: (json['enabledInBroker'] as bool?) ?? false,
     );
   }
 
@@ -7108,7 +7114,7 @@ class JmxExporterInfo {
 
   factory JmxExporterInfo.fromJson(Map<String, dynamic> json) {
     return JmxExporterInfo(
-      enabledInBroker: json['enabledInBroker'] as bool,
+      enabledInBroker: (json['enabledInBroker'] as bool?) ?? false,
     );
   }
 
@@ -7135,8 +7141,9 @@ class OpenMonitoring {
 
   factory OpenMonitoring.fromJson(Map<String, dynamic> json) {
     return OpenMonitoring(
-      prometheus:
-          Prometheus.fromJson(json['prometheus'] as Map<String, dynamic>),
+      prometheus: Prometheus.fromJson(
+          (json['prometheus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7163,8 +7170,9 @@ class OpenMonitoringInfo {
 
   factory OpenMonitoringInfo.fromJson(Map<String, dynamic> json) {
     return OpenMonitoringInfo(
-      prometheus:
-          PrometheusInfo.fromJson(json['prometheus'] as Map<String, dynamic>),
+      prometheus: PrometheusInfo.fromJson(
+          (json['prometheus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7393,7 +7401,7 @@ class S3 {
 
   factory S3.fromJson(Map<String, dynamic> json) {
     return S3(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       bucket: json['bucket'] as String?,
       prefix: json['prefix'] as String?,
     );
@@ -8246,7 +8254,7 @@ class TopicReplication {
 
   factory TopicReplication.fromJson(Map<String, dynamic> json) {
     return TopicReplication(
-      topicsToReplicate: (json['topicsToReplicate'] as List)
+      topicsToReplicate: ((json['topicsToReplicate'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

@@ -5088,7 +5088,8 @@ class AcceptEnvironmentAccountConnectionOutput {
       Map<String, dynamic> json) {
     return AcceptEnvironmentAccountConnectionOutput(
       environmentAccountConnection: EnvironmentAccountConnection.fromJson(
-          json['environmentAccountConnection'] as Map<String, dynamic>),
+          (json['environmentAccountConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5192,7 +5193,9 @@ class CancelComponentDeploymentOutput {
 
   factory CancelComponentDeploymentOutput.fromJson(Map<String, dynamic> json) {
     return CancelComponentDeploymentOutput(
-      component: Component.fromJson(json['component'] as Map<String, dynamic>),
+      component: Component.fromJson(
+          (json['component'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5215,8 +5218,9 @@ class CancelEnvironmentDeploymentOutput {
   factory CancelEnvironmentDeploymentOutput.fromJson(
       Map<String, dynamic> json) {
     return CancelEnvironmentDeploymentOutput(
-      environment:
-          Environment.fromJson(json['environment'] as Map<String, dynamic>),
+      environment: Environment.fromJson(
+          (json['environment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5240,7 +5244,8 @@ class CancelServiceInstanceDeploymentOutput {
       Map<String, dynamic> json) {
     return CancelServiceInstanceDeploymentOutput(
       serviceInstance: ServiceInstance.fromJson(
-          json['serviceInstance'] as Map<String, dynamic>),
+          (json['serviceInstance'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5263,8 +5268,9 @@ class CancelServicePipelineDeploymentOutput {
   factory CancelServicePipelineDeploymentOutput.fromJson(
       Map<String, dynamic> json) {
     return CancelServicePipelineDeploymentOutput(
-      pipeline:
-          ServicePipeline.fromJson(json['pipeline'] as Map<String, dynamic>),
+      pipeline: ServicePipeline.fromJson(
+          (json['pipeline'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5291,8 +5297,8 @@ class CompatibleEnvironmentTemplate {
 
   factory CompatibleEnvironmentTemplate.fromJson(Map<String, dynamic> json) {
     return CompatibleEnvironmentTemplate(
-      majorVersion: json['majorVersion'] as String,
-      templateName: json['templateName'] as String,
+      majorVersion: (json['majorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
     );
   }
 
@@ -5407,14 +5413,13 @@ class Component {
 
   factory Component.fromJson(Map<String, dynamic> json) {
     return Component(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      environmentName: (json['environmentName'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       description: json['description'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
@@ -5605,14 +5610,13 @@ class ComponentSummary {
 
   factory ComponentSummary.fromJson(Map<String, dynamic> json) {
     return ComponentSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      environmentName: (json['environmentName'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastDeploymentAttemptedAt:
@@ -5776,7 +5780,9 @@ class CreateComponentOutput {
 
   factory CreateComponentOutput.fromJson(Map<String, dynamic> json) {
     return CreateComponentOutput(
-      component: Component.fromJson(json['component'] as Map<String, dynamic>),
+      component: Component.fromJson(
+          (json['component'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5800,7 +5806,8 @@ class CreateEnvironmentAccountConnectionOutput {
       Map<String, dynamic> json) {
     return CreateEnvironmentAccountConnectionOutput(
       environmentAccountConnection: EnvironmentAccountConnection.fromJson(
-          json['environmentAccountConnection'] as Map<String, dynamic>),
+          (json['environmentAccountConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5822,8 +5829,9 @@ class CreateEnvironmentOutput {
 
   factory CreateEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentOutput(
-      environment:
-          Environment.fromJson(json['environment'] as Map<String, dynamic>),
+      environment: Environment.fromJson(
+          (json['environment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5846,7 +5854,8 @@ class CreateEnvironmentTemplateOutput {
   factory CreateEnvironmentTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentTemplateOutput(
       environmentTemplate: EnvironmentTemplate.fromJson(
-          json['environmentTemplate'] as Map<String, dynamic>),
+          (json['environmentTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5870,7 +5879,8 @@ class CreateEnvironmentTemplateVersionOutput {
       Map<String, dynamic> json) {
     return CreateEnvironmentTemplateVersionOutput(
       environmentTemplateVersion: EnvironmentTemplateVersion.fromJson(
-          json['environmentTemplateVersion'] as Map<String, dynamic>),
+          (json['environmentTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5892,8 +5902,9 @@ class CreateRepositoryOutput {
 
   factory CreateRepositoryOutput.fromJson(Map<String, dynamic> json) {
     return CreateRepositoryOutput(
-      repository:
-          Repository.fromJson(json['repository'] as Map<String, dynamic>),
+      repository: Repository.fromJson(
+          (json['repository'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5916,7 +5927,8 @@ class CreateServiceInstanceOutput {
   factory CreateServiceInstanceOutput.fromJson(Map<String, dynamic> json) {
     return CreateServiceInstanceOutput(
       serviceInstance: ServiceInstance.fromJson(
-          json['serviceInstance'] as Map<String, dynamic>),
+          (json['serviceInstance'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5938,7 +5950,8 @@ class CreateServiceOutput {
 
   factory CreateServiceOutput.fromJson(Map<String, dynamic> json) {
     return CreateServiceOutput(
-      service: Service.fromJson(json['service'] as Map<String, dynamic>),
+      service: Service.fromJson((json['service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5986,7 +5999,8 @@ class CreateServiceTemplateOutput {
   factory CreateServiceTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreateServiceTemplateOutput(
       serviceTemplate: ServiceTemplate.fromJson(
-          json['serviceTemplate'] as Map<String, dynamic>),
+          (json['serviceTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6011,7 +6025,8 @@ class CreateServiceTemplateVersionOutput {
       Map<String, dynamic> json) {
     return CreateServiceTemplateVersionOutput(
       serviceTemplateVersion: ServiceTemplateVersion.fromJson(
-          json['serviceTemplateVersion'] as Map<String, dynamic>),
+          (json['serviceTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6430,17 +6445,16 @@ class Deployment {
 
   factory Deployment.fromJson(Map<String, dynamic> json) {
     return Deployment(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      targetArn: json['targetArn'] as String,
-      targetResourceCreatedAt: nonNullableTimeStampFromJson(
-          json['targetResourceCreatedAt'] as Object),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      targetArn: (json['targetArn'] as String?) ?? '',
+      targetResourceCreatedAt:
+          nonNullableTimeStampFromJson(json['targetResourceCreatedAt'] ?? 0),
       targetResourceType: DeploymentTargetResourceType.fromString(
           (json['targetResourceType'] as String)),
       completedAt: timeStampFromJson(json['completedAt']),
@@ -6651,17 +6665,16 @@ class DeploymentSummary {
 
   factory DeploymentSummary.fromJson(Map<String, dynamic> json) {
     return DeploymentSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      targetArn: json['targetArn'] as String,
-      targetResourceCreatedAt: nonNullableTimeStampFromJson(
-          json['targetResourceCreatedAt'] as Object),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      targetArn: (json['targetArn'] as String?) ?? '',
+      targetResourceCreatedAt:
+          nonNullableTimeStampFromJson(json['targetResourceCreatedAt'] ?? 0),
       targetResourceType: DeploymentTargetResourceType.fromString(
           (json['targetResourceType'] as String)),
       completedAt: timeStampFromJson(json['completedAt']),
@@ -6855,18 +6868,18 @@ class Environment {
 
   factory Environment.fromJson(Map<String, dynamic> json) {
     return Environment(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      lastDeploymentAttemptedAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentAttemptedAt'] as Object),
-      lastDeploymentSucceededAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentSucceededAt'] as Object),
-      name: json['name'] as String,
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      lastDeploymentAttemptedAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
+      lastDeploymentSucceededAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentSucceededAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       codebuildRoleArn: json['codebuildRoleArn'] as String?,
       componentRoleArn: json['componentRoleArn'] as String?,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
@@ -7012,15 +7025,14 @@ class EnvironmentAccountConnection {
 
   factory EnvironmentAccountConnection.fromJson(Map<String, dynamic> json) {
     return EnvironmentAccountConnection(
-      arn: json['arn'] as String,
-      environmentAccountId: json['environmentAccountId'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      managementAccountId: json['managementAccountId'] as String,
-      requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] as Object),
-      roleArn: json['roleArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      environmentAccountId: (json['environmentAccountId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      managementAccountId: (json['managementAccountId'] as String?) ?? '',
+      requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] ?? 0),
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: EnvironmentAccountConnectionStatus.fromString(
           (json['status'] as String)),
       codebuildRoleArn: json['codebuildRoleArn'] as String?,
@@ -7151,15 +7163,14 @@ class EnvironmentAccountConnectionSummary {
   factory EnvironmentAccountConnectionSummary.fromJson(
       Map<String, dynamic> json) {
     return EnvironmentAccountConnectionSummary(
-      arn: json['arn'] as String,
-      environmentAccountId: json['environmentAccountId'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      managementAccountId: json['managementAccountId'] as String,
-      requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] as Object),
-      roleArn: json['roleArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      environmentAccountId: (json['environmentAccountId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      managementAccountId: (json['managementAccountId'] as String?) ?? '',
+      requestedAt: nonNullableTimeStampFromJson(json['requestedAt'] ?? 0),
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: EnvironmentAccountConnectionStatus.fromString(
           (json['status'] as String)),
       componentRoleArn: json['componentRoleArn'] as String?,
@@ -7218,9 +7229,9 @@ class EnvironmentState {
 
   factory EnvironmentState.fromJson(Map<String, dynamic> json) {
     return EnvironmentState(
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       spec: json['spec'] as String?,
     );
   }
@@ -7332,18 +7343,18 @@ class EnvironmentSummary {
 
   factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      lastDeploymentAttemptedAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentAttemptedAt'] as Object),
-      lastDeploymentSucceededAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentSucceededAt'] as Object),
-      name: json['name'] as String,
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      lastDeploymentAttemptedAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
+      lastDeploymentSucceededAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentSucceededAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       componentRoleArn: json['componentRoleArn'] as String?,
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       description: json['description'] as String?,
@@ -7453,11 +7464,10 @@ class EnvironmentTemplate {
 
   factory EnvironmentTemplate.fromJson(Map<String, dynamic> json) {
     return EnvironmentTemplate(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       encryptionKey: json['encryptionKey'] as String?,
@@ -7555,11 +7565,10 @@ class EnvironmentTemplateSummary {
 
   factory EnvironmentTemplateSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentTemplateSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       provisioning:
@@ -7642,14 +7651,13 @@ class EnvironmentTemplateVersion {
 
   factory EnvironmentTemplateVersion.fromJson(Map<String, dynamic> json) {
     return EnvironmentTemplateVersion(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      majorVersion: json['majorVersion'] as String,
-      minorVersion: json['minorVersion'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      majorVersion: (json['majorVersion'] as String?) ?? '',
+      minorVersion: (json['minorVersion'] as String?) ?? '',
       status: TemplateVersionStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
       schema: json['schema'] as String?,
@@ -7735,14 +7743,13 @@ class EnvironmentTemplateVersionSummary {
   factory EnvironmentTemplateVersionSummary.fromJson(
       Map<String, dynamic> json) {
     return EnvironmentTemplateVersionSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      majorVersion: json['majorVersion'] as String,
-      minorVersion: json['minorVersion'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      majorVersion: (json['majorVersion'] as String?) ?? '',
+      minorVersion: (json['minorVersion'] as String?) ?? '',
       status: TemplateVersionStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
       statusMessage: json['statusMessage'] as String?,
@@ -7861,7 +7868,8 @@ class GetEnvironmentAccountConnectionOutput {
       Map<String, dynamic> json) {
     return GetEnvironmentAccountConnectionOutput(
       environmentAccountConnection: EnvironmentAccountConnection.fromJson(
-          json['environmentAccountConnection'] as Map<String, dynamic>),
+          (json['environmentAccountConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7883,8 +7891,9 @@ class GetEnvironmentOutput {
 
   factory GetEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentOutput(
-      environment:
-          Environment.fromJson(json['environment'] as Map<String, dynamic>),
+      environment: Environment.fromJson(
+          (json['environment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7907,7 +7916,8 @@ class GetEnvironmentTemplateOutput {
   factory GetEnvironmentTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentTemplateOutput(
       environmentTemplate: EnvironmentTemplate.fromJson(
-          json['environmentTemplate'] as Map<String, dynamic>),
+          (json['environmentTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7931,7 +7941,8 @@ class GetEnvironmentTemplateVersionOutput {
       Map<String, dynamic> json) {
     return GetEnvironmentTemplateVersionOutput(
       environmentTemplateVersion: EnvironmentTemplateVersion.fromJson(
-          json['environmentTemplateVersion'] as Map<String, dynamic>),
+          (json['environmentTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7953,8 +7964,9 @@ class GetRepositoryOutput {
 
   factory GetRepositoryOutput.fromJson(Map<String, dynamic> json) {
     return GetRepositoryOutput(
-      repository:
-          Repository.fromJson(json['repository'] as Map<String, dynamic>),
+      repository: Repository.fromJson(
+          (json['repository'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8001,7 +8013,9 @@ class GetResourcesSummaryOutput {
 
   factory GetResourcesSummaryOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcesSummaryOutput(
-      counts: CountsSummary.fromJson(json['counts'] as Map<String, dynamic>),
+      counts: CountsSummary.fromJson(
+          (json['counts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8024,7 +8038,8 @@ class GetServiceInstanceOutput {
   factory GetServiceInstanceOutput.fromJson(Map<String, dynamic> json) {
     return GetServiceInstanceOutput(
       serviceInstance: ServiceInstance.fromJson(
-          json['serviceInstance'] as Map<String, dynamic>),
+          (json['serviceInstance'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8169,7 +8184,8 @@ class GetServiceTemplateOutput {
   factory GetServiceTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetServiceTemplateOutput(
       serviceTemplate: ServiceTemplate.fromJson(
-          json['serviceTemplate'] as Map<String, dynamic>),
+          (json['serviceTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8192,7 +8208,8 @@ class GetServiceTemplateVersionOutput {
   factory GetServiceTemplateVersionOutput.fromJson(Map<String, dynamic> json) {
     return GetServiceTemplateVersionOutput(
       serviceTemplateVersion: ServiceTemplateVersion.fromJson(
-          json['serviceTemplateVersion'] as Map<String, dynamic>),
+          (json['serviceTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8289,7 +8306,7 @@ class ListComponentOutputsOutput {
 
   factory ListComponentOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListComponentOutputsOutput(
-      outputs: (json['outputs'] as List)
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8324,7 +8341,8 @@ class ListComponentProvisionedResourcesOutput {
   factory ListComponentProvisionedResourcesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListComponentProvisionedResourcesOutput(
-      provisionedResources: (json['provisionedResources'] as List)
+      provisionedResources: ((json['provisionedResources'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8357,7 +8375,7 @@ class ListComponentsOutput {
 
   factory ListComponentsOutput.fromJson(Map<String, dynamic> json) {
     return ListComponentsOutput(
-      components: (json['components'] as List)
+      components: ((json['components'] as List?) ?? const [])
           .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8390,7 +8408,7 @@ class ListDeploymentsOutput {
 
   factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsOutput(
-      deployments: (json['deployments'] as List)
+      deployments: ((json['deployments'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8427,7 +8445,7 @@ class ListEnvironmentAccountConnectionsOutput {
       Map<String, dynamic> json) {
     return ListEnvironmentAccountConnectionsOutput(
       environmentAccountConnections:
-          (json['environmentAccountConnections'] as List)
+          ((json['environmentAccountConnections'] as List?) ?? const [])
               .nonNulls
               .map((e) => EnvironmentAccountConnectionSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -8462,7 +8480,7 @@ class ListEnvironmentOutputsOutput {
 
   factory ListEnvironmentOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentOutputsOutput(
-      outputs: (json['outputs'] as List)
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8497,7 +8515,8 @@ class ListEnvironmentProvisionedResourcesOutput {
   factory ListEnvironmentProvisionedResourcesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListEnvironmentProvisionedResourcesOutput(
-      provisionedResources: (json['provisionedResources'] as List)
+      provisionedResources: ((json['provisionedResources'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8532,7 +8551,7 @@ class ListEnvironmentTemplateVersionsOutput {
   factory ListEnvironmentTemplateVersionsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListEnvironmentTemplateVersionsOutput(
-      templateVersions: (json['templateVersions'] as List)
+      templateVersions: ((json['templateVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnvironmentTemplateVersionSummary.fromJson(
               e as Map<String, dynamic>))
@@ -8567,7 +8586,7 @@ class ListEnvironmentTemplatesOutput {
 
   factory ListEnvironmentTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentTemplatesOutput(
-      templates: (json['templates'] as List)
+      templates: ((json['templates'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               EnvironmentTemplateSummary.fromJson(e as Map<String, dynamic>))
@@ -8601,7 +8620,7 @@ class ListEnvironmentsOutput {
 
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
-      environments: (json['environments'] as List)
+      environments: ((json['environments'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8634,7 +8653,7 @@ class ListRepositoriesOutput {
 
   factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) {
     return ListRepositoriesOutput(
-      repositories: (json['repositories'] as List)
+      repositories: ((json['repositories'] as List?) ?? const [])
           .nonNulls
           .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8669,7 +8688,7 @@ class ListRepositorySyncDefinitionsOutput {
   factory ListRepositorySyncDefinitionsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListRepositorySyncDefinitionsOutput(
-      syncDefinitions: (json['syncDefinitions'] as List)
+      syncDefinitions: ((json['syncDefinitions'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               RepositorySyncDefinition.fromJson(e as Map<String, dynamic>))
@@ -8703,7 +8722,7 @@ class ListServiceInstanceOutputsOutput {
 
   factory ListServiceInstanceOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceInstanceOutputsOutput(
-      outputs: (json['outputs'] as List)
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8738,7 +8757,8 @@ class ListServiceInstanceProvisionedResourcesOutput {
   factory ListServiceInstanceProvisionedResourcesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListServiceInstanceProvisionedResourcesOutput(
-      provisionedResources: (json['provisionedResources'] as List)
+      provisionedResources: ((json['provisionedResources'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8824,7 +8844,7 @@ class ListServiceInstancesOutput {
 
   factory ListServiceInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceInstancesOutput(
-      serviceInstances: (json['serviceInstances'] as List)
+      serviceInstances: ((json['serviceInstances'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => ServiceInstanceSummary.fromJson(e as Map<String, dynamic>))
@@ -8878,7 +8898,7 @@ class ListServicePipelineOutputsOutput {
 
   factory ListServicePipelineOutputsOutput.fromJson(Map<String, dynamic> json) {
     return ListServicePipelineOutputsOutput(
-      outputs: (json['outputs'] as List)
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8913,7 +8933,8 @@ class ListServicePipelineProvisionedResourcesOutput {
   factory ListServicePipelineProvisionedResourcesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListServicePipelineProvisionedResourcesOutput(
-      provisionedResources: (json['provisionedResources'] as List)
+      provisionedResources: ((json['provisionedResources'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ProvisionedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8948,7 +8969,7 @@ class ListServiceTemplateVersionsOutput {
   factory ListServiceTemplateVersionsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListServiceTemplateVersionsOutput(
-      templateVersions: (json['templateVersions'] as List)
+      templateVersions: ((json['templateVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ServiceTemplateVersionSummary.fromJson(e as Map<String, dynamic>))
@@ -8983,7 +9004,7 @@ class ListServiceTemplatesOutput {
 
   factory ListServiceTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceTemplatesOutput(
-      templates: (json['templates'] as List)
+      templates: ((json['templates'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => ServiceTemplateSummary.fromJson(e as Map<String, dynamic>))
@@ -9017,7 +9038,7 @@ class ListServicesOutput {
 
   factory ListServicesOutput.fromJson(Map<String, dynamic> json) {
     return ListServicesOutput(
-      services: (json['services'] as List)
+      services: ((json['services'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9050,7 +9071,7 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as List)
+      tags: ((json['tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9198,7 +9219,8 @@ class RejectEnvironmentAccountConnectionOutput {
       Map<String, dynamic> json) {
     return RejectEnvironmentAccountConnectionOutput(
       environmentAccountConnection: EnvironmentAccountConnection.fromJson(
-          json['environmentAccountConnection'] as Map<String, dynamic>),
+          (json['environmentAccountConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9239,9 +9261,9 @@ class Repository {
 
   factory Repository.fromJson(Map<String, dynamic> json) {
     return Repository(
-      arn: json['arn'] as String,
-      connectionArn: json['connectionArn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      connectionArn: (json['connectionArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       provider: RepositoryProvider.fromString((json['provider'] as String)),
       encryptionKey: json['encryptionKey'] as String?,
     );
@@ -9286,9 +9308,9 @@ class RepositoryBranch {
 
   factory RepositoryBranch.fromJson(Map<String, dynamic> json) {
     return RepositoryBranch(
-      arn: json['arn'] as String,
-      branch: json['branch'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      branch: (json['branch'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       provider: RepositoryProvider.fromString((json['provider'] as String)),
     );
   }
@@ -9377,9 +9399,9 @@ class RepositorySummary {
 
   factory RepositorySummary.fromJson(Map<String, dynamic> json) {
     return RepositorySummary(
-      arn: json['arn'] as String,
-      connectionArn: json['connectionArn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      connectionArn: (json['connectionArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       provider: RepositoryProvider.fromString((json['provider'] as String)),
     );
   }
@@ -9418,11 +9440,11 @@ class RepositorySyncAttempt {
 
   factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
     return RepositorySyncAttempt(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
       status: RepositorySyncStatus.fromString((json['status'] as String)),
     );
   }
@@ -9462,10 +9484,10 @@ class RepositorySyncDefinition {
 
   factory RepositorySyncDefinition.fromJson(Map<String, dynamic> json) {
     return RepositorySyncDefinition(
-      branch: json['branch'] as String,
-      directory: json['directory'] as String,
-      parent: json['parent'] as String,
-      target: json['target'] as String,
+      branch: (json['branch'] as String?) ?? '',
+      directory: (json['directory'] as String?) ?? '',
+      parent: (json['parent'] as String?) ?? '',
+      target: (json['target'] as String?) ?? '',
     );
   }
 
@@ -9506,9 +9528,9 @@ class RepositorySyncEvent {
 
   factory RepositorySyncEvent.fromJson(Map<String, dynamic> json) {
     return RepositorySyncEvent(
-      event: json['event'] as String,
-      time: nonNullableTimeStampFromJson(json['time'] as Object),
-      type: json['type'] as String,
+      event: (json['event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['time'] ?? 0),
+      type: (json['type'] as String?) ?? '',
       externalId: json['externalId'] as String?,
     );
   }
@@ -9577,7 +9599,7 @@ class ResourceCountsSummary {
 
   factory ResourceCountsSummary.fromJson(Map<String, dynamic> json) {
     return ResourceCountsSummary(
-      total: json['total'] as int,
+      total: (json['total'] as int?) ?? 0,
       behindMajor: json['behindMajor'] as int?,
       behindMinor: json['behindMinor'] as int?,
       failed: json['failed'] as int?,
@@ -9649,17 +9671,19 @@ class ResourceSyncAttempt {
 
   factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
     return ResourceSyncAttempt(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      initialRevision:
-          Revision.fromJson(json['initialRevision'] as Map<String, dynamic>),
-      startedAt: nonNullableTimeStampFromJson(json['startedAt'] as Object),
+      initialRevision: Revision.fromJson(
+          (json['initialRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedAt: nonNullableTimeStampFromJson(json['startedAt'] ?? 0),
       status: ResourceSyncStatus.fromString((json['status'] as String)),
-      target: json['target'] as String,
-      targetRevision:
-          Revision.fromJson(json['targetRevision'] as Map<String, dynamic>),
+      target: (json['target'] as String?) ?? '',
+      targetRevision: Revision.fromJson(
+          (json['targetRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9704,9 +9728,9 @@ class ResourceSyncEvent {
 
   factory ResourceSyncEvent.fromJson(Map<String, dynamic> json) {
     return ResourceSyncEvent(
-      event: json['event'] as String,
-      time: nonNullableTimeStampFromJson(json['time'] as Object),
-      type: json['type'] as String,
+      event: (json['event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['time'] ?? 0),
+      type: (json['type'] as String?) ?? '',
       externalId: json['externalId'] as String?,
     );
   }
@@ -9770,12 +9794,12 @@ class Revision {
 
   factory Revision.fromJson(Map<String, dynamic> json) {
     return Revision(
-      branch: json['branch'] as String,
-      directory: json['directory'] as String,
-      repositoryName: json['repositoryName'] as String,
+      branch: (json['branch'] as String?) ?? '',
+      directory: (json['directory'] as String?) ?? '',
+      repositoryName: (json['repositoryName'] as String?) ?? '',
       repositoryProvider:
           RepositoryProvider.fromString((json['repositoryProvider'] as String)),
-      sha: json['sha'] as String,
+      sha: (json['sha'] as String?) ?? '',
     );
   }
 
@@ -9881,14 +9905,13 @@ class Service {
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
-      spec: json['spec'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      spec: (json['spec'] as String?) ?? '',
       status: ServiceStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       branchName: json['branchName'] as String?,
       description: json['description'] as String?,
       pipeline: json['pipeline'] != null
@@ -10007,20 +10030,20 @@ class ServiceInstance {
 
   factory ServiceInstance.fromJson(Map<String, dynamic> json) {
     return ServiceInstance(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      lastDeploymentAttemptedAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentAttemptedAt'] as Object),
-      lastDeploymentSucceededAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentSucceededAt'] as Object),
-      name: json['name'] as String,
-      serviceName: json['serviceName'] as String,
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      environmentName: (json['environmentName'] as String?) ?? '',
+      lastDeploymentAttemptedAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
+      lastDeploymentSucceededAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentSucceededAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      serviceName: (json['serviceName'] as String?) ?? '',
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastClientRequestToken: json['lastClientRequestToken'] as String?,
@@ -10114,10 +10137,10 @@ class ServiceInstanceState {
 
   factory ServiceInstanceState.fromJson(Map<String, dynamic> json) {
     return ServiceInstanceState(
-      spec: json['spec'] as String,
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      spec: (json['spec'] as String?) ?? '',
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       lastSuccessfulComponentDeploymentIds:
           (json['lastSuccessfulComponentDeploymentIds'] as List?)
               ?.nonNulls
@@ -10222,20 +10245,20 @@ class ServiceInstanceSummary {
 
   factory ServiceInstanceSummary.fromJson(Map<String, dynamic> json) {
     return ServiceInstanceSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      environmentName: json['environmentName'] as String,
-      lastDeploymentAttemptedAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentAttemptedAt'] as Object),
-      lastDeploymentSucceededAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentSucceededAt'] as Object),
-      name: json['name'] as String,
-      serviceName: json['serviceName'] as String,
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      environmentName: (json['environmentName'] as String?) ?? '',
+      lastDeploymentAttemptedAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
+      lastDeploymentSucceededAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentSucceededAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      serviceName: (json['serviceName'] as String?) ?? '',
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
@@ -10339,17 +10362,17 @@ class ServicePipeline {
 
   factory ServicePipeline.fromJson(Map<String, dynamic> json) {
     return ServicePipeline(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       deploymentStatus:
           DeploymentStatus.fromString((json['deploymentStatus'] as String)),
-      lastDeploymentAttemptedAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentAttemptedAt'] as Object),
-      lastDeploymentSucceededAt: nonNullableTimeStampFromJson(
-          json['lastDeploymentSucceededAt'] as Object),
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      lastDeploymentAttemptedAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentAttemptedAt'] ?? 0),
+      lastDeploymentSucceededAt:
+          nonNullableTimeStampFromJson(json['lastDeploymentSucceededAt'] ?? 0),
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
       lastAttemptedDeploymentId: json['lastAttemptedDeploymentId'] as String?,
       lastSucceededDeploymentId: json['lastSucceededDeploymentId'] as String?,
@@ -10418,9 +10441,9 @@ class ServicePipelineState {
 
   factory ServicePipelineState.fromJson(Map<String, dynamic> json) {
     return ServicePipelineState(
-      templateMajorVersion: json['templateMajorVersion'] as String,
-      templateMinorVersion: json['templateMinorVersion'] as String,
-      templateName: json['templateName'] as String,
+      templateMajorVersion: (json['templateMajorVersion'] as String?) ?? '',
+      templateMinorVersion: (json['templateMinorVersion'] as String?) ?? '',
+      templateName: (json['templateName'] as String?) ?? '',
       spec: json['spec'] as String?,
     );
   }
@@ -10505,13 +10528,12 @@ class ServiceSummary {
 
   factory ServiceSummary.fromJson(Map<String, dynamic> json) {
     return ServiceSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ServiceStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       statusMessage: json['statusMessage'] as String?,
     );
@@ -10571,7 +10593,7 @@ class ServiceSyncBlockerSummary {
 
   factory ServiceSyncBlockerSummary.fromJson(Map<String, dynamic> json) {
     return ServiceSyncBlockerSummary(
-      serviceName: json['serviceName'] as String,
+      serviceName: (json['serviceName'] as String?) ?? '',
       latestBlockers: (json['latestBlockers'] as List?)
           ?.nonNulls
           .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
@@ -10623,12 +10645,12 @@ class ServiceSyncConfig {
 
   factory ServiceSyncConfig.fromJson(Map<String, dynamic> json) {
     return ServiceSyncConfig(
-      branch: json['branch'] as String,
-      filePath: json['filePath'] as String,
-      repositoryName: json['repositoryName'] as String,
+      branch: (json['branch'] as String?) ?? '',
+      filePath: (json['filePath'] as String?) ?? '',
+      repositoryName: (json['repositoryName'] as String?) ?? '',
       repositoryProvider:
           RepositoryProvider.fromString((json['repositoryProvider'] as String)),
-      serviceName: json['serviceName'] as String,
+      serviceName: (json['serviceName'] as String?) ?? '',
     );
   }
 
@@ -10694,11 +10716,10 @@ class ServiceTemplate {
 
   factory ServiceTemplate.fromJson(Map<String, dynamic> json) {
     return ServiceTemplate(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       encryptionKey: json['encryptionKey'] as String?,
@@ -10774,11 +10795,10 @@ class ServiceTemplateSummary {
 
   factory ServiceTemplateSummary.fromJson(Map<String, dynamic> json) {
     return ServiceTemplateSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       pipelineProvisioning: (json['pipelineProvisioning'] as String?)
@@ -10891,20 +10911,20 @@ class ServiceTemplateVersion {
 
   factory ServiceTemplateVersion.fromJson(Map<String, dynamic> json) {
     return ServiceTemplateVersion(
-      arn: json['arn'] as String,
-      compatibleEnvironmentTemplates: (json['compatibleEnvironmentTemplates']
-              as List)
+      arn: (json['arn'] as String?) ?? '',
+      compatibleEnvironmentTemplates: ((json['compatibleEnvironmentTemplates']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               CompatibleEnvironmentTemplate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      majorVersion: json['majorVersion'] as String,
-      minorVersion: json['minorVersion'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      majorVersion: (json['majorVersion'] as String?) ?? '',
+      minorVersion: (json['minorVersion'] as String?) ?? '',
       status: TemplateVersionStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
       schema: json['schema'] as String?,
@@ -11000,14 +11020,13 @@ class ServiceTemplateVersionSummary {
 
   factory ServiceTemplateVersionSummary.fromJson(Map<String, dynamic> json) {
     return ServiceTemplateVersionSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      majorVersion: json['majorVersion'] as String,
-      minorVersion: json['minorVersion'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      majorVersion: (json['majorVersion'] as String?) ?? '',
+      minorVersion: (json['minorVersion'] as String?) ?? '',
       status: TemplateVersionStatus.fromString((json['status'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       description: json['description'] as String?,
       recommendedMinorVersion: json['recommendedMinorVersion'] as String?,
       statusMessage: json['statusMessage'] as String?,
@@ -11094,9 +11113,9 @@ class SyncBlocker {
 
   factory SyncBlocker.fromJson(Map<String, dynamic> json) {
     return SyncBlocker(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdReason: json['createdReason'] as String,
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdReason: (json['createdReason'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: BlockerStatus.fromString((json['status'] as String)),
       type: BlockerType.fromString((json['type'] as String)),
       contexts: (json['contexts'] as List?)
@@ -11145,8 +11164,8 @@ class SyncBlockerContext {
 
   factory SyncBlockerContext.fromJson(Map<String, dynamic> json) {
     return SyncBlockerContext(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -11189,8 +11208,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -11247,11 +11266,11 @@ class TemplateSyncConfig {
 
   factory TemplateSyncConfig.fromJson(Map<String, dynamic> json) {
     return TemplateSyncConfig(
-      branch: json['branch'] as String,
-      repositoryName: json['repositoryName'] as String,
+      branch: (json['branch'] as String?) ?? '',
+      repositoryName: (json['repositoryName'] as String?) ?? '',
       repositoryProvider:
           RepositoryProvider.fromString((json['repositoryProvider'] as String)),
-      templateName: json['templateName'] as String,
+      templateName: (json['templateName'] as String?) ?? '',
       templateType: TemplateType.fromString((json['templateType'] as String)),
       subdirectory: json['subdirectory'] as String?,
     );
@@ -11349,7 +11368,8 @@ class UpdateAccountSettingsOutput {
   factory UpdateAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
     return UpdateAccountSettingsOutput(
       accountSettings: AccountSettings.fromJson(
-          json['accountSettings'] as Map<String, dynamic>),
+          (json['accountSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11371,7 +11391,9 @@ class UpdateComponentOutput {
 
   factory UpdateComponentOutput.fromJson(Map<String, dynamic> json) {
     return UpdateComponentOutput(
-      component: Component.fromJson(json['component'] as Map<String, dynamic>),
+      component: Component.fromJson(
+          (json['component'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11395,7 +11417,8 @@ class UpdateEnvironmentAccountConnectionOutput {
       Map<String, dynamic> json) {
     return UpdateEnvironmentAccountConnectionOutput(
       environmentAccountConnection: EnvironmentAccountConnection.fromJson(
-          json['environmentAccountConnection'] as Map<String, dynamic>),
+          (json['environmentAccountConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11417,8 +11440,9 @@ class UpdateEnvironmentOutput {
 
   factory UpdateEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentOutput(
-      environment:
-          Environment.fromJson(json['environment'] as Map<String, dynamic>),
+      environment: Environment.fromJson(
+          (json['environment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11441,7 +11465,8 @@ class UpdateEnvironmentTemplateOutput {
   factory UpdateEnvironmentTemplateOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentTemplateOutput(
       environmentTemplate: EnvironmentTemplate.fromJson(
-          json['environmentTemplate'] as Map<String, dynamic>),
+          (json['environmentTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11465,7 +11490,8 @@ class UpdateEnvironmentTemplateVersionOutput {
       Map<String, dynamic> json) {
     return UpdateEnvironmentTemplateVersionOutput(
       environmentTemplateVersion: EnvironmentTemplateVersion.fromJson(
-          json['environmentTemplateVersion'] as Map<String, dynamic>),
+          (json['environmentTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11488,7 +11514,8 @@ class UpdateServiceInstanceOutput {
   factory UpdateServiceInstanceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServiceInstanceOutput(
       serviceInstance: ServiceInstance.fromJson(
-          json['serviceInstance'] as Map<String, dynamic>),
+          (json['serviceInstance'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11510,7 +11537,8 @@ class UpdateServiceOutput {
 
   factory UpdateServiceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServiceOutput(
-      service: Service.fromJson(json['service'] as Map<String, dynamic>),
+      service: Service.fromJson((json['service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -11532,8 +11560,9 @@ class UpdateServicePipelineOutput {
 
   factory UpdateServicePipelineOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServicePipelineOutput(
-      pipeline:
-          ServicePipeline.fromJson(json['pipeline'] as Map<String, dynamic>),
+      pipeline: ServicePipeline.fromJson(
+          (json['pipeline'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11565,9 +11594,10 @@ class UpdateServiceSyncBlockerOutput {
 
   factory UpdateServiceSyncBlockerOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServiceSyncBlockerOutput(
-      serviceName: json['serviceName'] as String,
+      serviceName: (json['serviceName'] as String?) ?? '',
       serviceSyncBlocker: SyncBlocker.fromJson(
-          json['serviceSyncBlocker'] as Map<String, dynamic>),
+          (json['serviceSyncBlocker'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       serviceInstanceName: json['serviceInstanceName'] as String?,
     );
   }
@@ -11621,7 +11651,8 @@ class UpdateServiceTemplateOutput {
   factory UpdateServiceTemplateOutput.fromJson(Map<String, dynamic> json) {
     return UpdateServiceTemplateOutput(
       serviceTemplate: ServiceTemplate.fromJson(
-          json['serviceTemplate'] as Map<String, dynamic>),
+          (json['serviceTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11645,7 +11676,8 @@ class UpdateServiceTemplateVersionOutput {
       Map<String, dynamic> json) {
     return UpdateServiceTemplateVersionOutput(
       serviceTemplateVersion: ServiceTemplateVersion.fromJson(
-          json['serviceTemplateVersion'] as Map<String, dynamic>),
+          (json['serviceTemplateVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

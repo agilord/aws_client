@@ -6192,10 +6192,10 @@ class CodeStarParameters {
 
   factory CodeStarParameters.fromJson(Map<String, dynamic> json) {
     return CodeStarParameters(
-      artifactPath: json['ArtifactPath'] as String,
-      branch: json['Branch'] as String,
-      connectionArn: json['ConnectionArn'] as String,
-      repository: json['Repository'] as String,
+      artifactPath: (json['ArtifactPath'] as String?) ?? '',
+      branch: (json['Branch'] as String?) ?? '',
+      connectionArn: (json['ConnectionArn'] as String?) ?? '',
+      repository: (json['Repository'] as String?) ?? '',
     );
   }
 
@@ -12088,8 +12088,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

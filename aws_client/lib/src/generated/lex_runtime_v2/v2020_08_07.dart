@@ -606,11 +606,14 @@ class ActiveContext {
 
   factory ActiveContext.fromJson(Map<String, dynamic> json) {
     return ActiveContext(
-      contextAttributes: (json['contextAttributes'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
+      contextAttributes:
+          ((json['contextAttributes'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      name: (json['name'] as String?) ?? '',
       timeToLive: ActiveContextTimeToLive.fromJson(
-          json['timeToLive'] as Map<String, dynamic>),
+          (json['timeToLive'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -644,8 +647,8 @@ class ActiveContextTimeToLive {
 
   factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) {
     return ActiveContextTimeToLive(
-      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int,
-      turnsToLive: json['turnsToLive'] as int,
+      timeToLiveInSeconds: (json['timeToLiveInSeconds'] as int?) ?? 0,
+      turnsToLive: (json['turnsToLive'] as int?) ?? 0,
     );
   }
 
@@ -674,8 +677,8 @@ class Button {
 
   factory Button.fromJson(Map<String, dynamic> json) {
     return Button(
-      text: json['text'] as String,
-      value: json['value'] as String,
+      text: (json['text'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -898,7 +901,7 @@ class ElicitSubSlot {
 
   factory ElicitSubSlot.fromJson(Map<String, dynamic> json) {
     return ElicitSubSlot(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       subSlotToElicit: json['subSlotToElicit'] != null
           ? ElicitSubSlot.fromJson(
               json['subSlotToElicit'] as Map<String, dynamic>)
@@ -1011,7 +1014,7 @@ class ImageResponseCard {
 
   factory ImageResponseCard.fromJson(Map<String, dynamic> json) {
     return ImageResponseCard(
-      title: json['title'] as String,
+      title: (json['title'] as String?) ?? '',
       buttons: (json['buttons'] as List?)
           ?.nonNulls
           .map((e) => Button.fromJson(e as Map<String, dynamic>))
@@ -1087,7 +1090,7 @@ class Intent {
 
   factory Intent.fromJson(Map<String, dynamic> json) {
     return Intent(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       confirmationState: (json['confirmationState'] as String?)
           ?.let(ConfirmationState.fromString),
       slots: (json['slots'] as Map<String, dynamic>?)?.map(
@@ -1522,7 +1525,7 @@ class RecognizedBotMember {
 
   factory RecognizedBotMember.fromJson(Map<String, dynamic> json) {
     return RecognizedBotMember(
-      botId: json['botId'] as String,
+      botId: (json['botId'] as String?) ?? '',
       botName: json['botName'] as String?,
     );
   }
@@ -1592,7 +1595,7 @@ class RuntimeHintValue {
 
   factory RuntimeHintValue.fromJson(Map<String, dynamic> json) {
     return RuntimeHintValue(
-      phrase: json['phrase'] as String,
+      phrase: (json['phrase'] as String?) ?? '',
     );
   }
 
@@ -1940,7 +1943,7 @@ class Value {
 
   factory Value.fromJson(Map<String, dynamic> json) {
     return Value(
-      interpretedValue: json['interpretedValue'] as String,
+      interpretedValue: (json['interpretedValue'] as String?) ?? '',
       originalValue: json['originalValue'] as String?,
       resolvedValues: (json['resolvedValues'] as List?)
           ?.nonNulls

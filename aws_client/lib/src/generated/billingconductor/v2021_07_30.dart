@@ -2131,7 +2131,7 @@ class ComputationPreference {
 
   factory ComputationPreference.fromJson(Map<String, dynamic> json) {
     return ComputationPreference(
-      pricingPlanArn: json['PricingPlanArn'] as String,
+      pricingPlanArn: (json['PricingPlanArn'] as String?) ?? '',
     );
   }
 
@@ -2820,7 +2820,7 @@ class FreeTierConfig {
 
   factory FreeTierConfig.fromJson(Map<String, dynamic> json) {
     return FreeTierConfig(
-      activated: json['Activated'] as bool,
+      activated: (json['Activated'] as bool?) ?? false,
     );
   }
 
@@ -2912,7 +2912,7 @@ class LineItemFilter {
       attribute:
           LineItemFilterAttributeName.fromString((json['Attribute'] as String)),
       matchOption: MatchOption.fromString((json['MatchOption'] as String)),
-      values: (json['Values'] as List)
+      values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => LineItemFilterValue.fromString((e as String)))
           .toList(),
@@ -3257,7 +3257,7 @@ class ListCustomLineItemFlatChargeDetails {
   factory ListCustomLineItemFlatChargeDetails.fromJson(
       Map<String, dynamic> json) {
     return ListCustomLineItemFlatChargeDetails(
-      chargeValue: json['ChargeValue'] as double,
+      chargeValue: (json['ChargeValue'] as double?) ?? 0,
     );
   }
 
@@ -3283,7 +3283,7 @@ class ListCustomLineItemPercentageChargeDetails {
   factory ListCustomLineItemPercentageChargeDetails.fromJson(
       Map<String, dynamic> json) {
     return ListCustomLineItemPercentageChargeDetails(
-      percentageValue: json['PercentageValue'] as double,
+      percentageValue: (json['PercentageValue'] as double?) ?? 0,
     );
   }
 
@@ -4051,8 +4051,9 @@ class Tiering {
 
   factory Tiering.fromJson(Map<String, dynamic> json) {
     return Tiering(
-      freeTier:
-          FreeTierConfig.fromJson(json['FreeTier'] as Map<String, dynamic>),
+      freeTier: FreeTierConfig.fromJson(
+          (json['FreeTier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4341,7 +4342,7 @@ class UpdateFreeTierConfig {
 
   factory UpdateFreeTierConfig.fromJson(Map<String, dynamic> json) {
     return UpdateFreeTierConfig(
-      activated: json['Activated'] as bool,
+      activated: (json['Activated'] as bool?) ?? false,
     );
   }
 
@@ -4543,7 +4544,8 @@ class UpdateTieringInput {
   factory UpdateTieringInput.fromJson(Map<String, dynamic> json) {
     return UpdateTieringInput(
       freeTier: UpdateFreeTierConfig.fromJson(
-          json['FreeTier'] as Map<String, dynamic>),
+          (json['FreeTier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

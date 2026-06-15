@@ -2046,9 +2046,9 @@ class AWSSessionCredentials {
 
   factory AWSSessionCredentials.fromJson(Map<String, dynamic> json) {
     return AWSSessionCredentials(
-      accessKeyId: json['accessKeyId'] as String,
-      secretAccessKey: json['secretAccessKey'] as String,
-      sessionToken: json['sessionToken'] as String,
+      accessKeyId: (json['accessKeyId'] as String?) ?? '',
+      secretAccessKey: (json['secretAccessKey'] as String?) ?? '',
+      sessionToken: (json['sessionToken'] as String?) ?? '',
     );
   }
 
@@ -2203,10 +2203,10 @@ class ActionConfigurationProperty {
 
   factory ActionConfigurationProperty.fromJson(Map<String, dynamic> json) {
     return ActionConfigurationProperty(
-      key: json['key'] as bool,
-      name: json['name'] as String,
-      required: json['required'] as bool,
-      secret: json['secret'] as bool,
+      key: (json['key'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      required: (json['required'] as bool?) ?? false,
+      secret: (json['secret'] as bool?) ?? false,
       description: json['description'] as String?,
       queryable: json['queryable'] as bool?,
       type: (json['type'] as String?)
@@ -2353,9 +2353,10 @@ class ActionDeclaration {
 
   factory ActionDeclaration.fromJson(Map<String, dynamic> json) {
     return ActionDeclaration(
-      actionTypeId:
-          ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>),
-      name: json['name'] as String,
+      actionTypeId: ActionTypeId.fromJson(
+          (json['actionTypeId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       configuration: (json['configuration'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       inputArtifacts: (json['inputArtifacts'] as List?)
@@ -2865,9 +2866,9 @@ class ActionRevision {
 
   factory ActionRevision.fromJson(Map<String, dynamic> json) {
     return ActionRevision(
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      revisionChangeId: json['revisionChangeId'] as String,
-      revisionId: json['revisionId'] as String,
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      revisionChangeId: (json['revisionChangeId'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -2969,11 +2970,14 @@ class ActionType {
 
   factory ActionType.fromJson(Map<String, dynamic> json) {
     return ActionType(
-      id: ActionTypeId.fromJson(json['id'] as Map<String, dynamic>),
+      id: ActionTypeId.fromJson(
+          (json['id'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       inputArtifactDetails: ArtifactDetails.fromJson(
-          json['inputArtifactDetails'] as Map<String, dynamic>),
+          (json['inputArtifactDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputArtifactDetails: ArtifactDetails.fromJson(
-          json['outputArtifactDetails'] as Map<String, dynamic>),
+          (json['outputArtifactDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       actionConfigurationProperties: (json['actionConfigurationProperties']
               as List?)
           ?.nonNulls
@@ -3024,8 +3028,8 @@ class ActionTypeArtifactDetails {
 
   factory ActionTypeArtifactDetails.fromJson(Map<String, dynamic> json) {
     return ActionTypeArtifactDetails(
-      maximumCount: json['maximumCount'] as int,
-      minimumCount: json['minimumCount'] as int,
+      maximumCount: (json['maximumCount'] as int?) ?? 0,
+      minimumCount: (json['minimumCount'] as int?) ?? 0,
     );
   }
 
@@ -3085,13 +3089,17 @@ class ActionTypeDeclaration {
 
   factory ActionTypeDeclaration.fromJson(Map<String, dynamic> json) {
     return ActionTypeDeclaration(
-      executor:
-          ActionTypeExecutor.fromJson(json['executor'] as Map<String, dynamic>),
-      id: ActionTypeIdentifier.fromJson(json['id'] as Map<String, dynamic>),
+      executor: ActionTypeExecutor.fromJson(
+          (json['executor'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: ActionTypeIdentifier.fromJson(
+          (json['id'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       inputArtifactDetails: ActionTypeArtifactDetails.fromJson(
-          json['inputArtifactDetails'] as Map<String, dynamic>),
+          (json['inputArtifactDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputArtifactDetails: ActionTypeArtifactDetails.fromJson(
-          json['outputArtifactDetails'] as Map<String, dynamic>),
+          (json['outputArtifactDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
       permissions: json['permissions'] != null
           ? ActionTypePermissions.fromJson(
@@ -3167,7 +3175,8 @@ class ActionTypeExecutor {
   factory ActionTypeExecutor.fromJson(Map<String, dynamic> json) {
     return ActionTypeExecutor(
       configuration: ExecutorConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: ExecutorType.fromString((json['type'] as String)),
       jobTimeout: json['jobTimeout'] as int?,
       policyStatementsTemplate: json['policyStatementsTemplate'] as String?,
@@ -3247,8 +3256,8 @@ class ActionTypeId {
     return ActionTypeId(
       category: ActionCategory.fromString((json['category'] as String)),
       owner: ActionOwner.fromString((json['owner'] as String)),
-      provider: json['provider'] as String,
-      version: json['version'] as String,
+      provider: (json['provider'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -3313,9 +3322,9 @@ class ActionTypeIdentifier {
   factory ActionTypeIdentifier.fromJson(Map<String, dynamic> json) {
     return ActionTypeIdentifier(
       category: ActionCategory.fromString((json['category'] as String)),
-      owner: json['owner'] as String,
-      provider: json['provider'] as String,
-      version: json['version'] as String,
+      owner: (json['owner'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -3345,7 +3354,7 @@ class ActionTypePermissions {
 
   factory ActionTypePermissions.fromJson(Map<String, dynamic> json) {
     return ActionTypePermissions(
-      allowedAccounts: (json['allowedAccounts'] as List)
+      allowedAccounts: ((json['allowedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3397,10 +3406,10 @@ class ActionTypeProperty {
 
   factory ActionTypeProperty.fromJson(Map<String, dynamic> json) {
     return ActionTypeProperty(
-      key: json['key'] as bool,
-      name: json['name'] as String,
-      noEcho: json['noEcho'] as bool,
-      optional: json['optional'] as bool,
+      key: (json['key'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      noEcho: (json['noEcho'] as bool?) ?? false,
+      optional: (json['optional'] as bool?) ?? false,
       description: json['description'] as String?,
       queryable: json['queryable'] as bool?,
     );
@@ -3664,8 +3673,8 @@ class ArtifactDetails {
 
   factory ArtifactDetails.fromJson(Map<String, dynamic> json) {
     return ArtifactDetails(
-      maximumCount: json['maximumCount'] as int,
-      minimumCount: json['minimumCount'] as int,
+      maximumCount: (json['maximumCount'] as int?) ?? 0,
+      minimumCount: (json['minimumCount'] as int?) ?? 0,
     );
   }
 
@@ -3824,7 +3833,7 @@ class ArtifactStore {
 
   factory ArtifactStore.fromJson(Map<String, dynamic> json) {
     return ArtifactStore(
-      location: json['location'] as String,
+      location: (json['location'] as String?) ?? '',
       type: ArtifactStoreType.fromString((json['type'] as String)),
       encryptionKey: json['encryptionKey'] != null
           ? EncryptionKey.fromJson(
@@ -3870,7 +3879,7 @@ class BeforeEntryConditions {
 
   factory BeforeEntryConditions.fromJson(Map<String, dynamic> json) {
     return BeforeEntryConditions(
-      conditions: (json['conditions'] as List)
+      conditions: ((json['conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3900,7 +3909,7 @@ class BlockerDeclaration {
 
   factory BlockerDeclaration.fromJson(Map<String, dynamic> json) {
     return BlockerDeclaration(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       type: BlockerType.fromString((json['type'] as String)),
     );
   }
@@ -4088,8 +4097,9 @@ class CreateCustomActionTypeOutput {
 
   factory CreateCustomActionTypeOutput.fromJson(Map<String, dynamic> json) {
     return CreateCustomActionTypeOutput(
-      actionType:
-          ActionType.fromJson(json['actionType'] as Map<String, dynamic>),
+      actionType: ActionType.fromJson(
+          (json['actionType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4231,7 +4241,7 @@ class EncryptionKey {
 
   factory EncryptionKey.fromJson(Map<String, dynamic> json) {
     return EncryptionKey(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       type: EncryptionKeyType.fromString((json['type'] as String)),
     );
   }
@@ -4801,7 +4811,7 @@ class GitConfiguration {
 
   factory GitConfiguration.fromJson(Map<String, dynamic> json) {
     return GitConfiguration(
-      sourceActionName: json['sourceActionName'] as String,
+      sourceActionName: (json['sourceActionName'] as String?) ?? '',
       pullRequest: (json['pullRequest'] as List?)
           ?.nonNulls
           .map((e) => GitPullRequestFilter.fromJson(e as Map<String, dynamic>))
@@ -5042,7 +5052,7 @@ class InputArtifact {
 
   factory InputArtifact.fromJson(Map<String, dynamic> json) {
     return InputArtifact(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5318,7 +5328,7 @@ class LambdaExecutorConfiguration {
 
   factory LambdaExecutorConfiguration.fromJson(Map<String, dynamic> json) {
     return LambdaExecutorConfiguration(
-      lambdaFunctionArn: json['lambdaFunctionArn'] as String,
+      lambdaFunctionArn: (json['lambdaFunctionArn'] as String?) ?? '',
     );
   }
 
@@ -5420,7 +5430,7 @@ class ListActionTypesOutput {
 
   factory ListActionTypesOutput.fromJson(Map<String, dynamic> json) {
     return ListActionTypesOutput(
-      actionTypes: (json['actionTypes'] as List)
+      actionTypes: ((json['actionTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActionType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5555,7 +5565,7 @@ class ListRuleTypesOutput {
 
   factory ListRuleTypesOutput.fromJson(Map<String, dynamic> json) {
     return ListRuleTypesOutput(
-      ruleTypes: (json['ruleTypes'] as List)
+      ruleTypes: ((json['ruleTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5647,8 +5657,9 @@ class ListWebhookItem {
   factory ListWebhookItem.fromJson(Map<String, dynamic> json) {
     return ListWebhookItem(
       definition: WebhookDefinition.fromJson(
-          json['definition'] as Map<String, dynamic>),
-      url: json['url'] as String,
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      url: (json['url'] as String?) ?? '',
       arn: json['arn'] as String?,
       errorCode: json['errorCode'] as String?,
       errorMessage: json['errorMessage'] as String?,
@@ -5735,7 +5746,7 @@ class OutputArtifact {
 
   factory OutputArtifact.fromJson(Map<String, dynamic> json) {
     return OutputArtifact(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5908,9 +5919,9 @@ class PipelineDeclaration {
 
   factory PipelineDeclaration.fromJson(Map<String, dynamic> json) {
     return PipelineDeclaration(
-      name: json['name'] as String,
-      roleArn: json['roleArn'] as String,
-      stages: (json['stages'] as List)
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stages: ((json['stages'] as List?) ?? const [])
           .nonNulls
           .map((e) => StageDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6482,7 +6493,8 @@ class PipelineTriggerDeclaration {
   factory PipelineTriggerDeclaration.fromJson(Map<String, dynamic> json) {
     return PipelineTriggerDeclaration(
       gitConfiguration: GitConfiguration.fromJson(
-          json['gitConfiguration'] as Map<String, dynamic>),
+          (json['gitConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       providerType: PipelineTriggerProviderType.fromString(
           (json['providerType'] as String)),
     );
@@ -6571,7 +6583,7 @@ class PipelineVariableDeclaration {
 
   factory PipelineVariableDeclaration.fromJson(Map<String, dynamic> json) {
     return PipelineVariableDeclaration(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       defaultValue: json['defaultValue'] as String?,
       description: json['description'] as String?,
     );
@@ -6812,7 +6824,7 @@ class RollbackStageOutput {
 
   factory RollbackStageOutput.fromJson(Map<String, dynamic> json) {
     return RollbackStageOutput(
-      pipelineExecutionId: json['pipelineExecutionId'] as String,
+      pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
     );
   }
 
@@ -6883,10 +6895,10 @@ class RuleConfigurationProperty {
 
   factory RuleConfigurationProperty.fromJson(Map<String, dynamic> json) {
     return RuleConfigurationProperty(
-      key: json['key'] as bool,
-      name: json['name'] as String,
-      required: json['required'] as bool,
-      secret: json['secret'] as bool,
+      key: (json['key'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      required: (json['required'] as bool?) ?? false,
+      secret: (json['secret'] as bool?) ?? false,
       description: json['description'] as String?,
       queryable: json['queryable'] as bool?,
       type: (json['type'] as String?)
@@ -6971,9 +6983,10 @@ class RuleDeclaration {
 
   factory RuleDeclaration.fromJson(Map<String, dynamic> json) {
     return RuleDeclaration(
-      name: json['name'] as String,
-      ruleTypeId:
-          RuleTypeId.fromJson(json['ruleTypeId'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      ruleTypeId: RuleTypeId.fromJson(
+          (json['ruleTypeId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       configuration: (json['configuration'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       inputArtifacts: (json['inputArtifacts'] as List?)
@@ -7421,9 +7434,9 @@ class RuleRevision {
 
   factory RuleRevision.fromJson(Map<String, dynamic> json) {
     return RuleRevision(
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      revisionChangeId: json['revisionChangeId'] as String,
-      revisionId: json['revisionId'] as String,
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      revisionChangeId: (json['revisionChangeId'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -7525,9 +7538,11 @@ class RuleType {
 
   factory RuleType.fromJson(Map<String, dynamic> json) {
     return RuleType(
-      id: RuleTypeId.fromJson(json['id'] as Map<String, dynamic>),
+      id: RuleTypeId.fromJson(
+          (json['id'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       inputArtifactDetails: ArtifactDetails.fromJson(
-          json['inputArtifactDetails'] as Map<String, dynamic>),
+          (json['inputArtifactDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       ruleConfigurationProperties:
           (json['ruleConfigurationProperties'] as List?)
               ?.nonNulls
@@ -7582,7 +7597,7 @@ class RuleTypeId {
   factory RuleTypeId.fromJson(Map<String, dynamic> json) {
     return RuleTypeId(
       category: RuleCategory.fromString((json['category'] as String)),
-      provider: json['provider'] as String,
+      provider: (json['provider'] as String?) ?? '',
       owner: (json['owner'] as String?)?.let(RuleOwner.fromString),
       version: json['version'] as String?,
     );
@@ -7674,8 +7689,8 @@ class S3ArtifactLocation {
 
   factory S3ArtifactLocation.fromJson(Map<String, dynamic> json) {
     return S3ArtifactLocation(
-      bucketName: json['bucketName'] as String,
-      objectKey: json['objectKey'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      objectKey: (json['objectKey'] as String?) ?? '',
     );
   }
 
@@ -7749,7 +7764,7 @@ class SourceRevision {
 
   factory SourceRevision.fromJson(Map<String, dynamic> json) {
     return SourceRevision(
-      actionName: json['actionName'] as String,
+      actionName: (json['actionName'] as String?) ?? '',
       revisionId: json['revisionId'] as String?,
       revisionSummary: json['revisionSummary'] as String?,
       revisionUrl: json['revisionUrl'] as String?,
@@ -7954,11 +7969,11 @@ class StageDeclaration {
 
   factory StageDeclaration.fromJson(Map<String, dynamic> json) {
     return StageDeclaration(
-      actions: (json['actions'] as List)
+      actions: ((json['actions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActionDeclaration.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       beforeEntry: json['beforeEntry'] != null
           ? BeforeEntryConditions.fromJson(
               json['beforeEntry'] as Map<String, dynamic>)
@@ -8021,7 +8036,7 @@ class StageExecution {
 
   factory StageExecution.fromJson(Map<String, dynamic> json) {
     return StageExecution(
-      pipelineExecutionId: json['pipelineExecutionId'] as String,
+      pipelineExecutionId: (json['pipelineExecutionId'] as String?) ?? '',
       status: StageExecutionStatus.fromString((json['status'] as String)),
       type: (json['type'] as String?)?.let(ExecutionType.fromString),
     );
@@ -8309,7 +8324,7 @@ class SuccessConditions {
 
   factory SuccessConditions.fromJson(Map<String, dynamic> json) {
     return SuccessConditions(
-      conditions: (json['conditions'] as List)
+      conditions: ((json['conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8339,8 +8354,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -8786,14 +8801,15 @@ class WebhookDefinition {
       authentication: WebhookAuthenticationType.fromString(
           (json['authentication'] as String)),
       authenticationConfiguration: WebhookAuthConfiguration.fromJson(
-          json['authenticationConfiguration'] as Map<String, dynamic>),
-      filters: (json['filters'] as List)
+          (json['authenticationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      filters: ((json['filters'] as List?) ?? const [])
           .nonNulls
           .map((e) => WebhookFilterRule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['name'] as String,
-      targetAction: json['targetAction'] as String,
-      targetPipeline: json['targetPipeline'] as String,
+      name: (json['name'] as String?) ?? '',
+      targetAction: (json['targetAction'] as String?) ?? '',
+      targetPipeline: (json['targetPipeline'] as String?) ?? '',
     );
   }
 
@@ -8846,7 +8862,7 @@ class WebhookFilterRule {
 
   factory WebhookFilterRule.fromJson(Map<String, dynamic> json) {
     return WebhookFilterRule(
-      jsonPath: json['jsonPath'] as String,
+      jsonPath: (json['jsonPath'] as String?) ?? '',
       matchEquals: json['matchEquals'] as String?,
     );
   }

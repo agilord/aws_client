@@ -1653,7 +1653,7 @@ class ResourceSummary {
 
   factory ResourceSummary.fromJson(Map<String, dynamic> json) {
     return ResourceSummary(
-      resourceType: json['resourceType'] as String,
+      resourceType: (json['resourceType'] as String?) ?? '',
       arn: json['arn'] as String?,
       id: json['id'] as String?,
     );
@@ -1779,7 +1779,7 @@ class TaskSummary {
 
   factory TaskSummary.fromJson(Map<String, dynamic> json) {
     return TaskSummary(
-      taskId: json['taskId'] as String,
+      taskId: (json['taskId'] as String?) ?? '',
       state: (json['state'] as String?)?.let(TaskState.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),

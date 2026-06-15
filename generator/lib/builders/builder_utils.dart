@@ -22,6 +22,9 @@ class Nullability {
 
 String extractJsonCode(Shape shape, String variable,
     {Member? member, required Nullability nullability, String? variableType}) {
+  final correctMissing =
+      nullability.inputNullable && !nullability.outputNullable;
+
   if (member?.jsonvalue == true || shape.member?.jsonvalue == true) {
     if (shape.type == 'list') {
       return '$variable == null ? null : ($variable as List).map((v) => jsonDecode(v as String)).toList().cast<Object>()';
@@ -35,30 +38,44 @@ String extractJsonCode(Shape shape, String variable,
   } else if (shape.type == 'document') {
     return nullability.outputNullable ? variable : '$variable as Object';
   } else if (shape.type == 'map') {
-    final nullAware = nullability.outputNullable ? '?' : '';
     final keyCode = extractJsonCode(shape.key!.shapeClass!, 'k',
         nullability: Nullability.none, variableType: 'String');
     final valueCode = extractJsonCode(shape.value!.shapeClass!, 'e',
         nullability: Nullability.none);
-    return '($variable as Map<String, dynamic>$nullAware)$nullAware.map((k, e) => MapEntry($keyCode, $valueCode))';
-  } else if (shape.type == 'list') {
-    final nullAware = nullability.outputNullable ? '?' : '';
-    if (shape.member!.shapeClass!.type == 'document') {
-      return '($variable as List$nullAware)$nullAware.nonNulls.toList()';
-    }
-    var closureCode = extractJsonCode(shape.member!.shapeClass!, 'e',
-        nullability: Nullability.none);
-    closureCode = _createClosure('e', closureCode);
-    return '($variable as List$nullAware)$nullAware.nonNulls.map($closureCode).toList()';
-  } else if (shape.type == 'structure') {
-    final code =
-        '${shape.className}.fromJson($variable as Map<String, dynamic>)';
+    final mapCall = '.map((k, e) => MapEntry($keyCode, $valueCode))';
     if (nullability.outputNullable) {
-      return '$variable != null ? $code : null';
-    } else {
-      return code;
+      return '($variable as Map<String, dynamic>?)?$mapCall';
+    } else if (correctMissing) {
+      return '(($variable as Map<String, dynamic>?) ?? const <String, dynamic>{})$mapCall';
     }
+    return '($variable as Map<String, dynamic>)$mapCall';
+  } else if (shape.type == 'list') {
+    final String listCall;
+    if (shape.member!.shapeClass!.type == 'document') {
+      listCall = '.nonNulls.toList()';
+    } else {
+      var closureCode = extractJsonCode(shape.member!.shapeClass!, 'e',
+          nullability: Nullability.none);
+      closureCode = _createClosure('e', closureCode);
+      listCall = '.nonNulls.map($closureCode).toList()';
+    }
+    if (nullability.outputNullable) {
+      return '($variable as List?)?$listCall';
+    } else if (correctMissing) {
+      return '(($variable as List?) ?? const [])$listCall';
+    }
+    return '($variable as List)$listCall';
+  } else if (shape.type == 'structure') {
+    if (nullability.outputNullable) {
+      return '$variable != null ? ${shape.className}.fromJson($variable as Map<String, dynamic>) : null';
+    } else if (correctMissing) {
+      return '${shape.className}.fromJson(($variable as Map<String, dynamic>?) ?? const <String, dynamic>{})';
+    }
+    return '${shape.className}.fromJson($variable as Map<String, dynamic>)';
   } else if (shape.enumeration?.isNotEmpty ?? false) {
+    // NOTE: enums are intentionally not error-corrected — the generated enums
+    // have no "unknown" variant to fall back to (a missing required output
+    // enum still throws). Revisit alongside the enum-representation decision.
     shape.isTopLevelOutputEnum = true;
     final nullAware = nullability.outputNullable ? '?' : '';
     var variableAccessor = variable;
@@ -72,28 +89,49 @@ String extractJsonCode(Shape shape, String variable,
       return '$enumCreator($variableAccessor)';
     }
   } else if (shape.type == 'timestamp') {
-    final method = nullability.outputNullable
-        ? 'timeStampFromJson'
-        : 'nonNullableTimeStampFromJson';
-    final cast = nullability.inputNullable && !nullability.outputNullable
-        ? ' as Object'
-        : '';
-    return '$method($variable$cast)';
+    if (nullability.outputNullable) {
+      return 'timeStampFromJson($variable)';
+    } else if (correctMissing) {
+      return 'nonNullableTimeStampFromJson($variable ?? 0)';
+    }
+    return 'nonNullableTimeStampFromJson($variable)';
   } else if (shape.type == 'blob') {
     if (nullability.outputNullable) {
       return '_s.decodeNullableUint8List($variable as String?)';
-    } else {
-      return '_s.decodeUint8List($variable${nullability.inputNullable ? '!' : ''} as String)';
+    } else if (correctMissing) {
+      return "_s.decodeUint8List(($variable as String?) ?? '')";
     }
+    return '_s.decodeUint8List($variable as String)';
   } else {
+    final dartType = shape.type.getDartType(shape.api);
+    if (correctMissing) {
+      final fallback = _missingScalarFallback(dartType);
+      if (fallback != null) {
+        return '($variable as $dartType?) ?? $fallback';
+      }
+    }
     final nullAware = nullability.outputNullable ? '?' : '';
-    final castType = '${shape.type.getDartType(shape.api)}$nullAware';
+    final castType = '$dartType$nullAware';
     if (castType != variableType) {
       return '$variable as $castType';
     } else {
       return variable;
     }
   }
+}
+
+String? _missingScalarFallback(String dartType) {
+  switch (dartType) {
+    case 'String':
+      return "''";
+    case 'bool':
+      return 'false';
+    case 'int':
+      return '0';
+    case 'double':
+      return '0';
+  }
+  return null;
 }
 
 String encodeJsonCode(Shape shape, String variable,

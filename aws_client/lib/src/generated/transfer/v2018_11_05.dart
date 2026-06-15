@@ -4687,8 +4687,8 @@ class CreateAccessResponse {
 
   factory CreateAccessResponse.fromJson(Map<String, dynamic> json) {
     return CreateAccessResponse(
-      externalId: json['ExternalId'] as String,
-      serverId: json['ServerId'] as String,
+      externalId: (json['ExternalId'] as String?) ?? '',
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -4714,7 +4714,7 @@ class CreateAgreementResponse {
 
   factory CreateAgreementResponse.fromJson(Map<String, dynamic> json) {
     return CreateAgreementResponse(
-      agreementId: json['AgreementId'] as String,
+      agreementId: (json['AgreementId'] as String?) ?? '',
     );
   }
 
@@ -4737,7 +4737,7 @@ class CreateConnectorResponse {
 
   factory CreateConnectorResponse.fromJson(Map<String, dynamic> json) {
     return CreateConnectorResponse(
-      connectorId: json['ConnectorId'] as String,
+      connectorId: (json['ConnectorId'] as String?) ?? '',
     );
   }
 
@@ -4760,7 +4760,7 @@ class CreateProfileResponse {
 
   factory CreateProfileResponse.fromJson(Map<String, dynamic> json) {
     return CreateProfileResponse(
-      profileId: json['ProfileId'] as String,
+      profileId: (json['ProfileId'] as String?) ?? '',
     );
   }
 
@@ -4782,7 +4782,7 @@ class CreateServerResponse {
 
   factory CreateServerResponse.fromJson(Map<String, dynamic> json) {
     return CreateServerResponse(
-      serverId: json['ServerId'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -4808,8 +4808,8 @@ class CreateUserResponse {
 
   factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
     return CreateUserResponse(
-      serverId: json['ServerId'] as String,
-      userName: json['UserName'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
     );
   }
 
@@ -4833,7 +4833,7 @@ class CreateWorkflowResponse {
 
   factory CreateWorkflowResponse.fromJson(Map<String, dynamic> json) {
     return CreateWorkflowResponse(
-      workflowId: json['WorkflowId'] as String,
+      workflowId: (json['WorkflowId'] as String?) ?? '',
     );
   }
 
@@ -4993,7 +4993,8 @@ class DecryptStepDetails {
   factory DecryptStepDetails.fromJson(Map<String, dynamic> json) {
     return DecryptStepDetails(
       destinationFileLocation: InputFileLocation.fromJson(
-          json['DestinationFileLocation'] as Map<String, dynamic>),
+          (json['DestinationFileLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: EncryptionType.fromString((json['Type'] as String)),
       name: json['Name'] as String?,
       overwriteExisting: (json['OverwriteExisting'] as String?)
@@ -5077,8 +5078,10 @@ class DescribeAccessResponse {
 
   factory DescribeAccessResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAccessResponse(
-      access: DescribedAccess.fromJson(json['Access'] as Map<String, dynamic>),
-      serverId: json['ServerId'] as String,
+      access: DescribedAccess.fromJson(
+          (json['Access'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -5104,7 +5107,8 @@ class DescribeAgreementResponse {
   factory DescribeAgreementResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAgreementResponse(
       agreement: DescribedAgreement.fromJson(
-          json['Agreement'] as Map<String, dynamic>),
+          (json['Agreement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5127,7 +5131,8 @@ class DescribeCertificateResponse {
   factory DescribeCertificateResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCertificateResponse(
       certificate: DescribedCertificate.fromJson(
-          json['Certificate'] as Map<String, dynamic>),
+          (json['Certificate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5150,7 +5155,8 @@ class DescribeConnectorResponse {
   factory DescribeConnectorResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConnectorResponse(
       connector: DescribedConnector.fromJson(
-          json['Connector'] as Map<String, dynamic>),
+          (json['Connector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5177,8 +5183,9 @@ class DescribeExecutionResponse {
   factory DescribeExecutionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeExecutionResponse(
       execution: DescribedExecution.fromJson(
-          json['Execution'] as Map<String, dynamic>),
-      workflowId: json['WorkflowId'] as String,
+          (json['Execution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowId: (json['WorkflowId'] as String?) ?? '',
     );
   }
 
@@ -5202,8 +5209,9 @@ class DescribeHostKeyResponse {
 
   factory DescribeHostKeyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeHostKeyResponse(
-      hostKey:
-          DescribedHostKey.fromJson(json['HostKey'] as Map<String, dynamic>),
+      hostKey: DescribedHostKey.fromJson(
+          (json['HostKey'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5225,8 +5233,9 @@ class DescribeProfileResponse {
 
   factory DescribeProfileResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProfileResponse(
-      profile:
-          DescribedProfile.fromJson(json['Profile'] as Map<String, dynamic>),
+      profile: DescribedProfile.fromJson(
+          (json['Profile'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5249,7 +5258,8 @@ class DescribeSecurityPolicyResponse {
   factory DescribeSecurityPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeSecurityPolicyResponse(
       securityPolicy: DescribedSecurityPolicy.fromJson(
-          json['SecurityPolicy'] as Map<String, dynamic>),
+          (json['SecurityPolicy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5272,7 +5282,9 @@ class DescribeServerResponse {
 
   factory DescribeServerResponse.fromJson(Map<String, dynamic> json) {
     return DescribeServerResponse(
-      server: DescribedServer.fromJson(json['Server'] as Map<String, dynamic>),
+      server: DescribedServer.fromJson(
+          (json['Server'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5300,8 +5312,9 @@ class DescribeUserResponse {
 
   factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
     return DescribeUserResponse(
-      serverId: json['ServerId'] as String,
-      user: DescribedUser.fromJson(json['User'] as Map<String, dynamic>),
+      serverId: (json['ServerId'] as String?) ?? '',
+      user: DescribedUser.fromJson(
+          (json['User'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -5325,8 +5338,9 @@ class DescribeWorkflowResponse {
 
   factory DescribeWorkflowResponse.fromJson(Map<String, dynamic> json) {
     return DescribeWorkflowResponse(
-      workflow:
-          DescribedWorkflow.fromJson(json['Workflow'] as Map<String, dynamic>),
+      workflow: DescribedWorkflow.fromJson(
+          (json['Workflow'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5553,7 +5567,7 @@ class DescribedAgreement {
 
   factory DescribedAgreement.fromJson(Map<String, dynamic> json) {
     return DescribedAgreement(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       accessRole: json['AccessRole'] as String?,
       agreementId: json['AgreementId'] as String?,
       baseDirectory: json['BaseDirectory'] as String?,
@@ -5677,7 +5691,7 @@ class DescribedCertificate {
 
   factory DescribedCertificate.fromJson(Map<String, dynamic> json) {
     return DescribedCertificate(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       activeDate: timeStampFromJson(json['ActiveDate']),
       certificate: json['Certificate'] as String?,
       certificateChain: json['CertificateChain'] as String?,
@@ -5817,7 +5831,7 @@ class DescribedConnector {
 
   factory DescribedConnector.fromJson(Map<String, dynamic> json) {
     return DescribedConnector(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       accessRole: json['AccessRole'] as String?,
       as2Config: json['As2Config'] != null
           ? As2ConnectorConfig.fromJson(
@@ -6018,7 +6032,7 @@ class DescribedHostKey {
 
   factory DescribedHostKey.fromJson(Map<String, dynamic> json) {
     return DescribedHostKey(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       dateImported: timeStampFromJson(json['DateImported']),
       description: json['Description'] as String?,
       hostKeyFingerprint: json['HostKeyFingerprint'] as String?,
@@ -6092,7 +6106,7 @@ class DescribedProfile {
 
   factory DescribedProfile.fromJson(Map<String, dynamic> json) {
     return DescribedProfile(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       as2Id: json['As2Id'] as String?,
       certificateIds: (json['CertificateIds'] as List?)
           ?.nonNulls
@@ -6191,7 +6205,7 @@ class DescribedSecurityPolicy {
 
   factory DescribedSecurityPolicy.fromJson(Map<String, dynamic> json) {
     return DescribedSecurityPolicy(
-      securityPolicyName: json['SecurityPolicyName'] as String,
+      securityPolicyName: (json['SecurityPolicyName'] as String?) ?? '',
       fips: json['Fips'] as bool?,
       protocols: (json['Protocols'] as List?)
           ?.nonNulls
@@ -6510,7 +6524,7 @@ class DescribedServer {
 
   factory DescribedServer.fromJson(Map<String, dynamic> json) {
     return DescribedServer(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       as2ServiceManagedEgressIpAddresses:
           (json['As2ServiceManagedEgressIpAddresses'] as List?)
               ?.nonNulls
@@ -6730,7 +6744,7 @@ class DescribedUser {
 
   factory DescribedUser.fromJson(Map<String, dynamic> json) {
     return DescribedUser(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       homeDirectory: json['HomeDirectory'] as String?,
       homeDirectoryMappings: (json['HomeDirectoryMappings'] as List?)
           ?.nonNulls
@@ -6816,7 +6830,7 @@ class DescribedWorkflow {
 
   factory DescribedWorkflow.fromJson(Map<String, dynamic> json) {
     return DescribedWorkflow(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       description: json['Description'] as String?,
       onExceptionSteps: (json['OnExceptionSteps'] as List?)
           ?.nonNulls
@@ -7169,7 +7183,7 @@ class ExecutionError {
 
   factory ExecutionError.fromJson(Map<String, dynamic> json) {
     return ExecutionError(
-      message: json['Message'] as String,
+      message: (json['Message'] as String?) ?? '',
       type: ExecutionErrorType.fromString((json['Type'] as String)),
     );
   }
@@ -7393,8 +7407,8 @@ class HomeDirectoryMapEntry {
 
   factory HomeDirectoryMapEntry.fromJson(Map<String, dynamic> json) {
     return HomeDirectoryMapEntry(
-      entry: json['Entry'] as String,
-      target: json['Target'] as String,
+      entry: (json['Entry'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
       type: (json['Type'] as String?)?.let(MapType.fromString),
     );
   }
@@ -7551,7 +7565,7 @@ class ImportCertificateResponse {
 
   factory ImportCertificateResponse.fromJson(Map<String, dynamic> json) {
     return ImportCertificateResponse(
-      certificateId: json['CertificateId'] as String,
+      certificateId: (json['CertificateId'] as String?) ?? '',
     );
   }
 
@@ -7577,8 +7591,8 @@ class ImportHostKeyResponse {
 
   factory ImportHostKeyResponse.fromJson(Map<String, dynamic> json) {
     return ImportHostKeyResponse(
-      hostKeyId: json['HostKeyId'] as String,
-      serverId: json['ServerId'] as String,
+      hostKeyId: (json['HostKeyId'] as String?) ?? '',
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -7613,9 +7627,9 @@ class ImportSshPublicKeyResponse {
 
   factory ImportSshPublicKeyResponse.fromJson(Map<String, dynamic> json) {
     return ImportSshPublicKeyResponse(
-      serverId: json['ServerId'] as String,
-      sshPublicKeyId: json['SshPublicKeyId'] as String,
-      userName: json['UserName'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
+      sshPublicKeyId: (json['SshPublicKeyId'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
     );
   }
 
@@ -7692,11 +7706,11 @@ class ListAccessesResponse {
 
   factory ListAccessesResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessesResponse(
-      accesses: (json['Accesses'] as List)
+      accesses: ((json['Accesses'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedAccess.fromJson(e as Map<String, dynamic>))
           .toList(),
-      serverId: json['ServerId'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7728,7 +7742,7 @@ class ListAgreementsResponse {
 
   factory ListAgreementsResponse.fromJson(Map<String, dynamic> json) {
     return ListAgreementsResponse(
-      agreements: (json['Agreements'] as List)
+      agreements: ((json['Agreements'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedAgreement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7761,7 +7775,7 @@ class ListCertificatesResponse {
 
   factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) {
     return ListCertificatesResponse(
-      certificates: (json['Certificates'] as List)
+      certificates: ((json['Certificates'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedCertificate.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7794,7 +7808,7 @@ class ListConnectorsResponse {
 
   factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorsResponse(
-      connectors: (json['Connectors'] as List)
+      connectors: ((json['Connectors'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7833,11 +7847,11 @@ class ListExecutionsResponse {
 
   factory ListExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return ListExecutionsResponse(
-      executions: (json['Executions'] as List)
+      executions: ((json['Executions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedExecution.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workflowId: json['WorkflowId'] as String,
+      workflowId: (json['WorkflowId'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7873,11 +7887,11 @@ class ListHostKeysResponse {
 
   factory ListHostKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListHostKeysResponse(
-      hostKeys: (json['HostKeys'] as List)
+      hostKeys: ((json['HostKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedHostKey.fromJson(e as Map<String, dynamic>))
           .toList(),
-      serverId: json['ServerId'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7909,7 +7923,7 @@ class ListProfilesResponse {
 
   factory ListProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilesResponse(
-      profiles: (json['Profiles'] as List)
+      profiles: ((json['Profiles'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7944,7 +7958,7 @@ class ListSecurityPoliciesResponse {
 
   factory ListSecurityPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListSecurityPoliciesResponse(
-      securityPolicyNames: (json['SecurityPolicyNames'] as List)
+      securityPolicyNames: ((json['SecurityPolicyNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7979,7 +7993,7 @@ class ListServersResponse {
 
   factory ListServersResponse.fromJson(Map<String, dynamic> json) {
     return ListServersResponse(
-      servers: (json['Servers'] as List)
+      servers: ((json['Servers'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedServer.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8063,8 +8077,8 @@ class ListUsersResponse {
 
   factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
     return ListUsersResponse(
-      serverId: json['ServerId'] as String,
-      users: (json['Users'] as List)
+      serverId: (json['ServerId'] as String?) ?? '',
+      users: ((json['Users'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedUser.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8101,7 +8115,7 @@ class ListWorkflowsResponse {
 
   factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsResponse(
-      workflows: (json['Workflows'] as List)
+      workflows: ((json['Workflows'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListedWorkflow.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8513,7 +8527,7 @@ class ListedHostKey {
 
   factory ListedHostKey.fromJson(Map<String, dynamic> json) {
     return ListedHostKey(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       dateImported: timeStampFromJson(json['DateImported']),
       description: json['Description'] as String?,
       fingerprint: json['Fingerprint'] as String?,
@@ -8669,7 +8683,7 @@ class ListedServer {
 
   factory ListedServer.fromJson(Map<String, dynamic> json) {
     return ListedServer(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       domain: (json['Domain'] as String?)?.let(Domain.fromString),
       endpointType:
           (json['EndpointType'] as String?)?.let(EndpointType.fromString),
@@ -8775,7 +8789,7 @@ class ListedUser {
 
   factory ListedUser.fromJson(Map<String, dynamic> json) {
     return ListedUser(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       homeDirectory: json['HomeDirectory'] as String?,
       homeDirectoryType: (json['HomeDirectoryType'] as String?)
           ?.let(HomeDirectoryType.fromString),
@@ -8962,8 +8976,8 @@ class PosixProfile {
 
   factory PosixProfile.fromJson(Map<String, dynamic> json) {
     return PosixProfile(
-      gid: json['Gid'] as int,
-      uid: json['Uid'] as int,
+      gid: (json['Gid'] as int?) ?? 0,
+      uid: (json['Uid'] as int?) ?? 0,
       secondaryGids: (json['SecondaryGids'] as List?)
           ?.nonNulls
           .map((e) => e as int)
@@ -9293,8 +9307,8 @@ class S3Tag {
 
   factory S3Tag.fromJson(Map<String, dynamic> json) {
     return S3Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -9363,8 +9377,9 @@ class ServiceMetadata {
 
   factory ServiceMetadata.fromJson(Map<String, dynamic> json) {
     return ServiceMetadata(
-      userDetails:
-          UserDetails.fromJson(json['UserDetails'] as Map<String, dynamic>),
+      userDetails: UserDetails.fromJson(
+          (json['UserDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9534,10 +9549,9 @@ class SshPublicKey {
 
   factory SshPublicKey.fromJson(Map<String, dynamic> json) {
     return SshPublicKey(
-      dateImported:
-          nonNullableTimeStampFromJson(json['DateImported'] as Object),
-      sshPublicKeyBody: json['SshPublicKeyBody'] as String,
-      sshPublicKeyId: json['SshPublicKeyId'] as String,
+      dateImported: nonNullableTimeStampFromJson(json['DateImported'] ?? 0),
+      sshPublicKeyBody: (json['SshPublicKeyBody'] as String?) ?? '',
+      sshPublicKeyId: (json['SshPublicKeyId'] as String?) ?? '',
     );
   }
 
@@ -9569,8 +9583,8 @@ class StartDirectoryListingResponse {
 
   factory StartDirectoryListingResponse.fromJson(Map<String, dynamic> json) {
     return StartDirectoryListingResponse(
-      listingId: json['ListingId'] as String,
-      outputFileName: json['OutputFileName'] as String,
+      listingId: (json['ListingId'] as String?) ?? '',
+      outputFileName: (json['OutputFileName'] as String?) ?? '',
     );
   }
 
@@ -9594,7 +9608,7 @@ class StartFileTransferResponse {
 
   factory StartFileTransferResponse.fromJson(Map<String, dynamic> json) {
     return StartFileTransferResponse(
-      transferId: json['TransferId'] as String,
+      transferId: (json['TransferId'] as String?) ?? '',
     );
   }
 
@@ -9657,8 +9671,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -9813,8 +9827,8 @@ class TestIdentityProviderResponse {
 
   factory TestIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return TestIdentityProviderResponse(
-      statusCode: json['StatusCode'] as int,
-      url: json['Url'] as String,
+      statusCode: (json['StatusCode'] as int?) ?? 0,
+      url: (json['Url'] as String?) ?? '',
       message: json['Message'] as String?,
       response: json['Response'] as String?,
     );
@@ -9866,8 +9880,8 @@ class UpdateAccessResponse {
 
   factory UpdateAccessResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAccessResponse(
-      externalId: json['ExternalId'] as String,
-      serverId: json['ServerId'] as String,
+      externalId: (json['ExternalId'] as String?) ?? '',
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -9892,7 +9906,7 @@ class UpdateAgreementResponse {
 
   factory UpdateAgreementResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAgreementResponse(
-      agreementId: json['AgreementId'] as String,
+      agreementId: (json['AgreementId'] as String?) ?? '',
     );
   }
 
@@ -9914,7 +9928,7 @@ class UpdateCertificateResponse {
 
   factory UpdateCertificateResponse.fromJson(Map<String, dynamic> json) {
     return UpdateCertificateResponse(
-      certificateId: json['CertificateId'] as String,
+      certificateId: (json['CertificateId'] as String?) ?? '',
     );
   }
 
@@ -9936,7 +9950,7 @@ class UpdateConnectorResponse {
 
   factory UpdateConnectorResponse.fromJson(Map<String, dynamic> json) {
     return UpdateConnectorResponse(
-      connectorId: json['ConnectorId'] as String,
+      connectorId: (json['ConnectorId'] as String?) ?? '',
     );
   }
 
@@ -9963,8 +9977,8 @@ class UpdateHostKeyResponse {
 
   factory UpdateHostKeyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateHostKeyResponse(
-      hostKeyId: json['HostKeyId'] as String,
-      serverId: json['ServerId'] as String,
+      hostKeyId: (json['HostKeyId'] as String?) ?? '',
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -9988,7 +10002,7 @@ class UpdateProfileResponse {
 
   factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProfileResponse(
-      profileId: json['ProfileId'] as String,
+      profileId: (json['ProfileId'] as String?) ?? '',
     );
   }
 
@@ -10011,7 +10025,7 @@ class UpdateServerResponse {
 
   factory UpdateServerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateServerResponse(
-      serverId: json['ServerId'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
     );
   }
 
@@ -10041,8 +10055,8 @@ class UpdateUserResponse {
 
   factory UpdateUserResponse.fromJson(Map<String, dynamic> json) {
     return UpdateUserResponse(
-      serverId: json['ServerId'] as String,
-      userName: json['UserName'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
     );
   }
 
@@ -10077,8 +10091,8 @@ class UserDetails {
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
-      serverId: json['ServerId'] as String,
-      userName: json['UserName'] as String,
+      serverId: (json['ServerId'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
       sessionId: json['SessionId'] as String?,
     );
   }
@@ -10118,8 +10132,8 @@ class WorkflowDetail {
 
   factory WorkflowDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowDetail(
-      executionRole: json['ExecutionRole'] as String,
-      workflowId: json['WorkflowId'] as String,
+      executionRole: (json['ExecutionRole'] as String?) ?? '',
+      workflowId: (json['WorkflowId'] as String?) ?? '',
     );
   }
 

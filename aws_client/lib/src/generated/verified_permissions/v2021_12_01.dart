@@ -1868,8 +1868,8 @@ class ActionIdentifier {
 
   factory ActionIdentifier.fromJson(Map<String, dynamic> json) {
     return ActionIdentifier(
-      actionId: json['actionId'] as String,
-      actionType: json['actionType'] as String,
+      actionId: (json['actionId'] as String?) ?? '',
+      actionType: (json['actionType'] as String?) ?? '',
     );
   }
 
@@ -2052,7 +2052,7 @@ class BatchIsAuthorizedOutput {
 
   factory BatchIsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedOutput(
-      results: (json['results'] as List)
+      results: ((json['results'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchIsAuthorizedOutputItem.fromJson(e as Map<String, dynamic>))
@@ -2101,16 +2101,17 @@ class BatchIsAuthorizedOutputItem {
   factory BatchIsAuthorizedOutputItem.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedOutputItem(
       decision: Decision.fromString((json['decision'] as String)),
-      determiningPolicies: (json['determiningPolicies'] as List)
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       request: BatchIsAuthorizedInputItem.fromJson(
-          json['request'] as Map<String, dynamic>),
+          (json['request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2191,7 +2192,7 @@ class BatchIsAuthorizedWithTokenOutput {
 
   factory BatchIsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
     return BatchIsAuthorizedWithTokenOutput(
-      results: (json['results'] as List)
+      results: ((json['results'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchIsAuthorizedWithTokenOutputItem.fromJson(
               e as Map<String, dynamic>))
@@ -2246,16 +2247,17 @@ class BatchIsAuthorizedWithTokenOutputItem {
       Map<String, dynamic> json) {
     return BatchIsAuthorizedWithTokenOutputItem(
       decision: Decision.fromString((json['decision'] as String)),
-      determiningPolicies: (json['determiningPolicies'] as List)
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       request: BatchIsAuthorizedWithTokenInputItem.fromJson(
-          json['request'] as Map<String, dynamic>),
+          (json['request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2456,10 +2458,12 @@ class CognitoUserPoolConfigurationDetail {
   factory CognitoUserPoolConfigurationDetail.fromJson(
       Map<String, dynamic> json) {
     return CognitoUserPoolConfigurationDetail(
-      clientIds:
-          (json['clientIds'] as List).nonNulls.map((e) => e as String).toList(),
-      issuer: json['issuer'] as String,
-      userPoolArn: json['userPoolArn'] as String,
+      clientIds: ((json['clientIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      issuer: (json['issuer'] as String?) ?? '',
+      userPoolArn: (json['userPoolArn'] as String?) ?? '',
       groupConfiguration: json['groupConfiguration'] != null
           ? CognitoGroupConfigurationDetail.fromJson(
               json['groupConfiguration'] as Map<String, dynamic>)
@@ -2529,10 +2533,12 @@ class CognitoUserPoolConfigurationItem {
 
   factory CognitoUserPoolConfigurationItem.fromJson(Map<String, dynamic> json) {
     return CognitoUserPoolConfigurationItem(
-      clientIds:
-          (json['clientIds'] as List).nonNulls.map((e) => e as String).toList(),
-      issuer: json['issuer'] as String,
-      userPoolArn: json['userPoolArn'] as String,
+      clientIds: ((json['clientIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      issuer: (json['issuer'] as String?) ?? '',
+      userPoolArn: (json['userPoolArn'] as String?) ?? '',
       groupConfiguration: json['groupConfiguration'] != null
           ? CognitoGroupConfigurationItem.fromJson(
               json['groupConfiguration'] as Map<String, dynamic>)
@@ -2778,11 +2784,11 @@ class CreateIdentitySourceOutput {
 
   factory CreateIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
     return CreateIdentitySourceOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      identitySourceId: json['identitySourceId'] as String,
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
@@ -2849,11 +2855,11 @@ class CreatePolicyOutput {
 
   factory CreatePolicyOutput.fromJson(Map<String, dynamic> json) {
     return CreatePolicyOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyId: json['policyId'] as String,
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.nonNulls
@@ -2915,11 +2921,11 @@ class CreatePolicyStoreOutput {
 
   factory CreatePolicyStoreOutput.fromJson(Map<String, dynamic> json) {
     return CreatePolicyStoreOutput(
-      arn: json['arn'] as String,
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
@@ -2959,11 +2965,11 @@ class CreatePolicyTemplateOutput {
 
   factory CreatePolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreatePolicyTemplateOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      policyTemplateId: json['policyTemplateId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
     );
   }
 
@@ -3068,7 +3074,7 @@ class DeterminingPolicyItem {
 
   factory DeterminingPolicyItem.fromJson(Map<String, dynamic> json) {
     return DeterminingPolicyItem(
-      policyId: json['policyId'] as String,
+      policyId: (json['policyId'] as String?) ?? '',
     );
   }
 
@@ -3140,8 +3146,8 @@ class EntityIdentifier {
 
   factory EntityIdentifier.fromJson(Map<String, dynamic> json) {
     return EntityIdentifier(
-      entityId: json['entityId'] as String,
-      entityType: json['entityType'] as String,
+      entityId: (json['entityId'] as String?) ?? '',
+      entityType: (json['entityType'] as String?) ?? '',
     );
   }
 
@@ -3252,7 +3258,7 @@ class EvaluationErrorItem {
 
   factory EvaluationErrorItem.fromJson(Map<String, dynamic> json) {
     return EvaluationErrorItem(
-      errorDescription: json['errorDescription'] as String,
+      errorDescription: (json['errorDescription'] as String?) ?? '',
     );
   }
 
@@ -3299,12 +3305,12 @@ class GetIdentitySourceOutput {
 
   factory GetIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
     return GetIdentitySourceOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      identitySourceId: json['identitySourceId'] as String,
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      principalEntityType: json['principalEntityType'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      principalEntityType: (json['principalEntityType'] as String?) ?? '',
       configuration: json['configuration'] != null
           ? ConfigurationDetail.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -3389,13 +3395,14 @@ class GetPolicyOutput {
 
   factory GetPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetPolicyOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       definition: PolicyDefinitionDetail.fromJson(
-          json['definition'] as Map<String, dynamic>),
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyId: json['policyId'] as String,
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.nonNulls
@@ -3468,13 +3475,14 @@ class GetPolicyStoreOutput {
 
   factory GetPolicyStoreOutput.fromJson(Map<String, dynamic> json) {
     return GetPolicyStoreOutput(
-      arn: json['arn'] as String,
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       validationSettings: ValidationSettings.fromJson(
-          json['validationSettings'] as Map<String, dynamic>),
+          (json['validationSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
     );
   }
@@ -3528,12 +3536,12 @@ class GetPolicyTemplateOutput {
 
   factory GetPolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetPolicyTemplateOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      policyTemplateId: json['policyTemplateId'] as String,
-      statement: json['statement'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
+      statement: (json['statement'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -3582,11 +3590,11 @@ class GetSchemaOutput {
 
   factory GetSchemaOutput.fromJson(Map<String, dynamic> json) {
     return GetSchemaOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      schema: json['schema'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      schema: (json['schema'] as String?) ?? '',
       namespaces: (json['namespaces'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3741,12 +3749,12 @@ class IdentitySourceItem {
 
   factory IdentitySourceItem.fromJson(Map<String, dynamic> json) {
     return IdentitySourceItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      identitySourceId: json['identitySourceId'] as String,
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      principalEntityType: json['principalEntityType'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      principalEntityType: (json['principalEntityType'] as String?) ?? '',
       configuration: json['configuration'] != null
           ? ConfigurationItem.fromJson(
               json['configuration'] as Map<String, dynamic>)
@@ -3869,11 +3877,11 @@ class IsAuthorizedOutput {
   factory IsAuthorizedOutput.fromJson(Map<String, dynamic> json) {
     return IsAuthorizedOutput(
       decision: Decision.fromString((json['decision'] as String)),
-      determiningPolicies: (json['determiningPolicies'] as List)
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3924,11 +3932,11 @@ class IsAuthorizedWithTokenOutput {
   factory IsAuthorizedWithTokenOutput.fromJson(Map<String, dynamic> json) {
     return IsAuthorizedWithTokenOutput(
       decision: Decision.fromString((json['decision'] as String)),
-      determiningPolicies: (json['determiningPolicies'] as List)
+      determiningPolicies: ((json['determiningPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeterminingPolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => EvaluationErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3971,7 +3979,7 @@ class ListIdentitySourcesOutput {
 
   factory ListIdentitySourcesOutput.fromJson(Map<String, dynamic> json) {
     return ListIdentitySourcesOutput(
-      identitySources: (json['identitySources'] as List)
+      identitySources: ((json['identitySources'] as List?) ?? const [])
           .nonNulls
           .map((e) => IdentitySourceItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4008,7 +4016,7 @@ class ListPoliciesOutput {
 
   factory ListPoliciesOutput.fromJson(Map<String, dynamic> json) {
     return ListPoliciesOutput(
-      policies: (json['policies'] as List)
+      policies: ((json['policies'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4045,7 +4053,7 @@ class ListPolicyStoresOutput {
 
   factory ListPolicyStoresOutput.fromJson(Map<String, dynamic> json) {
     return ListPolicyStoresOutput(
-      policyStores: (json['policyStores'] as List)
+      policyStores: ((json['policyStores'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyStoreItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4082,7 +4090,7 @@ class ListPolicyTemplatesOutput {
 
   factory ListPolicyTemplatesOutput.fromJson(Map<String, dynamic> json) {
     return ListPolicyTemplatesOutput(
-      policyTemplates: (json['policyTemplates'] as List)
+      policyTemplates: ((json['policyTemplates'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyTemplateItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4318,9 +4326,10 @@ class OpenIdConnectConfigurationDetail {
 
   factory OpenIdConnectConfigurationDetail.fromJson(Map<String, dynamic> json) {
     return OpenIdConnectConfigurationDetail(
-      issuer: json['issuer'] as String,
+      issuer: (json['issuer'] as String?) ?? '',
       tokenSelection: OpenIdConnectTokenSelectionDetail.fromJson(
-          json['tokenSelection'] as Map<String, dynamic>),
+          (json['tokenSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       entityIdPrefix: json['entityIdPrefix'] as String?,
       groupConfiguration: json['groupConfiguration'] != null
           ? OpenIdConnectGroupConfigurationDetail.fromJson(
@@ -4384,9 +4393,10 @@ class OpenIdConnectConfigurationItem {
 
   factory OpenIdConnectConfigurationItem.fromJson(Map<String, dynamic> json) {
     return OpenIdConnectConfigurationItem(
-      issuer: json['issuer'] as String,
+      issuer: (json['issuer'] as String?) ?? '',
       tokenSelection: OpenIdConnectTokenSelectionItem.fromJson(
-          json['tokenSelection'] as Map<String, dynamic>),
+          (json['tokenSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       entityIdPrefix: json['entityIdPrefix'] as String?,
       groupConfiguration: json['groupConfiguration'] != null
           ? OpenIdConnectGroupConfigurationItem.fromJson(
@@ -4470,8 +4480,8 @@ class OpenIdConnectGroupConfigurationDetail {
   factory OpenIdConnectGroupConfigurationDetail.fromJson(
       Map<String, dynamic> json) {
     return OpenIdConnectGroupConfigurationDetail(
-      groupClaim: json['groupClaim'] as String,
-      groupEntityType: json['groupEntityType'] as String,
+      groupClaim: (json['groupClaim'] as String?) ?? '',
+      groupEntityType: (json['groupEntityType'] as String?) ?? '',
     );
   }
 
@@ -4512,8 +4522,8 @@ class OpenIdConnectGroupConfigurationItem {
   factory OpenIdConnectGroupConfigurationItem.fromJson(
       Map<String, dynamic> json) {
     return OpenIdConnectGroupConfigurationItem(
-      groupClaim: json['groupClaim'] as String,
-      groupEntityType: json['groupEntityType'] as String,
+      groupClaim: (json['groupClaim'] as String?) ?? '',
+      groupEntityType: (json['groupEntityType'] as String?) ?? '',
     );
   }
 
@@ -5039,13 +5049,14 @@ class PolicyItem {
 
   factory PolicyItem.fromJson(Map<String, dynamic> json) {
     return PolicyItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       definition: PolicyDefinitionItem.fromJson(
-          json['definition'] as Map<String, dynamic>),
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyId: json['policyId'] as String,
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.nonNulls
@@ -5119,9 +5130,9 @@ class PolicyStoreItem {
 
   factory PolicyStoreItem.fromJson(Map<String, dynamic> json) {
     return PolicyStoreItem(
-      arn: json['arn'] as String,
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       description: json['description'] as String?,
       lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     );
@@ -5175,11 +5186,11 @@ class PolicyTemplateItem {
 
   factory PolicyTemplateItem.fromJson(Map<String, dynamic> json) {
     return PolicyTemplateItem(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      policyTemplateId: json['policyTemplateId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -5236,14 +5247,14 @@ class PutSchemaOutput {
 
   factory PutSchemaOutput.fromJson(Map<String, dynamic> json) {
     return PutSchemaOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      namespaces: (json['namespaces'] as List)
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      namespaces: ((json['namespaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      policyStoreId: json['policyStoreId'] as String,
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
@@ -5335,7 +5346,7 @@ class StaticPolicyDefinitionDetail {
 
   factory StaticPolicyDefinitionDetail.fromJson(Map<String, dynamic> json) {
     return StaticPolicyDefinitionDetail(
-      statement: json['statement'] as String,
+      statement: (json['statement'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -5443,7 +5454,7 @@ class TemplateLinkedPolicyDefinitionDetail {
   factory TemplateLinkedPolicyDefinitionDetail.fromJson(
       Map<String, dynamic> json) {
     return TemplateLinkedPolicyDefinitionDetail(
-      policyTemplateId: json['policyTemplateId'] as String,
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -5494,7 +5505,7 @@ class TemplateLinkedPolicyDefinitionItem {
   factory TemplateLinkedPolicyDefinitionItem.fromJson(
       Map<String, dynamic> json) {
     return TemplateLinkedPolicyDefinitionItem(
-      policyTemplateId: json['policyTemplateId'] as String,
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
       principal: json['principal'] != null
           ? EntityIdentifier.fromJson(json['principal'] as Map<String, dynamic>)
           : null,
@@ -5620,11 +5631,11 @@ class UpdateIdentitySourceOutput {
 
   factory UpdateIdentitySourceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateIdentitySourceOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      identitySourceId: json['identitySourceId'] as String,
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      identitySourceId: (json['identitySourceId'] as String?) ?? '',
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
@@ -5900,11 +5911,11 @@ class UpdatePolicyOutput {
 
   factory UpdatePolicyOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePolicyOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyId: json['policyId'] as String,
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyId: (json['policyId'] as String?) ?? '',
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
       policyType: PolicyType.fromString((json['policyType'] as String)),
       actions: (json['actions'] as List?)
           ?.nonNulls
@@ -5968,11 +5979,11 @@ class UpdatePolicyStoreOutput {
 
   factory UpdatePolicyStoreOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePolicyStoreOutput(
-      arn: json['arn'] as String,
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
     );
   }
 
@@ -6012,11 +6023,11 @@ class UpdatePolicyTemplateOutput {
 
   factory UpdatePolicyTemplateOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePolicyTemplateOutput(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
       lastUpdatedDate:
-          nonNullableTimeStampFromJson(json['lastUpdatedDate'] as Object),
-      policyStoreId: json['policyStoreId'] as String,
-      policyTemplateId: json['policyTemplateId'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedDate'] ?? 0),
+      policyStoreId: (json['policyStoreId'] as String?) ?? '',
+      policyTemplateId: (json['policyTemplateId'] as String?) ?? '',
     );
   }
 

@@ -1688,11 +1688,11 @@ class DetectEntitiesResponse {
 
   factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return DetectEntitiesResponse(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      modelVersion: json['ModelVersion'] as String,
+      modelVersion: (json['ModelVersion'] as String?) ?? '',
       paginationToken: json['PaginationToken'] as String?,
       unmappedAttributes: (json['UnmappedAttributes'] as List?)
           ?.nonNulls
@@ -1745,11 +1745,11 @@ class DetectEntitiesV2Response {
 
   factory DetectEntitiesV2Response.fromJson(Map<String, dynamic> json) {
     return DetectEntitiesV2Response(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      modelVersion: json['ModelVersion'] as String,
+      modelVersion: (json['ModelVersion'] as String?) ?? '',
       paginationToken: json['PaginationToken'] as String?,
       unmappedAttributes: (json['UnmappedAttributes'] as List?)
           ?.nonNulls
@@ -1797,11 +1797,11 @@ class DetectPHIResponse {
 
   factory DetectPHIResponse.fromJson(Map<String, dynamic> json) {
     return DetectPHIResponse(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Entity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      modelVersion: json['ModelVersion'] as String,
+      modelVersion: (json['ModelVersion'] as String?) ?? '',
       paginationToken: json['PaginationToken'] as String?,
     );
   }
@@ -2385,7 +2385,7 @@ class InferICD10CMResponse {
 
   factory InferICD10CMResponse.fromJson(Map<String, dynamic> json) {
     return InferICD10CMResponse(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => ICD10CMEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2430,7 +2430,7 @@ class InferRxNormResponse {
 
   factory InferRxNormResponse.fromJson(Map<String, dynamic> json) {
     return InferRxNormResponse(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => RxNormEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2485,7 +2485,7 @@ class InferSNOMEDCTResponse {
 
   factory InferSNOMEDCTResponse.fromJson(Map<String, dynamic> json) {
     return InferSNOMEDCTResponse(
-      entities: (json['Entities'] as List)
+      entities: ((json['Entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => SNOMEDCTEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2534,7 +2534,7 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3Key: json['S3Key'] as String?,
     );
   }
@@ -2795,7 +2795,7 @@ class OutputDataConfig {
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3Key: json['S3Key'] as String?,
     );
   }

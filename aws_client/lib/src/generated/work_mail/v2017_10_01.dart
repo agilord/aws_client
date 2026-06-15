@@ -5144,7 +5144,7 @@ class Delegate {
 
   factory Delegate.fromJson(Map<String, dynamic> json) {
     return Delegate(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       type: MemberType.fromString((json['Type'] as String)),
     );
   }
@@ -6830,7 +6830,7 @@ class ImpersonationRule {
   factory ImpersonationRule.fromJson(Map<String, dynamic> json) {
     return ImpersonationRule(
       effect: AccessEffect.fromString((json['Effect'] as String)),
-      impersonationRuleId: json['ImpersonationRuleId'] as String,
+      impersonationRuleId: (json['ImpersonationRuleId'] as String?) ?? '',
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       notTargetUsers: (json['NotTargetUsers'] as List?)
@@ -6874,7 +6874,7 @@ class LambdaAvailabilityProvider {
 
   factory LambdaAvailabilityProvider.fromJson(Map<String, dynamic> json) {
     return LambdaAvailabilityProvider(
-      lambdaArn: json['LambdaArn'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
     );
   }
 
@@ -8085,9 +8085,9 @@ class Permission {
 
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
-      granteeId: json['GranteeId'] as String,
+      granteeId: (json['GranteeId'] as String?) ?? '',
       granteeType: MemberType.fromString((json['GranteeType'] as String)),
-      permissionValues: (json['PermissionValues'] as List)
+      permissionValues: ((json['PermissionValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => PermissionType.fromString((e as String)))
           .toList(),
@@ -8404,8 +8404,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

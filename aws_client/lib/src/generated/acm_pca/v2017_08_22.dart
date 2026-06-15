@@ -2113,10 +2113,12 @@ class AccessDescription {
 
   factory AccessDescription.fromJson(Map<String, dynamic> json) {
     return AccessDescription(
-      accessLocation:
-          GeneralName.fromJson(json['AccessLocation'] as Map<String, dynamic>),
-      accessMethod:
-          AccessMethod.fromJson(json['AccessMethod'] as Map<String, dynamic>),
+      accessLocation: GeneralName.fromJson(
+          (json['AccessLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      accessMethod: AccessMethod.fromJson(
+          (json['AccessMethod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2473,7 +2475,9 @@ class CertificateAuthorityConfiguration {
       keyAlgorithm: KeyAlgorithm.fromString((json['KeyAlgorithm'] as String)),
       signingAlgorithm:
           SigningAlgorithm.fromString((json['SigningAlgorithm'] as String)),
-      subject: ASN1Subject.fromJson(json['Subject'] as Map<String, dynamic>),
+      subject: ASN1Subject.fromJson(
+          (json['Subject'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       csrExtensions: json['CsrExtensions'] != null
           ? CsrExtensions.fromJson(
               json['CsrExtensions'] as Map<String, dynamic>)
@@ -2781,7 +2785,7 @@ class CrlConfiguration {
 
   factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
     return CrlConfiguration(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       crlDistributionPointExtensionConfiguration:
           json['CrlDistributionPointExtensionConfiguration'] != null
               ? CrlDistributionPointExtensionConfiguration.fromJson(
@@ -2844,7 +2848,7 @@ class CrlDistributionPointExtensionConfiguration {
   factory CrlDistributionPointExtensionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CrlDistributionPointExtensionConfiguration(
-      omitExtension: json['OmitExtension'] as bool,
+      omitExtension: (json['OmitExtension'] as bool?) ?? false,
     );
   }
 
@@ -2914,8 +2918,8 @@ class CustomAttribute {
 
   factory CustomAttribute.fromJson(Map<String, dynamic> json) {
     return CustomAttribute(
-      objectIdentifier: json['ObjectIdentifier'] as String,
-      value: json['Value'] as String,
+      objectIdentifier: (json['ObjectIdentifier'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -3062,7 +3066,7 @@ class EdiPartyName {
 
   factory EdiPartyName.fromJson(Map<String, dynamic> json) {
     return EdiPartyName(
-      partyName: json['PartyName'] as String,
+      partyName: (json['PartyName'] as String?) ?? '',
       nameAssigner: json['NameAssigner'] as String?,
     );
   }
@@ -3671,7 +3675,7 @@ class OcspConfiguration {
 
   factory OcspConfiguration.fromJson(Map<String, dynamic> json) {
     return OcspConfiguration(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       ocspCustomCname: json['OcspCustomCname'] as String?,
     );
   }
@@ -3705,8 +3709,8 @@ class OtherName {
 
   factory OtherName.fromJson(Map<String, dynamic> json) {
     return OtherName(
-      typeId: json['TypeId'] as String,
-      value: json['Value'] as String,
+      typeId: (json['TypeId'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4029,7 +4033,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

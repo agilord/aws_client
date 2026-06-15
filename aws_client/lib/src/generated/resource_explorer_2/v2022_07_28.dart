@@ -1178,8 +1178,8 @@ class BatchGetViewError {
 
   factory BatchGetViewError.fromJson(Map<String, dynamic> json) {
     return BatchGetViewError(
-      errorMessage: json['ErrorMessage'] as String,
-      viewArn: json['ViewArn'] as String,
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      viewArn: (json['ViewArn'] as String?) ?? '',
     );
   }
 
@@ -1577,7 +1577,7 @@ class IncludedProperty {
 
   factory IncludedProperty.fromJson(Map<String, dynamic> json) {
     return IncludedProperty(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2138,7 +2138,7 @@ class SearchFilter {
 
   factory SearchFilter.fromJson(Map<String, dynamic> json) {
     return SearchFilter(
-      filterString: json['FilterString'] as String,
+      filterString: (json['FilterString'] as String?) ?? '',
     );
   }
 

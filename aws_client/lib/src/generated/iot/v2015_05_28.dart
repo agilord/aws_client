@@ -11620,7 +11620,7 @@ class AbortConfig {
 
   factory AbortConfig.fromJson(Map<String, dynamic> json) {
     return AbortConfig(
-      criteriaList: (json['criteriaList'] as List)
+      criteriaList: ((json['criteriaList'] as List?) ?? const [])
           .nonNulls
           .map((e) => AbortCriteria.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11666,8 +11666,9 @@ class AbortCriteria {
       action: AbortAction.fromString((json['action'] as String)),
       failureType:
           JobExecutionFailureType.fromString((json['failureType'] as String)),
-      minNumberOfExecutedThings: json['minNumberOfExecutedThings'] as int,
-      thresholdPercentage: json['thresholdPercentage'] as double,
+      minNumberOfExecutedThings:
+          (json['minNumberOfExecutedThings'] as int?) ?? 0,
+      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
     );
   }
 
@@ -12097,7 +12098,7 @@ class AddThingsToThingGroupParams {
 
   factory AddThingsToThingGroupParams.fromJson(Map<String, dynamic> json) {
     return AddThingsToThingGroupParams(
-      thingGroupNames: (json['thingGroupNames'] as List)
+      thingGroupNames: ((json['thingGroupNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -12180,8 +12181,8 @@ class AlertTarget {
 
   factory AlertTarget.fromJson(Map<String, dynamic> json) {
     return AlertTarget(
-      alertTargetArn: json['alertTargetArn'] as String,
-      roleArn: json['roleArn'] as String,
+      alertTargetArn: (json['alertTargetArn'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -12253,7 +12254,7 @@ class AssetPropertyTimestamp {
 
   factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) {
     return AssetPropertyTimestamp(
-      timeInSeconds: json['timeInSeconds'] as String,
+      timeInSeconds: (json['timeInSeconds'] as String?) ?? '',
       offsetInNanos: json['offsetInNanos'] as String?,
     );
   }
@@ -12290,9 +12291,11 @@ class AssetPropertyValue {
   factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
     return AssetPropertyValue(
       timestamp: AssetPropertyTimestamp.fromJson(
-          json['timestamp'] as Map<String, dynamic>),
-      value:
-          AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
+          (json['timestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      value: AssetPropertyVariant.fromJson(
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       quality: json['quality'] as String?,
     );
   }
@@ -13006,9 +13009,10 @@ class AuditSuppression {
 
   factory AuditSuppression.fromJson(Map<String, dynamic> json) {
     return AuditSuppression(
-      checkName: json['checkName'] as String,
+      checkName: (json['checkName'] as String?) ?? '',
       resourceIdentifier: ResourceIdentifier.fromJson(
-          json['resourceIdentifier'] as Map<String, dynamic>),
+          (json['resourceIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
       expirationDate: timeStampFromJson(json['expirationDate']),
       suppressIndefinitely: json['suppressIndefinitely'] as bool?,
@@ -13137,8 +13141,10 @@ class AuthInfo {
 
   factory AuthInfo.fromJson(Map<String, dynamic> json) {
     return AuthInfo(
-      resources:
-          (json['resources'] as List).nonNulls.map((e) => e as String).toList(),
+      resources: ((json['resources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       actionType: (json['actionType'] as String?)?.let(ActionType.fromString),
     );
   }
@@ -13555,10 +13561,11 @@ class AwsJobExponentialRolloutRate {
 
   factory AwsJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return AwsJobExponentialRolloutRate(
-      baseRatePerMinute: json['baseRatePerMinute'] as int,
-      incrementFactor: json['incrementFactor'] as double,
+      baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
+      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
       rateIncreaseCriteria: AwsJobRateIncreaseCriteria.fromJson(
-          json['rateIncreaseCriteria'] as Map<String, dynamic>),
+          (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -13701,7 +13708,7 @@ class Behavior {
 
   factory Behavior.fromJson(Map<String, dynamic> json) {
     return Behavior(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       criteria: json['criteria'] != null
           ? BehaviorCriteria.fromJson(json['criteria'] as Map<String, dynamic>)
           : null,
@@ -14668,10 +14675,10 @@ class CloudwatchAlarmAction {
 
   factory CloudwatchAlarmAction.fromJson(Map<String, dynamic> json) {
     return CloudwatchAlarmAction(
-      alarmName: json['alarmName'] as String,
-      roleArn: json['roleArn'] as String,
-      stateReason: json['stateReason'] as String,
-      stateValue: json['stateValue'] as String,
+      alarmName: (json['alarmName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stateReason: (json['stateReason'] as String?) ?? '',
+      stateValue: (json['stateValue'] as String?) ?? '',
     );
   }
 
@@ -14710,8 +14717,8 @@ class CloudwatchLogsAction {
 
   factory CloudwatchLogsAction.fromJson(Map<String, dynamic> json) {
     return CloudwatchLogsAction(
-      logGroupName: json['logGroupName'] as String,
-      roleArn: json['roleArn'] as String,
+      logGroupName: (json['logGroupName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       batchMode: json['batchMode'] as bool?,
     );
   }
@@ -14763,11 +14770,11 @@ class CloudwatchMetricAction {
 
   factory CloudwatchMetricAction.fromJson(Map<String, dynamic> json) {
     return CloudwatchMetricAction(
-      metricName: json['metricName'] as String,
-      metricNamespace: json['metricNamespace'] as String,
-      metricUnit: json['metricUnit'] as String,
-      metricValue: json['metricValue'] as String,
-      roleArn: json['roleArn'] as String,
+      metricName: (json['metricName'] as String?) ?? '',
+      metricNamespace: (json['metricNamespace'] as String?) ?? '',
+      metricUnit: (json['metricUnit'] as String?) ?? '',
+      metricValue: (json['metricValue'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       metricTimestamp: json['metricTimestamp'] as String?,
     );
   }
@@ -19286,10 +19293,10 @@ class DynamoDBAction {
 
   factory DynamoDBAction.fromJson(Map<String, dynamic> json) {
     return DynamoDBAction(
-      hashKeyField: json['hashKeyField'] as String,
-      hashKeyValue: json['hashKeyValue'] as String,
-      roleArn: json['roleArn'] as String,
-      tableName: json['tableName'] as String,
+      hashKeyField: (json['hashKeyField'] as String?) ?? '',
+      hashKeyValue: (json['hashKeyValue'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       hashKeyType:
           (json['hashKeyType'] as String?)?.let(DynamoKeyType.fromString),
       operation: json['operation'] as String?,
@@ -19352,8 +19359,10 @@ class DynamoDBv2Action {
 
   factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) {
     return DynamoDBv2Action(
-      putItem: PutItemInput.fromJson(json['putItem'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
+      putItem: PutItemInput.fromJson(
+          (json['putItem'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -19453,11 +19462,11 @@ class ElasticsearchAction {
 
   factory ElasticsearchAction.fromJson(Map<String, dynamic> json) {
     return ElasticsearchAction(
-      endpoint: json['endpoint'] as String,
-      id: json['id'] as String,
-      index: json['index'] as String,
-      roleArn: json['roleArn'] as String,
-      type: json['type'] as String,
+      endpoint: (json['endpoint'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      index: (json['index'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -19494,7 +19503,7 @@ class EnableIoTLoggingParams {
   factory EnableIoTLoggingParams.fromJson(Map<String, dynamic> json) {
     return EnableIoTLoggingParams(
       logLevel: LogLevel.fromString((json['logLevel'] as String)),
-      roleArnForLogging: json['roleArnForLogging'] as String,
+      roleArnForLogging: (json['roleArnForLogging'] as String?) ?? '',
     );
   }
 
@@ -19611,10 +19620,11 @@ class ExponentialRolloutRate {
 
   factory ExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return ExponentialRolloutRate(
-      baseRatePerMinute: json['baseRatePerMinute'] as int,
-      incrementFactor: json['incrementFactor'] as double,
+      baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
+      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
       rateIncreaseCriteria: RateIncreaseCriteria.fromJson(
-          json['rateIncreaseCriteria'] as Map<String, dynamic>),
+          (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -19743,8 +19753,8 @@ class FirehoseAction {
 
   factory FirehoseAction.fromJson(Map<String, dynamic> json) {
     return FirehoseAction(
-      deliveryStreamName: json['deliveryStreamName'] as String,
-      roleArn: json['roleArn'] as String,
+      deliveryStreamName: (json['deliveryStreamName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       batchMode: json['batchMode'] as bool?,
       separator: json['separator'] as String?,
     );
@@ -20645,7 +20655,7 @@ class HttpAction {
 
   factory HttpAction.fromJson(Map<String, dynamic> json) {
     return HttpAction(
-      url: json['url'] as String,
+      url: (json['url'] as String?) ?? '',
       auth: json['auth'] != null
           ? HttpAuthorization.fromJson(json['auth'] as Map<String, dynamic>)
           : null,
@@ -20686,8 +20696,8 @@ class HttpActionHeader {
 
   factory HttpActionHeader.fromJson(Map<String, dynamic> json) {
     return HttpActionHeader(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -21023,8 +21033,8 @@ class IotEventsAction {
 
   factory IotEventsAction.fromJson(Map<String, dynamic> json) {
     return IotEventsAction(
-      inputName: json['inputName'] as String,
-      roleArn: json['roleArn'] as String,
+      inputName: (json['inputName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       batchMode: json['batchMode'] as bool?,
       messageId: json['messageId'] as String?,
     );
@@ -21063,13 +21073,14 @@ class IotSiteWiseAction {
 
   factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) {
     return IotSiteWiseAction(
-      putAssetPropertyValueEntries: (json['putAssetPropertyValueEntries']
-              as List)
+      putAssetPropertyValueEntries: ((json['putAssetPropertyValueEntries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               PutAssetPropertyValueEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -21735,7 +21746,7 @@ class JobExecutionsRetryConfig {
 
   factory JobExecutionsRetryConfig.fromJson(Map<String, dynamic> json) {
     return JobExecutionsRetryConfig(
-      criteriaList: (json['criteriaList'] as List)
+      criteriaList: ((json['criteriaList'] as List?) ?? const [])
           .nonNulls
           .map((e) => RetryCriteria.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -22065,10 +22076,11 @@ class KafkaAction {
 
   factory KafkaAction.fromJson(Map<String, dynamic> json) {
     return KafkaAction(
-      clientProperties: (json['clientProperties'] as Map<String, dynamic>)
+      clientProperties: ((json['clientProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      destinationArn: json['destinationArn'] as String,
-      topic: json['topic'] as String,
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      topic: (json['topic'] as String?) ?? '',
       headers: (json['headers'] as List?)
           ?.nonNulls
           .map((e) => KafkaActionHeader.fromJson(e as Map<String, dynamic>))
@@ -22117,8 +22129,8 @@ class KafkaActionHeader {
 
   factory KafkaActionHeader.fromJson(Map<String, dynamic> json) {
     return KafkaActionHeader(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -22181,8 +22193,8 @@ class KinesisAction {
 
   factory KinesisAction.fromJson(Map<String, dynamic> json) {
     return KinesisAction(
-      roleArn: json['roleArn'] as String,
-      streamName: json['streamName'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      streamName: (json['streamName'] as String?) ?? '',
       partitionKey: json['partitionKey'] as String?,
     );
   }
@@ -22210,7 +22222,7 @@ class LambdaAction {
 
   factory LambdaAction.fromJson(Map<String, dynamic> json) {
     return LambdaAction(
-      functionArn: json['functionArn'] as String,
+      functionArn: (json['functionArn'] as String?) ?? '',
     );
   }
 
@@ -24272,11 +24284,11 @@ class LocationAction {
 
   factory LocationAction.fromJson(Map<String, dynamic> json) {
     return LocationAction(
-      deviceId: json['deviceId'] as String,
-      latitude: json['latitude'] as String,
-      longitude: json['longitude'] as String,
-      roleArn: json['roleArn'] as String,
-      trackerName: json['trackerName'] as String,
+      deviceId: (json['deviceId'] as String?) ?? '',
+      latitude: (json['latitude'] as String?) ?? '',
+      longitude: (json['longitude'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      trackerName: (json['trackerName'] as String?) ?? '',
       timestamp: json['timestamp'] != null
           ? LocationTimestamp.fromJson(
               json['timestamp'] as Map<String, dynamic>)
@@ -24323,7 +24335,7 @@ class LocationTimestamp {
 
   factory LocationTimestamp.fromJson(Map<String, dynamic> json) {
     return LocationTimestamp(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
       unit: json['unit'] as String?,
     );
   }
@@ -24501,8 +24513,8 @@ class MaintenanceWindow {
 
   factory MaintenanceWindow.fromJson(Map<String, dynamic> json) {
     return MaintenanceWindow(
-      durationInMinutes: json['durationInMinutes'] as int,
-      startTime: json['startTime'] as String,
+      durationInMinutes: (json['durationInMinutes'] as int?) ?? 0,
+      startTime: (json['startTime'] as String?) ?? '',
     );
   }
 
@@ -24638,7 +24650,7 @@ class MetricDimension {
 
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
-      dimensionName: json['dimensionName'] as String,
+      dimensionName: (json['dimensionName'] as String?) ?? '',
       operator:
           (json['operator'] as String?)?.let(DimensionValueOperator.fromString),
     );
@@ -24674,7 +24686,7 @@ class MetricToRetain {
 
   factory MetricToRetain.fromJson(Map<String, dynamic> json) {
     return MetricToRetain(
-      metric: json['metric'] as String,
+      metric: (json['metric'] as String?) ?? '',
       exportMetric: json['exportMetric'] as bool?,
       metricDimension: json['metricDimension'] != null
           ? MetricDimension.fromJson(
@@ -24776,8 +24788,8 @@ class MetricsExportConfig {
 
   factory MetricsExportConfig.fromJson(Map<String, dynamic> json) {
     return MetricsExportConfig(
-      mqttTopic: json['mqttTopic'] as String,
-      roleArn: json['roleArn'] as String,
+      mqttTopic: (json['mqttTopic'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -25522,11 +25534,11 @@ class OpenSearchAction {
 
   factory OpenSearchAction.fromJson(Map<String, dynamic> json) {
     return OpenSearchAction(
-      endpoint: json['endpoint'] as String,
-      id: json['id'] as String,
-      index: json['index'] as String,
-      roleArn: json['roleArn'] as String,
-      type: json['type'] as String,
+      endpoint: (json['endpoint'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      index: (json['index'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -25953,7 +25965,7 @@ class ProvisioningHook {
 
   factory ProvisioningHook.fromJson(Map<String, dynamic> json) {
     return ProvisioningHook(
-      targetArn: json['targetArn'] as String,
+      targetArn: (json['targetArn'] as String?) ?? '',
       payloadVersion: json['payloadVersion'] as String?,
     );
   }
@@ -26093,7 +26105,7 @@ class PublishFindingToSnsParams {
 
   factory PublishFindingToSnsParams.fromJson(Map<String, dynamic> json) {
     return PublishFindingToSnsParams(
-      topicArn: json['topicArn'] as String,
+      topicArn: (json['topicArn'] as String?) ?? '',
     );
   }
 
@@ -26141,7 +26153,7 @@ class PutAssetPropertyValueEntry {
 
   factory PutAssetPropertyValueEntry.fromJson(Map<String, dynamic> json) {
     return PutAssetPropertyValueEntry(
-      propertyValues: (json['propertyValues'] as List)
+      propertyValues: ((json['propertyValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26180,7 +26192,7 @@ class PutItemInput {
 
   factory PutItemInput.fromJson(Map<String, dynamic> json) {
     return PutItemInput(
-      tableName: json['tableName'] as String,
+      tableName: (json['tableName'] as String?) ?? '',
     );
   }
 
@@ -26531,8 +26543,8 @@ class RepublishAction {
 
   factory RepublishAction.fromJson(Map<String, dynamic> json) {
     return RepublishAction(
-      roleArn: json['roleArn'] as String,
-      topic: json['topic'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      topic: (json['topic'] as String?) ?? '',
       headers: json['headers'] != null
           ? MqttHeaders.fromJson(json['headers'] as Map<String, dynamic>)
           : null,
@@ -26691,7 +26703,7 @@ class RetryCriteria {
     return RetryCriteria(
       failureType:
           RetryableFailureType.fromString((json['failureType'] as String)),
-      numberOfRetries: json['numberOfRetries'] as int,
+      numberOfRetries: (json['numberOfRetries'] as int?) ?? 0,
     );
   }
 
@@ -26817,9 +26829,9 @@ class S3Action {
 
   factory S3Action.fromJson(Map<String, dynamic> json) {
     return S3Action(
-      bucketName: json['bucketName'] as String,
-      key: json['key'] as String,
-      roleArn: json['roleArn'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       cannedAcl: (json['cannedAcl'] as String?)
           ?.let(CannedAccessControlList.fromString),
     );
@@ -26926,8 +26938,8 @@ class SalesforceAction {
 
   factory SalesforceAction.fromJson(Map<String, dynamic> json) {
     return SalesforceAction(
-      token: json['token'] as String,
-      url: json['url'] as String,
+      token: (json['token'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
     );
   }
 
@@ -27153,8 +27165,8 @@ class SecurityProfileIdentifier {
 
   factory SecurityProfileIdentifier.fromJson(Map<String, dynamic> json) {
     return SecurityProfileIdentifier(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -27180,7 +27192,7 @@ class SecurityProfileTarget {
 
   factory SecurityProfileTarget.fromJson(Map<String, dynamic> json) {
     return SecurityProfileTarget(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -27381,9 +27393,9 @@ class SigV4Authorization {
 
   factory SigV4Authorization.fromJson(Map<String, dynamic> json) {
     return SigV4Authorization(
-      roleArn: json['roleArn'] as String,
-      serviceName: json['serviceName'] as String,
-      signingRegion: json['signingRegion'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      serviceName: (json['serviceName'] as String?) ?? '',
+      signingRegion: (json['signingRegion'] as String?) ?? '',
     );
   }
 
@@ -27462,8 +27474,8 @@ class SnsAction {
 
   factory SnsAction.fromJson(Map<String, dynamic> json) {
     return SnsAction(
-      roleArn: json['roleArn'] as String,
-      targetArn: json['targetArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      targetArn: (json['targetArn'] as String?) ?? '',
       messageFormat:
           (json['messageFormat'] as String?)?.let(MessageFormat.fromString),
     );
@@ -27500,8 +27512,8 @@ class SqsAction {
 
   factory SqsAction.fromJson(Map<String, dynamic> json) {
     return SqsAction(
-      queueUrl: json['queueUrl'] as String,
-      roleArn: json['roleArn'] as String,
+      queueUrl: (json['queueUrl'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       useBase64: json['useBase64'] as bool?,
     );
   }
@@ -27801,8 +27813,8 @@ class StepFunctionsAction {
 
   factory StepFunctionsAction.fromJson(Map<String, dynamic> json) {
     return StepFunctionsAction(
-      roleArn: json['roleArn'] as String,
-      stateMachineName: json['stateMachineName'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stateMachineName: (json['stateMachineName'] as String?) ?? '',
       executionNamePrefix: json['executionNamePrefix'] as String?,
     );
   }
@@ -28029,7 +28041,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -29111,13 +29123,13 @@ class TimestreamAction {
 
   factory TimestreamAction.fromJson(Map<String, dynamic> json) {
     return TimestreamAction(
-      databaseName: json['databaseName'] as String,
-      dimensions: (json['dimensions'] as List)
+      databaseName: (json['databaseName'] as String?) ?? '',
+      dimensions: ((json['dimensions'] as List?) ?? const [])
           .nonNulls
           .map((e) => TimestreamDimension.fromJson(e as Map<String, dynamic>))
           .toList(),
-      roleArn: json['roleArn'] as String,
-      tableName: json['tableName'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       timestamp: json['timestamp'] != null
           ? TimestreamTimestamp.fromJson(
               json['timestamp'] as Map<String, dynamic>)
@@ -29164,8 +29176,8 @@ class TimestreamDimension {
 
   factory TimestreamDimension.fromJson(Map<String, dynamic> json) {
     return TimestreamDimension(
-      name: json['name'] as String,
-      value: json['value'] as String,
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -29200,8 +29212,8 @@ class TimestreamTimestamp {
 
   factory TimestreamTimestamp.fromJson(Map<String, dynamic> json) {
     return TimestreamTimestamp(
-      unit: json['unit'] as String,
-      value: json['value'] as String,
+      unit: (json['unit'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -30498,8 +30510,8 @@ class UserProperty {
 
   factory UserProperty.fromJson(Map<String, dynamic> json) {
     return UserProperty(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -30765,8 +30777,8 @@ class ViolationEventOccurrenceRange {
 
   factory ViolationEventOccurrenceRange.fromJson(Map<String, dynamic> json) {
     return ViolationEventOccurrenceRange(
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
     );
   }
 

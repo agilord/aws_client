@@ -1597,9 +1597,9 @@ class BatchDeleteAgentError {
 
   factory BatchDeleteAgentError.fromJson(Map<String, dynamic> json) {
     return BatchDeleteAgentError(
-      agentId: json['agentId'] as String,
+      agentId: (json['agentId'] as String?) ?? '',
       errorCode: DeleteAgentErrorCode.fromString((json['errorCode'] as String)),
-      errorMessage: json['errorMessage'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -2212,13 +2212,13 @@ class CustomerAgentInfo {
 
   factory CustomerAgentInfo.fromJson(Map<String, dynamic> json) {
     return CustomerAgentInfo(
-      activeAgents: json['activeAgents'] as int,
-      blackListedAgents: json['blackListedAgents'] as int,
-      healthyAgents: json['healthyAgents'] as int,
-      shutdownAgents: json['shutdownAgents'] as int,
-      totalAgents: json['totalAgents'] as int,
-      unhealthyAgents: json['unhealthyAgents'] as int,
-      unknownAgents: json['unknownAgents'] as int,
+      activeAgents: (json['activeAgents'] as int?) ?? 0,
+      blackListedAgents: (json['blackListedAgents'] as int?) ?? 0,
+      healthyAgents: (json['healthyAgents'] as int?) ?? 0,
+      shutdownAgents: (json['shutdownAgents'] as int?) ?? 0,
+      totalAgents: (json['totalAgents'] as int?) ?? 0,
+      unhealthyAgents: (json['unhealthyAgents'] as int?) ?? 0,
+      unknownAgents: (json['unknownAgents'] as int?) ?? 0,
     );
   }
 
@@ -2278,14 +2278,19 @@ class CustomerAgentlessCollectorInfo {
 
   factory CustomerAgentlessCollectorInfo.fromJson(Map<String, dynamic> json) {
     return CustomerAgentlessCollectorInfo(
-      activeAgentlessCollectors: json['activeAgentlessCollectors'] as int,
+      activeAgentlessCollectors:
+          (json['activeAgentlessCollectors'] as int?) ?? 0,
       denyListedAgentlessCollectors:
-          json['denyListedAgentlessCollectors'] as int,
-      healthyAgentlessCollectors: json['healthyAgentlessCollectors'] as int,
-      shutdownAgentlessCollectors: json['shutdownAgentlessCollectors'] as int,
-      totalAgentlessCollectors: json['totalAgentlessCollectors'] as int,
-      unhealthyAgentlessCollectors: json['unhealthyAgentlessCollectors'] as int,
-      unknownAgentlessCollectors: json['unknownAgentlessCollectors'] as int,
+          (json['denyListedAgentlessCollectors'] as int?) ?? 0,
+      healthyAgentlessCollectors:
+          (json['healthyAgentlessCollectors'] as int?) ?? 0,
+      shutdownAgentlessCollectors:
+          (json['shutdownAgentlessCollectors'] as int?) ?? 0,
+      totalAgentlessCollectors: (json['totalAgentlessCollectors'] as int?) ?? 0,
+      unhealthyAgentlessCollectors:
+          (json['unhealthyAgentlessCollectors'] as int?) ?? 0,
+      unknownAgentlessCollectors:
+          (json['unknownAgentlessCollectors'] as int?) ?? 0,
     );
   }
 
@@ -2344,13 +2349,13 @@ class CustomerConnectorInfo {
 
   factory CustomerConnectorInfo.fromJson(Map<String, dynamic> json) {
     return CustomerConnectorInfo(
-      activeConnectors: json['activeConnectors'] as int,
-      blackListedConnectors: json['blackListedConnectors'] as int,
-      healthyConnectors: json['healthyConnectors'] as int,
-      shutdownConnectors: json['shutdownConnectors'] as int,
-      totalConnectors: json['totalConnectors'] as int,
-      unhealthyConnectors: json['unhealthyConnectors'] as int,
-      unknownConnectors: json['unknownConnectors'] as int,
+      activeConnectors: (json['activeConnectors'] as int?) ?? 0,
+      blackListedConnectors: (json['blackListedConnectors'] as int?) ?? 0,
+      healthyConnectors: (json['healthyConnectors'] as int?) ?? 0,
+      shutdownConnectors: (json['shutdownConnectors'] as int?) ?? 0,
+      totalConnectors: (json['totalConnectors'] as int?) ?? 0,
+      unhealthyConnectors: (json['unhealthyConnectors'] as int?) ?? 0,
+      unknownConnectors: (json['unknownConnectors'] as int?) ?? 0,
     );
   }
 
@@ -2410,13 +2415,13 @@ class CustomerMeCollectorInfo {
 
   factory CustomerMeCollectorInfo.fromJson(Map<String, dynamic> json) {
     return CustomerMeCollectorInfo(
-      activeMeCollectors: json['activeMeCollectors'] as int,
-      denyListedMeCollectors: json['denyListedMeCollectors'] as int,
-      healthyMeCollectors: json['healthyMeCollectors'] as int,
-      shutdownMeCollectors: json['shutdownMeCollectors'] as int,
-      totalMeCollectors: json['totalMeCollectors'] as int,
-      unhealthyMeCollectors: json['unhealthyMeCollectors'] as int,
-      unknownMeCollectors: json['unknownMeCollectors'] as int,
+      activeMeCollectors: (json['activeMeCollectors'] as int?) ?? 0,
+      denyListedMeCollectors: (json['denyListedMeCollectors'] as int?) ?? 0,
+      healthyMeCollectors: (json['healthyMeCollectors'] as int?) ?? 0,
+      shutdownMeCollectors: (json['shutdownMeCollectors'] as int?) ?? 0,
+      totalMeCollectors: (json['totalMeCollectors'] as int?) ?? 0,
+      unhealthyMeCollectors: (json['unhealthyMeCollectors'] as int?) ?? 0,
+      unknownMeCollectors: (json['unknownMeCollectors'] as int?) ?? 0,
     );
   }
 
@@ -3039,11 +3044,11 @@ class ExportInfo {
 
   factory ExportInfo.fromJson(Map<String, dynamic> json) {
     return ExportInfo(
-      exportId: json['exportId'] as String,
+      exportId: (json['exportId'] as String?) ?? '',
       exportRequestTime:
-          nonNullableTimeStampFromJson(json['exportRequestTime'] as Object),
+          nonNullableTimeStampFromJson(json['exportRequestTime'] ?? 0),
       exportStatus: ExportStatus.fromString((json['exportStatus'] as String)),
-      statusMessage: json['statusMessage'] as String,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
       configurationsDownloadUrl: json['configurationsDownloadUrl'] as String?,
       isTruncated: json['isTruncated'] as bool?,
       requestedEndTime: timeStampFromJson(json['requestedEndTime']),
@@ -3558,7 +3563,7 @@ class ListServerNeighborsResponse {
 
   factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) {
     return ListServerNeighborsResponse(
-      neighbors: (json['neighbors'] as List)
+      neighbors: ((json['neighbors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               NeighborConnectionDetail.fromJson(e as Map<String, dynamic>))
@@ -3608,9 +3613,9 @@ class NeighborConnectionDetail {
 
   factory NeighborConnectionDetail.fromJson(Map<String, dynamic> json) {
     return NeighborConnectionDetail(
-      connectionsCount: json['connectionsCount'] as int,
-      destinationServerId: json['destinationServerId'] as String,
-      sourceServerId: json['sourceServerId'] as String,
+      connectionsCount: (json['connectionsCount'] as int?) ?? 0,
+      destinationServerId: (json['destinationServerId'] as String?) ?? '',
+      sourceServerId: (json['sourceServerId'] as String?) ?? '',
       destinationPort: json['destinationPort'] as int?,
       transportProtocol: json['transportProtocol'] as String?,
     );

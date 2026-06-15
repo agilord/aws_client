@@ -658,8 +658,8 @@ class Authorization {
 
   factory Authorization.fromJson(Map<String, dynamic> json) {
     return Authorization(
-      cdnIdentifierSecret: json['cdnIdentifierSecret'] as String,
-      secretsRoleArn: json['secretsRoleArn'] as String,
+      cdnIdentifierSecret: (json['cdnIdentifierSecret'] as String?) ?? '',
+      secretsRoleArn: (json['secretsRoleArn'] as String?) ?? '',
     );
   }
 
@@ -690,7 +690,8 @@ class CmafEncryption {
   factory CmafEncryption.fromJson(Map<String, dynamic> json) {
     return CmafEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
     );
@@ -733,7 +734,7 @@ class CmafPackage {
 
   factory CmafPackage.fromJson(Map<String, dynamic> json) {
     return CmafPackage(
-      hlsManifests: (json['hlsManifests'] as List)
+      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
           .nonNulls
           .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1063,7 +1064,8 @@ class DashEncryption {
   factory DashEncryption.fromJson(Map<String, dynamic> json) {
     return DashEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1194,7 +1196,7 @@ class DashPackage {
 
   factory DashPackage.fromJson(Map<String, dynamic> json) {
     return DashPackage(
-      dashManifests: (json['dashManifests'] as List)
+      dashManifests: ((json['dashManifests'] as List?) ?? const [])
           .nonNulls
           .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1651,7 +1653,8 @@ class HlsEncryption {
   factory HlsEncryption.fromJson(Map<String, dynamic> json) {
     return HlsEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
       encryptionMethod: (json['encryptionMethod'] as String?)
@@ -1778,7 +1781,7 @@ class HlsPackage {
 
   factory HlsPackage.fromJson(Map<String, dynamic> json) {
     return HlsPackage(
-      hlsManifests: (json['hlsManifests'] as List)
+      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
           .nonNulls
           .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1961,7 +1964,8 @@ class MssEncryption {
   factory MssEncryption.fromJson(Map<String, dynamic> json) {
     return MssEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2021,7 +2025,7 @@ class MssPackage {
 
   factory MssPackage.fromJson(Map<String, dynamic> json) {
     return MssPackage(
-      mssManifests: (json['mssManifests'] as List)
+      mssManifests: ((json['mssManifests'] as List?) ?? const [])
           .nonNulls
           .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2306,10 +2310,12 @@ class SpekeKeyProvider {
 
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
-      roleArn: json['roleArn'] as String,
-      systemIds:
-          (json['systemIds'] as List).nonNulls.map((e) => e as String).toList(),
-      url: json['url'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      systemIds: ((json['systemIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      url: (json['url'] as String?) ?? '',
       encryptionContractConfiguration:
           json['encryptionContractConfiguration'] != null
               ? EncryptionContractConfiguration.fromJson(

@@ -996,8 +996,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['Tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 

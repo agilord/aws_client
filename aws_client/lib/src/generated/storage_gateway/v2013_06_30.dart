@@ -5664,10 +5664,10 @@ class AutomaticTapeCreationRule {
 
   factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) {
     return AutomaticTapeCreationRule(
-      minimumNumTapes: json['MinimumNumTapes'] as int,
-      poolId: json['PoolId'] as String,
-      tapeBarcodePrefix: json['TapeBarcodePrefix'] as String,
-      tapeSizeInBytes: json['TapeSizeInBytes'] as int,
+      minimumNumTapes: (json['MinimumNumTapes'] as int?) ?? 0,
+      poolId: (json['PoolId'] as String?) ?? '',
+      tapeBarcodePrefix: (json['TapeBarcodePrefix'] as String?) ?? '',
+      tapeSizeInBytes: (json['TapeSizeInBytes'] as int?) ?? 0,
       worm: json['Worm'] as bool?,
     );
   }
@@ -5777,12 +5777,14 @@ class BandwidthRateLimitInterval {
 
   factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
     return BandwidthRateLimitInterval(
-      daysOfWeek:
-          (json['DaysOfWeek'] as List).nonNulls.map((e) => e as int).toList(),
-      endHourOfDay: json['EndHourOfDay'] as int,
-      endMinuteOfHour: json['EndMinuteOfHour'] as int,
-      startHourOfDay: json['StartHourOfDay'] as int,
-      startMinuteOfHour: json['StartMinuteOfHour'] as int,
+      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
+      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
+      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
+      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
       averageDownloadRateLimitInBitsPerSec:
           json['AverageDownloadRateLimitInBitsPerSec'] as int?,
       averageUploadRateLimitInBitsPerSec:
@@ -10223,8 +10225,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

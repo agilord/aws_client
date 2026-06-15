@@ -5008,8 +5008,8 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-      s3Uri: json['S3Uri'] as String,
+      dataAccessRoleArn: (json['DataAccessRoleArn'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       tuningDataS3Uri: json['TuningDataS3Uri'] as String?,
     );
   }
@@ -6125,7 +6125,7 @@ class MedicalScribeChannelDefinition {
 
   factory MedicalScribeChannelDefinition.fromJson(Map<String, dynamic> json) {
     return MedicalScribeChannelDefinition(
-      channelId: json['ChannelId'] as int,
+      channelId: (json['ChannelId'] as int?) ?? 0,
       participantRole: MedicalScribeParticipantRole.fromString(
           (json['ParticipantRole'] as String)),
     );
@@ -6483,8 +6483,8 @@ class MedicalScribeOutput {
 
   factory MedicalScribeOutput.fromJson(Map<String, dynamic> json) {
     return MedicalScribeOutput(
-      clinicalDocumentUri: json['ClinicalDocumentUri'] as String,
-      transcriptFileUri: json['TranscriptFileUri'] as String,
+      clinicalDocumentUri: (json['ClinicalDocumentUri'] as String?) ?? '',
+      transcriptFileUri: (json['TranscriptFileUri'] as String?) ?? '',
     );
   }
 
@@ -7547,7 +7547,7 @@ class SentimentFilter {
 
   factory SentimentFilter.fromJson(Map<String, dynamic> json) {
     return SentimentFilter(
-      sentiments: (json['Sentiments'] as List)
+      sentiments: ((json['Sentiments'] as List?) ?? const [])
           .nonNulls
           .map((e) => SentimentValue.fromString((e as String)))
           .toList(),
@@ -7994,7 +7994,8 @@ class Summarization {
 
   factory Summarization.fromJson(Map<String, dynamic> json) {
     return Summarization(
-      generateAbstractiveSummary: json['GenerateAbstractiveSummary'] as bool,
+      generateAbstractiveSummary:
+          (json['GenerateAbstractiveSummary'] as bool?) ?? false,
     );
   }
 
@@ -8037,8 +8038,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -8093,7 +8094,7 @@ class ToxicityDetectionSettings {
 
   factory ToxicityDetectionSettings.fromJson(Map<String, dynamic> json) {
     return ToxicityDetectionSettings(
-      toxicityCategories: (json['ToxicityCategories'] as List)
+      toxicityCategories: ((json['ToxicityCategories'] as List?) ?? const [])
           .nonNulls
           .map((e) => ToxicityCategory.fromString((e as String)))
           .toList(),
@@ -8238,8 +8239,10 @@ class TranscriptFilter {
 
   factory TranscriptFilter.fromJson(Map<String, dynamic> json) {
     return TranscriptFilter(
-      targets:
-          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
+      targets: ((json['Targets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       transcriptFilterType: TranscriptFilterType.fromString(
           (json['TranscriptFilterType'] as String)),
       absoluteTimeRange: json['AbsoluteTimeRange'] != null

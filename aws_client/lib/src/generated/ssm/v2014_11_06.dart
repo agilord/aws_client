@@ -10530,7 +10530,7 @@ class Alarm {
 
   factory Alarm.fromJson(Map<String, dynamic> json) {
     return Alarm(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -10562,7 +10562,7 @@ class AlarmConfiguration {
 
   factory AlarmConfiguration.fromJson(Map<String, dynamic> json) {
     return AlarmConfiguration(
-      alarms: (json['Alarms'] as List)
+      alarms: ((json['Alarms'] as List?) ?? const [])
           .nonNulls
           .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10596,7 +10596,7 @@ class AlarmStateInformation {
 
   factory AlarmStateInformation.fromJson(Map<String, dynamic> json) {
     return AlarmStateInformation(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       state: ExternalAlarmState.fromString((json['State'] as String)),
     );
   }
@@ -11488,8 +11488,8 @@ class AssociationStatus {
 
   factory AssociationStatus.fromJson(Map<String, dynamic> json) {
     return AssociationStatus(
-      date: nonNullableTimeStampFromJson(json['Date'] as Object),
-      message: json['Message'] as String,
+      date: nonNullableTimeStampFromJson(json['Date'] ?? 0),
+      message: (json['Message'] as String?) ?? '',
       name: AssociationStatusName.fromString((json['Name'] as String)),
       additionalInfo: json['AdditionalInfo'] as String?,
     );
@@ -13792,8 +13792,7 @@ class ComplianceExecutionSummary {
 
   factory ComplianceExecutionSummary.fromJson(Map<String, dynamic> json) {
     return ComplianceExecutionSummary(
-      executionTime:
-          nonNullableTimeStampFromJson(json['ExecutionTime'] as Object),
+      executionTime: nonNullableTimeStampFromJson(json['ExecutionTime'] ?? 0),
       executionId: json['ExecutionId'] as String?,
       executionType: json['ExecutionType'] as String?,
     );
@@ -14362,7 +14361,7 @@ class CreateAssociationBatchRequestEntry {
   factory CreateAssociationBatchRequestEntry.fromJson(
       Map<String, dynamic> json) {
     return CreateAssociationBatchRequestEntry(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       alarmConfiguration: json['AlarmConfiguration'] != null
           ? AlarmConfiguration.fromJson(
               json['AlarmConfiguration'] as Map<String, dynamic>)
@@ -17122,7 +17121,7 @@ class DocumentRequires {
 
   factory DocumentRequires.fromJson(Map<String, dynamic> json) {
     return DocumentRequires(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       requireType: json['RequireType'] as String?,
       version: json['Version'] as String?,
       versionName: json['VersionName'] as String?,
@@ -20138,14 +20137,14 @@ class InstancePatchState {
 
   factory InstancePatchState.fromJson(Map<String, dynamic> json) {
     return InstancePatchState(
-      baselineId: json['BaselineId'] as String,
-      instanceId: json['InstanceId'] as String,
+      baselineId: (json['BaselineId'] as String?) ?? '',
+      instanceId: (json['InstanceId'] as String?) ?? '',
       operation: PatchOperationType.fromString((json['Operation'] as String)),
       operationEndTime:
-          nonNullableTimeStampFromJson(json['OperationEndTime'] as Object),
+          nonNullableTimeStampFromJson(json['OperationEndTime'] ?? 0),
       operationStartTime:
-          nonNullableTimeStampFromJson(json['OperationStartTime'] as Object),
-      patchGroup: json['PatchGroup'] as String,
+          nonNullableTimeStampFromJson(json['OperationStartTime'] ?? 0),
+      patchGroup: (json['PatchGroup'] as String?) ?? '',
       criticalNonCompliantCount: json['CriticalNonCompliantCount'] as int?,
       failedCount: json['FailedCount'] as int?,
       installOverrideList: json['InstallOverrideList'] as String?,
@@ -20989,7 +20988,7 @@ class InventoryItemAttribute {
     return InventoryItemAttribute(
       dataType:
           InventoryAttributeDataType.fromString((json['DataType'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -21034,12 +21033,12 @@ class InventoryItemSchema {
 
   factory InventoryItemSchema.fromJson(Map<String, dynamic> json) {
     return InventoryItemSchema(
-      attributes: (json['Attributes'] as List)
+      attributes: ((json['Attributes'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => InventoryItemAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      typeName: json['TypeName'] as String,
+      typeName: (json['TypeName'] as String?) ?? '',
       displayName: json['DisplayName'] as String?,
       version: json['Version'] as String?,
     );
@@ -21142,13 +21141,13 @@ class InventoryResultItem {
 
   factory InventoryResultItem.fromJson(Map<String, dynamic> json) {
     return InventoryResultItem(
-      content: (json['Content'] as List)
+      content: ((json['Content'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as Map<String, dynamic>)
               .map((k, e) => MapEntry(k, e as String)))
           .toList(),
-      schemaVersion: json['SchemaVersion'] as String,
-      typeName: json['TypeName'] as String,
+      schemaVersion: (json['SchemaVersion'] as String?) ?? '',
+      typeName: (json['TypeName'] as String?) ?? '',
       captureTime: json['CaptureTime'] as String?,
       contentHash: json['ContentHash'] as String?,
     );
@@ -21856,8 +21855,8 @@ class LoggingInfo {
 
   factory LoggingInfo.fromJson(Map<String, dynamic> json) {
     return LoggingInfo(
-      s3BucketName: json['S3BucketName'] as String,
-      s3Region: json['S3Region'] as String,
+      s3BucketName: (json['S3BucketName'] as String?) ?? '',
+      s3Region: (json['S3Region'] as String?) ?? '',
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
     );
   }
@@ -25372,13 +25371,12 @@ class PatchComplianceData {
 
   factory PatchComplianceData.fromJson(Map<String, dynamic> json) {
     return PatchComplianceData(
-      classification: json['Classification'] as String,
-      installedTime:
-          nonNullableTimeStampFromJson(json['InstalledTime'] as Object),
-      kBId: json['KBId'] as String,
-      severity: json['Severity'] as String,
+      classification: (json['Classification'] as String?) ?? '',
+      installedTime: nonNullableTimeStampFromJson(json['InstalledTime'] ?? 0),
+      kBId: (json['KBId'] as String?) ?? '',
+      severity: (json['Severity'] as String?) ?? '',
       state: PatchComplianceDataState.fromString((json['State'] as String)),
-      title: json['Title'] as String,
+      title: (json['Title'] as String?) ?? '',
       cVEIds: json['CVEIds'] as String?,
     );
   }
@@ -25499,8 +25497,10 @@ class PatchFilter {
   factory PatchFilter.fromJson(Map<String, dynamic> json) {
     return PatchFilter(
       key: PatchFilterKey.fromString((json['Key'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -25525,7 +25525,7 @@ class PatchFilterGroup {
 
   factory PatchFilterGroup.fromJson(Map<String, dynamic> json) {
     return PatchFilterGroup(
-      patchFilters: (json['PatchFilters'] as List)
+      patchFilters: ((json['PatchFilters'] as List?) ?? const [])
           .nonNulls
           .map((e) => PatchFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25730,7 +25730,8 @@ class PatchRule {
   factory PatchRule.fromJson(Map<String, dynamic> json) {
     return PatchRule(
       patchFilterGroup: PatchFilterGroup.fromJson(
-          json['PatchFilterGroup'] as Map<String, dynamic>),
+          (json['PatchFilterGroup'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       approveAfterDays: json['ApproveAfterDays'] as int?,
       approveUntilDate: json['ApproveUntilDate'] as String?,
       complianceLevel: (json['ComplianceLevel'] as String?)
@@ -25766,7 +25767,7 @@ class PatchRuleGroup {
 
   factory PatchRuleGroup.fromJson(Map<String, dynamic> json) {
     return PatchRuleGroup(
-      patchRules: (json['PatchRules'] as List)
+      patchRules: ((json['PatchRules'] as List?) ?? const [])
           .nonNulls
           .map((e) => PatchRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25831,10 +25832,12 @@ class PatchSource {
 
   factory PatchSource.fromJson(Map<String, dynamic> json) {
     return PatchSource(
-      configuration: json['Configuration'] as String,
-      name: json['Name'] as String,
-      products:
-          (json['Products'] as List).nonNulls.map((e) => e as String).toList(),
+      configuration: (json['Configuration'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      products: ((json['Products'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -26232,7 +26235,7 @@ class RelatedOpsItem {
 
   factory RelatedOpsItem.fromJson(Map<String, dynamic> json) {
     return RelatedOpsItem(
-      opsItemId: json['OpsItemId'] as String,
+      opsItemId: (json['OpsItemId'] as String?) ?? '',
     );
   }
 
@@ -26424,7 +26427,7 @@ class ResourceDataSyncAwsOrganizationsSource {
   factory ResourceDataSyncAwsOrganizationsSource.fromJson(
       Map<String, dynamic> json) {
     return ResourceDataSyncAwsOrganizationsSource(
-      organizationSourceType: json['OrganizationSourceType'] as String,
+      organizationSourceType: (json['OrganizationSourceType'] as String?) ?? '',
       organizationalUnits: (json['OrganizationalUnits'] as List?)
           ?.nonNulls
           .map((e) => ResourceDataSyncOrganizationalUnit.fromJson(
@@ -26637,8 +26640,8 @@ class ResourceDataSyncS3Destination {
 
   factory ResourceDataSyncS3Destination.fromJson(Map<String, dynamic> json) {
     return ResourceDataSyncS3Destination(
-      bucketName: json['BucketName'] as String,
-      region: json['Region'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
+      region: (json['Region'] as String?) ?? '',
       syncFormat:
           ResourceDataSyncS3Format.fromString((json['SyncFormat'] as String)),
       awsKMSKeyARN: json['AWSKMSKeyARN'] as String?,
@@ -27063,7 +27066,7 @@ class Runbook {
 
   factory Runbook.fromJson(Map<String, dynamic> json) {
     return Runbook(
-      documentName: json['DocumentName'] as String,
+      documentName: (json['DocumentName'] as String?) ?? '',
       documentVersion: json['DocumentVersion'] as String?,
       maxConcurrency: json['MaxConcurrency'] as String?,
       maxErrors: json['MaxErrors'] as String?,
@@ -28122,8 +28125,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

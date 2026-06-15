@@ -739,7 +739,7 @@ class DescribeNotificationRuleResult {
 
   factory DescribeNotificationRuleResult.fromJson(Map<String, dynamic> json) {
     return DescribeNotificationRuleResult(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       createdBy: json['CreatedBy'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       detailType: (json['DetailType'] as String?)?.let(DetailType.fromString),
@@ -1308,7 +1308,7 @@ class UnsubscribeResult {
 
   factory UnsubscribeResult.fromJson(Map<String, dynamic> json) {
     return UnsubscribeResult(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
     );
   }
 

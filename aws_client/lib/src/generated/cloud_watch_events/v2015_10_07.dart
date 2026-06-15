@@ -2918,8 +2918,10 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets:
-          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       assignPublicIp:
           (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
@@ -2999,8 +3001,8 @@ class BatchParameters {
 
   factory BatchParameters.fromJson(Map<String, dynamic> json) {
     return BatchParameters(
-      jobDefinition: json['JobDefinition'] as String,
-      jobName: json['JobName'] as String,
+      jobDefinition: (json['JobDefinition'] as String?) ?? '',
+      jobName: (json['JobName'] as String?) ?? '',
       arrayProperties: json['ArrayProperties'] != null
           ? BatchArrayProperties.fromJson(
               json['ArrayProperties'] as Map<String, dynamic>)
@@ -3115,7 +3117,7 @@ class CapacityProviderStrategyItem {
 
   factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) {
     return CapacityProviderStrategyItem(
-      capacityProvider: json['capacityProvider'] as String,
+      capacityProvider: (json['capacityProvider'] as String?) ?? '',
       base: json['base'] as int?,
       weight: json['weight'] as int?,
     );
@@ -4893,7 +4895,7 @@ class EcsParameters {
 
   factory EcsParameters.fromJson(Map<String, dynamic> json) {
     return EcsParameters(
-      taskDefinitionArn: json['TaskDefinitionArn'] as String,
+      taskDefinitionArn: (json['TaskDefinitionArn'] as String?) ?? '',
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5222,7 +5224,7 @@ class InputTransformer {
 
   factory InputTransformer.fromJson(Map<String, dynamic> json) {
     return InputTransformer(
-      inputTemplate: json['InputTemplate'] as String,
+      inputTemplate: (json['InputTemplate'] as String?) ?? '',
       inputPathsMap: (json['InputPathsMap'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5257,7 +5259,7 @@ class KinesisParameters {
 
   factory KinesisParameters.fromJson(Map<String, dynamic> json) {
     return KinesisParameters(
-      partitionKeyPath: json['PartitionKeyPath'] as String,
+      partitionKeyPath: (json['PartitionKeyPath'] as String?) ?? '',
     );
   }
 
@@ -6306,8 +6308,8 @@ class RedshiftDataParameters {
 
   factory RedshiftDataParameters.fromJson(Map<String, dynamic> json) {
     return RedshiftDataParameters(
-      database: json['Database'] as String,
-      sql: json['Sql'] as String,
+      database: (json['Database'] as String?) ?? '',
+      sql: (json['Sql'] as String?) ?? '',
       dbUser: json['DbUser'] as String?,
       secretManagerArn: json['SecretManagerArn'] as String?,
       statementName: json['StatementName'] as String?,
@@ -6509,7 +6511,7 @@ class ReplayDestination {
 
   factory ReplayDestination.fromJson(Map<String, dynamic> json) {
     return ReplayDestination(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       filterArns: (json['FilterArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6701,7 +6703,7 @@ class RunCommandParameters {
 
   factory RunCommandParameters.fromJson(Map<String, dynamic> json) {
     return RunCommandParameters(
-      runCommandTargets: (json['RunCommandTargets'] as List)
+      runCommandTargets: ((json['RunCommandTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => RunCommandTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6735,9 +6737,11 @@ class RunCommandTarget {
 
   factory RunCommandTarget.fromJson(Map<String, dynamic> json) {
     return RunCommandTarget(
-      key: json['Key'] as String,
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      key: (json['Key'] as String?) ?? '',
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -6768,8 +6772,8 @@ class SageMakerPipelineParameter {
 
   factory SageMakerPipelineParameter.fromJson(Map<String, dynamic> json) {
     return SageMakerPipelineParameter(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -6898,8 +6902,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7050,8 +7054,8 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
-      arn: json['Arn'] as String,
-      id: json['Id'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
       batchParameters: json['BatchParameters'] != null
           ? BatchParameters.fromJson(
               json['BatchParameters'] as Map<String, dynamic>)

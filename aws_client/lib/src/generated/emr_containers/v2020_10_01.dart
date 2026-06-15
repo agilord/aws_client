@@ -1132,7 +1132,7 @@ class CloudWatchMonitoringConfiguration {
   factory CloudWatchMonitoringConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchMonitoringConfiguration(
-      logGroupName: json['logGroupName'] as String,
+      logGroupName: (json['logGroupName'] as String?) ?? '',
       logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
     );
   }
@@ -1172,7 +1172,7 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
-      classification: json['classification'] as String,
+      classification: (json['classification'] as String?) ?? '',
       configurations: (json['configurations'] as List?)
           ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
@@ -1275,8 +1275,8 @@ class ContainerLogRotationConfiguration {
   factory ContainerLogRotationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ContainerLogRotationConfiguration(
-      maxFilesToKeep: json['maxFilesToKeep'] as int,
-      rotationSize: json['rotationSize'] as String,
+      maxFilesToKeep: (json['maxFilesToKeep'] as int?) ?? 0,
+      rotationSize: (json['rotationSize'] as String?) ?? '',
     );
   }
 
@@ -1310,7 +1310,7 @@ class ContainerProvider {
 
   factory ContainerProvider.fromJson(Map<String, dynamic> json) {
     return ContainerProvider(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       type: ContainerProviderType.fromString((json['type'] as String)),
       info: json['info'] != null
           ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
@@ -2300,7 +2300,8 @@ class JobTemplate {
   factory JobTemplate.fromJson(Map<String, dynamic> json) {
     return JobTemplate(
       jobTemplateData: JobTemplateData.fromJson(
-          json['jobTemplateData'] as Map<String, dynamic>),
+          (json['jobTemplateData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -2367,9 +2368,11 @@ class JobTemplateData {
 
   factory JobTemplateData.fromJson(Map<String, dynamic> json) {
     return JobTemplateData(
-      executionRoleArn: json['executionRoleArn'] as String,
-      jobDriver: JobDriver.fromJson(json['jobDriver'] as Map<String, dynamic>),
-      releaseLabel: json['releaseLabel'] as String,
+      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
+      jobDriver: JobDriver.fromJson(
+          (json['jobDriver'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       configurationOverrides: json['configurationOverrides'] != null
           ? ParametricConfigurationOverrides.fromJson(
               json['configurationOverrides'] as Map<String, dynamic>)
@@ -2875,7 +2878,7 @@ class RetryPolicyConfiguration {
 
   factory RetryPolicyConfiguration.fromJson(Map<String, dynamic> json) {
     return RetryPolicyConfiguration(
-      maxAttempts: json['maxAttempts'] as int,
+      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
     );
   }
 
@@ -2898,7 +2901,7 @@ class RetryPolicyExecution {
 
   factory RetryPolicyExecution.fromJson(Map<String, dynamic> json) {
     return RetryPolicyExecution(
-      currentAttemptCount: json['currentAttemptCount'] as int,
+      currentAttemptCount: (json['currentAttemptCount'] as int?) ?? 0,
     );
   }
 
@@ -2922,7 +2925,7 @@ class S3MonitoringConfiguration {
 
   factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
     return S3MonitoringConfiguration(
-      logUri: json['logUri'] as String,
+      logUri: (json['logUri'] as String?) ?? '',
     );
   }
 
@@ -3114,7 +3117,7 @@ class SparkSubmitJobDriver {
 
   factory SparkSubmitJobDriver.fromJson(Map<String, dynamic> json) {
     return SparkSubmitJobDriver(
-      entryPoint: json['entryPoint'] as String,
+      entryPoint: (json['entryPoint'] as String?) ?? '',
       entryPointArguments: (json['entryPointArguments'] as List?)
           ?.nonNulls
           .map((e) => e as String)

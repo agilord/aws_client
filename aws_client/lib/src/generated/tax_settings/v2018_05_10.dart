@@ -1137,10 +1137,10 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      addressLine1: json['addressLine1'] as String,
-      city: json['city'] as String,
-      countryCode: json['countryCode'] as String,
-      postalCode: json['postalCode'] as String,
+      addressLine1: (json['addressLine1'] as String?) ?? '',
+      city: (json['city'] as String?) ?? '',
+      countryCode: (json['countryCode'] as String?) ?? '',
+      postalCode: (json['postalCode'] as String?) ?? '',
       addressLine2: json['addressLine2'] as String?,
       addressLine3: json['addressLine3'] as String?,
       districtOrCounty: json['districtOrCounty'] as String?,
@@ -1210,8 +1210,8 @@ class BatchDeleteTaxRegistrationError {
 
   factory BatchDeleteTaxRegistrationError.fromJson(Map<String, dynamic> json) {
     return BatchDeleteTaxRegistrationError(
-      accountId: json['accountId'] as String,
-      message: json['message'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
       code: json['code'] as String?,
     );
   }
@@ -1240,7 +1240,7 @@ class BatchDeleteTaxRegistrationResponse {
   factory BatchDeleteTaxRegistrationResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteTaxRegistrationResponse(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDeleteTaxRegistrationError.fromJson(
               e as Map<String, dynamic>))
@@ -1280,8 +1280,8 @@ class BatchPutTaxRegistrationError {
 
   factory BatchPutTaxRegistrationError.fromJson(Map<String, dynamic> json) {
     return BatchPutTaxRegistrationError(
-      accountId: json['accountId'] as String,
-      message: json['message'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
       code: json['code'] as String?,
     );
   }
@@ -1315,7 +1315,7 @@ class BatchPutTaxRegistrationResponse {
 
   factory BatchPutTaxRegistrationResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutTaxRegistrationResponse(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchPutTaxRegistrationError.fromJson(e as Map<String, dynamic>))
@@ -1491,7 +1491,7 @@ class EstoniaAdditionalInfo {
 
   factory EstoniaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return EstoniaAdditionalInfo(
-      registryCommercialCode: json['registryCommercialCode'] as String,
+      registryCommercialCode: (json['registryCommercialCode'] as String?) ?? '',
     );
   }
 
@@ -1748,7 +1748,7 @@ class Jurisdiction {
 
   factory Jurisdiction.fromJson(Map<String, dynamic> json) {
     return Jurisdiction(
-      countryCode: json['countryCode'] as String,
+      countryCode: (json['countryCode'] as String?) ?? '',
       stateOrRegion: json['stateOrRegion'] as String?,
     );
   }
@@ -1801,7 +1801,7 @@ class ListTaxRegistrationsResponse {
 
   factory ListTaxRegistrationsResponse.fromJson(Map<String, dynamic> json) {
     return ListTaxRegistrationsResponse(
-      accountDetails: (json['accountDetails'] as List)
+      accountDetails: ((json['accountDetails'] as List?) ?? const [])
           .nonNulls
           .map((e) => AccountDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1830,7 +1830,7 @@ class MalaysiaAdditionalInfo {
 
   factory MalaysiaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return MalaysiaAdditionalInfo(
-      serviceTaxCodes: (json['serviceTaxCodes'] as List)
+      serviceTaxCodes: ((json['serviceTaxCodes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MalaysiaServiceTaxCode.fromString((e as String)))
           .toList(),
@@ -2077,9 +2077,10 @@ class SouthKoreaAdditionalInfo {
 
   factory SouthKoreaAdditionalInfo.fromJson(Map<String, dynamic> json) {
     return SouthKoreaAdditionalInfo(
-      businessRepresentativeName: json['businessRepresentativeName'] as String,
-      itemOfBusiness: json['itemOfBusiness'] as String,
-      lineOfBusiness: json['lineOfBusiness'] as String,
+      businessRepresentativeName:
+          (json['businessRepresentativeName'] as String?) ?? '',
+      itemOfBusiness: (json['itemOfBusiness'] as String?) ?? '',
+      lineOfBusiness: (json['lineOfBusiness'] as String?) ?? '',
     );
   }
 
@@ -2142,8 +2143,8 @@ class TaxDocumentMetadata {
 
   factory TaxDocumentMetadata.fromJson(Map<String, dynamic> json) {
     return TaxDocumentMetadata(
-      taxDocumentAccessToken: json['taxDocumentAccessToken'] as String,
-      taxDocumentName: json['taxDocumentName'] as String,
+      taxDocumentAccessToken: (json['taxDocumentAccessToken'] as String?) ?? '',
+      taxDocumentName: (json['taxDocumentName'] as String?) ?? '',
     );
   }
 
@@ -2237,10 +2238,11 @@ class TaxRegistration {
 
   factory TaxRegistration.fromJson(Map<String, dynamic> json) {
     return TaxRegistration(
-      legalAddress:
-          Address.fromJson(json['legalAddress'] as Map<String, dynamic>),
-      legalName: json['legalName'] as String,
-      registrationId: json['registrationId'] as String,
+      legalAddress: Address.fromJson(
+          (json['legalAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      legalName: (json['legalName'] as String?) ?? '',
+      registrationId: (json['registrationId'] as String?) ?? '',
       registrationType:
           TaxRegistrationType.fromString((json['registrationType'] as String)),
       status: TaxRegistrationStatus.fromString((json['status'] as String)),
@@ -2485,10 +2487,11 @@ class TaxRegistrationWithJurisdiction {
 
   factory TaxRegistrationWithJurisdiction.fromJson(Map<String, dynamic> json) {
     return TaxRegistrationWithJurisdiction(
-      jurisdiction:
-          Jurisdiction.fromJson(json['jurisdiction'] as Map<String, dynamic>),
-      legalName: json['legalName'] as String,
-      registrationId: json['registrationId'] as String,
+      jurisdiction: Jurisdiction.fromJson(
+          (json['jurisdiction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      legalName: (json['legalName'] as String?) ?? '',
+      registrationId: (json['registrationId'] as String?) ?? '',
       registrationType:
           TaxRegistrationType.fromString((json['registrationType'] as String)),
       status: TaxRegistrationStatus.fromString((json['status'] as String)),

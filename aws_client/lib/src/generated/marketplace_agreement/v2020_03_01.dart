@@ -742,11 +742,11 @@ class ConfigurableUpfrontPricingTermConfiguration {
   factory ConfigurableUpfrontPricingTermConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ConfigurableUpfrontPricingTermConfiguration(
-      dimensions: (json['dimensions'] as List)
+      dimensions: ((json['dimensions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
           .toList(),
-      selectorValue: json['selectorValue'] as String,
+      selectorValue: (json['selectorValue'] as String?) ?? '',
     );
   }
 
@@ -1011,8 +1011,8 @@ class Dimension {
 
   factory Dimension.fromJson(Map<String, dynamic> json) {
     return Dimension(
-      dimensionKey: json['dimensionKey'] as String,
-      dimensionValue: json['dimensionValue'] as int,
+      dimensionKey: (json['dimensionKey'] as String?) ?? '',
+      dimensionValue: (json['dimensionValue'] as int?) ?? 0,
     );
   }
 
@@ -1603,7 +1603,7 @@ class RenewalTermConfiguration {
 
   factory RenewalTermConfiguration.fromJson(Map<String, dynamic> json) {
     return RenewalTermConfiguration(
-      enableAutoRenew: json['enableAutoRenew'] as bool,
+      enableAutoRenew: (json['enableAutoRenew'] as bool?) ?? false,
     );
   }
 

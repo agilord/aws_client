@@ -156,8 +156,8 @@ class AuditEventResultEntry {
 
   factory AuditEventResultEntry.fromJson(Map<String, dynamic> json) {
     return AuditEventResultEntry(
-      eventID: json['eventID'] as String,
-      id: json['id'] as String,
+      eventID: (json['eventID'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -188,11 +188,11 @@ class PutAuditEventsResponse {
 
   factory PutAuditEventsResponse.fromJson(Map<String, dynamic> json) {
     return PutAuditEventsResponse(
-      failed: (json['failed'] as List)
+      failed: ((json['failed'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: (json['successful'] as List)
+      successful: ((json['successful'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuditEventResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -236,9 +236,9 @@ class ResultErrorEntry {
 
   factory ResultErrorEntry.fromJson(Map<String, dynamic> json) {
     return ResultErrorEntry(
-      errorCode: json['errorCode'] as String,
-      errorMessage: json['errorMessage'] as String,
-      id: json['id'] as String,
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
     );
   }
 

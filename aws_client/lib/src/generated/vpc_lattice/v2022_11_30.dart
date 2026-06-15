@@ -2102,14 +2102,13 @@ class AccessLogSubscriptionSummary {
 
   factory AccessLogSubscriptionSummary.fromJson(Map<String, dynamic> json) {
     return AccessLogSubscriptionSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      destinationArn: json['destinationArn'] as String,
-      id: json['id'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      resourceArn: json['resourceArn'] as String,
-      resourceId: json['resourceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      resourceId: (json['resourceId'] as String?) ?? '',
     );
   }
 
@@ -2224,11 +2223,11 @@ class CreateAccessLogSubscriptionResponse {
   factory CreateAccessLogSubscriptionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAccessLogSubscriptionResponse(
-      arn: json['arn'] as String,
-      destinationArn: json['destinationArn'] as String,
-      id: json['id'] as String,
-      resourceArn: json['resourceArn'] as String,
-      resourceId: json['resourceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      resourceId: (json['resourceId'] as String?) ?? '',
     );
   }
 
@@ -2990,7 +2989,7 @@ class FixedResponseAction {
 
   factory FixedResponseAction.fromJson(Map<String, dynamic> json) {
     return FixedResponseAction(
-      statusCode: json['statusCode'] as int,
+      statusCode: (json['statusCode'] as int?) ?? 0,
     );
   }
 
@@ -3023,7 +3022,7 @@ class ForwardAction {
 
   factory ForwardAction.fromJson(Map<String, dynamic> json) {
     return ForwardAction(
-      targetGroups: (json['targetGroups'] as List)
+      targetGroups: ((json['targetGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => WeightedTargetGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3074,14 +3073,13 @@ class GetAccessLogSubscriptionResponse {
 
   factory GetAccessLogSubscriptionResponse.fromJson(Map<String, dynamic> json) {
     return GetAccessLogSubscriptionResponse(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      destinationArn: json['destinationArn'] as String,
-      id: json['id'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      resourceArn: json['resourceArn'] as String,
-      resourceId: json['resourceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      resourceId: (json['resourceId'] as String?) ?? '',
     );
   }
 
@@ -3885,8 +3883,10 @@ class HeaderMatch {
 
   factory HeaderMatch.fromJson(Map<String, dynamic> json) {
     return HeaderMatch(
-      match: HeaderMatchType.fromJson(json['match'] as Map<String, dynamic>),
-      name: json['name'] as String,
+      match: HeaderMatchType.fromJson(
+          (json['match'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       caseSensitive: json['caseSensitive'] as bool?,
     );
   }
@@ -4153,7 +4153,7 @@ class ListAccessLogSubscriptionsResponse {
   factory ListAccessLogSubscriptionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAccessLogSubscriptionsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AccessLogSubscriptionSummary.fromJson(e as Map<String, dynamic>))
@@ -4187,7 +4187,7 @@ class ListListenersResponse {
 
   factory ListListenersResponse.fromJson(Map<String, dynamic> json) {
     return ListListenersResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListenerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4220,7 +4220,7 @@ class ListRulesResponse {
 
   factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
     return ListRulesResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4254,7 +4254,7 @@ class ListServiceNetworkServiceAssociationsResponse {
   factory ListServiceNetworkServiceAssociationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListServiceNetworkServiceAssociationsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceNetworkServiceAssociationSummary.fromJson(
               e as Map<String, dynamic>))
@@ -4289,7 +4289,7 @@ class ListServiceNetworkVpcAssociationsResponse {
   factory ListServiceNetworkVpcAssociationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListServiceNetworkVpcAssociationsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceNetworkVpcAssociationSummary.fromJson(
               e as Map<String, dynamic>))
@@ -4323,7 +4323,7 @@ class ListServiceNetworksResponse {
 
   factory ListServiceNetworksResponse.fromJson(Map<String, dynamic> json) {
     return ListServiceNetworksResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceNetworkSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4445,7 +4445,7 @@ class ListTargetsResponse {
 
   factory ListTargetsResponse.fromJson(Map<String, dynamic> json) {
     return ListTargetsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4586,7 +4586,8 @@ class PathMatch {
 
   factory PathMatch.fromJson(Map<String, dynamic> json) {
     return PathMatch(
-      match: PathMatchType.fromJson(json['match'] as Map<String, dynamic>),
+      match: PathMatchType.fromJson((json['match'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       caseSensitive: json['caseSensitive'] as bool?,
     );
   }
@@ -5421,7 +5422,7 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       port: json['port'] as int?,
     );
   }
@@ -5895,11 +5896,11 @@ class UpdateAccessLogSubscriptionResponse {
   factory UpdateAccessLogSubscriptionResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateAccessLogSubscriptionResponse(
-      arn: json['arn'] as String,
-      destinationArn: json['destinationArn'] as String,
-      id: json['id'] as String,
-      resourceArn: json['resourceArn'] as String,
-      resourceId: json['resourceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      resourceId: (json['resourceId'] as String?) ?? '',
     );
   }
 
@@ -6298,7 +6299,7 @@ class WeightedTargetGroup {
 
   factory WeightedTargetGroup.fromJson(Map<String, dynamic> json) {
     return WeightedTargetGroup(
-      targetGroupIdentifier: json['targetGroupIdentifier'] as String,
+      targetGroupIdentifier: (json['targetGroupIdentifier'] as String?) ?? '',
       weight: json['weight'] as int?,
     );
   }

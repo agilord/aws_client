@@ -1844,9 +1844,11 @@ class BatchPutPropertyError {
 
   factory BatchPutPropertyError.fromJson(Map<String, dynamic> json) {
     return BatchPutPropertyError(
-      entry: PropertyValueEntry.fromJson(json['entry'] as Map<String, dynamic>),
-      errorCode: json['errorCode'] as String,
-      errorMessage: json['errorMessage'] as String,
+      entry: PropertyValueEntry.fromJson(
+          (json['entry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -1875,7 +1877,7 @@ class BatchPutPropertyErrorEntry {
 
   factory BatchPutPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
     return BatchPutPropertyErrorEntry(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchPutPropertyError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1900,7 +1902,7 @@ class BatchPutPropertyValuesResponse {
 
   factory BatchPutPropertyValuesResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutPropertyValuesResponse(
-      errorEntries: (json['errorEntries'] as List)
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchPutPropertyErrorEntry.fromJson(e as Map<String, dynamic>))
@@ -1931,7 +1933,7 @@ class BundleInformation {
 
   factory BundleInformation.fromJson(Map<String, dynamic> json) {
     return BundleInformation(
-      bundleNames: (json['bundleNames'] as List)
+      bundleNames: ((json['bundleNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1977,12 +1979,12 @@ class CancelMetadataTransferJobResponse {
   factory CancelMetadataTransferJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CancelMetadataTransferJobResponse(
-      arn: json['arn'] as String,
-      metadataTransferJobId: json['metadataTransferJobId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
       status: MetadataTransferJobStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       progress: json['progress'] != null
           ? MetadataTransferJobProgress.fromJson(
               json['progress'] as Map<String, dynamic>)
@@ -2101,8 +2103,8 @@ class ComponentPropertyGroupResponse {
   factory ComponentPropertyGroupResponse.fromJson(Map<String, dynamic> json) {
     return ComponentPropertyGroupResponse(
       groupType: GroupType.fromString((json['groupType'] as String)),
-      isInherited: json['isInherited'] as bool,
-      propertyNames: (json['propertyNames'] as List)
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      propertyNames: ((json['propertyNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2312,9 +2314,10 @@ class ComponentSummary {
 
   factory ComponentSummary.fromJson(Map<String, dynamic> json) {
     return ComponentSummary(
-      componentName: json['componentName'] as String,
-      componentTypeId: json['componentTypeId'] as String,
-      status: Status.fromJson(json['status'] as Map<String, dynamic>),
+      componentName: (json['componentName'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
+      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       componentPath: json['componentPath'] as String?,
       definedIn: json['definedIn'] as String?,
       description: json['description'] as String?,
@@ -2384,12 +2387,11 @@ class ComponentTypeSummary {
 
   factory ComponentTypeSummary.fromJson(Map<String, dynamic> json) {
     return ComponentTypeSummary(
-      arn: json['arn'] as String,
-      componentTypeId: json['componentTypeId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       componentTypeName: json['componentTypeName'] as String?,
       description: json['description'] as String?,
       status: json['status'] != null
@@ -2616,9 +2618,9 @@ class CreateComponentTypeResponse {
 
   factory CreateComponentTypeResponse.fromJson(Map<String, dynamic> json) {
     return CreateComponentTypeResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
       state: State.fromString((json['state'] as String)),
     );
   }
@@ -2657,10 +2659,10 @@ class CreateEntityResponse {
 
   factory CreateEntityResponse.fromJson(Map<String, dynamic> json) {
     return CreateEntityResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      entityId: json['entityId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      entityId: (json['entityId'] as String?) ?? '',
       state: State.fromString((json['state'] as String)),
     );
   }
@@ -2702,12 +2704,13 @@ class CreateMetadataTransferJobResponse {
   factory CreateMetadataTransferJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateMetadataTransferJobResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      metadataTransferJobId: json['metadataTransferJobId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
       status: MetadataTransferJobStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2739,9 +2742,9 @@ class CreateSceneResponse {
 
   factory CreateSceneResponse.fromJson(Map<String, dynamic> json) {
     return CreateSceneResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
     );
   }
 
@@ -2773,9 +2776,9 @@ class CreateSyncJobResponse {
 
   factory CreateSyncJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateSyncJobResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
       state: SyncJobState.fromString((json['state'] as String)),
     );
   }
@@ -2806,9 +2809,9 @@ class CreateWorkspaceResponse {
 
   factory CreateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return CreateWorkspaceResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
     );
   }
 
@@ -3188,7 +3191,7 @@ class EntityPropertyReference {
 
   factory EntityPropertyReference.fromJson(Map<String, dynamic> json) {
     return EntityPropertyReference(
-      propertyName: json['propertyName'] as String,
+      propertyName: (json['propertyName'] as String?) ?? '',
       componentName: json['componentName'] as String?,
       componentPath: json['componentPath'] as String?,
       entityId: json['entityId'] as String?,
@@ -3257,14 +3260,14 @@ class EntitySummary {
 
   factory EntitySummary.fromJson(Map<String, dynamic> json) {
     return EntitySummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      entityId: json['entityId'] as String,
-      entityName: json['entityName'] as String,
-      status: Status.fromJson(json['status'] as Map<String, dynamic>),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      entityId: (json['entityId'] as String?) ?? '',
+      entityName: (json['entityName'] as String?) ?? '',
+      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       description: json['description'] as String?,
       hasChildEntities: json['hasChildEntities'] as bool?,
       parentEntityId: json['parentEntityId'] as String?,
@@ -3487,7 +3490,7 @@ class FilterByComponentType {
 
   factory FilterByComponentType.fromJson(Map<String, dynamic> json) {
     return FilterByComponentType(
-      componentTypeId: json['componentTypeId'] as String,
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
     );
   }
 
@@ -3510,7 +3513,7 @@ class FilterByEntity {
 
   factory FilterByEntity.fromJson(Map<String, dynamic> json) {
     return FilterByEntity(
-      entityId: json['entityId'] as String,
+      entityId: (json['entityId'] as String?) ?? '',
     );
   }
 
@@ -3683,13 +3686,12 @@ class GetComponentTypeResponse {
 
   factory GetComponentTypeResponse.fromJson(Map<String, dynamic> json) {
     return GetComponentTypeResponse(
-      arn: json['arn'] as String,
-      componentTypeId: json['componentTypeId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       componentTypeName: json['componentTypeName'] as String?,
       compositeComponentTypes:
           (json['compositeComponentTypes'] as Map<String, dynamic>?)?.map(
@@ -3825,17 +3827,17 @@ class GetEntityResponse {
 
   factory GetEntityResponse.fromJson(Map<String, dynamic> json) {
     return GetEntityResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      entityId: json['entityId'] as String,
-      entityName: json['entityName'] as String,
-      hasChildEntities: json['hasChildEntities'] as bool,
-      parentEntityId: json['parentEntityId'] as String,
-      status: Status.fromJson(json['status'] as Map<String, dynamic>),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      entityId: (json['entityId'] as String?) ?? '',
+      entityName: (json['entityName'] as String?) ?? '',
+      hasChildEntities: (json['hasChildEntities'] as bool?) ?? false,
+      parentEntityId: (json['parentEntityId'] as String?) ?? '',
+      status: Status.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       areAllComponentsReturned: json['areAllComponentsReturned'] as bool?,
       components: (json['components'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, ComponentResponse.fromJson(e as Map<String, dynamic>))),
@@ -3927,21 +3929,23 @@ class GetMetadataTransferJobResponse {
 
   factory GetMetadataTransferJobResponse.fromJson(Map<String, dynamic> json) {
     return GetMetadataTransferJobResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
       destination: DestinationConfiguration.fromJson(
-          json['destination'] as Map<String, dynamic>),
-      metadataTransferJobId: json['metadataTransferJobId'] as String,
-      metadataTransferJobRole: json['metadataTransferJobRole'] as String,
-      sources: (json['sources'] as List)
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
+      metadataTransferJobRole:
+          (json['metadataTransferJobRole'] as String?) ?? '',
+      sources: ((json['sources'] as List?) ?? const [])
           .nonNulls
           .map((e) => SourceConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: MetadataTransferJobStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       description: json['description'] as String?,
       progress: json['progress'] != null
           ? MetadataTransferJobProgress.fromJson(
@@ -3994,7 +3998,8 @@ class GetPricingPlanResponse {
   factory GetPricingPlanResponse.fromJson(Map<String, dynamic> json) {
     return GetPricingPlanResponse(
       currentPricingPlan: PricingPlan.fromJson(
-          json['currentPricingPlan'] as Map<String, dynamic>),
+          (json['currentPricingPlan'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       pendingPricingPlan: json['pendingPricingPlan'] != null
           ? PricingPlan.fromJson(
               json['pendingPricingPlan'] as Map<String, dynamic>)
@@ -4027,7 +4032,7 @@ class GetPropertyValueHistoryResponse {
 
   factory GetPropertyValueHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetPropertyValueHistoryResponse(
-      propertyValues: (json['propertyValues'] as List)
+      propertyValues: ((json['propertyValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => PropertyValueHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4143,14 +4148,13 @@ class GetSceneResponse {
 
   factory GetSceneResponse.fromJson(Map<String, dynamic> json) {
     return GetSceneResponse(
-      arn: json['arn'] as String,
-      contentLocation: json['contentLocation'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      contentLocation: (json['contentLocation'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      sceneId: json['sceneId'] as String,
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      sceneId: (json['sceneId'] as String?) ?? '',
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       capabilities: (json['capabilities'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4233,15 +4237,16 @@ class GetSyncJobResponse {
 
   factory GetSyncJobResponse.fromJson(Map<String, dynamic> json) {
     return GetSyncJobResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      status: SyncJobStatus.fromJson(json['status'] as Map<String, dynamic>),
-      syncRole: json['syncRole'] as String,
-      syncSource: json['syncSource'] as String,
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      status: SyncJobStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      syncRole: (json['syncRole'] as String?) ?? '',
+      syncSource: (json['syncSource'] as String?) ?? '',
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -4304,12 +4309,11 @@ class GetWorkspaceResponse {
 
   factory GetWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkspaceResponse(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       description: json['description'] as String?,
       linkedServices: (json['linkedServices'] as List?)
           ?.nonNulls
@@ -4469,7 +4473,7 @@ class IotTwinMakerDestinationConfiguration {
   factory IotTwinMakerDestinationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return IotTwinMakerDestinationConfiguration(
-      workspace: json['workspace'] as String,
+      workspace: (json['workspace'] as String?) ?? '',
     );
   }
 
@@ -4496,7 +4500,7 @@ class IotTwinMakerSourceConfiguration {
 
   factory IotTwinMakerSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return IotTwinMakerSourceConfiguration(
-      workspace: json['workspace'] as String,
+      workspace: (json['workspace'] as String?) ?? '',
       filters: (json['filters'] as List?)
           ?.nonNulls
           .map((e) => IotTwinMakerSourceConfigurationFilter.fromJson(
@@ -4564,7 +4568,7 @@ class LambdaFunction {
 
   factory LambdaFunction.fromJson(Map<String, dynamic> json) {
     return LambdaFunction(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -4631,11 +4635,12 @@ class ListComponentTypesResponse {
 
   factory ListComponentTypesResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentTypesResponse(
-      componentTypeSummaries: (json['componentTypeSummaries'] as List)
+      componentTypeSummaries: ((json['componentTypeSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ComponentTypeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workspaceId: json['workspaceId'] as String,
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       maxResults: json['maxResults'] as int?,
       nextToken: json['nextToken'] as String?,
     );
@@ -4669,7 +4674,7 @@ class ListComponentsResponse {
 
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
-      componentSummaries: (json['componentSummaries'] as List)
+      componentSummaries: ((json['componentSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4786,8 +4791,9 @@ class ListMetadataTransferJobsResponse {
 
   factory ListMetadataTransferJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMetadataTransferJobsResponse(
-      metadataTransferJobSummaries: (json['metadataTransferJobSummaries']
-              as List)
+      metadataTransferJobSummaries: ((json['metadataTransferJobSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               MetadataTransferJobSummary.fromJson(e as Map<String, dynamic>))
@@ -4820,7 +4826,7 @@ class ListPropertiesResponse {
 
   factory ListPropertiesResponse.fromJson(Map<String, dynamic> json) {
     return ListPropertiesResponse(
-      propertySummaries: (json['propertySummaries'] as List)
+      propertySummaries: ((json['propertySummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => PropertySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5131,14 +5137,14 @@ class MetadataTransferJobSummary {
 
   factory MetadataTransferJobSummary.fromJson(Map<String, dynamic> json) {
     return MetadataTransferJobSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      metadataTransferJobId: json['metadataTransferJobId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      metadataTransferJobId: (json['metadataTransferJobId'] as String?) ?? '',
       status: MetadataTransferJobStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       progress: json['progress'] != null
           ? MetadataTransferJobProgress.fromJson(
               json['progress'] as Map<String, dynamic>)
@@ -5301,10 +5307,9 @@ class PricingPlan {
   factory PricingPlan.fromJson(Map<String, dynamic> json) {
     return PricingPlan(
       effectiveDateTime:
-          nonNullableTimeStampFromJson(json['effectiveDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['effectiveDateTime'] ?? 0),
       pricingMode: PricingMode.fromString((json['pricingMode'] as String)),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       updateReason: UpdateReason.fromString((json['updateReason'] as String)),
       billableEntityCount: json['billableEntityCount'] as int?,
       bundleInformation: json['bundleInformation'] != null
@@ -5469,14 +5474,15 @@ class PropertyDefinitionResponse {
 
   factory PropertyDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return PropertyDefinitionResponse(
-      dataType: DataType.fromJson(json['dataType'] as Map<String, dynamic>),
-      isExternalId: json['isExternalId'] as bool,
-      isFinal: json['isFinal'] as bool,
-      isImported: json['isImported'] as bool,
-      isInherited: json['isInherited'] as bool,
-      isRequiredInEntity: json['isRequiredInEntity'] as bool,
-      isStoredExternally: json['isStoredExternally'] as bool,
-      isTimeSeries: json['isTimeSeries'] as bool,
+      dataType: DataType.fromJson((json['dataType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      isExternalId: (json['isExternalId'] as bool?) ?? false,
+      isFinal: (json['isFinal'] as bool?) ?? false,
+      isImported: (json['isImported'] as bool?) ?? false,
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      isRequiredInEntity: (json['isRequiredInEntity'] as bool?) ?? false,
+      isStoredExternally: (json['isStoredExternally'] as bool?) ?? false,
+      isTimeSeries: (json['isTimeSeries'] as bool?) ?? false,
       configuration: (json['configuration'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       defaultValue: json['defaultValue'] != null
@@ -5587,8 +5593,8 @@ class PropertyGroupResponse {
   factory PropertyGroupResponse.fromJson(Map<String, dynamic> json) {
     return PropertyGroupResponse(
       groupType: GroupType.fromString((json['groupType'] as String)),
-      isInherited: json['isInherited'] as bool,
-      propertyNames: (json['propertyNames'] as List)
+      isInherited: (json['isInherited'] as bool?) ?? false,
+      propertyNames: ((json['propertyNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -5639,7 +5645,8 @@ class PropertyLatestValue {
   factory PropertyLatestValue.fromJson(Map<String, dynamic> json) {
     return PropertyLatestValue(
       propertyReference: EntityPropertyReference.fromJson(
-          json['propertyReference'] as Map<String, dynamic>),
+          (json['propertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       propertyValue: json['propertyValue'] != null
           ? DataValue.fromJson(json['propertyValue'] as Map<String, dynamic>)
           : null,
@@ -5756,7 +5763,7 @@ class PropertySummary {
 
   factory PropertySummary.fromJson(Map<String, dynamic> json) {
     return PropertySummary(
-      propertyName: json['propertyName'] as String,
+      propertyName: (json['propertyName'] as String?) ?? '',
       areAllPropertyValuesReturned:
           json['areAllPropertyValuesReturned'] as bool?,
       definition: json['definition'] != null
@@ -5856,7 +5863,8 @@ class PropertyValue {
 
   factory PropertyValue.fromJson(Map<String, dynamic> json) {
     return PropertyValue(
-      value: DataValue.fromJson(json['value'] as Map<String, dynamic>),
+      value: DataValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       time: json['time'] as String?,
       timestamp: timeStampFromJson(json['timestamp']),
     );
@@ -5893,7 +5901,8 @@ class PropertyValueEntry {
   factory PropertyValueEntry.fromJson(Map<String, dynamic> json) {
     return PropertyValueEntry(
       entityPropertyReference: EntityPropertyReference.fromJson(
-          json['entityPropertyReference'] as Map<String, dynamic>),
+          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       propertyValues: (json['propertyValues'] as List?)
           ?.nonNulls
           .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
@@ -5928,7 +5937,8 @@ class PropertyValueHistory {
   factory PropertyValueHistory.fromJson(Map<String, dynamic> json) {
     return PropertyValueHistory(
       entityPropertyReference: EntityPropertyReference.fromJson(
-          json['entityPropertyReference'] as Map<String, dynamic>),
+          (json['entityPropertyReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       values: (json['values'] as List?)
           ?.nonNulls
           .map((e) => PropertyValue.fromJson(e as Map<String, dynamic>))
@@ -6057,7 +6067,7 @@ class S3DestinationConfiguration {
 
   factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DestinationConfiguration(
-      location: json['location'] as String,
+      location: (json['location'] as String?) ?? '',
     );
   }
 
@@ -6080,7 +6090,7 @@ class S3SourceConfiguration {
 
   factory S3SourceConfiguration.fromJson(Map<String, dynamic> json) {
     return S3SourceConfiguration(
-      location: json['location'] as String,
+      location: (json['location'] as String?) ?? '',
     );
   }
 
@@ -6168,13 +6178,12 @@ class SceneSummary {
 
   factory SceneSummary.fromJson(Map<String, dynamic> json) {
     return SceneSummary(
-      arn: json['arn'] as String,
-      contentLocation: json['contentLocation'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      contentLocation: (json['contentLocation'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      sceneId: json['sceneId'] as String,
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      sceneId: (json['sceneId'] as String?) ?? '',
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -6691,10 +6700,10 @@ class UpdateComponentTypeResponse {
 
   factory UpdateComponentTypeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateComponentTypeResponse(
-      arn: json['arn'] as String,
-      componentTypeId: json['componentTypeId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      componentTypeId: (json['componentTypeId'] as String?) ?? '',
       state: State.fromString((json['state'] as String)),
-      workspaceId: json['workspaceId'] as String,
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -6727,8 +6736,7 @@ class UpdateEntityResponse {
   factory UpdateEntityResponse.fromJson(Map<String, dynamic> json) {
     return UpdateEntityResponse(
       state: State.fromString((json['state'] as String)),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
     );
   }
 
@@ -6757,7 +6765,8 @@ class UpdatePricingPlanResponse {
   factory UpdatePricingPlanResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePricingPlanResponse(
       currentPricingPlan: PricingPlan.fromJson(
-          json['currentPricingPlan'] as Map<String, dynamic>),
+          (json['currentPricingPlan'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       pendingPricingPlan: json['pendingPricingPlan'] != null
           ? PricingPlan.fromJson(
               json['pendingPricingPlan'] as Map<String, dynamic>)
@@ -6803,8 +6812,7 @@ class UpdateSceneResponse {
 
   factory UpdateSceneResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSceneResponse(
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
     );
   }
 
@@ -6826,8 +6834,7 @@ class UpdateWorkspaceResponse {
 
   factory UpdateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateWorkspaceResponse(
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
     );
   }
 
@@ -6870,12 +6877,11 @@ class WorkspaceSummary {
 
   factory WorkspaceSummary.fromJson(Map<String, dynamic> json) {
     return WorkspaceSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['creationDateTime'] as Object),
-      updateDateTime:
-          nonNullableTimeStampFromJson(json['updateDateTime'] as Object),
-      workspaceId: json['workspaceId'] as String,
+          nonNullableTimeStampFromJson(json['creationDateTime'] ?? 0),
+      updateDateTime: nonNullableTimeStampFromJson(json['updateDateTime'] ?? 0),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       description: json['description'] as String?,
       linkedServices: (json['linkedServices'] as List?)
           ?.nonNulls

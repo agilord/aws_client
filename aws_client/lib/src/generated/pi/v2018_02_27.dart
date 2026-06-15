@@ -1135,7 +1135,7 @@ class AnalysisReport {
 
   factory AnalysisReport.fromJson(Map<String, dynamic> json) {
     return AnalysisReport(
-      analysisReportId: json['AnalysisReportId'] as String,
+      analysisReportId: (json['AnalysisReportId'] as String?) ?? '',
       createTime: timeStampFromJson(json['CreateTime']),
       endTime: timeStampFromJson(json['EndTime']),
       identifier: json['Identifier'] as String?,
@@ -1334,8 +1334,8 @@ class DataPoint {
 
   factory DataPoint.fromJson(Map<String, dynamic> json) {
     return DataPoint(
-      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
-      value: json['Value'] as double,
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
+      value: (json['Value'] as double?) ?? 0,
     );
   }
 
@@ -2211,7 +2211,7 @@ class Insight {
 
   factory Insight.fromJson(Map<String, dynamic> json) {
     return Insight(
-      insightId: json['InsightId'] as String,
+      insightId: (json['InsightId'] as String?) ?? '',
       baselineData: (json['BaselineData'] as List?)
           ?.nonNulls
           .map((e) => Data.fromJson(e as Map<String, dynamic>))
@@ -2665,7 +2665,8 @@ class ResponsePartitionKey {
 
   factory ResponsePartitionKey.fromJson(Map<String, dynamic> json) {
     return ResponsePartitionKey(
-      dimensions: (json['Dimensions'] as Map<String, dynamic>)
+      dimensions: ((json['Dimensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -2763,7 +2764,7 @@ class ResponseResourceMetricKey {
 
   factory ResponseResourceMetricKey.fromJson(Map<String, dynamic> json) {
     return ResponseResourceMetricKey(
-      metric: json['Metric'] as String,
+      metric: (json['Metric'] as String?) ?? '',
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2831,8 +2832,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

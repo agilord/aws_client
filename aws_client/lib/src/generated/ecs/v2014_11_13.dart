@@ -6009,7 +6009,7 @@ class Attribute {
 
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       targetId: json['targetId'] as String?,
       targetType: (json['targetType'] as String?)?.let(TargetType.fromString),
       value: json['value'] as String?,
@@ -6072,7 +6072,7 @@ class AutoScalingGroupProvider {
 
   factory AutoScalingGroupProvider.fromJson(Map<String, dynamic> json) {
     return AutoScalingGroupProvider(
-      autoScalingGroupArn: json['autoScalingGroupArn'] as String,
+      autoScalingGroupArn: (json['autoScalingGroupArn'] as String?) ?? '',
       managedDraining:
           (json['managedDraining'] as String?)?.let(ManagedDraining.fromString),
       managedScaling: json['managedScaling'] != null
@@ -6180,8 +6180,10 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets:
-          (json['subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       assignPublicIp:
           (json['assignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['securityGroups'] as List?)
@@ -6446,7 +6448,7 @@ class CapacityProviderStrategyItem {
 
   factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) {
     return CapacityProviderStrategyItem(
-      capacityProvider: json['capacityProvider'] as String,
+      capacityProvider: (json['capacityProvider'] as String?) ?? '',
       base: json['base'] as int?,
       weight: json['weight'] as int?,
     );
@@ -8219,7 +8221,7 @@ class ContainerDependency {
   factory ContainerDependency.fromJson(Map<String, dynamic> json) {
     return ContainerDependency(
       condition: ContainerCondition.fromString((json['condition'] as String)),
-      containerName: json['containerName'] as String,
+      containerName: (json['containerName'] as String?) ?? '',
     );
   }
 
@@ -8706,7 +8708,7 @@ class ContainerRestartPolicy {
 
   factory ContainerRestartPolicy.fromJson(Map<String, dynamic> json) {
     return ContainerRestartPolicy(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       ignoredExitCodes: (json['ignoredExitCodes'] as List?)
           ?.nonNulls
           .map((e) => e as int)
@@ -9371,12 +9373,12 @@ class DeploymentAlarms {
 
   factory DeploymentAlarms.fromJson(Map<String, dynamic> json) {
     return DeploymentAlarms(
-      alarmNames: (json['alarmNames'] as List)
+      alarmNames: ((json['alarmNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      enable: json['enable'] as bool,
-      rollback: json['rollback'] as bool,
+      enable: (json['enable'] as bool?) ?? false,
+      rollback: (json['rollback'] as bool?) ?? false,
     );
   }
 
@@ -9427,8 +9429,8 @@ class DeploymentCircuitBreaker {
 
   factory DeploymentCircuitBreaker.fromJson(Map<String, dynamic> json) {
     return DeploymentCircuitBreaker(
-      enable: json['enable'] as bool,
-      rollback: json['rollback'] as bool,
+      enable: (json['enable'] as bool?) ?? false,
+      rollback: (json['rollback'] as bool?) ?? false,
     );
   }
 
@@ -10082,7 +10084,7 @@ class Device {
 
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
-      hostPath: json['hostPath'] as String,
+      hostPath: (json['hostPath'] as String?) ?? '',
       containerPath: json['containerPath'] as String?,
       permissions: (json['permissions'] as List?)
           ?.nonNulls
@@ -10420,7 +10422,7 @@ class EFSVolumeConfiguration {
 
   factory EFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return EFSVolumeConfiguration(
-      fileSystemId: json['fileSystemId'] as String,
+      fileSystemId: (json['fileSystemId'] as String?) ?? '',
       authorizationConfig: json['authorizationConfig'] != null
           ? EFSAuthorizationConfig.fromJson(
               json['authorizationConfig'] as Map<String, dynamic>)
@@ -10510,7 +10512,7 @@ class EnvironmentFile {
   factory EnvironmentFile.fromJson(Map<String, dynamic> json) {
     return EnvironmentFile(
       type: EnvironmentFileType.fromString((json['type'] as String)),
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -10567,7 +10569,7 @@ class EphemeralStorage {
 
   factory EphemeralStorage.fromJson(Map<String, dynamic> json) {
     return EphemeralStorage(
-      sizeInGiB: json['sizeInGiB'] as int,
+      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
     );
   }
 
@@ -10813,8 +10815,8 @@ class FSxWindowsFileServerAuthorizationConfig {
   factory FSxWindowsFileServerAuthorizationConfig.fromJson(
       Map<String, dynamic> json) {
     return FSxWindowsFileServerAuthorizationConfig(
-      credentialsParameter: json['credentialsParameter'] as String,
-      domain: json['domain'] as String,
+      credentialsParameter: (json['credentialsParameter'] as String?) ?? '',
+      domain: (json['domain'] as String?) ?? '',
     );
   }
 
@@ -10858,9 +10860,10 @@ class FSxWindowsFileServerVolumeConfiguration {
       Map<String, dynamic> json) {
     return FSxWindowsFileServerVolumeConfiguration(
       authorizationConfig: FSxWindowsFileServerAuthorizationConfig.fromJson(
-          json['authorizationConfig'] as Map<String, dynamic>),
-      fileSystemId: json['fileSystemId'] as String,
-      rootDirectory: json['rootDirectory'] as String,
+          (json['authorizationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      fileSystemId: (json['fileSystemId'] as String?) ?? '',
+      rootDirectory: (json['rootDirectory'] as String?) ?? '',
     );
   }
 
@@ -11234,8 +11237,10 @@ class HealthCheck {
 
   factory HealthCheck.fromJson(Map<String, dynamic> json) {
     return HealthCheck(
-      command:
-          (json['command'] as List).nonNulls.map((e) => e as String).toList(),
+      command: ((json['command'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       interval: json['interval'] as int?,
       retries: json['retries'] as int?,
       startPeriod: json['startPeriod'] as int?,
@@ -11293,8 +11298,8 @@ class HostEntry {
 
   factory HostEntry.fromJson(Map<String, dynamic> json) {
     return HostEntry(
-      hostname: json['hostname'] as String,
-      ipAddress: json['ipAddress'] as String,
+      hostname: (json['hostname'] as String?) ?? '',
+      ipAddress: (json['ipAddress'] as String?) ?? '',
     );
   }
 
@@ -11362,8 +11367,8 @@ class InferenceAccelerator {
 
   factory InferenceAccelerator.fromJson(Map<String, dynamic> json) {
     return InferenceAccelerator(
-      deviceName: json['deviceName'] as String,
-      deviceType: json['deviceType'] as String,
+      deviceName: (json['deviceName'] as String?) ?? '',
+      deviceType: (json['deviceType'] as String?) ?? '',
     );
   }
 
@@ -13435,7 +13440,7 @@ class ProxyConfiguration {
 
   factory ProxyConfiguration.fromJson(Map<String, dynamic> json) {
     return ProxyConfiguration(
-      containerName: json['containerName'] as String,
+      containerName: (json['containerName'] as String?) ?? '',
       properties: (json['properties'] as List?)
           ?.nonNulls
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
@@ -13648,7 +13653,7 @@ class RepositoryCredentials {
 
   factory RepositoryCredentials.fromJson(Map<String, dynamic> json) {
     return RepositoryCredentials(
-      credentialsParameter: json['credentialsParameter'] as String,
+      credentialsParameter: (json['credentialsParameter'] as String?) ?? '',
     );
   }
 
@@ -13761,7 +13766,7 @@ class ResourceRequirement {
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
       type: ResourceType.fromString((json['type'] as String)),
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -13996,8 +14001,8 @@ class Secret {
 
   factory Secret.fromJson(Map<String, dynamic> json) {
     return Secret(
-      name: json['name'] as String,
-      valueFrom: json['valueFrom'] as String,
+      name: (json['name'] as String?) ?? '',
+      valueFrom: (json['valueFrom'] as String?) ?? '',
     );
   }
 
@@ -14456,7 +14461,7 @@ class ServiceConnectClientAlias {
 
   factory ServiceConnectClientAlias.fromJson(Map<String, dynamic> json) {
     return ServiceConnectClientAlias(
-      port: json['port'] as int,
+      port: (json['port'] as int?) ?? 0,
       dnsName: json['dnsName'] as String?,
     );
   }
@@ -14521,7 +14526,7 @@ class ServiceConnectConfiguration {
 
   factory ServiceConnectConfiguration.fromJson(Map<String, dynamic> json) {
     return ServiceConnectConfiguration(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       logConfiguration: json['logConfiguration'] != null
           ? LogConfiguration.fromJson(
               json['logConfiguration'] as Map<String, dynamic>)
@@ -14613,7 +14618,7 @@ class ServiceConnectService {
 
   factory ServiceConnectService.fromJson(Map<String, dynamic> json) {
     return ServiceConnectService(
-      portName: json['portName'] as String,
+      portName: (json['portName'] as String?) ?? '',
       clientAliases: (json['clientAliases'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -14749,7 +14754,8 @@ class ServiceConnectTlsConfiguration {
     return ServiceConnectTlsConfiguration(
       issuerCertificateAuthority:
           ServiceConnectTlsCertificateAuthority.fromJson(
-              json['issuerCertificateAuthority'] as Map<String, dynamic>),
+              (json['issuerCertificateAuthority'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       kmsKey: json['kmsKey'] as String?,
       roleArn: json['roleArn'] as String?,
     );
@@ -14991,7 +14997,7 @@ class ServiceManagedEBSVolumeConfiguration {
   factory ServiceManagedEBSVolumeConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServiceManagedEBSVolumeConfiguration(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       encrypted: json['encrypted'] as bool?,
       filesystemType: (json['filesystemType'] as String?)
           ?.let(TaskFilesystemType.fromString),
@@ -15127,7 +15133,7 @@ class ServiceVolumeConfiguration {
 
   factory ServiceVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return ServiceVolumeConfiguration(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       managedEBSVolume: json['managedEBSVolume'] != null
           ? ServiceManagedEBSVolumeConfiguration.fromJson(
               json['managedEBSVolume'] as Map<String, dynamic>)
@@ -17544,8 +17550,8 @@ class Tmpfs {
 
   factory Tmpfs.fromJson(Map<String, dynamic> json) {
     return Tmpfs(
-      containerPath: json['containerPath'] as String,
-      size: json['size'] as int,
+      containerPath: (json['containerPath'] as String?) ?? '',
+      size: (json['size'] as int?) ?? 0,
       mountOptions: (json['mountOptions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -17609,9 +17615,9 @@ class Ulimit {
 
   factory Ulimit.fromJson(Map<String, dynamic> json) {
     return Ulimit(
-      hardLimit: json['hardLimit'] as int,
+      hardLimit: (json['hardLimit'] as int?) ?? 0,
       name: UlimitName.fromString((json['name'] as String)),
-      softLimit: json['softLimit'] as int,
+      softLimit: (json['softLimit'] as int?) ?? 0,
     );
   }
 

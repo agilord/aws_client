@@ -3842,7 +3842,7 @@ class ExtraParam {
   factory ExtraParam.fromJson(Map<String, dynamic> json) {
     return ExtraParam(
       name: ExtraParamName.fromString((json['Name'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4536,7 +4536,7 @@ class Nameserver {
 
   factory Nameserver.fromJson(Map<String, dynamic> json) {
     return Nameserver(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       glueIps:
           (json['GlueIps'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -4735,8 +4735,8 @@ class PriceWithCurrency {
 
   factory PriceWithCurrency.fromJson(Map<String, dynamic> json) {
     return PriceWithCurrency(
-      currency: json['Currency'] as String,
-      price: json['Price'] as double,
+      currency: (json['Currency'] as String?) ?? '',
+      price: (json['Price'] as double?) ?? 0,
     );
   }
 

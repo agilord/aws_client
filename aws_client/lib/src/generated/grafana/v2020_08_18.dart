@@ -1455,7 +1455,8 @@ class AssociateLicenseResponse {
   factory AssociateLicenseResponse.fromJson(Map<String, dynamic> json) {
     return AssociateLicenseResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1492,7 +1493,7 @@ class AuthenticationDescription {
 
   factory AuthenticationDescription.fromJson(Map<String, dynamic> json) {
     return AuthenticationDescription(
-      providers: (json['providers'] as List)
+      providers: ((json['providers'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
@@ -1552,7 +1553,7 @@ class AuthenticationSummary {
 
   factory AuthenticationSummary.fromJson(Map<String, dynamic> json) {
     return AuthenticationSummary(
-      providers: (json['providers'] as List)
+      providers: ((json['providers'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuthenticationProviderTypes.fromString((e as String)))
           .toList(),
@@ -1616,9 +1617,9 @@ class CreateWorkspaceApiKeyResponse {
 
   factory CreateWorkspaceApiKeyResponse.fromJson(Map<String, dynamic> json) {
     return CreateWorkspaceApiKeyResponse(
-      key: json['key'] as String,
-      keyName: json['keyName'] as String,
-      workspaceId: json['workspaceId'] as String,
+      key: (json['key'] as String?) ?? '',
+      keyName: (json['keyName'] as String?) ?? '',
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1645,7 +1646,8 @@ class CreateWorkspaceResponse {
   factory CreateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return CreateWorkspaceResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1681,9 +1683,9 @@ class CreateWorkspaceServiceAccountResponse {
       Map<String, dynamic> json) {
     return CreateWorkspaceServiceAccountResponse(
       grafanaRole: Role.fromString((json['grafanaRole'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      workspaceId: json['workspaceId'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1721,10 +1723,11 @@ class CreateWorkspaceServiceAccountTokenResponse {
   factory CreateWorkspaceServiceAccountTokenResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateWorkspaceServiceAccountTokenResponse(
-      serviceAccountId: json['serviceAccountId'] as String,
+      serviceAccountId: (json['serviceAccountId'] as String?) ?? '',
       serviceAccountToken: ServiceAccountTokenSummaryWithKey.fromJson(
-          json['serviceAccountToken'] as Map<String, dynamic>),
-      workspaceId: json['workspaceId'] as String,
+          (json['serviceAccountToken'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1776,8 +1779,8 @@ class DeleteWorkspaceApiKeyResponse {
 
   factory DeleteWorkspaceApiKeyResponse.fromJson(Map<String, dynamic> json) {
     return DeleteWorkspaceApiKeyResponse(
-      keyName: json['keyName'] as String,
-      workspaceId: json['workspaceId'] as String,
+      keyName: (json['keyName'] as String?) ?? '',
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1802,7 +1805,8 @@ class DeleteWorkspaceResponse {
   factory DeleteWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteWorkspaceResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1829,8 +1833,8 @@ class DeleteWorkspaceServiceAccountResponse {
   factory DeleteWorkspaceServiceAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteWorkspaceServiceAccountResponse(
-      serviceAccountId: json['serviceAccountId'] as String,
-      workspaceId: json['workspaceId'] as String,
+      serviceAccountId: (json['serviceAccountId'] as String?) ?? '',
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1863,9 +1867,9 @@ class DeleteWorkspaceServiceAccountTokenResponse {
   factory DeleteWorkspaceServiceAccountTokenResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteWorkspaceServiceAccountTokenResponse(
-      serviceAccountId: json['serviceAccountId'] as String,
-      tokenId: json['tokenId'] as String,
-      workspaceId: json['workspaceId'] as String,
+      serviceAccountId: (json['serviceAccountId'] as String?) ?? '',
+      tokenId: (json['tokenId'] as String?) ?? '',
+      workspaceId: (json['workspaceId'] as String?) ?? '',
     );
   }
 
@@ -1894,7 +1898,8 @@ class DescribeWorkspaceAuthenticationResponse {
       Map<String, dynamic> json) {
     return DescribeWorkspaceAuthenticationResponse(
       authentication: AuthenticationDescription.fromJson(
-          json['authentication'] as Map<String, dynamic>),
+          (json['authentication'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1950,7 +1955,8 @@ class DescribeWorkspaceResponse {
   factory DescribeWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1973,7 +1979,8 @@ class DisassociateLicenseResponse {
   factory DisassociateLicenseResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateLicenseResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2048,7 +2055,7 @@ class ListPermissionsResponse {
 
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListPermissionsResponse(
-      permissions: (json['permissions'] as List)
+      permissions: ((json['permissions'] as List?) ?? const [])
           .nonNulls
           .map((e) => PermissionEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2146,13 +2153,14 @@ class ListWorkspaceServiceAccountTokensResponse {
   factory ListWorkspaceServiceAccountTokensResponse.fromJson(
       Map<String, dynamic> json) {
     return ListWorkspaceServiceAccountTokensResponse(
-      serviceAccountId: json['serviceAccountId'] as String,
-      serviceAccountTokens: (json['serviceAccountTokens'] as List)
+      serviceAccountId: (json['serviceAccountId'] as String?) ?? '',
+      serviceAccountTokens: ((json['serviceAccountTokens'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               ServiceAccountTokenSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workspaceId: json['workspaceId'] as String,
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2190,11 +2198,11 @@ class ListWorkspaceServiceAccountsResponse {
   factory ListWorkspaceServiceAccountsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListWorkspaceServiceAccountsResponse(
-      serviceAccounts: (json['serviceAccounts'] as List)
+      serviceAccounts: ((json['serviceAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceAccountSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workspaceId: json['workspaceId'] as String,
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2226,7 +2234,7 @@ class ListWorkspacesResponse {
 
   factory ListWorkspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkspacesResponse(
-      workspaces: (json['workspaces'] as List)
+      workspaces: ((json['workspaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2305,12 +2313,14 @@ class NetworkAccessConfiguration {
 
   factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
     return NetworkAccessConfiguration(
-      prefixListIds: (json['prefixListIds'] as List)
+      prefixListIds: ((json['prefixListIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      vpceIds:
-          (json['vpceIds'] as List).nonNulls.map((e) => e as String).toList(),
+      vpceIds: ((json['vpceIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -2357,7 +2367,8 @@ class PermissionEntry {
   factory PermissionEntry.fromJson(Map<String, dynamic> json) {
     return PermissionEntry(
       role: Role.fromString((json['role'] as String)),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: User.fromJson(
+          (json['user'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2507,8 +2518,9 @@ class SamlConfiguration {
 
   factory SamlConfiguration.fromJson(Map<String, dynamic> json) {
     return SamlConfiguration(
-      idpMetadata:
-          IdpMetadata.fromJson(json['idpMetadata'] as Map<String, dynamic>),
+      idpMetadata: IdpMetadata.fromJson(
+          (json['idpMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       allowedOrganizations: (json['allowedOrganizations'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2584,9 +2596,9 @@ class ServiceAccountSummary {
   factory ServiceAccountSummary.fromJson(Map<String, dynamic> json) {
     return ServiceAccountSummary(
       grafanaRole: Role.fromString((json['grafanaRole'] as String)),
-      id: json['id'] as String,
-      isDisabled: json['isDisabled'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      isDisabled: (json['isDisabled'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2631,10 +2643,10 @@ class ServiceAccountTokenSummary {
 
   factory ServiceAccountTokenSummary.fromJson(Map<String, dynamic> json) {
     return ServiceAccountTokenSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      expiresAt: nonNullableTimeStampFromJson(json['expiresAt'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      expiresAt: nonNullableTimeStampFromJson(json['expiresAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       lastUsedAt: timeStampFromJson(json['lastUsedAt']),
     );
   }
@@ -2683,9 +2695,9 @@ class ServiceAccountTokenSummaryWithKey {
   factory ServiceAccountTokenSummaryWithKey.fromJson(
       Map<String, dynamic> json) {
     return ServiceAccountTokenSummaryWithKey(
-      id: json['id'] as String,
-      key: json['key'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2762,10 +2774,11 @@ class UpdateError {
 
   factory UpdateError.fromJson(Map<String, dynamic> json) {
     return UpdateError(
-      causedBy:
-          UpdateInstruction.fromJson(json['causedBy'] as Map<String, dynamic>),
-      code: json['code'] as int,
-      message: json['message'] as String,
+      causedBy: UpdateInstruction.fromJson(
+          (json['causedBy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      code: (json['code'] as int?) ?? 0,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -2805,7 +2818,7 @@ class UpdateInstruction {
     return UpdateInstruction(
       action: UpdateAction.fromString((json['action'] as String)),
       role: Role.fromString((json['role'] as String)),
-      users: (json['users'] as List)
+      users: ((json['users'] as List?) ?? const [])
           .nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2834,7 +2847,7 @@ class UpdatePermissionsResponse {
 
   factory UpdatePermissionsResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePermissionsResponse(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => UpdateError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2862,7 +2875,8 @@ class UpdateWorkspaceAuthenticationResponse {
       Map<String, dynamic> json) {
     return UpdateWorkspaceAuthenticationResponse(
       authentication: AuthenticationDescription.fromJson(
-          json['authentication'] as Map<String, dynamic>),
+          (json['authentication'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2898,7 +2912,8 @@ class UpdateWorkspaceResponse {
   factory UpdateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateWorkspaceResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2928,7 +2943,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       type: UserType.fromString((json['type'] as String)),
     );
   }
@@ -2982,12 +2997,14 @@ class VpcConfiguration {
 
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
-      securityGroupIds: (json['securityGroupIds'] as List)
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -3173,16 +3190,17 @@ class WorkspaceDescription {
   factory WorkspaceDescription.fromJson(Map<String, dynamic> json) {
     return WorkspaceDescription(
       authentication: AuthenticationSummary.fromJson(
-          json['authentication'] as Map<String, dynamic>),
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      dataSources: (json['dataSources'] as List)
+          (json['authentication'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      dataSources: ((json['dataSources'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSourceType.fromString((e as String)))
           .toList(),
-      endpoint: json['endpoint'] as String,
-      grafanaVersion: json['grafanaVersion'] as String,
-      id: json['id'] as String,
-      modified: nonNullableTimeStampFromJson(json['modified'] as Object),
+      endpoint: (json['endpoint'] as String?) ?? '',
+      grafanaVersion: (json['grafanaVersion'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      modified: nonNullableTimeStampFromJson(json['modified'] ?? 0),
       status: WorkspaceStatus.fromString((json['status'] as String)),
       accountAccessType: (json['accountAccessType'] as String?)
           ?.let(AccountAccessType.fromString),
@@ -3381,12 +3399,13 @@ class WorkspaceSummary {
   factory WorkspaceSummary.fromJson(Map<String, dynamic> json) {
     return WorkspaceSummary(
       authentication: AuthenticationSummary.fromJson(
-          json['authentication'] as Map<String, dynamic>),
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      endpoint: json['endpoint'] as String,
-      grafanaVersion: json['grafanaVersion'] as String,
-      id: json['id'] as String,
-      modified: nonNullableTimeStampFromJson(json['modified'] as Object),
+          (json['authentication'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      endpoint: (json['endpoint'] as String?) ?? '',
+      grafanaVersion: (json['grafanaVersion'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      modified: nonNullableTimeStampFromJson(json['modified'] ?? 0),
       status: WorkspaceStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       grafanaToken: json['grafanaToken'] as String?,

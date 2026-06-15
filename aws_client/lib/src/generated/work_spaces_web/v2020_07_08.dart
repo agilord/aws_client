@@ -2507,8 +2507,8 @@ class AssociateBrowserSettingsResponse {
 
   factory AssociateBrowserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return AssociateBrowserSettingsResponse(
-      browserSettingsArn: json['browserSettingsArn'] as String,
-      portalArn: json['portalArn'] as String,
+      browserSettingsArn: (json['browserSettingsArn'] as String?) ?? '',
+      portalArn: (json['portalArn'] as String?) ?? '',
     );
   }
 
@@ -2537,8 +2537,8 @@ class AssociateIpAccessSettingsResponse {
   factory AssociateIpAccessSettingsResponse.fromJson(
       Map<String, dynamic> json) {
     return AssociateIpAccessSettingsResponse(
-      ipAccessSettingsArn: json['ipAccessSettingsArn'] as String,
-      portalArn: json['portalArn'] as String,
+      ipAccessSettingsArn: (json['ipAccessSettingsArn'] as String?) ?? '',
+      portalArn: (json['portalArn'] as String?) ?? '',
     );
   }
 
@@ -2566,8 +2566,8 @@ class AssociateNetworkSettingsResponse {
 
   factory AssociateNetworkSettingsResponse.fromJson(Map<String, dynamic> json) {
     return AssociateNetworkSettingsResponse(
-      networkSettingsArn: json['networkSettingsArn'] as String,
-      portalArn: json['portalArn'] as String,
+      networkSettingsArn: (json['networkSettingsArn'] as String?) ?? '',
+      portalArn: (json['portalArn'] as String?) ?? '',
     );
   }
 
@@ -2595,8 +2595,8 @@ class AssociateTrustStoreResponse {
 
   factory AssociateTrustStoreResponse.fromJson(Map<String, dynamic> json) {
     return AssociateTrustStoreResponse(
-      portalArn: json['portalArn'] as String,
-      trustStoreArn: json['trustStoreArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
     );
   }
 
@@ -2625,9 +2625,9 @@ class AssociateUserAccessLoggingSettingsResponse {
   factory AssociateUserAccessLoggingSettingsResponse.fromJson(
       Map<String, dynamic> json) {
     return AssociateUserAccessLoggingSettingsResponse(
-      portalArn: json['portalArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
       userAccessLoggingSettingsArn:
-          json['userAccessLoggingSettingsArn'] as String,
+          (json['userAccessLoggingSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -2655,8 +2655,8 @@ class AssociateUserSettingsResponse {
 
   factory AssociateUserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return AssociateUserSettingsResponse(
-      portalArn: json['portalArn'] as String,
-      userSettingsArn: json['userSettingsArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
+      userSettingsArn: (json['userSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -2716,7 +2716,7 @@ class BrowserSettings {
 
   factory BrowserSettings.fromJson(Map<String, dynamic> json) {
     return BrowserSettings(
-      browserSettingsArn: json['browserSettingsArn'] as String,
+      browserSettingsArn: (json['browserSettingsArn'] as String?) ?? '',
       additionalEncryptionContext:
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -2758,7 +2758,7 @@ class BrowserSettingsSummary {
 
   factory BrowserSettingsSummary.fromJson(Map<String, dynamic> json) {
     return BrowserSettingsSummary(
-      browserSettingsArn: json['browserSettingsArn'] as String,
+      browserSettingsArn: (json['browserSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -2915,7 +2915,7 @@ class CookieSpecification {
 
   factory CookieSpecification.fromJson(Map<String, dynamic> json) {
     return CookieSpecification(
-      domain: json['domain'] as String,
+      domain: (json['domain'] as String?) ?? '',
       name: json['name'] as String?,
       path: json['path'] as String?,
     );
@@ -2952,7 +2952,7 @@ class CookieSynchronizationConfiguration {
   factory CookieSynchronizationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CookieSynchronizationConfiguration(
-      allowlist: (json['allowlist'] as List)
+      allowlist: ((json['allowlist'] as List?) ?? const [])
           .nonNulls
           .map((e) => CookieSpecification.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2983,7 +2983,7 @@ class CreateBrowserSettingsResponse {
 
   factory CreateBrowserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return CreateBrowserSettingsResponse(
-      browserSettingsArn: json['browserSettingsArn'] as String,
+      browserSettingsArn: (json['browserSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -3005,7 +3005,7 @@ class CreateIdentityProviderResponse {
 
   factory CreateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return CreateIdentityProviderResponse(
-      identityProviderArn: json['identityProviderArn'] as String,
+      identityProviderArn: (json['identityProviderArn'] as String?) ?? '',
     );
   }
 
@@ -3027,7 +3027,7 @@ class CreateIpAccessSettingsResponse {
 
   factory CreateIpAccessSettingsResponse.fromJson(Map<String, dynamic> json) {
     return CreateIpAccessSettingsResponse(
-      ipAccessSettingsArn: json['ipAccessSettingsArn'] as String,
+      ipAccessSettingsArn: (json['ipAccessSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -3049,7 +3049,7 @@ class CreateNetworkSettingsResponse {
 
   factory CreateNetworkSettingsResponse.fromJson(Map<String, dynamic> json) {
     return CreateNetworkSettingsResponse(
-      networkSettingsArn: json['networkSettingsArn'] as String,
+      networkSettingsArn: (json['networkSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -3076,8 +3076,8 @@ class CreatePortalResponse {
 
   factory CreatePortalResponse.fromJson(Map<String, dynamic> json) {
     return CreatePortalResponse(
-      portalArn: json['portalArn'] as String,
-      portalEndpoint: json['portalEndpoint'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
+      portalEndpoint: (json['portalEndpoint'] as String?) ?? '',
     );
   }
 
@@ -3101,7 +3101,7 @@ class CreateTrustStoreResponse {
 
   factory CreateTrustStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateTrustStoreResponse(
-      trustStoreArn: json['trustStoreArn'] as String,
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
     );
   }
 
@@ -3125,7 +3125,7 @@ class CreateUserAccessLoggingSettingsResponse {
       Map<String, dynamic> json) {
     return CreateUserAccessLoggingSettingsResponse(
       userAccessLoggingSettingsArn:
-          json['userAccessLoggingSettingsArn'] as String,
+          (json['userAccessLoggingSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -3147,7 +3147,7 @@ class CreateUserSettingsResponse {
 
   factory CreateUserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return CreateUserSettingsResponse(
-      userSettingsArn: json['userSettingsArn'] as String,
+      userSettingsArn: (json['userSettingsArn'] as String?) ?? '',
     );
   }
 
@@ -3483,7 +3483,7 @@ class GetPortalServiceProviderMetadataResponse {
   factory GetPortalServiceProviderMetadataResponse.fromJson(
       Map<String, dynamic> json) {
     return GetPortalServiceProviderMetadataResponse(
-      portalArn: json['portalArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
       serviceProviderSamlMetadata:
           json['serviceProviderSamlMetadata'] as String?,
     );
@@ -3514,7 +3514,7 @@ class GetTrustStoreCertificateResponse {
 
   factory GetTrustStoreCertificateResponse.fromJson(Map<String, dynamic> json) {
     return GetTrustStoreCertificateResponse(
-      trustStoreArn: json['trustStoreArn'] as String,
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
       certificate: json['certificate'] != null
           ? Certificate.fromJson(json['certificate'] as Map<String, dynamic>)
           : null,
@@ -3741,7 +3741,7 @@ class IdentityProvider {
 
   factory IdentityProvider.fromJson(Map<String, dynamic> json) {
     return IdentityProvider(
-      identityProviderArn: json['identityProviderArn'] as String,
+      identityProviderArn: (json['identityProviderArn'] as String?) ?? '',
       identityProviderDetails:
           (json['identityProviderDetails'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -3787,7 +3787,7 @@ class IdentityProviderSummary {
 
   factory IdentityProviderSummary.fromJson(Map<String, dynamic> json) {
     return IdentityProviderSummary(
-      identityProviderArn: json['identityProviderArn'] as String,
+      identityProviderArn: (json['identityProviderArn'] as String?) ?? '',
       identityProviderName: json['identityProviderName'] as String?,
       identityProviderType: (json['identityProviderType'] as String?)
           ?.let(IdentityProviderType.fromString),
@@ -3884,7 +3884,7 @@ class IpAccessSettings {
 
   factory IpAccessSettings.fromJson(Map<String, dynamic> json) {
     return IpAccessSettings(
-      ipAccessSettingsArn: json['ipAccessSettingsArn'] as String,
+      ipAccessSettingsArn: (json['ipAccessSettingsArn'] as String?) ?? '',
       additionalEncryptionContext:
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -3951,7 +3951,7 @@ class IpAccessSettingsSummary {
 
   factory IpAccessSettingsSummary.fromJson(Map<String, dynamic> json) {
     return IpAccessSettingsSummary(
-      ipAccessSettingsArn: json['ipAccessSettingsArn'] as String,
+      ipAccessSettingsArn: (json['ipAccessSettingsArn'] as String?) ?? '',
       creationDate: timeStampFromJson(json['creationDate']),
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
@@ -3988,7 +3988,7 @@ class IpRule {
 
   factory IpRule.fromJson(Map<String, dynamic> json) {
     return IpRule(
-      ipRange: json['ipRange'] as String,
+      ipRange: (json['ipRange'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -4217,7 +4217,7 @@ class ListTrustStoreCertificatesResponse {
   factory ListTrustStoreCertificatesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListTrustStoreCertificatesResponse(
-      trustStoreArn: json['trustStoreArn'] as String,
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
       certificateList: (json['certificateList'] as List?)
           ?.nonNulls
           .map((e) => CertificateSummary.fromJson(e as Map<String, dynamic>))
@@ -4372,7 +4372,7 @@ class NetworkSettings {
 
   factory NetworkSettings.fromJson(Map<String, dynamic> json) {
     return NetworkSettings(
-      networkSettingsArn: json['networkSettingsArn'] as String,
+      networkSettingsArn: (json['networkSettingsArn'] as String?) ?? '',
       associatedPortalArns: (json['associatedPortalArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4421,7 +4421,7 @@ class NetworkSettingsSummary {
 
   factory NetworkSettingsSummary.fromJson(Map<String, dynamic> json) {
     return NetworkSettingsSummary(
-      networkSettingsArn: json['networkSettingsArn'] as String,
+      networkSettingsArn: (json['networkSettingsArn'] as String?) ?? '',
       vpcId: json['vpcId'] as String?,
     );
   }
@@ -4533,7 +4533,7 @@ class Portal {
 
   factory Portal.fromJson(Map<String, dynamic> json) {
     return Portal(
-      portalArn: json['portalArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
       additionalEncryptionContext:
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -4713,7 +4713,7 @@ class PortalSummary {
 
   factory PortalSummary.fromJson(Map<String, dynamic> json) {
     return PortalSummary(
-      portalArn: json['portalArn'] as String,
+      portalArn: (json['portalArn'] as String?) ?? '',
       authenticationType: (json['authenticationType'] as String?)
           ?.let(AuthenticationType.fromString),
       browserSettingsArn: json['browserSettingsArn'] as String?,
@@ -4810,8 +4810,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4857,7 +4857,7 @@ class TrustStore {
 
   factory TrustStore.fromJson(Map<String, dynamic> json) {
     return TrustStore(
-      trustStoreArn: json['trustStoreArn'] as String,
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
       associatedPortalArns: (json['associatedPortalArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4922,7 +4922,8 @@ class UpdateBrowserSettingsResponse {
   factory UpdateBrowserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateBrowserSettingsResponse(
       browserSettings: BrowserSettings.fromJson(
-          json['browserSettings'] as Map<String, dynamic>),
+          (json['browserSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4945,7 +4946,8 @@ class UpdateIdentityProviderResponse {
   factory UpdateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return UpdateIdentityProviderResponse(
       identityProvider: IdentityProvider.fromJson(
-          json['identityProvider'] as Map<String, dynamic>),
+          (json['identityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4968,7 +4970,8 @@ class UpdateIpAccessSettingsResponse {
   factory UpdateIpAccessSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateIpAccessSettingsResponse(
       ipAccessSettings: IpAccessSettings.fromJson(
-          json['ipAccessSettings'] as Map<String, dynamic>),
+          (json['ipAccessSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4991,7 +4994,8 @@ class UpdateNetworkSettingsResponse {
   factory UpdateNetworkSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateNetworkSettingsResponse(
       networkSettings: NetworkSettings.fromJson(
-          json['networkSettings'] as Map<String, dynamic>),
+          (json['networkSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5037,7 +5041,7 @@ class UpdateTrustStoreResponse {
 
   factory UpdateTrustStoreResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTrustStoreResponse(
-      trustStoreArn: json['trustStoreArn'] as String,
+      trustStoreArn: (json['trustStoreArn'] as String?) ?? '',
     );
   }
 
@@ -5061,7 +5065,8 @@ class UpdateUserAccessLoggingSettingsResponse {
       Map<String, dynamic> json) {
     return UpdateUserAccessLoggingSettingsResponse(
       userAccessLoggingSettings: UserAccessLoggingSettings.fromJson(
-          json['userAccessLoggingSettings'] as Map<String, dynamic>),
+          (json['userAccessLoggingSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5083,8 +5088,9 @@ class UpdateUserSettingsResponse {
 
   factory UpdateUserSettingsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateUserSettingsResponse(
-      userSettings:
-          UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
+      userSettings: UserSettings.fromJson(
+          (json['userSettings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5118,7 +5124,7 @@ class UserAccessLoggingSettings {
   factory UserAccessLoggingSettings.fromJson(Map<String, dynamic> json) {
     return UserAccessLoggingSettings(
       userAccessLoggingSettingsArn:
-          json['userAccessLoggingSettingsArn'] as String,
+          (json['userAccessLoggingSettingsArn'] as String?) ?? '',
       associatedPortalArns: (json['associatedPortalArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5156,7 +5162,7 @@ class UserAccessLoggingSettingsSummary {
   factory UserAccessLoggingSettingsSummary.fromJson(Map<String, dynamic> json) {
     return UserAccessLoggingSettingsSummary(
       userAccessLoggingSettingsArn:
-          json['userAccessLoggingSettingsArn'] as String,
+          (json['userAccessLoggingSettingsArn'] as String?) ?? '',
       kinesisStreamArn: json['kinesisStreamArn'] as String?,
     );
   }
@@ -5242,7 +5248,7 @@ class UserSettings {
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
     return UserSettings(
-      userSettingsArn: json['userSettingsArn'] as String,
+      userSettingsArn: (json['userSettingsArn'] as String?) ?? '',
       additionalEncryptionContext:
           (json['additionalEncryptionContext'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -5370,7 +5376,7 @@ class UserSettingsSummary {
 
   factory UserSettingsSummary.fromJson(Map<String, dynamic> json) {
     return UserSettingsSummary(
-      userSettingsArn: json['userSettingsArn'] as String,
+      userSettingsArn: (json['userSettingsArn'] as String?) ?? '',
       cookieSynchronizationConfiguration:
           json['cookieSynchronizationConfiguration'] != null
               ? CookieSynchronizationConfiguration.fromJson(

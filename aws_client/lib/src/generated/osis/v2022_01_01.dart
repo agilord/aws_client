@@ -598,7 +598,8 @@ class BufferOptions {
 
   factory BufferOptions.fromJson(Map<String, dynamic> json) {
     return BufferOptions(
-      persistentBufferEnabled: json['PersistentBufferEnabled'] as bool,
+      persistentBufferEnabled:
+          (json['PersistentBufferEnabled'] as bool?) ?? false,
     );
   }
 
@@ -754,7 +755,7 @@ class CloudWatchLogDestination {
 
   factory CloudWatchLogDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogDestination(
-      logGroup: json['LogGroup'] as String,
+      logGroup: (json['LogGroup'] as String?) ?? '',
     );
   }
 
@@ -814,7 +815,7 @@ class EncryptionAtRestOptions {
 
   factory EncryptionAtRestOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptions(
-      kmsKeyArn: json['KmsKeyArn'] as String,
+      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
     );
   }
 
@@ -1582,8 +1583,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1717,7 +1718,7 @@ class VpcAttachmentOptions {
 
   factory VpcAttachmentOptions.fromJson(Map<String, dynamic> json) {
     return VpcAttachmentOptions(
-      attachToVpc: json['AttachToVpc'] as bool,
+      attachToVpc: (json['AttachToVpc'] as bool?) ?? false,
       cidrBlock: json['CidrBlock'] as String?,
     );
   }
@@ -1827,8 +1828,10 @@ class VpcOptions {
 
   factory VpcOptions.fromJson(Map<String, dynamic> json) {
     return VpcOptions(
-      subnetIds:
-          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       securityGroupIds: (json['SecurityGroupIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)

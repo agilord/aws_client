@@ -900,7 +900,7 @@ class CloudWatchLogsDestinationConfiguration {
   factory CloudWatchLogsDestinationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchLogsDestinationConfiguration(
-      logGroupName: json['logGroupName'] as String,
+      logGroupName: (json['logGroupName'] as String?) ?? '',
     );
   }
 
@@ -1270,7 +1270,7 @@ class FirehoseDestinationConfiguration {
 
   factory FirehoseDestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return FirehoseDestinationConfiguration(
-      deliveryStreamName: json['deliveryStreamName'] as String,
+      deliveryStreamName: (json['deliveryStreamName'] as String?) ?? '',
     );
   }
 
@@ -1493,7 +1493,8 @@ class ListLoggingConfigurationsResponse {
   factory ListLoggingConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListLoggingConfigurationsResponse(
-      loggingConfigurations: (json['loggingConfigurations'] as List)
+      loggingConfigurations: ((json['loggingConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               LoggingConfigurationSummary.fromJson(e as Map<String, dynamic>))
@@ -1527,7 +1528,7 @@ class ListRoomsResponse {
 
   factory ListRoomsResponse.fromJson(Map<String, dynamic> json) {
     return ListRoomsResponse(
-      rooms: (json['rooms'] as List)
+      rooms: ((json['rooms'] as List?) ?? const [])
           .nonNulls
           .map((e) => RoomSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1556,8 +1557,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -1817,7 +1819,7 @@ class S3DestinationConfiguration {
 
   factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DestinationConfiguration(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
     );
   }
 

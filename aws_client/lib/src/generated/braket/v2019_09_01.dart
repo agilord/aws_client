@@ -649,7 +649,7 @@ class Association {
 
   factory Association.fromJson(Map<String, dynamic> json) {
     return Association(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       type: AssociationType.fromString((json['type'] as String)),
     );
   }
@@ -694,7 +694,7 @@ class CancelJobResponse {
     return CancelJobResponse(
       cancellationStatus:
           CancellationStatus.fromString((json['cancellationStatus'] as String)),
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -724,7 +724,7 @@ class CancelQuantumTaskResponse {
     return CancelQuantumTaskResponse(
       cancellationStatus:
           CancellationStatus.fromString((json['cancellationStatus'] as String)),
-      quantumTaskArn: json['quantumTaskArn'] as String,
+      quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
     );
   }
 
@@ -779,7 +779,7 @@ class ContainerImage {
 
   factory ContainerImage.fromJson(Map<String, dynamic> json) {
     return ContainerImage(
-      uri: json['uri'] as String,
+      uri: (json['uri'] as String?) ?? '',
     );
   }
 
@@ -801,7 +801,7 @@ class CreateJobResponse {
 
   factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -823,7 +823,7 @@ class CreateQuantumTaskResponse {
 
   factory CreateQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
     return CreateQuantumTaskResponse(
-      quantumTaskArn: json['quantumTaskArn'] as String,
+      quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
     );
   }
 
@@ -847,8 +847,9 @@ class DataSource {
 
   factory DataSource.fromJson(Map<String, dynamic> json) {
     return DataSource(
-      s3DataSource:
-          S3DataSource.fromJson(json['s3DataSource'] as Map<String, dynamic>),
+      s3DataSource: S3DataSource.fromJson(
+          (json['s3DataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -873,7 +874,7 @@ class DeviceConfig {
 
   factory DeviceConfig.fromJson(Map<String, dynamic> json) {
     return DeviceConfig(
-      device: json['device'] as String,
+      device: (json['device'] as String?) ?? '',
     );
   }
 
@@ -906,7 +907,7 @@ class DeviceQueueInfo {
   factory DeviceQueueInfo.fromJson(Map<String, dynamic> json) {
     return DeviceQueueInfo(
       queue: QueueName.fromString((json['queue'] as String)),
-      queueSize: json['queueSize'] as String,
+      queueSize: (json['queueSize'] as String?) ?? '',
       queuePriority:
           (json['queuePriority'] as String?)?.let(QueuePriority.fromString),
     );
@@ -967,11 +968,11 @@ class DeviceSummary {
 
   factory DeviceSummary.fromJson(Map<String, dynamic> json) {
     return DeviceSummary(
-      deviceArn: json['deviceArn'] as String,
-      deviceName: json['deviceName'] as String,
+      deviceArn: (json['deviceArn'] as String?) ?? '',
+      deviceName: (json['deviceName'] as String?) ?? '',
       deviceStatus: DeviceStatus.fromString((json['deviceStatus'] as String)),
       deviceType: DeviceType.fromString((json['deviceType'] as String)),
-      providerName: json['providerName'] as String,
+      providerName: (json['providerName'] as String?) ?? '',
     );
   }
 
@@ -1039,13 +1040,13 @@ class GetDeviceResponse {
 
   factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
     return GetDeviceResponse(
-      deviceArn: json['deviceArn'] as String,
+      deviceArn: (json['deviceArn'] as String?) ?? '',
       deviceCapabilities:
           jsonDecode(json['deviceCapabilities'] as String) as Object,
-      deviceName: json['deviceName'] as String,
+      deviceName: (json['deviceName'] as String?) ?? '',
       deviceStatus: DeviceStatus.fromString((json['deviceStatus'] as String)),
       deviceType: DeviceType.fromString((json['deviceType'] as String)),
-      providerName: json['providerName'] as String,
+      providerName: (json['providerName'] as String?) ?? '',
       deviceQueueInfo: (json['deviceQueueInfo'] as List?)
           ?.nonNulls
           .map((e) => DeviceQueueInfo.fromJson(e as Map<String, dynamic>))
@@ -1180,15 +1181,18 @@ class GetJobResponse {
   factory GetJobResponse.fromJson(Map<String, dynamic> json) {
     return GetJobResponse(
       algorithmSpecification: AlgorithmSpecification.fromJson(
-          json['algorithmSpecification'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+          (json['algorithmSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       instanceConfig: InstanceConfig.fromJson(
-          json['instanceConfig'] as Map<String, dynamic>),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+          (json['instanceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       outputDataConfig: JobOutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: JobPrimaryStatus.fromString((json['status'] as String)),
       associations: (json['associations'] as List?)
           ?.nonNulls
@@ -1341,14 +1345,14 @@ class GetQuantumTaskResponse {
 
   factory GetQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
     return GetQuantumTaskResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      deviceArn: json['deviceArn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      deviceArn: (json['deviceArn'] as String?) ?? '',
       deviceParameters:
           jsonDecode(json['deviceParameters'] as String) as Object,
-      outputS3Bucket: json['outputS3Bucket'] as String,
-      outputS3Directory: json['outputS3Directory'] as String,
-      quantumTaskArn: json['quantumTaskArn'] as String,
-      shots: json['shots'] as int,
+      outputS3Bucket: (json['outputS3Bucket'] as String?) ?? '',
+      outputS3Directory: (json['outputS3Directory'] as String?) ?? '',
+      quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
+      shots: (json['shots'] as int?) ?? 0,
       status: QuantumTaskStatus.fromString((json['status'] as String)),
       associations: (json['associations'] as List?)
           ?.nonNulls
@@ -1435,7 +1439,7 @@ class HybridJobQueueInfo {
 
   factory HybridJobQueueInfo.fromJson(Map<String, dynamic> json) {
     return HybridJobQueueInfo(
-      position: json['position'] as String,
+      position: (json['position'] as String?) ?? '',
       queue: QueueName.fromString((json['queue'] as String)),
       message: json['message'] as String?,
     );
@@ -1473,9 +1477,10 @@ class InputFileConfig {
 
   factory InputFileConfig.fromJson(Map<String, dynamic> json) {
     return InputFileConfig(
-      channelName: json['channelName'] as String,
-      dataSource:
-          DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
+      channelName: (json['channelName'] as String?) ?? '',
+      dataSource: DataSource.fromJson(
+          (json['dataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       contentType: json['contentType'] as String?,
     );
   }
@@ -1515,7 +1520,7 @@ class InstanceConfig {
   factory InstanceConfig.fromJson(Map<String, dynamic> json) {
     return InstanceConfig(
       instanceType: InstanceType.fromString((json['instanceType'] as String)),
-      volumeSizeInGb: json['volumeSizeInGb'] as int,
+      volumeSizeInGb: (json['volumeSizeInGb'] as int?) ?? 0,
       instanceCount: json['instanceCount'] as int?,
     );
   }
@@ -1601,7 +1606,7 @@ class JobCheckpointConfig {
 
   factory JobCheckpointConfig.fromJson(Map<String, dynamic> json) {
     return JobCheckpointConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
       localPath: json['localPath'] as String?,
     );
   }
@@ -1699,7 +1704,7 @@ class JobOutputDataConfig {
 
   factory JobOutputDataConfig.fromJson(Map<String, dynamic> json) {
     return JobOutputDataConfig(
-      s3Path: json['s3Path'] as String,
+      s3Path: (json['s3Path'] as String?) ?? '',
       kmsKeyId: json['kmsKeyId'] as String?,
     );
   }
@@ -1798,10 +1803,10 @@ class JobSummary {
 
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      device: json['device'] as String,
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      device: (json['device'] as String?) ?? '',
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       status: JobPrimaryStatus.fromString((json['status'] as String)),
       endedAt: timeStampFromJson(json['endedAt']),
       startedAt: timeStampFromJson(json['startedAt']),
@@ -1895,7 +1900,7 @@ class QuantumTaskQueueInfo {
 
   factory QuantumTaskQueueInfo.fromJson(Map<String, dynamic> json) {
     return QuantumTaskQueueInfo(
-      position: json['position'] as String,
+      position: (json['position'] as String?) ?? '',
       queue: QueueName.fromString((json['queue'] as String)),
       message: json['message'] as String?,
       queuePriority:
@@ -1980,12 +1985,12 @@ class QuantumTaskSummary {
 
   factory QuantumTaskSummary.fromJson(Map<String, dynamic> json) {
     return QuantumTaskSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      deviceArn: json['deviceArn'] as String,
-      outputS3Bucket: json['outputS3Bucket'] as String,
-      outputS3Directory: json['outputS3Directory'] as String,
-      quantumTaskArn: json['quantumTaskArn'] as String,
-      shots: json['shots'] as int,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      deviceArn: (json['deviceArn'] as String?) ?? '',
+      outputS3Bucket: (json['outputS3Bucket'] as String?) ?? '',
+      outputS3Directory: (json['outputS3Directory'] as String?) ?? '',
+      quantumTaskArn: (json['quantumTaskArn'] as String?) ?? '',
+      shots: (json['shots'] as int?) ?? 0,
       status: QuantumTaskStatus.fromString((json['status'] as String)),
       endedAt: timeStampFromJson(json['endedAt']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2059,7 +2064,7 @@ class S3DataSource {
 
   factory S3DataSource.fromJson(Map<String, dynamic> json) {
     return S3DataSource(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -2093,8 +2098,8 @@ class ScriptModeConfig {
 
   factory ScriptModeConfig.fromJson(Map<String, dynamic> json) {
     return ScriptModeConfig(
-      entryPoint: json['entryPoint'] as String,
-      s3Uri: json['s3Uri'] as String,
+      entryPoint: (json['entryPoint'] as String?) ?? '',
+      s3Uri: (json['s3Uri'] as String?) ?? '',
       compressionType:
           (json['compressionType'] as String?)?.let(CompressionType.fromString),
     );
@@ -2152,7 +2157,7 @@ class SearchDevicesResponse {
 
   factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) {
     return SearchDevicesResponse(
-      devices: (json['devices'] as List)
+      devices: ((json['devices'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2236,7 +2241,7 @@ class SearchJobsResponse {
 
   factory SearchJobsResponse.fromJson(Map<String, dynamic> json) {
     return SearchJobsResponse(
-      jobs: (json['jobs'] as List)
+      jobs: ((json['jobs'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2319,7 +2324,7 @@ class SearchQuantumTasksResponse {
 
   factory SearchQuantumTasksResponse.fromJson(Map<String, dynamic> json) {
     return SearchQuantumTasksResponse(
-      quantumTasks: (json['quantumTasks'] as List)
+      quantumTasks: ((json['quantumTasks'] as List?) ?? const [])
           .nonNulls
           .map((e) => QuantumTaskSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

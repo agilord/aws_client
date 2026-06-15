@@ -3036,8 +3036,8 @@ class Connector {
 
   factory Connector.fromJson(Map<String, dynamic> json) {
     return Connector(
-      connectorArn: json['ConnectorArn'] as String,
-      id: json['Id'] as String,
+      connectorArn: (json['ConnectorArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3108,9 +3108,9 @@ class Core {
 
   factory Core.fromJson(Map<String, dynamic> json) {
     return Core(
-      certificateArn: json['CertificateArn'] as String,
-      id: json['Id'] as String,
-      thingArn: json['ThingArn'] as String,
+      certificateArn: (json['CertificateArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      thingArn: (json['ThingArn'] as String?) ?? '',
       syncShadow: json['SyncShadow'] as bool?,
     );
   }
@@ -4396,9 +4396,9 @@ class Device {
 
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
-      certificateArn: json['CertificateArn'] as String,
-      id: json['Id'] as String,
-      thingArn: json['ThingArn'] as String,
+      certificateArn: (json['CertificateArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      thingArn: (json['ThingArn'] as String?) ?? '',
       syncShadow: json['SyncShadow'] as bool?,
     );
   }
@@ -4557,7 +4557,7 @@ class $Function {
 
   factory $Function.fromJson(Map<String, dynamic> json) {
     return $Function(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       functionArn: json['FunctionArn'] as String?,
       functionConfiguration: json['FunctionConfiguration'] != null
           ? FunctionConfiguration.fromJson(
@@ -7305,7 +7305,7 @@ class Logger {
   factory Logger.fromJson(Map<String, dynamic> json) {
     return Logger(
       component: LoggerComponent.fromString((json['Component'] as String)),
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       level: LoggerLevel.fromString((json['Level'] as String)),
       type: LoggerType.fromString((json['Type'] as String)),
       space: json['Space'] as int?,
@@ -7467,10 +7467,11 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       resourceDataContainer: ResourceDataContainer.fromJson(
-          json['ResourceDataContainer'] as Map<String, dynamic>),
+          (json['ResourceDataContainer'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7503,7 +7504,7 @@ class ResourceAccessPolicy {
 
   factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
     return ResourceAccessPolicy(
-      resourceId: json['ResourceId'] as String,
+      resourceId: (json['ResourceId'] as String?) ?? '',
       permission: (json['Permission'] as String?)?.let(Permission.fromString),
     );
   }
@@ -7650,7 +7651,7 @@ class ResourceDownloadOwnerSetting {
 
   factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
     return ResourceDownloadOwnerSetting(
-      groupOwner: json['GroupOwner'] as String,
+      groupOwner: (json['GroupOwner'] as String?) ?? '',
       groupPermission:
           Permission.fromString((json['GroupPermission'] as String)),
     );
@@ -7901,10 +7902,10 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
-      id: json['Id'] as String,
-      source: json['Source'] as String,
-      subject: json['Subject'] as String,
-      target: json['Target'] as String,
+      id: (json['Id'] as String?) ?? '',
+      source: (json['Source'] as String?) ?? '',
+      subject: (json['Subject'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
     );
   }
 

@@ -2031,9 +2031,10 @@ class GreengrassConfiguration {
 
   factory GreengrassConfiguration.fromJson(Map<String, dynamic> json) {
     return GreengrassConfiguration(
-      componentName: json['ComponentName'] as String,
-      s3OutputLocation:
-          S3Location.fromJson(json['S3OutputLocation'] as Map<String, dynamic>),
+      componentName: (json['ComponentName'] as String?) ?? '',
+      s3OutputLocation: S3Location.fromJson(
+          (json['S3OutputLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compilerOptions: json['CompilerOptions'] as String?,
       componentDescription: json['ComponentDescription'] as String?,
       componentVersion: json['ComponentVersion'] as String?,
@@ -2562,7 +2563,8 @@ class ModelPackagingConfiguration {
   factory ModelPackagingConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelPackagingConfiguration(
       greengrass: GreengrassConfiguration.fromJson(
-          json['Greengrass'] as Map<String, dynamic>),
+          (json['Greengrass'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2888,8 +2890,9 @@ class OutputConfig {
 
   factory OutputConfig.fromJson(Map<String, dynamic> json) {
     return OutputConfig(
-      s3Location:
-          S3Location.fromJson(json['S3Location'] as Map<String, dynamic>),
+      s3Location: S3Location.fromJson(
+          (json['S3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2916,8 +2919,8 @@ class OutputS3Object {
 
   factory OutputS3Object.fromJson(Map<String, dynamic> json) {
     return OutputS3Object(
-      bucket: json['Bucket'] as String,
-      key: json['Key'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
+      key: (json['Key'] as String?) ?? '',
     );
   }
 
@@ -3072,7 +3075,7 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       prefix: json['Prefix'] as String?,
     );
   }
@@ -3171,8 +3174,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

@@ -1135,11 +1135,12 @@ class AlertManagerDefinitionDescription {
   factory AlertManagerDefinitionDescription.fromJson(
       Map<String, dynamic> json) {
     return AlertManagerDefinitionDescription(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      data: _s.decodeUint8List(json['data']! as String),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      data: _s.decodeUint8List((json['data'] as String?) ?? ''),
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       status: AlertManagerDefinitionStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1220,7 +1221,7 @@ class AmpConfiguration {
 
   factory AmpConfiguration.fromJson(Map<String, dynamic> json) {
     return AmpConfiguration(
-      workspaceArn: json['workspaceArn'] as String,
+      workspaceArn: (json['workspaceArn'] as String?) ?? '',
     );
   }
 
@@ -1247,7 +1248,8 @@ class CreateAlertManagerDefinitionResponse {
       Map<String, dynamic> json) {
     return CreateAlertManagerDefinitionResponse(
       status: AlertManagerDefinitionStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1273,7 +1275,8 @@ class CreateLoggingConfigurationResponse {
       Map<String, dynamic> json) {
     return CreateLoggingConfigurationResponse(
       status: LoggingConfigurationStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1309,10 +1312,11 @@ class CreateRuleGroupsNamespaceResponse {
   factory CreateRuleGroupsNamespaceResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateRuleGroupsNamespaceResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: RuleGroupsNamespaceStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1355,9 +1359,11 @@ class CreateScraperResponse {
 
   factory CreateScraperResponse.fromJson(Map<String, dynamic> json) {
     return CreateScraperResponse(
-      arn: json['arn'] as String,
-      scraperId: json['scraperId'] as String,
-      status: ScraperStatus.fromJson(json['status'] as Map<String, dynamic>),
+      arn: (json['arn'] as String?) ?? '',
+      scraperId: (json['scraperId'] as String?) ?? '',
+      status: ScraperStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1406,9 +1412,11 @@ class CreateWorkspaceResponse {
 
   factory CreateWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return CreateWorkspaceResponse(
-      arn: json['arn'] as String,
-      status: WorkspaceStatus.fromJson(json['status'] as Map<String, dynamic>),
-      workspaceId: json['workspaceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      status: WorkspaceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       kmsKeyArn: json['kmsKeyArn'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1446,8 +1454,10 @@ class DeleteScraperResponse {
 
   factory DeleteScraperResponse.fromJson(Map<String, dynamic> json) {
     return DeleteScraperResponse(
-      scraperId: json['scraperId'] as String,
-      status: ScraperStatus.fromJson(json['status'] as Map<String, dynamic>),
+      scraperId: (json['scraperId'] as String?) ?? '',
+      status: ScraperStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1475,7 +1485,8 @@ class DescribeAlertManagerDefinitionResponse {
       Map<String, dynamic> json) {
     return DescribeAlertManagerDefinitionResponse(
       alertManagerDefinition: AlertManagerDefinitionDescription.fromJson(
-          json['alertManagerDefinition'] as Map<String, dynamic>),
+          (json['alertManagerDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1501,7 +1512,8 @@ class DescribeLoggingConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeLoggingConfigurationResponse(
       loggingConfiguration: LoggingConfigurationMetadata.fromJson(
-          json['loggingConfiguration'] as Map<String, dynamic>),
+          (json['loggingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1527,7 +1539,8 @@ class DescribeRuleGroupsNamespaceResponse {
       Map<String, dynamic> json) {
     return DescribeRuleGroupsNamespaceResponse(
       ruleGroupsNamespace: RuleGroupsNamespaceDescription.fromJson(
-          json['ruleGroupsNamespace'] as Map<String, dynamic>),
+          (json['ruleGroupsNamespace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1550,8 +1563,9 @@ class DescribeScraperResponse {
 
   factory DescribeScraperResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScraperResponse(
-      scraper:
-          ScraperDescription.fromJson(json['scraper'] as Map<String, dynamic>),
+      scraper: ScraperDescription.fromJson(
+          (json['scraper'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1575,7 +1589,8 @@ class DescribeWorkspaceResponse {
   factory DescribeWorkspaceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeWorkspaceResponse(
       workspace: WorkspaceDescription.fromJson(
-          json['workspace'] as Map<String, dynamic>),
+          (json['workspace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1634,9 +1649,11 @@ class EksConfiguration {
 
   factory EksConfiguration.fromJson(Map<String, dynamic> json) {
     return EksConfiguration(
-      clusterArn: json['clusterArn'] as String,
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       securityGroupIds: (json['securityGroupIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1672,7 +1689,8 @@ class GetDefaultScraperConfigurationResponse {
   factory GetDefaultScraperConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDefaultScraperConfigurationResponse(
-      configuration: _s.decodeUint8List(json['configuration']! as String),
+      configuration:
+          _s.decodeUint8List((json['configuration'] as String?) ?? ''),
     );
   }
 
@@ -1701,7 +1719,8 @@ class ListRuleGroupsNamespacesResponse {
 
   factory ListRuleGroupsNamespacesResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleGroupsNamespacesResponse(
-      ruleGroupsNamespaces: (json['ruleGroupsNamespaces'] as List)
+      ruleGroupsNamespaces: ((json['ruleGroupsNamespaces'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RuleGroupsNamespaceSummary.fromJson(e as Map<String, dynamic>))
@@ -1738,7 +1757,7 @@ class ListScrapersResponse {
 
   factory ListScrapersResponse.fromJson(Map<String, dynamic> json) {
     return ListScrapersResponse(
-      scrapers: (json['scrapers'] as List)
+      scrapers: ((json['scrapers'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScraperSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1797,7 +1816,7 @@ class ListWorkspacesResponse {
 
   factory ListWorkspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkspacesResponse(
-      workspaces: (json['workspaces'] as List)
+      workspaces: ((json['workspaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => WorkspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1843,12 +1862,13 @@ class LoggingConfigurationMetadata {
 
   factory LoggingConfigurationMetadata.fromJson(Map<String, dynamic> json) {
     return LoggingConfigurationMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      logGroupArn: json['logGroupArn'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      logGroupArn: (json['logGroupArn'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
       status: LoggingConfigurationStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
-      workspace: json['workspace'] as String,
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspace: (json['workspace'] as String?) ?? '',
     );
   }
 
@@ -1932,7 +1952,8 @@ class PutAlertManagerDefinitionResponse {
       Map<String, dynamic> json) {
     return PutAlertManagerDefinitionResponse(
       status: AlertManagerDefinitionStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1967,10 +1988,11 @@ class PutRuleGroupsNamespaceResponse {
 
   factory PutRuleGroupsNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return PutRuleGroupsNamespaceResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: RuleGroupsNamespaceStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2029,13 +2051,14 @@ class RuleGroupsNamespaceDescription {
 
   factory RuleGroupsNamespaceDescription.fromJson(Map<String, dynamic> json) {
     return RuleGroupsNamespaceDescription(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      data: _s.decodeUint8List(json['data']! as String),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      data: _s.decodeUint8List((json['data'] as String?) ?? ''),
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: RuleGroupsNamespaceStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2145,12 +2168,13 @@ class RuleGroupsNamespaceSummary {
 
   factory RuleGroupsNamespaceSummary.fromJson(Map<String, dynamic> json) {
     return RuleGroupsNamespaceSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: RuleGroupsNamespaceStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2261,18 +2285,22 @@ class ScraperDescription {
 
   factory ScraperDescription.fromJson(Map<String, dynamic> json) {
     return ScraperDescription(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      destination:
-          Destination.fromJson(json['destination'] as Map<String, dynamic>),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      roleArn: json['roleArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      destination: Destination.fromJson(
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      roleArn: (json['roleArn'] as String?) ?? '',
       scrapeConfiguration: ScrapeConfiguration.fromJson(
-          json['scrapeConfiguration'] as Map<String, dynamic>),
-      scraperId: json['scraperId'] as String,
-      source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      status: ScraperStatus.fromJson(json['status'] as Map<String, dynamic>),
+          (json['scrapeConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scraperId: (json['scraperId'] as String?) ?? '',
+      source: Source.fromJson((json['source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: ScraperStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       alias: json['alias'] as String?,
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2407,16 +2435,19 @@ class ScraperSummary {
 
   factory ScraperSummary.fromJson(Map<String, dynamic> json) {
     return ScraperSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      destination:
-          Destination.fromJson(json['destination'] as Map<String, dynamic>),
-      lastModifiedAt:
-          nonNullableTimeStampFromJson(json['lastModifiedAt'] as Object),
-      roleArn: json['roleArn'] as String,
-      scraperId: json['scraperId'] as String,
-      source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      status: ScraperStatus.fromJson(json['status'] as Map<String, dynamic>),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      destination: Destination.fromJson(
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModifiedAt: nonNullableTimeStampFromJson(json['lastModifiedAt'] ?? 0),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      scraperId: (json['scraperId'] as String?) ?? '',
+      source: Source.fromJson((json['source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: ScraperStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       alias: json['alias'] as String?,
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2516,7 +2547,8 @@ class UpdateLoggingConfigurationResponse {
       Map<String, dynamic> json) {
     return UpdateLoggingConfigurationResponse(
       status: LoggingConfigurationStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2570,10 +2602,12 @@ class WorkspaceDescription {
 
   factory WorkspaceDescription.fromJson(Map<String, dynamic> json) {
     return WorkspaceDescription(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      status: WorkspaceStatus.fromJson(json['status'] as Map<String, dynamic>),
-      workspaceId: json['workspaceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status: WorkspaceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       alias: json['alias'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       prometheusEndpoint: json['prometheusEndpoint'] as String?,
@@ -2685,10 +2719,12 @@ class WorkspaceSummary {
 
   factory WorkspaceSummary.fromJson(Map<String, dynamic> json) {
     return WorkspaceSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      status: WorkspaceStatus.fromJson(json['status'] as Map<String, dynamic>),
-      workspaceId: json['workspaceId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      status: WorkspaceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workspaceId: (json['workspaceId'] as String?) ?? '',
       alias: json['alias'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)

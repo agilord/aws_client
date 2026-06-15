@@ -282,9 +282,9 @@ class PutDeploymentParameterResponse {
 
   factory PutDeploymentParameterResponse.fromJson(Map<String, dynamic> json) {
     return PutDeploymentParameterResponse(
-      agreementId: json['agreementId'] as String,
-      deploymentParameterId: json['deploymentParameterId'] as String,
-      resourceArn: json['resourceArn'] as String,
+      agreementId: (json['agreementId'] as String?) ?? '',
+      deploymentParameterId: (json['deploymentParameterId'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );

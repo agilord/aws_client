@@ -2675,8 +2675,8 @@ class CountPercent {
 
   factory CountPercent.fromJson(Map<String, dynamic> json) {
     return CountPercent(
-      count: json['Count'] as int,
-      percentage: json['Percentage'] as double,
+      count: (json['Count'] as int?) ?? 0,
+      percentage: (json['Percentage'] as double?) ?? 0,
     );
   }
 
@@ -3047,15 +3047,20 @@ class DataQualitySummary {
   factory DataQualitySummary.fromJson(Map<String, dynamic> json) {
     return DataQualitySummary(
       duplicateTimestamps: DuplicateTimestamps.fromJson(
-          json['DuplicateTimestamps'] as Map<String, dynamic>),
+          (json['DuplicateTimestamps'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       insufficientSensorData: InsufficientSensorData.fromJson(
-          json['InsufficientSensorData'] as Map<String, dynamic>),
+          (json['InsufficientSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       invalidSensorData: InvalidSensorData.fromJson(
-          json['InvalidSensorData'] as Map<String, dynamic>),
+          (json['InvalidSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       missingSensorData: MissingSensorData.fromJson(
-          json['MissingSensorData'] as Map<String, dynamic>),
+          (json['MissingSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       unsupportedTimestamps: UnsupportedTimestamps.fromJson(
-          json['UnsupportedTimestamps'] as Map<String, dynamic>),
+          (json['UnsupportedTimestamps'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4694,7 +4699,7 @@ class DuplicateTimestamps {
   factory DuplicateTimestamps.fromJson(Map<String, dynamic> json) {
     return DuplicateTimestamps(
       totalNumberOfDuplicateTimestamps:
-          json['TotalNumberOfDuplicateTimestamps'] as int,
+          (json['TotalNumberOfDuplicateTimestamps'] as int?) ?? 0,
     );
   }
 
@@ -5145,7 +5150,8 @@ class InferenceOutputConfiguration {
   factory InferenceOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return InferenceOutputConfiguration(
       s3OutputConfiguration: InferenceS3OutputConfiguration.fromJson(
-          json['S3OutputConfiguration'] as Map<String, dynamic>),
+          (json['S3OutputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -5176,7 +5182,7 @@ class InferenceS3InputConfiguration {
 
   factory InferenceS3InputConfiguration.fromJson(Map<String, dynamic> json) {
     return InferenceS3InputConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       prefix: json['Prefix'] as String?,
     );
   }
@@ -5207,7 +5213,7 @@ class InferenceS3OutputConfiguration {
 
   factory InferenceS3OutputConfiguration.fromJson(Map<String, dynamic> json) {
     return InferenceS3OutputConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       prefix: json['Prefix'] as String?,
     );
   }
@@ -5355,8 +5361,8 @@ class IngestedFilesSummary {
 
   factory IngestedFilesSummary.fromJson(Map<String, dynamic> json) {
     return IngestedFilesSummary(
-      ingestedNumberOfFiles: json['IngestedNumberOfFiles'] as int,
-      totalNumberOfFiles: json['TotalNumberOfFiles'] as int,
+      ingestedNumberOfFiles: (json['IngestedNumberOfFiles'] as int?) ?? 0,
+      totalNumberOfFiles: (json['TotalNumberOfFiles'] as int?) ?? 0,
       discardedFiles: (json['DiscardedFiles'] as List?)
           ?.nonNulls
           .map((e) => S3Object.fromJson(e as Map<String, dynamic>))
@@ -5390,7 +5396,8 @@ class IngestionInputConfiguration {
   factory IngestionInputConfiguration.fromJson(Map<String, dynamic> json) {
     return IngestionInputConfiguration(
       s3InputConfiguration: IngestionS3InputConfiguration.fromJson(
-          json['S3InputConfiguration'] as Map<String, dynamic>),
+          (json['S3InputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5448,7 +5455,7 @@ class IngestionS3InputConfiguration {
 
   factory IngestionS3InputConfiguration.fromJson(Map<String, dynamic> json) {
     return IngestionS3InputConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       keyPattern: json['KeyPattern'] as String?,
       prefix: json['Prefix'] as String?,
     );
@@ -5485,9 +5492,11 @@ class InsufficientSensorData {
   factory InsufficientSensorData.fromJson(Map<String, dynamic> json) {
     return InsufficientSensorData(
       missingCompleteSensorData: MissingCompleteSensorData.fromJson(
-          json['MissingCompleteSensorData'] as Map<String, dynamic>),
+          (json['MissingCompleteSensorData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       sensorsWithShortDateRange: SensorsWithShortDateRange.fromJson(
-          json['SensorsWithShortDateRange'] as Map<String, dynamic>),
+          (json['SensorsWithShortDateRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5517,8 +5526,9 @@ class InvalidSensorData {
 
   factory InvalidSensorData.fromJson(Map<String, dynamic> json) {
     return InvalidSensorData(
-      affectedSensorCount: json['AffectedSensorCount'] as int,
-      totalNumberOfInvalidValues: json['TotalNumberOfInvalidValues'] as int,
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+      totalNumberOfInvalidValues:
+          (json['TotalNumberOfInvalidValues'] as int?) ?? 0,
     );
   }
 
@@ -5724,7 +5734,7 @@ class LabelsS3InputConfiguration {
 
   factory LabelsS3InputConfiguration.fromJson(Map<String, dynamic> json) {
     return LabelsS3InputConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       prefix: json['Prefix'] as String?,
     );
   }
@@ -6246,7 +6256,7 @@ class MissingCompleteSensorData {
 
   factory MissingCompleteSensorData.fromJson(Map<String, dynamic> json) {
     return MissingCompleteSensorData(
-      affectedSensorCount: json['AffectedSensorCount'] as int,
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
     );
   }
 
@@ -6273,8 +6283,9 @@ class MissingSensorData {
 
   factory MissingSensorData.fromJson(Map<String, dynamic> json) {
     return MissingSensorData(
-      affectedSensorCount: json['AffectedSensorCount'] as int,
-      totalNumberOfMissingValues: json['TotalNumberOfMissingValues'] as int,
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
+      totalNumberOfMissingValues:
+          (json['TotalNumberOfMissingValues'] as int?) ?? 0,
     );
   }
 
@@ -6307,7 +6318,8 @@ class ModelDiagnosticsOutputConfiguration {
       Map<String, dynamic> json) {
     return ModelDiagnosticsOutputConfiguration(
       s3OutputConfiguration: ModelDiagnosticsS3OutputConfiguration.fromJson(
-          json['S3OutputConfiguration'] as Map<String, dynamic>),
+          (json['S3OutputConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -6352,7 +6364,7 @@ class ModelDiagnosticsS3OutputConfiguration {
   factory ModelDiagnosticsS3OutputConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ModelDiagnosticsS3OutputConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       prefix: json['Prefix'] as String?,
     );
   }
@@ -6909,8 +6921,8 @@ class S3Object {
 
   factory S3Object.fromJson(Map<String, dynamic> json) {
     return S3Object(
-      bucket: json['Bucket'] as String,
-      key: json['Key'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
+      key: (json['Key'] as String?) ?? '',
     );
   }
 
@@ -7080,7 +7092,7 @@ class SensorsWithShortDateRange {
 
   factory SensorsWithShortDateRange.fromJson(Map<String, dynamic> json) {
     return SensorsWithShortDateRange(
-      affectedSensorCount: json['AffectedSensorCount'] as int,
+      affectedSensorCount: (json['AffectedSensorCount'] as int?) ?? 0,
     );
   }
 
@@ -7335,8 +7347,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7400,7 +7412,7 @@ class UnsupportedTimestamps {
   factory UnsupportedTimestamps.fromJson(Map<String, dynamic> json) {
     return UnsupportedTimestamps(
       totalNumberOfUnsupportedTimestamps:
-          json['TotalNumberOfUnsupportedTimestamps'] as int,
+          (json['TotalNumberOfUnsupportedTimestamps'] as int?) ?? 0,
     );
   }
 

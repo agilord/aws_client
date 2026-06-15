@@ -5856,7 +5856,7 @@ class AttributeDefinition {
 
   factory AttributeDefinition.fromJson(Map<String, dynamic> json) {
     return AttributeDefinition(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       attributeType:
           ScalarAttributeType.fromString((json['AttributeType'] as String)),
     );
@@ -6335,7 +6335,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-      targetValue: json['TargetValue'] as double,
+      targetValue: (json['TargetValue'] as double?) ?? 0,
       disableScaleIn: json['DisableScaleIn'] as bool?,
       scaleInCooldown: json['ScaleInCooldown'] as int?,
       scaleOutCooldown: json['ScaleOutCooldown'] as int?,
@@ -6513,10 +6513,10 @@ class BackupDetails {
 
   factory BackupDetails.fromJson(Map<String, dynamic> json) {
     return BackupDetails(
-      backupArn: json['BackupArn'] as String,
-      backupCreationDateTime: nonNullableTimeStampFromJson(
-          json['BackupCreationDateTime'] as Object),
-      backupName: json['BackupName'] as String,
+      backupArn: (json['BackupArn'] as String?) ?? '',
+      backupCreationDateTime:
+          nonNullableTimeStampFromJson(json['BackupCreationDateTime'] ?? 0),
+      backupName: (json['BackupName'] as String?) ?? '',
       backupStatus: BackupStatus.fromString((json['BackupStatus'] as String)),
       backupType: BackupType.fromString((json['BackupType'] as String)),
       backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
@@ -8235,8 +8235,9 @@ class DeleteRequest {
 
   factory DeleteRequest.fromJson(Map<String, dynamic> json) {
     return DeleteRequest(
-      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      key: ((json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
     );
   }
 
@@ -8453,7 +8454,7 @@ class DescribeEndpointsResponse {
 
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
-      endpoints: (json['Endpoints'] as List)
+      endpoints: ((json['Endpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8566,7 +8567,8 @@ class DescribeImportOutput {
   factory DescribeImportOutput.fromJson(Map<String, dynamic> json) {
     return DescribeImportOutput(
       importTableDescription: ImportTableDescription.fromJson(
-          json['ImportTableDescription'] as Map<String, dynamic>),
+          (json['ImportTableDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8812,8 +8814,8 @@ class Endpoint {
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
-      address: json['Address'] as String,
-      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
     );
   }
 
@@ -9734,13 +9736,14 @@ class GlobalSecondaryIndex {
 
   factory GlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
     return GlobalSecondaryIndex(
-      indexName: json['IndexName'] as String,
-      keySchema: (json['KeySchema'] as List)
+      indexName: (json['IndexName'] as String?) ?? '',
+      keySchema: ((json['KeySchema'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      projection:
-          Projection.fromJson(json['Projection'] as Map<String, dynamic>),
+      projection: Projection.fromJson(
+          (json['Projection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       onDemandThroughput: json['OnDemandThroughput'] != null
           ? OnDemandThroughput.fromJson(
               json['OnDemandThroughput'] as Map<String, dynamic>)
@@ -10553,7 +10556,8 @@ class ImportTableOutput {
   factory ImportTableOutput.fromJson(Map<String, dynamic> json) {
     return ImportTableOutput(
       importTableDescription: ImportTableDescription.fromJson(
-          json['ImportTableDescription'] as Map<String, dynamic>),
+          (json['ImportTableDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10806,7 +10810,7 @@ class KeySchemaElement {
 
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       keyType: KeyType.fromString((json['KeyType'] as String)),
     );
   }
@@ -10935,7 +10939,7 @@ class KeysAndAttributes {
 
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
-      keys: (json['Keys'] as List)
+      keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
@@ -11856,8 +11860,8 @@ class ProvisionedThroughput {
 
   factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
     return ProvisionedThroughput(
-      readCapacityUnits: json['ReadCapacityUnits'] as int,
-      writeCapacityUnits: json['WriteCapacityUnits'] as int,
+      readCapacityUnits: (json['ReadCapacityUnits'] as int?) ?? 0,
+      writeCapacityUnits: (json['WriteCapacityUnits'] as int?) ?? 0,
     );
   }
 
@@ -12123,8 +12127,10 @@ class PutRequest {
 
   factory PutRequest.fromJson(Map<String, dynamic> json) {
     return PutRequest(
-      item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      item: ((json['Item'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
     );
   }
 
@@ -12784,7 +12790,7 @@ class ReplicaGlobalSecondaryIndexSettingsDescription {
   factory ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
       Map<String, dynamic> json) {
     return ReplicaGlobalSecondaryIndexSettingsDescription(
-      indexName: json['IndexName'] as String,
+      indexName: (json['IndexName'] as String?) ?? '',
       indexStatus:
           (json['IndexStatus'] as String?)?.let(IndexStatus.fromString),
       provisionedReadCapacityAutoScalingSettings:
@@ -12938,7 +12944,7 @@ class ReplicaSettingsDescription {
 
   factory ReplicaSettingsDescription.fromJson(Map<String, dynamic> json) {
     return ReplicaSettingsDescription(
-      regionName: json['RegionName'] as String,
+      regionName: (json['RegionName'] as String?) ?? '',
       replicaBillingModeSummary: json['ReplicaBillingModeSummary'] != null
           ? BillingModeSummary.fromJson(
               json['ReplicaBillingModeSummary'] as Map<String, dynamic>)
@@ -13208,8 +13214,8 @@ class RestoreSummary {
   factory RestoreSummary.fromJson(Map<String, dynamic> json) {
     return RestoreSummary(
       restoreDateTime:
-          nonNullableTimeStampFromJson(json['RestoreDateTime'] as Object),
-      restoreInProgress: json['RestoreInProgress'] as bool,
+          nonNullableTimeStampFromJson(json['RestoreDateTime'] ?? 0),
+      restoreInProgress: (json['RestoreInProgress'] as bool?) ?? false,
       sourceBackupArn: json['SourceBackupArn'] as String?,
       sourceTableArn: json['SourceTableArn'] as String?,
     );
@@ -13386,7 +13392,7 @@ class S3BucketSource {
 
   factory S3BucketSource.fromJson(Map<String, dynamic> json) {
     return S3BucketSource(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3BucketOwner: json['S3BucketOwner'] as String?,
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
     );
@@ -13755,16 +13761,17 @@ class SourceTableDetails {
 
   factory SourceTableDetails.fromJson(Map<String, dynamic> json) {
     return SourceTableDetails(
-      keySchema: (json['KeySchema'] as List)
+      keySchema: ((json['KeySchema'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       provisionedThroughput: ProvisionedThroughput.fromJson(
-          json['ProvisionedThroughput'] as Map<String, dynamic>),
+          (json['ProvisionedThroughput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tableCreationDateTime:
-          nonNullableTimeStampFromJson(json['TableCreationDateTime'] as Object),
-      tableId: json['TableId'] as String,
-      tableName: json['TableName'] as String,
+          nonNullableTimeStampFromJson(json['TableCreationDateTime'] ?? 0),
+      tableId: (json['TableId'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       billingMode:
           (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       itemCount: json['ItemCount'] as int?,
@@ -13917,7 +13924,7 @@ class StreamSpecification {
 
   factory StreamSpecification.fromJson(Map<String, dynamic> json) {
     return StreamSpecification(
-      streamEnabled: json['StreamEnabled'] as bool,
+      streamEnabled: (json['StreamEnabled'] as bool?) ?? false,
       streamViewType:
           (json['StreamViewType'] as String?)?.let(StreamViewType.fromString),
     );
@@ -14089,15 +14096,16 @@ class TableCreationParameters {
 
   factory TableCreationParameters.fromJson(Map<String, dynamic> json) {
     return TableCreationParameters(
-      attributeDefinitions: (json['AttributeDefinitions'] as List)
+      attributeDefinitions: ((json['AttributeDefinitions'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      keySchema: (json['KeySchema'] as List)
+      keySchema: ((json['KeySchema'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tableName: json['TableName'] as String,
+      tableName: (json['TableName'] as String?) ?? '',
       billingMode:
           (json['BillingMode'] as String?)?.let(BillingMode.fromString),
       globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
@@ -14683,8 +14691,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -14747,8 +14755,8 @@ class TimeToLiveSpecification {
 
   factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) {
     return TimeToLiveSpecification(
-      attributeName: json['AttributeName'] as String,
-      enabled: json['Enabled'] as bool,
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      enabled: (json['Enabled'] as bool?) ?? false,
     );
   }
 

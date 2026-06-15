@@ -16873,8 +16873,10 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
-      role: json['role'] as String,
-      settings: JobSettings.fromJson(json['settings'] as Map<String, dynamic>),
+      role: (json['role'] as String?) ?? '',
+      settings: JobSettings.fromJson(
+          (json['settings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       accelerationSettings: json['accelerationSettings'] != null
           ? AccelerationSettings.fromJson(
               json['accelerationSettings'] as Map<String, dynamic>)
@@ -17333,9 +17335,10 @@ class JobTemplate {
 
   factory JobTemplate.fromJson(Map<String, dynamic> json) {
     return JobTemplate(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       settings: JobTemplateSettings.fromJson(
-          json['settings'] as Map<String, dynamic>),
+          (json['settings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       accelerationSettings: json['accelerationSettings'] != null
           ? AccelerationSettings.fromJson(
               json['accelerationSettings'] as Map<String, dynamic>)
@@ -22729,9 +22732,10 @@ class Preset {
 
   factory Preset.fromJson(Map<String, dynamic> json) {
     return Preset(
-      name: json['name'] as String,
-      settings:
-          PresetSettings.fromJson(json['settings'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      settings: PresetSettings.fromJson(
+          (json['settings'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       arn: json['arn'] as String?,
       category: json['category'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -23364,7 +23368,7 @@ class Queue {
 
   factory Queue.fromJson(Map<String, dynamic> json) {
     return Queue(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
@@ -27129,8 +27133,8 @@ class WarningGroup {
 
   factory WarningGroup.fromJson(Map<String, dynamic> json) {
     return WarningGroup(
-      code: json['code'] as int,
-      count: json['count'] as int,
+      code: (json['code'] as int?) ?? 0,
+      count: (json['count'] as int?) ?? 0,
     );
   }
 

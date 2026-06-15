@@ -922,13 +922,13 @@ class Application {
 
   factory Application.fromJson(Map<String, dynamic> json) {
     return Application(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      releaseLabel: json['releaseLabel'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       state: ApplicationState.fromString((json['state'] as String)),
-      type: json['type'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      type: (json['type'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       architecture:
           (json['architecture'] as String?)?.let(Architecture.fromString),
       autoStartConfiguration: json['autoStartConfiguration'] != null
@@ -1099,13 +1099,13 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      releaseLabel: json['releaseLabel'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       state: ApplicationState.fromString((json['state'] as String)),
-      type: json['type'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      type: (json['type'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       architecture:
           (json['architecture'] as String?)?.let(Architecture.fromString),
       name: json['name'] as String?,
@@ -1226,8 +1226,8 @@ class CancelJobRunResponse {
 
   factory CancelJobRunResponse.fromJson(Map<String, dynamic> json) {
     return CancelJobRunResponse(
-      applicationId: json['applicationId'] as String,
-      jobRunId: json['jobRunId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      jobRunId: (json['jobRunId'] as String?) ?? '',
     );
   }
 
@@ -1287,7 +1287,7 @@ class CloudWatchLoggingConfiguration {
 
   factory CloudWatchLoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return CloudWatchLoggingConfiguration(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       encryptionKeyArn: json['encryptionKeyArn'] as String?,
       logGroupName: json['logGroupName'] as String?,
       logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
@@ -1336,7 +1336,7 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
-      classification: json['classification'] as String,
+      classification: (json['classification'] as String?) ?? '',
       configurations: (json['configurations'] as List?)
           ?.nonNulls
           .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
@@ -1415,8 +1415,8 @@ class CreateApplicationResponse {
 
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
       name: json['name'] as String?,
     );
   }
@@ -1455,8 +1455,9 @@ class GetApplicationResponse {
 
   factory GetApplicationResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationResponse(
-      application:
-          Application.fromJson(json['application'] as Map<String, dynamic>),
+      application: Application.fromJson(
+          (json['application'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1500,7 +1501,8 @@ class GetJobRunResponse {
 
   factory GetJobRunResponse.fromJson(Map<String, dynamic> json) {
     return GetJobRunResponse(
-      jobRun: JobRun.fromJson(json['jobRun'] as Map<String, dynamic>),
+      jobRun: JobRun.fromJson((json['jobRun'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1531,7 +1533,7 @@ class Hive {
 
   factory Hive.fromJson(Map<String, dynamic> json) {
     return Hive(
-      query: json['query'] as String,
+      query: (json['query'] as String?) ?? '',
       initQueryFile: json['initQueryFile'] as String?,
       parameters: json['parameters'] as String?,
     );
@@ -1566,7 +1568,7 @@ class ImageConfiguration {
 
   factory ImageConfiguration.fromJson(Map<String, dynamic> json) {
     return ImageConfiguration(
-      imageUri: json['imageUri'] as String,
+      imageUri: (json['imageUri'] as String?) ?? '',
       resolvedImageDigest: json['resolvedImageDigest'] as String?,
     );
   }
@@ -1616,7 +1618,7 @@ class InitialCapacityConfig {
 
   factory InitialCapacityConfig.fromJson(Map<String, dynamic> json) {
     return InitialCapacityConfig(
-      workerCount: json['workerCount'] as int,
+      workerCount: (json['workerCount'] as int?) ?? 0,
       workerConfiguration: json['workerConfiguration'] != null
           ? WorkerResourceConfig.fromJson(
               json['workerConfiguration'] as Map<String, dynamic>)
@@ -1816,17 +1818,19 @@ class JobRun {
 
   factory JobRun.fromJson(Map<String, dynamic> json) {
     return JobRun(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      executionRole: json['executionRole'] as String,
-      jobDriver: JobDriver.fromJson(json['jobDriver'] as Map<String, dynamic>),
-      jobRunId: json['jobRunId'] as String,
-      releaseLabel: json['releaseLabel'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      executionRole: (json['executionRole'] as String?) ?? '',
+      jobDriver: JobDriver.fromJson(
+          (json['jobDriver'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobRunId: (json['jobRunId'] as String?) ?? '',
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       state: JobRunState.fromString((json['state'] as String)),
-      stateDetails: json['stateDetails'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      stateDetails: (json['stateDetails'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,
       attemptCreatedAt: timeStampFromJson(json['attemptCreatedAt']),
       attemptUpdatedAt: timeStampFromJson(json['attemptUpdatedAt']),
@@ -1988,18 +1992,17 @@ class JobRunAttemptSummary {
 
   factory JobRunAttemptSummary.fromJson(Map<String, dynamic> json) {
     return JobRunAttemptSummary(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      executionRole: json['executionRole'] as String,
-      id: json['id'] as String,
-      jobCreatedAt:
-          nonNullableTimeStampFromJson(json['jobCreatedAt'] as Object),
-      releaseLabel: json['releaseLabel'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      executionRole: (json['executionRole'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      jobCreatedAt: nonNullableTimeStampFromJson(json['jobCreatedAt'] ?? 0),
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       state: JobRunState.fromString((json['state'] as String)),
-      stateDetails: json['stateDetails'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      stateDetails: (json['stateDetails'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,
       mode: (json['mode'] as String?)?.let(JobRunMode.fromString),
       name: json['name'] as String?,
@@ -2149,16 +2152,16 @@ class JobRunSummary {
 
   factory JobRunSummary.fromJson(Map<String, dynamic> json) {
     return JobRunSummary(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      executionRole: json['executionRole'] as String,
-      id: json['id'] as String,
-      releaseLabel: json['releaseLabel'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      executionRole: (json['executionRole'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
       state: JobRunState.fromString((json['state'] as String)),
-      stateDetails: json['stateDetails'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      stateDetails: (json['stateDetails'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       attempt: json['attempt'] as int?,
       attemptCreatedAt: timeStampFromJson(json['attemptCreatedAt']),
       attemptUpdatedAt: timeStampFromJson(json['attemptUpdatedAt']),
@@ -2224,7 +2227,7 @@ class ListApplicationsResponse {
 
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
-      applications: (json['applications'] as List)
+      applications: ((json['applications'] as List?) ?? const [])
           .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2258,7 +2261,7 @@ class ListJobRunAttemptsResponse {
 
   factory ListJobRunAttemptsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunAttemptsResponse(
-      jobRunAttempts: (json['jobRunAttempts'] as List)
+      jobRunAttempts: ((json['jobRunAttempts'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobRunAttemptSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2292,7 +2295,7 @@ class ListJobRunsResponse {
 
   factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunsResponse(
-      jobRuns: (json['jobRuns'] as List)
+      jobRuns: ((json['jobRuns'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2385,8 +2388,8 @@ class MaximumAllowedResources {
 
   factory MaximumAllowedResources.fromJson(Map<String, dynamic> json) {
     return MaximumAllowedResources(
-      cpu: json['cpu'] as String,
-      memory: json['memory'] as String,
+      cpu: (json['cpu'] as String?) ?? '',
+      memory: (json['memory'] as String?) ?? '',
       disk: json['disk'] as String?,
     );
   }
@@ -2660,7 +2663,7 @@ class SparkSubmit {
 
   factory SparkSubmit.fromJson(Map<String, dynamic> json) {
     return SparkSubmit(
-      entryPoint: json['entryPoint'] as String,
+      entryPoint: (json['entryPoint'] as String?) ?? '',
       entryPointArguments: (json['entryPointArguments'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2713,9 +2716,9 @@ class StartJobRunResponse {
 
   factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
     return StartJobRunResponse(
-      applicationId: json['applicationId'] as String,
-      arn: json['arn'] as String,
-      jobRunId: json['jobRunId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      jobRunId: (json['jobRunId'] as String?) ?? '',
     );
   }
 
@@ -2819,8 +2822,9 @@ class UpdateApplicationResponse {
 
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
-      application:
-          Application.fromJson(json['application'] as Map<String, dynamic>),
+      application: Application.fromJson(
+          (json['application'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2858,8 +2862,8 @@ class WorkerResourceConfig {
 
   factory WorkerResourceConfig.fromJson(Map<String, dynamic> json) {
     return WorkerResourceConfig(
-      cpu: json['cpu'] as String,
-      memory: json['memory'] as String,
+      cpu: (json['cpu'] as String?) ?? '',
+      memory: (json['memory'] as String?) ?? '',
       disk: json['disk'] as String?,
       diskType: json['diskType'] as String?,
     );

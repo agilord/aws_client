@@ -717,16 +717,17 @@ class ApplyGuardrailResponse {
   factory ApplyGuardrailResponse.fromJson(Map<String, dynamic> json) {
     return ApplyGuardrailResponse(
       action: GuardrailAction.fromString((json['action'] as String)),
-      assessments: (json['assessments'] as List)
+      assessments: ((json['assessments'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailAssessment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputs: (json['outputs'] as List)
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => GuardrailOutputContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      usage: GuardrailUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      usage: GuardrailUsage.fromJson((json['usage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -883,8 +884,10 @@ class ContentBlockDeltaEvent {
 
   factory ContentBlockDeltaEvent.fromJson(Map<String, dynamic> json) {
     return ContentBlockDeltaEvent(
-      contentBlockIndex: json['contentBlockIndex'] as int,
-      delta: ContentBlockDelta.fromJson(json['delta'] as Map<String, dynamic>),
+      contentBlockIndex: (json['contentBlockIndex'] as int?) ?? 0,
+      delta: ContentBlockDelta.fromJson(
+          (json['delta'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -938,8 +941,10 @@ class ContentBlockStartEvent {
 
   factory ContentBlockStartEvent.fromJson(Map<String, dynamic> json) {
     return ContentBlockStartEvent(
-      contentBlockIndex: json['contentBlockIndex'] as int,
-      start: ContentBlockStart.fromJson(json['start'] as Map<String, dynamic>),
+      contentBlockIndex: (json['contentBlockIndex'] as int?) ?? 0,
+      start: ContentBlockStart.fromJson(
+          (json['start'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -964,7 +969,7 @@ class ContentBlockStopEvent {
 
   factory ContentBlockStopEvent.fromJson(Map<String, dynamic> json) {
     return ContentBlockStopEvent(
-      contentBlockIndex: json['contentBlockIndex'] as int,
+      contentBlockIndex: (json['contentBlockIndex'] as int?) ?? 0,
     );
   }
 
@@ -1003,7 +1008,7 @@ class ConverseMetrics {
 
   factory ConverseMetrics.fromJson(Map<String, dynamic> json) {
     return ConverseMetrics(
-      latencyMs: json['latencyMs'] as int,
+      latencyMs: (json['latencyMs'] as int?) ?? 0,
     );
   }
 
@@ -1073,11 +1078,15 @@ class ConverseResponse {
 
   factory ConverseResponse.fromJson(Map<String, dynamic> json) {
     return ConverseResponse(
-      metrics:
-          ConverseMetrics.fromJson(json['metrics'] as Map<String, dynamic>),
-      output: ConverseOutput.fromJson(json['output'] as Map<String, dynamic>),
+      metrics: ConverseMetrics.fromJson(
+          (json['metrics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      output: ConverseOutput.fromJson(
+          (json['output'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stopReason: StopReason.fromString((json['stopReason'] as String)),
-      usage: TokenUsage.fromJson(json['usage'] as Map<String, dynamic>),
+      usage: TokenUsage.fromJson((json['usage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       additionalModelResponseFields:
           json['additionalModelResponseFields'] != null
               ? Document.fromJson(
@@ -1130,8 +1139,10 @@ class ConverseStreamMetadataEvent {
   factory ConverseStreamMetadataEvent.fromJson(Map<String, dynamic> json) {
     return ConverseStreamMetadataEvent(
       metrics: ConverseStreamMetrics.fromJson(
-          json['metrics'] as Map<String, dynamic>),
-      usage: TokenUsage.fromJson(json['usage'] as Map<String, dynamic>),
+          (json['metrics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      usage: TokenUsage.fromJson((json['usage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       trace: json['trace'] != null
           ? ConverseStreamTrace.fromJson(json['trace'] as Map<String, dynamic>)
           : null,
@@ -1161,7 +1172,7 @@ class ConverseStreamMetrics {
 
   factory ConverseStreamMetrics.fromJson(Map<String, dynamic> json) {
     return ConverseStreamMetrics(
-      latencyMs: json['latencyMs'] as int,
+      latencyMs: (json['latencyMs'] as int?) ?? 0,
     );
   }
 
@@ -1431,8 +1442,10 @@ class DocumentBlock {
   factory DocumentBlock.fromJson(Map<String, dynamic> json) {
     return DocumentBlock(
       format: DocumentFormat.fromString((json['format'] as String)),
-      name: json['name'] as String,
-      source: DocumentSource.fromJson(json['source'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      source: DocumentSource.fromJson(
+          (json['source'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1727,7 +1740,7 @@ class GuardrailContentPolicyAssessment {
 
   factory GuardrailContentPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailContentPolicyAssessment(
-      filters: (json['filters'] as List)
+      filters: ((json['filters'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => GuardrailContentFilter.fromJson(e as Map<String, dynamic>))
@@ -1801,8 +1814,8 @@ class GuardrailContextualGroundingFilter {
     return GuardrailContextualGroundingFilter(
       action: GuardrailContextualGroundingPolicyAction.fromString(
           (json['action'] as String)),
-      score: json['score'] as double,
-      threshold: json['threshold'] as double,
+      score: (json['score'] as double?) ?? 0,
+      threshold: (json['threshold'] as double?) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
           (json['type'] as String)),
     );
@@ -1944,7 +1957,7 @@ class GuardrailConverseTextBlock {
 
   factory GuardrailConverseTextBlock.fromJson(Map<String, dynamic> json) {
     return GuardrailConverseTextBlock(
-      text: json['text'] as String,
+      text: (json['text'] as String?) ?? '',
       qualifiers: (json['qualifiers'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -1980,7 +1993,7 @@ class GuardrailCustomWord {
   factory GuardrailCustomWord.fromJson(Map<String, dynamic> json) {
     return GuardrailCustomWord(
       action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
-      match: json['match'] as String,
+      match: (json['match'] as String?) ?? '',
     );
   }
 
@@ -2014,7 +2027,7 @@ class GuardrailManagedWord {
   factory GuardrailManagedWord.fromJson(Map<String, dynamic> json) {
     return GuardrailManagedWord(
       action: GuardrailWordPolicyAction.fromString((json['action'] as String)),
-      match: json['match'] as String,
+      match: (json['match'] as String?) ?? '',
       type: GuardrailManagedWordType.fromString((json['type'] as String)),
     );
   }
@@ -2090,7 +2103,7 @@ class GuardrailPiiEntityFilter {
     return GuardrailPiiEntityFilter(
       action: GuardrailSensitiveInformationPolicyAction.fromString(
           (json['action'] as String)),
-      match: json['match'] as String,
+      match: (json['match'] as String?) ?? '',
       type: GuardrailPiiEntityType.fromString((json['type'] as String)),
     );
   }
@@ -2228,12 +2241,12 @@ class GuardrailSensitiveInformationPolicyAssessment {
   factory GuardrailSensitiveInformationPolicyAssessment.fromJson(
       Map<String, dynamic> json) {
     return GuardrailSensitiveInformationPolicyAssessment(
-      piiEntities: (json['piiEntities'] as List)
+      piiEntities: ((json['piiEntities'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               GuardrailPiiEntityFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      regexes: (json['regexes'] as List)
+      regexes: ((json['regexes'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailRegexFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2350,7 +2363,7 @@ class GuardrailTopic {
   factory GuardrailTopic.fromJson(Map<String, dynamic> json) {
     return GuardrailTopic(
       action: GuardrailTopicPolicyAction.fromString((json['action'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       type: GuardrailTopicType.fromString((json['type'] as String)),
     );
   }
@@ -2392,7 +2405,7 @@ class GuardrailTopicPolicyAssessment {
 
   factory GuardrailTopicPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailTopicPolicyAssessment(
-      topics: (json['topics'] as List)
+      topics: ((json['topics'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailTopic.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2517,15 +2530,15 @@ class GuardrailUsage {
 
   factory GuardrailUsage.fromJson(Map<String, dynamic> json) {
     return GuardrailUsage(
-      contentPolicyUnits: json['contentPolicyUnits'] as int,
+      contentPolicyUnits: (json['contentPolicyUnits'] as int?) ?? 0,
       contextualGroundingPolicyUnits:
-          json['contextualGroundingPolicyUnits'] as int,
+          (json['contextualGroundingPolicyUnits'] as int?) ?? 0,
       sensitiveInformationPolicyFreeUnits:
-          json['sensitiveInformationPolicyFreeUnits'] as int,
+          (json['sensitiveInformationPolicyFreeUnits'] as int?) ?? 0,
       sensitiveInformationPolicyUnits:
-          json['sensitiveInformationPolicyUnits'] as int,
-      topicPolicyUnits: json['topicPolicyUnits'] as int,
-      wordPolicyUnits: json['wordPolicyUnits'] as int,
+          (json['sensitiveInformationPolicyUnits'] as int?) ?? 0,
+      topicPolicyUnits: (json['topicPolicyUnits'] as int?) ?? 0,
+      wordPolicyUnits: (json['wordPolicyUnits'] as int?) ?? 0,
     );
   }
 
@@ -2579,11 +2592,11 @@ class GuardrailWordPolicyAssessment {
 
   factory GuardrailWordPolicyAssessment.fromJson(Map<String, dynamic> json) {
     return GuardrailWordPolicyAssessment(
-      customWords: (json['customWords'] as List)
+      customWords: ((json['customWords'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailCustomWord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      managedWordLists: (json['managedWordLists'] as List)
+      managedWordLists: ((json['managedWordLists'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailManagedWord.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2616,7 +2629,8 @@ class ImageBlock {
   factory ImageBlock.fromJson(Map<String, dynamic> json) {
     return ImageBlock(
       format: ImageFormat.fromString((json['format'] as String)),
-      source: ImageSource.fromJson(json['source'] as Map<String, dynamic>),
+      source: ImageSource.fromJson((json['source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2849,7 +2863,7 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      content: (json['content'] as List)
+      content: ((json['content'] as List?) ?? const [])
           .nonNulls
           .map((e) => ContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3236,9 +3250,9 @@ class TokenUsage {
 
   factory TokenUsage.fromJson(Map<String, dynamic> json) {
     return TokenUsage(
-      inputTokens: json['inputTokens'] as int,
-      outputTokens: json['outputTokens'] as int,
-      totalTokens: json['totalTokens'] as int,
+      inputTokens: (json['inputTokens'] as int?) ?? 0,
+      outputTokens: (json['outputTokens'] as int?) ?? 0,
+      totalTokens: (json['totalTokens'] as int?) ?? 0,
     );
   }
 
@@ -3381,12 +3395,12 @@ class ToolResultBlock {
 
   factory ToolResultBlock.fromJson(Map<String, dynamic> json) {
     return ToolResultBlock(
-      content: (json['content'] as List)
+      content: ((json['content'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => ToolResultContentBlock.fromJson(e as Map<String, dynamic>))
           .toList(),
-      toolUseId: json['toolUseId'] as String,
+      toolUseId: (json['toolUseId'] as String?) ?? '',
       status: (json['status'] as String?)?.let(ToolResultStatus.fromString),
     );
   }
@@ -3521,9 +3535,10 @@ class ToolUseBlock {
 
   factory ToolUseBlock.fromJson(Map<String, dynamic> json) {
     return ToolUseBlock(
-      input: Document.fromJson(json['input'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      toolUseId: json['toolUseId'] as String,
+      input: Document.fromJson((json['input'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      toolUseId: (json['toolUseId'] as String?) ?? '',
     );
   }
 
@@ -3550,7 +3565,7 @@ class ToolUseBlockDelta {
 
   factory ToolUseBlockDelta.fromJson(Map<String, dynamic> json) {
     return ToolUseBlockDelta(
-      input: json['input'] as String,
+      input: (json['input'] as String?) ?? '',
     );
   }
 
@@ -3577,8 +3592,8 @@ class ToolUseBlockStart {
 
   factory ToolUseBlockStart.fromJson(Map<String, dynamic> json) {
     return ToolUseBlockStart(
-      name: json['name'] as String,
-      toolUseId: json['toolUseId'] as String,
+      name: (json['name'] as String?) ?? '',
+      toolUseId: (json['toolUseId'] as String?) ?? '',
     );
   }
 

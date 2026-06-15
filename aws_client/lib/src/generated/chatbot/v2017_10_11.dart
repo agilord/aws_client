@@ -1314,13 +1314,13 @@ class ChimeWebhookConfiguration {
 
   factory ChimeWebhookConfiguration.fromJson(Map<String, dynamic> json) {
     return ChimeWebhookConfiguration(
-      chatConfigurationArn: json['ChatConfigurationArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
-      snsTopicArns: (json['SnsTopicArns'] as List)
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      webhookDescription: json['WebhookDescription'] as String,
+      webhookDescription: (json['WebhookDescription'] as String?) ?? '',
       configurationName: json['ConfigurationName'] as String?,
       loggingLevel: json['LoggingLevel'] as String?,
       tags: (json['Tags'] as List?)
@@ -1376,8 +1376,8 @@ class ConfiguredTeam {
 
   factory ConfiguredTeam.fromJson(Map<String, dynamic> json) {
     return ConfiguredTeam(
-      teamId: json['TeamId'] as String,
-      tenantId: json['TenantId'] as String,
+      teamId: (json['TeamId'] as String?) ?? '',
+      tenantId: (json['TenantId'] as String?) ?? '',
       teamName: json['TeamName'] as String?,
     );
   }
@@ -1969,13 +1969,13 @@ class SlackChannelConfiguration {
 
   factory SlackChannelConfiguration.fromJson(Map<String, dynamic> json) {
     return SlackChannelConfiguration(
-      chatConfigurationArn: json['ChatConfigurationArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
-      slackChannelId: json['SlackChannelId'] as String,
-      slackChannelName: json['SlackChannelName'] as String,
-      slackTeamId: json['SlackTeamId'] as String,
-      slackTeamName: json['SlackTeamName'] as String,
-      snsTopicArns: (json['SnsTopicArns'] as List)
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      slackChannelId: (json['SlackChannelId'] as String?) ?? '',
+      slackChannelName: (json['SlackChannelName'] as String?) ?? '',
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
+      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2059,10 +2059,10 @@ class SlackUserIdentity {
 
   factory SlackUserIdentity.fromJson(Map<String, dynamic> json) {
     return SlackUserIdentity(
-      chatConfigurationArn: json['ChatConfigurationArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
-      slackTeamId: json['SlackTeamId'] as String,
-      slackUserId: json['SlackUserId'] as String,
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackUserId: (json['SlackUserId'] as String?) ?? '',
       awsUserIdentity: json['AwsUserIdentity'] as String?,
     );
   }
@@ -2098,8 +2098,8 @@ class SlackWorkspace {
 
   factory SlackWorkspace.fromJson(Map<String, dynamic> json) {
     return SlackWorkspace(
-      slackTeamId: json['SlackTeamId'] as String,
-      slackTeamName: json['SlackTeamName'] as String,
+      slackTeamId: (json['SlackTeamId'] as String?) ?? '',
+      slackTeamName: (json['SlackTeamName'] as String?) ?? '',
     );
   }
 
@@ -2136,8 +2136,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      tagKey: json['TagKey'] as String,
-      tagValue: json['TagValue'] as String,
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValue: (json['TagValue'] as String?) ?? '',
     );
   }
 
@@ -2240,15 +2240,15 @@ class TeamsChannelConfiguration {
 
   factory TeamsChannelConfiguration.fromJson(Map<String, dynamic> json) {
     return TeamsChannelConfiguration(
-      channelId: json['ChannelId'] as String,
-      chatConfigurationArn: json['ChatConfigurationArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
-      snsTopicArns: (json['SnsTopicArns'] as List)
+      channelId: (json['ChannelId'] as String?) ?? '',
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      snsTopicArns: ((json['SnsTopicArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      teamId: json['TeamId'] as String,
-      tenantId: json['TenantId'] as String,
+      teamId: (json['TeamId'] as String?) ?? '',
+      tenantId: (json['TenantId'] as String?) ?? '',
       channelName: json['ChannelName'] as String?,
       configurationName: json['ConfigurationName'] as String?,
       guardrailPolicyArns: (json['GuardrailPolicyArns'] as List?)
@@ -2348,9 +2348,9 @@ class TeamsUserIdentity {
 
   factory TeamsUserIdentity.fromJson(Map<String, dynamic> json) {
     return TeamsUserIdentity(
-      chatConfigurationArn: json['ChatConfigurationArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
-      teamId: json['TeamId'] as String,
+      chatConfigurationArn: (json['ChatConfigurationArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      teamId: (json['TeamId'] as String?) ?? '',
       awsUserIdentity: json['AwsUserIdentity'] as String?,
       teamsChannelId: json['TeamsChannelId'] as String?,
       teamsTenantId: json['TeamsTenantId'] as String?,

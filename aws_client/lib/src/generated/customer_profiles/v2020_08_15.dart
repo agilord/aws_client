@@ -2935,7 +2935,7 @@ class AppflowIntegrationWorkflowAttributes {
   factory AppflowIntegrationWorkflowAttributes.fromJson(
       Map<String, dynamic> json) {
     return AppflowIntegrationWorkflowAttributes(
-      connectorProfileName: json['ConnectorProfileName'] as String,
+      connectorProfileName: (json['ConnectorProfileName'] as String?) ?? '',
       sourceConnectorType: SourceConnectorType.fromString(
           (json['SourceConnectorType'] as String)),
       roleArn: json['RoleArn'] as String?,
@@ -2975,9 +2975,9 @@ class AppflowIntegrationWorkflowMetrics {
   factory AppflowIntegrationWorkflowMetrics.fromJson(
       Map<String, dynamic> json) {
     return AppflowIntegrationWorkflowMetrics(
-      recordsProcessed: json['RecordsProcessed'] as int,
-      stepsCompleted: json['StepsCompleted'] as int,
-      totalSteps: json['TotalSteps'] as int,
+      recordsProcessed: (json['RecordsProcessed'] as int?) ?? 0,
+      stepsCompleted: (json['StepsCompleted'] as int?) ?? 0,
+      totalSteps: (json['TotalSteps'] as int?) ?? 0,
     );
   }
 
@@ -3040,14 +3040,13 @@ class AppflowIntegrationWorkflowStep {
 
   factory AppflowIntegrationWorkflowStep.fromJson(Map<String, dynamic> json) {
     return AppflowIntegrationWorkflowStep(
-      batchRecordsEndTime: json['BatchRecordsEndTime'] as String,
-      batchRecordsStartTime: json['BatchRecordsStartTime'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      executionMessage: json['ExecutionMessage'] as String,
-      flowName: json['FlowName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      recordsProcessed: json['RecordsProcessed'] as int,
+      batchRecordsEndTime: (json['BatchRecordsEndTime'] as String?) ?? '',
+      batchRecordsStartTime: (json['BatchRecordsStartTime'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      executionMessage: (json['ExecutionMessage'] as String?) ?? '',
+      flowName: (json['FlowName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      recordsProcessed: (json['RecordsProcessed'] as int?) ?? 0,
       status: Status.fromString((json['Status'] as String)),
     );
   }
@@ -3092,11 +3091,11 @@ class AttributeDetails {
 
   factory AttributeDetails.fromJson(Map<String, dynamic> json) {
     return AttributeDetails(
-      attributes: (json['Attributes'] as List)
+      attributes: ((json['Attributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => AttributeItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      expression: json['Expression'] as String,
+      expression: (json['Expression'] as String?) ?? '',
     );
   }
 
@@ -3122,7 +3121,7 @@ class AttributeItem {
 
   factory AttributeItem.fromJson(Map<String, dynamic> json) {
     return AttributeItem(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -3304,7 +3303,7 @@ class AutoMerging {
 
   factory AutoMerging.fromJson(Map<String, dynamic> json) {
     return AutoMerging(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       conflictResolution: json['ConflictResolution'] != null
           ? ConflictResolution.fromJson(
               json['ConflictResolution'] as Map<String, dynamic>)
@@ -3516,10 +3515,11 @@ class Consolidation {
 
   factory Consolidation.fromJson(Map<String, dynamic> json) {
     return Consolidation(
-      matchingAttributesList: (json['MatchingAttributesList'] as List)
-          .nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
-          .toList(),
+      matchingAttributesList:
+          ((json['MatchingAttributesList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+              .toList(),
     );
   }
 
@@ -3683,11 +3683,10 @@ class CreateDomainResponse {
 
   factory CreateDomainResponse.fromJson(Map<String, dynamic> json) {
     return CreateDomainResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      defaultExpirationDays: json['DefaultExpirationDays'] as int,
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      defaultExpirationDays: (json['DefaultExpirationDays'] as int?) ?? 0,
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       deadLetterQueueUrl: json['DeadLetterQueueUrl'] as String?,
       defaultEncryptionKey: json['DefaultEncryptionKey'] as String?,
       matching: json['Matching'] != null
@@ -3741,7 +3740,7 @@ class CreateEventStreamResponse {
 
   factory CreateEventStreamResponse.fromJson(Map<String, dynamic> json) {
     return CreateEventStreamResponse(
-      eventStreamArn: json['EventStreamArn'] as String,
+      eventStreamArn: (json['EventStreamArn'] as String?) ?? '',
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3772,8 +3771,8 @@ class CreateIntegrationWorkflowResponse {
   factory CreateIntegrationWorkflowResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateIntegrationWorkflowResponse(
-      message: json['Message'] as String,
-      workflowId: json['WorkflowId'] as String,
+      message: (json['Message'] as String?) ?? '',
+      workflowId: (json['WorkflowId'] as String?) ?? '',
     );
   }
 
@@ -3797,7 +3796,7 @@ class CreateProfileResponse {
 
   factory CreateProfileResponse.fromJson(Map<String, dynamic> json) {
     return CreateProfileResponse(
-      profileId: json['ProfileId'] as String,
+      profileId: (json['ProfileId'] as String?) ?? '',
     );
   }
 
@@ -3847,7 +3846,7 @@ class DeleteDomainResponse {
 
   factory DeleteDomainResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDomainResponse(
-      message: json['Message'] as String,
+      message: (json['Message'] as String?) ?? '',
     );
   }
 
@@ -3881,7 +3880,7 @@ class DeleteIntegrationResponse {
 
   factory DeleteIntegrationResponse.fromJson(Map<String, dynamic> json) {
     return DeleteIntegrationResponse(
-      message: json['Message'] as String,
+      message: (json['Message'] as String?) ?? '',
     );
   }
 
@@ -3947,7 +3946,7 @@ class DeleteProfileObjectTypeResponse {
 
   factory DeleteProfileObjectTypeResponse.fromJson(Map<String, dynamic> json) {
     return DeleteProfileObjectTypeResponse(
-      message: json['Message'] as String,
+      message: (json['Message'] as String?) ?? '',
     );
   }
 
@@ -4015,7 +4014,7 @@ class DestinationSummary {
     return DestinationSummary(
       status:
           EventStreamDestinationStatus.fromString((json['Status'] as String)),
-      uri: json['Uri'] as String,
+      uri: (json['Uri'] as String?) ?? '',
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
     );
   }
@@ -4183,7 +4182,7 @@ class EventStreamDestinationDetails {
     return EventStreamDestinationDetails(
       status:
           EventStreamDestinationStatus.fromString((json['Status'] as String)),
-      uri: json['Uri'] as String,
+      uri: (json['Uri'] as String?) ?? '',
       message: json['Message'] as String?,
       unhealthySince: timeStampFromJson(json['UnhealthySince']),
     );
@@ -4269,9 +4268,9 @@ class EventStreamSummary {
 
   factory EventStreamSummary.fromJson(Map<String, dynamic> json) {
     return EventStreamSummary(
-      domainName: json['DomainName'] as String,
-      eventStreamArn: json['EventStreamArn'] as String,
-      eventStreamName: json['EventStreamName'] as String,
+      domainName: (json['DomainName'] as String?) ?? '',
+      eventStreamArn: (json['EventStreamArn'] as String?) ?? '',
+      eventStreamName: (json['EventStreamName'] as String?) ?? '',
       state: EventStreamState.fromString((json['State'] as String)),
       destinationSummary: json['DestinationSummary'] != null
           ? DestinationSummary.fromJson(
@@ -4652,7 +4651,7 @@ class GetAutoMergingPreviewResponse {
 
   factory GetAutoMergingPreviewResponse.fromJson(Map<String, dynamic> json) {
     return GetAutoMergingPreviewResponse(
-      domainName: json['DomainName'] as String,
+      domainName: (json['DomainName'] as String?) ?? '',
       numberOfMatchesInSample: json['NumberOfMatchesInSample'] as int?,
       numberOfProfilesInSample: json['NumberOfProfilesInSample'] as int?,
       numberOfProfilesWillBeMerged:
@@ -4879,10 +4878,9 @@ class GetDomainResponse {
 
   factory GetDomainResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       deadLetterQueueUrl: json['DeadLetterQueueUrl'] as String?,
       defaultEncryptionKey: json['DefaultEncryptionKey'] as String?,
       defaultExpirationDays: json['DefaultExpirationDays'] as int?,
@@ -4963,11 +4961,12 @@ class GetEventStreamResponse {
 
   factory GetEventStreamResponse.fromJson(Map<String, dynamic> json) {
     return GetEventStreamResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       destinationDetails: EventStreamDestinationDetails.fromJson(
-          json['DestinationDetails'] as Map<String, dynamic>),
-      domainName: json['DomainName'] as String,
-      eventStreamArn: json['EventStreamArn'] as String,
+          (json['DestinationDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainName: (json['DomainName'] as String?) ?? '',
+      eventStreamArn: (json['EventStreamArn'] as String?) ?? '',
       state: EventStreamState.fromString((json['State'] as String)),
       stoppedSince: timeStampFromJson(json['StoppedSince']),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -5182,11 +5181,10 @@ class GetIntegrationResponse {
 
   factory GetIntegrationResponse.fromJson(Map<String, dynamic> json) {
     return GetIntegrationResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      uri: json['Uri'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      uri: (json['Uri'] as String?) ?? '',
       isUnstructured: json['IsUnstructured'] as bool?,
       objectTypeName: json['ObjectTypeName'] as String?,
       objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
@@ -5338,8 +5336,8 @@ class GetProfileObjectTypeResponse {
 
   factory GetProfileObjectTypeResponse.fromJson(Map<String, dynamic> json) {
     return GetProfileObjectTypeResponse(
-      description: json['Description'] as String,
-      objectTypeName: json['ObjectTypeName'] as String,
+      description: (json['Description'] as String?) ?? '',
+      objectTypeName: (json['ObjectTypeName'] as String?) ?? '',
       allowProfileCreation: json['AllowProfileCreation'] as bool?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       encryptionKey: json['EncryptionKey'] as String?,
@@ -5867,7 +5865,7 @@ class JobSchedule {
     return JobSchedule(
       dayOfTheWeek:
           JobScheduleDayOfTheWeek.fromString((json['DayOfTheWeek'] as String)),
-      time: json['Time'] as String,
+      time: (json['Time'] as String?) ?? '',
     );
   }
 
@@ -6175,10 +6173,9 @@ class ListDomainItem {
 
   factory ListDomainItem.fromJson(Map<String, dynamic> json) {
     return ListDomainItem(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -6348,11 +6345,10 @@ class ListIntegrationItem {
 
   factory ListIntegrationItem.fromJson(Map<String, dynamic> json) {
     return ListIntegrationItem(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      uri: json['Uri'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      uri: (json['Uri'] as String?) ?? '',
       isUnstructured: json['IsUnstructured'] as bool?,
       objectTypeName: json['ObjectTypeName'] as String?,
       objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
@@ -6454,8 +6450,8 @@ class ListProfileObjectTypeItem {
 
   factory ListProfileObjectTypeItem.fromJson(Map<String, dynamic> json) {
     return ListProfileObjectTypeItem(
-      description: json['Description'] as String,
-      objectTypeName: json['ObjectTypeName'] as String,
+      description: (json['Description'] as String?) ?? '',
+      objectTypeName: (json['ObjectTypeName'] as String?) ?? '',
       createdAt: timeStampFromJson(json['CreatedAt']),
       lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
       maxAvailableProfileObjectCount:
@@ -6753,12 +6749,11 @@ class ListWorkflowsItem {
 
   factory ListWorkflowsItem.fromJson(Map<String, dynamic> json) {
     return ListWorkflowsItem(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       status: Status.fromString((json['Status'] as String)),
-      statusDescription: json['StatusDescription'] as String,
-      workflowId: json['WorkflowId'] as String,
+      statusDescription: (json['StatusDescription'] as String?) ?? '',
+      workflowId: (json['WorkflowId'] as String?) ?? '',
       workflowType: WorkflowType.fromString((json['WorkflowType'] as String)),
     );
   }
@@ -7079,7 +7074,10 @@ class MatchingRule {
 
   factory MatchingRule.fromJson(Map<String, dynamic> json) {
     return MatchingRule(
-      rule: (json['Rule'] as List).nonNulls.map((e) => e as String).toList(),
+      rule: ((json['Rule'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -7576,11 +7574,10 @@ class PutIntegrationResponse {
 
   factory PutIntegrationResponse.fromJson(Map<String, dynamic> json) {
     return PutIntegrationResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      uri: json['Uri'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      uri: (json['Uri'] as String?) ?? '',
       isUnstructured: json['IsUnstructured'] as bool?,
       objectTypeName: json['ObjectTypeName'] as String?,
       objectTypeNames: (json['ObjectTypeNames'] as Map<String, dynamic>?)
@@ -7710,8 +7707,8 @@ class PutProfileObjectTypeResponse {
 
   factory PutProfileObjectTypeResponse.fromJson(Map<String, dynamic> json) {
     return PutProfileObjectTypeResponse(
-      description: json['Description'] as String,
-      objectTypeName: json['ObjectTypeName'] as String,
+      description: (json['Description'] as String?) ?? '',
+      objectTypeName: (json['ObjectTypeName'] as String?) ?? '',
       allowProfileCreation: json['AllowProfileCreation'] as bool?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       encryptionKey: json['EncryptionKey'] as String?,
@@ -7792,7 +7789,7 @@ class Range {
   factory Range.fromJson(Map<String, dynamic> json) {
     return Range(
       unit: Unit.fromString((json['Unit'] as String)),
-      value: json['Value'] as int,
+      value: (json['Value'] as int?) ?? 0,
     );
   }
 
@@ -8044,7 +8041,7 @@ class S3ExportingConfig {
 
   factory S3ExportingConfig.fromJson(Map<String, dynamic> json) {
     return S3ExportingConfig(
-      s3BucketName: json['S3BucketName'] as String,
+      s3BucketName: (json['S3BucketName'] as String?) ?? '',
       s3KeyName: json['S3KeyName'] as String?,
     );
   }
@@ -8583,7 +8580,7 @@ class Threshold {
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
       operator: Operator.fromString((json['Operator'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -8904,10 +8901,9 @@ class UpdateDomainResponse {
 
   factory UpdateDomainResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDomainResponse(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      domainName: json['DomainName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       deadLetterQueueUrl: json['DeadLetterQueueUrl'] as String?,
       defaultEncryptionKey: json['DefaultEncryptionKey'] as String?,
       defaultExpirationDays: json['DefaultExpirationDays'] as int?,
@@ -8959,7 +8955,7 @@ class UpdateProfileResponse {
 
   factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProfileResponse(
-      profileId: json['ProfileId'] as String,
+      profileId: (json['ProfileId'] as String?) ?? '',
     );
   }
 

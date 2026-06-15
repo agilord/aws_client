@@ -834,7 +834,7 @@ class LinuxSubscriptionsDiscoverySettings {
     return LinuxSubscriptionsDiscoverySettings(
       organizationIntegration: OrganizationIntegration.fromString(
           (json['OrganizationIntegration'] as String)),
-      sourceRegions: (json['SourceRegions'] as List)
+      sourceRegions: ((json['SourceRegions'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

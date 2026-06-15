@@ -6480,7 +6480,7 @@ class DetectedDataDetails {
 
   factory DetectedDataDetails.fromJson(Map<String, dynamic> json) {
     return DetectedDataDetails(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -11165,8 +11165,9 @@ class ResourceProfileArtifact {
 
   factory ResourceProfileArtifact.fromJson(Map<String, dynamic> json) {
     return ResourceProfileArtifact(
-      arn: json['arn'] as String,
-      classificationResultStatus: json['classificationResultStatus'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      classificationResultStatus:
+          (json['classificationResultStatus'] as String?) ?? '',
       sensitive: json['sensitive'] as bool?,
     );
   }
@@ -11662,9 +11663,11 @@ class S3BucketDefinitionForJob {
 
   factory S3BucketDefinitionForJob.fromJson(Map<String, dynamic> json) {
     return S3BucketDefinitionForJob(
-      accountId: json['accountId'] as String,
-      buckets:
-          (json['buckets'] as List).nonNulls.map((e) => e as String).toList(),
+      accountId: (json['accountId'] as String?) ?? '',
+      buckets: ((json['buckets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -11722,7 +11725,8 @@ class S3ClassificationScope {
   factory S3ClassificationScope.fromJson(Map<String, dynamic> json) {
     return S3ClassificationScope(
       excludes: S3ClassificationScopeExclusion.fromJson(
-          json['excludes'] as Map<String, dynamic>),
+          (json['excludes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11747,7 +11751,7 @@ class S3ClassificationScopeExclusion {
 
   factory S3ClassificationScopeExclusion.fromJson(Map<String, dynamic> json) {
     return S3ClassificationScopeExclusion(
-      bucketNames: (json['bucketNames'] as List)
+      bucketNames: ((json['bucketNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -11847,8 +11851,8 @@ class S3Destination {
 
   factory S3Destination.fromJson(Map<String, dynamic> json) {
     return S3Destination(
-      bucketName: json['bucketName'] as String,
-      kmsKeyArn: json['kmsKeyArn'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      kmsKeyArn: (json['kmsKeyArn'] as String?) ?? '',
       keyPrefix: json['keyPrefix'] as String?,
     );
   }
@@ -12056,8 +12060,8 @@ class S3WordsList {
 
   factory S3WordsList.fromJson(Map<String, dynamic> json) {
     return S3WordsList(
-      bucketName: json['bucketName'] as String,
-      objectKey: json['objectKey'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      objectKey: (json['objectKey'] as String?) ?? '',
     );
   }
 
@@ -12459,8 +12463,8 @@ class SecurityHubConfiguration {
   factory SecurityHubConfiguration.fromJson(Map<String, dynamic> json) {
     return SecurityHubConfiguration(
       publishClassificationFindings:
-          json['publishClassificationFindings'] as bool,
-      publishPolicyFindings: json['publishPolicyFindings'] as bool,
+          (json['publishClassificationFindings'] as bool?) ?? false,
+      publishPolicyFindings: (json['publishPolicyFindings'] as bool?) ?? false,
     );
   }
 
@@ -13019,7 +13023,7 @@ class SeverityLevel {
 
   factory SeverityLevel.fromJson(Map<String, dynamic> json) {
     return SeverityLevel(
-      occurrencesThreshold: json['occurrencesThreshold'] as int,
+      occurrencesThreshold: (json['occurrencesThreshold'] as int?) ?? 0,
       severity: DataIdentifierSeverity.fromString((json['severity'] as String)),
     );
   }

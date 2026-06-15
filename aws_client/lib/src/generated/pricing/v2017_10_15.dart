@@ -763,7 +763,7 @@ class Service {
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-      serviceCode: json['ServiceCode'] as String,
+      serviceCode: (json['ServiceCode'] as String?) ?? '',
       attributeNames: (json['AttributeNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)

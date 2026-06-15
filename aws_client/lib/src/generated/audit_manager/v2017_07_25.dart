@@ -7450,7 +7450,7 @@ class Role {
 
   factory Role.fromJson(Map<String, dynamic> json) {
     return Role(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       roleType: RoleType.fromString((json['roleType'] as String)),
     );
   }

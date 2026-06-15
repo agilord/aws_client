@@ -1527,17 +1527,18 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       authenticationStrategy: AuthenticationStrategy.fromString(
           (json['authenticationStrategy'] as String)),
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      description: json['description'] as String,
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      description: (json['description'] as String?) ?? '',
       engineType: EngineType.fromString((json['engineType'] as String)),
-      engineVersion: json['engineVersion'] as String,
-      id: json['id'] as String,
+      engineVersion: (json['engineVersion'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       latestRevision: ConfigurationRevision.fromJson(
-          json['latestRevision'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['latestRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1584,7 +1585,7 @@ class ConfigurationId {
 
   factory ConfigurationId.fromJson(Map<String, dynamic> json) {
     return ConfigurationId(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       revision: json['revision'] as int?,
     );
   }
@@ -1618,8 +1619,8 @@ class ConfigurationRevision {
 
   factory ConfigurationRevision.fromJson(Map<String, dynamic> json) {
     return ConfigurationRevision(
-      created: nonNullableTimeStampFromJson(json['created'] as Object),
-      revision: json['revision'] as int,
+      created: nonNullableTimeStampFromJson(json['created'] ?? 0),
+      revision: (json['revision'] as int?) ?? 0,
       description: json['description'] as String?,
     );
   }
@@ -1801,8 +1802,8 @@ class DataReplicationCounterpart {
 
   factory DataReplicationCounterpart.fromJson(Map<String, dynamic> json) {
     return DataReplicationCounterpart(
-      brokerId: json['brokerId'] as String,
-      region: json['region'] as String,
+      brokerId: (json['brokerId'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
     );
   }
 
@@ -1836,7 +1837,7 @@ class DataReplicationMetadataOutput {
 
   factory DataReplicationMetadataOutput.fromJson(Map<String, dynamic> json) {
     return DataReplicationMetadataOutput(
-      dataReplicationRole: json['dataReplicationRole'] as String,
+      dataReplicationRole: (json['dataReplicationRole'] as String?) ?? '',
       dataReplicationCounterpart: json['dataReplicationCounterpart'] != null
           ? DataReplicationCounterpart.fromJson(
               json['dataReplicationCounterpart'] as Map<String, dynamic>)
@@ -2592,7 +2593,7 @@ class EncryptionOptions {
 
   factory EncryptionOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionOptions(
-      useAwsOwnedKey: json['useAwsOwnedKey'] as bool,
+      useAwsOwnedKey: (json['useAwsOwnedKey'] as bool?) ?? false,
       kmsKeyId: json['kmsKeyId'] as String?,
     );
   }
@@ -2831,12 +2832,15 @@ class LdapServerMetadataOutput {
 
   factory LdapServerMetadataOutput.fromJson(Map<String, dynamic> json) {
     return LdapServerMetadataOutput(
-      hosts: (json['hosts'] as List).nonNulls.map((e) => e as String).toList(),
-      roleBase: json['roleBase'] as String,
-      roleSearchMatching: json['roleSearchMatching'] as String,
-      serviceAccountUsername: json['serviceAccountUsername'] as String,
-      userBase: json['userBase'] as String,
-      userSearchMatching: json['userSearchMatching'] as String,
+      hosts: ((json['hosts'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      roleBase: (json['roleBase'] as String?) ?? '',
+      roleSearchMatching: (json['roleSearchMatching'] as String?) ?? '',
+      serviceAccountUsername: (json['serviceAccountUsername'] as String?) ?? '',
+      userBase: (json['userBase'] as String?) ?? '',
+      userSearchMatching: (json['userSearchMatching'] as String?) ?? '',
       roleName: json['roleName'] as String?,
       roleSearchSubtree: json['roleSearchSubtree'] as bool?,
       userRoleName: json['userRoleName'] as String?,
@@ -3126,8 +3130,8 @@ class LogsSummary {
 
   factory LogsSummary.fromJson(Map<String, dynamic> json) {
     return LogsSummary(
-      general: json['general'] as bool,
-      generalLogGroup: json['generalLogGroup'] as String,
+      general: (json['general'] as bool?) ?? false,
+      generalLogGroup: (json['generalLogGroup'] as String?) ?? '',
       audit: json['audit'] as bool?,
       auditLogGroup: json['auditLogGroup'] as String?,
       pending: json['pending'] != null
@@ -3655,7 +3659,7 @@ class UserSummary {
 
   factory UserSummary.fromJson(Map<String, dynamic> json) {
     return UserSummary(
-      username: json['username'] as String,
+      username: (json['username'] as String?) ?? '',
       pendingChange:
           (json['pendingChange'] as String?)?.let(ChangeType.fromString),
     );
@@ -3693,7 +3697,7 @@ class WeeklyStartTime {
   factory WeeklyStartTime.fromJson(Map<String, dynamic> json) {
     return WeeklyStartTime(
       dayOfWeek: DayOfWeek.fromString((json['dayOfWeek'] as String)),
-      timeOfDay: json['timeOfDay'] as String,
+      timeOfDay: (json['timeOfDay'] as String?) ?? '',
       timeZone: json['timeZone'] as String?,
     );
   }

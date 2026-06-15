@@ -1652,7 +1652,9 @@ class ApplicationLayerAutomaticResponseConfiguration {
   factory ApplicationLayerAutomaticResponseConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ApplicationLayerAutomaticResponseConfiguration(
-      action: ResponseAction.fromJson(json['Action'] as Map<String, dynamic>),
+      action: ResponseAction.fromJson(
+          (json['Action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ApplicationLayerAutomaticResponseStatus.fromString(
           (json['Status'] as String)),
     );
@@ -1946,7 +1948,7 @@ class AttackStatisticsDataItem {
 
   factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) {
     return AttackStatisticsDataItem(
-      attackCount: json['AttackCount'] as int,
+      attackCount: (json['AttackCount'] as int?) ?? 0,
       attackVolume: json['AttackVolume'] != null
           ? AttackVolume.fromJson(json['AttackVolume'] as Map<String, dynamic>)
           : null,
@@ -2086,7 +2088,7 @@ class AttackVectorDescription {
 
   factory AttackVectorDescription.fromJson(Map<String, dynamic> json) {
     return AttackVectorDescription(
-      vectorType: json['VectorType'] as String,
+      vectorType: (json['VectorType'] as String?) ?? '',
     );
   }
 
@@ -2162,7 +2164,7 @@ class AttackVolumeStatistics {
 
   factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
     return AttackVolumeStatistics(
-      max: json['Max'] as double,
+      max: (json['Max'] as double?) ?? 0,
     );
   }
 
@@ -2380,12 +2382,14 @@ class DescribeAttackStatisticsResponse {
 
   factory DescribeAttackStatisticsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAttackStatisticsResponse(
-      dataItems: (json['DataItems'] as List)
+      dataItems: ((json['DataItems'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AttackStatisticsDataItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timeRange: TimeRange.fromJson(json['TimeRange'] as Map<String, dynamic>),
+      timeRange: TimeRange.fromJson(
+          (json['TimeRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2474,7 +2478,8 @@ class DescribeProtectionGroupResponse {
   factory DescribeProtectionGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProtectionGroupResponse(
       protectionGroup: ProtectionGroup.fromJson(
-          json['ProtectionGroup'] as Map<String, dynamic>),
+          (json['ProtectionGroup'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2616,7 +2621,7 @@ class EmergencyContact {
 
   factory EmergencyContact.fromJson(Map<String, dynamic> json) {
     return EmergencyContact(
-      emailAddress: json['EmailAddress'] as String,
+      emailAddress: (json['EmailAddress'] as String?) ?? '',
       contactNotes: json['ContactNotes'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
     );
@@ -2865,7 +2870,7 @@ class ListProtectionGroupsResponse {
 
   factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProtectionGroupsResponse(
-      protectionGroups: (json['ProtectionGroups'] as List)
+      protectionGroups: ((json['ProtectionGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProtectionGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2955,7 +2960,7 @@ class ListResourcesInProtectionGroupResponse {
   factory ListResourcesInProtectionGroupResponse.fromJson(
       Map<String, dynamic> json) {
     return ListResourcesInProtectionGroupResponse(
-      resourceArns: (json['ResourceArns'] as List)
+      resourceArns: ((json['ResourceArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3198,10 +3203,12 @@ class ProtectionGroup {
     return ProtectionGroup(
       aggregation: ProtectionGroupAggregation.fromString(
           (json['Aggregation'] as String)),
-      members:
-          (json['Members'] as List).nonNulls.map((e) => e as String).toList(),
+      members: ((json['Members'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       pattern: ProtectionGroupPattern.fromString((json['Pattern'] as String)),
-      protectionGroupId: json['ProtectionGroupId'] as String,
+      protectionGroupId: (json['ProtectionGroupId'] as String?) ?? '',
       protectionGroupArn: json['ProtectionGroupArn'] as String?,
       resourceType: (json['ResourceType'] as String?)
           ?.let(ProtectedResourceType.fromString),
@@ -3255,7 +3262,7 @@ class ProtectionGroupArbitraryPatternLimits {
   factory ProtectionGroupArbitraryPatternLimits.fromJson(
       Map<String, dynamic> json) {
     return ProtectionGroupArbitraryPatternLimits(
-      maxMembers: json['MaxMembers'] as int,
+      maxMembers: (json['MaxMembers'] as int?) ?? 0,
     );
   }
 
@@ -3283,9 +3290,10 @@ class ProtectionGroupLimits {
 
   factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionGroupLimits(
-      maxProtectionGroups: json['MaxProtectionGroups'] as int,
+      maxProtectionGroups: (json['MaxProtectionGroups'] as int?) ?? 0,
       patternTypeLimits: ProtectionGroupPatternTypeLimits.fromJson(
-          json['PatternTypeLimits'] as Map<String, dynamic>),
+          (json['PatternTypeLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3328,7 +3336,8 @@ class ProtectionGroupPatternTypeLimits {
   factory ProtectionGroupPatternTypeLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionGroupPatternTypeLimits(
       arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits.fromJson(
-          json['ArbitraryPatternLimits'] as Map<String, dynamic>),
+          (json['ArbitraryPatternLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3351,10 +3360,11 @@ class ProtectionLimits {
 
   factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
     return ProtectionLimits(
-      protectedResourceTypeLimits: (json['ProtectedResourceTypeLimits'] as List)
-          .nonNulls
-          .map((e) => Limit.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      protectedResourceTypeLimits:
+          ((json['ProtectedResourceTypeLimits'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Limit.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -3537,7 +3547,8 @@ class Subscription {
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
       subscriptionLimits: SubscriptionLimits.fromJson(
-          json['SubscriptionLimits'] as Map<String, dynamic>),
+          (json['SubscriptionLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       autoRenew: (json['AutoRenew'] as String?)?.let(AutoRenew.fromString),
       endTime: timeStampFromJson(json['EndTime']),
       limits: (json['Limits'] as List?)
@@ -3592,9 +3603,11 @@ class SubscriptionLimits {
   factory SubscriptionLimits.fromJson(Map<String, dynamic> json) {
     return SubscriptionLimits(
       protectionGroupLimits: ProtectionGroupLimits.fromJson(
-          json['ProtectionGroupLimits'] as Map<String, dynamic>),
+          (json['ProtectionGroupLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       protectionLimits: ProtectionLimits.fromJson(
-          json['ProtectionLimits'] as Map<String, dynamic>),
+          (json['ProtectionLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3638,7 +3651,7 @@ class SummarizedAttackVector {
 
   factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) {
     return SummarizedAttackVector(
-      vectorType: json['VectorType'] as String,
+      vectorType: (json['VectorType'] as String?) ?? '',
       vectorCounters: (json['VectorCounters'] as List?)
           ?.nonNulls
           .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))

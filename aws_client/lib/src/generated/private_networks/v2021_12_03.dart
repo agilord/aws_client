@@ -1139,7 +1139,8 @@ class AcknowledgeOrderReceiptResponse {
 
   factory AcknowledgeOrderReceiptResponse.fromJson(Map<String, dynamic> json) {
     return AcknowledgeOrderReceiptResponse(
-      order: Order.fromJson(json['order'] as Map<String, dynamic>),
+      order: Order.fromJson((json['order'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1182,7 +1183,8 @@ class ActivateDeviceIdentifierResponse {
   factory ActivateDeviceIdentifierResponse.fromJson(Map<String, dynamic> json) {
     return ActivateDeviceIdentifierResponse(
       deviceIdentifier: DeviceIdentifier.fromJson(
-          json['deviceIdentifier'] as Map<String, dynamic>),
+          (json['deviceIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1273,12 +1275,12 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-      city: json['city'] as String,
-      country: json['country'] as String,
-      name: json['name'] as String,
-      postalCode: json['postalCode'] as String,
-      stateOrProvince: json['stateOrProvince'] as String,
-      street1: json['street1'] as String,
+      city: (json['city'] as String?) ?? '',
+      country: (json['country'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      postalCode: (json['postalCode'] as String?) ?? '',
+      stateOrProvince: (json['stateOrProvince'] as String?) ?? '',
+      street1: (json['street1'] as String?) ?? '',
       company: json['company'] as String?,
       emailAddress: json['emailAddress'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
@@ -1361,7 +1363,7 @@ class CommitmentConfiguration {
 
   factory CommitmentConfiguration.fromJson(Map<String, dynamic> json) {
     return CommitmentConfiguration(
-      automaticRenewal: json['automaticRenewal'] as bool,
+      automaticRenewal: (json['automaticRenewal'] as bool?) ?? false,
       commitmentLength:
           CommitmentLength.fromString((json['commitmentLength'] as String)),
     );
@@ -1400,7 +1402,8 @@ class CommitmentInformation {
   factory CommitmentInformation.fromJson(Map<String, dynamic> json) {
     return CommitmentInformation(
       commitmentConfiguration: CommitmentConfiguration.fromJson(
-          json['commitmentConfiguration'] as Map<String, dynamic>),
+          (json['commitmentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       expiresOn: timeStampFromJson(json['expiresOn']),
       startAt: timeStampFromJson(json['startAt']),
     );
@@ -1444,8 +1447,9 @@ class ConfigureAccessPointResponse {
 
   factory ConfigureAccessPointResponse.fromJson(Map<String, dynamic> json) {
     return ConfigureAccessPointResponse(
-      accessPoint:
-          NetworkResource.fromJson(json['accessPoint'] as Map<String, dynamic>),
+      accessPoint: NetworkResource.fromJson(
+          (json['accessPoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1471,7 +1475,8 @@ class CreateNetworkResponse {
 
   factory CreateNetworkResponse.fromJson(Map<String, dynamic> json) {
     return CreateNetworkResponse(
-      network: Network.fromJson(json['network'] as Map<String, dynamic>),
+      network: Network.fromJson((json['network'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1531,7 +1536,8 @@ class DeactivateDeviceIdentifierResponse {
       Map<String, dynamic> json) {
     return DeactivateDeviceIdentifierResponse(
       deviceIdentifier: DeviceIdentifier.fromJson(
-          json['deviceIdentifier'] as Map<String, dynamic>),
+          (json['deviceIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1553,7 +1559,8 @@ class DeleteNetworkResponse {
 
   factory DeleteNetworkResponse.fromJson(Map<String, dynamic> json) {
     return DeleteNetworkResponse(
-      network: Network.fromJson(json['network'] as Map<String, dynamic>),
+      network: Network.fromJson((json['network'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1781,7 +1788,8 @@ class GetNetworkResourceResponse {
   factory GetNetworkResourceResponse.fromJson(Map<String, dynamic> json) {
     return GetNetworkResourceResponse(
       networkResource: NetworkResource.fromJson(
-          json['networkResource'] as Map<String, dynamic>),
+          (json['networkResource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1811,7 +1819,8 @@ class GetNetworkResponse {
 
   factory GetNetworkResponse.fromJson(Map<String, dynamic> json) {
     return GetNetworkResponse(
-      network: Network.fromJson(json['network'] as Map<String, dynamic>),
+      network: Network.fromJson((json['network'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1873,7 +1882,8 @@ class GetOrderResponse {
 
   factory GetOrderResponse.fromJson(Map<String, dynamic> json) {
     return GetOrderResponse(
-      order: Order.fromJson(json['order'] as Map<String, dynamic>),
+      order: Order.fromJson((json['order'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2103,7 +2113,7 @@ class NameValuePair {
 
   factory NameValuePair.fromJson(Map<String, dynamic> json) {
     return NameValuePair(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }
@@ -2149,8 +2159,8 @@ class Network {
 
   factory Network.fromJson(Map<String, dynamic> json) {
     return Network(
-      networkArn: json['networkArn'] as String,
-      networkName: json['networkName'] as String,
+      networkArn: (json['networkArn'] as String?) ?? '',
+      networkName: (json['networkName'] as String?) ?? '',
       status: NetworkStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
@@ -2362,7 +2372,7 @@ class NetworkResourceDefinition {
 
   factory NetworkResourceDefinition.fromJson(Map<String, dynamic> json) {
     return NetworkResourceDefinition(
-      count: json['count'] as int,
+      count: (json['count'] as int?) ?? 0,
       type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
       options: (json['options'] as List?)
           ?.nonNulls
@@ -2501,9 +2511,9 @@ class NetworkSite {
 
   factory NetworkSite.fromJson(Map<String, dynamic> json) {
     return NetworkSite(
-      networkArn: json['networkArn'] as String,
-      networkSiteArn: json['networkSiteArn'] as String,
-      networkSiteName: json['networkSiteName'] as String,
+      networkArn: (json['networkArn'] as String?) ?? '',
+      networkSiteArn: (json['networkSiteArn'] as String?) ?? '',
+      networkSiteName: (json['networkSiteName'] as String?) ?? '',
       status: NetworkSiteStatus.fromString((json['status'] as String)),
       availabilityZone: json['availabilityZone'] as String?,
       availabilityZoneId: json['availabilityZoneId'] as String?,
@@ -2718,7 +2728,7 @@ class OrderedResourceDefinition {
 
   factory OrderedResourceDefinition.fromJson(Map<String, dynamic> json) {
     return OrderedResourceDefinition(
-      count: json['count'] as int,
+      count: (json['count'] as int?) ?? 0,
       type: NetworkResourceDefinitionType.fromString((json['type'] as String)),
       commitmentConfiguration: json['commitmentConfiguration'] != null
           ? CommitmentConfiguration.fromJson(

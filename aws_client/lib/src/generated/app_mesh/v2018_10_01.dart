@@ -1228,8 +1228,8 @@ class VirtualNodeData {
 
   factory VirtualNodeData.fromJson(Map<String, dynamic> json) {
     return VirtualNodeData(
-      meshName: json['meshName'] as String,
-      virtualNodeName: json['virtualNodeName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      virtualNodeName: (json['virtualNodeName'] as String?) ?? '',
       metadata: json['metadata'] != null
           ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
           : null,
@@ -1480,7 +1480,7 @@ class ListMeshesOutput {
 
   factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
     return ListMeshesOutput(
-      meshes: (json['meshes'] as List)
+      meshes: ((json['meshes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1561,9 +1561,9 @@ class RouteData {
 
   factory RouteData.fromJson(Map<String, dynamic> json) {
     return RouteData(
-      meshName: json['meshName'] as String,
-      routeName: json['routeName'] as String,
-      virtualRouterName: json['virtualRouterName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      routeName: (json['routeName'] as String?) ?? '',
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
       metadata: json['metadata'] != null
           ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
           : null,
@@ -1648,7 +1648,7 @@ class ListRoutesOutput {
 
   factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListRoutesOutput(
-      routes: (json['routes'] as List)
+      routes: ((json['routes'] as List?) ?? const [])
           .nonNulls
           .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1763,7 +1763,7 @@ class ListVirtualNodesOutput {
 
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualNodesOutput(
-      virtualNodes: (json['virtualNodes'] as List)
+      virtualNodes: ((json['virtualNodes'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1817,7 +1817,7 @@ class ListVirtualRoutersOutput {
 
   factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualRoutersOutput(
-      virtualRouters: (json['virtualRouters'] as List)
+      virtualRouters: ((json['virtualRouters'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2071,8 +2071,8 @@ class VirtualRouterData {
 
   factory VirtualRouterData.fromJson(Map<String, dynamic> json) {
     return VirtualRouterData(
-      meshName: json['meshName'] as String,
-      virtualRouterName: json['virtualRouterName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
       metadata: json['metadata'] != null
           ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
           : null,
@@ -2183,11 +2183,11 @@ class HealthCheckPolicy {
 
   factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) {
     return HealthCheckPolicy(
-      healthyThreshold: json['healthyThreshold'] as int,
-      intervalMillis: json['intervalMillis'] as int,
+      healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
+      intervalMillis: (json['intervalMillis'] as int?) ?? 0,
       protocol: PortProtocol.fromString((json['protocol'] as String)),
-      timeoutMillis: json['timeoutMillis'] as int,
-      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
+      unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
       port: json['port'] as int?,
     );
@@ -2232,9 +2232,10 @@ class MeshData {
 
   factory MeshData.fromJson(Map<String, dynamic> json) {
     return MeshData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: json['status'] != null
           ? MeshStatus.fromJson(json['status'] as Map<String, dynamic>)
           : null,

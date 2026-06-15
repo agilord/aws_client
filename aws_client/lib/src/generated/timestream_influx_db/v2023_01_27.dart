@@ -670,10 +670,10 @@ class CreateDbInstanceOutput {
 
   factory CreateDbInstanceOutput.fromJson(Map<String, dynamic> json) {
     return CreateDbInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      vpcSubnetIds: (json['vpcSubnetIds'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      vpcSubnetIds: ((json['vpcSubnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -776,9 +776,9 @@ class CreateDbParameterGroupOutput {
 
   factory CreateDbParameterGroupOutput.fromJson(Map<String, dynamic> json) {
     return CreateDbParameterGroupOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       parameters: json['parameters'] != null
           ? Parameters.fromJson(json['parameters'] as Map<String, dynamic>)
@@ -847,9 +847,9 @@ class DbInstanceSummary {
 
   factory DbInstanceSummary.fromJson(Map<String, dynamic> json) {
     return DbInstanceSummary(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       allocatedStorage: json['allocatedStorage'] as int?,
       dbInstanceType:
           (json['dbInstanceType'] as String?)?.let(DbInstanceType.fromString),
@@ -930,9 +930,9 @@ class DbParameterGroupSummary {
 
   factory DbParameterGroupSummary.fromJson(Map<String, dynamic> json) {
     return DbParameterGroupSummary(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -1048,10 +1048,10 @@ class DeleteDbInstanceOutput {
 
   factory DeleteDbInstanceOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDbInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      vpcSubnetIds: (json['vpcSubnetIds'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      vpcSubnetIds: ((json['vpcSubnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1222,10 +1222,10 @@ class GetDbInstanceOutput {
 
   factory GetDbInstanceOutput.fromJson(Map<String, dynamic> json) {
     return GetDbInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      vpcSubnetIds: (json['vpcSubnetIds'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      vpcSubnetIds: ((json['vpcSubnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1328,9 +1328,9 @@ class GetDbParameterGroupOutput {
 
   factory GetDbParameterGroupOutput.fromJson(Map<String, dynamic> json) {
     return GetDbParameterGroupOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       parameters: json['parameters'] != null
           ? Parameters.fromJson(json['parameters'] as Map<String, dynamic>)
@@ -1457,7 +1457,7 @@ class ListDbInstancesOutput {
 
   factory ListDbInstancesOutput.fromJson(Map<String, dynamic> json) {
     return ListDbInstancesOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DbInstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1490,7 +1490,7 @@ class ListDbParameterGroupsOutput {
 
   factory ListDbParameterGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListDbParameterGroupsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DbParameterGroupSummary.fromJson(e as Map<String, dynamic>))
@@ -1545,7 +1545,8 @@ class LogDeliveryConfiguration {
   factory LogDeliveryConfiguration.fromJson(Map<String, dynamic> json) {
     return LogDeliveryConfiguration(
       s3Configuration: S3Configuration.fromJson(
-          json['s3Configuration'] as Map<String, dynamic>),
+          (json['s3Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1614,8 +1615,8 @@ class S3Configuration {
 
   factory S3Configuration.fromJson(Map<String, dynamic> json) {
     return S3Configuration(
-      bucketName: json['bucketName'] as String,
-      enabled: json['enabled'] as bool,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      enabled: (json['enabled'] as bool?) ?? false,
     );
   }
 
@@ -1746,10 +1747,10 @@ class UpdateDbInstanceOutput {
 
   factory UpdateDbInstanceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateDbInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      vpcSubnetIds: (json['vpcSubnetIds'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      vpcSubnetIds: ((json['vpcSubnetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

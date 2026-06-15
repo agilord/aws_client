@@ -2929,10 +2929,9 @@ class ActivityListItem {
 
   factory ActivityListItem.fromJson(Map<String, dynamic> json) {
     return ActivityListItem(
-      activityArn: json['activityArn'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      name: json['name'] as String,
+      activityArn: (json['activityArn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -3008,7 +3007,7 @@ class ActivityScheduledEventDetails {
 
   factory ActivityScheduledEventDetails.fromJson(Map<String, dynamic> json) {
     return ActivityScheduledEventDetails(
-      resource: json['resource'] as String,
+      resource: (json['resource'] as String?) ?? '',
       heartbeatInSeconds: json['heartbeatInSeconds'] as int?,
       input: json['input'] as String?,
       inputDetails: json['inputDetails'] != null
@@ -3221,9 +3220,8 @@ class CreateActivityOutput {
 
   factory CreateActivityOutput.fromJson(Map<String, dynamic> json) {
     return CreateActivityOutput(
-      activityArn: json['activityArn'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      activityArn: (json['activityArn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
     );
   }
 
@@ -3252,9 +3250,8 @@ class CreateStateMachineAliasOutput {
 
   factory CreateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
     return CreateStateMachineAliasOutput(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      stateMachineAliasArn: json['stateMachineAliasArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
     );
   }
 
@@ -3288,9 +3285,8 @@ class CreateStateMachineOutput {
 
   factory CreateStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return CreateStateMachineOutput(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      stateMachineArn: json['stateMachineArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
   }
@@ -3400,10 +3396,9 @@ class DescribeActivityOutput {
 
   factory DescribeActivityOutput.fromJson(Map<String, dynamic> json) {
     return DescribeActivityOutput(
-      activityArn: json['activityArn'] as String,
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      name: json['name'] as String,
+      activityArn: (json['activityArn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       encryptionConfiguration: json['encryptionConfiguration'] != null
           ? EncryptionConfiguration.fromJson(
               json['encryptionConfiguration'] as Map<String, dynamic>)
@@ -3621,9 +3616,9 @@ class DescribeExecutionOutput {
 
   factory DescribeExecutionOutput.fromJson(Map<String, dynamic> json) {
     return DescribeExecutionOutput(
-      executionArn: json['executionArn'] as String,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
-      stateMachineArn: json['stateMachineArn'] as String,
+      executionArn: (json['executionArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       status: ExecutionStatus.fromString((json['status'] as String)),
       cause: json['cause'] as String?,
       error: json['error'] as String?,
@@ -3766,17 +3761,20 @@ class DescribeMapRunOutput {
 
   factory DescribeMapRunOutput.fromJson(Map<String, dynamic> json) {
     return DescribeMapRunOutput(
-      executionArn: json['executionArn'] as String,
+      executionArn: (json['executionArn'] as String?) ?? '',
       executionCounts: MapRunExecutionCounts.fromJson(
-          json['executionCounts'] as Map<String, dynamic>),
-      itemCounts:
-          MapRunItemCounts.fromJson(json['itemCounts'] as Map<String, dynamic>),
-      mapRunArn: json['mapRunArn'] as String,
-      maxConcurrency: json['maxConcurrency'] as int,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+          (json['executionCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      itemCounts: MapRunItemCounts.fromJson(
+          (json['itemCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      mapRunArn: (json['mapRunArn'] as String?) ?? '',
+      maxConcurrency: (json['maxConcurrency'] as int?) ?? 0,
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
       status: MapRunStatus.fromString((json['status'] as String)),
-      toleratedFailureCount: json['toleratedFailureCount'] as int,
-      toleratedFailurePercentage: json['toleratedFailurePercentage'] as double,
+      toleratedFailureCount: (json['toleratedFailureCount'] as int?) ?? 0,
+      toleratedFailurePercentage:
+          (json['toleratedFailurePercentage'] as double?) ?? 0,
       redriveCount: json['redriveCount'] as int?,
       redriveDate: timeStampFromJson(json['redriveDate']),
       stopDate: timeStampFromJson(json['stopDate']),
@@ -3945,11 +3943,11 @@ class DescribeStateMachineForExecutionOutput {
   factory DescribeStateMachineForExecutionOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeStateMachineForExecutionOutput(
-      definition: json['definition'] as String,
-      name: json['name'] as String,
-      roleArn: json['roleArn'] as String,
-      stateMachineArn: json['stateMachineArn'] as String,
-      updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      definition: (json['definition'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
       encryptionConfiguration: json['encryptionConfiguration'] != null
           ? EncryptionConfiguration.fromJson(
               json['encryptionConfiguration'] as Map<String, dynamic>)
@@ -4100,12 +4098,11 @@ class DescribeStateMachineOutput {
 
   factory DescribeStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStateMachineOutput(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      definition: json['definition'] as String,
-      name: json['name'] as String,
-      roleArn: json['roleArn'] as String,
-      stateMachineArn: json['stateMachineArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      definition: (json['definition'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       type: StateMachineType.fromString((json['type'] as String)),
       description: json['description'] as String?,
       encryptionConfiguration: json['encryptionConfiguration'] != null
@@ -4396,10 +4393,10 @@ class ExecutionListItem {
 
   factory ExecutionListItem.fromJson(Map<String, dynamic> json) {
     return ExecutionListItem(
-      executionArn: json['executionArn'] as String,
-      name: json['name'] as String,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
-      stateMachineArn: json['stateMachineArn'] as String,
+      executionArn: (json['executionArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       status: ExecutionStatus.fromString((json['status'] as String)),
       itemCount: json['itemCount'] as int?,
       mapRunArn: json['mapRunArn'] as String?,
@@ -4696,7 +4693,7 @@ class GetExecutionHistoryOutput {
 
   factory GetExecutionHistoryOutput.fromJson(Map<String, dynamic> json) {
     return GetExecutionHistoryOutput(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4858,8 +4855,8 @@ class HistoryEvent {
 
   factory HistoryEvent.fromJson(Map<String, dynamic> json) {
     return HistoryEvent(
-      id: json['id'] as int,
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
+      id: (json['id'] as int?) ?? 0,
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
       type: HistoryEventType.fromString((json['type'] as String)),
       activityFailedEventDetails: json['activityFailedEventDetails'] != null
           ? ActivityFailedEventDetails.fromJson(
@@ -5588,7 +5585,7 @@ class LambdaFunctionScheduledEventDetails {
   factory LambdaFunctionScheduledEventDetails.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionScheduledEventDetails(
-      resource: json['resource'] as String,
+      resource: (json['resource'] as String?) ?? '',
       input: json['input'] as String?,
       inputDetails: json['inputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -5737,7 +5734,7 @@ class ListActivitiesOutput {
 
   factory ListActivitiesOutput.fromJson(Map<String, dynamic> json) {
     return ListActivitiesOutput(
-      activities: (json['activities'] as List)
+      activities: ((json['activities'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActivityListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5774,7 +5771,7 @@ class ListExecutionsOutput {
 
   factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
     return ListExecutionsOutput(
-      executions: (json['executions'] as List)
+      executions: ((json['executions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ExecutionListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5813,7 +5810,7 @@ class ListMapRunsOutput {
 
   factory ListMapRunsOutput.fromJson(Map<String, dynamic> json) {
     return ListMapRunsOutput(
-      mapRuns: (json['mapRuns'] as List)
+      mapRuns: ((json['mapRuns'] as List?) ?? const [])
           .nonNulls
           .map((e) => MapRunListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5850,7 +5847,7 @@ class ListStateMachineAliasesOutput {
 
   factory ListStateMachineAliasesOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachineAliasesOutput(
-      stateMachineAliases: (json['stateMachineAliases'] as List)
+      stateMachineAliases: ((json['stateMachineAliases'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               StateMachineAliasListItem.fromJson(e as Map<String, dynamic>))
@@ -5888,7 +5885,8 @@ class ListStateMachineVersionsOutput {
 
   factory ListStateMachineVersionsOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachineVersionsOutput(
-      stateMachineVersions: (json['stateMachineVersions'] as List)
+      stateMachineVersions: ((json['stateMachineVersions'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               StateMachineVersionListItem.fromJson(e as Map<String, dynamic>))
@@ -5925,7 +5923,7 @@ class ListStateMachinesOutput {
 
   factory ListStateMachinesOutput.fromJson(Map<String, dynamic> json) {
     return ListStateMachinesOutput(
-      stateMachines: (json['stateMachines'] as List)
+      stateMachines: ((json['stateMachines'] as List?) ?? const [])
           .nonNulls
           .map((e) => StateMachineListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6155,14 +6153,14 @@ class MapRunExecutionCounts {
 
   factory MapRunExecutionCounts.fromJson(Map<String, dynamic> json) {
     return MapRunExecutionCounts(
-      aborted: json['aborted'] as int,
-      failed: json['failed'] as int,
-      pending: json['pending'] as int,
-      resultsWritten: json['resultsWritten'] as int,
-      running: json['running'] as int,
-      succeeded: json['succeeded'] as int,
-      timedOut: json['timedOut'] as int,
-      total: json['total'] as int,
+      aborted: (json['aborted'] as int?) ?? 0,
+      failed: (json['failed'] as int?) ?? 0,
+      pending: (json['pending'] as int?) ?? 0,
+      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
+      running: (json['running'] as int?) ?? 0,
+      succeeded: (json['succeeded'] as int?) ?? 0,
+      timedOut: (json['timedOut'] as int?) ?? 0,
+      total: (json['total'] as int?) ?? 0,
       failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
       pendingRedrive: json['pendingRedrive'] as int?,
     );
@@ -6290,14 +6288,14 @@ class MapRunItemCounts {
 
   factory MapRunItemCounts.fromJson(Map<String, dynamic> json) {
     return MapRunItemCounts(
-      aborted: json['aborted'] as int,
-      failed: json['failed'] as int,
-      pending: json['pending'] as int,
-      resultsWritten: json['resultsWritten'] as int,
-      running: json['running'] as int,
-      succeeded: json['succeeded'] as int,
-      timedOut: json['timedOut'] as int,
-      total: json['total'] as int,
+      aborted: (json['aborted'] as int?) ?? 0,
+      failed: (json['failed'] as int?) ?? 0,
+      pending: (json['pending'] as int?) ?? 0,
+      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
+      running: (json['running'] as int?) ?? 0,
+      succeeded: (json['succeeded'] as int?) ?? 0,
+      timedOut: (json['timedOut'] as int?) ?? 0,
+      total: (json['total'] as int?) ?? 0,
       failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
       pendingRedrive: json['pendingRedrive'] as int?,
     );
@@ -6358,10 +6356,10 @@ class MapRunListItem {
 
   factory MapRunListItem.fromJson(Map<String, dynamic> json) {
     return MapRunListItem(
-      executionArn: json['executionArn'] as String,
-      mapRunArn: json['mapRunArn'] as String,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
-      stateMachineArn: json['stateMachineArn'] as String,
+      executionArn: (json['executionArn'] as String?) ?? '',
+      mapRunArn: (json['mapRunArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       stopDate: timeStampFromJson(json['stopDate']),
     );
   }
@@ -6493,9 +6491,8 @@ class PublishStateMachineVersionOutput {
 
   factory PublishStateMachineVersionOutput.fromJson(Map<String, dynamic> json) {
     return PublishStateMachineVersionOutput(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
     );
   }
 
@@ -6519,7 +6516,7 @@ class RedriveExecutionOutput {
 
   factory RedriveExecutionOutput.fromJson(Map<String, dynamic> json) {
     return RedriveExecutionOutput(
-      redriveDate: nonNullableTimeStampFromJson(json['redriveDate'] as Object),
+      redriveDate: nonNullableTimeStampFromJson(json['redriveDate'] ?? 0),
     );
   }
 
@@ -6554,8 +6551,8 @@ class RoutingConfigurationListItem {
 
   factory RoutingConfigurationListItem.fromJson(Map<String, dynamic> json) {
     return RoutingConfigurationListItem(
-      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
-      weight: json['weight'] as int,
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
+      weight: (json['weight'] as int?) ?? 0,
     );
   }
 
@@ -6619,8 +6616,8 @@ class StartExecutionOutput {
 
   factory StartExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StartExecutionOutput(
-      executionArn: json['executionArn'] as String,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+      executionArn: (json['executionArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
     );
   }
 
@@ -6700,10 +6697,10 @@ class StartSyncExecutionOutput {
 
   factory StartSyncExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StartSyncExecutionOutput(
-      executionArn: json['executionArn'] as String,
-      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+      executionArn: (json['executionArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
       status: SyncExecutionStatus.fromString((json['status'] as String)),
-      stopDate: nonNullableTimeStampFromJson(json['stopDate'] as Object),
+      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
       billingDetails: json['billingDetails'] != null
           ? BillingDetails.fromJson(
               json['billingDetails'] as Map<String, dynamic>)
@@ -6781,7 +6778,7 @@ class StateEnteredEventDetails {
 
   factory StateEnteredEventDetails.fromJson(Map<String, dynamic> json) {
     return StateEnteredEventDetails(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       input: json['input'] as String?,
       inputDetails: json['inputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -6844,7 +6841,7 @@ class StateExitedEventDetails {
 
   factory StateExitedEventDetails.fromJson(Map<String, dynamic> json) {
     return StateExitedEventDetails(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       output: json['output'] as String?,
       outputDetails: json['outputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -6882,9 +6879,8 @@ class StateMachineAliasListItem {
 
   factory StateMachineAliasListItem.fromJson(Map<String, dynamic> json) {
     return StateMachineAliasListItem(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      stateMachineAliasArn: json['stateMachineAliasArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
     );
   }
 
@@ -6943,10 +6939,9 @@ class StateMachineListItem {
 
   factory StateMachineListItem.fromJson(Map<String, dynamic> json) {
     return StateMachineListItem(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      name: json['name'] as String,
-      stateMachineArn: json['stateMachineArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
       type: StateMachineType.fromString((json['type'] as String)),
     );
   }
@@ -7012,9 +7007,8 @@ class StateMachineVersionListItem {
 
   factory StateMachineVersionListItem.fromJson(Map<String, dynamic> json) {
     return StateMachineVersionListItem(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
-      stateMachineVersionArn: json['stateMachineVersionArn'] as String,
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
     );
   }
 
@@ -7038,7 +7032,7 @@ class StopExecutionOutput {
 
   factory StopExecutionOutput.fromJson(Map<String, dynamic> json) {
     return StopExecutionOutput(
-      stopDate: nonNullableTimeStampFromJson(json['stopDate'] as Object),
+      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
     );
   }
 
@@ -7166,8 +7160,8 @@ class TaskFailedEventDetails {
 
   factory TaskFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskFailedEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -7224,10 +7218,10 @@ class TaskScheduledEventDetails {
 
   factory TaskScheduledEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskScheduledEventDetails(
-      parameters: json['parameters'] as String,
-      region: json['region'] as String,
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      parameters: (json['parameters'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       heartbeatInSeconds: json['heartbeatInSeconds'] as int?,
       taskCredentials: json['taskCredentials'] != null
           ? TaskCredentials.fromJson(
@@ -7280,8 +7274,8 @@ class TaskStartFailedEventDetails {
 
   factory TaskStartFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskStartFailedEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -7316,8 +7310,8 @@ class TaskStartedEventDetails {
 
   factory TaskStartedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskStartedEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
     );
   }
 
@@ -7354,8 +7348,8 @@ class TaskSubmitFailedEventDetails {
 
   factory TaskSubmitFailedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSubmitFailedEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -7399,8 +7393,8 @@ class TaskSubmittedEventDetails {
 
   factory TaskSubmittedEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSubmittedEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       output: json['output'] as String?,
       outputDetails: json['outputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -7448,8 +7442,8 @@ class TaskSucceededEventDetails {
 
   factory TaskSucceededEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskSucceededEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       output: json['output'] as String?,
       outputDetails: json['outputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -7495,8 +7489,8 @@ class TaskTimedOutEventDetails {
 
   factory TaskTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
     return TaskTimedOutEventDetails(
-      resource: json['resource'] as String,
-      resourceType: json['resourceType'] as String,
+      resource: (json['resource'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -7658,7 +7652,7 @@ class UpdateStateMachineAliasOutput {
 
   factory UpdateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
     return UpdateStateMachineAliasOutput(
-      updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
     );
   }
 
@@ -7691,7 +7685,7 @@ class UpdateStateMachineOutput {
 
   factory UpdateStateMachineOutput.fromJson(Map<String, dynamic> json) {
     return UpdateStateMachineOutput(
-      updateDate: nonNullableTimeStampFromJson(json['updateDate'] as Object),
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
       revisionId: json['revisionId'] as String?,
       stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
@@ -7741,8 +7735,8 @@ class ValidateStateMachineDefinitionDiagnostic {
   factory ValidateStateMachineDefinitionDiagnostic.fromJson(
       Map<String, dynamic> json) {
     return ValidateStateMachineDefinitionDiagnostic(
-      code: json['code'] as String,
-      message: json['message'] as String,
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
       severity: ValidateStateMachineDefinitionSeverity.fromString(
           (json['severity'] as String)),
       location: json['location'] as String?,
@@ -7787,7 +7781,7 @@ class ValidateStateMachineDefinitionOutput {
   factory ValidateStateMachineDefinitionOutput.fromJson(
       Map<String, dynamic> json) {
     return ValidateStateMachineDefinitionOutput(
-      diagnostics: (json['diagnostics'] as List)
+      diagnostics: ((json['diagnostics'] as List?) ?? const [])
           .nonNulls
           .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
               e as Map<String, dynamic>))

@@ -1299,7 +1299,8 @@ class AutoParticipantRecordingConfiguration {
   factory AutoParticipantRecordingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return AutoParticipantRecordingConfiguration(
-      storageConfigurationArn: json['storageConfigurationArn'] as String,
+      storageConfigurationArn:
+          (json['storageConfigurationArn'] as String?) ?? '',
       mediaTypes: (json['mediaTypes'] as List?)
           ?.nonNulls
           .map((e) => ParticipantRecordingMediaType.fromString((e as String)))
@@ -1336,7 +1337,7 @@ class ChannelDestinationConfiguration {
 
   factory ChannelDestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return ChannelDestinationConfiguration(
-      channelArn: json['channelArn'] as String,
+      channelArn: (json['channelArn'] as String?) ?? '',
       encoderConfigurationArn: json['encoderConfigurationArn'] as String?,
     );
   }
@@ -1400,14 +1401,15 @@ class Composition {
 
   factory Composition.fromJson(Map<String, dynamic> json) {
     return Composition(
-      arn: json['arn'] as String,
-      destinations: (json['destinations'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      destinations: ((json['destinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
-      layout:
-          LayoutConfiguration.fromJson(json['layout'] as Map<String, dynamic>),
-      stageArn: json['stageArn'] as String,
+      layout: LayoutConfiguration.fromJson(
+          (json['layout'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      stageArn: (json['stageArn'] as String?) ?? '',
       state: CompositionState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
@@ -1498,12 +1500,12 @@ class CompositionSummary {
 
   factory CompositionSummary.fromJson(Map<String, dynamic> json) {
     return CompositionSummary(
-      arn: json['arn'] as String,
-      destinations: (json['destinations'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      destinations: ((json['destinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => DestinationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      stageArn: json['stageArn'] as String,
+      stageArn: (json['stageArn'] as String?) ?? '',
       state: CompositionState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
@@ -1728,8 +1730,9 @@ class Destination {
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
       configuration: DestinationConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      id: json['id'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       state: DestinationState.fromString((json['state'] as String)),
       detail: json['detail'] != null
           ? DestinationDetail.fromJson(json['detail'] as Map<String, dynamic>)
@@ -1871,7 +1874,7 @@ class DestinationSummary {
 
   factory DestinationSummary.fromJson(Map<String, dynamic> json) {
     return DestinationSummary(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       state: DestinationState.fromString((json['state'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       startTime: timeStampFromJson(json['startTime']),
@@ -1933,7 +1936,7 @@ class EncoderConfiguration {
 
   factory EncoderConfiguration.fromJson(Map<String, dynamic> json) {
     return EncoderConfiguration(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1981,7 +1984,7 @@ class EncoderConfigurationSummary {
 
   factory EncoderConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return EncoderConfigurationSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2417,7 +2420,7 @@ class ListCompositionsResponse {
 
   factory ListCompositionsResponse.fromJson(Map<String, dynamic> json) {
     return ListCompositionsResponse(
-      compositions: (json['compositions'] as List)
+      compositions: ((json['compositions'] as List?) ?? const [])
           .nonNulls
           .map((e) => CompositionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2451,7 +2454,8 @@ class ListEncoderConfigurationsResponse {
   factory ListEncoderConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListEncoderConfigurationsResponse(
-      encoderConfigurations: (json['encoderConfigurations'] as List)
+      encoderConfigurations: ((json['encoderConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               EncoderConfigurationSummary.fromJson(e as Map<String, dynamic>))
@@ -2485,7 +2489,7 @@ class ListParticipantEventsResponse {
 
   factory ListParticipantEventsResponse.fromJson(Map<String, dynamic> json) {
     return ListParticipantEventsResponse(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2518,7 +2522,7 @@ class ListParticipantsResponse {
 
   factory ListParticipantsResponse.fromJson(Map<String, dynamic> json) {
     return ListParticipantsResponse(
-      participants: (json['participants'] as List)
+      participants: ((json['participants'] as List?) ?? const [])
           .nonNulls
           .map((e) => ParticipantSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2551,7 +2555,7 @@ class ListPublicKeysResponse {
 
   factory ListPublicKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListPublicKeysResponse(
-      publicKeys: (json['publicKeys'] as List)
+      publicKeys: ((json['publicKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => PublicKeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2584,7 +2588,7 @@ class ListStageSessionsResponse {
 
   factory ListStageSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListStageSessionsResponse(
-      stageSessions: (json['stageSessions'] as List)
+      stageSessions: ((json['stageSessions'] as List?) ?? const [])
           .nonNulls
           .map((e) => StageSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2617,7 +2621,7 @@ class ListStagesResponse {
 
   factory ListStagesResponse.fromJson(Map<String, dynamic> json) {
     return ListStagesResponse(
-      stages: (json['stages'] as List)
+      stages: ((json['stages'] as List?) ?? const [])
           .nonNulls
           .map((e) => StageSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2651,7 +2655,8 @@ class ListStorageConfigurationsResponse {
   factory ListStorageConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListStorageConfigurationsResponse(
-      storageConfigurations: (json['storageConfigurations'] as List)
+      storageConfigurations: ((json['storageConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               StorageConfigurationSummary.fromJson(e as Map<String, dynamic>))
@@ -2681,8 +2686,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3408,11 +3414,13 @@ class S3DestinationConfiguration {
 
   factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DestinationConfiguration(
-      encoderConfigurationArns: (json['encoderConfigurationArns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      storageConfigurationArn: json['storageConfigurationArn'] as String,
+      encoderConfigurationArns:
+          ((json['encoderConfigurationArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      storageConfigurationArn:
+          (json['storageConfigurationArn'] as String?) ?? '',
       recordingConfiguration: json['recordingConfiguration'] != null
           ? RecordingConfiguration.fromJson(
               json['recordingConfiguration'] as Map<String, dynamic>)
@@ -3444,7 +3452,7 @@ class S3Detail {
 
   factory S3Detail.fromJson(Map<String, dynamic> json) {
     return S3Detail(
-      recordingPrefix: json['recordingPrefix'] as String,
+      recordingPrefix: (json['recordingPrefix'] as String?) ?? '',
     );
   }
 
@@ -3470,7 +3478,7 @@ class S3StorageConfiguration {
 
   factory S3StorageConfiguration.fromJson(Map<String, dynamic> json) {
     return S3StorageConfiguration(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
     );
   }
 
@@ -3520,7 +3528,7 @@ class Stage {
 
   factory Stage.fromJson(Map<String, dynamic> json) {
     return Stage(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       activeSessionId: json['activeSessionId'] as String?,
       autoParticipantRecordingConfiguration:
           json['autoParticipantRecordingConfiguration'] != null
@@ -3696,7 +3704,7 @@ class StageSummary {
 
   factory StageSummary.fromJson(Map<String, dynamic> json) {
     return StageSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       activeSessionId: json['activeSessionId'] as String?,
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3783,7 +3791,7 @@ class StorageConfiguration {
 
   factory StorageConfiguration.fromJson(Map<String, dynamic> json) {
     return StorageConfiguration(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       name: json['name'] as String?,
       s3: json['s3'] != null
           ? S3StorageConfiguration.fromJson(json['s3'] as Map<String, dynamic>)
@@ -3835,7 +3843,7 @@ class StorageConfigurationSummary {
 
   factory StorageConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return StorageConfigurationSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       name: json['name'] as String?,
       s3: json['s3'] != null
           ? S3StorageConfiguration.fromJson(json['s3'] as Map<String, dynamic>)

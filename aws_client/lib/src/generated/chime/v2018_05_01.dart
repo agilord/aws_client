@@ -9257,9 +9257,9 @@ class Account {
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      accountId: json['AccountId'] as String,
-      awsAccountId: json['AwsAccountId'] as String,
-      name: json['Name'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      awsAccountId: (json['AwsAccountId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       accountStatus:
           (json['AccountStatus'] as String?)?.let(AccountStatus.fromString),
       accountType:
@@ -9679,7 +9679,7 @@ class AppInstanceStreamingConfiguration {
     return AppInstanceStreamingConfiguration(
       appInstanceDataType: AppInstanceDataType.fromString(
           (json['AppInstanceDataType'] as String)),
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }
 
@@ -9871,11 +9871,14 @@ class ArtifactsConfiguration {
   factory ArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
     return ArtifactsConfiguration(
       audio: AudioArtifactsConfiguration.fromJson(
-          json['Audio'] as Map<String, dynamic>),
+          (json['Audio'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       content: ContentArtifactsConfiguration.fromJson(
-          json['Content'] as Map<String, dynamic>),
+          (json['Content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       video: VideoArtifactsConfiguration.fromJson(
-          json['Video'] as Map<String, dynamic>),
+          (json['Video'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12204,8 +12207,8 @@ class DNISEmergencyCallingConfiguration {
   factory DNISEmergencyCallingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DNISEmergencyCallingConfiguration(
-      callingCountry: json['CallingCountry'] as String,
-      emergencyPhoneNumber: json['EmergencyPhoneNumber'] as String,
+      callingCountry: (json['CallingCountry'] as String?) ?? '',
+      emergencyPhoneNumber: (json['EmergencyPhoneNumber'] as String?) ?? '',
       testPhoneNumber: json['TestPhoneNumber'] as String?,
     );
   }
@@ -12987,8 +12990,8 @@ class GeoMatchParams {
 
   factory GeoMatchParams.fromJson(Map<String, dynamic> json) {
     return GeoMatchParams(
-      areaCode: json['AreaCode'] as String,
-      country: json['Country'] as String,
+      areaCode: (json['AreaCode'] as String?) ?? '',
+      country: (json['Country'] as String?) ?? '',
     );
   }
 
@@ -17504,7 +17507,7 @@ class StreamingConfiguration {
 
   factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamingConfiguration(
-      dataRetentionInHours: json['DataRetentionInHours'] as int,
+      dataRetentionInHours: (json['DataRetentionInHours'] as int?) ?? 0,
       disabled: json['Disabled'] as bool?,
       streamingNotificationTargets: (json['StreamingNotificationTargets']
               as List?)
@@ -17567,8 +17570,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -17602,9 +17605,9 @@ class TelephonySettings {
 
   factory TelephonySettings.fromJson(Map<String, dynamic> json) {
     return TelephonySettings(
-      inboundCalling: json['InboundCalling'] as bool,
-      outboundCalling: json['OutboundCalling'] as bool,
-      sms: json['SMS'] as bool,
+      inboundCalling: (json['InboundCalling'] as bool?) ?? false,
+      outboundCalling: (json['OutboundCalling'] as bool?) ?? false,
+      sms: (json['SMS'] as bool?) ?? false,
     );
   }
 
@@ -18490,7 +18493,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['UserId'] as String,
+      userId: (json['UserId'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       alexaForBusinessMetadata: json['AlexaForBusinessMetadata'] != null
           ? AlexaForBusinessMetadata.fromJson(
@@ -18599,8 +18602,9 @@ class UserSettings {
 
   factory UserSettings.fromJson(Map<String, dynamic> json) {
     return UserSettings(
-      telephony:
-          TelephonySettings.fromJson(json['Telephony'] as Map<String, dynamic>),
+      telephony: TelephonySettings.fromJson(
+          (json['Telephony'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -18906,8 +18910,8 @@ class VoiceConnectorItem {
 
   factory VoiceConnectorItem.fromJson(Map<String, dynamic> json) {
     return VoiceConnectorItem(
-      priority: json['Priority'] as int,
-      voiceConnectorId: json['VoiceConnectorId'] as String,
+      priority: (json['Priority'] as int?) ?? 0,
+      voiceConnectorId: (json['VoiceConnectorId'] as String?) ?? '',
     );
   }
 

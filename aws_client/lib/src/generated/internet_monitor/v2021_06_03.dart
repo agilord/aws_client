@@ -1173,12 +1173,12 @@ class ClientLocation {
 
   factory ClientLocation.fromJson(Map<String, dynamic> json) {
     return ClientLocation(
-      aSName: json['ASName'] as String,
-      aSNumber: json['ASNumber'] as int,
-      city: json['City'] as String,
-      country: json['Country'] as String,
-      latitude: json['Latitude'] as double,
-      longitude: json['Longitude'] as double,
+      aSName: (json['ASName'] as String?) ?? '',
+      aSNumber: (json['ASNumber'] as int?) ?? 0,
+      city: (json['City'] as String?) ?? '',
+      country: (json['Country'] as String?) ?? '',
+      latitude: (json['Latitude'] as double?) ?? 0,
+      longitude: (json['Longitude'] as double?) ?? 0,
       metro: json['Metro'] as String?,
       subdivision: json['Subdivision'] as String?,
     );
@@ -1220,7 +1220,7 @@ class CreateMonitorOutput {
 
   factory CreateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return CreateMonitorOutput(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       status: MonitorConfigState.fromString((json['Status'] as String)),
     );
   }
@@ -1360,17 +1360,16 @@ class GetHealthEventOutput {
 
   factory GetHealthEventOutput.fromJson(Map<String, dynamic> json) {
     return GetHealthEventOutput(
-      eventArn: json['EventArn'] as String,
-      eventId: json['EventId'] as String,
+      eventArn: (json['EventArn'] as String?) ?? '',
+      eventId: (json['EventId'] as String?) ?? '',
       impactType:
           HealthEventImpactType.fromString((json['ImpactType'] as String)),
-      impactedLocations: (json['ImpactedLocations'] as List)
+      impactedLocations: ((json['ImpactedLocations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       status: HealthEventStatus.fromString((json['Status'] as String)),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
@@ -1447,13 +1446,14 @@ class GetInternetEventOutput {
   factory GetInternetEventOutput.fromJson(Map<String, dynamic> json) {
     return GetInternetEventOutput(
       clientLocation: ClientLocation.fromJson(
-          json['ClientLocation'] as Map<String, dynamic>),
-      eventArn: json['EventArn'] as String,
-      eventId: json['EventId'] as String,
+          (json['ClientLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      eventArn: (json['EventArn'] as String?) ?? '',
+      eventId: (json['EventId'] as String?) ?? '',
       eventStatus:
           InternetEventStatus.fromString((json['EventStatus'] as String)),
       eventType: InternetEventType.fromString((json['EventType'] as String)),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
   }
@@ -1564,12 +1564,14 @@ class GetMonitorOutput {
 
   factory GetMonitorOutput.fromJson(Map<String, dynamic> json) {
     return GetMonitorOutput(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
-      monitorArn: json['MonitorArn'] as String,
-      monitorName: json['MonitorName'] as String,
-      resources:
-          (json['Resources'] as List).nonNulls.map((e) => e as String).toList(),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
+      monitorName: (json['MonitorName'] as String?) ?? '',
+      resources: ((json['Resources'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       status: MonitorConfigState.fromString((json['Status'] as String)),
       healthEventsConfig: json['HealthEventsConfig'] != null
           ? HealthEventsConfig.fromJson(
@@ -1652,11 +1654,11 @@ class GetQueryResultsOutput {
 
   factory GetQueryResultsOutput.fromJson(Map<String, dynamic> json) {
     return GetQueryResultsOutput(
-      data: (json['Data'] as List)
+      data: ((json['Data'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
-      fields: (json['Fields'] as List)
+      fields: ((json['Fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => QueryField.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1758,17 +1760,16 @@ class HealthEvent {
 
   factory HealthEvent.fromJson(Map<String, dynamic> json) {
     return HealthEvent(
-      eventArn: json['EventArn'] as String,
-      eventId: json['EventId'] as String,
+      eventArn: (json['EventArn'] as String?) ?? '',
+      eventId: (json['EventId'] as String?) ?? '',
       impactType:
           HealthEventImpactType.fromString((json['ImpactType'] as String)),
-      impactedLocations: (json['ImpactedLocations'] as List)
+      impactedLocations: ((json['ImpactedLocations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImpactedLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       status: HealthEventStatus.fromString((json['Status'] as String)),
       createdAt: timeStampFromJson(json['CreatedAt']),
       endedAt: timeStampFromJson(json['EndedAt']),
@@ -2016,9 +2017,9 @@ class ImpactedLocation {
 
   factory ImpactedLocation.fromJson(Map<String, dynamic> json) {
     return ImpactedLocation(
-      aSName: json['ASName'] as String,
-      aSNumber: json['ASNumber'] as int,
-      country: json['Country'] as String,
+      aSName: (json['ASName'] as String?) ?? '',
+      aSNumber: (json['ASNumber'] as int?) ?? 0,
+      country: (json['Country'] as String?) ?? '',
       status: HealthEventStatus.fromString((json['Status'] as String)),
       causedBy: json['CausedBy'] != null
           ? NetworkImpairment.fromJson(json['CausedBy'] as Map<String, dynamic>)
@@ -2136,13 +2137,14 @@ class InternetEventSummary {
   factory InternetEventSummary.fromJson(Map<String, dynamic> json) {
     return InternetEventSummary(
       clientLocation: ClientLocation.fromJson(
-          json['ClientLocation'] as Map<String, dynamic>),
-      eventArn: json['EventArn'] as String,
-      eventId: json['EventId'] as String,
+          (json['ClientLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      eventArn: (json['EventArn'] as String?) ?? '',
+      eventId: (json['EventId'] as String?) ?? '',
       eventStatus:
           InternetEventStatus.fromString((json['EventStatus'] as String)),
       eventType: InternetEventType.fromString((json['EventType'] as String)),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       endedAt: timeStampFromJson(json['EndedAt']),
     );
   }
@@ -2292,7 +2294,7 @@ class ListHealthEventsOutput {
 
   factory ListHealthEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListHealthEventsOutput(
-      healthEvents: (json['HealthEvents'] as List)
+      healthEvents: ((json['HealthEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => HealthEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2325,7 +2327,7 @@ class ListInternetEventsOutput {
 
   factory ListInternetEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListInternetEventsOutput(
-      internetEvents: (json['InternetEvents'] as List)
+      internetEvents: ((json['InternetEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => InternetEventSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2358,7 +2360,7 @@ class ListMonitorsOutput {
 
   factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
     return ListMonitorsOutput(
-      monitors: (json['Monitors'] as List)
+      monitors: ((json['Monitors'] as List?) ?? const [])
           .nonNulls
           .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2516,8 +2518,8 @@ class Monitor {
 
   factory Monitor.fromJson(Map<String, dynamic> json) {
     return Monitor(
-      monitorArn: json['MonitorArn'] as String,
-      monitorName: json['MonitorName'] as String,
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
+      monitorName: (json['MonitorName'] as String?) ?? '',
       status: MonitorConfigState.fromString((json['Status'] as String)),
       processingStatus: (json['ProcessingStatus'] as String?)
           ?.let(MonitorProcessingStatusCode.fromString),
@@ -2590,8 +2592,8 @@ class Network {
 
   factory Network.fromJson(Map<String, dynamic> json) {
     return Network(
-      aSName: json['ASName'] as String,
-      aSNumber: json['ASNumber'] as int,
+      aSName: (json['ASName'] as String?) ?? '',
+      aSNumber: (json['ASNumber'] as int?) ?? 0,
     );
   }
 
@@ -2626,13 +2628,13 @@ class NetworkImpairment {
 
   factory NetworkImpairment.fromJson(Map<String, dynamic> json) {
     return NetworkImpairment(
-      asPath: (json['AsPath'] as List)
+      asPath: ((json['AsPath'] as List?) ?? const [])
           .nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
       networkEventType: TriangulationEventType.fromString(
           (json['NetworkEventType'] as String)),
-      networks: (json['Networks'] as List)
+      networks: ((json['Networks'] as List?) ?? const [])
           .nonNulls
           .map((e) => Network.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2938,7 +2940,7 @@ class StartQueryOutput {
 
   factory StartQueryOutput.fromJson(Map<String, dynamic> json) {
     return StartQueryOutput(
-      queryId: json['QueryId'] as String,
+      queryId: (json['QueryId'] as String?) ?? '',
     );
   }
 
@@ -3015,7 +3017,7 @@ class UpdateMonitorOutput {
 
   factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMonitorOutput(
-      monitorArn: json['MonitorArn'] as String,
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
       status: MonitorConfigState.fromString((json['Status'] as String)),
     );
   }

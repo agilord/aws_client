@@ -7240,8 +7240,8 @@ class EnvironmentVariable {
 
   factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
     return EnvironmentVariable(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
       secure: json['Secure'] as bool?,
     );
   }
@@ -9214,8 +9214,8 @@ class SslConfiguration {
 
   factory SslConfiguration.fromJson(Map<String, dynamic> json) {
     return SslConfiguration(
-      certificate: json['Certificate'] as String,
-      privateKey: json['PrivateKey'] as String,
+      certificate: (json['Certificate'] as String?) ?? '',
+      privateKey: (json['PrivateKey'] as String?) ?? '',
       chain: json['Chain'] as String?,
     );
   }
@@ -9927,9 +9927,9 @@ class VolumeConfiguration {
 
   factory VolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return VolumeConfiguration(
-      mountPoint: json['MountPoint'] as String,
-      numberOfDisks: json['NumberOfDisks'] as int,
-      size: json['Size'] as int,
+      mountPoint: (json['MountPoint'] as String?) ?? '',
+      numberOfDisks: (json['NumberOfDisks'] as int?) ?? 0,
+      size: (json['Size'] as int?) ?? 0,
       encrypted: json['Encrypted'] as bool?,
       iops: json['Iops'] as int?,
       raidLevel: json['RaidLevel'] as int?,

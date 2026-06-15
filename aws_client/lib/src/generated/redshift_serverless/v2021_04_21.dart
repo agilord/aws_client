@@ -3096,7 +3096,8 @@ class CreateSnapshotCopyConfigurationResponse {
       Map<String, dynamic> json) {
     return CreateSnapshotCopyConfigurationResponse(
       snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
-          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+          (json['snapshotCopyConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3165,8 +3166,8 @@ class CreateSnapshotScheduleActionParameters {
   factory CreateSnapshotScheduleActionParameters.fromJson(
       Map<String, dynamic> json) {
     return CreateSnapshotScheduleActionParameters(
-      namespaceName: json['namespaceName'] as String,
-      snapshotNamePrefix: json['snapshotNamePrefix'] as String,
+      namespaceName: (json['namespaceName'] as String?) ?? '',
+      snapshotNamePrefix: (json['snapshotNamePrefix'] as String?) ?? '',
       retentionPeriod: json['retentionPeriod'] as int?,
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -3284,7 +3285,9 @@ class DeleteNamespaceResponse {
 
   factory DeleteNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteNamespaceResponse(
-      namespace: Namespace.fromJson(json['namespace'] as Map<String, dynamic>),
+      namespace: Namespace.fromJson(
+          (json['namespace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3345,7 +3348,8 @@ class DeleteSnapshotCopyConfigurationResponse {
       Map<String, dynamic> json) {
     return DeleteSnapshotCopyConfigurationResponse(
       snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
-          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+          (json['snapshotCopyConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3415,7 +3419,9 @@ class DeleteWorkgroupResponse {
 
   factory DeleteWorkgroupResponse.fromJson(Map<String, dynamic> json) {
     return DeleteWorkgroupResponse(
-      workgroup: Workgroup.fromJson(json['workgroup'] as Map<String, dynamic>),
+      workgroup: Workgroup.fromJson(
+          (json['workgroup'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3698,7 +3704,9 @@ class GetNamespaceResponse {
 
   factory GetNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return GetNamespaceResponse(
-      namespace: Namespace.fromJson(json['namespace'] as Map<String, dynamic>),
+      namespace: Namespace.fromJson(
+          (json['namespace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3870,7 +3878,9 @@ class GetWorkgroupResponse {
 
   factory GetWorkgroupResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkgroupResponse(
-      workgroup: Workgroup.fromJson(json['workgroup'] as Map<String, dynamic>),
+      workgroup: Workgroup.fromJson(
+          (json['workgroup'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3935,7 +3945,7 @@ class ListEndpointAccessResponse {
 
   factory ListEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
     return ListEndpointAccessResponse(
-      endpoints: (json['endpoints'] as List)
+      endpoints: ((json['endpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => EndpointAccess.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3970,7 +3980,7 @@ class ListNamespacesResponse {
 
   factory ListNamespacesResponse.fromJson(Map<String, dynamic> json) {
     return ListNamespacesResponse(
-      namespaces: (json['namespaces'] as List)
+      namespaces: ((json['namespaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => Namespace.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4074,11 +4084,12 @@ class ListSnapshotCopyConfigurationsResponse {
   factory ListSnapshotCopyConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSnapshotCopyConfigurationsResponse(
-      snapshotCopyConfigurations: (json['snapshotCopyConfigurations'] as List)
-          .nonNulls
-          .map((e) =>
-              SnapshotCopyConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      snapshotCopyConfigurations:
+          ((json['snapshotCopyConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  SnapshotCopyConfiguration.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -4239,7 +4250,7 @@ class ListWorkgroupsResponse {
 
   factory ListWorkgroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkgroupsResponse(
-      workgroups: (json['workgroups'] as List)
+      workgroups: ((json['workgroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => Workgroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5365,8 +5376,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -5517,7 +5528,9 @@ class UpdateNamespaceResponse {
 
   factory UpdateNamespaceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateNamespaceResponse(
-      namespace: Namespace.fromJson(json['namespace'] as Map<String, dynamic>),
+      namespace: Namespace.fromJson(
+          (json['namespace'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5566,7 +5579,8 @@ class UpdateSnapshotCopyConfigurationResponse {
       Map<String, dynamic> json) {
     return UpdateSnapshotCopyConfigurationResponse(
       snapshotCopyConfiguration: SnapshotCopyConfiguration.fromJson(
-          json['snapshotCopyConfiguration'] as Map<String, dynamic>),
+          (json['snapshotCopyConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5636,7 +5650,9 @@ class UpdateWorkgroupResponse {
 
   factory UpdateWorkgroupResponse.fromJson(Map<String, dynamic> json) {
     return UpdateWorkgroupResponse(
-      workgroup: Workgroup.fromJson(json['workgroup'] as Map<String, dynamic>),
+      workgroup: Workgroup.fromJson(
+          (json['workgroup'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

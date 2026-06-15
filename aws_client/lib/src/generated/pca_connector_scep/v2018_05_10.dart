@@ -1036,8 +1036,8 @@ class IntuneConfiguration {
 
   factory IntuneConfiguration.fromJson(Map<String, dynamic> json) {
     return IntuneConfiguration(
-      azureApplicationId: json['AzureApplicationId'] as String,
-      domain: json['Domain'] as String,
+      azureApplicationId: (json['AzureApplicationId'] as String?) ?? '',
+      domain: (json['Domain'] as String?) ?? '',
     );
   }
 

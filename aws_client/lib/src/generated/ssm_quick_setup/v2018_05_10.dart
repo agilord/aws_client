@@ -445,9 +445,10 @@ class ConfigurationDefinition {
 
   factory ConfigurationDefinition.fromJson(Map<String, dynamic> json) {
     return ConfigurationDefinition(
-      parameters: (json['Parameters'] as Map<String, dynamic>)
+      parameters: ((json['Parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      type: json['Type'] as String,
+      type: (json['Type'] as String?) ?? '',
       id: json['Id'] as String?,
       localDeploymentAdministrationRoleArn:
           json['LocalDeploymentAdministrationRoleArn'] as String?,
@@ -1621,7 +1622,7 @@ class ConfigurationManagerSummary {
 
   factory ConfigurationManagerSummary.fromJson(Map<String, dynamic> json) {
     return ConfigurationManagerSummary(
-      managerArn: json['ManagerArn'] as String,
+      managerArn: (json['ManagerArn'] as String?) ?? '',
       configurationDefinitionSummaries:
           (json['ConfigurationDefinitionSummaries'] as List?)
               ?.nonNulls
@@ -1665,7 +1666,7 @@ class CreateConfigurationManagerOutput {
 
   factory CreateConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
     return CreateConfigurationManagerOutput(
-      managerArn: json['ManagerArn'] as String,
+      managerArn: (json['ManagerArn'] as String?) ?? '',
     );
   }
 
@@ -1740,7 +1741,7 @@ class GetConfigurationManagerOutput {
 
   factory GetConfigurationManagerOutput.fromJson(Map<String, dynamic> json) {
     return GetConfigurationManagerOutput(
-      managerArn: json['ManagerArn'] as String,
+      managerArn: (json['ManagerArn'] as String?) ?? '',
       configurationDefinitions: (json['ConfigurationDefinitions'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -2000,8 +2001,7 @@ class StatusSummary {
 
   factory StatusSummary.fromJson(Map<String, dynamic> json) {
     return StatusSummary(
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['LastUpdatedAt'] ?? 0),
       statusType: StatusType.fromString((json['StatusType'] as String)),
       status: (json['Status'] as String?)?.let(Status.fromString),
       statusDetails: (json['StatusDetails'] as Map<String, dynamic>?)

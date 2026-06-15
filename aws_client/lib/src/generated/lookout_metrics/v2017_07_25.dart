@@ -2235,7 +2235,7 @@ class BackTestConfiguration {
 
   factory BackTestConfiguration.fromJson(Map<String, dynamic> json) {
     return BackTestConfiguration(
-      runBackTestMode: json['RunBackTestMode'] as bool,
+      runBackTestMode: (json['RunBackTestMode'] as bool?) ?? false,
     );
   }
 
@@ -3256,8 +3256,8 @@ class DimensionNameValue {
 
   factory DimensionNameValue.fromJson(Map<String, dynamic> json) {
     return DimensionNameValue(
-      dimensionName: json['DimensionName'] as String,
-      dimensionValue: json['DimensionValue'] as String,
+      dimensionName: (json['DimensionName'] as String?) ?? '',
+      dimensionValue: (json['DimensionValue'] as String?) ?? '',
     );
   }
 
@@ -3708,8 +3708,8 @@ class LambdaConfiguration {
 
   factory LambdaConfiguration.fromJson(Map<String, dynamic> json) {
     return LambdaConfiguration(
-      lambdaArn: json['LambdaArn'] as String,
-      roleArn: json['RoleArn'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
     );
   }
 
@@ -4009,7 +4009,7 @@ class Metric {
     return Metric(
       aggregationFunction: AggregationFunction.fromString(
           (json['AggregationFunction'] as String)),
-      metricName: json['MetricName'] as String,
+      metricName: (json['MetricName'] as String?) ?? '',
       namespace: json['Namespace'] as String?,
     );
   }
@@ -4557,8 +4557,8 @@ class SNSConfiguration {
 
   factory SNSConfiguration.fromJson(Map<String, dynamic> json) {
     return SNSConfiguration(
-      roleArn: json['RoleArn'] as String,
-      snsTopicArn: json['SnsTopicArn'] as String,
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      snsTopicArn: (json['SnsTopicArn'] as String?) ?? '',
       snsFormat: (json['SnsFormat'] as String?)?.let(SnsFormat.fromString),
     );
   }
@@ -4658,15 +4658,15 @@ class TimeSeries {
 
   factory TimeSeries.fromJson(Map<String, dynamic> json) {
     return TimeSeries(
-      dimensionList: (json['DimensionList'] as List)
+      dimensionList: ((json['DimensionList'] as List?) ?? const [])
           .nonNulls
           .map((e) => DimensionNameValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metricValueList: (json['MetricValueList'] as List)
+      metricValueList: ((json['MetricValueList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as double)
           .toList(),
-      timeSeriesId: json['TimeSeriesId'] as String,
+      timeSeriesId: (json['TimeSeriesId'] as String?) ?? '',
     );
   }
 
@@ -4838,11 +4838,11 @@ class VpcConfiguration {
 
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
-      securityGroupIdList: (json['SecurityGroupIdList'] as List)
+      securityGroupIdList: ((json['SecurityGroupIdList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIdList: (json['SubnetIdList'] as List)
+      subnetIdList: ((json['SubnetIdList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

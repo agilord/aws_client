@@ -467,8 +467,10 @@ class DestinationConfig {
 
   factory DestinationConfig.fromJson(Map<String, dynamic> json) {
     return DestinationConfig(
-      services:
-          (json['services'] as List).nonNulls.map((e) => e as String).toList(),
+      services: ((json['services'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       thingName: json['thingName'] as String?,
     );
   }
@@ -642,8 +644,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

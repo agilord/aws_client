@@ -2054,8 +2054,9 @@ class CreateExperimentResponse {
 
   factory CreateExperimentResponse.fromJson(Map<String, dynamic> json) {
     return CreateExperimentResponse(
-      experiment:
-          Experiment.fromJson(json['experiment'] as Map<String, dynamic>),
+      experiment: Experiment.fromJson(
+          (json['experiment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2101,7 +2102,8 @@ class CreateLaunchResponse {
 
   factory CreateLaunchResponse.fromJson(Map<String, dynamic> json) {
     return CreateLaunchResponse(
-      launch: Launch.fromJson(json['launch'] as Map<String, dynamic>),
+      launch: Launch.fromJson((json['launch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2123,7 +2125,8 @@ class CreateProjectResponse {
 
   factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
     return CreateProjectResponse(
-      project: Project.fromJson(json['project'] as Map<String, dynamic>),
+      project: Project.fromJson((json['project'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2146,7 +2149,8 @@ class CreateSegmentResponse {
 
   factory CreateSegmentResponse.fromJson(Map<String, dynamic> json) {
     return CreateSegmentResponse(
-      segment: Segment.fromJson(json['segment'] as Map<String, dynamic>),
+      segment: Segment.fromJson((json['segment'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2349,8 +2353,8 @@ class EvaluationResult {
 
   factory EvaluationResult.fromJson(Map<String, dynamic> json) {
     return EvaluationResult(
-      entityId: json['entityId'] as String,
-      feature: json['feature'] as String,
+      entityId: (json['entityId'] as String?) ?? '',
+      feature: (json['feature'] as String?) ?? '',
       details: json['details'] == null
           ? null
           : jsonDecode(json['details'] as String),
@@ -2401,7 +2405,7 @@ class EvaluationRule {
 
   factory EvaluationRule.fromJson(Map<String, dynamic> json) {
     return EvaluationRule(
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       name: json['name'] as String?,
     );
   }
@@ -2563,11 +2567,11 @@ class Experiment {
 
   factory Experiment.fromJson(Map<String, dynamic> json) {
     return Experiment(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ExperimentStatus.fromString((json['status'] as String)),
       type: ExperimentType.fromString((json['type'] as String)),
       description: json['description'] as String?,
@@ -2991,16 +2995,16 @@ class Feature {
 
   factory Feature.fromJson(Map<String, dynamic> json) {
     return Feature(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       evaluationStrategy: FeatureEvaluationStrategy.fromString(
           (json['evaluationStrategy'] as String)),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: FeatureStatus.fromString((json['status'] as String)),
       valueType: VariationValueType.fromString((json['valueType'] as String)),
-      variations: (json['variations'] as List)
+      variations: ((json['variations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Variation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3135,13 +3139,13 @@ class FeatureSummary {
 
   factory FeatureSummary.fromJson(Map<String, dynamic> json) {
     return FeatureSummary(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       evaluationStrategy: FeatureEvaluationStrategy.fromString(
           (json['evaluationStrategy'] as String)),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: FeatureStatus.fromString((json['status'] as String)),
       defaultVariation: json['defaultVariation'] as String?,
       evaluationRules: (json['evaluationRules'] as List?)
@@ -3271,7 +3275,8 @@ class GetFeatureResponse {
 
   factory GetFeatureResponse.fromJson(Map<String, dynamic> json) {
     return GetFeatureResponse(
-      feature: Feature.fromJson(json['feature'] as Map<String, dynamic>),
+      feature: Feature.fromJson((json['feature'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3317,7 +3322,8 @@ class GetProjectResponse {
 
   factory GetProjectResponse.fromJson(Map<String, dynamic> json) {
     return GetProjectResponse(
-      project: Project.fromJson(json['project'] as Map<String, dynamic>),
+      project: Project.fromJson((json['project'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3339,7 +3345,8 @@ class GetSegmentResponse {
 
   factory GetSegmentResponse.fromJson(Map<String, dynamic> json) {
     return GetSegmentResponse(
-      segment: Segment.fromJson(json['segment'] as Map<String, dynamic>),
+      segment: Segment.fromJson((json['segment'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3426,11 +3433,11 @@ class Launch {
 
   factory Launch.fromJson(Map<String, dynamic> json) {
     return Launch(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: LaunchStatus.fromString((json['status'] as String)),
       type: LaunchType.fromString((json['type'] as String)),
       description: json['description'] as String?,
@@ -3545,9 +3552,11 @@ class LaunchGroup {
 
   factory LaunchGroup.fromJson(Map<String, dynamic> json) {
     return LaunchGroup(
-      featureVariations: (json['featureVariations'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
+      featureVariations:
+          ((json['featureVariations'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -4000,7 +4009,8 @@ class MetricGoal {
   factory MetricGoal.fromJson(Map<String, dynamic> json) {
     return MetricGoal(
       metricDefinition: MetricDefinition.fromJson(
-          json['metricDefinition'] as Map<String, dynamic>),
+          (json['metricDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       desiredChange: (json['desiredChange'] as String?)
           ?.let(ChangeDirectionEnum.fromString),
     );
@@ -4057,7 +4067,8 @@ class MetricMonitor {
   factory MetricMonitor.fromJson(Map<String, dynamic> json) {
     return MetricMonitor(
       metricDefinition: MetricDefinition.fromJson(
-          json['metricDefinition'] as Map<String, dynamic>),
+          (json['metricDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4227,11 +4238,11 @@ class Project {
 
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ProjectStatus.fromString((json['status'] as String)),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
@@ -4309,9 +4320,9 @@ class ProjectAppConfigResource {
 
   factory ProjectAppConfigResource.fromJson(Map<String, dynamic> json) {
     return ProjectAppConfigResource(
-      applicationId: json['applicationId'] as String,
-      configurationProfileId: json['configurationProfileId'] as String,
-      environmentId: json['environmentId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      configurationProfileId: (json['configurationProfileId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
     );
   }
 
@@ -4498,11 +4509,11 @@ class ProjectSummary {
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ProjectStatus.fromString((json['status'] as String)),
       activeExperimentCount: json['activeExperimentCount'] as int?,
       activeLaunchCount: json['activeLaunchCount'] as int?,
@@ -4657,8 +4668,8 @@ class RefResource {
 
   factory RefResource.fromJson(Map<String, dynamic> json) {
     return RefResource(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       arn: json['arn'] as String?,
       endTime: json['endTime'] as String?,
       lastUpdatedOn: json['lastUpdatedOn'] as String?,
@@ -4781,7 +4792,7 @@ class ScheduledSplit {
 
   factory ScheduledSplit.fromJson(Map<String, dynamic> json) {
     return ScheduledSplit(
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       groupWeights: (json['groupWeights'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as int)),
       segmentOverrides: (json['segmentOverrides'] as List?)
@@ -4955,11 +4966,11 @@ class Segment {
 
   factory Segment.fromJson(Map<String, dynamic> json) {
     return Segment(
-      arn: json['arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       pattern: jsonDecode(json['pattern'] as String) as Object,
       description: json['description'] as String?,
       experimentCount: json['experimentCount'] as int?,
@@ -5018,9 +5029,10 @@ class SegmentOverride {
 
   factory SegmentOverride.fromJson(Map<String, dynamic> json) {
     return SegmentOverride(
-      evaluationOrder: json['evaluationOrder'] as int,
-      segment: json['segment'] as String,
-      weights: (json['weights'] as Map<String, dynamic>)
+      evaluationOrder: (json['evaluationOrder'] as int?) ?? 0,
+      segment: (json['segment'] as String?) ?? '',
+      weights: ((json['weights'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as int)),
     );
   }
@@ -5084,7 +5096,8 @@ class StartLaunchResponse {
 
   factory StartLaunchResponse.fromJson(Map<String, dynamic> json) {
     return StartLaunchResponse(
-      launch: Launch.fromJson(json['launch'] as Map<String, dynamic>),
+      launch: Launch.fromJson((json['launch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5162,7 +5175,7 @@ class TestSegmentPatternResponse {
 
   factory TestSegmentPatternResponse.fromJson(Map<String, dynamic> json) {
     return TestSegmentPatternResponse(
-      match: json['match'] as bool,
+      match: (json['match'] as bool?) ?? false,
     );
   }
 
@@ -5195,7 +5208,7 @@ class Treatment {
 
   factory Treatment.fromJson(Map<String, dynamic> json) {
     return Treatment(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       featureVariations: (json['featureVariations'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5273,8 +5286,9 @@ class UpdateExperimentResponse {
 
   factory UpdateExperimentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateExperimentResponse(
-      experiment:
-          Experiment.fromJson(json['experiment'] as Map<String, dynamic>),
+      experiment: Experiment.fromJson(
+          (json['experiment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5296,7 +5310,8 @@ class UpdateFeatureResponse {
 
   factory UpdateFeatureResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFeatureResponse(
-      feature: Feature.fromJson(json['feature'] as Map<String, dynamic>),
+      feature: Feature.fromJson((json['feature'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5319,7 +5334,8 @@ class UpdateLaunchResponse {
 
   factory UpdateLaunchResponse.fromJson(Map<String, dynamic> json) {
     return UpdateLaunchResponse(
-      launch: Launch.fromJson(json['launch'] as Map<String, dynamic>),
+      launch: Launch.fromJson((json['launch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5342,7 +5358,8 @@ class UpdateProjectDataDeliveryResponse {
   factory UpdateProjectDataDeliveryResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateProjectDataDeliveryResponse(
-      project: Project.fromJson(json['project'] as Map<String, dynamic>),
+      project: Project.fromJson((json['project'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5364,7 +5381,8 @@ class UpdateProjectResponse {
 
   factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProjectResponse(
-      project: Project.fromJson(json['project'] as Map<String, dynamic>),
+      project: Project.fromJson((json['project'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 

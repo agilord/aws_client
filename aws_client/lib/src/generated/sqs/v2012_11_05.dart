@@ -2847,9 +2847,9 @@ class BatchResultErrorEntry {
 
   factory BatchResultErrorEntry.fromJson(Map<String, dynamic> json) {
     return BatchResultErrorEntry(
-      code: json['Code'] as String,
-      id: json['Id'] as String,
-      senderFault: json['SenderFault'] as bool,
+      code: (json['Code'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      senderFault: (json['SenderFault'] as bool?) ?? false,
       message: json['Message'] as String?,
     );
   }
@@ -2950,11 +2950,11 @@ class ChangeMessageVisibilityBatchResult {
   factory ChangeMessageVisibilityBatchResult.fromJson(
       Map<String, dynamic> json) {
     return ChangeMessageVisibilityBatchResult(
-      failed: (json['Failed'] as List)
+      failed: ((json['Failed'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: (json['Successful'] as List)
+      successful: ((json['Successful'] as List?) ?? const [])
           .nonNulls
           .map((e) => ChangeMessageVisibilityBatchResultEntry.fromJson(
               e as Map<String, dynamic>))
@@ -2985,7 +2985,7 @@ class ChangeMessageVisibilityBatchResultEntry {
   factory ChangeMessageVisibilityBatchResultEntry.fromJson(
       Map<String, dynamic> json) {
     return ChangeMessageVisibilityBatchResultEntry(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -3068,11 +3068,11 @@ class DeleteMessageBatchResult {
 
   factory DeleteMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return DeleteMessageBatchResult(
-      failed: (json['Failed'] as List)
+      failed: ((json['Failed'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: (json['Successful'] as List)
+      successful: ((json['Successful'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DeleteMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
@@ -3102,7 +3102,7 @@ class DeleteMessageBatchResultEntry {
 
   factory DeleteMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
     return DeleteMessageBatchResultEntry(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -3182,8 +3182,10 @@ class ListDeadLetterSourceQueuesResult {
 
   factory ListDeadLetterSourceQueuesResult.fromJson(Map<String, dynamic> json) {
     return ListDeadLetterSourceQueuesResult(
-      queueUrls:
-          (json['queueUrls'] as List).nonNulls.map((e) => e as String).toList(),
+      queueUrls: ((json['queueUrls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -3536,7 +3538,7 @@ class MessageAttributeValue {
 
   factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
     return MessageAttributeValue(
-      dataType: json['DataType'] as String,
+      dataType: (json['DataType'] as String?) ?? '',
       binaryListValues: (json['BinaryListValues'] as List?)
           ?.nonNulls
           .map((e) => _s.decodeUint8List(e as String))
@@ -3927,11 +3929,11 @@ class SendMessageBatchResult {
 
   factory SendMessageBatchResult.fromJson(Map<String, dynamic> json) {
     return SendMessageBatchResult(
-      failed: (json['Failed'] as List)
+      failed: ((json['Failed'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchResultErrorEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successful: (json['Successful'] as List)
+      successful: ((json['Successful'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SendMessageBatchResultEntry.fromJson(e as Map<String, dynamic>))
@@ -3998,9 +4000,9 @@ class SendMessageBatchResultEntry {
 
   factory SendMessageBatchResultEntry.fromJson(Map<String, dynamic> json) {
     return SendMessageBatchResultEntry(
-      id: json['Id'] as String,
-      mD5OfMessageBody: json['MD5OfMessageBody'] as String,
-      messageId: json['MessageId'] as String,
+      id: (json['Id'] as String?) ?? '',
+      mD5OfMessageBody: (json['MD5OfMessageBody'] as String?) ?? '',
+      messageId: (json['MessageId'] as String?) ?? '',
       mD5OfMessageAttributes: json['MD5OfMessageAttributes'] as String?,
       mD5OfMessageSystemAttributes:
           json['MD5OfMessageSystemAttributes'] as String?,

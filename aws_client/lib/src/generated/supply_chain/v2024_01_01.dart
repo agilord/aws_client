@@ -226,9 +226,9 @@ class BillOfMaterialsImportJob {
 
   factory BillOfMaterialsImportJob.fromJson(Map<String, dynamic> json) {
     return BillOfMaterialsImportJob(
-      instanceId: json['instanceId'] as String,
-      jobId: json['jobId'] as String,
-      s3uri: json['s3uri'] as String,
+      instanceId: (json['instanceId'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      s3uri: (json['s3uri'] as String?) ?? '',
       status: ConfigurationJobStatus.fromString((json['status'] as String)),
       message: json['message'] as String?,
     );
@@ -281,7 +281,7 @@ class CreateBillOfMaterialsImportJobResponse {
   factory CreateBillOfMaterialsImportJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateBillOfMaterialsImportJobResponse(
-      jobId: json['jobId'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
     );
   }
 
@@ -334,7 +334,7 @@ class GetBillOfMaterialsImportJobResponse {
       Map<String, dynamic> json) {
     return GetBillOfMaterialsImportJobResponse(
       job: BillOfMaterialsImportJob.fromJson(
-          json['job'] as Map<String, dynamic>),
+          (json['job'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -357,7 +357,7 @@ class SendDataIntegrationEventResponse {
 
   factory SendDataIntegrationEventResponse.fromJson(Map<String, dynamic> json) {
     return SendDataIntegrationEventResponse(
-      eventId: json['eventId'] as String,
+      eventId: (json['eventId'] as String?) ?? '',
     );
   }
 

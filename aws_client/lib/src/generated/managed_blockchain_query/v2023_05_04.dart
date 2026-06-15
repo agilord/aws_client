@@ -626,8 +626,9 @@ class AssetContract {
   factory AssetContract.fromJson(Map<String, dynamic> json) {
     return AssetContract(
       contractIdentifier: ContractIdentifier.fromJson(
-          json['contractIdentifier'] as Map<String, dynamic>),
-      deployerAddress: json['deployerAddress'] as String,
+          (json['contractIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      deployerAddress: (json['deployerAddress'] as String?) ?? '',
       tokenStandard:
           QueryTokenStandard.fromString((json['tokenStandard'] as String)),
     );
@@ -670,8 +671,8 @@ class BatchGetTokenBalanceErrorItem {
 
   factory BatchGetTokenBalanceErrorItem.fromJson(Map<String, dynamic> json) {
     return BatchGetTokenBalanceErrorItem(
-      errorCode: json['errorCode'] as String,
-      errorMessage: json['errorMessage'] as String,
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
       errorType: ErrorType.fromString((json['errorType'] as String)),
       atBlockchainInstant: json['atBlockchainInstant'] != null
           ? BlockchainInstant.fromJson(
@@ -748,12 +749,12 @@ class BatchGetTokenBalanceOutput {
 
   factory BatchGetTokenBalanceOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetTokenBalanceOutput(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchGetTokenBalanceErrorItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tokenBalances: (json['tokenBalances'] as List)
+      tokenBalances: ((json['tokenBalances'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetTokenBalanceOutputItem.fromJson(
               e as Map<String, dynamic>))
@@ -792,8 +793,9 @@ class BatchGetTokenBalanceOutputItem {
   factory BatchGetTokenBalanceOutputItem.fromJson(Map<String, dynamic> json) {
     return BatchGetTokenBalanceOutputItem(
       atBlockchainInstant: BlockchainInstant.fromJson(
-          json['atBlockchainInstant'] as Map<String, dynamic>),
-      balance: json['balance'] as String,
+          (json['atBlockchainInstant'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      balance: (json['balance'] as String?) ?? '',
       lastUpdatedTime: json['lastUpdatedTime'] != null
           ? BlockchainInstant.fromJson(
               json['lastUpdatedTime'] as Map<String, dynamic>)
@@ -934,7 +936,7 @@ class ContractIdentifier {
 
   factory ContractIdentifier.fromJson(Map<String, dynamic> json) {
     return ContractIdentifier(
-      contractAddress: json['contractAddress'] as String,
+      contractAddress: (json['contractAddress'] as String?) ?? '',
       network: QueryNetwork.fromString((json['network'] as String)),
     );
   }
@@ -1036,8 +1038,9 @@ class GetAssetContractOutput {
   factory GetAssetContractOutput.fromJson(Map<String, dynamic> json) {
     return GetAssetContractOutput(
       contractIdentifier: ContractIdentifier.fromJson(
-          json['contractIdentifier'] as Map<String, dynamic>),
-      deployerAddress: json['deployerAddress'] as String,
+          (json['contractIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      deployerAddress: (json['deployerAddress'] as String?) ?? '',
       tokenStandard:
           QueryTokenStandard.fromString((json['tokenStandard'] as String)),
       metadata: json['metadata'] != null
@@ -1080,8 +1083,9 @@ class GetTokenBalanceOutput {
   factory GetTokenBalanceOutput.fromJson(Map<String, dynamic> json) {
     return GetTokenBalanceOutput(
       atBlockchainInstant: BlockchainInstant.fromJson(
-          json['atBlockchainInstant'] as Map<String, dynamic>),
-      balance: json['balance'] as String,
+          (json['atBlockchainInstant'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      balance: (json['balance'] as String?) ?? '',
       lastUpdatedTime: json['lastUpdatedTime'] != null
           ? BlockchainInstant.fromJson(
               json['lastUpdatedTime'] as Map<String, dynamic>)
@@ -1123,8 +1127,9 @@ class GetTransactionOutput {
 
   factory GetTransactionOutput.fromJson(Map<String, dynamic> json) {
     return GetTransactionOutput(
-      transaction:
-          Transaction.fromJson(json['transaction'] as Map<String, dynamic>),
+      transaction: Transaction.fromJson(
+          (json['transaction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1150,7 +1155,7 @@ class ListAssetContractsOutput {
 
   factory ListAssetContractsOutput.fromJson(Map<String, dynamic> json) {
     return ListAssetContractsOutput(
-      contracts: (json['contracts'] as List)
+      contracts: ((json['contracts'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetContract.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1183,7 +1188,7 @@ class ListFilteredTransactionEventsOutput {
   factory ListFilteredTransactionEventsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListFilteredTransactionEventsOutput(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => TransactionEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1259,7 +1264,7 @@ class ListTokenBalancesOutput {
 
   factory ListTokenBalancesOutput.fromJson(Map<String, dynamic> json) {
     return ListTokenBalancesOutput(
-      tokenBalances: (json['tokenBalances'] as List)
+      tokenBalances: ((json['tokenBalances'] as List?) ?? const [])
           .nonNulls
           .map((e) => TokenBalance.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1292,7 +1297,7 @@ class ListTransactionEventsOutput {
 
   factory ListTransactionEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListTransactionEventsOutput(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => TransactionEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1324,7 +1329,7 @@ class ListTransactionsOutput {
 
   factory ListTransactionsOutput.fromJson(Map<String, dynamic> json) {
     return ListTransactionsOutput(
-      transactions: (json['transactions'] as List)
+      transactions: ((json['transactions'] as List?) ?? const [])
           .nonNulls
           .map((e) => TransactionOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1411,7 +1416,7 @@ class OwnerIdentifier {
 
   factory OwnerIdentifier.fromJson(Map<String, dynamic> json) {
     return OwnerIdentifier(
-      address: json['address'] as String,
+      address: (json['address'] as String?) ?? '',
     );
   }
 
@@ -1548,8 +1553,9 @@ class TokenBalance {
   factory TokenBalance.fromJson(Map<String, dynamic> json) {
     return TokenBalance(
       atBlockchainInstant: BlockchainInstant.fromJson(
-          json['atBlockchainInstant'] as Map<String, dynamic>),
-      balance: json['balance'] as String,
+          (json['atBlockchainInstant'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      balance: (json['balance'] as String?) ?? '',
       lastUpdatedTime: json['lastUpdatedTime'] != null
           ? BlockchainInstant.fromJson(
               json['lastUpdatedTime'] as Map<String, dynamic>)
@@ -1769,12 +1775,12 @@ class Transaction {
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
       network: QueryNetwork.fromString((json['network'] as String)),
-      numberOfTransactions: json['numberOfTransactions'] as int,
-      to: json['to'] as String,
-      transactionHash: json['transactionHash'] as String,
-      transactionIndex: json['transactionIndex'] as int,
+      numberOfTransactions: (json['numberOfTransactions'] as int?) ?? 0,
+      to: (json['to'] as String?) ?? '',
+      transactionHash: (json['transactionHash'] as String?) ?? '',
+      transactionIndex: (json['transactionIndex'] as int?) ?? 0,
       transactionTimestamp:
-          nonNullableTimeStampFromJson(json['transactionTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['transactionTimestamp'] ?? 0),
       blockHash: json['blockHash'] as String?,
       blockNumber: json['blockNumber'] as String?,
       confirmationStatus: (json['confirmationStatus'] as String?)
@@ -1930,7 +1936,7 @@ class TransactionEvent {
       eventType:
           QueryTransactionEventType.fromString((json['eventType'] as String)),
       network: QueryNetwork.fromString((json['network'] as String)),
-      transactionHash: json['transactionHash'] as String,
+      transactionHash: (json['transactionHash'] as String?) ?? '',
       blockchainInstant: json['blockchainInstant'] != null
           ? BlockchainInstant.fromJson(
               json['blockchainInstant'] as Map<String, dynamic>)
@@ -2021,9 +2027,9 @@ class TransactionOutputItem {
   factory TransactionOutputItem.fromJson(Map<String, dynamic> json) {
     return TransactionOutputItem(
       network: QueryNetwork.fromString((json['network'] as String)),
-      transactionHash: json['transactionHash'] as String,
+      transactionHash: (json['transactionHash'] as String?) ?? '',
       transactionTimestamp:
-          nonNullableTimeStampFromJson(json['transactionTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['transactionTimestamp'] ?? 0),
       confirmationStatus: (json['confirmationStatus'] as String?)
           ?.let(ConfirmationStatus.fromString),
       transactionId: json['transactionId'] as String?,

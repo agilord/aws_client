@@ -546,16 +546,17 @@ class ReportDefinition {
 
   factory ReportDefinition.fromJson(Map<String, dynamic> json) {
     return ReportDefinition(
-      additionalSchemaElements: (json['AdditionalSchemaElements'] as List)
-          .nonNulls
-          .map((e) => SchemaElement.fromString((e as String)))
-          .toList(),
+      additionalSchemaElements:
+          ((json['AdditionalSchemaElements'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => SchemaElement.fromString((e as String)))
+              .toList(),
       compression:
           CompressionFormat.fromString((json['Compression'] as String)),
       format: ReportFormat.fromString((json['Format'] as String)),
-      reportName: json['ReportName'] as String,
-      s3Bucket: json['S3Bucket'] as String,
-      s3Prefix: json['S3Prefix'] as String,
+      reportName: (json['ReportName'] as String?) ?? '',
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3Prefix: (json['S3Prefix'] as String?) ?? '',
       s3Region: AWSRegion.fromString((json['S3Region'] as String)),
       timeUnit: TimeUnit.fromString((json['TimeUnit'] as String)),
       additionalArtifacts: (json['AdditionalArtifacts'] as List?)
@@ -706,8 +707,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

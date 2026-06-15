@@ -1355,8 +1355,8 @@ class CreateSolFunctionPackageOutput {
 
   factory CreateSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
     return CreateSolFunctionPackageOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       onboardingState:
           OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
@@ -1413,10 +1413,10 @@ class CreateSolNetworkInstanceOutput {
 
   factory CreateSolNetworkInstanceOutput.fromJson(Map<String, dynamic> json) {
     return CreateSolNetworkInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      nsInstanceName: json['nsInstanceName'] as String,
-      nsdInfoId: json['nsdInfoId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1470,8 +1470,8 @@ class CreateSolNetworkPackageOutput {
 
   factory CreateSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
     return CreateSolNetworkPackageOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       nsdOnboardingState:
           NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
       nsdOperationalState: NsdOperationalState.fromString(
@@ -1603,9 +1603,8 @@ class GetSolFunctionInstanceMetadata {
 
   factory GetSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
     return GetSolFunctionInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -1671,15 +1670,16 @@ class GetSolFunctionInstanceOutput {
 
   factory GetSolFunctionInstanceOutput.fromJson(Map<String, dynamic> json) {
     return GetSolFunctionInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       instantiationState: VnfInstantiationState.fromString(
           (json['instantiationState'] as String)),
       metadata: GetSolFunctionInstanceMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsInstanceId: json['nsInstanceId'] as String,
-      vnfPkgId: json['vnfPkgId'] as String,
-      vnfdId: json['vnfdId'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
+      vnfPkgId: (json['vnfPkgId'] as String?) ?? '',
+      vnfdId: (json['vnfdId'] as String?) ?? '',
       instantiatedVnfInfo: json['instantiatedVnfInfo'] != null
           ? GetSolVnfInfo.fromJson(
               json['instantiatedVnfInfo'] as Map<String, dynamic>)
@@ -1790,9 +1790,8 @@ class GetSolFunctionPackageMetadata {
 
   factory GetSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
     return GetSolFunctionPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       vnfd: json['vnfd'] != null
           ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
           : null,
@@ -1861,8 +1860,8 @@ class GetSolFunctionPackageOutput {
 
   factory GetSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
     return GetSolFunctionPackageOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       onboardingState:
           OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
@@ -1956,9 +1955,8 @@ class GetSolNetworkInstanceMetadata {
 
   factory GetSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -2016,14 +2014,15 @@ class GetSolNetworkInstanceOutput {
 
   factory GetSolNetworkInstanceOutput.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkInstanceOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: GetSolNetworkInstanceMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsInstanceDescription: json['nsInstanceDescription'] as String,
-      nsInstanceName: json['nsInstanceName'] as String,
-      nsdId: json['nsdId'] as String,
-      nsdInfoId: json['nsdInfoId'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsInstanceDescription: (json['nsInstanceDescription'] as String?) ?? '',
+      nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
       lcmOpInfo: json['lcmOpInfo'] != null
           ? LcmOperationInfo.fromJson(json['lcmOpInfo'] as Map<String, dynamic>)
           : null,
@@ -2096,9 +2095,8 @@ class GetSolNetworkOperationMetadata {
 
   factory GetSolNetworkOperationMetadata.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkOperationMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       instantiateMetadata: json['instantiateMetadata'] != null
           ? InstantiateMetadata.fromJson(
               json['instantiateMetadata'] as Map<String, dynamic>)
@@ -2181,7 +2179,7 @@ class GetSolNetworkOperationOutput {
 
   factory GetSolNetworkOperationOutput.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkOperationOutput(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       error: json['error'] != null
           ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
           : null,
@@ -2364,9 +2362,8 @@ class GetSolNetworkPackageMetadata {
 
   factory GetSolNetworkPackageMetadata.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       nsd: json['nsd'] != null
           ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
           : null,
@@ -2436,21 +2433,24 @@ class GetSolNetworkPackageOutput {
 
   factory GetSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
     return GetSolNetworkPackageOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: GetSolNetworkPackageMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsdId: json['nsdId'] as String,
-      nsdName: json['nsdName'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdName: (json['nsdName'] as String?) ?? '',
       nsdOnboardingState:
           NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
       nsdOperationalState: NsdOperationalState.fromString(
           (json['nsdOperationalState'] as String)),
       nsdUsageState:
           NsdUsageState.fromString((json['nsdUsageState'] as String)),
-      nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds:
-          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
+      nsdVersion: (json['nsdVersion'] as String?) ?? '',
+      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2608,7 +2608,7 @@ class InstantiateMetadata {
 
   factory InstantiateMetadata.fromJson(Map<String, dynamic> json) {
     return InstantiateMetadata(
-      nsdInfoId: json['nsdInfoId'] as String,
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
       additionalParamsForNs: json['additionalParamsForNs'] != null
           ? Document.fromJson(
               json['additionalParamsForNs'] as Map<String, dynamic>)
@@ -2646,7 +2646,7 @@ class InstantiateSolNetworkInstanceOutput {
   factory InstantiateSolNetworkInstanceOutput.fromJson(
       Map<String, dynamic> json) {
     return InstantiateSolNetworkInstanceOutput(
-      nsLcmOpOccId: json['nsLcmOpOccId'] as String,
+      nsLcmOpOccId: (json['nsLcmOpOccId'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2675,7 +2675,7 @@ class LcmOperationInfo {
 
   factory LcmOperationInfo.fromJson(Map<String, dynamic> json) {
     return LcmOperationInfo(
-      nsLcmOpOccId: json['nsLcmOpOccId'] as String,
+      nsLcmOpOccId: (json['nsLcmOpOccId'] as String?) ?? '',
     );
   }
 
@@ -2742,14 +2742,15 @@ class ListSolFunctionInstanceInfo {
 
   factory ListSolFunctionInstanceInfo.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionInstanceInfo(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       instantiationState: VnfInstantiationState.fromString(
           (json['instantiationState'] as String)),
       metadata: ListSolFunctionInstanceMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsInstanceId: json['nsInstanceId'] as String,
-      vnfPkgId: json['vnfPkgId'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
+      vnfPkgId: (json['vnfPkgId'] as String?) ?? '',
       instantiatedVnfInfo: json['instantiatedVnfInfo'] != null
           ? GetSolInstantiatedVnfInfo.fromJson(
               json['instantiatedVnfInfo'] as Map<String, dynamic>)
@@ -2798,9 +2799,8 @@ class ListSolFunctionInstanceMetadata {
 
   factory ListSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -2900,8 +2900,8 @@ class ListSolFunctionPackageInfo {
 
   factory ListSolFunctionPackageInfo.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionPackageInfo(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       onboardingState:
           OnboardingState.fromString((json['onboardingState'] as String)),
       operationalState:
@@ -2964,9 +2964,8 @@ class ListSolFunctionPackageMetadata {
 
   factory ListSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -2999,7 +2998,7 @@ class ListSolFunctionPackagesOutput {
 
   factory ListSolFunctionPackagesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolFunctionPackagesOutput(
-      functionPackages: (json['functionPackages'] as List)
+      functionPackages: ((json['functionPackages'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ListSolFunctionPackageInfo.fromJson(e as Map<String, dynamic>))
@@ -3061,15 +3060,16 @@ class ListSolNetworkInstanceInfo {
 
   factory ListSolNetworkInstanceInfo.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkInstanceInfo(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: ListSolNetworkInstanceMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsInstanceDescription: json['nsInstanceDescription'] as String,
-      nsInstanceName: json['nsInstanceName'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsInstanceDescription: (json['nsInstanceDescription'] as String?) ?? '',
+      nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
       nsState: NsState.fromString((json['nsState'] as String)),
-      nsdId: json['nsdId'] as String,
-      nsdInfoId: json['nsdInfoId'] as String,
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
     );
   }
 
@@ -3114,9 +3114,8 @@ class ListSolNetworkInstanceMetadata {
 
   factory ListSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -3204,11 +3203,11 @@ class ListSolNetworkOperationsInfo {
 
   factory ListSolNetworkOperationsInfo.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkOperationsInfo(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       lcmOperationType:
           LcmOperationType.fromString((json['lcmOperationType'] as String)),
-      nsInstanceId: json['nsInstanceId'] as String,
+      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
       operationState:
           NsLcmOperationState.fromString((json['operationState'] as String)),
       error: json['error'] != null
@@ -3275,9 +3274,8 @@ class ListSolNetworkOperationsMetadata {
 
   factory ListSolNetworkOperationsMetadata.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkOperationsMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       nsdInfoId: json['nsdInfoId'] as String?,
       vnfInstanceId: json['vnfInstanceId'] as String?,
     );
@@ -3392,10 +3390,11 @@ class ListSolNetworkPackageInfo {
 
   factory ListSolNetworkPackageInfo.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkPackageInfo(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: ListSolNetworkPackageMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       nsdOnboardingState:
           NsdOnboardingState.fromString((json['nsdOnboardingState'] as String)),
       nsdOperationalState: NsdOperationalState.fromString(
@@ -3463,9 +3462,8 @@ class ListSolNetworkPackageMetadata {
 
   factory ListSolNetworkPackageMetadata.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastModified:
-          nonNullableTimeStampFromJson(json['lastModified'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
@@ -3496,7 +3494,7 @@ class ListSolNetworkPackagesOutput {
 
   factory ListSolNetworkPackagesOutput.fromJson(Map<String, dynamic> json) {
     return ListSolNetworkPackagesOutput(
-      networkPackages: (json['networkPackages'] as List)
+      networkPackages: ((json['networkPackages'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ListSolNetworkPackageInfo.fromJson(e as Map<String, dynamic>))
@@ -3527,8 +3525,9 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3558,8 +3557,9 @@ class ModifyVnfInfoMetadata {
   factory ModifyVnfInfoMetadata.fromJson(Map<String, dynamic> json) {
     return ModifyVnfInfoMetadata(
       vnfConfigurableProperties: Document.fromJson(
-          json['vnfConfigurableProperties'] as Map<String, dynamic>),
-      vnfInstanceId: json['vnfInstanceId'] as String,
+          (json['vnfConfigurableProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfInstanceId: (json['vnfInstanceId'] as String?) ?? '',
     );
   }
 
@@ -3749,7 +3749,7 @@ class ProblemDetails {
 
   factory ProblemDetails.fromJson(Map<String, dynamic> json) {
     return ProblemDetails(
-      detail: json['detail'] as String,
+      detail: (json['detail'] as String?) ?? '',
       title: json['title'] as String?,
     );
   }
@@ -3825,13 +3825,14 @@ class PutSolFunctionPackageContentOutput {
   factory PutSolFunctionPackageContentOutput.fromJson(
       Map<String, dynamic> json) {
     return PutSolFunctionPackageContentOutput(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       metadata: PutSolFunctionPackageContentMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      vnfProductName: json['vnfProductName'] as String,
-      vnfProvider: json['vnfProvider'] as String,
-      vnfdId: json['vnfdId'] as String,
-      vnfdVersion: json['vnfdVersion'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfProductName: (json['vnfProductName'] as String?) ?? '',
+      vnfProvider: (json['vnfProvider'] as String?) ?? '',
+      vnfdId: (json['vnfdId'] as String?) ?? '',
+      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
     );
   }
 
@@ -3917,15 +3918,18 @@ class PutSolNetworkPackageContentOutput {
   factory PutSolNetworkPackageContentOutput.fromJson(
       Map<String, dynamic> json) {
     return PutSolNetworkPackageContentOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: PutSolNetworkPackageContentMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsdId: json['nsdId'] as String,
-      nsdName: json['nsdName'] as String,
-      nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds:
-          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdName: (json['nsdName'] as String?) ?? '',
+      nsdVersion: (json['nsdVersion'] as String?) ?? '',
+      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4073,7 +4077,7 @@ class UpdateNsMetadata {
 
   factory UpdateNsMetadata.fromJson(Map<String, dynamic> json) {
     return UpdateNsMetadata(
-      nsdInfoId: json['nsdInfoId'] as String,
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
       additionalParamsForNs: json['additionalParamsForNs'] != null
           ? Document.fromJson(
               json['additionalParamsForNs'] as Map<String, dynamic>)
@@ -4317,13 +4321,14 @@ class ValidateSolFunctionPackageContentOutput {
   factory ValidateSolFunctionPackageContentOutput.fromJson(
       Map<String, dynamic> json) {
     return ValidateSolFunctionPackageContentOutput(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       metadata: ValidateSolFunctionPackageContentMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      vnfProductName: json['vnfProductName'] as String,
-      vnfProvider: json['vnfProvider'] as String,
-      vnfdId: json['vnfdId'] as String,
-      vnfdVersion: json['vnfdVersion'] as String,
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfProductName: (json['vnfProductName'] as String?) ?? '',
+      vnfProvider: (json['vnfProvider'] as String?) ?? '',
+      vnfdId: (json['vnfdId'] as String?) ?? '',
+      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
     );
   }
 
@@ -4409,15 +4414,18 @@ class ValidateSolNetworkPackageContentOutput {
   factory ValidateSolNetworkPackageContentOutput.fromJson(
       Map<String, dynamic> json) {
     return ValidateSolNetworkPackageContentOutput(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       metadata: ValidateSolNetworkPackageContentMetadata.fromJson(
-          json['metadata'] as Map<String, dynamic>),
-      nsdId: json['nsdId'] as String,
-      nsdName: json['nsdName'] as String,
-      nsdVersion: json['nsdVersion'] as String,
-      vnfPkgIds:
-          (json['vnfPkgIds'] as List).nonNulls.map((e) => e as String).toList(),
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdName: (json['nsdName'] as String?) ?? '',
+      nsdVersion: (json['nsdVersion'] as String?) ?? '',
+      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 

@@ -450,7 +450,7 @@ class CreateSpaceOutput {
 
   factory CreateSpaceOutput.fromJson(Map<String, dynamic> json) {
     return CreateSpaceOutput(
-      spaceId: json['spaceId'] as String,
+      spaceId: (json['spaceId'] as String?) ?? '',
     );
   }
 
@@ -550,19 +550,18 @@ class GetSpaceOutput {
 
   factory GetSpaceOutput.fromJson(Map<String, dynamic> json) {
     return GetSpaceOutput(
-      arn: json['arn'] as String,
-      clientId: json['clientId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      clientId: (json['clientId'] as String?) ?? '',
       configurationStatus: ConfigurationStatus.fromString(
           (json['configurationStatus'] as String)),
-      createDateTime:
-          nonNullableTimeStampFromJson(json['createDateTime'] as Object),
-      name: json['name'] as String,
-      randomDomain: json['randomDomain'] as String,
-      spaceId: json['spaceId'] as String,
-      status: json['status'] as String,
-      storageLimit: json['storageLimit'] as int,
+      createDateTime: nonNullableTimeStampFromJson(json['createDateTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      randomDomain: (json['randomDomain'] as String?) ?? '',
+      spaceId: (json['spaceId'] as String?) ?? '',
+      status: (json['status'] as String?) ?? '',
+      storageLimit: (json['storageLimit'] as int?) ?? 0,
       tier: TierLevel.fromString((json['tier'] as String)),
-      vanityDomain: json['vanityDomain'] as String,
+      vanityDomain: (json['vanityDomain'] as String?) ?? '',
       vanityDomainStatus:
           VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
       contentSize: json['contentSize'] as int?,
@@ -644,7 +643,7 @@ class ListSpacesOutput {
 
   factory ListSpacesOutput.fromJson(Map<String, dynamic> json) {
     return ListSpacesOutput(
-      spaces: (json['spaces'] as List)
+      spaces: ((json['spaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => SpaceData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -759,18 +758,17 @@ class SpaceData {
 
   factory SpaceData.fromJson(Map<String, dynamic> json) {
     return SpaceData(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       configurationStatus: ConfigurationStatus.fromString(
           (json['configurationStatus'] as String)),
-      createDateTime:
-          nonNullableTimeStampFromJson(json['createDateTime'] as Object),
-      name: json['name'] as String,
-      randomDomain: json['randomDomain'] as String,
-      spaceId: json['spaceId'] as String,
-      status: json['status'] as String,
-      storageLimit: json['storageLimit'] as int,
+      createDateTime: nonNullableTimeStampFromJson(json['createDateTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      randomDomain: (json['randomDomain'] as String?) ?? '',
+      spaceId: (json['spaceId'] as String?) ?? '',
+      status: (json['status'] as String?) ?? '',
+      storageLimit: (json['storageLimit'] as int?) ?? 0,
       tier: TierLevel.fromString((json['tier'] as String)),
-      vanityDomain: json['vanityDomain'] as String,
+      vanityDomain: (json['vanityDomain'] as String?) ?? '',
       vanityDomainStatus:
           VanityDomainStatus.fromString((json['vanityDomainStatus'] as String)),
       contentSize: json['contentSize'] as int?,

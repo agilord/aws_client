@@ -33,7 +33,7 @@ DateTime? timeStampFromJson(Object? date) {
   return nonNullableTimeStampFromJson(date);
 }
 
-DateTime nonNullableTimeStampFromJson(Object date) {
+DateTime nonNullableTimeStampFromJson(dynamic date) {
   if (date is num) {
     // unix timestamp (number)
     return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000,

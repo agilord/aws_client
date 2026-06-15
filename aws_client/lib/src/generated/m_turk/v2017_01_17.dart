@@ -3581,7 +3581,7 @@ class Locale {
 
   factory Locale.fromJson(Map<String, dynamic> json) {
     return Locale(
-      country: json['Country'] as String,
+      country: (json['Country'] as String?) ?? '',
       subdivision: json['Subdivision'] as String?,
     );
   }
@@ -4046,7 +4046,7 @@ class QualificationRequirement {
   factory QualificationRequirement.fromJson(Map<String, dynamic> json) {
     return QualificationRequirement(
       comparator: Comparator.fromString((json['Comparator'] as String)),
-      qualificationTypeId: json['QualificationTypeId'] as String,
+      qualificationTypeId: (json['QualificationTypeId'] as String?) ?? '',
       actionsGuarded:
           (json['ActionsGuarded'] as String?)?.let(HITAccessActions.fromString),
       integerValues: (json['IntegerValues'] as List?)
@@ -4386,7 +4386,7 @@ class ReviewPolicy {
 
   factory ReviewPolicy.fromJson(Map<String, dynamic> json) {
     return ReviewPolicy(
-      policyName: json['PolicyName'] as String,
+      policyName: (json['PolicyName'] as String?) ?? '',
       parameters: (json['Parameters'] as List?)
           ?.nonNulls
           .map((e) => PolicyParameter.fromJson(e as Map<String, dynamic>))

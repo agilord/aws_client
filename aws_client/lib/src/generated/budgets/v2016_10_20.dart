@@ -1372,20 +1372,22 @@ class Action {
 
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
-      actionId: json['ActionId'] as String,
+      actionId: (json['ActionId'] as String?) ?? '',
       actionThreshold: ActionThreshold.fromJson(
-          json['ActionThreshold'] as Map<String, dynamic>),
+          (json['ActionThreshold'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       actionType: ActionType.fromString((json['ActionType'] as String)),
       approvalModel:
           ApprovalModel.fromString((json['ApprovalModel'] as String)),
-      budgetName: json['BudgetName'] as String,
-      definition:
-          Definition.fromJson(json['Definition'] as Map<String, dynamic>),
-      executionRoleArn: json['ExecutionRoleArn'] as String,
+      budgetName: (json['BudgetName'] as String?) ?? '',
+      definition: Definition.fromJson(
+          (json['Definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       notificationType:
           NotificationType.fromString((json['NotificationType'] as String)),
       status: ActionStatus.fromString((json['Status'] as String)),
-      subscribers: (json['Subscribers'] as List)
+      subscribers: ((json['Subscribers'] as List?) ?? const [])
           .nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1441,10 +1443,11 @@ class ActionHistory {
   factory ActionHistory.fromJson(Map<String, dynamic> json) {
     return ActionHistory(
       actionHistoryDetails: ActionHistoryDetails.fromJson(
-          json['ActionHistoryDetails'] as Map<String, dynamic>),
+          (json['ActionHistoryDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       eventType: EventType.fromString((json['EventType'] as String)),
       status: ActionStatus.fromString((json['Status'] as String)),
-      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
     );
   }
 
@@ -1475,8 +1478,9 @@ class ActionHistoryDetails {
 
   factory ActionHistoryDetails.fromJson(Map<String, dynamic> json) {
     return ActionHistoryDetails(
-      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
-      message: json['Message'] as String,
+      action: Action.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      message: (json['Message'] as String?) ?? '',
     );
   }
 
@@ -1542,7 +1546,7 @@ class ActionThreshold {
     return ActionThreshold(
       actionThresholdType:
           ThresholdType.fromString((json['ActionThresholdType'] as String)),
-      actionThresholdValue: json['ActionThresholdValue'] as double,
+      actionThresholdValue: (json['ActionThresholdValue'] as double?) ?? 0,
     );
   }
 
@@ -1799,7 +1803,7 @@ class Budget {
 
   factory Budget.fromJson(Map<String, dynamic> json) {
     return Budget(
-      budgetName: json['BudgetName'] as String,
+      budgetName: (json['BudgetName'] as String?) ?? '',
       budgetType: BudgetType.fromString((json['BudgetType'] as String)),
       timeUnit: TimeUnit.fromString((json['TimeUnit'] as String)),
       autoAdjustData: json['AutoAdjustData'] != null
@@ -2044,7 +2048,9 @@ class CalculatedSpend {
 
   factory CalculatedSpend.fromJson(Map<String, dynamic> json) {
     return CalculatedSpend(
-      actualSpend: Spend.fromJson(json['ActualSpend'] as Map<String, dynamic>),
+      actualSpend: Spend.fromJson(
+          (json['ActualSpend'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       forecastedSpend: json['ForecastedSpend'] != null
           ? Spend.fromJson(json['ForecastedSpend'] as Map<String, dynamic>)
           : null,
@@ -2219,9 +2225,9 @@ class CreateBudgetActionResponse {
 
   factory CreateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return CreateBudgetActionResponse(
-      accountId: json['AccountId'] as String,
-      actionId: json['ActionId'] as String,
-      budgetName: json['BudgetName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      actionId: (json['ActionId'] as String?) ?? '',
+      budgetName: (json['BudgetName'] as String?) ?? '',
     );
   }
 
@@ -2338,9 +2344,10 @@ class DeleteBudgetActionResponse {
 
   factory DeleteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteBudgetActionResponse(
-      accountId: json['AccountId'] as String,
-      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
-      budgetName: json['BudgetName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      action: Action.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      budgetName: (json['BudgetName'] as String?) ?? '',
     );
   }
 
@@ -2408,7 +2415,7 @@ class DescribeBudgetActionHistoriesResponse {
   factory DescribeBudgetActionHistoriesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionHistoriesResponse(
-      actionHistories: (json['ActionHistories'] as List)
+      actionHistories: ((json['ActionHistories'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActionHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2441,9 +2448,10 @@ class DescribeBudgetActionResponse {
 
   factory DescribeBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBudgetActionResponse(
-      accountId: json['AccountId'] as String,
-      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
-      budgetName: json['BudgetName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      action: Action.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      budgetName: (json['BudgetName'] as String?) ?? '',
     );
   }
 
@@ -2472,7 +2480,7 @@ class DescribeBudgetActionsForAccountResponse {
   factory DescribeBudgetActionsForAccountResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForAccountResponse(
-      actions: (json['Actions'] as List)
+      actions: ((json['Actions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2503,7 +2511,7 @@ class DescribeBudgetActionsForBudgetResponse {
   factory DescribeBudgetActionsForBudgetResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeBudgetActionsForBudgetResponse(
-      actions: (json['Actions'] as List)
+      actions: ((json['Actions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2759,9 +2767,9 @@ class ExecuteBudgetActionResponse {
 
   factory ExecuteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return ExecuteBudgetActionResponse(
-      accountId: json['AccountId'] as String,
-      actionId: json['ActionId'] as String,
-      budgetName: json['BudgetName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      actionId: (json['ActionId'] as String?) ?? '',
+      budgetName: (json['BudgetName'] as String?) ?? '',
       executionType:
           ExecutionType.fromString((json['ExecutionType'] as String)),
     );
@@ -2849,7 +2857,7 @@ class HistoricalOptions {
 
   factory HistoricalOptions.fromJson(Map<String, dynamic> json) {
     return HistoricalOptions(
-      budgetAdjustmentPeriod: json['BudgetAdjustmentPeriod'] as int,
+      budgetAdjustmentPeriod: (json['BudgetAdjustmentPeriod'] as int?) ?? 0,
       lookBackAvailablePeriods: json['LookBackAvailablePeriods'] as int?,
     );
   }
@@ -2888,7 +2896,7 @@ class IamActionDefinition {
 
   factory IamActionDefinition.fromJson(Map<String, dynamic> json) {
     return IamActionDefinition(
-      policyArn: json['PolicyArn'] as String,
+      policyArn: (json['PolicyArn'] as String?) ?? '',
       groups:
           (json['Groups'] as List?)?.nonNulls.map((e) => e as String).toList(),
       roles:
@@ -3006,7 +3014,7 @@ class Notification {
           ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
       notificationType:
           NotificationType.fromString((json['NotificationType'] as String)),
-      threshold: json['Threshold'] as double,
+      threshold: (json['Threshold'] as double?) ?? 0,
       notificationState: (json['NotificationState'] as String?)
           ?.let(NotificationState.fromString),
       thresholdType:
@@ -3101,8 +3109,8 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -3131,9 +3139,11 @@ class ScpActionDefinition {
 
   factory ScpActionDefinition.fromJson(Map<String, dynamic> json) {
     return ScpActionDefinition(
-      policyId: json['PolicyId'] as String,
-      targetIds:
-          (json['TargetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      policyId: (json['PolicyId'] as String?) ?? '',
+      targetIds: ((json['TargetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -3187,8 +3197,8 @@ class Spend {
 
   factory Spend.fromJson(Map<String, dynamic> json) {
     return Spend(
-      amount: json['Amount'] as String,
-      unit: json['Unit'] as String,
+      amount: (json['Amount'] as String?) ?? '',
+      unit: (json['Unit'] as String?) ?? '',
     );
   }
 
@@ -3223,11 +3233,11 @@ class SsmActionDefinition {
     return SsmActionDefinition(
       actionSubType:
           ActionSubType.fromString((json['ActionSubType'] as String)),
-      instanceIds: (json['InstanceIds'] as List)
+      instanceIds: ((json['InstanceIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      region: json['Region'] as String,
+      region: (json['Region'] as String?) ?? '',
     );
   }
 
@@ -3274,7 +3284,7 @@ class Subscriber {
 
   factory Subscriber.fromJson(Map<String, dynamic> json) {
     return Subscriber(
-      address: json['Address'] as String,
+      address: (json['Address'] as String?) ?? '',
       subscriptionType:
           SubscriptionType.fromString((json['SubscriptionType'] as String)),
     );
@@ -3429,10 +3439,12 @@ class UpdateBudgetActionResponse {
 
   factory UpdateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateBudgetActionResponse(
-      accountId: json['AccountId'] as String,
-      budgetName: json['BudgetName'] as String,
-      newAction: Action.fromJson(json['NewAction'] as Map<String, dynamic>),
-      oldAction: Action.fromJson(json['OldAction'] as Map<String, dynamic>),
+      accountId: (json['AccountId'] as String?) ?? '',
+      budgetName: (json['BudgetName'] as String?) ?? '',
+      newAction: Action.fromJson((json['NewAction'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      oldAction: Action.fromJson((json['OldAction'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 

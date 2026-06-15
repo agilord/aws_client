@@ -2698,11 +2698,11 @@ class ApplicationDetail {
 
   factory ApplicationDetail.fromJson(Map<String, dynamic> json) {
     return ApplicationDetail(
-      applicationARN: json['ApplicationARN'] as String,
-      applicationName: json['ApplicationName'] as String,
+      applicationARN: (json['ApplicationARN'] as String?) ?? '',
+      applicationName: (json['ApplicationName'] as String?) ?? '',
       applicationStatus:
           ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
-      applicationVersionId: json['ApplicationVersionId'] as int,
+      applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
       runtimeEnvironment:
           RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
       applicationConfigurationDescription:
@@ -2820,9 +2820,9 @@ class ApplicationMaintenanceConfigurationDescription {
       Map<String, dynamic> json) {
     return ApplicationMaintenanceConfigurationDescription(
       applicationMaintenanceWindowEndTime:
-          json['ApplicationMaintenanceWindowEndTime'] as String,
+          (json['ApplicationMaintenanceWindowEndTime'] as String?) ?? '',
       applicationMaintenanceWindowStartTime:
-          json['ApplicationMaintenanceWindowStartTime'] as String,
+          (json['ApplicationMaintenanceWindowStartTime'] as String?) ?? '',
     );
   }
 
@@ -2945,11 +2945,11 @@ class ApplicationOperationInfoDetails {
 
   factory ApplicationOperationInfoDetails.fromJson(Map<String, dynamic> json) {
     return ApplicationOperationInfoDetails(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      operation: json['Operation'] as String,
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      operation: (json['Operation'] as String?) ?? '',
       operationStatus:
           OperationStatus.fromString((json['OperationStatus'] as String)),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       applicationVersionChangeDetails:
           json['ApplicationVersionChangeDetails'] != null
               ? ApplicationVersionChangeDetails.fromJson(
@@ -3068,7 +3068,7 @@ class ApplicationSnapshotConfigurationDescription {
   factory ApplicationSnapshotConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ApplicationSnapshotConfigurationDescription(
-      snapshotsEnabled: json['SnapshotsEnabled'] as bool,
+      snapshotsEnabled: (json['SnapshotsEnabled'] as bool?) ?? false,
     );
   }
 
@@ -3156,11 +3156,11 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      applicationARN: json['ApplicationARN'] as String,
-      applicationName: json['ApplicationName'] as String,
+      applicationARN: (json['ApplicationARN'] as String?) ?? '',
+      applicationName: (json['ApplicationName'] as String?) ?? '',
       applicationStatus:
           ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
-      applicationVersionId: json['ApplicationVersionId'] as int,
+      applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
       runtimeEnvironment:
           RuntimeEnvironment.fromString((json['RuntimeEnvironment'] as String)),
       applicationMode:
@@ -3219,7 +3219,7 @@ class ApplicationSystemRollbackConfigurationDescription {
   factory ApplicationSystemRollbackConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ApplicationSystemRollbackConfigurationDescription(
-      rollbackEnabled: json['RollbackEnabled'] as bool,
+      rollbackEnabled: (json['RollbackEnabled'] as bool?) ?? false,
     );
   }
 
@@ -3268,8 +3268,9 @@ class ApplicationVersionChangeDetails {
   factory ApplicationVersionChangeDetails.fromJson(Map<String, dynamic> json) {
     return ApplicationVersionChangeDetails(
       applicationVersionUpdatedFrom:
-          json['ApplicationVersionUpdatedFrom'] as int,
-      applicationVersionUpdatedTo: json['ApplicationVersionUpdatedTo'] as int,
+          (json['ApplicationVersionUpdatedFrom'] as int?) ?? 0,
+      applicationVersionUpdatedTo:
+          (json['ApplicationVersionUpdatedTo'] as int?) ?? 0,
     );
   }
 
@@ -3301,7 +3302,7 @@ class ApplicationVersionSummary {
     return ApplicationVersionSummary(
       applicationStatus:
           ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
-      applicationVersionId: json['ApplicationVersionId'] as int,
+      applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
     );
   }
 
@@ -3355,8 +3356,8 @@ class CSVMappingParameters {
 
   factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
     return CSVMappingParameters(
-      recordColumnDelimiter: json['RecordColumnDelimiter'] as String,
-      recordRowDelimiter: json['RecordRowDelimiter'] as String,
+      recordColumnDelimiter: (json['RecordColumnDelimiter'] as String?) ?? '',
+      recordRowDelimiter: (json['RecordRowDelimiter'] as String?) ?? '',
     );
   }
 
@@ -3409,8 +3410,9 @@ class CatalogConfigurationDescription {
     return CatalogConfigurationDescription(
       glueDataCatalogConfigurationDescription:
           GlueDataCatalogConfigurationDescription.fromJson(
-              json['GlueDataCatalogConfigurationDescription']
-                  as Map<String, dynamic>),
+              (json['GlueDataCatalogConfigurationDescription']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -3748,7 +3750,7 @@ class CloudWatchLoggingOptionDescription {
   factory CloudWatchLoggingOptionDescription.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchLoggingOptionDescription(
-      logStreamARN: json['LogStreamARN'] as String,
+      logStreamARN: (json['LogStreamARN'] as String?) ?? '',
       cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String?,
       roleARN: json['RoleARN'] as String?,
     );
@@ -3976,7 +3978,8 @@ class CreateApplicationResponse {
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
-          json['ApplicationDetail'] as Map<String, dynamic>),
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4324,7 +4327,8 @@ class DeployAsApplicationConfigurationDescription {
       Map<String, dynamic> json) {
     return DeployAsApplicationConfigurationDescription(
       s3ContentLocationDescription: S3ContentBaseLocationDescription.fromJson(
-          json['S3ContentLocationDescription'] as Map<String, dynamic>),
+          (json['S3ContentLocationDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4399,7 +4403,8 @@ class DescribeApplicationResponse {
   factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
-          json['ApplicationDetail'] as Map<String, dynamic>),
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4423,7 +4428,8 @@ class DescribeApplicationSnapshotResponse {
       Map<String, dynamic> json) {
     return DescribeApplicationSnapshotResponse(
       snapshotDetails: SnapshotDetails.fromJson(
-          json['SnapshotDetails'] as Map<String, dynamic>),
+          (json['SnapshotDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4859,7 +4865,7 @@ class GlueDataCatalogConfigurationDescription {
   factory GlueDataCatalogConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return GlueDataCatalogConfigurationDescription(
-      databaseARN: json['DatabaseARN'] as String,
+      databaseARN: (json['DatabaseARN'] as String?) ?? '',
     );
   }
 
@@ -5140,7 +5146,7 @@ class InputLambdaProcessorDescription {
 
   factory InputLambdaProcessorDescription.fromJson(Map<String, dynamic> json) {
     return InputLambdaProcessorDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -5472,7 +5478,7 @@ class JSONMappingParameters {
 
   factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
     return JSONMappingParameters(
-      recordRowPath: json['RecordRowPath'] as String,
+      recordRowPath: (json['RecordRowPath'] as String?) ?? '',
     );
   }
 
@@ -5525,7 +5531,7 @@ class KinesisFirehoseInputDescription {
 
   factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseInputDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -5601,7 +5607,7 @@ class KinesisFirehoseOutputDescription {
 
   factory KinesisFirehoseOutputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseOutputDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -5677,7 +5683,7 @@ class KinesisStreamsInputDescription {
 
   factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisStreamsInputDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -5752,7 +5758,7 @@ class KinesisStreamsOutputDescription {
 
   factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) {
     return KinesisStreamsOutputDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -5837,7 +5843,7 @@ class LambdaOutputDescription {
 
   factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) {
     return LambdaOutputDescription(
-      resourceARN: json['ResourceARN'] as String,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
       roleARN: json['RoleARN'] as String?,
     );
   }
@@ -6010,7 +6016,8 @@ class ListApplicationsResponse {
 
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
-      applicationSummaries: (json['ApplicationSummaries'] as List)
+      applicationSummaries: ((json['ApplicationSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6132,9 +6139,9 @@ class MavenReference {
 
   factory MavenReference.fromJson(Map<String, dynamic> json) {
     return MavenReference(
-      artifactId: json['ArtifactId'] as String,
-      groupId: json['GroupId'] as String,
-      version: json['Version'] as String,
+      artifactId: (json['ArtifactId'] as String?) ?? '',
+      groupId: (json['GroupId'] as String?) ?? '',
+      version: (json['Version'] as String?) ?? '',
     );
   }
 
@@ -6727,8 +6734,9 @@ class PropertyGroup {
 
   factory PropertyGroup.fromJson(Map<String, dynamic> json) {
     return PropertyGroup(
-      propertyGroupId: json['PropertyGroupId'] as String,
-      propertyMap: (json['PropertyMap'] as Map<String, dynamic>)
+      propertyGroupId: (json['PropertyGroupId'] as String?) ?? '',
+      propertyMap: ((json['PropertyMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -6769,8 +6777,8 @@ class RecordColumn {
 
   factory RecordColumn.fromJson(Map<String, dynamic> json) {
     return RecordColumn(
-      name: json['Name'] as String,
-      sqlType: json['SqlType'] as String,
+      name: (json['Name'] as String?) ?? '',
+      sqlType: (json['SqlType'] as String?) ?? '',
       mapping: json['Mapping'] as String?,
     );
   }
@@ -6908,11 +6916,13 @@ class ReferenceDataSourceDescription {
 
   factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return ReferenceDataSourceDescription(
-      referenceId: json['ReferenceId'] as String,
+      referenceId: (json['ReferenceId'] as String?) ?? '',
       s3ReferenceDataSourceDescription:
           S3ReferenceDataSourceDescription.fromJson(
-              json['S3ReferenceDataSourceDescription'] as Map<String, dynamic>),
-      tableName: json['TableName'] as String,
+              (json['S3ReferenceDataSourceDescription']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      tableName: (json['TableName'] as String?) ?? '',
       referenceSchema: json['ReferenceSchema'] != null
           ? SourceSchema.fromJson(
               json['ReferenceSchema'] as Map<String, dynamic>)
@@ -6995,7 +7005,8 @@ class RollbackApplicationResponse {
   factory RollbackApplicationResponse.fromJson(Map<String, dynamic> json) {
     return RollbackApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
-          json['ApplicationDetail'] as Map<String, dynamic>),
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operationId: json['OperationId'] as String?,
     );
   }
@@ -7165,8 +7176,8 @@ class S3ApplicationCodeLocationDescription {
   factory S3ApplicationCodeLocationDescription.fromJson(
       Map<String, dynamic> json) {
     return S3ApplicationCodeLocationDescription(
-      bucketARN: json['BucketARN'] as String,
-      fileKey: json['FileKey'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      fileKey: (json['FileKey'] as String?) ?? '',
       objectVersion: json['ObjectVersion'] as String?,
     );
   }
@@ -7246,7 +7257,7 @@ class S3ContentBaseLocationDescription {
 
   factory S3ContentBaseLocationDescription.fromJson(Map<String, dynamic> json) {
     return S3ContentBaseLocationDescription(
-      bucketARN: json['BucketARN'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
       basePath: json['BasePath'] as String?,
     );
   }
@@ -7308,8 +7319,8 @@ class S3ContentLocation {
 
   factory S3ContentLocation.fromJson(Map<String, dynamic> json) {
     return S3ContentLocation(
-      bucketARN: json['BucketARN'] as String,
-      fileKey: json['FileKey'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      fileKey: (json['FileKey'] as String?) ?? '',
       objectVersion: json['ObjectVersion'] as String?,
     );
   }
@@ -7413,8 +7424,8 @@ class S3ReferenceDataSourceDescription {
 
   factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return S3ReferenceDataSourceDescription(
-      bucketARN: json['BucketARN'] as String,
-      fileKey: json['FileKey'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      fileKey: (json['FileKey'] as String?) ?? '',
       referenceRoleARN: json['ReferenceRoleARN'] as String?,
     );
   }
@@ -7482,8 +7493,8 @@ class SnapshotDetails {
 
   factory SnapshotDetails.fromJson(Map<String, dynamic> json) {
     return SnapshotDetails(
-      applicationVersionId: json['ApplicationVersionId'] as int,
-      snapshotName: json['SnapshotName'] as String,
+      applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
+      snapshotName: (json['SnapshotName'] as String?) ?? '',
       snapshotStatus:
           SnapshotStatus.fromString((json['SnapshotStatus'] as String)),
       runtimeEnvironment: (json['RuntimeEnvironment'] as String?)
@@ -7551,12 +7562,13 @@ class SourceSchema {
 
   factory SourceSchema.fromJson(Map<String, dynamic> json) {
     return SourceSchema(
-      recordColumns: (json['RecordColumns'] as List)
+      recordColumns: ((json['RecordColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
-      recordFormat:
-          RecordFormat.fromJson(json['RecordFormat'] as Map<String, dynamic>),
+      recordFormat: RecordFormat.fromJson(
+          (json['RecordFormat'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       recordEncoding: json['RecordEncoding'] as String?,
     );
   }
@@ -7788,7 +7800,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -7881,7 +7893,8 @@ class UpdateApplicationResponse {
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
-          json['ApplicationDetail'] as Map<String, dynamic>),
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operationId: json['OperationId'] as String?,
     );
   }
@@ -7964,14 +7977,16 @@ class VpcConfigurationDescription {
 
   factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
     return VpcConfigurationDescription(
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcConfigurationId: json['VpcConfigurationId'] as String,
-      vpcId: json['VpcId'] as String,
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcConfigurationId: (json['VpcConfigurationId'] as String?) ?? '',
+      vpcId: (json['VpcId'] as String?) ?? '',
     );
   }
 
@@ -8098,8 +8113,9 @@ class ZeppelinApplicationConfigurationDescription {
     return ZeppelinApplicationConfigurationDescription(
       monitoringConfigurationDescription:
           ZeppelinMonitoringConfigurationDescription.fromJson(
-              json['MonitoringConfigurationDescription']
-                  as Map<String, dynamic>),
+              (json['MonitoringConfigurationDescription']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       catalogConfigurationDescription:
           json['CatalogConfigurationDescription'] != null
               ? CatalogConfigurationDescription.fromJson(

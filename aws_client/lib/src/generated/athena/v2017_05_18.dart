@@ -3630,7 +3630,7 @@ class CapacityAllocation {
 
   factory CapacityAllocation.fromJson(Map<String, dynamic> json) {
     return CapacityAllocation(
-      requestTime: nonNullableTimeStampFromJson(json['RequestTime'] as Object),
+      requestTime: nonNullableTimeStampFromJson(json['RequestTime'] ?? 0),
       status: CapacityAllocationStatus.fromString((json['Status'] as String)),
       requestCompletionTime: timeStampFromJson(json['RequestCompletionTime']),
       statusMessage: json['StatusMessage'] as String?,
@@ -3770,12 +3770,11 @@ class CapacityReservation {
 
   factory CapacityReservation.fromJson(Map<String, dynamic> json) {
     return CapacityReservation(
-      allocatedDpus: json['AllocatedDpus'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      name: json['Name'] as String,
+      allocatedDpus: (json['AllocatedDpus'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
       status: CapacityReservationStatus.fromString((json['Status'] as String)),
-      targetDpus: json['TargetDpus'] as int,
+      targetDpus: (json['TargetDpus'] as int?) ?? 0,
       lastAllocation: json['LastAllocation'] != null
           ? CapacityAllocation.fromJson(
               json['LastAllocation'] as Map<String, dynamic>)
@@ -3845,7 +3844,7 @@ class Column {
 
   factory Column.fromJson(Map<String, dynamic> json) {
     return Column(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       comment: json['Comment'] as String?,
       type: json['Type'] as String?,
     );
@@ -3912,8 +3911,8 @@ class ColumnInfo {
 
   factory ColumnInfo.fromJson(Map<String, dynamic> json) {
     return ColumnInfo(
-      name: json['Name'] as String,
-      type: json['Type'] as String,
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
       caseSensitive: json['CaseSensitive'] as bool?,
       catalogName: json['CatalogName'] as String?,
       label: json['Label'] as String?,
@@ -4067,9 +4066,9 @@ class CreatePresignedNotebookUrlResponse {
   factory CreatePresignedNotebookUrlResponse.fromJson(
       Map<String, dynamic> json) {
     return CreatePresignedNotebookUrlResponse(
-      authToken: json['AuthToken'] as String,
-      authTokenExpirationTime: json['AuthTokenExpirationTime'] as int,
-      notebookUrl: json['NotebookUrl'] as String,
+      authToken: (json['AuthToken'] as String?) ?? '',
+      authTokenExpirationTime: (json['AuthTokenExpirationTime'] as int?) ?? 0,
+      notebookUrl: (json['NotebookUrl'] as String?) ?? '',
     );
   }
 
@@ -4112,7 +4111,7 @@ class CustomerContentEncryptionConfiguration {
   factory CustomerContentEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return CustomerContentEncryptionConfiguration(
-      kmsKey: json['KmsKey'] as String,
+      kmsKey: (json['KmsKey'] as String?) ?? '',
     );
   }
 
@@ -4203,7 +4202,7 @@ class DataCatalog {
 
   factory DataCatalog.fromJson(Map<String, dynamic> json) {
     return DataCatalog(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: DataCatalogType.fromString((json['Type'] as String)),
       description: json['Description'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)
@@ -4294,7 +4293,7 @@ class Database {
 
   factory Database.fromJson(Map<String, dynamic> json) {
     return Database(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4504,7 +4503,7 @@ class EngineConfiguration {
 
   factory EngineConfiguration.fromJson(Map<String, dynamic> json) {
     return EngineConfiguration(
-      maxConcurrentDpus: json['MaxConcurrentDpus'] as int,
+      maxConcurrentDpus: (json['MaxConcurrentDpus'] as int?) ?? 0,
       additionalConfigs: (json['AdditionalConfigs'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       coordinatorDpuSize: json['CoordinatorDpuSize'] as int?,
@@ -4654,7 +4653,7 @@ class ExecutorsSummary {
 
   factory ExecutorsSummary.fromJson(Map<String, dynamic> json) {
     return ExecutorsSummary(
-      executorId: json['ExecutorId'] as String,
+      executorId: (json['ExecutorId'] as String?) ?? '',
       executorSize: json['ExecutorSize'] as int?,
       executorState:
           (json['ExecutorState'] as String?)?.let(ExecutorState.fromString),
@@ -4879,7 +4878,8 @@ class GetCapacityAssignmentConfigurationOutput {
       Map<String, dynamic> json) {
     return GetCapacityAssignmentConfigurationOutput(
       capacityAssignmentConfiguration: CapacityAssignmentConfiguration.fromJson(
-          json['CapacityAssignmentConfiguration'] as Map<String, dynamic>),
+          (json['CapacityAssignmentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4903,7 +4903,8 @@ class GetCapacityReservationOutput {
   factory GetCapacityReservationOutput.fromJson(Map<String, dynamic> json) {
     return GetCapacityReservationOutput(
       capacityReservation: CapacityReservation.fromJson(
-          json['CapacityReservation'] as Map<String, dynamic>),
+          (json['CapacityReservation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5446,7 +5447,8 @@ class ListCapacityReservationsOutput {
 
   factory ListCapacityReservationsOutput.fromJson(Map<String, dynamic> json) {
     return ListCapacityReservationsOutput(
-      capacityReservations: (json['CapacityReservations'] as List)
+      capacityReservations: ((json['CapacityReservations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => CapacityReservation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5591,7 +5593,7 @@ class ListExecutorsResponse {
 
   factory ListExecutorsResponse.fromJson(Map<String, dynamic> json) {
     return ListExecutorsResponse(
-      sessionId: json['SessionId'] as String,
+      sessionId: (json['SessionId'] as String?) ?? '',
       executorsSummary: (json['ExecutorsSummary'] as List?)
           ?.nonNulls
           .map((e) => ExecutorsSummary.fromJson(e as Map<String, dynamic>))
@@ -5700,7 +5702,8 @@ class ListNotebookSessionsResponse {
 
   factory ListNotebookSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListNotebookSessionsResponse(
-      notebookSessionsList: (json['NotebookSessionsList'] as List)
+      notebookSessionsList: ((json['NotebookSessionsList'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => NotebookSessionSummary.fromJson(e as Map<String, dynamic>))
@@ -5957,9 +5960,9 @@ class NamedQuery {
 
   factory NamedQuery.fromJson(Map<String, dynamic> json) {
     return NamedQuery(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      queryString: json['QueryString'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      queryString: (json['QueryString'] as String?) ?? '',
       description: json['Description'] as String?,
       namedQueryId: json['NamedQueryId'] as String?,
       workGroup: json['WorkGroup'] as String?,
@@ -6591,7 +6594,7 @@ class QueryResultsS3AccessGrantsConfiguration {
     return QueryResultsS3AccessGrantsConfiguration(
       authenticationType:
           AuthenticationType.fromString((json['AuthenticationType'] as String)),
-      enableS3AccessGrants: json['EnableS3AccessGrants'] as bool,
+      enableS3AccessGrants: (json['EnableS3AccessGrants'] as bool?) ?? false,
       createUserLevelPrefix: json['CreateUserLevelPrefix'] as bool?,
     );
   }
@@ -7147,7 +7150,7 @@ class ResultReuseByAgeConfiguration {
 
   factory ResultReuseByAgeConfiguration.fromJson(Map<String, dynamic> json) {
     return ResultReuseByAgeConfiguration(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       maxAgeInMinutes: json['MaxAgeInMinutes'] as int?,
     );
   }
@@ -7204,7 +7207,7 @@ class ResultReuseInformation {
 
   factory ResultReuseInformation.fromJson(Map<String, dynamic> json) {
     return ResultReuseInformation(
-      reusedPreviousResult: json['ReusedPreviousResult'] as bool,
+      reusedPreviousResult: (json['ReusedPreviousResult'] as bool?) ?? false,
     );
   }
 
@@ -7777,7 +7780,7 @@ class TableMetadata {
 
   factory TableMetadata.fromJson(Map<String, dynamic> json) {
     return TableMetadata(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       columns: (json['Columns'] as List?)
           ?.nonNulls
           .map((e) => Column.fromJson(e as Map<String, dynamic>))
@@ -8192,7 +8195,7 @@ class WorkGroup {
 
   factory WorkGroup.fromJson(Map<String, dynamic> json) {
     return WorkGroup(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       configuration: json['Configuration'] != null
           ? WorkGroupConfiguration.fromJson(
               json['Configuration'] as Map<String, dynamic>)

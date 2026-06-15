@@ -5624,8 +5624,8 @@ class CoreNetworkPolicyError {
 
   factory CoreNetworkPolicyError.fromJson(Map<String, dynamic> json) {
     return CoreNetworkPolicyError(
-      errorCode: json['ErrorCode'] as String,
-      message: json['Message'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      message: (json['Message'] as String?) ?? '',
       path: json['Path'] as String?,
     );
   }

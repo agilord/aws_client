@@ -132,13 +132,17 @@ class AssumeRoleForPodIdentityResponse {
   factory AssumeRoleForPodIdentityResponse.fromJson(Map<String, dynamic> json) {
     return AssumeRoleForPodIdentityResponse(
       assumedRoleUser: AssumedRoleUser.fromJson(
-          json['assumedRoleUser'] as Map<String, dynamic>),
-      audience: json['audience'] as String,
-      credentials:
-          Credentials.fromJson(json['credentials'] as Map<String, dynamic>),
+          (json['assumedRoleUser'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      audience: (json['audience'] as String?) ?? '',
+      credentials: Credentials.fromJson(
+          (json['credentials'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       podIdentityAssociation: PodIdentityAssociation.fromJson(
-          json['podIdentityAssociation'] as Map<String, dynamic>),
-      subject: Subject.fromJson(json['subject'] as Map<String, dynamic>),
+          (json['podIdentityAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      subject: Subject.fromJson((json['subject'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -179,8 +183,8 @@ class AssumedRoleUser {
 
   factory AssumedRoleUser.fromJson(Map<String, dynamic> json) {
     return AssumedRoleUser(
-      arn: json['arn'] as String,
-      assumeRoleId: json['assumeRoleId'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      assumeRoleId: (json['assumeRoleId'] as String?) ?? '',
     );
   }
 
@@ -220,10 +224,10 @@ class Credentials {
 
   factory Credentials.fromJson(Map<String, dynamic> json) {
     return Credentials(
-      accessKeyId: json['accessKeyId'] as String,
-      expiration: nonNullableTimeStampFromJson(json['expiration'] as Object),
-      secretAccessKey: json['secretAccessKey'] as String,
-      sessionToken: json['sessionToken'] as String,
+      accessKeyId: (json['accessKeyId'] as String?) ?? '',
+      expiration: nonNullableTimeStampFromJson(json['expiration'] ?? 0),
+      secretAccessKey: (json['secretAccessKey'] as String?) ?? '',
+      sessionToken: (json['sessionToken'] as String?) ?? '',
     );
   }
 
@@ -258,8 +262,8 @@ class PodIdentityAssociation {
 
   factory PodIdentityAssociation.fromJson(Map<String, dynamic> json) {
     return PodIdentityAssociation(
-      associationArn: json['associationArn'] as String,
-      associationId: json['associationId'] as String,
+      associationArn: (json['associationArn'] as String?) ?? '',
+      associationId: (json['associationId'] as String?) ?? '',
     );
   }
 
@@ -292,8 +296,8 @@ class Subject {
 
   factory Subject.fromJson(Map<String, dynamic> json) {
     return Subject(
-      namespace: json['namespace'] as String,
-      serviceAccount: json['serviceAccount'] as String,
+      namespace: (json['namespace'] as String?) ?? '',
+      serviceAccount: (json['serviceAccount'] as String?) ?? '',
     );
   }
 

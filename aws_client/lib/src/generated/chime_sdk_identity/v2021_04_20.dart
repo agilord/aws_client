@@ -1832,7 +1832,8 @@ class Configuration {
 
   factory Configuration.fromJson(Map<String, dynamic> json) {
     return Configuration(
-      lex: LexConfiguration.fromJson(json['Lex'] as Map<String, dynamic>),
+      lex: LexConfiguration.fromJson(
+          (json['Lex'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2090,7 +2091,7 @@ class EndpointAttributes {
 
   factory EndpointAttributes.fromJson(Map<String, dynamic> json) {
     return EndpointAttributes(
-      deviceToken: json['DeviceToken'] as String,
+      deviceToken: (json['DeviceToken'] as String?) ?? '',
       voipDeviceToken: json['VoipDeviceToken'] as String?,
     );
   }
@@ -2225,7 +2226,7 @@ class ExpirationSettings {
     return ExpirationSettings(
       expirationCriterion: ExpirationCriterion.fromString(
           (json['ExpirationCriterion'] as String)),
-      expirationDays: json['ExpirationDays'] as int,
+      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
     );
   }
 
@@ -2405,8 +2406,8 @@ class LexConfiguration {
 
   factory LexConfiguration.fromJson(Map<String, dynamic> json) {
     return LexConfiguration(
-      lexBotAliasArn: json['LexBotAliasArn'] as String,
-      localeId: json['LocaleId'] as String,
+      lexBotAliasArn: (json['LexBotAliasArn'] as String?) ?? '',
+      localeId: (json['LocaleId'] as String?) ?? '',
       invokedBy: json['InvokedBy'] != null
           ? InvokedBy.fromJson(json['InvokedBy'] as Map<String, dynamic>)
           : null,
@@ -2793,8 +2794,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

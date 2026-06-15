@@ -2955,8 +2955,8 @@ class CodeHook {
 
   factory CodeHook.fromJson(Map<String, dynamic> json) {
     return CodeHook(
-      messageVersion: json['messageVersion'] as String,
-      uri: json['uri'] as String,
+      messageVersion: (json['messageVersion'] as String?) ?? '',
+      uri: (json['uri'] as String?) ?? '',
     );
   }
 
@@ -3564,7 +3564,7 @@ class EnumerationValue {
 
   factory EnumerationValue.fromJson(Map<String, dynamic> json) {
     return EnumerationValue(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
       synonyms: (json['synonyms'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3631,9 +3631,11 @@ class FollowUpPrompt {
 
   factory FollowUpPrompt.fromJson(Map<String, dynamic> json) {
     return FollowUpPrompt(
-      prompt: Prompt.fromJson(json['prompt'] as Map<String, dynamic>),
+      prompt: Prompt.fromJson((json['prompt'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       rejectionStatement: Statement.fromJson(
-          json['rejectionStatement'] as Map<String, dynamic>),
+          (json['rejectionStatement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5159,7 +5161,7 @@ class InputContext {
 
   factory InputContext.fromJson(Map<String, dynamic> json) {
     return InputContext(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5186,8 +5188,8 @@ class Intent {
 
   factory Intent.fromJson(Map<String, dynamic> json) {
     return Intent(
-      intentName: json['intentName'] as String,
-      intentVersion: json['intentVersion'] as String,
+      intentName: (json['intentName'] as String?) ?? '',
+      intentVersion: (json['intentVersion'] as String?) ?? '',
     );
   }
 
@@ -5291,8 +5293,8 @@ class KendraConfiguration {
 
   factory KendraConfiguration.fromJson(Map<String, dynamic> json) {
     return KendraConfiguration(
-      kendraIndex: json['kendraIndex'] as String,
-      role: json['role'] as String,
+      kendraIndex: (json['kendraIndex'] as String?) ?? '',
+      role: (json['role'] as String?) ?? '',
       queryFilterString: json['queryFilterString'] as String?,
     );
   }
@@ -5506,7 +5508,7 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      content: json['content'] as String,
+      content: (json['content'] as String?) ?? '',
       contentType: ContentType.fromString((json['contentType'] as String)),
       groupNumber: json['groupNumber'] as int?,
     );
@@ -5772,9 +5774,9 @@ class OutputContext {
 
   factory OutputContext.fromJson(Map<String, dynamic> json) {
     return OutputContext(
-      name: json['name'] as String,
-      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int,
-      turnsToLive: json['turnsToLive'] as int,
+      name: (json['name'] as String?) ?? '',
+      timeToLiveInSeconds: (json['timeToLiveInSeconds'] as int?) ?? 0,
+      turnsToLive: (json['turnsToLive'] as int?) ?? 0,
     );
   }
 
@@ -5833,8 +5835,8 @@ class Prompt {
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
     return Prompt(
-      maxAttempts: json['maxAttempts'] as int,
-      messages: (json['messages'] as List)
+      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
+      messages: ((json['messages'] as List?) ?? const [])
           .nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6573,7 +6575,7 @@ class Slot {
 
   factory Slot.fromJson(Map<String, dynamic> json) {
     return Slot(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       slotConstraint:
           SlotConstraint.fromString((json['slotConstraint'] as String)),
       defaultValueSpec: json['defaultValueSpec'] != null
@@ -6668,7 +6670,7 @@ class SlotDefaultValue {
 
   factory SlotDefaultValue.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValue(
-      defaultValue: json['defaultValue'] as String,
+      defaultValue: (json['defaultValue'] as String?) ?? '',
     );
   }
 
@@ -6699,7 +6701,7 @@ class SlotDefaultValueSpec {
 
   factory SlotDefaultValueSpec.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValueSpec(
-      defaultValueList: (json['defaultValueList'] as List)
+      defaultValueList: ((json['defaultValueList'] as List?) ?? const [])
           .nonNulls
           .map((e) => SlotDefaultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6832,7 +6834,7 @@ class SlotTypeRegexConfiguration {
 
   factory SlotTypeRegexConfiguration.fromJson(Map<String, dynamic> json) {
     return SlotTypeRegexConfiguration(
-      pattern: json['pattern'] as String,
+      pattern: (json['pattern'] as String?) ?? '',
     );
   }
 
@@ -7038,7 +7040,7 @@ class Statement {
 
   factory Statement.fromJson(Map<String, dynamic> json) {
     return Statement(
-      messages: (json['messages'] as List)
+      messages: ((json['messages'] as List?) ?? const [])
           .nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7105,8 +7107,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

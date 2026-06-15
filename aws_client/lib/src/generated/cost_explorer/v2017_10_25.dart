@@ -3634,11 +3634,13 @@ class Anomaly {
 
   factory Anomaly.fromJson(Map<String, dynamic> json) {
     return Anomaly(
-      anomalyId: json['AnomalyId'] as String,
-      anomalyScore:
-          AnomalyScore.fromJson(json['AnomalyScore'] as Map<String, dynamic>),
-      impact: Impact.fromJson(json['Impact'] as Map<String, dynamic>),
-      monitorArn: json['MonitorArn'] as String,
+      anomalyId: (json['AnomalyId'] as String?) ?? '',
+      anomalyScore: AnomalyScore.fromJson(
+          (json['AnomalyScore'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      impact: Impact.fromJson((json['Impact'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
       anomalyEndDate: json['AnomalyEndDate'] as String?,
       anomalyStartDate: json['AnomalyStartDate'] as String?,
       dimensionValue: json['DimensionValue'] as String?,
@@ -3758,7 +3760,7 @@ class AnomalyMonitor {
 
   factory AnomalyMonitor.fromJson(Map<String, dynamic> json) {
     return AnomalyMonitor(
-      monitorName: json['MonitorName'] as String,
+      monitorName: (json['MonitorName'] as String?) ?? '',
       monitorType: MonitorType.fromString((json['MonitorType'] as String)),
       creationDate: json['CreationDate'] as String?,
       dimensionalValueCount: json['DimensionalValueCount'] as int?,
@@ -3816,8 +3818,8 @@ class AnomalyScore {
 
   factory AnomalyScore.fromJson(Map<String, dynamic> json) {
     return AnomalyScore(
-      currentScore: json['CurrentScore'] as double,
-      maxScore: json['MaxScore'] as double,
+      currentScore: (json['CurrentScore'] as double?) ?? 0,
+      maxScore: (json['MaxScore'] as double?) ?? 0,
     );
   }
 
@@ -3948,15 +3950,15 @@ class AnomalySubscription {
     return AnomalySubscription(
       frequency: AnomalySubscriptionFrequency.fromString(
           (json['Frequency'] as String)),
-      monitorArnList: (json['MonitorArnList'] as List)
+      monitorArnList: ((json['MonitorArnList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subscribers: (json['Subscribers'] as List)
+      subscribers: ((json['Subscribers'] as List?) ?? const [])
           .nonNulls
           .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscriptionName: json['SubscriptionName'] as String,
+      subscriptionName: (json['SubscriptionName'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       subscriptionArn: json['SubscriptionArn'] as String?,
       threshold: json['Threshold'] as double?,
@@ -4069,7 +4071,7 @@ class CostAllocationTag {
   factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
     return CostAllocationTag(
       status: CostAllocationTagStatus.fromString((json['Status'] as String)),
-      tagKey: json['TagKey'] as String,
+      tagKey: (json['TagKey'] as String?) ?? '',
       type: CostAllocationTagType.fromString((json['Type'] as String)),
       lastUpdatedDate: json['LastUpdatedDate'] as String?,
       lastUsedDate: json['LastUsedDate'] as String?,
@@ -4257,12 +4259,12 @@ class CostCategory {
 
   factory CostCategory.fromJson(Map<String, dynamic> json) {
     return CostCategory(
-      costCategoryArn: json['CostCategoryArn'] as String,
-      effectiveStart: json['EffectiveStart'] as String,
-      name: json['Name'] as String,
+      costCategoryArn: (json['CostCategoryArn'] as String?) ?? '',
+      effectiveStart: (json['EffectiveStart'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       ruleVersion:
           CostCategoryRuleVersion.fromString((json['RuleVersion'] as String)),
-      rules: (json['Rules'] as List)
+      rules: ((json['Rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4629,9 +4631,11 @@ class CostCategorySplitChargeRule {
     return CostCategorySplitChargeRule(
       method:
           CostCategorySplitChargeMethod.fromString((json['Method'] as String)),
-      source: json['Source'] as String,
-      targets:
-          (json['Targets'] as List).nonNulls.map((e) => e as String).toList(),
+      source: (json['Source'] as String?) ?? '',
+      targets: ((json['Targets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       parameters: (json['Parameters'] as List?)
           ?.nonNulls
           .map((e) => CostCategorySplitChargeRuleParameter.fromJson(
@@ -4672,8 +4676,10 @@ class CostCategorySplitChargeRuleParameter {
     return CostCategorySplitChargeRuleParameter(
       type: CostCategorySplitChargeRuleParameterType.fromString(
           (json['Type'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5019,7 +5025,7 @@ class CreateAnomalyMonitorResponse {
 
   factory CreateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
     return CreateAnomalyMonitorResponse(
-      monitorArn: json['MonitorArn'] as String,
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
     );
   }
 
@@ -5042,7 +5048,7 @@ class CreateAnomalySubscriptionResponse {
   factory CreateAnomalySubscriptionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAnomalySubscriptionResponse(
-      subscriptionArn: json['SubscriptionArn'] as String,
+      subscriptionArn: (json['SubscriptionArn'] as String?) ?? '',
     );
   }
 
@@ -5228,8 +5234,8 @@ class DateInterval {
 
   factory DateInterval.fromJson(Map<String, dynamic> json) {
     return DateInterval(
-      end: json['End'] as String,
-      start: json['Start'] as String,
+      end: (json['End'] as String?) ?? '',
+      start: (json['Start'] as String?) ?? '',
     );
   }
 
@@ -6288,7 +6294,7 @@ class GetAnomaliesResponse {
 
   factory GetAnomaliesResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomaliesResponse(
-      anomalies: (json['Anomalies'] as List)
+      anomalies: ((json['Anomalies'] as List?) ?? const [])
           .nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6323,7 +6329,7 @@ class GetAnomalyMonitorsResponse {
 
   factory GetAnomalyMonitorsResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomalyMonitorsResponse(
-      anomalyMonitors: (json['AnomalyMonitors'] as List)
+      anomalyMonitors: ((json['AnomalyMonitors'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnomalyMonitor.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6358,7 +6364,8 @@ class GetAnomalySubscriptionsResponse {
 
   factory GetAnomalySubscriptionsResponse.fromJson(Map<String, dynamic> json) {
     return GetAnomalySubscriptionsResponse(
-      anomalySubscriptions: (json['AnomalySubscriptions'] as List)
+      anomalySubscriptions: ((json['AnomalySubscriptions'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AnomalySubscription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6566,8 +6573,8 @@ class GetCostCategoriesResponse {
 
   factory GetCostCategoriesResponse.fromJson(Map<String, dynamic> json) {
     return GetCostCategoriesResponse(
-      returnSize: json['ReturnSize'] as int,
-      totalSize: json['TotalSize'] as int,
+      returnSize: (json['ReturnSize'] as int?) ?? 0,
+      totalSize: (json['TotalSize'] as int?) ?? 0,
       costCategoryNames: (json['CostCategoryNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6793,13 +6800,13 @@ class GetDimensionValuesResponse {
 
   factory GetDimensionValuesResponse.fromJson(Map<String, dynamic> json) {
     return GetDimensionValuesResponse(
-      dimensionValues: (json['DimensionValues'] as List)
+      dimensionValues: ((json['DimensionValues'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
-      returnSize: json['ReturnSize'] as int,
-      totalSize: json['TotalSize'] as int,
+      returnSize: (json['ReturnSize'] as int?) ?? 0,
+      totalSize: (json['TotalSize'] as int?) ?? 0,
       nextPageToken: json['NextPageToken'] as String?,
     );
   }
@@ -6838,7 +6845,7 @@ class GetReservationCoverageResponse {
 
   factory GetReservationCoverageResponse.fromJson(Map<String, dynamic> json) {
     return GetReservationCoverageResponse(
-      coveragesByTime: (json['CoveragesByTime'] as List)
+      coveragesByTime: ((json['CoveragesByTime'] as List?) ?? const [])
           .nonNulls
           .map((e) => CoverageByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6927,7 +6934,7 @@ class GetReservationUtilizationResponse {
   factory GetReservationUtilizationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetReservationUtilizationResponse(
-      utilizationsByTime: (json['UtilizationsByTime'] as List)
+      utilizationsByTime: ((json['UtilizationsByTime'] as List?) ?? const [])
           .nonNulls
           .map((e) => UtilizationByTime.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7072,7 +7079,8 @@ class GetSavingsPlansCoverageResponse {
 
   factory GetSavingsPlansCoverageResponse.fromJson(Map<String, dynamic> json) {
     return GetSavingsPlansCoverageResponse(
-      savingsPlansCoverages: (json['SavingsPlansCoverages'] as List)
+      savingsPlansCoverages: ((json['SavingsPlansCoverages'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SavingsPlansCoverage.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7165,14 +7173,16 @@ class GetSavingsPlansUtilizationDetailsResponse {
   factory GetSavingsPlansUtilizationDetailsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSavingsPlansUtilizationDetailsResponse(
-      savingsPlansUtilizationDetails: (json['SavingsPlansUtilizationDetails']
-              as List)
+      savingsPlansUtilizationDetails: ((json['SavingsPlansUtilizationDetails']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               SavingsPlansUtilizationDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timePeriod:
-          DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+      timePeriod: DateInterval.fromJson(
+          (json['TimePeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       nextToken: json['NextToken'] as String?,
       total: json['Total'] != null
           ? SavingsPlansUtilizationAggregates.fromJson(
@@ -7213,7 +7223,8 @@ class GetSavingsPlansUtilizationResponse {
       Map<String, dynamic> json) {
     return GetSavingsPlansUtilizationResponse(
       total: SavingsPlansUtilizationAggregates.fromJson(
-          json['Total'] as Map<String, dynamic>),
+          (json['Total'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
               as List?)
           ?.nonNulls
@@ -7258,9 +7269,12 @@ class GetTagsResponse {
 
   factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
     return GetTagsResponse(
-      returnSize: json['ReturnSize'] as int,
-      tags: (json['Tags'] as List).nonNulls.map((e) => e as String).toList(),
-      totalSize: json['TotalSize'] as int,
+      returnSize: (json['ReturnSize'] as int?) ?? 0,
+      tags: ((json['Tags'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      totalSize: (json['TotalSize'] as int?) ?? 0,
       nextPageToken: json['NextPageToken'] as String?,
     );
   }
@@ -7445,7 +7459,7 @@ class Impact {
 
   factory Impact.fromJson(Map<String, dynamic> json) {
     return Impact(
-      maxImpact: json['MaxImpact'] as double,
+      maxImpact: (json['MaxImpact'] as double?) ?? 0,
       totalActualSpend: json['TotalActualSpend'] as double?,
       totalExpectedSpend: json['TotalExpectedSpend'] as double?,
       totalImpact: json['TotalImpact'] as double?,
@@ -8047,7 +8061,7 @@ class ProvideAnomalyFeedbackResponse {
 
   factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) {
     return ProvideAnomalyFeedbackResponse(
-      anomalyId: json['AnomalyId'] as String,
+      anomalyId: (json['AnomalyId'] as String?) ?? '',
     );
   }
 
@@ -9220,8 +9234,8 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -9413,7 +9427,7 @@ class RightsizingRecommendationConfiguration {
   factory RightsizingRecommendationConfiguration.fromJson(
       Map<String, dynamic> json) {
     return RightsizingRecommendationConfiguration(
-      benefitsConsidered: json['BenefitsConsidered'] as bool,
+      benefitsConsidered: (json['BenefitsConsidered'] as bool?) ?? false,
       recommendationTarget: RecommendationTarget.fromString(
           (json['RecommendationTarget'] as String)),
     );
@@ -10331,7 +10345,8 @@ class SavingsPlansUtilizationAggregates {
       Map<String, dynamic> json) {
     return SavingsPlansUtilizationAggregates(
       utilization: SavingsPlansUtilization.fromJson(
-          json['Utilization'] as Map<String, dynamic>),
+          (json['Utilization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       amortizedCommitment: json['AmortizedCommitment'] != null
           ? SavingsPlansAmortizedCommitment.fromJson(
               json['AmortizedCommitment'] as Map<String, dynamic>)
@@ -10383,10 +10398,12 @@ class SavingsPlansUtilizationByTime {
 
   factory SavingsPlansUtilizationByTime.fromJson(Map<String, dynamic> json) {
     return SavingsPlansUtilizationByTime(
-      timePeriod:
-          DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+      timePeriod: DateInterval.fromJson(
+          (json['TimePeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       utilization: SavingsPlansUtilization.fromJson(
-          json['Utilization'] as Map<String, dynamic>),
+          (json['Utilization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       amortizedCommitment: json['AmortizedCommitment'] != null
           ? SavingsPlansAmortizedCommitment.fromJson(
               json['AmortizedCommitment'] as Map<String, dynamic>)
@@ -10941,7 +10958,7 @@ class UpdateAnomalyMonitorResponse {
 
   factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAnomalyMonitorResponse(
-      monitorArn: json['MonitorArn'] as String,
+      monitorArn: (json['MonitorArn'] as String?) ?? '',
     );
   }
 
@@ -10964,7 +10981,7 @@ class UpdateAnomalySubscriptionResponse {
   factory UpdateAnomalySubscriptionResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateAnomalySubscriptionResponse(
-      subscriptionArn: json['SubscriptionArn'] as String,
+      subscriptionArn: (json['SubscriptionArn'] as String?) ?? '',
     );
   }
 

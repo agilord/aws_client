@@ -4671,11 +4671,11 @@ class AugmentedManifestsListItem {
 
   factory AugmentedManifestsListItem.fromJson(Map<String, dynamic> json) {
     return AugmentedManifestsListItem(
-      attributeNames: (json['AttributeNames'] as List)
+      attributeNames: ((json['AttributeNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       annotationDataS3Uri: json['AnnotationDataS3Uri'] as String?,
       documentType: (json['DocumentType'] as String?)
           ?.let(AugmentedManifestsDocumentTypeFormat.fromString),
@@ -4761,11 +4761,11 @@ class BatchDetectDominantLanguageResponse {
   factory BatchDetectDominantLanguageResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDetectDominantLanguageResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDetectDominantLanguageItemResult.fromJson(
               e as Map<String, dynamic>))
@@ -4838,11 +4838,11 @@ class BatchDetectEntitiesResponse {
 
   factory BatchDetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectEntitiesResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchDetectEntitiesItemResult.fromJson(e as Map<String, dynamic>))
@@ -4915,11 +4915,11 @@ class BatchDetectKeyPhrasesResponse {
 
   factory BatchDetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectKeyPhrasesResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDetectKeyPhrasesItemResult.fromJson(
               e as Map<String, dynamic>))
@@ -4999,11 +4999,11 @@ class BatchDetectSentimentResponse {
 
   factory BatchDetectSentimentResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectSentimentResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDetectSentimentItemResult.fromJson(
               e as Map<String, dynamic>))
@@ -5075,11 +5075,11 @@ class BatchDetectSyntaxResponse {
 
   factory BatchDetectSyntaxResponse.fromJson(Map<String, dynamic> json) {
     return BatchDetectSyntaxResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchDetectSyntaxItemResult.fromJson(e as Map<String, dynamic>))
@@ -5150,11 +5150,11 @@ class BatchDetectTargetedSentimentResponse {
   factory BatchDetectTargetedSentimentResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDetectTargetedSentimentResponse(
-      errorList: (json['ErrorList'] as List)
+      errorList: ((json['ErrorList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resultList: (json['ResultList'] as List)
+      resultList: ((json['ResultList'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDetectTargetedSentimentItemResult.fromJson(
               e as Map<String, dynamic>))
@@ -7477,7 +7477,7 @@ class DocumentClassifierDocuments {
 
   factory DocumentClassifierDocuments.fromJson(Map<String, dynamic> json) {
     return DocumentClassifierDocuments(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       testS3Uri: json['TestS3Uri'] as String?,
     );
   }
@@ -9024,7 +9024,7 @@ class EntityRecognitionConfig {
 
   factory EntityRecognitionConfig.fromJson(Map<String, dynamic> json) {
     return EntityRecognitionConfig(
-      entityTypes: (json['EntityTypes'] as List)
+      entityTypes: ((json['EntityTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9058,7 +9058,7 @@ class EntityRecognizerAnnotations {
 
   factory EntityRecognizerAnnotations.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerAnnotations(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       testS3Uri: json['TestS3Uri'] as String?,
     );
   }
@@ -9117,7 +9117,7 @@ class EntityRecognizerDocuments {
 
   factory EntityRecognizerDocuments.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerDocuments(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       inputFormat:
           (json['InputFormat'] as String?)?.let(InputFormat.fromString),
       testS3Uri: json['TestS3Uri'] as String?,
@@ -9148,7 +9148,7 @@ class EntityRecognizerEntityList {
 
   factory EntityRecognizerEntityList.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerEntityList(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
 
@@ -9323,7 +9323,7 @@ class EntityRecognizerInputDataConfig {
 
   factory EntityRecognizerInputDataConfig.fromJson(Map<String, dynamic> json) {
     return EntityRecognizerInputDataConfig(
-      entityTypes: (json['EntityTypes'] as List)
+      entityTypes: ((json['EntityTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9819,7 +9819,7 @@ class EntityTypesListItem {
 
   factory EntityTypesListItem.fromJson(Map<String, dynamic> json) {
     return EntityTypesListItem(
-      type: json['Type'] as String,
+      type: (json['Type'] as String?) ?? '',
     );
   }
 
@@ -10629,7 +10629,7 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       documentReaderConfig: json['DocumentReaderConfig'] != null
           ? DocumentReaderConfig.fromJson(
               json['DocumentReaderConfig'] as Map<String, dynamic>)
@@ -11728,7 +11728,7 @@ class OutputDataConfig {
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -12176,7 +12176,7 @@ class PiiOutputDataConfig {
 
   factory PiiOutputDataConfig.fromJson(Map<String, dynamic> json) {
     return PiiOutputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -13546,7 +13546,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -14379,12 +14379,14 @@ class VpcConfig {
 
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnets:
-          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 

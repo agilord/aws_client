@@ -1281,8 +1281,10 @@ class CodegenGenericDataEnum {
 
   factory CodegenGenericDataEnum.fromJson(Map<String, dynamic> json) {
     return CodegenGenericDataEnum(
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -1327,10 +1329,10 @@ class CodegenGenericDataField {
     return CodegenGenericDataField(
       dataType: CodegenGenericDataFieldDataType.fromString(
           (json['dataType'] as String)),
-      dataTypeValue: json['dataTypeValue'] as String,
-      isArray: json['isArray'] as bool,
-      readOnly: json['readOnly'] as bool,
-      required: json['required'] as bool,
+      dataTypeValue: (json['dataTypeValue'] as String?) ?? '',
+      isArray: (json['isArray'] as bool?) ?? false,
+      readOnly: (json['readOnly'] as bool?) ?? false,
+      required: (json['required'] as bool?) ?? false,
       relationship: json['relationship'] != null
           ? CodegenGenericDataRelationshipType.fromJson(
               json['relationship'] as Map<String, dynamic>)
@@ -1405,9 +1407,11 @@ class CodegenGenericDataModel {
 
   factory CodegenGenericDataModel.fromJson(Map<String, dynamic> json) {
     return CodegenGenericDataModel(
-      fields: (json['fields'] as Map<String, dynamic>).map((k, e) => MapEntry(
-          k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
-      primaryKeys: (json['primaryKeys'] as List)
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+      primaryKeys: ((json['primaryKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1438,8 +1442,10 @@ class CodegenGenericDataNonModel {
 
   factory CodegenGenericDataNonModel.fromJson(Map<String, dynamic> json) {
     return CodegenGenericDataNonModel(
-      fields: (json['fields'] as Map<String, dynamic>).map((k, e) => MapEntry(
-          k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataField.fromJson(e as Map<String, dynamic>))),
     );
   }
 
@@ -1496,7 +1502,7 @@ class CodegenGenericDataRelationshipType {
   factory CodegenGenericDataRelationshipType.fromJson(
       Map<String, dynamic> json) {
     return CodegenGenericDataRelationshipType(
-      relatedModelName: json['relatedModelName'] as String,
+      relatedModelName: (json['relatedModelName'] as String?) ?? '',
       type: GenericDataRelationshipType.fromString((json['type'] as String)),
       associatedFields: (json['associatedFields'] as List?)
           ?.nonNulls
@@ -1602,9 +1608,9 @@ class CodegenJob {
 
   factory CodegenJob.fromJson(Map<String, dynamic> json) {
     return CodegenJob(
-      appId: json['appId'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       asset: json['asset'] != null
           ? CodegenJobAsset.fromJson(json['asset'] as Map<String, dynamic>)
           : null,
@@ -1717,12 +1723,17 @@ class CodegenJobGenericDataSchema {
     return CodegenJobGenericDataSchema(
       dataSourceType: CodegenJobGenericDataSourceType.fromString(
           (json['dataSourceType'] as String)),
-      enums: (json['enums'] as Map<String, dynamic>).map((k, e) => MapEntry(
-          k, CodegenGenericDataEnum.fromJson(e as Map<String, dynamic>))),
-      models: (json['models'] as Map<String, dynamic>).map((k, e) => MapEntry(
-          k, CodegenGenericDataModel.fromJson(e as Map<String, dynamic>))),
-      nonModels: (json['nonModels'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k,
+      enums: ((json['enums'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataEnum.fromJson(e as Map<String, dynamic>))),
+      models: ((json['models'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, CodegenGenericDataModel.fromJson(e as Map<String, dynamic>))),
+      nonModels: ((json['nonModels'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k,
               CodegenGenericDataNonModel.fromJson(e as Map<String, dynamic>))),
     );
   }
@@ -1825,9 +1836,9 @@ class CodegenJobSummary {
 
   factory CodegenJobSummary.fromJson(Map<String, dynamic> json) {
     return CodegenJobSummary(
-      appId: json['appId'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
@@ -1940,25 +1951,30 @@ class Component {
 
   factory Component.fromJson(Map<String, dynamic> json) {
     return Component(
-      appId: json['appId'] as String,
-      bindingProperties: (json['bindingProperties'] as Map<String, dynamic>)
+      appId: (json['appId'] as String?) ?? '',
+      bindingProperties:
+          ((json['bindingProperties'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k,
+                  ComponentBindingPropertiesValue.fromJson(
+                      e as Map<String, dynamic>))),
+      componentType: (json['componentType'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      overrides: ((json['overrides'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(
-              k,
-              ComponentBindingPropertiesValue.fromJson(
-                  e as Map<String, dynamic>))),
-      componentType: json['componentType'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      overrides: (json['overrides'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(
               k,
               (e as Map<String, dynamic>)
                   .map((k, e) => MapEntry(k, e as String)))),
-      properties: (json['properties'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
-      variants: (json['variants'] as List)
+      properties: ((json['properties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
+      variants: ((json['variants'] as List?) ?? const [])
           .nonNulls
           .map((e) => ComponentVariant.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2178,10 +2194,12 @@ class ComponentChild {
 
   factory ComponentChild.fromJson(Map<String, dynamic> json) {
     return ComponentChild(
-      componentType: json['componentType'] as String,
-      name: json['name'] as String,
-      properties: (json['properties'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
+      componentType: (json['componentType'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      properties: ((json['properties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
+              k, ComponentProperty.fromJson(e as Map<String, dynamic>))),
       children: (json['children'] as List?)
           ?.nonNulls
           .map((e) => ComponentChild.fromJson(e as Map<String, dynamic>))
@@ -2307,7 +2325,7 @@ class ComponentDataConfiguration {
 
   factory ComponentDataConfiguration.fromJson(Map<String, dynamic> json) {
     return ComponentDataConfiguration(
-      model: json['model'] as String,
+      model: (json['model'] as String?) ?? '',
       identifiers: (json['identifiers'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2540,7 +2558,7 @@ class ComponentPropertyBindingProperties {
   factory ComponentPropertyBindingProperties.fromJson(
       Map<String, dynamic> json) {
     return ComponentPropertyBindingProperties(
-      property: json['property'] as String,
+      property: (json['property'] as String?) ?? '',
       field: json['field'] as String?,
     );
   }
@@ -2583,11 +2601,11 @@ class ComponentSummary {
 
   factory ComponentSummary.fromJson(Map<String, dynamic> json) {
     return ComponentSummary(
-      appId: json['appId'] as String,
-      componentType: json['componentType'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      componentType: (json['componentType'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2952,9 +2970,9 @@ class ExchangeCodeForTokenResponse {
 
   factory ExchangeCodeForTokenResponse.fromJson(Map<String, dynamic> json) {
     return ExchangeCodeForTokenResponse(
-      accessToken: json['accessToken'] as String,
-      expiresIn: json['expiresIn'] as int,
-      refreshToken: json['refreshToken'] as String,
+      accessToken: (json['accessToken'] as String?) ?? '',
+      expiresIn: (json['expiresIn'] as int?) ?? 0,
+      refreshToken: (json['refreshToken'] as String?) ?? '',
     );
   }
 
@@ -2984,7 +3002,7 @@ class ExportComponentsResponse {
 
   factory ExportComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ExportComponentsResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Component.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3016,7 +3034,7 @@ class ExportFormsResponse {
 
   factory ExportFormsResponse.fromJson(Map<String, dynamic> json) {
     return ExportFormsResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Form.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3048,7 +3066,7 @@ class ExportThemesResponse {
 
   factory ExportThemesResponse.fromJson(Map<String, dynamic> json) {
     return ExportThemesResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => Theme.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3199,7 +3217,7 @@ class FieldInputConfig {
 
   factory FieldInputConfig.fromJson(Map<String, dynamic> json) {
     return FieldInputConfig(
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       defaultChecked: json['defaultChecked'] as bool?,
       defaultCountryCode: json['defaultCountryCode'] as String?,
       defaultValue: json['defaultValue'] as String?,
@@ -3322,7 +3340,7 @@ class FieldValidationConfiguration {
 
   factory FieldValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return FieldValidationConfiguration(
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       numValues:
           (json['numValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
       strValues: (json['strValues'] as List?)
@@ -3396,7 +3414,7 @@ class FileUploaderFieldConfig {
 
   factory FileUploaderFieldConfig.fromJson(Map<String, dynamic> json) {
     return FileUploaderFieldConfig(
-      acceptedFileTypes: (json['acceptedFileTypes'] as List)
+      acceptedFileTypes: ((json['acceptedFileTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3504,21 +3522,27 @@ class Form {
 
   factory Form.fromJson(Map<String, dynamic> json) {
     return Form(
-      appId: json['appId'] as String,
-      dataType:
-          FormDataTypeConfig.fromJson(json['dataType'] as Map<String, dynamic>),
-      environmentName: json['environmentName'] as String,
-      fields: (json['fields'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, FieldConfig.fromJson(e as Map<String, dynamic>))),
+      appId: (json['appId'] as String?) ?? '',
+      dataType: FormDataTypeConfig.fromJson(
+          (json['dataType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      fields: ((json['fields'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FieldConfig.fromJson(e as Map<String, dynamic>))),
       formActionType:
           FormActionType.fromString((json['formActionType'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      schemaVersion: json['schemaVersion'] as String,
-      sectionalElements: (json['sectionalElements'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(
-              k, SectionalElement.fromJson(e as Map<String, dynamic>))),
-      style: FormStyle.fromJson(json['style'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      schemaVersion: (json['schemaVersion'] as String?) ?? '',
+      sectionalElements:
+          ((json['sectionalElements'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k, SectionalElement.fromJson(e as Map<String, dynamic>))),
+      style: FormStyle.fromJson((json['style'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       cta: json['cta'] != null
           ? FormCTA.fromJson(json['cta'] as Map<String, dynamic>)
           : null,
@@ -3591,8 +3615,8 @@ class FormBindingElement {
 
   factory FormBindingElement.fromJson(Map<String, dynamic> json) {
     return FormBindingElement(
-      element: json['element'] as String,
-      property: json['property'] as String,
+      element: (json['element'] as String?) ?? '',
+      property: (json['property'] as String?) ?? '',
     );
   }
 
@@ -3748,7 +3772,7 @@ class FormDataTypeConfig {
     return FormDataTypeConfig(
       dataSourceType:
           FormDataSourceType.fromString((json['dataSourceType'] as String)),
-      dataTypeName: json['dataTypeName'] as String,
+      dataTypeName: (json['dataTypeName'] as String?) ?? '',
     );
   }
 
@@ -3889,7 +3913,7 @@ class FormInputValuePropertyBindingProperties {
   factory FormInputValuePropertyBindingProperties.fromJson(
       Map<String, dynamic> json) {
     return FormInputValuePropertyBindingProperties(
-      property: json['property'] as String,
+      property: (json['property'] as String?) ?? '',
       field: json['field'] as String?,
     );
   }
@@ -4012,14 +4036,15 @@ class FormSummary {
 
   factory FormSummary.fromJson(Map<String, dynamic> json) {
     return FormSummary(
-      appId: json['appId'] as String,
-      dataType:
-          FormDataTypeConfig.fromJson(json['dataType'] as Map<String, dynamic>),
-      environmentName: json['environmentName'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      dataType: FormDataTypeConfig.fromJson(
+          (json['dataType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      environmentName: (json['environmentName'] as String?) ?? '',
       formActionType:
           FormActionType.fromString((json['formActionType'] as String)),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4115,7 +4140,8 @@ class GetMetadataResponse {
 
   factory GetMetadataResponse.fromJson(Map<String, dynamic> json) {
     return GetMetadataResponse(
-      features: (json['features'] as Map<String, dynamic>)
+      features: ((json['features'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -4176,11 +4202,11 @@ class GraphQLRenderConfig {
 
   factory GraphQLRenderConfig.fromJson(Map<String, dynamic> json) {
     return GraphQLRenderConfig(
-      fragmentsFilePath: json['fragmentsFilePath'] as String,
-      mutationsFilePath: json['mutationsFilePath'] as String,
-      queriesFilePath: json['queriesFilePath'] as String,
-      subscriptionsFilePath: json['subscriptionsFilePath'] as String,
-      typesFilePath: json['typesFilePath'] as String,
+      fragmentsFilePath: (json['fragmentsFilePath'] as String?) ?? '',
+      mutationsFilePath: (json['mutationsFilePath'] as String?) ?? '',
+      queriesFilePath: (json['queriesFilePath'] as String?) ?? '',
+      subscriptionsFilePath: (json['subscriptionsFilePath'] as String?) ?? '',
+      typesFilePath: (json['typesFilePath'] as String?) ?? '',
     );
   }
 
@@ -4273,7 +4299,7 @@ class ListCodegenJobsResponse {
 
   factory ListCodegenJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListCodegenJobsResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => CodegenJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4305,7 +4331,7 @@ class ListComponentsResponse {
 
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
     return ListComponentsResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => ComponentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4337,7 +4363,7 @@ class ListFormsResponse {
 
   factory ListFormsResponse.fromJson(Map<String, dynamic> json) {
     return ListFormsResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => FormSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4365,8 +4391,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4392,7 +4419,7 @@ class ListThemesResponse {
 
   factory ListThemesResponse.fromJson(Map<String, dynamic> json) {
     return ListThemesResponse(
-      entities: (json['entities'] as List)
+      entities: ((json['entities'] as List?) ?? const [])
           .nonNulls
           .map((e) => ThemeSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4430,9 +4457,10 @@ class MutationActionSetStateParameter {
 
   factory MutationActionSetStateParameter.fromJson(Map<String, dynamic> json) {
     return MutationActionSetStateParameter(
-      componentName: json['componentName'] as String,
-      property: json['property'] as String,
-      set: ComponentProperty.fromJson(json['set'] as Map<String, dynamic>),
+      componentName: (json['componentName'] as String?) ?? '',
+      property: (json['property'] as String?) ?? '',
+      set: ComponentProperty.fromJson(
+          (json['set'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -4653,8 +4681,8 @@ class RefreshTokenResponse {
 
   factory RefreshTokenResponse.fromJson(Map<String, dynamic> json) {
     return RefreshTokenResponse(
-      accessToken: json['accessToken'] as String,
-      expiresIn: json['expiresIn'] as int,
+      accessToken: (json['accessToken'] as String?) ?? '',
+      expiresIn: (json['expiresIn'] as int?) ?? 0,
     );
   }
 
@@ -4706,7 +4734,7 @@ class SectionalElement {
 
   factory SectionalElement.fromJson(Map<String, dynamic> json) {
     return SectionalElement(
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       excluded: json['excluded'] as bool?,
       level: json['level'] as int?,
       orientation: json['orientation'] as String?,
@@ -4766,7 +4794,7 @@ class SortProperty {
   factory SortProperty.fromJson(Map<String, dynamic> json) {
     return SortProperty(
       direction: SortDirection.fromString((json['direction'] as String)),
-      field: json['field'] as String,
+      field: (json['field'] as String?) ?? '',
     );
   }
 
@@ -4911,12 +4939,12 @@ class Theme {
 
   factory Theme.fromJson(Map<String, dynamic> json) {
     return Theme(
-      appId: json['appId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      values: (json['values'] as List)
+      appId: (json['appId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      values: ((json['values'] as List?) ?? const [])
           .nonNulls
           .map((e) => ThemeValues.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4977,10 +5005,10 @@ class ThemeSummary {
 
   factory ThemeSummary.fromJson(Map<String, dynamic> json) {
     return ThemeSummary(
-      appId: json['appId'] as String,
-      environmentName: json['environmentName'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      environmentName: (json['environmentName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5345,7 +5373,8 @@ class ValueMapping {
   factory ValueMapping.fromJson(Map<String, dynamic> json) {
     return ValueMapping(
       value: FormInputValueProperty.fromJson(
-          json['value'] as Map<String, dynamic>),
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       displayValue: json['displayValue'] != null
           ? FormInputValueProperty.fromJson(
               json['displayValue'] as Map<String, dynamic>)
@@ -5378,7 +5407,7 @@ class ValueMappings {
 
   factory ValueMappings.fromJson(Map<String, dynamic> json) {
     return ValueMappings(
-      values: (json['values'] as List)
+      values: ((json['values'] as List?) ?? const [])
           .nonNulls
           .map((e) => ValueMapping.fromJson(e as Map<String, dynamic>))
           .toList(),

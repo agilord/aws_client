@@ -4387,11 +4387,11 @@ class Backup {
 
   factory Backup.fromJson(Map<String, dynamic> json) {
     return Backup(
-      backupId: json['BackupId'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      fileSystem:
-          FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
+      backupId: (json['BackupId'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      fileSystem: FileSystem.fromJson(
+          (json['FileSystem'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       lifecycle: BackupLifecycle.fromString((json['Lifecycle'] as String)),
       type: BackupType.fromString((json['Type'] as String)),
       directoryInformation: json['DirectoryInformation'] != null
@@ -4653,7 +4653,7 @@ class CompletionReport {
 
   factory CompletionReport.fromJson(Map<String, dynamic> json) {
     return CompletionReport(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       format: (json['Format'] as String?)?.let(ReportFormat.fromString),
       path: json['Path'] as String?,
       scope: (json['Scope'] as String?)?.let(ReportScope.fromString),
@@ -7063,11 +7063,10 @@ class DataRepositoryTask {
 
   factory DataRepositoryTask.fromJson(Map<String, dynamic> json) {
     return DataRepositoryTask(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       lifecycle:
           DataRepositoryTaskLifecycle.fromString((json['Lifecycle'] as String)),
-      taskId: json['TaskId'] as String,
+      taskId: (json['TaskId'] as String?) ?? '',
       type: DataRepositoryTaskType.fromString((json['Type'] as String)),
       capacityToRelease: json['CapacityToRelease'] as int?,
       endTime: timeStampFromJson(json['EndTime']),
@@ -8990,7 +8989,7 @@ class FileCacheLustreMetadataConfiguration {
   factory FileCacheLustreMetadataConfiguration.fromJson(
       Map<String, dynamic> json) {
     return FileCacheLustreMetadataConfiguration(
-      storageCapacity: json['StorageCapacity'] as int,
+      storageCapacity: (json['StorageCapacity'] as int?) ?? 0,
     );
   }
 
@@ -10685,9 +10684,11 @@ class OpenZFSClientConfiguration {
 
   factory OpenZFSClientConfiguration.fromJson(Map<String, dynamic> json) {
     return OpenZFSClientConfiguration(
-      clients: json['Clients'] as String,
-      options:
-          (json['Options'] as List).nonNulls.map((e) => e as String).toList(),
+      clients: (json['Clients'] as String?) ?? '',
+      options: ((json['Options'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -10985,7 +10986,8 @@ class OpenZFSNfsExport {
 
   factory OpenZFSNfsExport.fromJson(Map<String, dynamic> json) {
     return OpenZFSNfsExport(
-      clientConfigurations: (json['ClientConfigurations'] as List)
+      clientConfigurations: ((json['ClientConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               OpenZFSClientConfiguration.fromJson(e as Map<String, dynamic>))
@@ -11087,8 +11089,8 @@ class OpenZFSUserOrGroupQuota {
 
   factory OpenZFSUserOrGroupQuota.fromJson(Map<String, dynamic> json) {
     return OpenZFSUserOrGroupQuota(
-      id: json['Id'] as int,
-      storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int,
+      id: (json['Id'] as int?) ?? 0,
+      storageCapacityQuotaGiB: (json['StorageCapacityQuotaGiB'] as int?) ?? 0,
       type: OpenZFSQuotaType.fromString((json['Type'] as String)),
     );
   }
@@ -12024,11 +12026,14 @@ class SnaplockRetentionPeriod {
   factory SnaplockRetentionPeriod.fromJson(Map<String, dynamic> json) {
     return SnaplockRetentionPeriod(
       defaultRetention: RetentionPeriod.fromJson(
-          json['DefaultRetention'] as Map<String, dynamic>),
+          (json['DefaultRetention'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       maximumRetention: RetentionPeriod.fromJson(
-          json['MaximumRetention'] as Map<String, dynamic>),
+          (json['MaximumRetention'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       minimumRetention: RetentionPeriod.fromJson(
-          json['MinimumRetention'] as Map<String, dynamic>),
+          (json['MinimumRetention'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12663,8 +12668,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

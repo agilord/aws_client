@@ -4722,8 +4722,8 @@ class AppBlock {
 
   factory AppBlock.fromJson(Map<String, dynamic> json) {
     return AppBlock(
-      arn: json['Arn'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       appBlockErrors: (json['AppBlockErrors'] as List?)
           ?.nonNulls
           .map((e) => ErrorDetails.fromJson(e as Map<String, dynamic>))
@@ -4846,13 +4846,15 @@ class AppBlockBuilder {
 
   factory AppBlockBuilder.fromJson(Map<String, dynamic> json) {
     return AppBlockBuilder(
-      arn: json['Arn'] as String,
-      instanceType: json['InstanceType'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      instanceType: (json['InstanceType'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       platform:
           AppBlockBuilderPlatformType.fromString((json['Platform'] as String)),
       state: AppBlockBuilderState.fromString((json['State'] as String)),
-      vpcConfig: VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
+      vpcConfig: VpcConfig.fromJson(
+          (json['VpcConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       accessEndpoints: (json['AccessEndpoints'] as List?)
           ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
@@ -4925,8 +4927,8 @@ class AppBlockBuilderAppBlockAssociation {
   factory AppBlockBuilderAppBlockAssociation.fromJson(
       Map<String, dynamic> json) {
     return AppBlockBuilderAppBlockAssociation(
-      appBlockArn: json['AppBlockArn'] as String,
-      appBlockBuilderName: json['AppBlockBuilderName'] as String,
+      appBlockArn: (json['AppBlockArn'] as String?) ?? '',
+      appBlockBuilderName: (json['AppBlockBuilderName'] as String?) ?? '',
     );
   }
 
@@ -5223,8 +5225,8 @@ class ApplicationFleetAssociation {
 
   factory ApplicationFleetAssociation.fromJson(Map<String, dynamic> json) {
     return ApplicationFleetAssociation(
-      applicationArn: json['ApplicationArn'] as String,
-      fleetName: json['FleetName'] as String,
+      applicationArn: (json['ApplicationArn'] as String?) ?? '',
+      fleetName: (json['FleetName'] as String?) ?? '',
     );
   }
 
@@ -5603,7 +5605,7 @@ class ComputeCapacityStatus {
 
   factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
     return ComputeCapacityStatus(
-      desired: json['Desired'] as int,
+      desired: (json['Desired'] as int?) ?? 0,
       activeUserSessions: json['ActiveUserSessions'] as int?,
       actualUserSessions: json['ActualUserSessions'] as int?,
       available: json['Available'] as int?,
@@ -6842,7 +6844,7 @@ class DirectoryConfig {
 
   factory DirectoryConfig.fromJson(Map<String, dynamic> json) {
     return DirectoryConfig(
-      directoryName: json['DirectoryName'] as String,
+      directoryName: (json['DirectoryName'] as String?) ?? '',
       certificateBasedAuthProperties: json['CertificateBasedAuthProperties'] !=
               null
           ? CertificateBasedAuthProperties.fromJson(
@@ -7018,7 +7020,7 @@ class EntitledApplication {
 
   factory EntitledApplication.fromJson(Map<String, dynamic> json) {
     return EntitledApplication(
-      applicationIdentifier: json['ApplicationIdentifier'] as String,
+      applicationIdentifier: (json['ApplicationIdentifier'] as String?) ?? '',
     );
   }
 
@@ -7073,12 +7075,12 @@ class Entitlement {
     return Entitlement(
       appVisibility:
           AppVisibility.fromString((json['AppVisibility'] as String)),
-      attributes: (json['Attributes'] as List)
+      attributes: ((json['Attributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EntitlementAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['Name'] as String,
-      stackName: json['StackName'] as String,
+      name: (json['Name'] as String?) ?? '',
+      stackName: (json['StackName'] as String?) ?? '',
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
@@ -7153,8 +7155,8 @@ class EntitlementAttribute {
 
   factory EntitlementAttribute.fromJson(Map<String, dynamic> json) {
     return EntitlementAttribute(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7483,11 +7485,12 @@ class Fleet {
 
   factory Fleet.fromJson(Map<String, dynamic> json) {
     return Fleet(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       computeCapacityStatus: ComputeCapacityStatus.fromJson(
-          json['ComputeCapacityStatus'] as Map<String, dynamic>),
-      instanceType: json['InstanceType'] as String,
-      name: json['Name'] as String,
+          (json['ComputeCapacityStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      instanceType: (json['InstanceType'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       state: FleetState.fromString((json['State'] as String)),
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
@@ -7851,7 +7854,7 @@ class Image {
 
   factory Image.fromJson(Map<String, dynamic> json) {
     return Image(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       applications: (json['Applications'] as List?)
           ?.nonNulls
           .map((e) => Application.fromJson(e as Map<String, dynamic>))
@@ -8153,7 +8156,7 @@ class ImageBuilder {
 
   factory ImageBuilder.fromJson(Map<String, dynamic> json) {
     return ImageBuilder(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       accessEndpoints: (json['AccessEndpoints'] as List?)
           ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
@@ -8781,7 +8784,7 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3Key: json['S3Key'] as String?,
     );
   }
@@ -8819,10 +8822,11 @@ class ScriptDetails {
 
   factory ScriptDetails.fromJson(Map<String, dynamic> json) {
     return ScriptDetails(
-      executablePath: json['ExecutablePath'] as String,
-      scriptS3Location:
-          S3Location.fromJson(json['ScriptS3Location'] as Map<String, dynamic>),
-      timeoutInSeconds: json['TimeoutInSeconds'] as int,
+      executablePath: (json['ExecutablePath'] as String?) ?? '',
+      scriptS3Location: S3Location.fromJson(
+          (json['ScriptS3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      timeoutInSeconds: (json['TimeoutInSeconds'] as int?) ?? 0,
       executableParameters: json['ExecutableParameters'] as String?,
     );
   }
@@ -8861,8 +8865,8 @@ class ServiceAccountCredentials {
 
   factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) {
     return ServiceAccountCredentials(
-      accountName: json['AccountName'] as String,
-      accountPassword: json['AccountPassword'] as String,
+      accountName: (json['AccountName'] as String?) ?? '',
+      accountPassword: (json['AccountPassword'] as String?) ?? '',
     );
   }
 
@@ -8936,11 +8940,11 @@ class Session {
 
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
-      fleetName: json['FleetName'] as String,
-      id: json['Id'] as String,
-      stackName: json['StackName'] as String,
+      fleetName: (json['FleetName'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      stackName: (json['StackName'] as String?) ?? '',
       state: SessionState.fromString((json['State'] as String)),
-      userId: json['UserId'] as String,
+      userId: (json['UserId'] as String?) ?? '',
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(AuthenticationType.fromString),
       connectionState: (json['ConnectionState'] as String?)
@@ -9035,8 +9039,9 @@ class SharedImagePermissions {
   factory SharedImagePermissions.fromJson(Map<String, dynamic> json) {
     return SharedImagePermissions(
       imagePermissions: ImagePermissions.fromJson(
-          json['imagePermissions'] as Map<String, dynamic>),
-      sharedAccountId: json['sharedAccountId'] as String,
+          (json['imagePermissions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sharedAccountId: (json['sharedAccountId'] as String?) ?? '',
     );
   }
 
@@ -9119,7 +9124,7 @@ class Stack {
 
   factory Stack.fromJson(Map<String, dynamic> json) {
     return Stack(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       accessEndpoints: (json['AccessEndpoints'] as List?)
           ?.nonNulls
           .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
@@ -10102,8 +10107,8 @@ class UserStackAssociation {
     return UserStackAssociation(
       authenticationType:
           AuthenticationType.fromString((json['AuthenticationType'] as String)),
-      stackName: json['StackName'] as String,
-      userName: json['UserName'] as String,
+      stackName: (json['StackName'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
       sendEmailNotification: json['SendEmailNotification'] as bool?,
     );
   }

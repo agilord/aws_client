@@ -334,15 +334,16 @@ class GetReportDefinitionResult {
 
   factory GetReportDefinitionResult.fromJson(Map<String, dynamic> json) {
     return GetReportDefinitionResult(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       destinationS3Location: S3Location.fromJson(
-          json['destinationS3Location'] as Map<String, dynamic>),
+          (json['destinationS3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       format: Format.fromString((json['format'] as String)),
-      lastUpdated: nonNullableTimeStampFromJson(json['lastUpdated'] as Object),
-      reportDescription: json['reportDescription'] as String,
+      lastUpdated: nonNullableTimeStampFromJson(json['lastUpdated'] ?? 0),
+      reportDescription: (json['reportDescription'] as String?) ?? '',
       reportFrequency:
           ReportFrequency.fromString((json['reportFrequency'] as String)),
-      reportId: json['reportId'] as String,
+      reportId: (json['reportId'] as String?) ?? '',
     );
   }
 
@@ -376,7 +377,7 @@ class ImportApplicationUsageResult {
 
   factory ImportApplicationUsageResult.fromJson(Map<String, dynamic> json) {
     return ImportApplicationUsageResult(
-      importId: json['importId'] as String,
+      importId: (json['importId'] as String?) ?? '',
     );
   }
 
@@ -564,8 +565,8 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucket: json['bucket'] as String,
-      prefix: json['prefix'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      prefix: (json['prefix'] as String?) ?? '',
     );
   }
 

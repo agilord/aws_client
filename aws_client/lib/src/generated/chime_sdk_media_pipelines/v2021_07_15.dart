@@ -1829,20 +1829,27 @@ class ArtifactsConcatenationConfiguration {
       Map<String, dynamic> json) {
     return ArtifactsConcatenationConfiguration(
       audio: AudioConcatenationConfiguration.fromJson(
-          json['Audio'] as Map<String, dynamic>),
+          (json['Audio'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compositedVideo: CompositedVideoConcatenationConfiguration.fromJson(
-          json['CompositedVideo'] as Map<String, dynamic>),
+          (json['CompositedVideo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       content: ContentConcatenationConfiguration.fromJson(
-          json['Content'] as Map<String, dynamic>),
+          (json['Content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       dataChannel: DataChannelConcatenationConfiguration.fromJson(
-          json['DataChannel'] as Map<String, dynamic>),
+          (json['DataChannel'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       meetingEvents: MeetingEventsConcatenationConfiguration.fromJson(
-          json['MeetingEvents'] as Map<String, dynamic>),
+          (json['MeetingEvents'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       transcriptionMessages:
           TranscriptionMessagesConcatenationConfiguration.fromJson(
-              json['TranscriptionMessages'] as Map<String, dynamic>),
+              (json['TranscriptionMessages'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       video: VideoConcatenationConfiguration.fromJson(
-          json['Video'] as Map<String, dynamic>),
+          (json['Video'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1905,11 +1912,14 @@ class ArtifactsConfiguration {
   factory ArtifactsConfiguration.fromJson(Map<String, dynamic> json) {
     return ArtifactsConfiguration(
       audio: AudioArtifactsConfiguration.fromJson(
-          json['Audio'] as Map<String, dynamic>),
+          (json['Audio'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       content: ContentArtifactsConfiguration.fromJson(
-          json['Content'] as Map<String, dynamic>),
+          (json['Content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       video: VideoArtifactsConfiguration.fromJson(
-          json['Video'] as Map<String, dynamic>),
+          (json['Video'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compositedVideo: json['CompositedVideo'] != null
           ? CompositedVideoArtifactsConfiguration.fromJson(
               json['CompositedVideo'] as Map<String, dynamic>)
@@ -2109,7 +2119,7 @@ class ChannelDefinition {
 
   factory ChannelDefinition.fromJson(Map<String, dynamic> json) {
     return ChannelDefinition(
-      channelId: json['ChannelId'] as int,
+      channelId: (json['ChannelId'] as int?) ?? 0,
       participantRole:
           (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
     );
@@ -2140,7 +2150,8 @@ class ChimeSdkMeetingConcatenationConfiguration {
       Map<String, dynamic> json) {
     return ChimeSdkMeetingConcatenationConfiguration(
       artifactsConfiguration: ArtifactsConcatenationConfiguration.fromJson(
-          json['ArtifactsConfiguration'] as Map<String, dynamic>),
+          (json['ArtifactsConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2217,7 +2228,7 @@ class ChimeSdkMeetingLiveConnectorConfiguration {
   factory ChimeSdkMeetingLiveConnectorConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ChimeSdkMeetingLiveConnectorConfiguration(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       muxType: LiveConnectorMuxType.fromString((json['MuxType'] as String)),
       compositedVideo: json['CompositedVideo'] != null
           ? CompositedVideoArtifactsConfiguration.fromJson(
@@ -2268,7 +2279,8 @@ class CompositedVideoArtifactsConfiguration {
       Map<String, dynamic> json) {
     return CompositedVideoArtifactsConfiguration(
       gridViewConfiguration: GridViewConfiguration.fromJson(
-          json['GridViewConfiguration'] as Map<String, dynamic>),
+          (json['GridViewConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       layout: (json['Layout'] as String?)?.let(LayoutOption.fromString),
       resolution:
           (json['Resolution'] as String?)?.let(ResolutionOption.fromString),
@@ -2328,7 +2340,8 @@ class ConcatenationSink {
   factory ConcatenationSink.fromJson(Map<String, dynamic> json) {
     return ConcatenationSink(
       s3BucketSinkConfiguration: S3BucketSinkConfiguration.fromJson(
-          json['S3BucketSinkConfiguration'] as Map<String, dynamic>),
+          (json['S3BucketSinkConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: ConcatenationSinkType.fromString((json['Type'] as String)),
     );
   }
@@ -2376,8 +2389,9 @@ class ConcatenationSource {
     return ConcatenationSource(
       mediaCapturePipelineSourceConfiguration:
           MediaCapturePipelineSourceConfiguration.fromJson(
-              json['MediaCapturePipelineSourceConfiguration']
-                  as Map<String, dynamic>),
+              (json['MediaCapturePipelineSourceConfiguration']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       type: ConcatenationSourceType.fromString((json['Type'] as String)),
     );
   }
@@ -2621,7 +2635,8 @@ class CreateMediaInsightsPipelineResponse {
       Map<String, dynamic> json) {
     return CreateMediaInsightsPipelineResponse(
       mediaInsightsPipeline: MediaInsightsPipeline.fromJson(
-          json['MediaInsightsPipeline'] as Map<String, dynamic>),
+          (json['MediaInsightsPipeline'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2787,7 +2802,8 @@ class FragmentSelector {
       fragmentSelectorType: FragmentSelectorType.fromString(
           (json['FragmentSelectorType'] as String)),
       timestampRange: TimestampRange.fromJson(
-          json['TimestampRange'] as Map<String, dynamic>),
+          (json['TimestampRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3161,7 +3177,7 @@ class IssueDetectionConfiguration {
 
   factory IssueDetectionConfiguration.fromJson(Map<String, dynamic> json) {
     return IssueDetectionConfiguration(
-      ruleName: json['RuleName'] as String,
+      ruleName: (json['RuleName'] as String?) ?? '',
     );
   }
 
@@ -3194,9 +3210,11 @@ class KeywordMatchConfiguration {
 
   factory KeywordMatchConfiguration.fromJson(Map<String, dynamic> json) {
     return KeywordMatchConfiguration(
-      keywords:
-          (json['Keywords'] as List).nonNulls.map((e) => e as String).toList(),
-      ruleName: json['RuleName'] as String,
+      keywords: ((json['Keywords'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ruleName: (json['RuleName'] as String?) ?? '',
       negate: json['Negate'] as bool?,
     );
   }
@@ -3278,7 +3296,7 @@ class KinesisVideoStreamConfiguration {
 
   factory KinesisVideoStreamConfiguration.fromJson(Map<String, dynamic> json) {
     return KinesisVideoStreamConfiguration(
-      region: json['Region'] as String,
+      region: (json['Region'] as String?) ?? '',
       dataRetentionInHours: json['DataRetentionInHours'] as int?,
     );
   }
@@ -3466,8 +3484,9 @@ class KinesisVideoStreamRecordingSourceRuntimeConfiguration {
       Map<String, dynamic> json) {
     return KinesisVideoStreamRecordingSourceRuntimeConfiguration(
       fragmentSelector: FragmentSelector.fromJson(
-          json['FragmentSelector'] as Map<String, dynamic>),
-      streams: (json['Streams'] as List)
+          (json['FragmentSelector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      streams: ((json['Streams'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               RecordingStreamConfiguration.fromJson(e as Map<String, dynamic>))
@@ -3517,8 +3536,8 @@ class KinesisVideoStreamSourceRuntimeConfiguration {
     return KinesisVideoStreamSourceRuntimeConfiguration(
       mediaEncoding:
           MediaEncoding.fromString((json['MediaEncoding'] as String)),
-      mediaSampleRate: json['MediaSampleRate'] as int,
-      streams: (json['Streams'] as List)
+      mediaSampleRate: (json['MediaSampleRate'] as int?) ?? 0,
+      streams: ((json['Streams'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3804,7 +3823,7 @@ class LiveConnectorRTMPConfiguration {
 
   factory LiveConnectorRTMPConfiguration.fromJson(Map<String, dynamic> json) {
     return LiveConnectorRTMPConfiguration(
-      url: json['Url'] as String,
+      url: (json['Url'] as String?) ?? '',
       audioChannels: (json['AudioChannels'] as String?)
           ?.let(AudioChannelsOption.fromString),
       audioSampleRate: json['AudioSampleRate'] as String?,
@@ -3839,7 +3858,8 @@ class LiveConnectorSinkConfiguration {
   factory LiveConnectorSinkConfiguration.fromJson(Map<String, dynamic> json) {
     return LiveConnectorSinkConfiguration(
       rTMPConfiguration: LiveConnectorRTMPConfiguration.fromJson(
-          json['RTMPConfiguration'] as Map<String, dynamic>),
+          (json['RTMPConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       sinkType: LiveConnectorSinkType.fromString((json['SinkType'] as String)),
     );
   }
@@ -3886,8 +3906,9 @@ class LiveConnectorSourceConfiguration {
     return LiveConnectorSourceConfiguration(
       chimeSdkMeetingLiveConnectorConfiguration:
           ChimeSdkMeetingLiveConnectorConfiguration.fromJson(
-              json['ChimeSdkMeetingLiveConnectorConfiguration']
-                  as Map<String, dynamic>),
+              (json['ChimeSdkMeetingLiveConnectorConfiguration']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       sourceType:
           LiveConnectorSourceType.fromString((json['SourceType'] as String)),
     );
@@ -4037,8 +4058,9 @@ class MediaCapturePipelineSourceConfiguration {
     return MediaCapturePipelineSourceConfiguration(
       chimeSdkMeetingConfiguration:
           ChimeSdkMeetingConcatenationConfiguration.fromJson(
-              json['ChimeSdkMeetingConfiguration'] as Map<String, dynamic>),
-      mediaPipelineArn: json['MediaPipelineArn'] as String,
+              (json['ChimeSdkMeetingConfiguration'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      mediaPipelineArn: (json['MediaPipelineArn'] as String?) ?? '',
     );
   }
 
@@ -5055,8 +5077,8 @@ class MediaStreamSink {
     return MediaStreamSink(
       mediaStreamType:
           MediaStreamType.fromString((json['MediaStreamType'] as String)),
-      reservedStreamCapacity: json['ReservedStreamCapacity'] as int,
-      sinkArn: json['SinkArn'] as String,
+      reservedStreamCapacity: (json['ReservedStreamCapacity'] as int?) ?? 0,
+      sinkArn: (json['SinkArn'] as String?) ?? '',
       sinkType:
           MediaStreamPipelineSinkType.fromString((json['SinkType'] as String)),
     );
@@ -5091,7 +5113,7 @@ class MediaStreamSource {
 
   factory MediaStreamSource.fromJson(Map<String, dynamic> json) {
     return MediaStreamSource(
-      sourceArn: json['SourceArn'] as String,
+      sourceArn: (json['SourceArn'] as String?) ?? '',
       sourceType:
           MediaPipelineSourceType.fromString((json['SourceType'] as String)),
     );
@@ -5215,8 +5237,8 @@ class PostCallAnalyticsSettings {
 
   factory PostCallAnalyticsSettings.fromJson(Map<String, dynamic> json) {
     return PostCallAnalyticsSettings(
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-      outputLocation: json['OutputLocation'] as String,
+      dataAccessRoleArn: (json['DataAccessRoleArn'] as String?) ?? '',
+      outputLocation: (json['OutputLocation'] as String?) ?? '',
       contentRedactionOutput: (json['ContentRedactionOutput'] as String?)
           ?.let(ContentRedactionOutput.fromString),
       outputEncryptionKMSKeyId: json['OutputEncryptionKMSKeyId'] as String?,
@@ -5452,7 +5474,7 @@ class S3BucketSinkConfiguration {
 
   factory S3BucketSinkConfiguration.fromJson(Map<String, dynamic> json) {
     return S3BucketSinkConfiguration(
-      destination: json['Destination'] as String,
+      destination: (json['Destination'] as String?) ?? '',
     );
   }
 
@@ -5516,7 +5538,7 @@ class S3RecordingSinkRuntimeConfiguration {
   factory S3RecordingSinkRuntimeConfiguration.fromJson(
       Map<String, dynamic> json) {
     return S3RecordingSinkRuntimeConfiguration(
-      destination: json['Destination'] as String,
+      destination: (json['Destination'] as String?) ?? '',
       recordingFileFormat: RecordingFileFormat.fromString(
           (json['RecordingFileFormat'] as String)),
     );
@@ -5590,10 +5612,10 @@ class SentimentConfiguration {
 
   factory SentimentConfiguration.fromJson(Map<String, dynamic> json) {
     return SentimentConfiguration(
-      ruleName: json['RuleName'] as String,
+      ruleName: (json['RuleName'] as String?) ?? '',
       sentimentType:
           SentimentType.fromString((json['SentimentType'] as String)),
-      timePeriod: json['TimePeriod'] as int,
+      timePeriod: (json['TimePeriod'] as int?) ?? 0,
     );
   }
 
@@ -5814,7 +5836,7 @@ class StreamChannelDefinition {
 
   factory StreamChannelDefinition.fromJson(Map<String, dynamic> json) {
     return StreamChannelDefinition(
-      numberOfChannels: json['NumberOfChannels'] as int,
+      numberOfChannels: (json['NumberOfChannels'] as int?) ?? 0,
       channelDefinitions: (json['ChannelDefinitions'] as List?)
           ?.nonNulls
           .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
@@ -5851,9 +5873,10 @@ class StreamConfiguration {
 
   factory StreamConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamConfiguration(
-      streamArn: json['StreamArn'] as String,
+      streamArn: (json['StreamArn'] as String?) ?? '',
       streamChannelDefinition: StreamChannelDefinition.fromJson(
-          json['StreamChannelDefinition'] as Map<String, dynamic>),
+          (json['StreamChannelDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       fragmentNumber: json['FragmentNumber'] as String?,
     );
   }
@@ -5885,8 +5908,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -5941,10 +5964,8 @@ class TimestampRange {
 
   factory TimestampRange.fromJson(Map<String, dynamic> json) {
     return TimestampRange(
-      endTimestamp:
-          nonNullableTimeStampFromJson(json['EndTimestamp'] as Object),
-      startTimestamp:
-          nonNullableTimeStampFromJson(json['StartTimestamp'] as Object),
+      endTimestamp: nonNullableTimeStampFromJson(json['EndTimestamp'] ?? 0),
+      startTimestamp: nonNullableTimeStampFromJson(json['StartTimestamp'] ?? 0),
     );
   }
 

@@ -901,7 +901,8 @@ class ColumnInfo {
 
   factory ColumnInfo.fromJson(Map<String, dynamic> json) {
     return ColumnInfo(
-      type: Type.fromJson(json['Type'] as Map<String, dynamic>),
+      type: Type.fromJson(
+          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       name: json['Name'] as String?,
     );
   }
@@ -926,7 +927,7 @@ class CreateScheduledQueryResponse {
 
   factory CreateScheduledQueryResponse.fromJson(Map<String, dynamic> json) {
     return CreateScheduledQueryResponse(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
     );
   }
 
@@ -1043,7 +1044,7 @@ class DescribeEndpointsResponse {
 
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
-      endpoints: (json['Endpoints'] as List)
+      endpoints: ((json['Endpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1069,7 +1070,8 @@ class DescribeScheduledQueryResponse {
   factory DescribeScheduledQueryResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScheduledQueryResponse(
       scheduledQuery: ScheduledQueryDescription.fromJson(
-          json['ScheduledQuery'] as Map<String, dynamic>),
+          (json['ScheduledQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1099,7 +1101,7 @@ class DimensionMapping {
     return DimensionMapping(
       dimensionValueType:
           DimensionValueType.fromString((json['DimensionValueType'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -1143,8 +1145,8 @@ class Endpoint {
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
-      address: json['Address'] as String,
-      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
     );
   }
 
@@ -1170,7 +1172,8 @@ class ErrorReportConfiguration {
   factory ErrorReportConfiguration.fromJson(Map<String, dynamic> json) {
     return ErrorReportConfiguration(
       s3Configuration: S3Configuration.fromJson(
-          json['S3Configuration'] as Map<String, dynamic>),
+          (json['S3Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1286,7 +1289,7 @@ class ListScheduledQueriesResponse {
 
   factory ListScheduledQueriesResponse.fromJson(Map<String, dynamic> json) {
     return ListScheduledQueriesResponse(
-      scheduledQueries: (json['ScheduledQueries'] as List)
+      scheduledQueries: ((json['ScheduledQueries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScheduledQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1319,7 +1322,7 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List)
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1441,7 +1444,7 @@ class MultiMeasureAttributeMapping {
     return MultiMeasureAttributeMapping(
       measureValueType: ScalarMeasureValueType.fromString(
           (json['MeasureValueType'] as String)),
-      sourceColumn: json['SourceColumn'] as String,
+      sourceColumn: (json['SourceColumn'] as String?) ?? '',
       targetMultiMeasureAttributeName:
           json['TargetMultiMeasureAttributeName'] as String?,
     );
@@ -1481,8 +1484,9 @@ class MultiMeasureMappings {
 
   factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
     return MultiMeasureMappings(
-      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
-              as List)
+      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
@@ -1516,7 +1520,8 @@ class NotificationConfiguration {
   factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
     return NotificationConfiguration(
       snsConfiguration: SnsConfiguration.fromJson(
-          json['SnsConfiguration'] as Map<String, dynamic>),
+          (json['SnsConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1541,8 +1546,9 @@ class ParameterMapping {
 
   factory ParameterMapping.fromJson(Map<String, dynamic> json) {
     return ParameterMapping(
-      name: json['Name'] as String,
-      type: Type.fromJson(json['Type'] as Map<String, dynamic>),
+      name: (json['Name'] as String?) ?? '',
+      type: Type.fromJson(
+          (json['Type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1574,15 +1580,15 @@ class PrepareQueryResponse {
 
   factory PrepareQueryResponse.fromJson(Map<String, dynamic> json) {
     return PrepareQueryResponse(
-      columns: (json['Columns'] as List)
+      columns: ((json['Columns'] as List?) ?? const [])
           .nonNulls
           .map((e) => SelectColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
-      parameters: (json['Parameters'] as List)
+      parameters: ((json['Parameters'] as List?) ?? const [])
           .nonNulls
           .map((e) => ParameterMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      queryString: json['QueryString'] as String,
+      queryString: (json['QueryString'] as String?) ?? '',
     );
   }
 
@@ -1641,12 +1647,12 @@ class QueryResponse {
 
   factory QueryResponse.fromJson(Map<String, dynamic> json) {
     return QueryResponse(
-      columnInfo: (json['ColumnInfo'] as List)
+      columnInfo: ((json['ColumnInfo'] as List?) ?? const [])
           .nonNulls
           .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      queryId: json['QueryId'] as String,
-      rows: (json['Rows'] as List)
+      queryId: (json['QueryId'] as String?) ?? '',
+      rows: ((json['Rows'] as List?) ?? const [])
           .nonNulls
           .map((e) => Row.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1730,7 +1736,7 @@ class Row {
 
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
-      data: (json['Data'] as List)
+      data: ((json['Data'] as List?) ?? const [])
           .nonNulls
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1766,7 +1772,7 @@ class S3Configuration {
 
   factory S3Configuration.fromJson(Map<String, dynamic> json) {
     return S3Configuration(
-      bucketName: json['BucketName'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
       encryptionOption: (json['EncryptionOption'] as String?)
           ?.let(S3EncryptionOption.fromString),
       objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
@@ -1883,7 +1889,7 @@ class ScheduleConfiguration {
 
   factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
     return ScheduleConfiguration(
-      scheduleExpression: json['ScheduleExpression'] as String,
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
     );
   }
 
@@ -1938,8 +1944,8 @@ class ScheduledQuery {
 
   factory ScheduledQuery.fromJson(Map<String, dynamic> json) {
     return ScheduledQuery(
-      arn: json['Arn'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       state: ScheduledQueryState.fromString((json['State'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
@@ -2052,13 +2058,15 @@ class ScheduledQueryDescription {
 
   factory ScheduledQueryDescription.fromJson(Map<String, dynamic> json) {
     return ScheduledQueryDescription(
-      arn: json['Arn'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       notificationConfiguration: NotificationConfiguration.fromJson(
-          json['NotificationConfiguration'] as Map<String, dynamic>),
-      queryString: json['QueryString'] as String,
+          (json['NotificationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      queryString: (json['QueryString'] as String?) ?? '',
       scheduleConfiguration: ScheduleConfiguration.fromJson(
-          json['ScheduleConfiguration'] as Map<String, dynamic>),
+          (json['ScheduleConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       state: ScheduledQueryState.fromString((json['State'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
       errorReportConfiguration: json['ErrorReportConfiguration'] != null
@@ -2292,7 +2300,7 @@ class SnsConfiguration {
 
   factory SnsConfiguration.fromJson(Map<String, dynamic> json) {
     return SnsConfiguration(
-      topicArn: json['TopicArn'] as String,
+      topicArn: (json['TopicArn'] as String?) ?? '',
     );
   }
 
@@ -2322,8 +2330,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2361,7 +2369,8 @@ class TargetConfiguration {
   factory TargetConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetConfiguration(
       timestreamConfiguration: TimestreamConfiguration.fromJson(
-          json['TimestreamConfiguration'] as Map<String, dynamic>),
+          (json['TimestreamConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2420,8 +2429,9 @@ class TimeSeriesDataPoint {
 
   factory TimeSeriesDataPoint.fromJson(Map<String, dynamic> json) {
     return TimeSeriesDataPoint(
-      time: json['Time'] as String,
-      value: Datum.fromJson(json['Value'] as Map<String, dynamic>),
+      time: (json['Time'] as String?) ?? '',
+      value: Datum.fromJson((json['Value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2476,13 +2486,13 @@ class TimestreamConfiguration {
 
   factory TimestreamConfiguration.fromJson(Map<String, dynamic> json) {
     return TimestreamConfiguration(
-      databaseName: json['DatabaseName'] as String,
-      dimensionMappings: (json['DimensionMappings'] as List)
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      dimensionMappings: ((json['DimensionMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tableName: json['TableName'] as String,
-      timeColumn: json['TimeColumn'] as String,
+      tableName: (json['TableName'] as String?) ?? '',
+      timeColumn: (json['TimeColumn'] as String?) ?? '',
       measureNameColumn: json['MeasureNameColumn'] as String?,
       mixedMeasureMappings: (json['MixedMeasureMappings'] as List?)
           ?.nonNulls

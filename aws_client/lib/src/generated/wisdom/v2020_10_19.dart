@@ -1964,7 +1964,7 @@ class AppIntegrationsConfiguration {
 
   factory AppIntegrationsConfiguration.fromJson(Map<String, dynamic> json) {
     return AppIntegrationsConfiguration(
-      appIntegrationArn: json['appIntegrationArn'] as String,
+      appIntegrationArn: (json['appIntegrationArn'] as String?) ?? '',
       objectFields: (json['objectFields'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2017,12 +2017,14 @@ class AssistantAssociationData {
 
   factory AssistantAssociationData.fromJson(Map<String, dynamic> json) {
     return AssistantAssociationData(
-      assistantArn: json['assistantArn'] as String,
-      assistantAssociationArn: json['assistantAssociationArn'] as String,
-      assistantAssociationId: json['assistantAssociationId'] as String,
-      assistantId: json['assistantId'] as String,
+      assistantArn: (json['assistantArn'] as String?) ?? '',
+      assistantAssociationArn:
+          (json['assistantAssociationArn'] as String?) ?? '',
+      assistantAssociationId: (json['assistantAssociationId'] as String?) ?? '',
+      assistantId: (json['assistantId'] as String?) ?? '',
       associationData: AssistantAssociationOutputData.fromJson(
-          json['associationData'] as Map<String, dynamic>),
+          (json['associationData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       associationType:
           AssociationType.fromString((json['associationType'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2130,12 +2132,14 @@ class AssistantAssociationSummary {
 
   factory AssistantAssociationSummary.fromJson(Map<String, dynamic> json) {
     return AssistantAssociationSummary(
-      assistantArn: json['assistantArn'] as String,
-      assistantAssociationArn: json['assistantAssociationArn'] as String,
-      assistantAssociationId: json['assistantAssociationId'] as String,
-      assistantId: json['assistantId'] as String,
+      assistantArn: (json['assistantArn'] as String?) ?? '',
+      assistantAssociationArn:
+          (json['assistantAssociationArn'] as String?) ?? '',
+      assistantAssociationId: (json['assistantAssociationId'] as String?) ?? '',
+      assistantId: (json['assistantId'] as String?) ?? '',
       associationData: AssistantAssociationOutputData.fromJson(
-          json['associationData'] as Map<String, dynamic>),
+          (json['associationData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       associationType:
           AssociationType.fromString((json['associationType'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2220,9 +2224,9 @@ class AssistantData {
 
   factory AssistantData.fromJson(Map<String, dynamic> json) {
     return AssistantData(
-      assistantArn: json['assistantArn'] as String,
-      assistantId: json['assistantId'] as String,
-      name: json['name'] as String,
+      assistantArn: (json['assistantArn'] as String?) ?? '',
+      assistantId: (json['assistantId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: AssistantStatus.fromString((json['status'] as String)),
       type: AssistantType.fromString((json['type'] as String)),
       description: json['description'] as String?,
@@ -2370,9 +2374,9 @@ class AssistantSummary {
 
   factory AssistantSummary.fromJson(Map<String, dynamic> json) {
     return AssistantSummary(
-      assistantArn: json['assistantArn'] as String,
-      assistantId: json['assistantId'] as String,
-      name: json['name'] as String,
+      assistantArn: (json['assistantArn'] as String?) ?? '',
+      assistantId: (json['assistantId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: AssistantStatus.fromString((json['status'] as String)),
       type: AssistantType.fromString((json['type'] as String)),
       description: json['description'] as String?,
@@ -2564,19 +2568,20 @@ class ContentData {
 
   factory ContentData.fromJson(Map<String, dynamic> json) {
     return ContentData(
-      contentArn: json['contentArn'] as String,
-      contentId: json['contentId'] as String,
-      contentType: json['contentType'] as String,
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
-      metadata: (json['metadata'] as Map<String, dynamic>)
+      contentArn: (json['contentArn'] as String?) ?? '',
+      contentId: (json['contentId'] as String?) ?? '',
+      contentType: (json['contentType'] as String?) ?? '',
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
-      revisionId: json['revisionId'] as String,
+      name: (json['name'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
       status: ContentStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
-      url: json['url'] as String,
-      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] as Object),
+      title: (json['title'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
+      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] ?? 0),
       linkOutUri: json['linkOutUri'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2737,17 +2742,18 @@ class ContentSummary {
 
   factory ContentSummary.fromJson(Map<String, dynamic> json) {
     return ContentSummary(
-      contentArn: json['contentArn'] as String,
-      contentId: json['contentId'] as String,
-      contentType: json['contentType'] as String,
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
-      metadata: (json['metadata'] as Map<String, dynamic>)
+      contentArn: (json['contentArn'] as String?) ?? '',
+      contentId: (json['contentId'] as String?) ?? '',
+      contentType: (json['contentType'] as String?) ?? '',
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
-      revisionId: json['revisionId'] as String,
+      name: (json['name'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
       status: ContentStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
+      title: (json['title'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3022,7 +3028,8 @@ class Document {
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
       contentReference: ContentReference.fromJson(
-          json['contentReference'] as Map<String, dynamic>),
+          (json['contentReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       excerpt: json['excerpt'] != null
           ? DocumentText.fromJson(json['excerpt'] as Map<String, dynamic>)
           : null,
@@ -3106,8 +3113,9 @@ class ExternalSourceConfiguration {
 
   factory ExternalSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return ExternalSourceConfiguration(
-      configuration:
-          Configuration.fromJson(json['configuration'] as Map<String, dynamic>),
+      configuration: Configuration.fromJson(
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       source: ExternalSource.fromString((json['source'] as String)),
     );
   }
@@ -3365,7 +3373,7 @@ class GetRecommendationsResponse {
 
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
-      recommendations: (json['recommendations'] as List)
+      recommendations: ((json['recommendations'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3556,18 +3564,18 @@ class ImportJobData {
 
   factory ImportJobData.fromJson(Map<String, dynamic> json) {
     return ImportJobData(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      importJobId: json['importJobId'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      importJobId: (json['importJobId'] as String?) ?? '',
       importJobType:
           ImportJobType.fromString((json['importJobType'] as String)),
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
       status: ImportJobStatus.fromString((json['status'] as String)),
-      uploadId: json['uploadId'] as String,
-      url: json['url'] as String,
-      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] as Object),
+      uploadId: (json['uploadId'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
+      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] ?? 0),
       externalSourceConfiguration: json['externalSourceConfiguration'] != null
           ? ExternalSourceConfiguration.fromJson(
               json['externalSourceConfiguration'] as Map<String, dynamic>)
@@ -3680,16 +3688,16 @@ class ImportJobSummary {
 
   factory ImportJobSummary.fromJson(Map<String, dynamic> json) {
     return ImportJobSummary(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      importJobId: json['importJobId'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      importJobId: (json['importJobId'] as String?) ?? '',
       importJobType:
           ImportJobType.fromString((json['importJobType'] as String)),
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
       status: ImportJobStatus.fromString((json['status'] as String)),
-      uploadId: json['uploadId'] as String,
+      uploadId: (json['uploadId'] as String?) ?? '',
       externalSourceConfiguration: json['externalSourceConfiguration'] != null
           ? ExternalSourceConfiguration.fromJson(
               json['externalSourceConfiguration'] as Map<String, dynamic>)
@@ -3836,11 +3844,11 @@ class KnowledgeBaseData {
 
   factory KnowledgeBaseData.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseData(
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       knowledgeBaseType:
           KnowledgeBaseType.fromString((json['knowledgeBaseType'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: KnowledgeBaseStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       lastContentModificationTime:
@@ -3975,11 +3983,11 @@ class KnowledgeBaseSummary {
 
   factory KnowledgeBaseSummary.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseSummary(
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       knowledgeBaseType:
           KnowledgeBaseType.fromString((json['knowledgeBaseType'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: KnowledgeBaseStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       renderingConfiguration: json['renderingConfiguration'] != null
@@ -4063,8 +4071,9 @@ class ListAssistantAssociationsResponse {
   factory ListAssistantAssociationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAssistantAssociationsResponse(
-      assistantAssociationSummaries: (json['assistantAssociationSummaries']
-              as List)
+      assistantAssociationSummaries: ((json['assistantAssociationSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               AssistantAssociationSummary.fromJson(e as Map<String, dynamic>))
@@ -4098,7 +4107,7 @@ class ListAssistantsResponse {
 
   factory ListAssistantsResponse.fromJson(Map<String, dynamic> json) {
     return ListAssistantsResponse(
-      assistantSummaries: (json['assistantSummaries'] as List)
+      assistantSummaries: ((json['assistantSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssistantSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4131,7 +4140,7 @@ class ListContentsResponse {
 
   factory ListContentsResponse.fromJson(Map<String, dynamic> json) {
     return ListContentsResponse(
-      contentSummaries: (json['contentSummaries'] as List)
+      contentSummaries: ((json['contentSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ContentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4164,7 +4173,7 @@ class ListImportJobsResponse {
 
   factory ListImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListImportJobsResponse(
-      importJobSummaries: (json['importJobSummaries'] as List)
+      importJobSummaries: ((json['importJobSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4197,7 +4206,8 @@ class ListKnowledgeBasesResponse {
 
   factory ListKnowledgeBasesResponse.fromJson(Map<String, dynamic> json) {
     return ListKnowledgeBasesResponse(
-      knowledgeBaseSummaries: (json['knowledgeBaseSummaries'] as List)
+      knowledgeBaseSummaries: ((json['knowledgeBaseSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => KnowledgeBaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4230,7 +4240,8 @@ class ListQuickResponsesResponse {
 
   factory ListQuickResponsesResponse.fromJson(Map<String, dynamic> json) {
     return ListQuickResponsesResponse(
-      quickResponseSummaries: (json['quickResponseSummaries'] as List)
+      quickResponseSummaries: ((json['quickResponseSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => QuickResponseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4383,7 +4394,7 @@ class QueryAssistantResponse {
 
   factory QueryAssistantResponse.fromJson(Map<String, dynamic> json) {
     return QueryAssistantResponse(
-      results: (json['results'] as List)
+      results: ((json['results'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResultData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4577,15 +4588,15 @@ class QuickResponseData {
 
   factory QuickResponseData.fromJson(Map<String, dynamic> json) {
     return QuickResponseData(
-      contentType: json['contentType'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      contentType: (json['contentType'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      name: json['name'] as String,
-      quickResponseArn: json['quickResponseArn'] as String,
-      quickResponseId: json['quickResponseId'] as String,
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
+      quickResponseId: (json['quickResponseId'] as String?) ?? '',
       status: QuickResponseStatus.fromString((json['status'] as String)),
       channels: (json['channels'] as List?)
           ?.nonNulls
@@ -5038,18 +5049,19 @@ class QuickResponseSearchResultData {
 
   factory QuickResponseSearchResultData.fromJson(Map<String, dynamic> json) {
     return QuickResponseSearchResultData(
-      contentType: json['contentType'] as String,
+      contentType: (json['contentType'] as String?) ?? '',
       contents: QuickResponseContents.fromJson(
-          json['contents'] as Map<String, dynamic>),
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      isActive: json['isActive'] as bool,
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+          (json['contents'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      isActive: (json['isActive'] as bool?) ?? false,
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      name: json['name'] as String,
-      quickResponseArn: json['quickResponseArn'] as String,
-      quickResponseId: json['quickResponseId'] as String,
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
+      quickResponseId: (json['quickResponseId'] as String?) ?? '',
       status: QuickResponseStatus.fromString((json['status'] as String)),
       attributesInterpolated: (json['attributesInterpolated'] as List?)
           ?.nonNulls
@@ -5223,15 +5235,15 @@ class QuickResponseSummary {
 
   factory QuickResponseSummary.fromJson(Map<String, dynamic> json) {
     return QuickResponseSummary(
-      contentType: json['contentType'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      knowledgeBaseArn: json['knowledgeBaseArn'] as String,
-      knowledgeBaseId: json['knowledgeBaseId'] as String,
+      contentType: (json['contentType'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      knowledgeBaseId: (json['knowledgeBaseId'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      name: json['name'] as String,
-      quickResponseArn: json['quickResponseArn'] as String,
-      quickResponseId: json['quickResponseId'] as String,
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      quickResponseArn: (json['quickResponseArn'] as String?) ?? '',
+      quickResponseId: (json['quickResponseId'] as String?) ?? '',
       status: QuickResponseStatus.fromString((json['status'] as String)),
       channels: (json['channels'] as List?)
           ?.nonNulls
@@ -5306,8 +5318,9 @@ class RecommendationData {
 
   factory RecommendationData.fromJson(Map<String, dynamic> json) {
     return RecommendationData(
-      document: Document.fromJson(json['document'] as Map<String, dynamic>),
-      recommendationId: json['recommendationId'] as String,
+      document: Document.fromJson((json['document'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      recommendationId: (json['recommendationId'] as String?) ?? '',
       relevanceLevel:
           (json['relevanceLevel'] as String?)?.let(RelevanceLevel.fromString),
       relevanceScore: json['relevanceScore'] as double?,
@@ -5388,9 +5401,9 @@ class RecommendationTrigger {
   factory RecommendationTrigger.fromJson(Map<String, dynamic> json) {
     return RecommendationTrigger(
       data: RecommendationTriggerData.fromJson(
-          json['data'] as Map<String, dynamic>),
-      id: json['id'] as String,
-      recommendationIds: (json['recommendationIds'] as List)
+          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      recommendationIds: ((json['recommendationIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -5563,8 +5576,9 @@ class ResultData {
 
   factory ResultData.fromJson(Map<String, dynamic> json) {
     return ResultData(
-      document: Document.fromJson(json['document'] as Map<String, dynamic>),
-      resultId: json['resultId'] as String,
+      document: Document.fromJson((json['document'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      resultId: (json['resultId'] as String?) ?? '',
       relevanceScore: json['relevanceScore'] as double?,
     );
   }
@@ -5596,7 +5610,7 @@ class SearchContentResponse {
 
   factory SearchContentResponse.fromJson(Map<String, dynamic> json) {
     return SearchContentResponse(
-      contentSummaries: (json['contentSummaries'] as List)
+      contentSummaries: ((json['contentSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ContentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5646,7 +5660,7 @@ class SearchQuickResponsesResponse {
 
   factory SearchQuickResponsesResponse.fromJson(Map<String, dynamic> json) {
     return SearchQuickResponsesResponse(
-      results: (json['results'] as List)
+      results: ((json['results'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               QuickResponseSearchResultData.fromJson(e as Map<String, dynamic>))
@@ -5680,7 +5694,7 @@ class SearchSessionsResponse {
 
   factory SearchSessionsResponse.fromJson(Map<String, dynamic> json) {
     return SearchSessionsResponse(
-      sessionSummaries: (json['sessionSummaries'] as List)
+      sessionSummaries: ((json['sessionSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => SessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5760,9 +5774,9 @@ class SessionData {
 
   factory SessionData.fromJson(Map<String, dynamic> json) {
     return SessionData(
-      name: json['name'] as String,
-      sessionArn: json['sessionArn'] as String,
-      sessionId: json['sessionId'] as String,
+      name: (json['name'] as String?) ?? '',
+      sessionArn: (json['sessionArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
       description: json['description'] as String?,
       integrationConfiguration: json['integrationConfiguration'] != null
           ? SessionIntegrationConfiguration.fromJson(
@@ -5840,10 +5854,10 @@ class SessionSummary {
 
   factory SessionSummary.fromJson(Map<String, dynamic> json) {
     return SessionSummary(
-      assistantArn: json['assistantArn'] as String,
-      assistantId: json['assistantId'] as String,
-      sessionArn: json['sessionArn'] as String,
-      sessionId: json['sessionId'] as String,
+      assistantArn: (json['assistantArn'] as String?) ?? '',
+      assistantId: (json['assistantId'] as String?) ?? '',
+      sessionArn: (json['sessionArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
     );
   }
 
@@ -5910,11 +5924,12 @@ class StartContentUploadResponse {
 
   factory StartContentUploadResponse.fromJson(Map<String, dynamic> json) {
     return StartContentUploadResponse(
-      headersToInclude: (json['headersToInclude'] as Map<String, dynamic>)
+      headersToInclude: ((json['headersToInclude'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      uploadId: json['uploadId'] as String,
-      url: json['url'] as String,
-      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] as Object),
+      uploadId: (json['uploadId'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
+      urlExpiry: nonNullableTimeStampFromJson(json['urlExpiry'] ?? 0),
     );
   }
 

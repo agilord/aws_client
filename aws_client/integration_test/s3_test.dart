@@ -167,4 +167,35 @@ void main() {
     final names = (listed.buckets ?? []).map((b) => b.name);
     expect(names, contains(bucket));
   });
+
+  test('range GET returns only the requested byte slice', () async {
+    await putText('ranged.txt', 'abcdefghij');
+
+    final got = await s3.getObject(
+      bucket: bucket,
+      key: 'ranged.txt',
+      range: 'bytes=2-5',
+    );
+    expect(utf8.decode(got.body!), equals('cdef'));
+  });
+
+  test('object tagging round-trips through put and get', () async {
+    await putText('tagged-object.txt', 'data');
+
+    await s3.putObjectTagging(
+      bucket: bucket,
+      key: 'tagged-object.txt',
+      tagging: Tagging(tagSet: [
+        Tag(key: 'env', value: 'smoke'),
+        Tag(key: 'team', value: 'aws-client'),
+      ]),
+    );
+
+    final tags = await s3.getObjectTagging(
+      bucket: bucket,
+      key: 'tagged-object.txt',
+    );
+    final asMap = {for (final t in tags.tagSet) t.key: t.value};
+    expect(asMap, equals({'env': 'smoke', 'team': 'aws-client'}));
+  });
 }

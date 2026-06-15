@@ -3560,7 +3560,7 @@ class ExecuteFastResetOutput {
 
   factory ExecuteFastResetOutput.fromJson(Map<String, dynamic> json) {
     return ExecuteFastResetOutput(
-      status: json['status'] as String,
+      status: (json['status'] as String?) ?? '',
       payload: json['payload'] != null
           ? FastResetToken.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -3689,7 +3689,8 @@ class ExecuteOpenCypherQueryOutput {
 
   factory ExecuteOpenCypherQueryOutput.fromJson(Map<String, dynamic> json) {
     return ExecuteOpenCypherQueryOutput(
-      results: Document.fromJson(json['results'] as Map<String, dynamic>),
+      results: Document.fromJson((json['results'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3939,8 +3940,9 @@ class GetLoaderJobStatusOutput {
 
   factory GetLoaderJobStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetLoaderJobStatusOutput(
-      payload: Document.fromJson(json['payload'] as Map<String, dynamic>),
-      status: json['status'] as String,
+      payload: Document.fromJson((json['payload'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
     );
   }
 
@@ -4227,8 +4229,9 @@ class GetPropertygraphStatisticsOutput {
 
   factory GetPropertygraphStatisticsOutput.fromJson(Map<String, dynamic> json) {
     return GetPropertygraphStatisticsOutput(
-      payload: Statistics.fromJson(json['payload'] as Map<String, dynamic>),
-      status: json['status'] as String,
+      payload: Statistics.fromJson((json['payload'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
     );
   }
 
@@ -4274,15 +4277,16 @@ class GetPropertygraphStreamOutput {
 
   factory GetPropertygraphStreamOutput.fromJson(Map<String, dynamic> json) {
     return GetPropertygraphStreamOutput(
-      format: json['format'] as String,
-      lastEventId: (json['lastEventId'] as Map<String, dynamic>)
+      format: (json['format'] as String?) ?? '',
+      lastEventId: ((json['lastEventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      lastTrxTimestampInMillis: json['lastTrxTimestamp'] as int,
-      records: (json['records'] as List)
+      lastTrxTimestampInMillis: (json['lastTrxTimestamp'] as int?) ?? 0,
+      records: ((json['records'] as List?) ?? const [])
           .nonNulls
           .map((e) => PropertygraphRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalRecords: json['totalRecords'] as int,
+      totalRecords: (json['totalRecords'] as int?) ?? 0,
     );
   }
 
@@ -4389,8 +4393,9 @@ class GetSparqlStatisticsOutput {
 
   factory GetSparqlStatisticsOutput.fromJson(Map<String, dynamic> json) {
     return GetSparqlStatisticsOutput(
-      payload: Statistics.fromJson(json['payload'] as Map<String, dynamic>),
-      status: json['status'] as String,
+      payload: Statistics.fromJson((json['payload'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
     );
   }
 
@@ -4436,15 +4441,16 @@ class GetSparqlStreamOutput {
 
   factory GetSparqlStreamOutput.fromJson(Map<String, dynamic> json) {
     return GetSparqlStreamOutput(
-      format: json['format'] as String,
-      lastEventId: (json['lastEventId'] as Map<String, dynamic>)
+      format: (json['format'] as String?) ?? '',
+      lastEventId: ((json['lastEventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      lastTrxTimestampInMillis: json['lastTrxTimestamp'] as int,
-      records: (json['records'] as List)
+      lastTrxTimestampInMillis: (json['lastTrxTimestamp'] as int?) ?? 0,
+      records: ((json['records'] as List?) ?? const [])
           .nonNulls
           .map((e) => SparqlRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalRecords: json['totalRecords'] as int,
+      totalRecords: (json['totalRecords'] as int?) ?? 0,
     );
   }
 
@@ -4631,8 +4637,10 @@ class ListLoaderJobsOutput {
 
   factory ListLoaderJobsOutput.fromJson(Map<String, dynamic> json) {
     return ListLoaderJobsOutput(
-      payload: LoaderIdResult.fromJson(json['payload'] as Map<String, dynamic>),
-      status: json['status'] as String,
+      payload: LoaderIdResult.fromJson(
+          (json['payload'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
     );
   }
 
@@ -4814,7 +4822,7 @@ class ManagePropertygraphStatisticsOutput {
   factory ManagePropertygraphStatisticsOutput.fromJson(
       Map<String, dynamic> json) {
     return ManagePropertygraphStatisticsOutput(
-      status: json['status'] as String,
+      status: (json['status'] as String?) ?? '',
       payload: json['payload'] != null
           ? RefreshStatisticsIdMap.fromJson(
               json['payload'] as Map<String, dynamic>)
@@ -4847,7 +4855,7 @@ class ManageSparqlStatisticsOutput {
 
   factory ManageSparqlStatisticsOutput.fromJson(Map<String, dynamic> json) {
     return ManageSparqlStatisticsOutput(
-      status: json['status'] as String,
+      status: (json['status'] as String?) ?? '',
       payload: json['payload'] != null
           ? RefreshStatisticsIdMap.fromJson(
               json['payload'] as Map<String, dynamic>)
@@ -5097,10 +5105,11 @@ class PropertygraphData {
 
   factory PropertygraphData.fromJson(Map<String, dynamic> json) {
     return PropertygraphData(
-      id: json['id'] as String,
-      key: json['key'] as String,
-      type: json['type'] as String,
-      value: Document.fromJson(json['value'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       from: json['from'] as String?,
       to: json['to'] as String?,
     );
@@ -5154,11 +5163,13 @@ class PropertygraphRecord {
 
   factory PropertygraphRecord.fromJson(Map<String, dynamic> json) {
     return PropertygraphRecord(
-      commitTimestampInMillis: json['commitTimestamp'] as int,
-      data: PropertygraphData.fromJson(json['data'] as Map<String, dynamic>),
-      eventId: (json['eventId'] as Map<String, dynamic>)
+      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
+      data: PropertygraphData.fromJson(
+          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      op: json['op'] as String,
+      op: (json['op'] as String?) ?? '',
       isLastOp: json['isLastOp'] as bool?,
     );
   }
@@ -5424,7 +5435,7 @@ class QueryLanguageVersion {
 
   factory QueryLanguageVersion.fromJson(Map<String, dynamic> json) {
     return QueryLanguageVersion(
-      version: json['version'] as String,
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -5633,7 +5644,7 @@ class SparqlData {
 
   factory SparqlData.fromJson(Map<String, dynamic> json) {
     return SparqlData(
-      stmt: json['stmt'] as String,
+      stmt: (json['stmt'] as String?) ?? '',
     );
   }
 
@@ -5679,11 +5690,13 @@ class SparqlRecord {
 
   factory SparqlRecord.fromJson(Map<String, dynamic> json) {
     return SparqlRecord(
-      commitTimestampInMillis: json['commitTimestamp'] as int,
-      data: SparqlData.fromJson(json['data'] as Map<String, dynamic>),
-      eventId: (json['eventId'] as Map<String, dynamic>)
+      commitTimestampInMillis: (json['commitTimestamp'] as int?) ?? 0,
+      data: SparqlData.fromJson(
+          (json['data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      eventId: ((json['eventId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      op: json['op'] as String,
+      op: (json['op'] as String?) ?? '',
       isLastOp: json['isLastOp'] as bool?,
     );
   }
@@ -5719,9 +5732,10 @@ class StartLoaderJobOutput {
 
   factory StartLoaderJobOutput.fromJson(Map<String, dynamic> json) {
     return StartLoaderJobOutput(
-      payload: (json['payload'] as Map<String, dynamic>)
+      payload: ((json['payload'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      status: json['status'] as String,
+      status: (json['status'] as String?) ?? '',
     );
   }
 

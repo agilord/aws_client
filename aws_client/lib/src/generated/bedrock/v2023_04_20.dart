@@ -2471,7 +2471,8 @@ class AutomatedEvaluationConfig {
 
   factory AutomatedEvaluationConfig.fromJson(Map<String, dynamic> json) {
     return AutomatedEvaluationConfig(
-      datasetMetricConfigs: (json['datasetMetricConfigs'] as List)
+      datasetMetricConfigs: ((json['datasetMetricConfigs'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               EvaluationDatasetMetricConfig.fromJson(e as Map<String, dynamic>))
@@ -2507,8 +2508,8 @@ class BatchDeleteEvaluationJobError {
 
   factory BatchDeleteEvaluationJobError.fromJson(Map<String, dynamic> json) {
     return BatchDeleteEvaluationJobError(
-      code: json['code'] as String,
-      jobIdentifier: json['jobIdentifier'] as String,
+      code: (json['code'] as String?) ?? '',
+      jobIdentifier: (json['jobIdentifier'] as String?) ?? '',
       message: json['message'] as String?,
     );
   }
@@ -2541,7 +2542,7 @@ class BatchDeleteEvaluationJobItem {
 
   factory BatchDeleteEvaluationJobItem.fromJson(Map<String, dynamic> json) {
     return BatchDeleteEvaluationJobItem(
-      jobIdentifier: json['jobIdentifier'] as String,
+      jobIdentifier: (json['jobIdentifier'] as String?) ?? '',
       jobStatus: EvaluationJobStatus.fromString((json['jobStatus'] as String)),
     );
   }
@@ -2571,12 +2572,12 @@ class BatchDeleteEvaluationJobResponse {
 
   factory BatchDeleteEvaluationJobResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteEvaluationJobResponse(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchDeleteEvaluationJobError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      evaluationJobs: (json['evaluationJobs'] as List)
+      evaluationJobs: ((json['evaluationJobs'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchDeleteEvaluationJobItem.fromJson(e as Map<String, dynamic>))
@@ -2613,8 +2614,8 @@ class CloudWatchConfig {
 
   factory CloudWatchConfig.fromJson(Map<String, dynamic> json) {
     return CloudWatchConfig(
-      logGroupName: json['logGroupName'] as String,
-      roleArn: json['roleArn'] as String,
+      logGroupName: (json['logGroupName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       largeDataDeliveryS3Config: json['largeDataDeliveryS3Config'] != null
           ? S3Config.fromJson(
               json['largeDataDeliveryS3Config'] as Map<String, dynamic>)
@@ -2660,7 +2661,7 @@ class CreateEvaluationJobResponse {
 
   factory CreateEvaluationJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateEvaluationJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -2695,10 +2696,10 @@ class CreateGuardrailResponse {
 
   factory CreateGuardrailResponse.fromJson(Map<String, dynamic> json) {
     return CreateGuardrailResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      guardrailArn: json['guardrailArn'] as String,
-      guardrailId: json['guardrailId'] as String,
-      version: json['version'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      guardrailArn: (json['guardrailArn'] as String?) ?? '',
+      guardrailId: (json['guardrailId'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -2730,8 +2731,8 @@ class CreateGuardrailVersionResponse {
 
   factory CreateGuardrailVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateGuardrailVersionResponse(
-      guardrailId: json['guardrailId'] as String,
-      version: json['version'] as String,
+      guardrailId: (json['guardrailId'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -2755,7 +2756,7 @@ class CreateModelCopyJobResponse {
 
   factory CreateModelCopyJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelCopyJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -2778,7 +2779,7 @@ class CreateModelCustomizationJobResponse {
   factory CreateModelCustomizationJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateModelCustomizationJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -2800,7 +2801,7 @@ class CreateModelImportJobResponse {
 
   factory CreateModelImportJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelImportJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -2822,7 +2823,7 @@ class CreateModelInvocationJobResponse {
 
   factory CreateModelInvocationJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelInvocationJobResponse(
-      jobArn: json['jobArn'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
     );
   }
 
@@ -2845,7 +2846,7 @@ class CreateProvisionedModelThroughputResponse {
   factory CreateProvisionedModelThroughputResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateProvisionedModelThroughputResponse(
-      provisionedModelArn: json['provisionedModelArn'] as String,
+      provisionedModelArn: (json['provisionedModelArn'] as String?) ?? '',
     );
   }
 
@@ -2895,12 +2896,11 @@ class CustomModelSummary {
 
   factory CustomModelSummary.fromJson(Map<String, dynamic> json) {
     return CustomModelSummary(
-      baseModelArn: json['baseModelArn'] as String,
-      baseModelName: json['baseModelName'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      modelArn: json['modelArn'] as String,
-      modelName: json['modelName'] as String,
+      baseModelArn: (json['baseModelArn'] as String?) ?? '',
+      baseModelName: (json['baseModelName'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelName: (json['modelName'] as String?) ?? '',
       customizationType: (json['customizationType'] as String?)
           ?.let(CustomizationType.fromString),
       ownerAccountId: json['ownerAccountId'] as String?,
@@ -3032,8 +3032,8 @@ class EvaluationBedrockModel {
 
   factory EvaluationBedrockModel.fromJson(Map<String, dynamic> json) {
     return EvaluationBedrockModel(
-      inferenceParams: json['inferenceParams'] as String,
-      modelIdentifier: json['modelIdentifier'] as String,
+      inferenceParams: (json['inferenceParams'] as String?) ?? '',
+      modelIdentifier: (json['modelIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3109,7 +3109,7 @@ class EvaluationDataset {
 
   factory EvaluationDataset.fromJson(Map<String, dynamic> json) {
     return EvaluationDataset(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       datasetLocation: json['datasetLocation'] != null
           ? EvaluationDatasetLocation.fromJson(
               json['datasetLocation'] as Map<String, dynamic>)
@@ -3175,9 +3175,10 @@ class EvaluationDatasetMetricConfig {
 
   factory EvaluationDatasetMetricConfig.fromJson(Map<String, dynamic> json) {
     return EvaluationDatasetMetricConfig(
-      dataset:
-          EvaluationDataset.fromJson(json['dataset'] as Map<String, dynamic>),
-      metricNames: (json['metricNames'] as List)
+      dataset: EvaluationDataset.fromJson(
+          (json['dataset'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      metricNames: ((json['metricNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3298,7 +3299,7 @@ class EvaluationOutputDataConfig {
 
   factory EvaluationOutputDataConfig.fromJson(Map<String, dynamic> json) {
     return EvaluationOutputDataConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -3346,16 +3347,15 @@ class EvaluationSummary {
 
   factory EvaluationSummary.fromJson(Map<String, dynamic> json) {
     return EvaluationSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      evaluationTaskTypes: (json['evaluationTaskTypes'] as List)
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      evaluationTaskTypes: ((json['evaluationTaskTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EvaluationTaskType.fromString((e as String)))
           .toList(),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobType: EvaluationJobType.fromString((json['jobType'] as String)),
-      modelIdentifiers: (json['modelIdentifiers'] as List)
+      modelIdentifiers: ((json['modelIdentifiers'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3466,8 +3466,8 @@ class FoundationModelDetails {
 
   factory FoundationModelDetails.fromJson(Map<String, dynamic> json) {
     return FoundationModelDetails(
-      modelArn: json['modelArn'] as String,
-      modelId: json['modelId'] as String,
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelId: (json['modelId'] as String?) ?? '',
       customizationsSupported: (json['customizationsSupported'] as List?)
           ?.nonNulls
           .map((e) => ModelCustomization.fromString((e as String)))
@@ -3614,8 +3614,8 @@ class FoundationModelSummary {
 
   factory FoundationModelSummary.fromJson(Map<String, dynamic> json) {
     return FoundationModelSummary(
-      modelArn: json['modelArn'] as String,
-      modelId: json['modelId'] as String,
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelId: (json['modelId'] as String?) ?? '',
       customizationsSupported: (json['customizationsSupported'] as List?)
           ?.nonNulls
           .map((e) => ModelCustomization.fromString((e as String)))
@@ -3740,16 +3740,17 @@ class GetCustomModelResponse {
 
   factory GetCustomModelResponse.fromJson(Map<String, dynamic> json) {
     return GetCustomModelResponse(
-      baseModelArn: json['baseModelArn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      modelArn: json['modelArn'] as String,
-      modelName: json['modelName'] as String,
+      baseModelArn: (json['baseModelArn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelName: (json['modelName'] as String?) ?? '',
       outputDataConfig: OutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       trainingDataConfig: TrainingDataConfig.fromJson(
-          json['trainingDataConfig'] as Map<String, dynamic>),
+          (json['trainingDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       customizationType: (json['customizationType'] as String?)
           ?.let(CustomizationType.fromString),
       hyperParameters: (json['hyperParameters'] as Map<String, dynamic>?)
@@ -3869,18 +3870,20 @@ class GetEvaluationJobResponse {
 
   factory GetEvaluationJobResponse.fromJson(Map<String, dynamic> json) {
     return GetEvaluationJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       evaluationConfig: EvaluationConfig.fromJson(
-          json['evaluationConfig'] as Map<String, dynamic>),
+          (json['evaluationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       inferenceConfig: EvaluationInferenceConfig.fromJson(
-          json['inferenceConfig'] as Map<String, dynamic>),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+          (json['inferenceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobType: EvaluationJobType.fromString((json['jobType'] as String)),
       outputDataConfig: EvaluationOutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: EvaluationJobStatus.fromString((json['status'] as String)),
       customerEncryptionKeyId: json['customerEncryptionKeyId'] as String?,
       failureMessages: (json['failureMessages'] as List?)
@@ -4031,15 +4034,16 @@ class GetGuardrailResponse {
 
   factory GetGuardrailResponse.fromJson(Map<String, dynamic> json) {
     return GetGuardrailResponse(
-      blockedInputMessaging: json['blockedInputMessaging'] as String,
-      blockedOutputsMessaging: json['blockedOutputsMessaging'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      guardrailArn: json['guardrailArn'] as String,
-      guardrailId: json['guardrailId'] as String,
-      name: json['name'] as String,
+      blockedInputMessaging: (json['blockedInputMessaging'] as String?) ?? '',
+      blockedOutputsMessaging:
+          (json['blockedOutputsMessaging'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      guardrailArn: (json['guardrailArn'] as String?) ?? '',
+      guardrailId: (json['guardrailId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GuardrailStatus.fromString((json['status'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      version: json['version'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
       contentPolicy: json['contentPolicy'] != null
           ? GuardrailContentPolicy.fromJson(
               json['contentPolicy'] as Map<String, dynamic>)
@@ -4236,10 +4240,10 @@ class GetInferenceProfileResponse {
 
   factory GetInferenceProfileResponse.fromJson(Map<String, dynamic> json) {
     return GetInferenceProfileResponse(
-      inferenceProfileArn: json['inferenceProfileArn'] as String,
-      inferenceProfileId: json['inferenceProfileId'] as String,
-      inferenceProfileName: json['inferenceProfileName'] as String,
-      models: (json['models'] as List)
+      inferenceProfileArn: (json['inferenceProfileArn'] as String?) ?? '',
+      inferenceProfileId: (json['inferenceProfileId'] as String?) ?? '',
+      inferenceProfileName: (json['inferenceProfileName'] as String?) ?? '',
+      models: ((json['models'] as List?) ?? const [])
           .nonNulls
           .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4326,13 +4330,12 @@ class GetModelCopyJobResponse {
 
   factory GetModelCopyJobResponse.fromJson(Map<String, dynamic> json) {
     return GetModelCopyJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      sourceAccountId: json['sourceAccountId'] as String,
-      sourceModelArn: json['sourceModelArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      sourceModelArn: (json['sourceModelArn'] as String?) ?? '',
       status: ModelCopyJobStatus.fromString((json['status'] as String)),
-      targetModelArn: json['targetModelArn'] as String,
+      targetModelArn: (json['targetModelArn'] as String?) ?? '',
       failureMessage: json['failureMessage'] as String?,
       sourceModelName: json['sourceModelName'] as String?,
       targetModelKmsKeyArn: json['targetModelKmsKeyArn'] as String?,
@@ -4470,21 +4473,24 @@ class GetModelCustomizationJobResponse {
 
   factory GetModelCustomizationJobResponse.fromJson(Map<String, dynamic> json) {
     return GetModelCustomizationJobResponse(
-      baseModelArn: json['baseModelArn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      hyperParameters: (json['hyperParameters'] as Map<String, dynamic>)
+      baseModelArn: (json['baseModelArn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      hyperParameters: ((json['hyperParameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       outputDataConfig: OutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
-      outputModelName: json['outputModelName'] as String,
-      roleArn: json['roleArn'] as String,
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      outputModelName: (json['outputModelName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       trainingDataConfig: TrainingDataConfig.fromJson(
-          json['trainingDataConfig'] as Map<String, dynamic>),
+          (json['trainingDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       validationDataConfig: ValidationDataConfig.fromJson(
-          json['validationDataConfig'] as Map<String, dynamic>),
+          (json['validationDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       clientRequestToken: json['clientRequestToken'] as String?,
       customizationType: (json['customizationType'] as String?)
           ?.let(CustomizationType.fromString),
@@ -4748,13 +4754,15 @@ class GetModelInvocationJobResponse {
   factory GetModelInvocationJobResponse.fromJson(Map<String, dynamic> json) {
     return GetModelInvocationJobResponse(
       inputDataConfig: ModelInvocationJobInputDataConfig.fromJson(
-          json['inputDataConfig'] as Map<String, dynamic>),
-      jobArn: json['jobArn'] as String,
-      modelId: json['modelId'] as String,
+          (json['inputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      modelId: (json['modelId'] as String?) ?? '',
       outputDataConfig: ModelInvocationJobOutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
-      submitTime: nonNullableTimeStampFromJson(json['submitTime'] as Object),
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      submitTime: nonNullableTimeStampFromJson(json['submitTime'] ?? 0),
       clientRequestToken: json['clientRequestToken'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       jobExpirationTime: timeStampFromJson(json['jobExpirationTime']),
@@ -4898,17 +4906,16 @@ class GetProvisionedModelThroughputResponse {
   factory GetProvisionedModelThroughputResponse.fromJson(
       Map<String, dynamic> json) {
     return GetProvisionedModelThroughputResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      desiredModelArn: json['desiredModelArn'] as String,
-      desiredModelUnits: json['desiredModelUnits'] as int,
-      foundationModelArn: json['foundationModelArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      desiredModelArn: (json['desiredModelArn'] as String?) ?? '',
+      desiredModelUnits: (json['desiredModelUnits'] as int?) ?? 0,
+      foundationModelArn: (json['foundationModelArn'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      modelArn: json['modelArn'] as String,
-      modelUnits: json['modelUnits'] as int,
-      provisionedModelArn: json['provisionedModelArn'] as String,
-      provisionedModelName: json['provisionedModelName'] as String,
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelUnits: (json['modelUnits'] as int?) ?? 0,
+      provisionedModelArn: (json['provisionedModelArn'] as String?) ?? '',
+      provisionedModelName: (json['provisionedModelName'] as String?) ?? '',
       status: ProvisionedModelStatus.fromString((json['status'] as String)),
       commitmentDuration: (json['commitmentDuration'] as String?)
           ?.let(CommitmentDuration.fromString),
@@ -5211,7 +5218,7 @@ class GuardrailContextualGroundingFilter {
   factory GuardrailContextualGroundingFilter.fromJson(
       Map<String, dynamic> json) {
     return GuardrailContextualGroundingFilter(
-      threshold: json['threshold'] as double,
+      threshold: (json['threshold'] as double?) ?? 0,
       type: GuardrailContextualGroundingFilterType.fromString(
           (json['type'] as String)),
     );
@@ -5278,7 +5285,7 @@ class GuardrailContextualGroundingPolicy {
   factory GuardrailContextualGroundingPolicy.fromJson(
       Map<String, dynamic> json) {
     return GuardrailContextualGroundingPolicy(
-      filters: (json['filters'] as List)
+      filters: ((json['filters'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailContextualGroundingFilter.fromJson(
               e as Map<String, dynamic>))
@@ -5770,8 +5777,8 @@ class GuardrailRegex {
     return GuardrailRegex(
       action: GuardrailSensitiveInformationAction.fromString(
           (json['action'] as String)),
-      name: json['name'] as String,
-      pattern: json['pattern'] as String,
+      name: (json['name'] as String?) ?? '',
+      pattern: (json['pattern'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -5971,13 +5978,13 @@ class GuardrailSummary {
 
   factory GuardrailSummary.fromJson(Map<String, dynamic> json) {
     return GuardrailSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GuardrailStatus.fromString((json['status'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      version: json['version'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -6038,8 +6045,8 @@ class GuardrailTopic {
 
   factory GuardrailTopic.fromJson(Map<String, dynamic> json) {
     return GuardrailTopic(
-      definition: json['definition'] as String,
-      name: json['name'] as String,
+      definition: (json['definition'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       examples: (json['examples'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6119,7 +6126,7 @@ class GuardrailTopicPolicy {
 
   factory GuardrailTopicPolicy.fromJson(Map<String, dynamic> json) {
     return GuardrailTopicPolicy(
-      topics: (json['topics'] as List)
+      topics: ((json['topics'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailTopic.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6176,7 +6183,7 @@ class GuardrailWord {
 
   factory GuardrailWord.fromJson(Map<String, dynamic> json) {
     return GuardrailWord(
-      text: json['text'] as String,
+      text: (json['text'] as String?) ?? '',
     );
   }
 
@@ -6302,7 +6309,8 @@ class HumanEvaluationConfig {
 
   factory HumanEvaluationConfig.fromJson(Map<String, dynamic> json) {
     return HumanEvaluationConfig(
-      datasetMetricConfigs: (json['datasetMetricConfigs'] as List)
+      datasetMetricConfigs: ((json['datasetMetricConfigs'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               EvaluationDatasetMetricConfig.fromJson(e as Map<String, dynamic>))
@@ -6358,8 +6366,8 @@ class HumanEvaluationCustomMetric {
 
   factory HumanEvaluationCustomMetric.fromJson(Map<String, dynamic> json) {
     return HumanEvaluationCustomMetric(
-      name: json['name'] as String,
-      ratingMethod: json['ratingMethod'] as String,
+      name: (json['name'] as String?) ?? '',
+      ratingMethod: (json['ratingMethod'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -6392,7 +6400,7 @@ class HumanWorkflowConfig {
 
   factory HumanWorkflowConfig.fromJson(Map<String, dynamic> json) {
     return HumanWorkflowConfig(
-      flowDefinitionArn: json['flowDefinitionArn'] as String,
+      flowDefinitionArn: (json['flowDefinitionArn'] as String?) ?? '',
       instructions: json['instructions'] as String?,
     );
   }
@@ -6426,10 +6434,9 @@ class ImportedModelSummary {
 
   factory ImportedModelSummary.fromJson(Map<String, dynamic> json) {
     return ImportedModelSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      modelArn: json['modelArn'] as String,
-      modelName: json['modelName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelName: (json['modelName'] as String?) ?? '',
     );
   }
 
@@ -6527,10 +6534,10 @@ class InferenceProfileSummary {
 
   factory InferenceProfileSummary.fromJson(Map<String, dynamic> json) {
     return InferenceProfileSummary(
-      inferenceProfileArn: json['inferenceProfileArn'] as String,
-      inferenceProfileId: json['inferenceProfileId'] as String,
-      inferenceProfileName: json['inferenceProfileName'] as String,
-      models: (json['models'] as List)
+      inferenceProfileArn: (json['inferenceProfileArn'] as String?) ?? '',
+      inferenceProfileId: (json['inferenceProfileId'] as String?) ?? '',
+      inferenceProfileName: (json['inferenceProfileName'] as String?) ?? '',
+      models: ((json['models'] as List?) ?? const [])
           .nonNulls
           .map((e) => InferenceProfileModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6704,7 +6711,7 @@ class ListGuardrailsResponse {
 
   factory ListGuardrailsResponse.fromJson(Map<String, dynamic> json) {
     return ListGuardrailsResponse(
-      guardrails: (json['guardrails'] as List)
+      guardrails: ((json['guardrails'] as List?) ?? const [])
           .nonNulls
           .map((e) => GuardrailSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7141,13 +7148,12 @@ class ModelCopyJobSummary {
 
   factory ModelCopyJobSummary.fromJson(Map<String, dynamic> json) {
     return ModelCopyJobSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      sourceAccountId: json['sourceAccountId'] as String,
-      sourceModelArn: json['sourceModelArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      sourceAccountId: (json['sourceAccountId'] as String?) ?? '',
+      sourceModelArn: (json['sourceModelArn'] as String?) ?? '',
       status: ModelCopyJobStatus.fromString((json['status'] as String)),
-      targetModelArn: json['targetModelArn'] as String,
+      targetModelArn: (json['targetModelArn'] as String?) ?? '',
       failureMessage: json['failureMessage'] as String?,
       sourceModelName: json['sourceModelName'] as String?,
       targetModelKmsKeyArn: json['targetModelKmsKeyArn'] as String?,
@@ -7271,11 +7277,10 @@ class ModelCustomizationJobSummary {
 
   factory ModelCustomizationJobSummary.fromJson(Map<String, dynamic> json) {
     return ModelCustomizationJobSummary(
-      baseModelArn: json['baseModelArn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+      baseModelArn: (json['baseModelArn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       status:
           ModelCustomizationJobStatus.fromString((json['status'] as String)),
       customModelArn: json['customModelArn'] as String?,
@@ -7395,10 +7400,9 @@ class ModelImportJobSummary {
 
   factory ModelImportJobSummary.fromJson(Map<String, dynamic> json) {
     return ModelImportJobSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       status: ModelImportJobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       importedModelArn: json['importedModelArn'] as String?,
@@ -7500,7 +7504,7 @@ class ModelInvocationJobS3InputDataConfig {
   factory ModelInvocationJobS3InputDataConfig.fromJson(
       Map<String, dynamic> json) {
     return ModelInvocationJobS3InputDataConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
       s3InputFormat:
           (json['s3InputFormat'] as String?)?.let(S3InputFormat.fromString),
     );
@@ -7533,7 +7537,7 @@ class ModelInvocationJobS3OutputDataConfig {
   factory ModelInvocationJobS3OutputDataConfig.fromJson(
       Map<String, dynamic> json) {
     return ModelInvocationJobS3OutputDataConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
       s3EncryptionKeyId: json['s3EncryptionKeyId'] as String?,
     );
   }
@@ -7645,14 +7649,16 @@ class ModelInvocationJobSummary {
   factory ModelInvocationJobSummary.fromJson(Map<String, dynamic> json) {
     return ModelInvocationJobSummary(
       inputDataConfig: ModelInvocationJobInputDataConfig.fromJson(
-          json['inputDataConfig'] as Map<String, dynamic>),
-      jobArn: json['jobArn'] as String,
-      jobName: json['jobName'] as String,
-      modelId: json['modelId'] as String,
+          (json['inputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
+      modelId: (json['modelId'] as String?) ?? '',
       outputDataConfig: ModelInvocationJobOutputDataConfig.fromJson(
-          json['outputDataConfig'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
-      submitTime: nonNullableTimeStampFromJson(json['submitTime'] as Object),
+          (json['outputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      submitTime: nonNullableTimeStampFromJson(json['submitTime'] ?? 0),
       clientRequestToken: json['clientRequestToken'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       jobExpirationTime: timeStampFromJson(json['jobExpirationTime']),
@@ -7728,7 +7734,7 @@ class OutputDataConfig {
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -7829,17 +7835,16 @@ class ProvisionedModelSummary {
 
   factory ProvisionedModelSummary.fromJson(Map<String, dynamic> json) {
     return ProvisionedModelSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      desiredModelArn: json['desiredModelArn'] as String,
-      desiredModelUnits: json['desiredModelUnits'] as int,
-      foundationModelArn: json['foundationModelArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      desiredModelArn: (json['desiredModelArn'] as String?) ?? '',
+      desiredModelUnits: (json['desiredModelUnits'] as int?) ?? 0,
+      foundationModelArn: (json['foundationModelArn'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      modelArn: json['modelArn'] as String,
-      modelUnits: json['modelUnits'] as int,
-      provisionedModelArn: json['provisionedModelArn'] as String,
-      provisionedModelName: json['provisionedModelName'] as String,
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      modelArn: (json['modelArn'] as String?) ?? '',
+      modelUnits: (json['modelUnits'] as int?) ?? 0,
+      provisionedModelArn: (json['provisionedModelArn'] as String?) ?? '',
+      provisionedModelName: (json['provisionedModelName'] as String?) ?? '',
       status: ProvisionedModelStatus.fromString((json['status'] as String)),
       commitmentDuration: (json['commitmentDuration'] as String?)
           ?.let(CommitmentDuration.fromString),
@@ -7908,7 +7913,7 @@ class S3Config {
 
   factory S3Config.fromJson(Map<String, dynamic> json) {
     return S3Config(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
       keyPrefix: json['keyPrefix'] as String?,
     );
   }
@@ -7934,7 +7939,7 @@ class S3DataSource {
 
   factory S3DataSource.fromJson(Map<String, dynamic> json) {
     return S3DataSource(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -8066,8 +8071,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -8104,7 +8109,7 @@ class TrainingDataConfig {
 
   factory TrainingDataConfig.fromJson(Map<String, dynamic> json) {
     return TrainingDataConfig(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -8173,10 +8178,10 @@ class UpdateGuardrailResponse {
 
   factory UpdateGuardrailResponse.fromJson(Map<String, dynamic> json) {
     return UpdateGuardrailResponse(
-      guardrailArn: json['guardrailArn'] as String,
-      guardrailId: json['guardrailId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      version: json['version'] as String,
+      guardrailArn: (json['guardrailArn'] as String?) ?? '',
+      guardrailId: (json['guardrailId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -8218,7 +8223,7 @@ class ValidationDataConfig {
 
   factory ValidationDataConfig.fromJson(Map<String, dynamic> json) {
     return ValidationDataConfig(
-      validators: (json['validators'] as List)
+      validators: ((json['validators'] as List?) ?? const [])
           .nonNulls
           .map((e) => Validator.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8244,7 +8249,7 @@ class Validator {
 
   factory Validator.fromJson(Map<String, dynamic> json) {
     return Validator(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -8294,12 +8299,14 @@ class VpcConfig {
 
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
-      securityGroupIds: (json['securityGroupIds'] as List)
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 

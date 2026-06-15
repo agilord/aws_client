@@ -2739,7 +2739,7 @@ class Actuator {
   factory Actuator.fromJson(Map<String, dynamic> json) {
     return Actuator(
       dataType: NodeDataType.fromString((json['dataType'] as String)),
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2851,7 +2851,7 @@ class Attribute {
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
       dataType: NodeDataType.fromString((json['dataType'] as String)),
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2998,7 +2998,7 @@ class Branch {
 
   factory Branch.fromJson(Map<String, dynamic> json) {
     return Branch(
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       comment: json['comment'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
@@ -3098,10 +3098,9 @@ class CampaignSummary {
 
   factory CampaignSummary.fromJson(Map<String, dynamic> json) {
     return CampaignSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       name: json['name'] as String?,
@@ -3183,7 +3182,7 @@ class CanInterface {
 
   factory CanInterface.fromJson(Map<String, dynamic> json) {
     return CanInterface(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       protocolName: json['protocolName'] as String?,
       protocolVersion: json['protocolVersion'] as String?,
     );
@@ -3249,13 +3248,13 @@ class CanSignal {
 
   factory CanSignal.fromJson(Map<String, dynamic> json) {
     return CanSignal(
-      factor: json['factor'] as double,
-      isBigEndian: json['isBigEndian'] as bool,
-      isSigned: json['isSigned'] as bool,
-      length: json['length'] as int,
-      messageId: json['messageId'] as int,
-      offset: json['offset'] as double,
-      startBit: json['startBit'] as int,
+      factor: (json['factor'] as double?) ?? 0,
+      isBigEndian: (json['isBigEndian'] as bool?) ?? false,
+      isSigned: (json['isSigned'] as bool?) ?? false,
+      length: (json['length'] as int?) ?? 0,
+      messageId: (json['messageId'] as int?) ?? 0,
+      offset: (json['offset'] as double?) ?? 0,
+      startBit: (json['startBit'] as int?) ?? 0,
       name: json['name'] as String?,
     );
   }
@@ -3400,7 +3399,7 @@ class ConditionBasedCollectionScheme {
 
   factory ConditionBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
     return ConditionBasedCollectionScheme(
-      expression: json['expression'] as String,
+      expression: (json['expression'] as String?) ?? '',
       conditionLanguageVersion: json['conditionLanguageVersion'] as int?,
       minimumTriggerIntervalMs: json['minimumTriggerIntervalMs'] as int?,
       triggerMode:
@@ -3467,8 +3466,8 @@ class CreateDecoderManifestResponse {
 
   factory CreateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
     return CreateDecoderManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -3496,8 +3495,8 @@ class CreateFleetResponse {
 
   factory CreateFleetResponse.fromJson(Map<String, dynamic> json) {
     return CreateFleetResponse(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -3525,8 +3524,8 @@ class CreateModelManifestResponse {
 
   factory CreateModelManifestResponse.fromJson(Map<String, dynamic> json) {
     return CreateModelManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -3554,8 +3553,8 @@ class CreateSignalCatalogResponse {
 
   factory CreateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
     return CreateSignalCatalogResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -3772,7 +3771,7 @@ class CustomProperty {
   factory CustomProperty.fromJson(Map<String, dynamic> json) {
     return CustomProperty(
       dataType: NodeDataType.fromString((json['dataType'] as String)),
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       comment: json['comment'] as String?,
       dataEncoding:
           (json['dataEncoding'] as String?)?.let(NodeDataEncoding.fromString),
@@ -3829,7 +3828,7 @@ class CustomStruct {
 
   factory CustomStruct.fromJson(Map<String, dynamic> json) {
     return CustomStruct(
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       comment: json['comment'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
       description: json['description'] as String?,
@@ -3949,10 +3948,9 @@ class DecoderManifestSummary {
 
   factory DecoderManifestSummary.fromJson(Map<String, dynamic> json) {
     return DecoderManifestSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       message: json['message'] as String?,
@@ -4030,8 +4028,8 @@ class DeleteDecoderManifestResponse {
 
   factory DeleteDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDecoderManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4088,8 +4086,8 @@ class DeleteModelManifestResponse {
 
   factory DeleteModelManifestResponse.fromJson(Map<String, dynamic> json) {
     return DeleteModelManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4117,8 +4115,8 @@ class DeleteSignalCatalogResponse {
 
   factory DeleteSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSignalCatalogResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4146,8 +4144,8 @@ class DeleteVehicleResponse {
 
   factory DeleteVehicleResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVehicleResponse(
-      arn: json['arn'] as String,
-      vehicleName: json['vehicleName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      vehicleName: (json['vehicleName'] as String?) ?? '',
     );
   }
 
@@ -4255,11 +4253,10 @@ class FleetSummary {
 
   factory FleetSummary.fromJson(Map<String, dynamic> json) {
     return FleetSummary(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      signalCatalogArn: json['signalCatalogArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
       description: json['description'] as String?,
       lastModificationTime: timeStampFromJson(json['lastModificationTime']),
     );
@@ -4541,12 +4538,11 @@ class GetDecoderManifestResponse {
 
   factory GetDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
     return GetDecoderManifestResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       message: json['message'] as String?,
       modelManifestArn: json['modelManifestArn'] as String?,
@@ -4677,13 +4673,12 @@ class GetFleetResponse {
 
   factory GetFleetResponse.fromJson(Map<String, dynamic> json) {
     return GetFleetResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      signalCatalogArn: json['signalCatalogArn'] as String,
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -4717,7 +4712,8 @@ class GetLoggingOptionsResponse {
   factory GetLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
     return GetLoggingOptionsResponse(
       cloudWatchLogDelivery: CloudWatchLogDeliveryOptions.fromJson(
-          json['cloudWatchLogDelivery'] as Map<String, dynamic>),
+          (json['cloudWatchLogDelivery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4766,12 +4762,11 @@ class GetModelManifestResponse {
 
   factory GetModelManifestResponse.fromJson(Map<String, dynamic> json) {
     return GetModelManifestResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       signalCatalogArn: json['signalCatalogArn'] as String?,
       status: (json['status'] as String?)?.let(ManifestStatus.fromString),
@@ -4851,13 +4846,13 @@ class GetRegisterAccountStatusResponse {
     return GetRegisterAccountStatusResponse(
       accountStatus:
           RegistrationStatus.fromString((json['accountStatus'] as String)),
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      customerAccountId: json['customerAccountId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      customerAccountId: (json['customerAccountId'] as String?) ?? '',
       iamRegistrationResponse: IamRegistrationResponse.fromJson(
-          json['iamRegistrationResponse'] as Map<String, dynamic>),
+          (json['iamRegistrationResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       timestreamRegistrationResponse: json['timestreamRegistrationResponse'] !=
               null
           ? TimestreamRegistrationResponse.fromJson(
@@ -4916,12 +4911,11 @@ class GetSignalCatalogResponse {
 
   factory GetSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
     return GetSignalCatalogResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       nodeCounts: json['nodeCounts'] != null
           ? NodeCounts.fromJson(json['nodeCounts'] as Map<String, dynamic>)
@@ -5076,7 +5070,7 @@ class IamRegistrationResponse {
     return IamRegistrationResponse(
       registrationStatus:
           RegistrationStatus.fromString((json['registrationStatus'] as String)),
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -5111,7 +5105,7 @@ class IamResources {
 
   factory IamResources.fromJson(Map<String, dynamic> json) {
     return IamResources(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -5137,8 +5131,8 @@ class ImportDecoderManifestResponse {
 
   factory ImportDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
     return ImportDecoderManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5166,8 +5160,8 @@ class ImportSignalCatalogResponse {
 
   factory ImportSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
     return ImportSignalCatalogResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5654,8 +5648,9 @@ class MessageSignal {
   factory MessageSignal.fromJson(Map<String, dynamic> json) {
     return MessageSignal(
       structuredMessage: StructuredMessage.fromJson(
-          json['structuredMessage'] as Map<String, dynamic>),
-      topicName: json['topicName'] as String,
+          (json['structuredMessage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      topicName: (json['topicName'] as String?) ?? '',
     );
   }
 
@@ -5709,10 +5704,9 @@ class ModelManifestSummary {
 
   factory ModelManifestSummary.fromJson(Map<String, dynamic> json) {
     return ModelManifestSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       name: json['name'] as String?,
@@ -5796,7 +5790,7 @@ class NetworkInterface {
 
   factory NetworkInterface.fromJson(Map<String, dynamic> json) {
     return NetworkInterface(
-      interfaceId: json['interfaceId'] as String,
+      interfaceId: (json['interfaceId'] as String?) ?? '',
       type: NetworkInterfaceType.fromString((json['type'] as String)),
       canInterface: json['canInterface'] != null
           ? CanInterface.fromJson(json['canInterface'] as Map<String, dynamic>)
@@ -6080,8 +6074,8 @@ class ObdInterface {
 
   factory ObdInterface.fromJson(Map<String, dynamic> json) {
     return ObdInterface(
-      name: json['name'] as String,
-      requestMessageId: json['requestMessageId'] as int,
+      name: (json['name'] as String?) ?? '',
+      requestMessageId: (json['requestMessageId'] as int?) ?? 0,
       dtcRequestIntervalSeconds: json['dtcRequestIntervalSeconds'] as int?,
       hasTransmissionEcu: json['hasTransmissionEcu'] as bool?,
       obdStandard: json['obdStandard'] as String?,
@@ -6157,13 +6151,13 @@ class ObdSignal {
 
   factory ObdSignal.fromJson(Map<String, dynamic> json) {
     return ObdSignal(
-      byteLength: json['byteLength'] as int,
-      offset: json['offset'] as double,
-      pid: json['pid'] as int,
-      pidResponseLength: json['pidResponseLength'] as int,
-      scaling: json['scaling'] as double,
-      serviceMode: json['serviceMode'] as int,
-      startByte: json['startByte'] as int,
+      byteLength: (json['byteLength'] as int?) ?? 0,
+      offset: (json['offset'] as double?) ?? 0,
+      pid: (json['pid'] as int?) ?? 0,
+      pidResponseLength: (json['pidResponseLength'] as int?) ?? 0,
+      scaling: (json['scaling'] as double?) ?? 0,
+      serviceMode: (json['serviceMode'] as int?) ?? 0,
+      startByte: (json['startByte'] as int?) ?? 0,
       bitMaskLength: json['bitMaskLength'] as int?,
       bitRightShift: json['bitRightShift'] as int?,
     );
@@ -6382,12 +6376,12 @@ class RegisterAccountResponse {
 
   factory RegisterAccountResponse.fromJson(Map<String, dynamic> json) {
     return RegisterAccountResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      iamResources:
-          IamResources.fromJson(json['iamResources'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      iamResources: IamResources.fromJson(
+          (json['iamResources'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
       registerAccountStatus: RegistrationStatus.fromString(
           (json['registerAccountStatus'] as String)),
       timestreamResources: json['timestreamResources'] != null
@@ -6483,7 +6477,7 @@ class S3Config {
 
   factory S3Config.fromJson(Map<String, dynamic> json) {
     return S3Config(
-      bucketArn: json['bucketArn'] as String,
+      bucketArn: (json['bucketArn'] as String?) ?? '',
       dataFormat: (json['dataFormat'] as String?)?.let(DataFormat.fromString),
       prefix: json['prefix'] as String?,
       storageCompressionFormat: (json['storageCompressionFormat'] as String?)
@@ -6563,7 +6557,7 @@ class Sensor {
   factory Sensor.fromJson(Map<String, dynamic> json) {
     return Sensor(
       dataType: NodeDataType.fromString((json['dataType'] as String)),
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6692,8 +6686,8 @@ class SignalDecoder {
 
   factory SignalDecoder.fromJson(Map<String, dynamic> json) {
     return SignalDecoder(
-      fullyQualifiedName: json['fullyQualifiedName'] as String,
-      interfaceId: json['interfaceId'] as String,
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
+      interfaceId: (json['interfaceId'] as String?) ?? '',
       type: SignalDecoderType.fromString((json['type'] as String)),
       canSignal: json['canSignal'] != null
           ? CanSignal.fromJson(json['canSignal'] as Map<String, dynamic>)
@@ -6765,7 +6759,7 @@ class SignalInformation {
 
   factory SignalInformation.fromJson(Map<String, dynamic> json) {
     return SignalInformation(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       maxSampleCount: json['maxSampleCount'] as int?,
       minimumSamplingIntervalMs: json['minimumSamplingIntervalMs'] as int?,
     );
@@ -6909,9 +6903,10 @@ class StructuredMessageFieldNameAndDataTypePair {
   factory StructuredMessageFieldNameAndDataTypePair.fromJson(
       Map<String, dynamic> json) {
     return StructuredMessageFieldNameAndDataTypePair(
-      dataType:
-          StructuredMessage.fromJson(json['dataType'] as Map<String, dynamic>),
-      fieldName: json['fieldName'] as String,
+      dataType: StructuredMessage.fromJson(
+          (json['dataType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      fieldName: (json['fieldName'] as String?) ?? '',
     );
   }
 
@@ -6952,8 +6947,9 @@ class StructuredMessageListDefinition {
       listType:
           StructuredMessageListType.fromString((json['listType'] as String)),
       memberType: StructuredMessage.fromJson(
-          json['memberType'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['memberType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       capacity: json['capacity'] as int?,
     );
   }
@@ -7003,8 +6999,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7044,7 +7040,7 @@ class TimeBasedCollectionScheme {
 
   factory TimeBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
     return TimeBasedCollectionScheme(
-      periodMs: json['periodMs'] as int,
+      periodMs: (json['periodMs'] as int?) ?? 0,
     );
   }
 
@@ -7077,8 +7073,8 @@ class TimestreamConfig {
 
   factory TimestreamConfig.fromJson(Map<String, dynamic> json) {
     return TimestreamConfig(
-      executionRoleArn: json['executionRoleArn'] as String,
-      timestreamTableArn: json['timestreamTableArn'] as String,
+      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
+      timestreamTableArn: (json['timestreamTableArn'] as String?) ?? '',
     );
   }
 
@@ -7128,8 +7124,8 @@ class TimestreamRegistrationResponse {
     return TimestreamRegistrationResponse(
       registrationStatus:
           RegistrationStatus.fromString((json['registrationStatus'] as String)),
-      timestreamDatabaseName: json['timestreamDatabaseName'] as String,
-      timestreamTableName: json['timestreamTableName'] as String,
+      timestreamDatabaseName: (json['timestreamDatabaseName'] as String?) ?? '',
+      timestreamTableName: (json['timestreamTableName'] as String?) ?? '',
       errorMessage: json['errorMessage'] as String?,
       timestreamDatabaseArn: json['timestreamDatabaseArn'] as String?,
       timestreamTableArn: json['timestreamTableArn'] as String?,
@@ -7171,8 +7167,8 @@ class TimestreamResources {
 
   factory TimestreamResources.fromJson(Map<String, dynamic> json) {
     return TimestreamResources(
-      timestreamDatabaseName: json['timestreamDatabaseName'] as String,
-      timestreamTableName: json['timestreamTableName'] as String,
+      timestreamDatabaseName: (json['timestreamDatabaseName'] as String?) ?? '',
+      timestreamTableName: (json['timestreamTableName'] as String?) ?? '',
     );
   }
 
@@ -7299,8 +7295,8 @@ class UpdateDecoderManifestResponse {
 
   factory UpdateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDecoderManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -7371,8 +7367,8 @@ class UpdateModelManifestResponse {
 
   factory UpdateModelManifestResponse.fromJson(Map<String, dynamic> json) {
     return UpdateModelManifestResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -7400,8 +7396,8 @@ class UpdateSignalCatalogResponse {
 
   factory UpdateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSignalCatalogResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -7593,7 +7589,7 @@ class VehicleMiddleware {
 
   factory VehicleMiddleware.fromJson(Map<String, dynamic> json) {
     return VehicleMiddleware(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       protocolName: VehicleMiddlewareProtocol.fromString(
           (json['protocolName'] as String)),
     );
@@ -7742,14 +7738,13 @@ class VehicleSummary {
 
   factory VehicleSummary.fromJson(Map<String, dynamic> json) {
     return VehicleSummary(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      decoderManifestArn: json['decoderManifestArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      decoderManifestArn: (json['decoderManifestArn'] as String?) ?? '',
       lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] as Object),
-      modelManifestArn: json['modelManifestArn'] as String,
-      vehicleName: json['vehicleName'] as String,
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      modelManifestArn: (json['modelManifestArn'] as String?) ?? '',
+      vehicleName: (json['vehicleName'] as String?) ?? '',
       attributes: (json['attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );

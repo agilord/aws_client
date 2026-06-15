@@ -4232,8 +4232,9 @@ class ActiveDirectoryConfig {
 
   factory ActiveDirectoryConfig.fromJson(Map<String, dynamic> json) {
     return ActiveDirectoryConfig(
-      domainName: json['DomainName'] as String,
-      serviceAccountSecretArn: json['ServiceAccountSecretArn'] as String,
+      domainName: (json['DomainName'] as String?) ?? '',
+      serviceAccountSecretArn:
+          (json['ServiceAccountSecretArn'] as String?) ?? '',
     );
   }
 
@@ -4764,10 +4765,10 @@ class CapacityStatus {
 
   factory CapacityStatus.fromJson(Map<String, dynamic> json) {
     return CapacityStatus(
-      activeUserSessions: json['ActiveUserSessions'] as int,
-      actualUserSessions: json['ActualUserSessions'] as int,
-      availableUserSessions: json['AvailableUserSessions'] as int,
-      desiredUserSessions: json['DesiredUserSessions'] as int,
+      activeUserSessions: (json['ActiveUserSessions'] as int?) ?? 0,
+      actualUserSessions: (json['ActualUserSessions'] as int?) ?? 0,
+      availableUserSessions: (json['AvailableUserSessions'] as int?) ?? 0,
+      desiredUserSessions: (json['DesiredUserSessions'] as int?) ?? 0,
     );
   }
 
@@ -5146,8 +5147,8 @@ class ConnectionAliasPermission {
 
   factory ConnectionAliasPermission.fromJson(Map<String, dynamic> json) {
     return ConnectionAliasPermission(
-      allowAssociation: json['AllowAssociation'] as bool,
-      sharedAccountId: json['SharedAccountId'] as String,
+      allowAssociation: (json['AllowAssociation'] as bool?) ?? false,
+      sharedAccountId: (json['SharedAccountId'] as String?) ?? '',
     );
   }
 
@@ -8475,7 +8476,7 @@ class RootStorage {
 
   factory RootStorage.fromJson(Map<String, dynamic> json) {
     return RootStorage(
-      capacity: json['Capacity'] as String,
+      capacity: (json['Capacity'] as String?) ?? '',
     );
   }
 
@@ -8721,8 +8722,8 @@ class StandbyWorkspace {
 
   factory StandbyWorkspace.fromJson(Map<String, dynamic> json) {
     return StandbyWorkspace(
-      directoryId: json['DirectoryId'] as String,
-      primaryWorkspaceId: json['PrimaryWorkspaceId'] as String,
+      directoryId: (json['DirectoryId'] as String?) ?? '',
+      primaryWorkspaceId: (json['PrimaryWorkspaceId'] as String?) ?? '',
       dataReplication:
           (json['DataReplication'] as String?)?.let(DataReplication.fromString),
       tags: (json['Tags'] as List?)
@@ -9055,7 +9056,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -9437,7 +9438,7 @@ class UserStorage {
 
   factory UserStorage.fromJson(Map<String, dynamic> json) {
     return UserStorage(
-      capacity: json['Capacity'] as String,
+      capacity: (json['Capacity'] as String?) ?? '',
     );
   }
 
@@ -10917,9 +10918,9 @@ class WorkspaceRequest {
 
   factory WorkspaceRequest.fromJson(Map<String, dynamic> json) {
     return WorkspaceRequest(
-      bundleId: json['BundleId'] as String,
-      directoryId: json['DirectoryId'] as String,
-      userName: json['UserName'] as String,
+      bundleId: (json['BundleId'] as String?) ?? '',
+      directoryId: (json['DirectoryId'] as String?) ?? '',
+      userName: (json['UserName'] as String?) ?? '',
       rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
       tags: (json['Tags'] as List?)
           ?.nonNulls
@@ -11186,14 +11187,15 @@ class WorkspacesPool {
 
   factory WorkspacesPool.fromJson(Map<String, dynamic> json) {
     return WorkspacesPool(
-      bundleId: json['BundleId'] as String,
+      bundleId: (json['BundleId'] as String?) ?? '',
       capacityStatus: CapacityStatus.fromJson(
-          json['CapacityStatus'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      directoryId: json['DirectoryId'] as String,
-      poolArn: json['PoolArn'] as String,
-      poolId: json['PoolId'] as String,
-      poolName: json['PoolName'] as String,
+          (json['CapacityStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      directoryId: (json['DirectoryId'] as String?) ?? '',
+      poolArn: (json['PoolArn'] as String?) ?? '',
+      poolId: (json['PoolId'] as String?) ?? '',
+      poolName: (json['PoolName'] as String?) ?? '',
       state: WorkspacesPoolState.fromString((json['State'] as String)),
       applicationSettings: json['ApplicationSettings'] != null
           ? ApplicationSettingsResponse.fromJson(
@@ -11381,9 +11383,9 @@ class WorkspacesPoolSession {
 
   factory WorkspacesPoolSession.fromJson(Map<String, dynamic> json) {
     return WorkspacesPoolSession(
-      poolId: json['PoolId'] as String,
-      sessionId: json['SessionId'] as String,
-      userId: json['UserId'] as String,
+      poolId: (json['PoolId'] as String?) ?? '',
+      sessionId: (json['SessionId'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(AuthenticationType.fromString),
       connectionState: (json['ConnectionState'] as String?)

@@ -2722,7 +2722,7 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      commentId: json['CommentId'] as String,
+      commentId: (json['CommentId'] as String?) ?? '',
       contributor: json['Contributor'] != null
           ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
           : null,

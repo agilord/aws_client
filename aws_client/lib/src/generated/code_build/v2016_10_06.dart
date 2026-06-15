@@ -6147,8 +6147,8 @@ class EnvironmentVariable {
 
   factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
     return EnvironmentVariable(
-      name: json['name'] as String,
-      value: json['value'] as String,
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
       type: (json['type'] as String?)?.let(EnvironmentVariableType.fromString),
     );
   }
@@ -6745,7 +6745,7 @@ class GitSubmodulesConfig {
 
   factory GitSubmodulesConfig.fromJson(Map<String, dynamic> json) {
     return GitSubmodulesConfig(
-      fetchSubmodules: json['fetchSubmodules'] as bool,
+      fetchSubmodules: (json['fetchSubmodules'] as bool?) ?? false,
     );
   }
 
@@ -8508,7 +8508,7 @@ class ProjectEnvironment {
   factory ProjectEnvironment.fromJson(Map<String, dynamic> json) {
     return ProjectEnvironment(
       computeType: ComputeType.fromString((json['computeType'] as String)),
-      image: json['image'] as String,
+      image: (json['image'] as String?) ?? '',
       type: EnvironmentType.fromString((json['type'] as String)),
       certificate: json['certificate'] as String?,
       environmentVariables: (json['environmentVariables'] as List?)
@@ -8959,8 +8959,8 @@ class ProjectSourceVersion {
 
   factory ProjectSourceVersion.fromJson(Map<String, dynamic> json) {
     return ProjectSourceVersion(
-      sourceIdentifier: json['sourceIdentifier'] as String,
-      sourceVersion: json['sourceVersion'] as String,
+      sourceIdentifier: (json['sourceIdentifier'] as String?) ?? '',
+      sourceVersion: (json['sourceVersion'] as String?) ?? '',
     );
   }
 
@@ -9053,7 +9053,7 @@ class RegistryCredential {
 
   factory RegistryCredential.fromJson(Map<String, dynamic> json) {
     return RegistryCredential(
-      credential: json['credential'] as String,
+      credential: (json['credential'] as String?) ?? '',
       credentialProvider: CredentialProviderType.fromString(
           (json['credentialProvider'] as String)),
     );
@@ -9885,7 +9885,7 @@ class ScopeConfiguration {
 
   factory ScopeConfiguration.fromJson(Map<String, dynamic> json) {
     return ScopeConfiguration(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       scope: WebhookScopeType.fromString((json['scope'] as String)),
       domain: json['domain'] as String?,
     );
@@ -10393,10 +10393,11 @@ class TestReportSummary {
 
   factory TestReportSummary.fromJson(Map<String, dynamic> json) {
     return TestReportSummary(
-      durationInNanoSeconds: json['durationInNanoSeconds'] as int,
-      statusCounts: (json['statusCounts'] as Map<String, dynamic>)
+      durationInNanoSeconds: (json['durationInNanoSeconds'] as int?) ?? 0,
+      statusCounts: ((json['statusCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as int)),
-      total: json['total'] as int,
+      total: (json['total'] as int?) ?? 0,
     );
   }
 
@@ -10883,7 +10884,7 @@ class WebhookFilter {
 
   factory WebhookFilter.fromJson(Map<String, dynamic> json) {
     return WebhookFilter(
-      pattern: json['pattern'] as String,
+      pattern: (json['pattern'] as String?) ?? '',
       type: WebhookFilterType.fromString((json['type'] as String)),
       excludeMatchedPattern: json['excludeMatchedPattern'] as bool?,
     );

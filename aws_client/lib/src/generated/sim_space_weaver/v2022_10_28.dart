@@ -1413,8 +1413,8 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucketName: json['BucketName'] as String,
-      objectKey: json['ObjectKey'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
     );
   }
 

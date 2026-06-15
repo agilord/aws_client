@@ -3398,9 +3398,9 @@ class AttributeKey {
 
   factory AttributeKey.fromJson(Map<String, dynamic> json) {
     return AttributeKey(
-      facetName: json['FacetName'] as String,
-      name: json['Name'] as String,
-      schemaArn: json['SchemaArn'] as String,
+      facetName: (json['FacetName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      schemaArn: (json['SchemaArn'] as String?) ?? '',
     );
   }
 
@@ -3431,9 +3431,11 @@ class AttributeKeyAndValue {
 
   factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) {
     return AttributeKeyAndValue(
-      key: AttributeKey.fromJson(json['Key'] as Map<String, dynamic>),
-      value:
-          TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+      key: AttributeKey.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      value: TypedAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3462,9 +3464,10 @@ class AttributeNameAndValue {
 
   factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) {
     return AttributeNameAndValue(
-      attributeName: json['AttributeName'] as String,
-      value:
-          TypedAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      value: TypedAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5910,10 +5913,10 @@ class CreateDirectoryResponse {
 
   factory CreateDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return CreateDirectoryResponse(
-      appliedSchemaArn: json['AppliedSchemaArn'] as String,
-      directoryArn: json['DirectoryArn'] as String,
-      name: json['Name'] as String,
-      objectIdentifier: json['ObjectIdentifier'] as String,
+      appliedSchemaArn: (json['AppliedSchemaArn'] as String?) ?? '',
+      directoryArn: (json['DirectoryArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      objectIdentifier: (json['ObjectIdentifier'] as String?) ?? '',
     );
   }
 
@@ -6032,7 +6035,7 @@ class DeleteDirectoryResponse {
 
   factory DeleteDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDirectoryResponse(
-      directoryArn: json['DirectoryArn'] as String,
+      directoryArn: (json['DirectoryArn'] as String?) ?? '',
     );
   }
 
@@ -6325,7 +6328,7 @@ class DisableDirectoryResponse {
 
   factory DisableDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return DisableDirectoryResponse(
-      directoryArn: json['DirectoryArn'] as String,
+      directoryArn: (json['DirectoryArn'] as String?) ?? '',
     );
   }
 
@@ -6347,7 +6350,7 @@ class EnableDirectoryResponse {
 
   factory EnableDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return EnableDirectoryResponse(
-      directoryArn: json['DirectoryArn'] as String,
+      directoryArn: (json['DirectoryArn'] as String?) ?? '',
     );
   }
 
@@ -6444,7 +6447,7 @@ class FacetAttribute {
 
   factory FacetAttribute.fromJson(Map<String, dynamic> json) {
     return FacetAttribute(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       attributeDefinition: json['AttributeDefinition'] != null
           ? FacetAttributeDefinition.fromJson(
               json['AttributeDefinition'] as Map<String, dynamic>)
@@ -6544,8 +6547,8 @@ class FacetAttributeReference {
 
   factory FacetAttributeReference.fromJson(Map<String, dynamic> json) {
     return FacetAttributeReference(
-      targetAttributeName: json['TargetAttributeName'] as String,
-      targetFacetName: json['TargetFacetName'] as String,
+      targetAttributeName: (json['TargetAttributeName'] as String?) ?? '',
+      targetFacetName: (json['TargetFacetName'] as String?) ?? '',
     );
   }
 
@@ -6701,7 +6704,9 @@ class GetDirectoryResponse {
 
   factory GetDirectoryResponse.fromJson(Map<String, dynamic> json) {
     return GetDirectoryResponse(
-      directory: Directory.fromJson(json['Directory'] as Map<String, dynamic>),
+      directory: Directory.fromJson(
+          (json['Directory'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7363,7 +7368,7 @@ class ListDirectoriesResponse {
 
   factory ListDirectoriesResponse.fromJson(Map<String, dynamic> json) {
     return ListDirectoriesResponse(
-      directories: (json['Directories'] as List)
+      directories: ((json['Directories'] as List?) ?? const [])
           .nonNulls
           .map((e) => Directory.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8712,7 +8717,7 @@ class TypedLinkAttributeDefinition {
 
   factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
     return TypedLinkAttributeDefinition(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       requiredBehavior: RequiredAttributeBehavior.fromString(
           (json['RequiredBehavior'] as String)),
       type: FacetAttributeType.fromString((json['Type'] as String)),
@@ -8844,8 +8849,8 @@ class TypedLinkSchemaAndFacetName {
 
   factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) {
     return TypedLinkSchemaAndFacetName(
-      schemaArn: json['SchemaArn'] as String,
-      typedLinkName: json['TypedLinkName'] as String,
+      schemaArn: (json['SchemaArn'] as String?) ?? '',
+      typedLinkName: (json['TypedLinkName'] as String?) ?? '',
     );
   }
 
@@ -8888,16 +8893,20 @@ class TypedLinkSpecifier {
 
   factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
     return TypedLinkSpecifier(
-      identityAttributeValues: (json['IdentityAttributeValues'] as List)
+      identityAttributeValues: ((json['IdentityAttributeValues'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       sourceObjectReference: ObjectReference.fromJson(
-          json['SourceObjectReference'] as Map<String, dynamic>),
+          (json['SourceObjectReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       targetObjectReference: ObjectReference.fromJson(
-          json['TargetObjectReference'] as Map<String, dynamic>),
+          (json['TargetObjectReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       typedLinkFacet: TypedLinkSchemaAndFacetName.fromJson(
-          json['TypedLinkFacet'] as Map<String, dynamic>),
+          (json['TypedLinkFacet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

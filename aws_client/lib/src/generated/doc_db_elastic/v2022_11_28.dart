@@ -954,20 +954,23 @@ class Cluster {
 
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
-      adminUserName: json['adminUserName'] as String,
+      adminUserName: (json['adminUserName'] as String?) ?? '',
       authType: Auth.fromString((json['authType'] as String)),
-      clusterArn: json['clusterArn'] as String,
-      clusterEndpoint: json['clusterEndpoint'] as String,
-      clusterName: json['clusterName'] as String,
-      createTime: json['createTime'] as String,
-      kmsKeyId: json['kmsKeyId'] as String,
-      preferredMaintenanceWindow: json['preferredMaintenanceWindow'] as String,
-      shardCapacity: json['shardCapacity'] as int,
-      shardCount: json['shardCount'] as int,
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterEndpoint: (json['clusterEndpoint'] as String?) ?? '',
+      clusterName: (json['clusterName'] as String?) ?? '',
+      createTime: (json['createTime'] as String?) ?? '',
+      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
+      preferredMaintenanceWindow:
+          (json['preferredMaintenanceWindow'] as String?) ?? '',
+      shardCapacity: (json['shardCapacity'] as int?) ?? 0,
+      shardCount: (json['shardCount'] as int?) ?? 0,
       status: Status.fromString((json['status'] as String)),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List)
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1042,8 +1045,8 @@ class ClusterInList {
 
   factory ClusterInList.fromJson(Map<String, dynamic> json) {
     return ClusterInList(
-      clusterArn: json['clusterArn'] as String,
-      clusterName: json['clusterName'] as String,
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterName: (json['clusterName'] as String?) ?? '',
       status: Status.fromString((json['status'] as String)),
     );
   }
@@ -1131,17 +1134,19 @@ class ClusterSnapshot {
 
   factory ClusterSnapshot.fromJson(Map<String, dynamic> json) {
     return ClusterSnapshot(
-      adminUserName: json['adminUserName'] as String,
-      clusterArn: json['clusterArn'] as String,
-      clusterCreationTime: json['clusterCreationTime'] as String,
-      kmsKeyId: json['kmsKeyId'] as String,
-      snapshotArn: json['snapshotArn'] as String,
-      snapshotCreationTime: json['snapshotCreationTime'] as String,
-      snapshotName: json['snapshotName'] as String,
+      adminUserName: (json['adminUserName'] as String?) ?? '',
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterCreationTime: (json['clusterCreationTime'] as String?) ?? '',
+      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
+      snapshotArn: (json['snapshotArn'] as String?) ?? '',
+      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
+      snapshotName: (json['snapshotName'] as String?) ?? '',
       status: Status.fromString((json['status'] as String)),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcSecurityGroupIds: (json['vpcSecurityGroupIds'] as List)
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1206,10 +1211,10 @@ class ClusterSnapshotInList {
 
   factory ClusterSnapshotInList.fromJson(Map<String, dynamic> json) {
     return ClusterSnapshotInList(
-      clusterArn: json['clusterArn'] as String,
-      snapshotArn: json['snapshotArn'] as String,
-      snapshotCreationTime: json['snapshotCreationTime'] as String,
-      snapshotName: json['snapshotName'] as String,
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      snapshotArn: (json['snapshotArn'] as String?) ?? '',
+      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
+      snapshotName: (json['snapshotName'] as String?) ?? '',
       status: Status.fromString((json['status'] as String)),
     );
   }
@@ -1239,8 +1244,9 @@ class CopyClusterSnapshotOutput {
 
   factory CopyClusterSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return CopyClusterSnapshotOutput(
-      snapshot:
-          ClusterSnapshot.fromJson(json['snapshot'] as Map<String, dynamic>),
+      snapshot: ClusterSnapshot.fromJson(
+          (json['snapshot'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1262,7 +1268,8 @@ class CreateClusterOutput {
 
   factory CreateClusterOutput.fromJson(Map<String, dynamic> json) {
     return CreateClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1284,8 +1291,9 @@ class CreateClusterSnapshotOutput {
 
   factory CreateClusterSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return CreateClusterSnapshotOutput(
-      snapshot:
-          ClusterSnapshot.fromJson(json['snapshot'] as Map<String, dynamic>),
+      snapshot: ClusterSnapshot.fromJson(
+          (json['snapshot'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1307,7 +1315,8 @@ class DeleteClusterOutput {
 
   factory DeleteClusterOutput.fromJson(Map<String, dynamic> json) {
     return DeleteClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1329,8 +1338,9 @@ class DeleteClusterSnapshotOutput {
 
   factory DeleteClusterSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return DeleteClusterSnapshotOutput(
-      snapshot:
-          ClusterSnapshot.fromJson(json['snapshot'] as Map<String, dynamic>),
+      snapshot: ClusterSnapshot.fromJson(
+          (json['snapshot'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1352,7 +1362,8 @@ class GetClusterOutput {
 
   factory GetClusterOutput.fromJson(Map<String, dynamic> json) {
     return GetClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1374,8 +1385,9 @@ class GetClusterSnapshotOutput {
 
   factory GetClusterSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return GetClusterSnapshotOutput(
-      snapshot:
-          ClusterSnapshot.fromJson(json['snapshot'] as Map<String, dynamic>),
+      snapshot: ClusterSnapshot.fromJson(
+          (json['snapshot'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1494,7 +1506,8 @@ class RestoreClusterFromSnapshotOutput {
 
   factory RestoreClusterFromSnapshotOutput.fromJson(Map<String, dynamic> json) {
     return RestoreClusterFromSnapshotOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1525,8 +1538,8 @@ class Shard {
 
   factory Shard.fromJson(Map<String, dynamic> json) {
     return Shard(
-      createTime: json['createTime'] as String,
-      shardId: json['shardId'] as String,
+      createTime: (json['createTime'] as String?) ?? '',
+      shardId: (json['shardId'] as String?) ?? '',
       status: Status.fromString((json['status'] as String)),
     );
   }
@@ -1567,7 +1580,8 @@ class StartClusterOutput {
 
   factory StartClusterOutput.fromJson(Map<String, dynamic> json) {
     return StartClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1619,7 +1633,8 @@ class StopClusterOutput {
 
   factory StopClusterOutput.fromJson(Map<String, dynamic> json) {
     return StopClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1665,7 +1680,8 @@ class UpdateClusterOutput {
 
   factory UpdateClusterOutput.fromJson(Map<String, dynamic> json) {
     return UpdateClusterOutput(
-      cluster: Cluster.fromJson(json['cluster'] as Map<String, dynamic>),
+      cluster: Cluster.fromJson((json['cluster'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 

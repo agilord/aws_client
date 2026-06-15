@@ -1987,20 +1987,21 @@ class App {
 
   factory App.fromJson(Map<String, dynamic> json) {
     return App(
-      appArn: json['appArn'] as String,
-      appId: json['appId'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      defaultDomain: json['defaultDomain'] as String,
-      description: json['description'] as String,
-      enableBasicAuth: json['enableBasicAuth'] as bool,
-      enableBranchAutoBuild: json['enableBranchAutoBuild'] as bool,
+      appArn: (json['appArn'] as String?) ?? '',
+      appId: (json['appId'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      defaultDomain: (json['defaultDomain'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      enableBasicAuth: (json['enableBasicAuth'] as bool?) ?? false,
+      enableBranchAutoBuild: (json['enableBranchAutoBuild'] as bool?) ?? false,
       environmentVariables:
-          (json['environmentVariables'] as Map<String, dynamic>)
+          ((json['environmentVariables'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       platform: Platform.fromString((json['platform'] as String)),
-      repository: json['repository'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      repository: (json['repository'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       autoBranchCreationConfig: json['autoBranchCreationConfig'] != null
           ? AutoBranchCreationConfig.fromJson(
               json['autoBranchCreationConfig'] as Map<String, dynamic>)
@@ -2110,8 +2111,8 @@ class Artifact {
 
   factory Artifact.fromJson(Map<String, dynamic> json) {
     return Artifact(
-      artifactFileName: json['artifactFileName'] as String,
-      artifactId: json['artifactId'] as String,
+      artifactFileName: (json['artifactFileName'] as String?) ?? '',
+      artifactId: (json['artifactId'] as String?) ?? '',
     );
   }
 
@@ -2287,10 +2288,10 @@ class BackendEnvironment {
 
   factory BackendEnvironment.fromJson(Map<String, dynamic> json) {
     return BackendEnvironment(
-      backendEnvironmentArn: json['backendEnvironmentArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      environmentName: json['environmentName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      backendEnvironmentArn: (json['backendEnvironmentArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      environmentName: (json['environmentName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       deploymentArtifacts: json['deploymentArtifacts'] as String?,
       stackName: json['stackName'] as String?,
     );
@@ -2445,28 +2446,30 @@ class Branch {
 
   factory Branch.fromJson(Map<String, dynamic> json) {
     return Branch(
-      activeJobId: json['activeJobId'] as String,
-      branchArn: json['branchArn'] as String,
-      branchName: json['branchName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      customDomains: (json['customDomains'] as List)
+      activeJobId: (json['activeJobId'] as String?) ?? '',
+      branchArn: (json['branchArn'] as String?) ?? '',
+      branchName: (json['branchName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      customDomains: ((json['customDomains'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      description: json['description'] as String,
-      displayName: json['displayName'] as String,
-      enableAutoBuild: json['enableAutoBuild'] as bool,
-      enableBasicAuth: json['enableBasicAuth'] as bool,
-      enableNotification: json['enableNotification'] as bool,
-      enablePullRequestPreview: json['enablePullRequestPreview'] as bool,
+      description: (json['description'] as String?) ?? '',
+      displayName: (json['displayName'] as String?) ?? '',
+      enableAutoBuild: (json['enableAutoBuild'] as bool?) ?? false,
+      enableBasicAuth: (json['enableBasicAuth'] as bool?) ?? false,
+      enableNotification: (json['enableNotification'] as bool?) ?? false,
+      enablePullRequestPreview:
+          (json['enablePullRequestPreview'] as bool?) ?? false,
       environmentVariables:
-          (json['environmentVariables'] as Map<String, dynamic>)
+          ((json['environmentVariables'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      framework: json['framework'] as String,
+      framework: (json['framework'] as String?) ?? '',
       stage: Stage.fromString((json['stage'] as String)),
-      totalNumberOfJobs: json['totalNumberOfJobs'] as String,
-      ttl: json['ttl'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      totalNumberOfJobs: (json['totalNumberOfJobs'] as String?) ?? '',
+      ttl: (json['ttl'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       associatedResources: (json['associatedResources'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2728,7 +2731,8 @@ class CreateAppResult {
 
   factory CreateAppResult.fromJson(Map<String, dynamic> json) {
     return CreateAppResult(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2752,7 +2756,8 @@ class CreateBackendEnvironmentResult {
   factory CreateBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return CreateBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
-          json['backendEnvironment'] as Map<String, dynamic>),
+          (json['backendEnvironment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2776,7 +2781,8 @@ class CreateBranchResult {
 
   factory CreateBranchResult.fromJson(Map<String, dynamic> json) {
     return CreateBranchResult(
-      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+      branch: Branch.fromJson((json['branch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2809,9 +2815,10 @@ class CreateDeploymentResult {
 
   factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) {
     return CreateDeploymentResult(
-      fileUploadUrls: (json['fileUploadUrls'] as Map<String, dynamic>)
+      fileUploadUrls: ((json['fileUploadUrls'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      zipUploadUrl: json['zipUploadUrl'] as String,
+      zipUploadUrl: (json['zipUploadUrl'] as String?) ?? '',
       jobId: json['jobId'] as String?,
     );
   }
@@ -2841,7 +2848,8 @@ class CreateDomainAssociationResult {
   factory CreateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return CreateDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
-          json['domainAssociation'] as Map<String, dynamic>),
+          (json['domainAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2864,7 +2872,8 @@ class CreateWebhookResult {
 
   factory CreateWebhookResult.fromJson(Map<String, dynamic> json) {
     return CreateWebhookResult(
-      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+      webhook: Webhook.fromJson((json['webhook'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2911,8 +2920,8 @@ class CustomRule {
 
   factory CustomRule.fromJson(Map<String, dynamic> json) {
     return CustomRule(
-      source: json['source'] as String,
-      target: json['target'] as String,
+      source: (json['source'] as String?) ?? '',
+      target: (json['target'] as String?) ?? '',
       condition: json['condition'] as String?,
       status: json['status'] as String?,
     );
@@ -2942,7 +2951,8 @@ class DeleteAppResult {
 
   factory DeleteAppResult.fromJson(Map<String, dynamic> json) {
     return DeleteAppResult(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2966,7 +2976,8 @@ class DeleteBackendEnvironmentResult {
   factory DeleteBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return DeleteBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
-          json['backendEnvironment'] as Map<String, dynamic>),
+          (json['backendEnvironment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2990,7 +3001,8 @@ class DeleteBranchResult {
 
   factory DeleteBranchResult.fromJson(Map<String, dynamic> json) {
     return DeleteBranchResult(
-      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+      branch: Branch.fromJson((json['branch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3012,7 +3024,8 @@ class DeleteDomainAssociationResult {
   factory DeleteDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return DeleteDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
-          json['domainAssociation'] as Map<String, dynamic>),
+          (json['domainAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3034,8 +3047,9 @@ class DeleteJobResult {
 
   factory DeleteJobResult.fromJson(Map<String, dynamic> json) {
     return DeleteJobResult(
-      jobSummary:
-          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+      jobSummary: JobSummary.fromJson(
+          (json['jobSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3058,7 +3072,8 @@ class DeleteWebhookResult {
 
   factory DeleteWebhookResult.fromJson(Map<String, dynamic> json) {
     return DeleteWebhookResult(
-      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+      webhook: Webhook.fromJson((json['webhook'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3155,12 +3170,12 @@ class DomainAssociation {
 
   factory DomainAssociation.fromJson(Map<String, dynamic> json) {
     return DomainAssociation(
-      domainAssociationArn: json['domainAssociationArn'] as String,
-      domainName: json['domainName'] as String,
+      domainAssociationArn: (json['domainAssociationArn'] as String?) ?? '',
+      domainName: (json['domainName'] as String?) ?? '',
       domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
-      enableAutoSubDomain: json['enableAutoSubDomain'] as bool,
-      statusReason: json['statusReason'] as String,
-      subDomains: (json['subDomains'] as List)
+      enableAutoSubDomain: (json['enableAutoSubDomain'] as bool?) ?? false,
+      statusReason: (json['statusReason'] as String?) ?? '',
+      subDomains: ((json['subDomains'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubDomain.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3267,7 +3282,8 @@ class GetAppResult {
 
   factory GetAppResult.fromJson(Map<String, dynamic> json) {
     return GetAppResult(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3294,8 +3310,8 @@ class GetArtifactUrlResult {
 
   factory GetArtifactUrlResult.fromJson(Map<String, dynamic> json) {
     return GetArtifactUrlResult(
-      artifactId: json['artifactId'] as String,
-      artifactUrl: json['artifactUrl'] as String,
+      artifactId: (json['artifactId'] as String?) ?? '',
+      artifactUrl: (json['artifactUrl'] as String?) ?? '',
     );
   }
 
@@ -3321,7 +3337,8 @@ class GetBackendEnvironmentResult {
   factory GetBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
     return GetBackendEnvironmentResult(
       backendEnvironment: BackendEnvironment.fromJson(
-          json['backendEnvironment'] as Map<String, dynamic>),
+          (json['backendEnvironment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3342,7 +3359,8 @@ class GetBranchResult {
 
   factory GetBranchResult.fromJson(Map<String, dynamic> json) {
     return GetBranchResult(
-      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+      branch: Branch.fromJson((json['branch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3367,7 +3385,8 @@ class GetDomainAssociationResult {
   factory GetDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return GetDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
-          json['domainAssociation'] as Map<String, dynamic>),
+          (json['domainAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3388,7 +3407,8 @@ class GetJobResult {
 
   factory GetJobResult.fromJson(Map<String, dynamic> json) {
     return GetJobResult(
-      job: Job.fromJson(json['job'] as Map<String, dynamic>),
+      job: Job.fromJson(
+          (json['job'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3411,7 +3431,8 @@ class GetWebhookResult {
 
   factory GetWebhookResult.fromJson(Map<String, dynamic> json) {
     return GetWebhookResult(
-      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+      webhook: Webhook.fromJson((json['webhook'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3438,11 +3459,12 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
-      steps: (json['steps'] as List)
+      steps: ((json['steps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
-      summary: JobSummary.fromJson(json['summary'] as Map<String, dynamic>),
+      summary: JobSummary.fromJson((json['summary'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3522,13 +3544,13 @@ class JobSummary {
 
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
-      commitId: json['commitId'] as String,
-      commitMessage: json['commitMessage'] as String,
-      commitTime: nonNullableTimeStampFromJson(json['commitTime'] as Object),
-      jobArn: json['jobArn'] as String,
-      jobId: json['jobId'] as String,
+      commitId: (json['commitId'] as String?) ?? '',
+      commitMessage: (json['commitMessage'] as String?) ?? '',
+      commitTime: nonNullableTimeStampFromJson(json['commitTime'] ?? 0),
+      jobArn: (json['jobArn'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
       jobType: JobType.fromString((json['jobType'] as String)),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
     );
@@ -3591,7 +3613,7 @@ class ListAppsResult {
 
   factory ListAppsResult.fromJson(Map<String, dynamic> json) {
     return ListAppsResult(
-      apps: (json['apps'] as List)
+      apps: ((json['apps'] as List?) ?? const [])
           .nonNulls
           .map((e) => App.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3625,7 +3647,7 @@ class ListArtifactsResult {
 
   factory ListArtifactsResult.fromJson(Map<String, dynamic> json) {
     return ListArtifactsResult(
-      artifacts: (json['artifacts'] as List)
+      artifacts: ((json['artifacts'] as List?) ?? const [])
           .nonNulls
           .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3659,7 +3681,7 @@ class ListBackendEnvironmentsResult {
 
   factory ListBackendEnvironmentsResult.fromJson(Map<String, dynamic> json) {
     return ListBackendEnvironmentsResult(
-      backendEnvironments: (json['backendEnvironments'] as List)
+      backendEnvironments: ((json['backendEnvironments'] as List?) ?? const [])
           .nonNulls
           .map((e) => BackendEnvironment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3693,7 +3715,7 @@ class ListBranchesResult {
 
   factory ListBranchesResult.fromJson(Map<String, dynamic> json) {
     return ListBranchesResult(
-      branches: (json['branches'] as List)
+      branches: ((json['branches'] as List?) ?? const [])
           .nonNulls
           .map((e) => Branch.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3727,7 +3749,7 @@ class ListDomainAssociationsResult {
 
   factory ListDomainAssociationsResult.fromJson(Map<String, dynamic> json) {
     return ListDomainAssociationsResult(
-      domainAssociations: (json['domainAssociations'] as List)
+      domainAssociations: ((json['domainAssociations'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainAssociation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3761,7 +3783,7 @@ class ListJobsResult {
 
   factory ListJobsResult.fromJson(Map<String, dynamic> json) {
     return ListJobsResult(
-      jobSummaries: (json['jobSummaries'] as List)
+      jobSummaries: ((json['jobSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3819,7 +3841,7 @@ class ListWebhooksResult {
 
   factory ListWebhooksResult.fromJson(Map<String, dynamic> json) {
     return ListWebhooksResult(
-      webhooks: (json['webhooks'] as List)
+      webhooks: ((json['webhooks'] as List?) ?? const [])
           .nonNulls
           .map((e) => Webhook.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3941,8 +3963,9 @@ class StartDeploymentResult {
 
   factory StartDeploymentResult.fromJson(Map<String, dynamic> json) {
     return StartDeploymentResult(
-      jobSummary:
-          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+      jobSummary: JobSummary.fromJson(
+          (json['jobSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3965,8 +3988,9 @@ class StartJobResult {
 
   factory StartJobResult.fromJson(Map<String, dynamic> json) {
     return StartJobResult(
-      jobSummary:
-          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+      jobSummary: JobSummary.fromJson(
+          (json['jobSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4030,10 +4054,10 @@ class Step {
 
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: JobStatus.fromString((json['status'] as String)),
-      stepName: json['stepName'] as String,
+      stepName: (json['stepName'] as String?) ?? '',
       artifactsUrl: json['artifactsUrl'] as String?,
       context: json['context'] as String?,
       logUrl: json['logUrl'] as String?,
@@ -4084,8 +4108,9 @@ class StopJobResult {
 
   factory StopJobResult.fromJson(Map<String, dynamic> json) {
     return StopJobResult(
-      jobSummary:
-          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+      jobSummary: JobSummary.fromJson(
+          (json['jobSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4116,10 +4141,11 @@ class SubDomain {
 
   factory SubDomain.fromJson(Map<String, dynamic> json) {
     return SubDomain(
-      dnsRecord: json['dnsRecord'] as String,
+      dnsRecord: (json['dnsRecord'] as String?) ?? '',
       subDomainSetting: SubDomainSetting.fromJson(
-          json['subDomainSetting'] as Map<String, dynamic>),
-      verified: json['verified'] as bool,
+          (json['subDomainSetting'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      verified: (json['verified'] as bool?) ?? false,
     );
   }
 
@@ -4150,8 +4176,8 @@ class SubDomainSetting {
 
   factory SubDomainSetting.fromJson(Map<String, dynamic> json) {
     return SubDomainSetting(
-      branchName: json['branchName'] as String,
-      prefix: json['prefix'] as String,
+      branchName: (json['branchName'] as String?) ?? '',
+      prefix: (json['prefix'] as String?) ?? '',
     );
   }
 
@@ -4202,7 +4228,8 @@ class UpdateAppResult {
 
   factory UpdateAppResult.fromJson(Map<String, dynamic> json) {
     return UpdateAppResult(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -4226,7 +4253,8 @@ class UpdateBranchResult {
 
   factory UpdateBranchResult.fromJson(Map<String, dynamic> json) {
     return UpdateBranchResult(
-      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+      branch: Branch.fromJson((json['branch'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4251,7 +4279,8 @@ class UpdateDomainAssociationResult {
   factory UpdateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
     return UpdateDomainAssociationResult(
       domainAssociation: DomainAssociation.fromJson(
-          json['domainAssociation'] as Map<String, dynamic>),
+          (json['domainAssociation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4294,7 +4323,8 @@ class UpdateWebhookResult {
 
   factory UpdateWebhookResult.fromJson(Map<String, dynamic> json) {
     return UpdateWebhookResult(
-      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+      webhook: Webhook.fromJson((json['webhook'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4341,13 +4371,13 @@ class Webhook {
 
   factory Webhook.fromJson(Map<String, dynamic> json) {
     return Webhook(
-      branchName: json['branchName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      description: json['description'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      webhookArn: json['webhookArn'] as String,
-      webhookId: json['webhookId'] as String,
-      webhookUrl: json['webhookUrl'] as String,
+      branchName: (json['branchName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      webhookArn: (json['webhookArn'] as String?) ?? '',
+      webhookId: (json['webhookId'] as String?) ?? '',
+      webhookUrl: (json['webhookUrl'] as String?) ?? '',
     );
   }
 

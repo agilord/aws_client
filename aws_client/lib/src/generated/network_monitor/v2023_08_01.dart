@@ -636,8 +636,8 @@ class CreateMonitorOutput {
 
   factory CreateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return CreateMonitorOutput(
-      monitorArn: json['monitorArn'] as String,
-      monitorName: json['monitorName'] as String,
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
       state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -778,9 +778,9 @@ class CreateProbeOutput {
 
   factory CreateProbeOutput.fromJson(Map<String, dynamic> json) {
     return CreateProbeOutput(
-      destination: json['destination'] as String,
+      destination: (json['destination'] as String?) ?? '',
       protocol: Protocol.fromString((json['protocol'] as String)),
-      sourceArn: json['sourceArn'] as String,
+      sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -890,11 +890,11 @@ class GetMonitorOutput {
 
   factory GetMonitorOutput.fromJson(Map<String, dynamic> json) {
     return GetMonitorOutput(
-      aggregationPeriod: json['aggregationPeriod'] as int,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      monitorArn: json['monitorArn'] as String,
-      monitorName: json['monitorName'] as String,
+      aggregationPeriod: (json['aggregationPeriod'] as int?) ?? 0,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
       state: MonitorState.fromString((json['state'] as String)),
       probes: (json['probes'] as List?)
           ?.nonNulls
@@ -991,9 +991,9 @@ class GetProbeOutput {
 
   factory GetProbeOutput.fromJson(Map<String, dynamic> json) {
     return GetProbeOutput(
-      destination: json['destination'] as String,
+      destination: (json['destination'] as String?) ?? '',
       protocol: Protocol.fromString((json['protocol'] as String)),
-      sourceArn: json['sourceArn'] as String,
+      sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1055,7 +1055,7 @@ class ListMonitorsOutput {
 
   factory ListMonitorsOutput.fromJson(Map<String, dynamic> json) {
     return ListMonitorsOutput(
-      monitors: (json['monitors'] as List)
+      monitors: ((json['monitors'] as List?) ?? const [])
           .nonNulls
           .map((e) => MonitorSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1142,8 +1142,8 @@ class MonitorSummary {
 
   factory MonitorSummary.fromJson(Map<String, dynamic> json) {
     return MonitorSummary(
-      monitorArn: json['monitorArn'] as String,
-      monitorName: json['monitorName'] as String,
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
       state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1232,9 +1232,9 @@ class Probe {
 
   factory Probe.fromJson(Map<String, dynamic> json) {
     return Probe(
-      destination: json['destination'] as String,
+      destination: (json['destination'] as String?) ?? '',
       protocol: Protocol.fromString((json['protocol'] as String)),
-      sourceArn: json['sourceArn'] as String,
+      sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1417,8 +1417,8 @@ class UpdateMonitorOutput {
 
   factory UpdateMonitorOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMonitorOutput(
-      monitorArn: json['monitorArn'] as String,
-      monitorName: json['monitorName'] as String,
+      monitorArn: (json['monitorArn'] as String?) ?? '',
+      monitorName: (json['monitorName'] as String?) ?? '',
       state: MonitorState.fromString((json['state'] as String)),
       aggregationPeriod: json['aggregationPeriod'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -1502,9 +1502,9 @@ class UpdateProbeOutput {
 
   factory UpdateProbeOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProbeOutput(
-      destination: json['destination'] as String,
+      destination: (json['destination'] as String?) ?? '',
       protocol: Protocol.fromString((json['protocol'] as String)),
-      sourceArn: json['sourceArn'] as String,
+      sourceArn: (json['sourceArn'] as String?) ?? '',
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       createdAt: timeStampFromJson(json['createdAt']),

@@ -2315,8 +2315,8 @@ class ComputeEnvironmentDetail {
 
   factory ComputeEnvironmentDetail.fromJson(Map<String, dynamic> json) {
     return ComputeEnvironmentDetail(
-      computeEnvironmentArn: json['computeEnvironmentArn'] as String,
-      computeEnvironmentName: json['computeEnvironmentName'] as String,
+      computeEnvironmentArn: (json['computeEnvironmentArn'] as String?) ?? '',
+      computeEnvironmentName: (json['computeEnvironmentName'] as String?) ?? '',
       computeResources: json['computeResources'] != null
           ? ComputeResource.fromJson(
               json['computeResources'] as Map<String, dynamic>)
@@ -2415,8 +2415,8 @@ class ComputeEnvironmentOrder {
 
   factory ComputeEnvironmentOrder.fromJson(Map<String, dynamic> json) {
     return ComputeEnvironmentOrder(
-      computeEnvironment: json['computeEnvironment'] as String,
-      order: json['order'] as int,
+      computeEnvironment: (json['computeEnvironment'] as String?) ?? '',
+      order: (json['order'] as int?) ?? 0,
     );
   }
 
@@ -2731,9 +2731,11 @@ class ComputeResource {
 
   factory ComputeResource.fromJson(Map<String, dynamic> json) {
     return ComputeResource(
-      maxvCpus: json['maxvCpus'] as int,
-      subnets:
-          (json['subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      maxvCpus: (json['maxvCpus'] as int?) ?? 0,
+      subnets: ((json['subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       type: CRType.fromString((json['type'] as String)),
       allocationStrategy: (json['allocationStrategy'] as String?)
           ?.let(CRAllocationStrategy.fromString),
@@ -4198,8 +4200,8 @@ class CreateJobQueueResponse {
 
   factory CreateJobQueueResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobQueueResponse(
-      jobQueueArn: json['jobQueueArn'] as String,
-      jobQueueName: json['jobQueueName'] as String,
+      jobQueueArn: (json['jobQueueArn'] as String?) ?? '',
+      jobQueueName: (json['jobQueueName'] as String?) ?? '',
     );
   }
 
@@ -4230,8 +4232,8 @@ class CreateSchedulingPolicyResponse {
 
   factory CreateSchedulingPolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreateSchedulingPolicyResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4483,7 +4485,7 @@ class Device {
 
   factory Device.fromJson(Map<String, dynamic> json) {
     return Device(
-      hostPath: json['hostPath'] as String,
+      hostPath: (json['hostPath'] as String?) ?? '',
       containerPath: json['containerPath'] as String?,
       permissions: (json['permissions'] as List?)
           ?.nonNulls
@@ -4646,7 +4648,7 @@ class EFSVolumeConfiguration {
 
   factory EFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
     return EFSVolumeConfiguration(
-      fileSystemId: json['fileSystemId'] as String,
+      fileSystemId: (json['fileSystemId'] as String?) ?? '',
       authorizationConfig: json['authorizationConfig'] != null
           ? EFSAuthorizationConfig.fromJson(
               json['authorizationConfig'] as Map<String, dynamic>)
@@ -4769,7 +4771,7 @@ class Ec2Configuration {
 
   factory Ec2Configuration.fromJson(Map<String, dynamic> json) {
     return Ec2Configuration(
-      imageType: json['imageType'] as String,
+      imageType: (json['imageType'] as String?) ?? '',
       imageIdOverride: json['imageIdOverride'] as String?,
       imageKubernetesVersion: json['imageKubernetesVersion'] as String?,
     );
@@ -4804,7 +4806,7 @@ class EcsProperties {
 
   factory EcsProperties.fromJson(Map<String, dynamic> json) {
     return EcsProperties(
-      taskProperties: (json['taskProperties'] as List)
+      taskProperties: ((json['taskProperties'] as List?) ?? const [])
           .nonNulls
           .map((e) => EcsTaskProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5103,7 +5105,7 @@ class EcsTaskProperties {
 
   factory EcsTaskProperties.fromJson(Map<String, dynamic> json) {
     return EcsTaskProperties(
-      containers: (json['containers'] as List)
+      containers: ((json['containers'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TaskContainerProperties.fromJson(e as Map<String, dynamic>))
@@ -5310,8 +5312,8 @@ class EksConfiguration {
 
   factory EksConfiguration.fromJson(Map<String, dynamic> json) {
     return EksConfiguration(
-      eksClusterArn: json['eksClusterArn'] as String,
-      kubernetesNamespace: json['kubernetesNamespace'] as String,
+      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
+      kubernetesNamespace: (json['kubernetesNamespace'] as String?) ?? '',
     );
   }
 
@@ -5435,7 +5437,7 @@ class EksContainer {
 
   factory EksContainer.fromJson(Map<String, dynamic> json) {
     return EksContainer(
-      image: json['image'] as String,
+      image: (json['image'] as String?) ?? '',
       args: (json['args'] as List?)?.nonNulls.map((e) => e as String).toList(),
       command:
           (json['command'] as List?)?.nonNulls.map((e) => e as String).toList(),
@@ -5658,7 +5660,7 @@ class EksContainerEnvironmentVariable {
 
   factory EksContainerEnvironmentVariable.fromJson(Map<String, dynamic> json) {
     return EksContainerEnvironmentVariable(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }
@@ -6506,7 +6508,7 @@ class EksSecret {
 
   factory EksSecret.fromJson(Map<String, dynamic> json) {
     return EksSecret(
-      secretName: json['secretName'] as String,
+      secretName: (json['secretName'] as String?) ?? '',
       optional: json['optional'] as bool?,
     );
   }
@@ -6556,7 +6558,7 @@ class EksVolume {
 
   factory EksVolume.fromJson(Map<String, dynamic> json) {
     return EksVolume(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       emptyDir: json['emptyDir'] != null
           ? EksEmptyDir.fromJson(json['emptyDir'] as Map<String, dynamic>)
           : null,
@@ -6598,7 +6600,7 @@ class EphemeralStorage {
 
   factory EphemeralStorage.fromJson(Map<String, dynamic> json) {
     return EphemeralStorage(
-      sizeInGiB: json['sizeInGiB'] as int,
+      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
     );
   }
 
@@ -6918,7 +6920,7 @@ class ImagePullSecret {
 
   factory ImagePullSecret.fromJson(Map<String, dynamic> json) {
     return ImagePullSecret(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -7077,10 +7079,10 @@ class JobDefinition {
 
   factory JobDefinition.fromJson(Map<String, dynamic> json) {
     return JobDefinition(
-      jobDefinitionArn: json['jobDefinitionArn'] as String,
-      jobDefinitionName: json['jobDefinitionName'] as String,
-      revision: json['revision'] as int,
-      type: json['type'] as String,
+      jobDefinitionArn: (json['jobDefinitionArn'] as String?) ?? '',
+      jobDefinitionName: (json['jobDefinitionName'] as String?) ?? '',
+      revision: (json['revision'] as int?) ?? 0,
+      type: (json['type'] as String?) ?? '',
       containerOrchestrationType:
           (json['containerOrchestrationType'] as String?)
               ?.let(OrchestrationType.fromString),
@@ -7389,11 +7391,11 @@ class JobDetail {
 
   factory JobDetail.fromJson(Map<String, dynamic> json) {
     return JobDetail(
-      jobDefinition: json['jobDefinition'] as String,
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
-      jobQueue: json['jobQueue'] as String,
-      startedAt: json['startedAt'] as int,
+      jobDefinition: (json['jobDefinition'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
+      jobQueue: (json['jobQueue'] as String?) ?? '',
+      startedAt: (json['startedAt'] as int?) ?? 0,
       status: JobStatus.fromString((json['status'] as String)),
       arrayProperties: json['arrayProperties'] != null
           ? ArrayPropertiesDetail.fromJson(
@@ -7591,14 +7593,15 @@ class JobQueueDetail {
 
   factory JobQueueDetail.fromJson(Map<String, dynamic> json) {
     return JobQueueDetail(
-      computeEnvironmentOrder: (json['computeEnvironmentOrder'] as List)
-          .nonNulls
-          .map((e) =>
-              ComputeEnvironmentOrder.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      jobQueueArn: json['jobQueueArn'] as String,
-      jobQueueName: json['jobQueueName'] as String,
-      priority: json['priority'] as int,
+      computeEnvironmentOrder:
+          ((json['computeEnvironmentOrder'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  ComputeEnvironmentOrder.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      jobQueueArn: (json['jobQueueArn'] as String?) ?? '',
+      jobQueueName: (json['jobQueueName'] as String?) ?? '',
+      priority: (json['priority'] as int?) ?? 0,
       state: JQState.fromString((json['state'] as String)),
       jobStateTimeLimitActions: (json['jobStateTimeLimitActions'] as List?)
           ?.nonNulls
@@ -7672,8 +7675,8 @@ class JobStateTimeLimitAction {
     return JobStateTimeLimitAction(
       action:
           JobStateTimeLimitActionsAction.fromString((json['action'] as String)),
-      maxTimeSeconds: json['maxTimeSeconds'] as int,
-      reason: json['reason'] as String,
+      maxTimeSeconds: (json['maxTimeSeconds'] as int?) ?? 0,
+      reason: (json['reason'] as String?) ?? '',
       state:
           JobStateTimeLimitActionsState.fromString((json['state'] as String)),
     );
@@ -7809,8 +7812,8 @@ class JobSummary {
 
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       arrayProperties: json['arrayProperties'] != null
           ? ArrayPropertiesSummary.fromJson(
               json['arrayProperties'] as Map<String, dynamic>)
@@ -8192,7 +8195,7 @@ class ListJobsResponse {
 
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
-      jobSummaryList: (json['jobSummaryList'] as List)
+      jobSummaryList: ((json['jobSummaryList'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8615,12 +8618,12 @@ class NodeProperties {
 
   factory NodeProperties.fromJson(Map<String, dynamic> json) {
     return NodeProperties(
-      mainNode: json['mainNode'] as int,
-      nodeRangeProperties: (json['nodeRangeProperties'] as List)
+      mainNode: (json['mainNode'] as int?) ?? 0,
+      nodeRangeProperties: ((json['nodeRangeProperties'] as List?) ?? const [])
           .nonNulls
           .map((e) => NodeRangeProperty.fromJson(e as Map<String, dynamic>))
           .toList(),
-      numNodes: json['numNodes'] as int,
+      numNodes: (json['numNodes'] as int?) ?? 0,
     );
   }
 
@@ -8776,7 +8779,7 @@ class NodeRangeProperty {
 
   factory NodeRangeProperty.fromJson(Map<String, dynamic> json) {
     return NodeRangeProperty(
-      targetNodes: json['targetNodes'] as String,
+      targetNodes: (json['targetNodes'] as String?) ?? '',
       container: json['container'] != null
           ? ContainerProperties.fromJson(
               json['container'] as Map<String, dynamic>)
@@ -8860,9 +8863,9 @@ class RegisterJobDefinitionResponse {
 
   factory RegisterJobDefinitionResponse.fromJson(Map<String, dynamic> json) {
     return RegisterJobDefinitionResponse(
-      jobDefinitionArn: json['jobDefinitionArn'] as String,
-      jobDefinitionName: json['jobDefinitionName'] as String,
-      revision: json['revision'] as int,
+      jobDefinitionArn: (json['jobDefinitionArn'] as String?) ?? '',
+      jobDefinitionName: (json['jobDefinitionName'] as String?) ?? '',
+      revision: (json['revision'] as int?) ?? 0,
     );
   }
 
@@ -8890,7 +8893,7 @@ class RepositoryCredentials {
 
   factory RepositoryCredentials.fromJson(Map<String, dynamic> json) {
     return RepositoryCredentials(
-      credentialsParameter: json['credentialsParameter'] as String,
+      credentialsParameter: (json['credentialsParameter'] as String?) ?? '',
     );
   }
 
@@ -9030,7 +9033,7 @@ class ResourceRequirement {
   factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
     return ResourceRequirement(
       type: ResourceType.fromString((json['type'] as String)),
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -9213,8 +9216,8 @@ class SchedulingPolicyDetail {
 
   factory SchedulingPolicyDetail.fromJson(Map<String, dynamic> json) {
     return SchedulingPolicyDetail(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       fairsharePolicy: json['fairsharePolicy'] != null
           ? FairsharePolicy.fromJson(
               json['fairsharePolicy'] as Map<String, dynamic>)
@@ -9250,7 +9253,7 @@ class SchedulingPolicyListingDetail {
 
   factory SchedulingPolicyListingDetail.fromJson(Map<String, dynamic> json) {
     return SchedulingPolicyListingDetail(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -9301,8 +9304,8 @@ class Secret {
 
   factory Secret.fromJson(Map<String, dynamic> json) {
     return Secret(
-      name: json['name'] as String,
-      valueFrom: json['valueFrom'] as String,
+      name: (json['name'] as String?) ?? '',
+      valueFrom: (json['valueFrom'] as String?) ?? '',
     );
   }
 
@@ -9351,7 +9354,7 @@ class ShareAttributes {
 
   factory ShareAttributes.fromJson(Map<String, dynamic> json) {
     return ShareAttributes(
-      shareIdentifier: json['shareIdentifier'] as String,
+      shareIdentifier: (json['shareIdentifier'] as String?) ?? '',
       weightFactor: json['weightFactor'] as double?,
     );
   }
@@ -9384,8 +9387,8 @@ class SubmitJobResponse {
 
   factory SubmitJobResponse.fromJson(Map<String, dynamic> json) {
     return SubmitJobResponse(
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobArn: json['jobArn'] as String?,
     );
   }
@@ -10152,7 +10155,7 @@ class TaskContainerProperties {
 
   factory TaskContainerProperties.fromJson(Map<String, dynamic> json) {
     return TaskContainerProperties(
-      image: json['image'] as String,
+      image: (json['image'] as String?) ?? '',
       command:
           (json['command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       dependsOn: (json['dependsOn'] as List?)
@@ -10307,8 +10310,8 @@ class Tmpfs {
 
   factory Tmpfs.fromJson(Map<String, dynamic> json) {
     return Tmpfs(
-      containerPath: json['containerPath'] as String,
-      size: json['size'] as int,
+      containerPath: (json['containerPath'] as String?) ?? '',
+      size: (json['size'] as int?) ?? 0,
       mountOptions: (json['mountOptions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -10357,9 +10360,9 @@ class Ulimit {
 
   factory Ulimit.fromJson(Map<String, dynamic> json) {
     return Ulimit(
-      hardLimit: json['hardLimit'] as int,
-      name: json['name'] as String,
-      softLimit: json['softLimit'] as int,
+      hardLimit: (json['hardLimit'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
+      softLimit: (json['softLimit'] as int?) ?? 0,
     );
   }
 

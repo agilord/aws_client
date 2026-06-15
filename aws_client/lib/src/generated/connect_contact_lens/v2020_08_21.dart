@@ -137,12 +137,13 @@ class Categories {
 
   factory Categories.fromJson(Map<String, dynamic> json) {
     return Categories(
-      matchedCategories: (json['MatchedCategories'] as List)
+      matchedCategories: ((json['MatchedCategories'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      matchedDetails: (json['MatchedDetails'] as Map<String, dynamic>).map(
-          (k, e) =>
+      matchedDetails: ((json['MatchedDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
               MapEntry(k, CategoryDetails.fromJson(e as Map<String, dynamic>))),
     );
   }
@@ -168,7 +169,7 @@ class CategoryDetails {
 
   factory CategoryDetails.fromJson(Map<String, dynamic> json) {
     return CategoryDetails(
-      pointsOfInterest: (json['PointsOfInterest'] as List)
+      pointsOfInterest: ((json['PointsOfInterest'] as List?) ?? const [])
           .nonNulls
           .map((e) => PointOfInterest.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -199,8 +200,8 @@ class CharacterOffsets {
 
   factory CharacterOffsets.fromJson(Map<String, dynamic> json) {
     return CharacterOffsets(
-      beginOffsetChar: json['BeginOffsetChar'] as int,
-      endOffsetChar: json['EndOffsetChar'] as int,
+      beginOffsetChar: (json['BeginOffsetChar'] as int?) ?? 0,
+      endOffsetChar: (json['EndOffsetChar'] as int?) ?? 0,
     );
   }
 
@@ -227,7 +228,8 @@ class IssueDetected {
   factory IssueDetected.fromJson(Map<String, dynamic> json) {
     return IssueDetected(
       characterOffsets: CharacterOffsets.fromJson(
-          json['CharacterOffsets'] as Map<String, dynamic>),
+          (json['CharacterOffsets'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -270,7 +272,7 @@ class ListRealtimeContactAnalysisSegmentsResponse {
   factory ListRealtimeContactAnalysisSegmentsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListRealtimeContactAnalysisSegmentsResponse(
-      segments: (json['Segments'] as List)
+      segments: ((json['Segments'] as List?) ?? const [])
           .nonNulls
           .map((e) => RealtimeContactAnalysisSegment.fromJson(
               e as Map<String, dynamic>))
@@ -304,8 +306,8 @@ class PointOfInterest {
 
   factory PointOfInterest.fromJson(Map<String, dynamic> json) {
     return PointOfInterest(
-      beginOffsetMillis: json['BeginOffsetMillis'] as int,
-      endOffsetMillis: json['EndOffsetMillis'] as int,
+      beginOffsetMillis: (json['BeginOffsetMillis'] as int?) ?? 0,
+      endOffsetMillis: (json['EndOffsetMillis'] as int?) ?? 0,
     );
   }
 
@@ -515,12 +517,12 @@ class Transcript {
 
   factory Transcript.fromJson(Map<String, dynamic> json) {
     return Transcript(
-      beginOffsetMillis: json['BeginOffsetMillis'] as int,
-      content: json['Content'] as String,
-      endOffsetMillis: json['EndOffsetMillis'] as int,
-      id: json['Id'] as String,
-      participantId: json['ParticipantId'] as String,
-      participantRole: json['ParticipantRole'] as String,
+      beginOffsetMillis: (json['BeginOffsetMillis'] as int?) ?? 0,
+      content: (json['Content'] as String?) ?? '',
+      endOffsetMillis: (json['EndOffsetMillis'] as int?) ?? 0,
+      id: (json['Id'] as String?) ?? '',
+      participantId: (json['ParticipantId'] as String?) ?? '',
+      participantRole: (json['ParticipantRole'] as String?) ?? '',
       sentiment: SentimentValue.fromString((json['Sentiment'] as String)),
       issuesDetected: (json['IssuesDetected'] as List?)
           ?.nonNulls

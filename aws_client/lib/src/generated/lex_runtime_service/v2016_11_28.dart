@@ -837,11 +837,13 @@ class ActiveContext {
 
   factory ActiveContext.fromJson(Map<String, dynamic> json) {
     return ActiveContext(
-      name: json['name'] as String,
-      parameters: (json['parameters'] as Map<String, dynamic>)
+      name: (json['name'] as String?) ?? '',
+      parameters: ((json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
       timeToLive: ActiveContextTimeToLive.fromJson(
-          json['timeToLive'] as Map<String, dynamic>),
+          (json['timeToLive'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -910,8 +912,8 @@ class Button {
 
   factory Button.fromJson(Map<String, dynamic> json) {
     return Button(
-      text: json['text'] as String,
-      value: json['value'] as String,
+      text: (json['text'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

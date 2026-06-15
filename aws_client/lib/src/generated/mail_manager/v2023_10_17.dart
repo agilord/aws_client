@@ -1914,8 +1914,8 @@ class AddHeaderAction {
 
   factory AddHeaderAction.fromJson(Map<String, dynamic> json) {
     return AddHeaderAction(
-      headerName: json['HeaderName'] as String,
-      headerValue: json['HeaderValue'] as String,
+      headerName: (json['HeaderName'] as String?) ?? '',
+      headerValue: (json['HeaderValue'] as String?) ?? '',
     );
   }
 
@@ -2047,8 +2047,8 @@ class Analysis {
 
   factory Analysis.fromJson(Map<String, dynamic> json) {
     return Analysis(
-      analyzer: json['Analyzer'] as String,
-      resultField: json['ResultField'] as String,
+      analyzer: (json['Analyzer'] as String?) ?? '',
+      resultField: (json['ResultField'] as String?) ?? '',
     );
   }
 
@@ -2096,7 +2096,7 @@ class Archive {
 
   factory Archive.fromJson(Map<String, dynamic> json) {
     return Archive(
-      archiveId: json['ArchiveId'] as String,
+      archiveId: (json['ArchiveId'] as String?) ?? '',
       archiveName: json['ArchiveName'] as String?,
       archiveState:
           (json['ArchiveState'] as String?)?.let(ArchiveState.fromString),
@@ -2137,7 +2137,7 @@ class ArchiveAction {
 
   factory ArchiveAction.fromJson(Map<String, dynamic> json) {
     return ArchiveAction(
-      targetArchive: json['TargetArchive'] as String,
+      targetArchive: (json['TargetArchive'] as String?) ?? '',
       actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
           ?.let(ActionFailurePolicy.fromString),
     );
@@ -2184,7 +2184,8 @@ class ArchiveBooleanExpression {
   factory ArchiveBooleanExpression.fromJson(Map<String, dynamic> json) {
     return ArchiveBooleanExpression(
       evaluate: ArchiveBooleanToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: ArchiveBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
@@ -2391,10 +2392,13 @@ class ArchiveStringExpression {
   factory ArchiveStringExpression.fromJson(Map<String, dynamic> json) {
     return ArchiveStringExpression(
       evaluate: ArchiveStringToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: ArchiveStringOperator.fromString((json['Operator'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -2458,7 +2462,7 @@ class CreateAddonInstanceResponse {
 
   factory CreateAddonInstanceResponse.fromJson(Map<String, dynamic> json) {
     return CreateAddonInstanceResponse(
-      addonInstanceId: json['AddonInstanceId'] as String,
+      addonInstanceId: (json['AddonInstanceId'] as String?) ?? '',
     );
   }
 
@@ -2480,7 +2484,7 @@ class CreateAddonSubscriptionResponse {
 
   factory CreateAddonSubscriptionResponse.fromJson(Map<String, dynamic> json) {
     return CreateAddonSubscriptionResponse(
-      addonSubscriptionId: json['AddonSubscriptionId'] as String,
+      addonSubscriptionId: (json['AddonSubscriptionId'] as String?) ?? '',
     );
   }
 
@@ -2503,7 +2507,7 @@ class CreateArchiveResponse {
 
   factory CreateArchiveResponse.fromJson(Map<String, dynamic> json) {
     return CreateArchiveResponse(
-      archiveId: json['ArchiveId'] as String,
+      archiveId: (json['ArchiveId'] as String?) ?? '',
     );
   }
 
@@ -2525,7 +2529,7 @@ class CreateIngressPointResponse {
 
   factory CreateIngressPointResponse.fromJson(Map<String, dynamic> json) {
     return CreateIngressPointResponse(
-      ingressPointId: json['IngressPointId'] as String,
+      ingressPointId: (json['IngressPointId'] as String?) ?? '',
     );
   }
 
@@ -2547,7 +2551,7 @@ class CreateRelayResponse {
 
   factory CreateRelayResponse.fromJson(Map<String, dynamic> json) {
     return CreateRelayResponse(
-      relayId: json['RelayId'] as String,
+      relayId: (json['RelayId'] as String?) ?? '',
     );
   }
 
@@ -2569,7 +2573,7 @@ class CreateRuleSetResponse {
 
   factory CreateRuleSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateRuleSetResponse(
-      ruleSetId: json['RuleSetId'] as String,
+      ruleSetId: (json['RuleSetId'] as String?) ?? '',
     );
   }
 
@@ -2591,7 +2595,7 @@ class CreateTrafficPolicyResponse {
 
   factory CreateTrafficPolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreateTrafficPolicyResponse(
-      trafficPolicyId: json['TrafficPolicyId'] as String,
+      trafficPolicyId: (json['TrafficPolicyId'] as String?) ?? '',
     );
   }
 
@@ -2714,8 +2718,8 @@ class DeliverToMailboxAction {
 
   factory DeliverToMailboxAction.fromJson(Map<String, dynamic> json) {
     return DeliverToMailboxAction(
-      mailboxArn: json['MailboxArn'] as String,
-      roleArn: json['RoleArn'] as String,
+      mailboxArn: (json['MailboxArn'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
           ?.let(ActionFailurePolicy.fromString),
     );
@@ -3130,12 +3134,13 @@ class GetArchiveResponse {
 
   factory GetArchiveResponse.fromJson(Map<String, dynamic> json) {
     return GetArchiveResponse(
-      archiveArn: json['ArchiveArn'] as String,
-      archiveId: json['ArchiveId'] as String,
-      archiveName: json['ArchiveName'] as String,
+      archiveArn: (json['ArchiveArn'] as String?) ?? '',
+      archiveId: (json['ArchiveId'] as String?) ?? '',
+      archiveName: (json['ArchiveName'] as String?) ?? '',
       archiveState: ArchiveState.fromString((json['ArchiveState'] as String)),
-      retention:
-          ArchiveRetention.fromJson(json['Retention'] as Map<String, dynamic>),
+      retention: ArchiveRetention.fromJson(
+          (json['Retention'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       kmsKeyArn: json['KmsKeyArn'] as String?,
       lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
@@ -3307,8 +3312,8 @@ class GetIngressPointResponse {
 
   factory GetIngressPointResponse.fromJson(Map<String, dynamic> json) {
     return GetIngressPointResponse(
-      ingressPointId: json['IngressPointId'] as String,
-      ingressPointName: json['IngressPointName'] as String,
+      ingressPointId: (json['IngressPointId'] as String?) ?? '',
+      ingressPointName: (json['IngressPointName'] as String?) ?? '',
       aRecord: json['ARecord'] as String?,
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       ingressPointArn: json['IngressPointArn'] as String?,
@@ -3395,7 +3400,7 @@ class GetRelayResponse {
 
   factory GetRelayResponse.fromJson(Map<String, dynamic> json) {
     return GetRelayResponse(
-      relayId: json['RelayId'] as String,
+      relayId: (json['RelayId'] as String?) ?? '',
       authentication: json['Authentication'] != null
           ? RelayAuthentication.fromJson(
               json['Authentication'] as Map<String, dynamic>)
@@ -3463,13 +3468,13 @@ class GetRuleSetResponse {
 
   factory GetRuleSetResponse.fromJson(Map<String, dynamic> json) {
     return GetRuleSetResponse(
-      createdDate: nonNullableTimeStampFromJson(json['CreatedDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['CreatedDate'] ?? 0),
       lastModificationDate:
-          nonNullableTimeStampFromJson(json['LastModificationDate'] as Object),
-      ruleSetArn: json['RuleSetArn'] as String,
-      ruleSetId: json['RuleSetId'] as String,
-      ruleSetName: json['RuleSetName'] as String,
-      rules: (json['Rules'] as List)
+          nonNullableTimeStampFromJson(json['LastModificationDate'] ?? 0),
+      ruleSetArn: (json['RuleSetArn'] as String?) ?? '',
+      ruleSetId: (json['RuleSetId'] as String?) ?? '',
+      ruleSetName: (json['RuleSetName'] as String?) ?? '',
+      rules: ((json['Rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3533,8 +3538,8 @@ class GetTrafficPolicyResponse {
 
   factory GetTrafficPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetTrafficPolicyResponse(
-      trafficPolicyId: json['TrafficPolicyId'] as String,
-      trafficPolicyName: json['TrafficPolicyName'] as String,
+      trafficPolicyId: (json['TrafficPolicyId'] as String?) ?? '',
+      trafficPolicyName: (json['TrafficPolicyName'] as String?) ?? '',
       createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
       defaultAction:
           (json['DefaultAction'] as String?)?.let(AcceptAction.fromString),
@@ -3590,8 +3595,8 @@ class IngressAnalysis {
 
   factory IngressAnalysis.fromJson(Map<String, dynamic> json) {
     return IngressAnalysis(
-      analyzer: json['Analyzer'] as String,
-      resultField: json['ResultField'] as String,
+      analyzer: (json['Analyzer'] as String?) ?? '',
+      resultField: (json['ResultField'] as String?) ?? '',
     );
   }
 
@@ -3621,7 +3626,8 @@ class IngressBooleanExpression {
   factory IngressBooleanExpression.fromJson(Map<String, dynamic> json) {
     return IngressBooleanExpression(
       evaluate: IngressBooleanToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: IngressBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
@@ -3752,10 +3758,13 @@ class IngressIpv4Expression {
   factory IngressIpv4Expression.fromJson(Map<String, dynamic> json) {
     return IngressIpv4Expression(
       evaluate: IngressIpToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: IngressIpOperator.fromString((json['Operator'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -3799,8 +3808,8 @@ class IngressPoint {
 
   factory IngressPoint.fromJson(Map<String, dynamic> json) {
     return IngressPoint(
-      ingressPointId: json['IngressPointId'] as String,
-      ingressPointName: json['IngressPointName'] as String,
+      ingressPointId: (json['IngressPointId'] as String?) ?? '',
+      ingressPointName: (json['IngressPointName'] as String?) ?? '',
       status: IngressPointStatus.fromString((json['Status'] as String)),
       type: IngressPointType.fromString((json['Type'] as String)),
       aRecord: json['ARecord'] as String?,
@@ -4013,10 +4022,13 @@ class IngressStringExpression {
   factory IngressStringExpression.fromJson(Map<String, dynamic> json) {
     return IngressStringExpression(
       evaluate: IngressStringToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: IngressStringOperator.fromString((json['Operator'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4125,7 +4137,8 @@ class IngressTlsProtocolExpression {
   factory IngressTlsProtocolExpression.fromJson(Map<String, dynamic> json) {
     return IngressTlsProtocolExpression(
       evaluate: IngressTlsProtocolToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator:
           IngressTlsProtocolOperator.fromString((json['Operator'] as String)),
       value: IngressTlsProtocolAttribute.fromString((json['Value'] as String)),
@@ -4334,7 +4347,7 @@ class ListArchivesResponse {
 
   factory ListArchivesResponse.fromJson(Map<String, dynamic> json) {
     return ListArchivesResponse(
-      archives: (json['Archives'] as List)
+      archives: ((json['Archives'] as List?) ?? const [])
           .nonNulls
           .map((e) => Archive.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4402,7 +4415,7 @@ class ListRelaysResponse {
 
   factory ListRelaysResponse.fromJson(Map<String, dynamic> json) {
     return ListRelaysResponse(
-      relays: (json['Relays'] as List)
+      relays: ((json['Relays'] as List?) ?? const [])
           .nonNulls
           .map((e) => Relay.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4436,7 +4449,7 @@ class ListRuleSetsResponse {
 
   factory ListRuleSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRuleSetsResponse(
-      ruleSets: (json['RuleSets'] as List)
+      ruleSets: ((json['RuleSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleSet.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4465,7 +4478,7 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List)
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4662,7 +4675,7 @@ class PolicyStatement {
   factory PolicyStatement.fromJson(Map<String, dynamic> json) {
     return PolicyStatement(
       action: AcceptAction.fromString((json['Action'] as String)),
-      conditions: (json['Conditions'] as List)
+      conditions: ((json['Conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4740,7 +4753,7 @@ class RelayAction {
 
   factory RelayAction.fromJson(Map<String, dynamic> json) {
     return RelayAction(
-      relay: json['Relay'] as String,
+      relay: (json['Relay'] as String?) ?? '',
       actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
           ?.let(ActionFailurePolicy.fromString),
       mailFrom: (json['MailFrom'] as String?)?.let(MailFrom.fromString),
@@ -5009,7 +5022,7 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      actions: (json['Actions'] as List)
+      actions: ((json['Actions'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleAction.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5163,7 +5176,8 @@ class RuleBooleanExpression {
   factory RuleBooleanExpression.fromJson(Map<String, dynamic> json) {
     return RuleBooleanExpression(
       evaluate: RuleBooleanToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: RuleBooleanOperator.fromString((json['Operator'] as String)),
     );
   }
@@ -5317,7 +5331,7 @@ class RuleDmarcExpression {
   factory RuleDmarcExpression.fromJson(Map<String, dynamic> json) {
     return RuleDmarcExpression(
       operator: RuleDmarcOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
+      values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleDmarcPolicy.fromString((e as String)))
           .toList(),
@@ -5404,11 +5418,14 @@ class RuleIpExpression {
 
   factory RuleIpExpression.fromJson(Map<String, dynamic> json) {
     return RuleIpExpression(
-      evaluate:
-          RuleIpToEvaluate.fromJson(json['Evaluate'] as Map<String, dynamic>),
+      evaluate: RuleIpToEvaluate.fromJson(
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: RuleIpOperator.fromString((json['Operator'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5498,9 +5515,10 @@ class RuleNumberExpression {
   factory RuleNumberExpression.fromJson(Map<String, dynamic> json) {
     return RuleNumberExpression(
       evaluate: RuleNumberToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: RuleNumberOperator.fromString((json['Operator'] as String)),
-      value: json['Value'] as double,
+      value: (json['Value'] as double?) ?? 0,
     );
   }
 
@@ -5644,10 +5662,13 @@ class RuleStringExpression {
   factory RuleStringExpression.fromJson(Map<String, dynamic> json) {
     return RuleStringExpression(
       evaluate: RuleStringToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: RuleStringOperator.fromString((json['Operator'] as String)),
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5760,9 +5781,10 @@ class RuleVerdictExpression {
   factory RuleVerdictExpression.fromJson(Map<String, dynamic> json) {
     return RuleVerdictExpression(
       evaluate: RuleVerdictToEvaluate.fromJson(
-          json['Evaluate'] as Map<String, dynamic>),
+          (json['Evaluate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       operator: RuleVerdictOperator.fromString((json['Operator'] as String)),
-      values: (json['Values'] as List)
+      values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => RuleVerdict.fromString((e as String)))
           .toList(),
@@ -5861,8 +5883,8 @@ class S3Action {
 
   factory S3Action.fromJson(Map<String, dynamic> json) {
     return S3Action(
-      roleArn: json['RoleArn'] as String,
-      s3Bucket: json['S3Bucket'] as String,
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
           ?.let(ActionFailurePolicy.fromString),
       s3Prefix: json['S3Prefix'] as String?,
@@ -6023,7 +6045,7 @@ class SendAction {
 
   factory SendAction.fromJson(Map<String, dynamic> json) {
     return SendAction(
-      roleArn: json['RoleArn'] as String,
+      roleArn: (json['RoleArn'] as String?) ?? '',
       actionFailurePolicy: (json['ActionFailurePolicy'] as String?)
           ?.let(ActionFailurePolicy.fromString),
     );
@@ -6134,8 +6156,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -6184,8 +6206,8 @@ class TrafficPolicy {
   factory TrafficPolicy.fromJson(Map<String, dynamic> json) {
     return TrafficPolicy(
       defaultAction: AcceptAction.fromString((json['DefaultAction'] as String)),
-      trafficPolicyId: json['TrafficPolicyId'] as String,
-      trafficPolicyName: json['TrafficPolicyName'] as String,
+      trafficPolicyId: (json['TrafficPolicyId'] as String?) ?? '',
+      trafficPolicyName: (json['TrafficPolicyName'] as String?) ?? '',
     );
   }
 

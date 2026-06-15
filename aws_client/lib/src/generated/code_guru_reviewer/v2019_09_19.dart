@@ -899,8 +899,8 @@ class BranchDiffSourceCodeType {
 
   factory BranchDiffSourceCodeType.fromJson(Map<String, dynamic> json) {
     return BranchDiffSourceCodeType(
-      destinationBranchName: json['DestinationBranchName'] as String,
-      sourceBranchName: json['SourceBranchName'] as String,
+      destinationBranchName: (json['DestinationBranchName'] as String?) ?? '',
+      sourceBranchName: (json['SourceBranchName'] as String?) ?? '',
     );
   }
 
@@ -947,7 +947,7 @@ class CodeArtifacts {
   factory CodeArtifacts.fromJson(Map<String, dynamic> json) {
     return CodeArtifacts(
       sourceCodeArtifactsObjectKey:
-          json['SourceCodeArtifactsObjectKey'] as String,
+          (json['SourceCodeArtifactsObjectKey'] as String?) ?? '',
       buildArtifactsObjectKey: json['BuildArtifactsObjectKey'] as String?,
     );
   }
@@ -2661,7 +2661,7 @@ class RepositoryHeadSourceCodeType {
 
   factory RepositoryHeadSourceCodeType.fromJson(Map<String, dynamic> json) {
     return RepositoryHeadSourceCodeType(
-      branchName: json['BranchName'] as String,
+      branchName: (json['BranchName'] as String?) ?? '',
     );
   }
 
@@ -2806,7 +2806,7 @@ class S3BucketRepository {
 
   factory S3BucketRepository.fromJson(Map<String, dynamic> json) {
     return S3BucketRepository(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       details: json['Details'] != null
           ? S3RepositoryDetails.fromJson(
               json['Details'] as Map<String, dynamic>)

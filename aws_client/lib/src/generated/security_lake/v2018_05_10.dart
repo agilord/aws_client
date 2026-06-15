@@ -1340,8 +1340,8 @@ class AwsIdentity {
 
   factory AwsIdentity.fromJson(Map<String, dynamic> json) {
     return AwsIdentity(
-      externalId: json['externalId'] as String,
-      principal: json['principal'] as String,
+      externalId: (json['externalId'] as String?) ?? '',
+      principal: (json['principal'] as String?) ?? '',
     );
   }
 
@@ -1794,8 +1794,8 @@ class DataLakeAutoEnableNewAccountConfiguration {
   factory DataLakeAutoEnableNewAccountConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DataLakeAutoEnableNewAccountConfiguration(
-      region: json['region'] as String,
-      sources: (json['sources'] as List)
+      region: (json['region'] as String?) ?? '',
+      sources: ((json['sources'] as List?) ?? const [])
           .nonNulls
           .map((e) => AwsLogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2103,8 +2103,8 @@ class DataLakeResource {
 
   factory DataLakeResource.fromJson(Map<String, dynamic> json) {
     return DataLakeResource(
-      dataLakeArn: json['dataLakeArn'] as String,
-      region: json['region'] as String,
+      dataLakeArn: (json['dataLakeArn'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
       createStatus:
           (json['createStatus'] as String?)?.let(DataLakeStatus.fromString),
       encryptionConfiguration: json['encryptionConfiguration'] != null
@@ -3137,15 +3137,16 @@ class SubscriberResource {
 
   factory SubscriberResource.fromJson(Map<String, dynamic> json) {
     return SubscriberResource(
-      sources: (json['sources'] as List)
+      sources: ((json['sources'] as List?) ?? const [])
           .nonNulls
           .map((e) => LogSourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscriberArn: json['subscriberArn'] as String,
-      subscriberId: json['subscriberId'] as String,
+      subscriberArn: (json['subscriberArn'] as String?) ?? '',
+      subscriberId: (json['subscriberId'] as String?) ?? '',
       subscriberIdentity: AwsIdentity.fromJson(
-          json['subscriberIdentity'] as Map<String, dynamic>),
-      subscriberName: json['subscriberName'] as String,
+          (json['subscriberIdentity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      subscriberName: (json['subscriberName'] as String?) ?? '',
       accessTypes: (json['accessTypes'] as List?)
           ?.nonNulls
           .map((e) => AccessType.fromString((e as String)))
@@ -3255,8 +3256,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

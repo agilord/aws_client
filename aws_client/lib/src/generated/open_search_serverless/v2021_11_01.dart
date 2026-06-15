@@ -3664,7 +3664,7 @@ class SamlConfigOptions {
 
   factory SamlConfigOptions.fromJson(Map<String, dynamic> json) {
     return SamlConfigOptions(
-      metadata: json['metadata'] as String,
+      metadata: (json['metadata'] as String?) ?? '',
       groupAttribute: json['groupAttribute'] as String?,
       sessionTimeout: json['sessionTimeout'] as int?,
       userAttribute: json['userAttribute'] as String?,
@@ -4049,8 +4049,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

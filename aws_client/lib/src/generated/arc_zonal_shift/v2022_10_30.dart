@@ -909,8 +909,8 @@ class AutoshiftInResource {
     return AutoshiftInResource(
       appliedStatus:
           AutoshiftAppliedStatus.fromString((json['appliedStatus'] as String)),
-      awayFrom: json['awayFrom'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      awayFrom: (json['awayFrom'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
     );
   }
 
@@ -982,9 +982,9 @@ class AutoshiftSummary {
 
   factory AutoshiftSummary.fromJson(Map<String, dynamic> json) {
     return AutoshiftSummary(
-      awayFrom: json['awayFrom'] as String,
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      awayFrom: (json['awayFrom'] as String?) ?? '',
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: AutoshiftExecutionStatus.fromString((json['status'] as String)),
     );
   }
@@ -1034,7 +1034,7 @@ class ControlCondition {
 
   factory ControlCondition.fromJson(Map<String, dynamic> json) {
     return ControlCondition(
-      alarmIdentifier: json['alarmIdentifier'] as String,
+      alarmIdentifier: (json['alarmIdentifier'] as String?) ?? '',
       type: ControlConditionType.fromString((json['type'] as String)),
     );
   }
@@ -1097,10 +1097,11 @@ class CreatePracticeRunConfigurationResponse {
   factory CreatePracticeRunConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return CreatePracticeRunConfigurationResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       practiceRunConfiguration: PracticeRunConfiguration.fromJson(
-          json['practiceRunConfiguration'] as Map<String, dynamic>),
+          (json['practiceRunConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
           (json['zonalAutoshiftStatus'] as String)),
     );
@@ -1140,8 +1141,8 @@ class DeletePracticeRunConfigurationResponse {
   factory DeletePracticeRunConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DeletePracticeRunConfigurationResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
           (json['zonalAutoshiftStatus'] as String)),
     );
@@ -1229,9 +1230,10 @@ class GetManagedResourceResponse {
 
   factory GetManagedResourceResponse.fromJson(Map<String, dynamic> json) {
     return GetManagedResourceResponse(
-      appliedWeights: (json['appliedWeights'] as Map<String, dynamic>)
+      appliedWeights: ((json['appliedWeights'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as double)),
-      zonalShifts: (json['zonalShifts'] as List)
+      zonalShifts: ((json['zonalShifts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ZonalShiftInResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1326,7 +1328,7 @@ class ListManagedResourcesResponse {
 
   factory ListManagedResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedResourcesResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => ManagedResourceSummary.fromJson(e as Map<String, dynamic>))
@@ -1443,7 +1445,7 @@ class ManagedResourceSummary {
 
   factory ManagedResourceSummary.fromJson(Map<String, dynamic> json) {
     return ManagedResourceSummary(
-      availabilityZones: (json['availabilityZones'] as List)
+      availabilityZones: ((json['availabilityZones'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1539,7 +1541,7 @@ class PracticeRunConfiguration {
 
   factory PracticeRunConfiguration.fromJson(Map<String, dynamic> json) {
     return PracticeRunConfiguration(
-      outcomeAlarms: (json['outcomeAlarms'] as List)
+      outcomeAlarms: ((json['outcomeAlarms'] as List?) ?? const [])
           .nonNulls
           .map((e) => ControlCondition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1638,10 +1640,11 @@ class UpdatePracticeRunConfigurationResponse {
   factory UpdatePracticeRunConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdatePracticeRunConfigurationResponse(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       practiceRunConfiguration: PracticeRunConfiguration.fromJson(
-          json['practiceRunConfiguration'] as Map<String, dynamic>),
+          (json['practiceRunConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
           (json['zonalAutoshiftStatus'] as String)),
     );
@@ -1678,7 +1681,7 @@ class UpdateZonalAutoshiftConfigurationResponse {
   factory UpdateZonalAutoshiftConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateZonalAutoshiftConfigurationResponse(
-      resourceIdentifier: json['resourceIdentifier'] as String,
+      resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
       zonalAutoshiftStatus: ZonalAutoshiftStatus.fromString(
           (json['zonalAutoshiftStatus'] as String)),
     );
@@ -1777,13 +1780,13 @@ class ZonalShift {
 
   factory ZonalShift.fromJson(Map<String, dynamic> json) {
     return ZonalShift(
-      awayFrom: json['awayFrom'] as String,
-      comment: json['comment'] as String,
-      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
-      resourceIdentifier: json['resourceIdentifier'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      awayFrom: (json['awayFrom'] as String?) ?? '',
+      comment: (json['comment'] as String?) ?? '',
+      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
+      resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: ZonalShiftStatus.fromString((json['status'] as String)),
-      zonalShiftId: json['zonalShiftId'] as String,
+      zonalShiftId: (json['zonalShiftId'] as String?) ?? '',
     );
   }
 
@@ -1913,12 +1916,12 @@ class ZonalShiftInResource {
     return ZonalShiftInResource(
       appliedStatus:
           AppliedStatus.fromString((json['appliedStatus'] as String)),
-      awayFrom: json['awayFrom'] as String,
-      comment: json['comment'] as String,
-      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
-      resourceIdentifier: json['resourceIdentifier'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      zonalShiftId: json['zonalShiftId'] as String,
+      awayFrom: (json['awayFrom'] as String?) ?? '',
+      comment: (json['comment'] as String?) ?? '',
+      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
+      resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      zonalShiftId: (json['zonalShiftId'] as String?) ?? '',
       practiceRunOutcome: (json['practiceRunOutcome'] as String?)
           ?.let(PracticeRunOutcome.fromString),
     );
@@ -2072,13 +2075,13 @@ class ZonalShiftSummary {
 
   factory ZonalShiftSummary.fromJson(Map<String, dynamic> json) {
     return ZonalShiftSummary(
-      awayFrom: json['awayFrom'] as String,
-      comment: json['comment'] as String,
-      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] as Object),
-      resourceIdentifier: json['resourceIdentifier'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      awayFrom: (json['awayFrom'] as String?) ?? '',
+      comment: (json['comment'] as String?) ?? '',
+      expiryTime: nonNullableTimeStampFromJson(json['expiryTime'] ?? 0),
+      resourceIdentifier: (json['resourceIdentifier'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: ZonalShiftStatus.fromString((json['status'] as String)),
-      zonalShiftId: json['zonalShiftId'] as String,
+      zonalShiftId: (json['zonalShiftId'] as String?) ?? '',
       practiceRunOutcome: (json['practiceRunOutcome'] as String?)
           ?.let(PracticeRunOutcome.fromString),
     );

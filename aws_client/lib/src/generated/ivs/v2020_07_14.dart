@@ -1714,8 +1714,8 @@ class BatchStartViewerSessionRevocationError {
   factory BatchStartViewerSessionRevocationError.fromJson(
       Map<String, dynamic> json) {
     return BatchStartViewerSessionRevocationError(
-      channelArn: json['channelArn'] as String,
-      viewerId: json['viewerId'] as String,
+      channelArn: (json['channelArn'] as String?) ?? '',
+      viewerId: (json['viewerId'] as String?) ?? '',
       code: json['code'] as String?,
       message: json['message'] as String?,
     );
@@ -2484,7 +2484,7 @@ class ListChannelsResponse {
 
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
     return ListChannelsResponse(
-      channels: (json['channels'] as List)
+      channels: ((json['channels'] as List?) ?? const [])
           .nonNulls
           .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2517,7 +2517,7 @@ class ListPlaybackKeyPairsResponse {
 
   factory ListPlaybackKeyPairsResponse.fromJson(Map<String, dynamic> json) {
     return ListPlaybackKeyPairsResponse(
-      keyPairs: (json['keyPairs'] as List)
+      keyPairs: ((json['keyPairs'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => PlaybackKeyPairSummary.fromJson(e as Map<String, dynamic>))
@@ -2552,11 +2552,12 @@ class ListPlaybackRestrictionPoliciesResponse {
   factory ListPlaybackRestrictionPoliciesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListPlaybackRestrictionPoliciesResponse(
-      playbackRestrictionPolicies: (json['playbackRestrictionPolicies'] as List)
-          .nonNulls
-          .map((e) => PlaybackRestrictionPolicySummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      playbackRestrictionPolicies:
+          ((json['playbackRestrictionPolicies'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => PlaybackRestrictionPolicySummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2587,7 +2588,8 @@ class ListRecordingConfigurationsResponse {
   factory ListRecordingConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListRecordingConfigurationsResponse(
-      recordingConfigurations: (json['recordingConfigurations'] as List)
+      recordingConfigurations: ((json['recordingConfigurations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RecordingConfigurationSummary.fromJson(e as Map<String, dynamic>))
@@ -2621,7 +2623,7 @@ class ListStreamKeysResponse {
 
   factory ListStreamKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamKeysResponse(
-      streamKeys: (json['streamKeys'] as List)
+      streamKeys: ((json['streamKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamKeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2654,7 +2656,7 @@ class ListStreamSessionsResponse {
 
   factory ListStreamSessionsResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamSessionsResponse(
-      streamSessions: (json['streamSessions'] as List)
+      streamSessions: ((json['streamSessions'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamSessionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2687,7 +2689,7 @@ class ListStreamsResponse {
 
   factory ListStreamsResponse.fromJson(Map<String, dynamic> json) {
     return ListStreamsResponse(
-      streams: (json['streams'] as List)
+      streams: ((json['streams'] as List?) ?? const [])
           .nonNulls
           .map((e) => StreamSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2716,8 +2718,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -2869,15 +2872,15 @@ class PlaybackRestrictionPolicy {
 
   factory PlaybackRestrictionPolicy.fromJson(Map<String, dynamic> json) {
     return PlaybackRestrictionPolicy(
-      allowedCountries: (json['allowedCountries'] as List)
+      allowedCountries: ((json['allowedCountries'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      allowedOrigins: (json['allowedOrigins'] as List)
+      allowedOrigins: ((json['allowedOrigins'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       enableStrictOriginEnforcement:
           json['enableStrictOriginEnforcement'] as bool?,
       name: json['name'] as String?,
@@ -2949,15 +2952,15 @@ class PlaybackRestrictionPolicySummary {
 
   factory PlaybackRestrictionPolicySummary.fromJson(Map<String, dynamic> json) {
     return PlaybackRestrictionPolicySummary(
-      allowedCountries: (json['allowedCountries'] as List)
+      allowedCountries: ((json['allowedCountries'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      allowedOrigins: (json['allowedOrigins'] as List)
+      allowedOrigins: ((json['allowedOrigins'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       enableStrictOriginEnforcement:
           json['enableStrictOriginEnforcement'] as bool?,
       name: json['name'] as String?,
@@ -3037,9 +3040,10 @@ class RecordingConfiguration {
 
   factory RecordingConfiguration.fromJson(Map<String, dynamic> json) {
     return RecordingConfiguration(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       destinationConfiguration: DestinationConfiguration.fromJson(
-          json['destinationConfiguration'] as Map<String, dynamic>),
+          (json['destinationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       state: RecordingConfigurationState.fromString((json['state'] as String)),
       name: json['name'] as String?,
       recordingReconnectWindowSeconds:
@@ -3135,9 +3139,10 @@ class RecordingConfigurationSummary {
 
   factory RecordingConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return RecordingConfigurationSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       destinationConfiguration: DestinationConfiguration.fromJson(
-          json['destinationConfiguration'] as Map<String, dynamic>),
+          (json['destinationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       state: RecordingConfigurationState.fromString((json['state'] as String)),
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3267,7 +3272,7 @@ class S3DestinationConfiguration {
 
   factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DestinationConfiguration(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
     );
   }
 

@@ -2660,7 +2660,7 @@ class BatchPermissionsRequestEntry {
 
   factory BatchPermissionsRequestEntry.fromJson(Map<String, dynamic> json) {
     return BatchPermissionsRequestEntry(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       permissions: (json['Permissions'] as List?)
           ?.nonNulls
           .map((e) => Permission.fromString((e as String)))
@@ -2964,10 +2964,10 @@ class DataCellsFilter {
 
   factory DataCellsFilter.fromJson(Map<String, dynamic> json) {
     return DataCellsFilter(
-      databaseName: json['DatabaseName'] as String,
-      name: json['Name'] as String,
-      tableCatalogId: json['TableCatalogId'] as String,
-      tableName: json['TableName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      tableCatalogId: (json['TableCatalogId'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       columnNames: (json['ColumnNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3294,7 +3294,7 @@ class DataLocationResource {
 
   factory DataLocationResource.fromJson(Map<String, dynamic> json) {
     return DataLocationResource(
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -3325,7 +3325,7 @@ class DatabaseResource {
 
   factory DatabaseResource.fromJson(Map<String, dynamic> json) {
     return DatabaseResource(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -3717,7 +3717,7 @@ class ExternalFilteringConfiguration {
 
   factory ExternalFilteringConfiguration.fromJson(Map<String, dynamic> json) {
     return ExternalFilteringConfiguration(
-      authorizedTargets: (json['AuthorizedTargets'] as List)
+      authorizedTargets: ((json['AuthorizedTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -4239,8 +4239,8 @@ class GetWorkUnitsResponse {
 
   factory GetWorkUnitsResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkUnitsResponse(
-      queryId: json['QueryId'] as String,
-      workUnitRanges: (json['WorkUnitRanges'] as List)
+      queryId: (json['QueryId'] as String?) ?? '',
+      workUnitRanges: ((json['WorkUnitRanges'] as List?) ?? const [])
           .nonNulls
           .map((e) => WorkUnitRange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4293,9 +4293,11 @@ class LFTag {
 
   factory LFTag.fromJson(Map<String, dynamic> json) {
     return LFTag(
-      tagKey: json['TagKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4366,9 +4368,11 @@ class LFTagKeyResource {
 
   factory LFTagKeyResource.fromJson(Map<String, dynamic> json) {
     return LFTagKeyResource(
-      tagKey: json['TagKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4407,9 +4411,11 @@ class LFTagPair {
 
   factory LFTagPair.fromJson(Map<String, dynamic> json) {
     return LFTagPair(
-      tagKey: json['TagKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -4449,7 +4455,7 @@ class LFTagPolicyResource {
 
   factory LFTagPolicyResource.fromJson(Map<String, dynamic> json) {
     return LFTagPolicyResource(
-      expression: (json['Expression'] as List)
+      expression: ((json['Expression'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5507,7 +5513,7 @@ class StartQueryPlanningResponse {
 
   factory StartQueryPlanningResponse.fromJson(Map<String, dynamic> json) {
     return StartQueryPlanningResponse(
-      queryId: json['QueryId'] as String,
+      queryId: (json['QueryId'] as String?) ?? '',
     );
   }
 
@@ -5674,7 +5680,7 @@ class TableResource {
 
   factory TableResource.fromJson(Map<String, dynamic> json) {
     return TableResource(
-      databaseName: json['DatabaseName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       name: json['Name'] as String?,
       tableWildcard: json['TableWildcard'] != null
@@ -5750,8 +5756,8 @@ class TableWithColumnsResource {
 
   factory TableWithColumnsResource.fromJson(Map<String, dynamic> json) {
     return TableWithColumnsResource(
-      databaseName: json['DatabaseName'] as String,
-      name: json['Name'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       columnNames: (json['ColumnNames'] as List?)
           ?.nonNulls
@@ -6098,9 +6104,9 @@ class WorkUnitRange {
 
   factory WorkUnitRange.fromJson(Map<String, dynamic> json) {
     return WorkUnitRange(
-      workUnitIdMax: json['WorkUnitIdMax'] as int,
-      workUnitIdMin: json['WorkUnitIdMin'] as int,
-      workUnitToken: json['WorkUnitToken'] as String,
+      workUnitIdMax: (json['WorkUnitIdMax'] as int?) ?? 0,
+      workUnitIdMin: (json['WorkUnitIdMin'] as int?) ?? 0,
+      workUnitToken: (json['WorkUnitToken'] as String?) ?? '',
     );
   }
 

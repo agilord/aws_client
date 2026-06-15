@@ -3545,7 +3545,7 @@ class AddStorageSystemResponse {
 
   factory AddStorageSystemResponse.fromJson(Map<String, dynamic> json) {
     return AddStorageSystemResponse(
-      storageSystemArn: json['StorageSystemArn'] as String,
+      storageSystemArn: (json['StorageSystemArn'] as String?) ?? '',
     );
   }
 
@@ -5853,7 +5853,7 @@ class DiscoveryServerConfiguration {
 
   factory DiscoveryServerConfiguration.fromJson(Map<String, dynamic> json) {
     return DiscoveryServerConfiguration(
-      serverHostname: json['ServerHostname'] as String,
+      serverHostname: (json['ServerHostname'] as String?) ?? '',
       serverPort: json['ServerPort'] as int?,
     );
   }
@@ -5915,11 +5915,11 @@ class Ec2Config {
 
   factory Ec2Config.fromJson(Map<String, dynamic> json) {
     return Ec2Config(
-      securityGroupArns: (json['SecurityGroupArns'] as List)
+      securityGroupArns: ((json['SecurityGroupArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetArn: json['SubnetArn'] as String,
+      subnetArn: (json['SubnetArn'] as String?) ?? '',
     );
   }
 
@@ -6113,8 +6113,8 @@ class FsxProtocolSmb {
 
   factory FsxProtocolSmb.fromJson(Map<String, dynamic> json) {
     return FsxProtocolSmb(
-      password: json['Password'] as String,
-      user: json['User'] as String,
+      password: (json['Password'] as String?) ?? '',
+      user: (json['User'] as String?) ?? '',
       domain: json['Domain'] as String?,
       mountOptions: json['MountOptions'] != null
           ? SmbMountOptions.fromJson(
@@ -6218,8 +6218,8 @@ class HdfsNameNode {
 
   factory HdfsNameNode.fromJson(Map<String, dynamic> json) {
     return HdfsNameNode(
-      hostname: json['Hostname'] as String,
-      port: json['Port'] as int,
+      hostname: (json['Hostname'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
     );
   }
 
@@ -7422,8 +7422,10 @@ class OnPremConfig {
 
   factory OnPremConfig.fromJson(Map<String, dynamic> json) {
     return OnPremConfig(
-      agentArns:
-          (json['AgentArns'] as List).nonNulls.map((e) => e as String).toList(),
+      agentArns: ((json['AgentArns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -8246,8 +8248,8 @@ class ReportDestinationS3 {
 
   factory ReportDestinationS3.fromJson(Map<String, dynamic> json) {
     return ReportDestinationS3(
-      bucketAccessRoleArn: json['BucketAccessRoleArn'] as String,
-      s3BucketArn: json['S3BucketArn'] as String,
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
+      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
       subdirectory: json['Subdirectory'] as String?,
     );
   }
@@ -8558,7 +8560,7 @@ class S3Config {
 
   factory S3Config.fromJson(Map<String, dynamic> json) {
     return S3Config(
-      bucketAccessRoleArn: json['BucketAccessRoleArn'] as String,
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
     );
   }
 
@@ -8602,9 +8604,9 @@ class S3ManifestConfig {
 
   factory S3ManifestConfig.fromJson(Map<String, dynamic> json) {
     return S3ManifestConfig(
-      bucketAccessRoleArn: json['BucketAccessRoleArn'] as String,
-      manifestObjectPath: json['ManifestObjectPath'] as String,
-      s3BucketArn: json['S3BucketArn'] as String,
+      bucketAccessRoleArn: (json['BucketAccessRoleArn'] as String?) ?? '',
+      manifestObjectPath: (json['ManifestObjectPath'] as String?) ?? '',
+      s3BucketArn: (json['S3BucketArn'] as String?) ?? '',
       manifestObjectVersionId: json['ManifestObjectVersionId'] as String?,
     );
   }
@@ -8782,7 +8784,8 @@ class SourceManifestConfig {
 
   factory SourceManifestConfig.fromJson(Map<String, dynamic> json) {
     return SourceManifestConfig(
-      s3: S3ManifestConfig.fromJson(json['S3'] as Map<String, dynamic>),
+      s3: S3ManifestConfig.fromJson(
+          (json['S3'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -8916,7 +8919,7 @@ class TagListEntry {
 
   factory TagListEntry.fromJson(Map<String, dynamic> json) {
     return TagListEntry(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -9325,7 +9328,7 @@ class TaskSchedule {
 
   factory TaskSchedule.fromJson(Map<String, dynamic> json) {
     return TaskSchedule(
-      scheduleExpression: json['ScheduleExpression'] as String,
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
       status: (json['Status'] as String?)?.let(ScheduleStatus.fromString),
     );
   }

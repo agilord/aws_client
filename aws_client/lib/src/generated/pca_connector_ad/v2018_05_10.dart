@@ -1160,7 +1160,7 @@ class ApplicationPolicies {
 
   factory ApplicationPolicies.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicies(
-      policies: (json['Policies'] as List)
+      policies: ((json['Policies'] as List?) ?? const [])
           .nonNulls
           .map((e) => ApplicationPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1329,9 +1329,11 @@ class CertificateValidity {
   factory CertificateValidity.fromJson(Map<String, dynamic> json) {
     return CertificateValidity(
       renewalPeriod: ValidityPeriod.fromJson(
-          json['RenewalPeriod'] as Map<String, dynamic>),
+          (json['RenewalPeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       validityPeriod: ValidityPeriod.fromJson(
-          json['ValidityPeriod'] as Map<String, dynamic>),
+          (json['ValidityPeriod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2073,7 +2075,8 @@ class ExtensionsV2 {
 
   factory ExtensionsV2.fromJson(Map<String, dynamic> json) {
     return ExtensionsV2(
-      keyUsage: KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>),
+      keyUsage: KeyUsage.fromJson((json['KeyUsage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       applicationPolicies: json['ApplicationPolicies'] != null
           ? ApplicationPolicies.fromJson(
               json['ApplicationPolicies'] as Map<String, dynamic>)
@@ -2109,7 +2112,8 @@ class ExtensionsV3 {
 
   factory ExtensionsV3.fromJson(Map<String, dynamic> json) {
     return ExtensionsV3(
-      keyUsage: KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>),
+      keyUsage: KeyUsage.fromJson((json['KeyUsage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       applicationPolicies: json['ApplicationPolicies'] != null
           ? ApplicationPolicies.fromJson(
               json['ApplicationPolicies'] as Map<String, dynamic>)
@@ -2145,7 +2149,8 @@ class ExtensionsV4 {
 
   factory ExtensionsV4.fromJson(Map<String, dynamic> json) {
     return ExtensionsV4(
-      keyUsage: KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>),
+      keyUsage: KeyUsage.fromJson((json['KeyUsage'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       applicationPolicies: json['ApplicationPolicies'] != null
           ? ApplicationPolicies.fromJson(
               json['ApplicationPolicies'] as Map<String, dynamic>)
@@ -2440,8 +2445,9 @@ class KeyUsage {
 
   factory KeyUsage.fromJson(Map<String, dynamic> json) {
     return KeyUsage(
-      usageFlags:
-          KeyUsageFlags.fromJson(json['UsageFlags'] as Map<String, dynamic>),
+      usageFlags: KeyUsageFlags.fromJson(
+          (json['UsageFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       critical: json['Critical'] as bool?,
     );
   }
@@ -2845,7 +2851,7 @@ class PrivateKeyAttributesV2 {
   factory PrivateKeyAttributesV2.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV2(
       keySpec: KeySpec.fromString((json['KeySpec'] as String)),
-      minimalKeyLength: json['MinimalKeyLength'] as int,
+      minimalKeyLength: (json['MinimalKeyLength'] as int?) ?? 0,
       cryptoProviders: (json['CryptoProviders'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2898,8 +2904,9 @@ class PrivateKeyAttributesV3 {
       algorithm: PrivateKeyAlgorithm.fromString((json['Algorithm'] as String)),
       keySpec: KeySpec.fromString((json['KeySpec'] as String)),
       keyUsageProperty: KeyUsageProperty.fromJson(
-          json['KeyUsageProperty'] as Map<String, dynamic>),
-      minimalKeyLength: json['MinimalKeyLength'] as int,
+          (json['KeyUsageProperty'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      minimalKeyLength: (json['MinimalKeyLength'] as int?) ?? 0,
       cryptoProviders: (json['CryptoProviders'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2954,7 +2961,7 @@ class PrivateKeyAttributesV4 {
   factory PrivateKeyAttributesV4.fromJson(Map<String, dynamic> json) {
     return PrivateKeyAttributesV4(
       keySpec: KeySpec.fromString((json['KeySpec'] as String)),
-      minimalKeyLength: json['MinimalKeyLength'] as int,
+      minimalKeyLength: (json['MinimalKeyLength'] as int?) ?? 0,
       algorithm:
           (json['Algorithm'] as String?)?.let(PrivateKeyAlgorithm.fromString),
       cryptoProviders: (json['CryptoProviders'] as List?)
@@ -3780,8 +3787,8 @@ class TemplateRevision {
 
   factory TemplateRevision.fromJson(Map<String, dynamic> json) {
     return TemplateRevision(
-      majorRevision: json['MajorRevision'] as int,
-      minorRevision: json['MinorRevision'] as int,
+      majorRevision: (json['MajorRevision'] as int?) ?? 0,
+      minorRevision: (json['MinorRevision'] as int?) ?? 0,
     );
   }
 
@@ -3962,19 +3969,26 @@ class TemplateV2 {
   factory TemplateV2.fromJson(Map<String, dynamic> json) {
     return TemplateV2(
       certificateValidity: CertificateValidity.fromJson(
-          json['CertificateValidity'] as Map<String, dynamic>),
+          (json['CertificateValidity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       enrollmentFlags: EnrollmentFlagsV2.fromJson(
-          json['EnrollmentFlags'] as Map<String, dynamic>),
-      extensions:
-          ExtensionsV2.fromJson(json['Extensions'] as Map<String, dynamic>),
-      generalFlags:
-          GeneralFlagsV2.fromJson(json['GeneralFlags'] as Map<String, dynamic>),
+          (json['EnrollmentFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      extensions: ExtensionsV2.fromJson(
+          (json['Extensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      generalFlags: GeneralFlagsV2.fromJson(
+          (json['GeneralFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privateKeyAttributes: PrivateKeyAttributesV2.fromJson(
-          json['PrivateKeyAttributes'] as Map<String, dynamic>),
+          (json['PrivateKeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privateKeyFlags: PrivateKeyFlagsV2.fromJson(
-          json['PrivateKeyFlags'] as Map<String, dynamic>),
+          (json['PrivateKeyFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectNameFlags: SubjectNameFlagsV2.fromJson(
-          json['SubjectNameFlags'] as Map<String, dynamic>),
+          (json['SubjectNameFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       supersededTemplates: (json['SupersededTemplates'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4059,21 +4073,28 @@ class TemplateV3 {
   factory TemplateV3.fromJson(Map<String, dynamic> json) {
     return TemplateV3(
       certificateValidity: CertificateValidity.fromJson(
-          json['CertificateValidity'] as Map<String, dynamic>),
+          (json['CertificateValidity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       enrollmentFlags: EnrollmentFlagsV3.fromJson(
-          json['EnrollmentFlags'] as Map<String, dynamic>),
-      extensions:
-          ExtensionsV3.fromJson(json['Extensions'] as Map<String, dynamic>),
-      generalFlags:
-          GeneralFlagsV3.fromJson(json['GeneralFlags'] as Map<String, dynamic>),
+          (json['EnrollmentFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      extensions: ExtensionsV3.fromJson(
+          (json['Extensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      generalFlags: GeneralFlagsV3.fromJson(
+          (json['GeneralFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       hashAlgorithm:
           HashAlgorithm.fromString((json['HashAlgorithm'] as String)),
       privateKeyAttributes: PrivateKeyAttributesV3.fromJson(
-          json['PrivateKeyAttributes'] as Map<String, dynamic>),
+          (json['PrivateKeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privateKeyFlags: PrivateKeyFlagsV3.fromJson(
-          json['PrivateKeyFlags'] as Map<String, dynamic>),
+          (json['PrivateKeyFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectNameFlags: SubjectNameFlagsV3.fromJson(
-          json['SubjectNameFlags'] as Map<String, dynamic>),
+          (json['SubjectNameFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       supersededTemplates: (json['SupersededTemplates'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4164,19 +4185,26 @@ class TemplateV4 {
   factory TemplateV4.fromJson(Map<String, dynamic> json) {
     return TemplateV4(
       certificateValidity: CertificateValidity.fromJson(
-          json['CertificateValidity'] as Map<String, dynamic>),
+          (json['CertificateValidity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       enrollmentFlags: EnrollmentFlagsV4.fromJson(
-          json['EnrollmentFlags'] as Map<String, dynamic>),
-      extensions:
-          ExtensionsV4.fromJson(json['Extensions'] as Map<String, dynamic>),
-      generalFlags:
-          GeneralFlagsV4.fromJson(json['GeneralFlags'] as Map<String, dynamic>),
+          (json['EnrollmentFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      extensions: ExtensionsV4.fromJson(
+          (json['Extensions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      generalFlags: GeneralFlagsV4.fromJson(
+          (json['GeneralFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privateKeyAttributes: PrivateKeyAttributesV4.fromJson(
-          json['PrivateKeyAttributes'] as Map<String, dynamic>),
+          (json['PrivateKeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       privateKeyFlags: PrivateKeyFlagsV4.fromJson(
-          json['PrivateKeyFlags'] as Map<String, dynamic>),
+          (json['PrivateKeyFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectNameFlags: SubjectNameFlagsV4.fromJson(
-          json['SubjectNameFlags'] as Map<String, dynamic>),
+          (json['SubjectNameFlags'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       hashAlgorithm:
           (json['HashAlgorithm'] as String?)?.let(HashAlgorithm.fromString),
       supersededTemplates: (json['SupersededTemplates'] as List?)
@@ -4234,7 +4262,7 @@ class ValidityPeriod {
 
   factory ValidityPeriod.fromJson(Map<String, dynamic> json) {
     return ValidityPeriod(
-      period: json['Period'] as int,
+      period: (json['Period'] as int?) ?? 0,
       periodType: ValidityPeriodType.fromString((json['PeriodType'] as String)),
     );
   }
@@ -4279,7 +4307,7 @@ class VpcInformation {
 
   factory VpcInformation.fromJson(Map<String, dynamic> json) {
     return VpcInformation(
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

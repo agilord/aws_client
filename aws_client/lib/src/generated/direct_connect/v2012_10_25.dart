@@ -6594,7 +6594,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }

@@ -1232,7 +1232,8 @@ class DescribeJournalS3ExportResponse {
   factory DescribeJournalS3ExportResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJournalS3ExportResponse(
       exportDescription: JournalS3ExportDescription.fromJson(
-          json['ExportDescription'] as Map<String, dynamic>),
+          (json['ExportDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1370,7 +1371,7 @@ class ExportJournalToS3Response {
 
   factory ExportJournalToS3Response.fromJson(Map<String, dynamic> json) {
     return ExportJournalToS3Response(
-      exportId: json['ExportId'] as String,
+      exportId: (json['ExportId'] as String?) ?? '',
     );
   }
 
@@ -1414,7 +1415,8 @@ class GetBlockResponse {
 
   factory GetBlockResponse.fromJson(Map<String, dynamic> json) {
     return GetBlockResponse(
-      block: ValueHolder.fromJson(json['Block'] as Map<String, dynamic>),
+      block: ValueHolder.fromJson((json['Block'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       proof: json['Proof'] != null
           ? ValueHolder.fromJson(json['Proof'] as Map<String, dynamic>)
           : null,
@@ -1448,9 +1450,10 @@ class GetDigestResponse {
 
   factory GetDigestResponse.fromJson(Map<String, dynamic> json) {
     return GetDigestResponse(
-      digest: _s.decodeUint8List(json['Digest']! as String),
+      digest: _s.decodeUint8List((json['Digest'] as String?) ?? ''),
       digestTipAddress: ValueHolder.fromJson(
-          json['DigestTipAddress'] as Map<String, dynamic>),
+          (json['DigestTipAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1481,7 +1484,9 @@ class GetRevisionResponse {
 
   factory GetRevisionResponse.fromJson(Map<String, dynamic> json) {
     return GetRevisionResponse(
-      revision: ValueHolder.fromJson(json['Revision'] as Map<String, dynamic>),
+      revision: ValueHolder.fromJson(
+          (json['Revision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       proof: json['Proof'] != null
           ? ValueHolder.fromJson(json['Proof'] as Map<String, dynamic>)
           : null,
@@ -1561,12 +1566,13 @@ class JournalKinesisStreamDescription {
   factory JournalKinesisStreamDescription.fromJson(Map<String, dynamic> json) {
     return JournalKinesisStreamDescription(
       kinesisConfiguration: KinesisConfiguration.fromJson(
-          json['KinesisConfiguration'] as Map<String, dynamic>),
-      ledgerName: json['LedgerName'] as String,
-      roleArn: json['RoleArn'] as String,
+          (json['KinesisConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ledgerName: (json['LedgerName'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       status: StreamStatus.fromString((json['Status'] as String)),
-      streamId: json['StreamId'] as String,
-      streamName: json['StreamName'] as String,
+      streamId: (json['StreamId'] as String?) ?? '',
+      streamName: (json['StreamName'] as String?) ?? '',
       arn: json['Arn'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
       errorCause: (json['ErrorCause'] as String?)?.let(ErrorCause.fromString),
@@ -1665,16 +1671,17 @@ class JournalS3ExportDescription {
   factory JournalS3ExportDescription.fromJson(Map<String, dynamic> json) {
     return JournalS3ExportDescription(
       exclusiveEndTime:
-          nonNullableTimeStampFromJson(json['ExclusiveEndTime'] as Object),
+          nonNullableTimeStampFromJson(json['ExclusiveEndTime'] ?? 0),
       exportCreationTime:
-          nonNullableTimeStampFromJson(json['ExportCreationTime'] as Object),
-      exportId: json['ExportId'] as String,
+          nonNullableTimeStampFromJson(json['ExportCreationTime'] ?? 0),
+      exportId: (json['ExportId'] as String?) ?? '',
       inclusiveStartTime:
-          nonNullableTimeStampFromJson(json['InclusiveStartTime'] as Object),
-      ledgerName: json['LedgerName'] as String,
-      roleArn: json['RoleArn'] as String,
+          nonNullableTimeStampFromJson(json['InclusiveStartTime'] ?? 0),
+      ledgerName: (json['LedgerName'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       s3ExportConfiguration: S3ExportConfiguration.fromJson(
-          json['S3ExportConfiguration'] as Map<String, dynamic>),
+          (json['S3ExportConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ExportStatus.fromString((json['Status'] as String)),
       outputFormat:
           (json['OutputFormat'] as String?)?.let(OutputFormat.fromString),
@@ -1733,7 +1740,7 @@ class KinesisConfiguration {
 
   factory KinesisConfiguration.fromJson(Map<String, dynamic> json) {
     return KinesisConfiguration(
-      streamArn: json['StreamArn'] as String,
+      streamArn: (json['StreamArn'] as String?) ?? '',
       aggregationEnabled: json['AggregationEnabled'] as bool?,
     );
   }
@@ -1810,7 +1817,7 @@ class LedgerEncryptionDescription {
     return LedgerEncryptionDescription(
       encryptionStatus:
           EncryptionStatus.fromString((json['EncryptionStatus'] as String)),
-      kmsKeyArn: json['KmsKeyArn'] as String,
+      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
       inaccessibleKmsKeyDateTime:
           timeStampFromJson(json['InaccessibleKmsKeyDateTime']),
     );
@@ -2215,10 +2222,11 @@ class S3ExportConfiguration {
 
   factory S3ExportConfiguration.fromJson(Map<String, dynamic> json) {
     return S3ExportConfiguration(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       encryptionConfiguration: S3EncryptionConfiguration.fromJson(
-          json['EncryptionConfiguration'] as Map<String, dynamic>),
-      prefix: json['Prefix'] as String,
+          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      prefix: (json['Prefix'] as String?) ?? '',
     );
   }
 

@@ -1236,7 +1236,8 @@ class CrlDetailResponse {
 
   factory CrlDetailResponse.fromJson(Map<String, dynamic> json) {
     return CrlDetailResponse(
-      crl: CrlDetail.fromJson(json['crl'] as Map<String, dynamic>),
+      crl: CrlDetail.fromJson(
+          (json['crl'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1258,7 +1259,9 @@ class DeleteAttributeMappingResponse {
 
   factory DeleteAttributeMappingResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAttributeMappingResponse(
-      profile: ProfileDetail.fromJson(json['profile'] as Map<String, dynamic>),
+      profile: ProfileDetail.fromJson(
+          (json['profile'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1483,7 +1486,7 @@ class MappingRule {
 
   factory MappingRule.fromJson(Map<String, dynamic> json) {
     return MappingRule(
-      specifier: json['specifier'] as String,
+      specifier: (json['specifier'] as String?) ?? '',
     );
   }
 
@@ -1605,7 +1608,7 @@ class NotificationSettingDetail {
 
   factory NotificationSettingDetail.fromJson(Map<String, dynamic> json) {
     return NotificationSettingDetail(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       event: NotificationEvent.fromString((json['event'] as String)),
       channel:
           (json['channel'] as String?)?.let(NotificationChannel.fromString),
@@ -1821,7 +1824,9 @@ class PutAttributeMappingResponse {
 
   factory PutAttributeMappingResponse.fromJson(Map<String, dynamic> json) {
     return PutAttributeMappingResponse(
-      profile: ProfileDetail.fromJson(json['profile'] as Map<String, dynamic>),
+      profile: ProfileDetail.fromJson(
+          (json['profile'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1843,7 +1848,8 @@ class PutNotificationSettingsResponse {
   factory PutNotificationSettingsResponse.fromJson(Map<String, dynamic> json) {
     return PutNotificationSettingsResponse(
       trustAnchor: TrustAnchorDetail.fromJson(
-          json['trustAnchor'] as Map<String, dynamic>),
+          (json['trustAnchor'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1866,7 +1872,8 @@ class ResetNotificationSettingsResponse {
       Map<String, dynamic> json) {
     return ResetNotificationSettingsResponse(
       trustAnchor: TrustAnchorDetail.fromJson(
-          json['trustAnchor'] as Map<String, dynamic>),
+          (json['trustAnchor'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2138,8 +2145,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2255,7 +2262,8 @@ class TrustAnchorDetailResponse {
   factory TrustAnchorDetailResponse.fromJson(Map<String, dynamic> json) {
     return TrustAnchorDetailResponse(
       trustAnchor: TrustAnchorDetail.fromJson(
-          json['trustAnchor'] as Map<String, dynamic>),
+          (json['trustAnchor'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

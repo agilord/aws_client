@@ -2104,9 +2104,10 @@ class EdgeConfig {
 
   factory EdgeConfig.fromJson(Map<String, dynamic> json) {
     return EdgeConfig(
-      hubDeviceArn: json['HubDeviceArn'] as String,
+      hubDeviceArn: (json['HubDeviceArn'] as String?) ?? '',
       recorderConfig: RecorderConfig.fromJson(
-          json['RecorderConfig'] as Map<String, dynamic>),
+          (json['RecorderConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       deletionConfig: json['DeletionConfig'] != null
           ? DeletionConfig.fromJson(
               json['DeletionConfig'] as Map<String, dynamic>)
@@ -2278,11 +2279,12 @@ class ImageGenerationConfiguration {
   factory ImageGenerationConfiguration.fromJson(Map<String, dynamic> json) {
     return ImageGenerationConfiguration(
       destinationConfig: ImageGenerationDestinationConfig.fromJson(
-          json['DestinationConfig'] as Map<String, dynamic>),
+          (json['DestinationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       format: Format.fromString((json['Format'] as String)),
       imageSelectorType:
           ImageSelectorType.fromString((json['ImageSelectorType'] as String)),
-      samplingInterval: json['SamplingInterval'] as int,
+      samplingInterval: (json['SamplingInterval'] as int?) ?? 0,
       status: ConfigurationStatus.fromString((json['Status'] as String)),
       formatConfig: (json['FormatConfig'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(FormatConfigKey.fromString(k), e as String)),
@@ -2333,8 +2335,8 @@ class ImageGenerationDestinationConfig {
 
   factory ImageGenerationDestinationConfig.fromJson(Map<String, dynamic> json) {
     return ImageGenerationDestinationConfig(
-      destinationRegion: json['DestinationRegion'] as String,
-      uri: json['Uri'] as String,
+      destinationRegion: (json['DestinationRegion'] as String?) ?? '',
+      uri: (json['Uri'] as String?) ?? '',
     );
   }
 
@@ -2789,7 +2791,7 @@ class MediaSourceConfig {
 
   factory MediaSourceConfig.fromJson(Map<String, dynamic> json) {
     return MediaSourceConfig(
-      mediaUriSecretArn: json['MediaUriSecretArn'] as String,
+      mediaUriSecretArn: (json['MediaUriSecretArn'] as String?) ?? '',
       mediaUriType: MediaUriType.fromString((json['MediaUriType'] as String)),
     );
   }
@@ -2897,7 +2899,8 @@ class NotificationConfiguration {
   factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
     return NotificationConfiguration(
       destinationConfig: NotificationDestinationConfig.fromJson(
-          json['DestinationConfig'] as Map<String, dynamic>),
+          (json['DestinationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ConfigurationStatus.fromString((json['Status'] as String)),
     );
   }
@@ -2925,7 +2928,7 @@ class NotificationDestinationConfig {
 
   factory NotificationDestinationConfig.fromJson(Map<String, dynamic> json) {
     return NotificationDestinationConfig(
-      uri: json['Uri'] as String,
+      uri: (json['Uri'] as String?) ?? '',
     );
   }
 
@@ -2961,7 +2964,8 @@ class RecorderConfig {
   factory RecorderConfig.fromJson(Map<String, dynamic> json) {
     return RecorderConfig(
       mediaSourceConfig: MediaSourceConfig.fromJson(
-          json['MediaSourceConfig'] as Map<String, dynamic>),
+          (json['MediaSourceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       scheduleConfig: json['ScheduleConfig'] != null
           ? ScheduleConfig.fromJson(
               json['ScheduleConfig'] as Map<String, dynamic>)
@@ -3068,8 +3072,8 @@ class ScheduleConfig {
 
   factory ScheduleConfig.fromJson(Map<String, dynamic> json) {
     return ScheduleConfig(
-      durationInSeconds: json['DurationInSeconds'] as int,
-      scheduleExpression: json['ScheduleExpression'] as String,
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
     );
   }
 
@@ -3564,7 +3568,8 @@ class UploaderConfig {
   factory UploaderConfig.fromJson(Map<String, dynamic> json) {
     return UploaderConfig(
       scheduleConfig: ScheduleConfig.fromJson(
-          json['ScheduleConfig'] as Map<String, dynamic>),
+          (json['ScheduleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

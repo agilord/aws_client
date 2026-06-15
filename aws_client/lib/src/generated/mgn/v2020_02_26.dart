@@ -3332,8 +3332,9 @@ class ConnectorSsmCommandConfig {
 
   factory ConnectorSsmCommandConfig.fromJson(Map<String, dynamic> json) {
     return ConnectorSsmCommandConfig(
-      cloudWatchOutputEnabled: json['cloudWatchOutputEnabled'] as bool,
-      s3OutputEnabled: json['s3OutputEnabled'] as bool,
+      cloudWatchOutputEnabled:
+          (json['cloudWatchOutputEnabled'] as bool?) ?? false,
+      s3OutputEnabled: (json['s3OutputEnabled'] as bool?) ?? false,
       cloudWatchLogGroupName: json['cloudWatchLogGroupName'] as String?,
       outputS3BucketName: json['outputS3BucketName'] as String?,
     );
@@ -4761,7 +4762,7 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
-      jobID: json['jobID'] as String,
+      jobID: (json['jobID'] as String?) ?? '',
       arn: json['arn'] as String?,
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
@@ -5186,7 +5187,7 @@ class LaunchConfigurationTemplate {
   factory LaunchConfigurationTemplate.fromJson(Map<String, dynamic> json) {
     return LaunchConfigurationTemplate(
       launchConfigurationTemplateID:
-          json['launchConfigurationTemplateID'] as String,
+          (json['launchConfigurationTemplateID'] as String?) ?? '',
       arn: json['arn'] as String?,
       associatePublicIpAddress: json['associatePublicIpAddress'] as bool?,
       bootMode: (json['bootMode'] as String?)?.let(BootMode.fromString),
@@ -6030,7 +6031,7 @@ class ListManagedAccountsResponse {
 
   factory ListManagedAccountsResponse.fromJson(Map<String, dynamic> json) {
     return ListManagedAccountsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ManagedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6299,7 +6300,7 @@ class ParticipatingServer {
 
   factory ParticipatingServer.fromJson(Map<String, dynamic> json) {
     return ParticipatingServer(
-      sourceServerID: json['sourceServerID'] as String,
+      sourceServerID: (json['sourceServerID'] as String?) ?? '',
       launchStatus:
           (json['launchStatus'] as String?)?.let(LaunchStatus.fromString),
       launchedEc2InstanceID: json['launchedEc2InstanceID'] as String?,
@@ -6828,7 +6829,7 @@ class ReplicationConfigurationTemplate {
   factory ReplicationConfigurationTemplate.fromJson(Map<String, dynamic> json) {
     return ReplicationConfigurationTemplate(
       replicationConfigurationTemplateID:
-          json['replicationConfigurationTemplateID'] as String,
+          (json['replicationConfigurationTemplateID'] as String?) ?? '',
       arn: json['arn'] as String?,
       associateDefaultSecurityGroup:
           json['associateDefaultSecurityGroup'] as bool?,
@@ -6943,8 +6944,8 @@ class S3BucketSource {
 
   factory S3BucketSource.fromJson(Map<String, dynamic> json) {
     return S3BucketSource(
-      s3Bucket: json['s3Bucket'] as String,
-      s3Key: json['s3Key'] as String,
+      s3Bucket: (json['s3Bucket'] as String?) ?? '',
+      s3Key: (json['s3Key'] as String?) ?? '',
       s3BucketOwner: json['s3BucketOwner'] as String?,
     );
   }
@@ -7369,8 +7370,8 @@ class SsmDocument {
 
   factory SsmDocument.fromJson(Map<String, dynamic> json) {
     return SsmDocument(
-      actionName: json['actionName'] as String,
-      ssmDocumentName: json['ssmDocumentName'] as String,
+      actionName: (json['actionName'] as String?) ?? '',
+      ssmDocumentName: (json['ssmDocumentName'] as String?) ?? '',
       externalParameters: (json['externalParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k, SsmExternalParameter.fromJson(e as Map<String, dynamic>))),
@@ -7459,7 +7460,7 @@ class SsmParameterStoreParameter {
 
   factory SsmParameterStoreParameter.fromJson(Map<String, dynamic> json) {
     return SsmParameterStoreParameter(
-      parameterName: json['parameterName'] as String,
+      parameterName: (json['parameterName'] as String?) ?? '',
       parameterType: SsmParameterStoreParameterType.fromString(
           (json['parameterType'] as String)),
     );

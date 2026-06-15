@@ -9500,7 +9500,7 @@ class AnywhereConfiguration {
 
   factory AnywhereConfiguration.fromJson(Map<String, dynamic> json) {
     return AnywhereConfiguration(
-      cost: json['Cost'] as String,
+      cost: (json['Cost'] as String?) ?? '',
     );
   }
 
@@ -10144,8 +10144,8 @@ class ConnectionPortRange {
 
   factory ConnectionPortRange.fromJson(Map<String, dynamic> json) {
     return ConnectionPortRange(
-      fromPort: json['FromPort'] as int,
-      toPort: json['ToPort'] as int,
+      fromPort: (json['FromPort'] as int?) ?? 0,
+      toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
 
@@ -10300,8 +10300,8 @@ class ContainerDefinition {
 
   factory ContainerDefinition.fromJson(Map<String, dynamic> json) {
     return ContainerDefinition(
-      containerName: json['ContainerName'] as String,
-      imageUri: json['ImageUri'] as String,
+      containerName: (json['ContainerName'] as String?) ?? '',
+      imageUri: (json['ImageUri'] as String?) ?? '',
       command:
           (json['Command'] as List?)?.nonNulls.map((e) => e as String).toList(),
       cpu: json['Cpu'] as int?,
@@ -10614,7 +10614,7 @@ class ContainerDependency {
     return ContainerDependency(
       condition: ContainerDependencyCondition.fromString(
           (json['Condition'] as String)),
-      containerName: json['ContainerName'] as String,
+      containerName: (json['ContainerName'] as String?) ?? '',
     );
   }
 
@@ -10666,8 +10666,8 @@ class ContainerEnvironment {
 
   factory ContainerEnvironment.fromJson(Map<String, dynamic> json) {
     return ContainerEnvironment(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -11193,8 +11193,10 @@ class ContainerHealthCheck {
 
   factory ContainerHealthCheck.fromJson(Map<String, dynamic> json) {
     return ContainerHealthCheck(
-      command:
-          (json['Command'] as List).nonNulls.map((e) => e as String).toList(),
+      command: ((json['Command'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       interval: json['Interval'] as int?,
       retries: json['Retries'] as int?,
       startPeriod: json['StartPeriod'] as int?,
@@ -11289,7 +11291,7 @@ class ContainerPortConfiguration {
 
   factory ContainerPortConfiguration.fromJson(Map<String, dynamic> json) {
     return ContainerPortConfiguration(
-      containerPortRanges: (json['ContainerPortRanges'] as List)
+      containerPortRanges: ((json['ContainerPortRanges'] as List?) ?? const [])
           .nonNulls
           .map((e) => ContainerPortRange.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11377,9 +11379,9 @@ class ContainerPortRange {
 
   factory ContainerPortRange.fromJson(Map<String, dynamic> json) {
     return ContainerPortRange(
-      fromPort: json['FromPort'] as int,
+      fromPort: (json['FromPort'] as int?) ?? 0,
       protocol: IpProtocol.fromString((json['Protocol'] as String)),
-      toPort: json['ToPort'] as int,
+      toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
 
@@ -11736,8 +11738,9 @@ class CreateMatchmakingRuleSetOutput {
 
   factory CreateMatchmakingRuleSetOutput.fromJson(Map<String, dynamic> json) {
     return CreateMatchmakingRuleSetOutput(
-      ruleSet:
-          MatchmakingRuleSet.fromJson(json['RuleSet'] as Map<String, dynamic>),
+      ruleSet: MatchmakingRuleSet.fromJson(
+          (json['RuleSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12790,7 +12793,7 @@ class DescribeMatchmakingRuleSetsOutput {
   factory DescribeMatchmakingRuleSetsOutput.fromJson(
       Map<String, dynamic> json) {
     return DescribeMatchmakingRuleSetsOutput(
-      ruleSets: (json['RuleSets'] as List)
+      ruleSets: ((json['RuleSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => MatchmakingRuleSet.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14374,8 +14377,8 @@ class GameProperty {
 
   factory GameProperty.fromJson(Map<String, dynamic> json) {
     return GameProperty(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -16388,10 +16391,10 @@ class IpPermission {
 
   factory IpPermission.fromJson(Map<String, dynamic> json) {
     return IpPermission(
-      fromPort: json['FromPort'] as int,
-      ipRange: json['IpRange'] as String,
+      fromPort: (json['FromPort'] as int?) ?? 0,
+      ipRange: (json['IpRange'] as String?) ?? '',
       protocol: IpProtocol.fromString((json['Protocol'] as String)),
-      toPort: json['ToPort'] as int,
+      toPort: (json['ToPort'] as int?) ?? 0,
     );
   }
 
@@ -17341,7 +17344,7 @@ class MatchmakingRuleSet {
 
   factory MatchmakingRuleSet.fromJson(Map<String, dynamic> json) {
     return MatchmakingRuleSet(
-      ruleSetBody: json['RuleSetBody'] as String,
+      ruleSetBody: (json['RuleSetBody'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       ruleSetArn: json['RuleSetArn'] as String?,
       ruleSetName: json['RuleSetName'] as String?,
@@ -18987,8 +18990,8 @@ class ServerProcess {
 
   factory ServerProcess.fromJson(Map<String, dynamic> json) {
     return ServerProcess(
-      concurrentExecutions: json['ConcurrentExecutions'] as int,
-      launchPath: json['LaunchPath'] as String,
+      concurrentExecutions: (json['ConcurrentExecutions'] as int?) ?? 0,
+      launchPath: (json['LaunchPath'] as String?) ?? '',
       parameters: json['Parameters'] as String?,
     );
   }
@@ -19267,8 +19270,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -19314,7 +19317,7 @@ class TargetConfiguration {
 
   factory TargetConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetConfiguration(
-      targetValue: json['TargetValue'] as double,
+      targetValue: (json['TargetValue'] as double?) ?? 0,
     );
   }
 

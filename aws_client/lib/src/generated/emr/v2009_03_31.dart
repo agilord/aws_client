@@ -3373,7 +3373,7 @@ class BlockPublicAccessConfiguration {
   factory BlockPublicAccessConfiguration.fromJson(Map<String, dynamic> json) {
     return BlockPublicAccessConfiguration(
       blockPublicSecurityGroupRules:
-          json['BlockPublicSecurityGroupRules'] as bool,
+          (json['BlockPublicSecurityGroupRules'] as bool?) ?? false,
       permittedPublicSecurityGroupRuleRanges:
           (json['PermittedPublicSecurityGroupRuleRanges'] as List?)
               ?.nonNulls
@@ -3415,9 +3415,9 @@ class BlockPublicAccessConfigurationMetadata {
   factory BlockPublicAccessConfigurationMetadata.fromJson(
       Map<String, dynamic> json) {
     return BlockPublicAccessConfigurationMetadata(
-      createdByArn: json['CreatedByArn'] as String,
+      createdByArn: (json['CreatedByArn'] as String?) ?? '',
       creationDateTime:
-          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
     );
   }
 
@@ -3446,9 +3446,10 @@ class BootstrapActionConfig {
 
   factory BootstrapActionConfig.fromJson(Map<String, dynamic> json) {
     return BootstrapActionConfig(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       scriptBootstrapAction: ScriptBootstrapActionConfig.fromJson(
-          json['ScriptBootstrapAction'] as Map<String, dynamic>),
+          (json['ScriptBootstrapAction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3628,9 +3629,9 @@ class CloudWatchAlarmDefinition {
     return CloudWatchAlarmDefinition(
       comparisonOperator:
           ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
-      metricName: json['MetricName'] as String,
-      period: json['Period'] as int,
-      threshold: json['Threshold'] as double,
+      metricName: (json['MetricName'] as String?) ?? '',
+      period: (json['Period'] as int?) ?? 0,
+      threshold: (json['Threshold'] as double?) ?? 0,
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
           .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
@@ -4358,8 +4359,8 @@ class ComputeLimits {
 
   factory ComputeLimits.fromJson(Map<String, dynamic> json) {
     return ComputeLimits(
-      maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
-      minimumCapacityUnits: json['MinimumCapacityUnits'] as int,
+      maximumCapacityUnits: (json['MaximumCapacityUnits'] as int?) ?? 0,
+      minimumCapacityUnits: (json['MinimumCapacityUnits'] as int?) ?? 0,
       unitType: ComputeLimitsUnitType.fromString((json['UnitType'] as String)),
       maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int?,
       maximumOnDemandCapacityUnits:
@@ -4468,8 +4469,8 @@ class CreateSecurityConfigurationOutput {
       Map<String, dynamic> json) {
     return CreateSecurityConfigurationOutput(
       creationDateTime:
-          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
-      name: json['Name'] as String,
+          nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -5107,7 +5108,7 @@ class ExecutionEngineConfig {
 
   factory ExecutionEngineConfig.fromJson(Map<String, dynamic> json) {
     return ExecutionEngineConfig(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       executionRoleArn: json['ExecutionRoleArn'] as String?,
       masterInstanceSecurityGroupId:
           json['MasterInstanceSecurityGroupId'] as String?,
@@ -5251,11 +5252,13 @@ class GetBlockPublicAccessConfigurationOutput {
       Map<String, dynamic> json) {
     return GetBlockPublicAccessConfigurationOutput(
       blockPublicAccessConfiguration: BlockPublicAccessConfiguration.fromJson(
-          json['BlockPublicAccessConfiguration'] as Map<String, dynamic>),
+          (json['BlockPublicAccessConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       blockPublicAccessConfigurationMetadata:
           BlockPublicAccessConfigurationMetadata.fromJson(
-              json['BlockPublicAccessConfigurationMetadata']
-                  as Map<String, dynamic>),
+              (json['BlockPublicAccessConfigurationMetadata']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
@@ -5386,7 +5389,7 @@ class HadoopJarStepConfig {
 
   factory HadoopJarStepConfig.fromJson(Map<String, dynamic> json) {
     return HadoopJarStepConfig(
-      jar: json['Jar'] as String,
+      jar: (json['Jar'] as String?) ?? '',
       args: (json['Args'] as List?)?.nonNulls.map((e) => e as String).toList(),
       mainClass: json['MainClass'] as String?,
       properties: (json['Properties'] as List?)
@@ -6573,12 +6576,12 @@ class InstanceGroupDetail {
   factory InstanceGroupDetail.fromJson(Map<String, dynamic> json) {
     return InstanceGroupDetail(
       creationDateTime:
-          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
-      instanceRequestCount: json['InstanceRequestCount'] as int,
+          nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
+      instanceRequestCount: (json['InstanceRequestCount'] as int?) ?? 0,
       instanceRole:
           InstanceRoleType.fromString((json['InstanceRole'] as String)),
-      instanceRunningCount: json['InstanceRunningCount'] as int,
-      instanceType: json['InstanceType'] as String,
+      instanceRunningCount: (json['InstanceRunningCount'] as int?) ?? 0,
+      instanceType: (json['InstanceType'] as String?) ?? '',
       market: MarketType.fromString((json['Market'] as String)),
       state: InstanceGroupState.fromString((json['State'] as String)),
       bidPrice: json['BidPrice'] as String?,
@@ -7360,11 +7363,13 @@ class JobFlowDetail {
   factory JobFlowDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowDetail(
       executionStatusDetail: JobFlowExecutionStatusDetail.fromJson(
-          json['ExecutionStatusDetail'] as Map<String, dynamic>),
+          (json['ExecutionStatusDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       instances: JobFlowInstancesDetail.fromJson(
-          json['Instances'] as Map<String, dynamic>),
-      jobFlowId: json['JobFlowId'] as String,
-      name: json['Name'] as String,
+          (json['Instances'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobFlowId: (json['JobFlowId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       amiVersion: json['AmiVersion'] as String?,
       autoScalingRole: json['AutoScalingRole'] as String?,
       bootstrapActions: (json['BootstrapActions'] as List?)
@@ -7482,7 +7487,7 @@ class JobFlowExecutionStatusDetail {
   factory JobFlowExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowExecutionStatusDetail(
       creationDateTime:
-          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
       state: JobFlowExecutionState.fromString((json['State'] as String)),
       endDateTime: timeStampFromJson(json['EndDateTime']),
       lastStateChangeReason: json['LastStateChangeReason'] as String?,
@@ -7757,9 +7762,9 @@ class JobFlowInstancesDetail {
 
   factory JobFlowInstancesDetail.fromJson(Map<String, dynamic> json) {
     return JobFlowInstancesDetail(
-      instanceCount: json['InstanceCount'] as int,
-      masterInstanceType: json['MasterInstanceType'] as String,
-      slaveInstanceType: json['SlaveInstanceType'] as String,
+      instanceCount: (json['InstanceCount'] as int?) ?? 0,
+      masterInstanceType: (json['MasterInstanceType'] as String?) ?? '',
+      slaveInstanceType: (json['SlaveInstanceType'] as String?) ?? '',
       ec2KeyName: json['Ec2KeyName'] as String?,
       ec2SubnetId: json['Ec2SubnetId'] as String?,
       hadoopVersion: json['HadoopVersion'] as String?,
@@ -7854,8 +7859,8 @@ class KerberosAttributes {
 
   factory KerberosAttributes.fromJson(Map<String, dynamic> json) {
     return KerberosAttributes(
-      kdcAdminPassword: json['KdcAdminPassword'] as String,
-      realm: json['Realm'] as String,
+      kdcAdminPassword: (json['KdcAdminPassword'] as String?) ?? '',
+      realm: (json['Realm'] as String?) ?? '',
       aDDomainJoinPassword: json['ADDomainJoinPassword'] as String?,
       aDDomainJoinUser: json['ADDomainJoinUser'] as String?,
       crossRealmTrustPrincipalPassword:
@@ -9044,7 +9049,7 @@ class OnDemandResizingSpecification {
 
   factory OnDemandResizingSpecification.fromJson(Map<String, dynamic> json) {
     return OnDemandResizingSpecification(
-      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+      timeoutDurationMinutes: (json['TimeoutDurationMinutes'] as int?) ?? 0,
     );
   }
 
@@ -9245,7 +9250,7 @@ class PortRange {
 
   factory PortRange.fromJson(Map<String, dynamic> json) {
     return PortRange(
-      minRange: json['MinRange'] as int,
+      minRange: (json['MinRange'] as int?) ?? 0,
       maxRange: json['MaxRange'] as int?,
     );
   }
@@ -9514,7 +9519,9 @@ class ScalingAction {
     return ScalingAction(
       simpleScalingPolicyConfiguration:
           SimpleScalingPolicyConfiguration.fromJson(
-              json['SimpleScalingPolicyConfiguration'] as Map<String, dynamic>),
+              (json['SimpleScalingPolicyConfiguration']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       market: (json['Market'] as String?)?.let(MarketType.fromString),
     );
   }
@@ -9551,8 +9558,8 @@ class ScalingConstraints {
 
   factory ScalingConstraints.fromJson(Map<String, dynamic> json) {
     return ScalingConstraints(
-      maxCapacity: json['MaxCapacity'] as int,
-      minCapacity: json['MinCapacity'] as int,
+      maxCapacity: (json['MaxCapacity'] as int?) ?? 0,
+      minCapacity: (json['MinCapacity'] as int?) ?? 0,
     );
   }
 
@@ -9595,9 +9602,13 @@ class ScalingRule {
 
   factory ScalingRule.fromJson(Map<String, dynamic> json) {
     return ScalingRule(
-      action: ScalingAction.fromJson(json['Action'] as Map<String, dynamic>),
-      name: json['Name'] as String,
-      trigger: ScalingTrigger.fromJson(json['Trigger'] as Map<String, dynamic>),
+      action: ScalingAction.fromJson(
+          (json['Action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
+      trigger: ScalingTrigger.fromJson(
+          (json['Trigger'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
     );
   }
@@ -9630,7 +9641,8 @@ class ScalingTrigger {
   factory ScalingTrigger.fromJson(Map<String, dynamic> json) {
     return ScalingTrigger(
       cloudWatchAlarmDefinition: CloudWatchAlarmDefinition.fromJson(
-          json['CloudWatchAlarmDefinition'] as Map<String, dynamic>),
+          (json['CloudWatchAlarmDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9657,7 +9669,7 @@ class ScriptBootstrapActionConfig {
 
   factory ScriptBootstrapActionConfig.fromJson(Map<String, dynamic> json) {
     return ScriptBootstrapActionConfig(
-      path: json['Path'] as String,
+      path: (json['Path'] as String?) ?? '',
       args: (json['Args'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
   }
@@ -9928,7 +9940,7 @@ class SimpleScalingPolicyConfiguration {
 
   factory SimpleScalingPolicyConfiguration.fromJson(Map<String, dynamic> json) {
     return SimpleScalingPolicyConfiguration(
-      scalingAdjustment: json['ScalingAdjustment'] as int,
+      scalingAdjustment: (json['ScalingAdjustment'] as int?) ?? 0,
       adjustmentType:
           (json['AdjustmentType'] as String?)?.let(AdjustmentType.fromString),
       coolDown: json['CoolDown'] as int?,
@@ -10068,7 +10080,7 @@ class SpotProvisioningSpecification {
     return SpotProvisioningSpecification(
       timeoutAction: SpotProvisioningTimeoutAction.fromString(
           (json['TimeoutAction'] as String)),
-      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+      timeoutDurationMinutes: (json['TimeoutDurationMinutes'] as int?) ?? 0,
       allocationStrategy: (json['AllocationStrategy'] as String?)
           ?.let(SpotProvisioningAllocationStrategy.fromString),
       blockDurationMinutes: json['BlockDurationMinutes'] as int?,
@@ -10125,7 +10137,7 @@ class SpotResizingSpecification {
 
   factory SpotResizingSpecification.fromJson(Map<String, dynamic> json) {
     return SpotResizingSpecification(
-      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+      timeoutDurationMinutes: (json['TimeoutDurationMinutes'] as int?) ?? 0,
     );
   }
 
@@ -10331,8 +10343,9 @@ class StepConfig {
   factory StepConfig.fromJson(Map<String, dynamic> json) {
     return StepConfig(
       hadoopJarStep: HadoopJarStepConfig.fromJson(
-          json['HadoopJarStep'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['HadoopJarStep'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       actionOnFailure:
           (json['ActionOnFailure'] as String?)?.let(ActionOnFailure.fromString),
     );
@@ -10366,9 +10379,11 @@ class StepDetail {
   factory StepDetail.fromJson(Map<String, dynamic> json) {
     return StepDetail(
       executionStatusDetail: StepExecutionStatusDetail.fromJson(
-          json['ExecutionStatusDetail'] as Map<String, dynamic>),
-      stepConfig:
-          StepConfig.fromJson(json['StepConfig'] as Map<String, dynamic>),
+          (json['ExecutionStatusDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      stepConfig: StepConfig.fromJson(
+          (json['StepConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10430,7 +10445,7 @@ class StepExecutionStatusDetail {
   factory StepExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
     return StepExecutionStatusDetail(
       creationDateTime:
-          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['CreationDateTime'] ?? 0),
       state: StepExecutionState.fromString((json['State'] as String)),
       endDateTime: timeStampFromJson(json['EndDateTime']),
       lastStateChangeReason: json['LastStateChangeReason'] as String?,
@@ -11209,8 +11224,8 @@ class VolumeSpecification {
 
   factory VolumeSpecification.fromJson(Map<String, dynamic> json) {
     return VolumeSpecification(
-      sizeInGB: json['SizeInGB'] as int,
-      volumeType: json['VolumeType'] as String,
+      sizeInGB: (json['SizeInGB'] as int?) ?? 0,
+      volumeType: (json['VolumeType'] as String?) ?? '',
       iops: json['Iops'] as int?,
       throughput: json['Throughput'] as int?,
     );

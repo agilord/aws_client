@@ -954,8 +954,8 @@ class ApplicationCredential {
     return ApplicationCredential(
       credentialType:
           CredentialType.fromString((json['CredentialType'] as String)),
-      databaseName: json['DatabaseName'] as String,
-      secretId: json['SecretId'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      secretId: (json['SecretId'] as String?) ?? '',
     );
   }
 

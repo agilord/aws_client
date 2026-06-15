@@ -472,7 +472,7 @@ class CapacityUnitsConfiguration {
 
   factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
     return CapacityUnitsConfiguration(
-      rescoreCapacityUnits: json['RescoreCapacityUnits'] as int,
+      rescoreCapacityUnits: (json['RescoreCapacityUnits'] as int?) ?? 0,
     );
   }
 
@@ -499,8 +499,8 @@ class CreateRescoreExecutionPlanResponse {
   factory CreateRescoreExecutionPlanResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateRescoreExecutionPlanResponse(
-      arn: json['Arn'] as String,
-      id: json['Id'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -890,8 +890,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

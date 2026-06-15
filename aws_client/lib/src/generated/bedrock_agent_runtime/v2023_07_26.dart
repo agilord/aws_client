@@ -648,7 +648,7 @@ class ApiInvocationInput {
 
   factory ApiInvocationInput.fromJson(Map<String, dynamic> json) {
     return ApiInvocationInput(
-      actionGroup: json['actionGroup'] as String,
+      actionGroup: (json['actionGroup'] as String?) ?? '',
       actionInvocationType: (json['actionInvocationType'] as String?)
           ?.let(ActionInvocationType.fromString),
       apiPath: json['apiPath'] as String?,
@@ -1710,9 +1710,10 @@ class FlowOutputEvent {
 
   factory FlowOutputEvent.fromJson(Map<String, dynamic> json) {
     return FlowOutputEvent(
-      content:
-          FlowOutputContent.fromJson(json['content'] as Map<String, dynamic>),
-      nodeName: json['nodeName'] as String,
+      content: FlowOutputContent.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nodeName: (json['nodeName'] as String?) ?? '',
       nodeType: NodeType.fromString((json['nodeType'] as String)),
     );
   }
@@ -1916,7 +1917,7 @@ class FunctionInvocationInput {
 
   factory FunctionInvocationInput.fromJson(Map<String, dynamic> json) {
     return FunctionInvocationInput(
-      actionGroup: json['actionGroup'] as String,
+      actionGroup: (json['actionGroup'] as String?) ?? '',
       actionInvocationType: (json['actionInvocationType'] as String?)
           ?.let(ActionInvocationType.fromString),
       function: json['function'] as String?,
@@ -3420,7 +3421,8 @@ class KnowledgeBaseRetrievalResult {
   factory KnowledgeBaseRetrievalResult.fromJson(Map<String, dynamic> json) {
     return KnowledgeBaseRetrievalResult(
       content: RetrievalResultContent.fromJson(
-          json['content'] as Map<String, dynamic>),
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       location: json['location'] != null
           ? RetrievalResultLocation.fromJson(
               json['location'] as Map<String, dynamic>)
@@ -5106,7 +5108,7 @@ class RetrievalResultContent {
 
   factory RetrievalResultContent.fromJson(Map<String, dynamic> json) {
     return RetrievalResultContent(
-      text: json['text'] as String,
+      text: (json['text'] as String?) ?? '',
     );
   }
 
@@ -5447,7 +5449,7 @@ class RetrieveAndGenerateOutput {
 
   factory RetrieveAndGenerateOutput.fromJson(Map<String, dynamic> json) {
     return RetrieveAndGenerateOutput(
-      text: json['text'] as String,
+      text: (json['text'] as String?) ?? '',
     );
   }
 
@@ -5488,8 +5490,9 @@ class RetrieveAndGenerateResponse {
   factory RetrieveAndGenerateResponse.fromJson(Map<String, dynamic> json) {
     return RetrieveAndGenerateResponse(
       output: RetrieveAndGenerateOutput.fromJson(
-          json['output'] as Map<String, dynamic>),
-      sessionId: json['sessionId'] as String,
+          (json['output'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sessionId: (json['sessionId'] as String?) ?? '',
       citations: (json['citations'] as List?)
           ?.nonNulls
           .map((e) => Citation.fromJson(e as Map<String, dynamic>))
@@ -5571,7 +5574,7 @@ class RetrieveResponse {
 
   factory RetrieveResponse.fromJson(Map<String, dynamic> json) {
     return RetrieveResponse(
-      retrievalResults: (json['retrievalResults'] as List)
+      retrievalResults: ((json['retrievalResults'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               KnowledgeBaseRetrievalResult.fromJson(e as Map<String, dynamic>))

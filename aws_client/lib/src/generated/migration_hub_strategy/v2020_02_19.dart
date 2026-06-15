@@ -1696,9 +1696,11 @@ class AssessmentTarget {
   factory AssessmentTarget.fromJson(Map<String, dynamic> json) {
     return AssessmentTarget(
       condition: Condition.fromString((json['condition'] as String)),
-      name: json['name'] as String,
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['name'] as String?) ?? '',
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -1771,7 +1773,7 @@ class AwsManagedResources {
 
   factory AwsManagedResources.fromJson(Map<String, dynamic> json) {
     return AwsManagedResources(
-      targetDestination: (json['targetDestination'] as List)
+      targetDestination: ((json['targetDestination'] as List?) ?? const [])
           .nonNulls
           .map((e) => AwsManagedTargetDestination.fromString((e as String)))
           .toList(),
@@ -2765,11 +2767,12 @@ class Heterogeneous {
 
   factory Heterogeneous.fromJson(Map<String, dynamic> json) {
     return Heterogeneous(
-      targetDatabaseEngine: (json['targetDatabaseEngine'] as List)
-          .nonNulls
-          .map((e) =>
-              HeterogeneousTargetDatabaseEngine.fromString((e as String)))
-          .toList(),
+      targetDatabaseEngine:
+          ((json['targetDatabaseEngine'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  HeterogeneousTargetDatabaseEngine.fromString((e as String)))
+              .toList(),
     );
   }
 
@@ -3267,10 +3270,10 @@ class NetworkInfo {
 
   factory NetworkInfo.fromJson(Map<String, dynamic> json) {
     return NetworkInfo(
-      interfaceName: json['interfaceName'] as String,
-      ipAddress: json['ipAddress'] as String,
-      macAddress: json['macAddress'] as String,
-      netMask: json['netMask'] as String,
+      interfaceName: (json['interfaceName'] as String?) ?? '',
+      ipAddress: (json['ipAddress'] as String?) ?? '',
+      macAddress: (json['macAddress'] as String?) ?? '',
+      netMask: (json['netMask'] as String?) ?? '',
     );
   }
 
@@ -3301,10 +3304,11 @@ class NoDatabaseMigrationPreference {
 
   factory NoDatabaseMigrationPreference.fromJson(Map<String, dynamic> json) {
     return NoDatabaseMigrationPreference(
-      targetDatabaseEngine: (json['targetDatabaseEngine'] as List)
-          .nonNulls
-          .map((e) => TargetDatabaseEngine.fromString((e as String)))
-          .toList(),
+      targetDatabaseEngine:
+          ((json['targetDatabaseEngine'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => TargetDatabaseEngine.fromString((e as String)))
+              .toList(),
     );
   }
 
@@ -3327,7 +3331,7 @@ class NoManagementPreference {
 
   factory NoManagementPreference.fromJson(Map<String, dynamic> json) {
     return NoManagementPreference(
-      targetDestination: (json['targetDestination'] as List)
+      targetDestination: ((json['targetDestination'] as List?) ?? const [])
           .nonNulls
           .map((e) => NoPreferenceTargetDestination.fromString((e as String)))
           .toList(),
@@ -3819,7 +3823,7 @@ class SelfManageResources {
 
   factory SelfManageResources.fromJson(Map<String, dynamic> json) {
     return SelfManageResources(
-      targetDestination: (json['targetDestination'] as List)
+      targetDestination: ((json['targetDestination'] as List?) ?? const [])
           .nonNulls
           .map((e) => SelfManageTargetDestination.fromString((e as String)))
           .toList(),

@@ -1217,7 +1217,7 @@ class EncryptionAlgorithmOptions {
 
   factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return EncryptionAlgorithmOptions(
-      allowedValues: (json['allowedValues'] as List)
+      allowedValues: ((json['allowedValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => EncryptionAlgorithm.fromString((e as String)))
           .toList(),
@@ -1509,7 +1509,7 @@ class HashAlgorithmOptions {
 
   factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
     return HashAlgorithmOptions(
-      allowedValues: (json['allowedValues'] as List)
+      allowedValues: ((json['allowedValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => HashAlgorithm.fromString((e as String)))
           .toList(),
@@ -1885,9 +1885,9 @@ class S3Source {
 
   factory S3Source.fromJson(Map<String, dynamic> json) {
     return S3Source(
-      bucketName: json['bucketName'] as String,
-      key: json['key'] as String,
-      version: json['version'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -2019,9 +2019,11 @@ class SigningConfiguration {
   factory SigningConfiguration.fromJson(Map<String, dynamic> json) {
     return SigningConfiguration(
       encryptionAlgorithmOptions: EncryptionAlgorithmOptions.fromJson(
-          json['encryptionAlgorithmOptions'] as Map<String, dynamic>),
+          (json['encryptionAlgorithmOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       hashAlgorithmOptions: HashAlgorithmOptions.fromJson(
-          json['hashAlgorithmOptions'] as Map<String, dynamic>),
+          (json['hashAlgorithmOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2087,7 +2089,7 @@ class SigningImageFormat {
   factory SigningImageFormat.fromJson(Map<String, dynamic> json) {
     return SigningImageFormat(
       defaultFormat: ImageFormat.fromString((json['defaultFormat'] as String)),
-      supportedFormats: (json['supportedFormats'] as List)
+      supportedFormats: ((json['supportedFormats'] as List?) ?? const [])
           .nonNulls
           .map((e) => ImageFormat.fromString((e as String)))
           .toList(),
@@ -2279,7 +2281,7 @@ class SigningMaterial {
 
   factory SigningMaterial.fromJson(Map<String, dynamic> json) {
     return SigningMaterial(
-      certificateArn: json['certificateArn'] as String,
+      certificateArn: (json['certificateArn'] as String?) ?? '',
     );
   }
 

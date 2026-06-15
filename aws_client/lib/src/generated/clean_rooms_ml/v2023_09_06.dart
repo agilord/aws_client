@@ -1189,8 +1189,9 @@ class AudienceDestination {
 
   factory AudienceDestination.fromJson(Map<String, dynamic> json) {
     return AudienceDestination(
-      s3Destination:
-          S3ConfigMap.fromJson(json['s3Destination'] as Map<String, dynamic>),
+      s3Destination: S3ConfigMap.fromJson(
+          (json['s3Destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1259,13 +1260,15 @@ class AudienceExportJobSummary {
 
   factory AudienceExportJobSummary.fromJson(Map<String, dynamic> json) {
     return AudienceExportJobSummary(
-      audienceGenerationJobArn: json['audienceGenerationJobArn'] as String,
-      audienceSize:
-          AudienceSize.fromJson(json['audienceSize'] as Map<String, dynamic>),
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceGenerationJobArn:
+          (json['audienceGenerationJobArn'] as String?) ?? '',
+      audienceSize: AudienceSize.fromJson(
+          (json['audienceSize'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: AudienceExportJobStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       outputLocation: json['outputLocation'] as String?,
       statusDetails: json['statusDetails'] != null
@@ -1328,7 +1331,7 @@ class AudienceGenerationJobDataSource {
 
   factory AudienceGenerationJobDataSource.fromJson(Map<String, dynamic> json) {
     return AudienceGenerationJobDataSource(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       dataSource: json['dataSource'] != null
           ? S3ConfigMap.fromJson(json['dataSource'] as Map<String, dynamic>)
           : null,
@@ -1416,13 +1419,15 @@ class AudienceGenerationJobSummary {
 
   factory AudienceGenerationJobSummary.fromJson(Map<String, dynamic> json) {
     return AudienceGenerationJobSummary(
-      audienceGenerationJobArn: json['audienceGenerationJobArn'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceGenerationJobArn:
+          (json['audienceGenerationJobArn'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status:
           AudienceGenerationJobStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
       startedBy: json['startedBy'] as String?,
@@ -1509,12 +1514,12 @@ class AudienceModelSummary {
 
   factory AudienceModelSummary.fromJson(Map<String, dynamic> json) {
     return AudienceModelSummary(
-      audienceModelArn: json['audienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: AudienceModelStatus.fromString((json['status'] as String)),
-      trainingDatasetArn: json['trainingDatasetArn'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -1559,7 +1564,7 @@ class AudienceQualityMetrics {
 
   factory AudienceQualityMetrics.fromJson(Map<String, dynamic> json) {
     return AudienceQualityMetrics(
-      relevanceMetrics: (json['relevanceMetrics'] as List)
+      relevanceMetrics: ((json['relevanceMetrics'] as List?) ?? const [])
           .nonNulls
           .map((e) => RelevanceMetric.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1598,7 +1603,7 @@ class AudienceSize {
   factory AudienceSize.fromJson(Map<String, dynamic> json) {
     return AudienceSize(
       type: AudienceSizeType.fromString((json['type'] as String)),
-      value: json['value'] as int,
+      value: (json['value'] as int?) ?? 0,
     );
   }
 
@@ -1637,7 +1642,7 @@ class AudienceSizeConfig {
 
   factory AudienceSizeConfig.fromJson(Map<String, dynamic> json) {
     return AudienceSizeConfig(
-      audienceSizeBins: (json['audienceSizeBins'] as List)
+      audienceSizeBins: ((json['audienceSizeBins'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as int)
           .toList(),
@@ -1686,8 +1691,8 @@ class ColumnSchema {
 
   factory ColumnSchema.fromJson(Map<String, dynamic> json) {
     return ColumnSchema(
-      columnName: json['columnName'] as String,
-      columnTypes: (json['columnTypes'] as List)
+      columnName: (json['columnName'] as String?) ?? '',
+      columnTypes: ((json['columnTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ColumnType.fromString((e as String)))
           .toList(),
@@ -1737,8 +1742,9 @@ class ConfiguredAudienceModelOutputConfig {
       Map<String, dynamic> json) {
     return ConfiguredAudienceModelOutputConfig(
       destination: AudienceDestination.fromJson(
-          json['destination'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -1807,15 +1813,17 @@ class ConfiguredAudienceModelSummary {
 
   factory ConfiguredAudienceModelSummary.fromJson(Map<String, dynamic> json) {
     return ConfiguredAudienceModelSummary(
-      audienceModelArn: json['audienceModelArn'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       outputConfig: ConfiguredAudienceModelOutputConfig.fromJson(
-          json['outputConfig'] as Map<String, dynamic>),
+          (json['outputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status:
           ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -1852,7 +1860,7 @@ class CreateAudienceModelResponse {
 
   factory CreateAudienceModelResponse.fromJson(Map<String, dynamic> json) {
     return CreateAudienceModelResponse(
-      audienceModelArn: json['audienceModelArn'] as String,
+      audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
     );
   }
 
@@ -1875,7 +1883,8 @@ class CreateConfiguredAudienceModelResponse {
   factory CreateConfiguredAudienceModelResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateConfiguredAudienceModelResponse(
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
     );
   }
 
@@ -1897,7 +1906,7 @@ class CreateTrainingDatasetResponse {
 
   factory CreateTrainingDatasetResponse.fromJson(Map<String, dynamic> json) {
     return CreateTrainingDatasetResponse(
-      trainingDatasetArn: json['trainingDatasetArn'] as String,
+      trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
     );
   }
 
@@ -1923,7 +1932,8 @@ class DataSource {
   factory DataSource.fromJson(Map<String, dynamic> json) {
     return DataSource(
       glueDataSource: GlueDataSource.fromJson(
-          json['glueDataSource'] as Map<String, dynamic>),
+          (json['glueDataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1952,7 +1962,8 @@ class Dataset {
   factory Dataset.fromJson(Map<String, dynamic> json) {
     return Dataset(
       inputConfig: DatasetInputConfig.fromJson(
-          json['inputConfig'] as Map<String, dynamic>),
+          (json['inputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       type: DatasetType.fromString((json['type'] as String)),
     );
   }
@@ -1983,9 +1994,10 @@ class DatasetInputConfig {
 
   factory DatasetInputConfig.fromJson(Map<String, dynamic> json) {
     return DatasetInputConfig(
-      dataSource:
-          DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
-      schema: (json['schema'] as List)
+      dataSource: DataSource.fromJson(
+          (json['dataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      schema: ((json['schema'] as List?) ?? const [])
           .nonNulls
           .map((e) => ColumnSchema.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2092,13 +2104,15 @@ class GetAudienceGenerationJobResponse {
 
   factory GetAudienceGenerationJobResponse.fromJson(Map<String, dynamic> json) {
     return GetAudienceGenerationJobResponse(
-      audienceGenerationJobArn: json['audienceGenerationJobArn'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceGenerationJobArn:
+          (json['audienceGenerationJobArn'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status:
           AudienceGenerationJobStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       collaborationId: json['collaborationId'] as String?,
       description: json['description'] as String?,
       includeSeedInOutput: json['includeSeedInOutput'] as bool?,
@@ -2214,12 +2228,12 @@ class GetAudienceModelResponse {
 
   factory GetAudienceModelResponse.fromJson(Map<String, dynamic> json) {
     return GetAudienceModelResponse(
-      audienceModelArn: json['audienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: AudienceModelStatus.fromString((json['status'] as String)),
-      trainingDatasetArn: json['trainingDatasetArn'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       kmsKeyArn: json['kmsKeyArn'] as String?,
       statusDetails: json['statusDetails'] != null
@@ -2285,10 +2299,11 @@ class GetConfiguredAudienceModelPolicyResponse {
   factory GetConfiguredAudienceModelPolicyResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConfiguredAudienceModelPolicyResponse(
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
       configuredAudienceModelPolicy:
-          json['configuredAudienceModelPolicy'] as String,
-      policyHash: json['policyHash'] as String,
+          (json['configuredAudienceModelPolicy'] as String?) ?? '',
+      policyHash: (json['policyHash'] as String?) ?? '',
     );
   }
 
@@ -2373,19 +2388,22 @@ class GetConfiguredAudienceModelResponse {
   factory GetConfiguredAudienceModelResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConfiguredAudienceModelResponse(
-      audienceModelArn: json['audienceModelArn'] as String,
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      audienceModelArn: (json['audienceModelArn'] as String?) ?? '',
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       outputConfig: ConfiguredAudienceModelOutputConfig.fromJson(
-          json['outputConfig'] as Map<String, dynamic>),
-      sharedAudienceMetrics: (json['sharedAudienceMetrics'] as List)
-          .nonNulls
-          .map((e) => SharedAudienceMetrics.fromString((e as String)))
-          .toList(),
+          (json['outputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sharedAudienceMetrics:
+          ((json['sharedAudienceMetrics'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => SharedAudienceMetrics.fromString((e as String)))
+              .toList(),
       status:
           ConfiguredAudienceModelStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       audienceSizeConfig: json['audienceSizeConfig'] != null
           ? AudienceSizeConfig.fromJson(
               json['audienceSizeConfig'] as Map<String, dynamic>)
@@ -2477,16 +2495,16 @@ class GetTrainingDatasetResponse {
 
   factory GetTrainingDatasetResponse.fromJson(Map<String, dynamic> json) {
     return GetTrainingDatasetResponse(
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
-      roleArn: json['roleArn'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: TrainingDatasetStatus.fromString((json['status'] as String)),
-      trainingData: (json['trainingData'] as List)
+      trainingData: ((json['trainingData'] as List?) ?? const [])
           .nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
-      trainingDatasetArn: json['trainingDatasetArn'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2536,8 +2554,8 @@ class GlueDataSource {
 
   factory GlueDataSource.fromJson(Map<String, dynamic> json) {
     return GlueDataSource(
-      databaseName: json['databaseName'] as String,
-      tableName: json['tableName'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       catalogId: json['catalogId'] as String?,
     );
   }
@@ -2569,7 +2587,7 @@ class ListAudienceExportJobsResponse {
 
   factory ListAudienceExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListAudienceExportJobsResponse(
-      audienceExportJobs: (json['audienceExportJobs'] as List)
+      audienceExportJobs: ((json['audienceExportJobs'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AudienceExportJobSummary.fromJson(e as Map<String, dynamic>))
@@ -2604,7 +2622,8 @@ class ListAudienceGenerationJobsResponse {
   factory ListAudienceGenerationJobsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAudienceGenerationJobsResponse(
-      audienceGenerationJobs: (json['audienceGenerationJobs'] as List)
+      audienceGenerationJobs: ((json['audienceGenerationJobs'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               AudienceGenerationJobSummary.fromJson(e as Map<String, dynamic>))
@@ -2638,7 +2657,7 @@ class ListAudienceModelsResponse {
 
   factory ListAudienceModelsResponse.fromJson(Map<String, dynamic> json) {
     return ListAudienceModelsResponse(
-      audienceModels: (json['audienceModels'] as List)
+      audienceModels: ((json['audienceModels'] as List?) ?? const [])
           .nonNulls
           .map((e) => AudienceModelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2672,11 +2691,12 @@ class ListConfiguredAudienceModelsResponse {
   factory ListConfiguredAudienceModelsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListConfiguredAudienceModelsResponse(
-      configuredAudienceModels: (json['configuredAudienceModels'] as List)
-          .nonNulls
-          .map((e) => ConfiguredAudienceModelSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      configuredAudienceModels:
+          ((json['configuredAudienceModels'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ConfiguredAudienceModelSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2701,8 +2721,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -2729,7 +2750,7 @@ class ListTrainingDatasetsResponse {
 
   factory ListTrainingDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListTrainingDatasetsResponse(
-      trainingDatasets: (json['trainingDatasets'] as List)
+      trainingDatasets: ((json['trainingDatasets'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => TrainingDatasetSummary.fromJson(e as Map<String, dynamic>))
@@ -2820,8 +2841,8 @@ class PutConfiguredAudienceModelPolicyResponse {
       Map<String, dynamic> json) {
     return PutConfiguredAudienceModelPolicyResponse(
       configuredAudienceModelPolicy:
-          json['configuredAudienceModelPolicy'] as String,
-      policyHash: json['policyHash'] as String,
+          (json['configuredAudienceModelPolicy'] as String?) ?? '',
+      policyHash: (json['policyHash'] as String?) ?? '',
     );
   }
 
@@ -2849,8 +2870,9 @@ class RelevanceMetric {
 
   factory RelevanceMetric.fromJson(Map<String, dynamic> json) {
     return RelevanceMetric(
-      audienceSize:
-          AudienceSize.fromJson(json['audienceSize'] as Map<String, dynamic>),
+      audienceSize: AudienceSize.fromJson(
+          (json['audienceSize'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       score: json['score'] as double?,
     );
   }
@@ -2876,7 +2898,7 @@ class S3ConfigMap {
 
   factory S3ConfigMap.fromJson(Map<String, dynamic> json) {
     return S3ConfigMap(
-      s3Uri: json['s3Uri'] as String,
+      s3Uri: (json['s3Uri'] as String?) ?? '',
     );
   }
 
@@ -2914,7 +2936,8 @@ class StartAudienceGenerationJobResponse {
   factory StartAudienceGenerationJobResponse.fromJson(
       Map<String, dynamic> json) {
     return StartAudienceGenerationJobResponse(
-      audienceGenerationJobArn: json['audienceGenerationJobArn'] as String,
+      audienceGenerationJobArn:
+          (json['audienceGenerationJobArn'] as String?) ?? '',
     );
   }
 
@@ -3032,11 +3055,11 @@ class TrainingDatasetSummary {
 
   factory TrainingDatasetSummary.fromJson(Map<String, dynamic> json) {
     return TrainingDatasetSummary(
-      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
-      name: json['name'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: TrainingDatasetStatus.fromString((json['status'] as String)),
-      trainingDatasetArn: json['trainingDatasetArn'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      trainingDatasetArn: (json['trainingDatasetArn'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
     );
   }
@@ -3083,7 +3106,8 @@ class UpdateConfiguredAudienceModelResponse {
   factory UpdateConfiguredAudienceModelResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateConfiguredAudienceModelResponse(
-      configuredAudienceModelArn: json['configuredAudienceModelArn'] as String,
+      configuredAudienceModelArn:
+          (json['configuredAudienceModelArn'] as String?) ?? '',
     );
   }
 

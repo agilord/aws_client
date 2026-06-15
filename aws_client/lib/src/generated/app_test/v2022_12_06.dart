@@ -968,7 +968,7 @@ class Batch {
 
   factory Batch.fromJson(Map<String, dynamic> json) {
     return Batch(
-      batchJobName: json['batchJobName'] as String,
+      batchJobName: (json['batchJobName'] as String?) ?? '',
       batchJobParameters: (json['batchJobParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       exportDataSetNames: (json['exportDataSetNames'] as List?)
@@ -1017,9 +1017,10 @@ class BatchStepInput {
 
   factory BatchStepInput.fromJson(Map<String, dynamic> json) {
     return BatchStepInput(
-      batchJobName: json['batchJobName'] as String,
+      batchJobName: (json['batchJobName'] as String?) ?? '',
       resource: MainframeResourceSummary.fromJson(
-          json['resource'] as Map<String, dynamic>),
+          (json['resource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       batchJobParameters: (json['batchJobParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       exportDataSetNames: (json['exportDataSetNames'] as List?)
@@ -1106,8 +1107,9 @@ class BatchSummary {
 
   factory BatchSummary.fromJson(Map<String, dynamic> json) {
     return BatchSummary(
-      stepInput:
-          BatchStepInput.fromJson(json['stepInput'] as Map<String, dynamic>),
+      stepInput: BatchStepInput.fromJson(
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? BatchStepOutput.fromJson(json['stepOutput'] as Map<String, dynamic>)
           : null,
@@ -1153,7 +1155,7 @@ class CloudFormation {
 
   factory CloudFormation.fromJson(Map<String, dynamic> json) {
     return CloudFormation(
-      templateLocation: json['templateLocation'] as String,
+      templateLocation: (json['templateLocation'] as String?) ?? '',
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1184,7 +1186,7 @@ class CloudFormationAction {
 
   factory CloudFormationAction.fromJson(Map<String, dynamic> json) {
     return CloudFormationAction(
-      resource: json['resource'] as String,
+      resource: (json['resource'] as String?) ?? '',
       actionType: (json['actionType'] as String?)
           ?.let(CloudFormationActionType.fromString),
     );
@@ -1268,7 +1270,8 @@ class CompareAction {
 
   factory CompareAction.fromJson(Map<String, dynamic> json) {
     return CompareAction(
-      input: Input.fromJson(json['input'] as Map<String, dynamic>),
+      input: Input.fromJson((json['input'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       output: json['output'] != null
           ? Output.fromJson(json['output'] as Map<String, dynamic>)
           : null,
@@ -1296,7 +1299,8 @@ class CompareActionSummary {
 
   factory CompareActionSummary.fromJson(Map<String, dynamic> json) {
     return CompareActionSummary(
-      type: File.fromJson(json['type'] as Map<String, dynamic>),
+      type: File.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1331,16 +1335,16 @@ class CompareDataSetsStepInput {
 
   factory CompareDataSetsStepInput.fromJson(Map<String, dynamic> json) {
     return CompareDataSetsStepInput(
-      sourceDataSets: (json['sourceDataSets'] as List)
+      sourceDataSets: ((json['sourceDataSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSet.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sourceLocation: json['sourceLocation'] as String,
-      targetDataSets: (json['targetDataSets'] as List)
+      sourceLocation: (json['sourceLocation'] as String?) ?? '',
+      targetDataSets: ((json['targetDataSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSet.fromJson(e as Map<String, dynamic>))
           .toList(),
-      targetLocation: json['targetLocation'] as String,
+      targetLocation: (json['targetLocation'] as String?) ?? '',
     );
   }
 
@@ -1373,7 +1377,8 @@ class CompareDataSetsStepOutput {
 
   factory CompareDataSetsStepOutput.fromJson(Map<String, dynamic> json) {
     return CompareDataSetsStepOutput(
-      comparisonOutputLocation: json['comparisonOutputLocation'] as String,
+      comparisonOutputLocation:
+          (json['comparisonOutputLocation'] as String?) ?? '',
       comparisonStatus:
           ComparisonStatusEnum.fromString((json['comparisonStatus'] as String)),
     );
@@ -1405,7 +1410,8 @@ class CompareDataSetsSummary {
   factory CompareDataSetsSummary.fromJson(Map<String, dynamic> json) {
     return CompareDataSetsSummary(
       stepInput: CompareDataSetsStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? CompareDataSetsStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -1450,12 +1456,14 @@ class CompareDatabaseCDCStepInput {
 
   factory CompareDatabaseCDCStepInput.fromJson(Map<String, dynamic> json) {
     return CompareDatabaseCDCStepInput(
-      sourceLocation: json['sourceLocation'] as String,
+      sourceLocation: (json['sourceLocation'] as String?) ?? '',
       sourceMetadata: SourceDatabaseMetadata.fromJson(
-          json['sourceMetadata'] as Map<String, dynamic>),
-      targetLocation: json['targetLocation'] as String,
+          (json['sourceMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetLocation: (json['targetLocation'] as String?) ?? '',
       targetMetadata: TargetDatabaseMetadata.fromJson(
-          json['targetMetadata'] as Map<String, dynamic>),
+          (json['targetMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputLocation: json['outputLocation'] as String?,
     );
   }
@@ -1491,7 +1499,8 @@ class CompareDatabaseCDCStepOutput {
 
   factory CompareDatabaseCDCStepOutput.fromJson(Map<String, dynamic> json) {
     return CompareDatabaseCDCStepOutput(
-      comparisonOutputLocation: json['comparisonOutputLocation'] as String,
+      comparisonOutputLocation:
+          (json['comparisonOutputLocation'] as String?) ?? '',
       comparisonStatus:
           ComparisonStatusEnum.fromString((json['comparisonStatus'] as String)),
     );
@@ -1523,7 +1532,8 @@ class CompareDatabaseCDCSummary {
   factory CompareDatabaseCDCSummary.fromJson(Map<String, dynamic> json) {
     return CompareDatabaseCDCSummary(
       stepInput: CompareDatabaseCDCStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? CompareDatabaseCDCStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -1608,7 +1618,7 @@ class CreateCloudFormationStepInput {
 
   factory CreateCloudFormationStepInput.fromJson(Map<String, dynamic> json) {
     return CreateCloudFormationStepInput(
-      templateLocation: json['templateLocation'] as String,
+      templateLocation: (json['templateLocation'] as String?) ?? '',
       parameters: (json['parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1639,7 +1649,7 @@ class CreateCloudFormationStepOutput {
 
   factory CreateCloudFormationStepOutput.fromJson(Map<String, dynamic> json) {
     return CreateCloudFormationStepOutput(
-      stackId: json['stackId'] as String,
+      stackId: (json['stackId'] as String?) ?? '',
       exports: (json['exports'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1671,7 +1681,8 @@ class CreateCloudFormationSummary {
   factory CreateCloudFormationSummary.fromJson(Map<String, dynamic> json) {
     return CreateCloudFormationSummary(
       stepInput: CreateCloudFormationStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? CreateCloudFormationStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -1703,8 +1714,8 @@ class CreateTestCaseResponse {
 
   factory CreateTestCaseResponse.fromJson(Map<String, dynamic> json) {
     return CreateTestCaseResponse(
-      testCaseId: json['testCaseId'] as String,
-      testCaseVersion: json['testCaseVersion'] as int,
+      testCaseId: (json['testCaseId'] as String?) ?? '',
+      testCaseVersion: (json['testCaseVersion'] as int?) ?? 0,
     );
   }
 
@@ -1732,8 +1743,8 @@ class CreateTestConfigurationResponse {
 
   factory CreateTestConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return CreateTestConfigurationResponse(
-      testConfigurationId: json['testConfigurationId'] as String,
-      testConfigurationVersion: json['testConfigurationVersion'] as int,
+      testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
+      testConfigurationVersion: (json['testConfigurationVersion'] as int?) ?? 0,
     );
   }
 
@@ -1761,8 +1772,8 @@ class CreateTestSuiteResponse {
 
   factory CreateTestSuiteResponse.fromJson(Map<String, dynamic> json) {
     return CreateTestSuiteResponse(
-      testSuiteId: json['testSuiteId'] as String,
-      testSuiteVersion: json['testSuiteVersion'] as int,
+      testSuiteId: (json['testSuiteId'] as String?) ?? '',
+      testSuiteVersion: (json['testSuiteVersion'] as int?) ?? 0,
     );
   }
 
@@ -1803,10 +1814,10 @@ class DataSet {
 
   factory DataSet.fromJson(Map<String, dynamic> json) {
     return DataSet(
-      ccsid: json['ccsid'] as String,
+      ccsid: (json['ccsid'] as String?) ?? '',
       format: Format.fromString((json['format'] as String)),
-      length: json['length'] as int,
-      name: json['name'] as String,
+      length: (json['length'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
       type: DataSetType.fromString((json['type'] as String)),
     );
   }
@@ -1856,9 +1867,11 @@ class DatabaseCDC {
   factory DatabaseCDC.fromJson(Map<String, dynamic> json) {
     return DatabaseCDC(
       sourceMetadata: SourceDatabaseMetadata.fromJson(
-          json['sourceMetadata'] as Map<String, dynamic>),
+          (json['sourceMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       targetMetadata: TargetDatabaseMetadata.fromJson(
-          json['targetMetadata'] as Map<String, dynamic>),
+          (json['targetMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1883,7 +1896,7 @@ class DeleteCloudFormationStepInput {
 
   factory DeleteCloudFormationStepInput.fromJson(Map<String, dynamic> json) {
     return DeleteCloudFormationStepInput(
-      stackId: json['stackId'] as String,
+      stackId: (json['stackId'] as String?) ?? '',
     );
   }
 
@@ -1924,7 +1937,8 @@ class DeleteCloudFormationSummary {
   factory DeleteCloudFormationSummary.fromJson(Map<String, dynamic> json) {
     return DeleteCloudFormationSummary(
       stepInput: DeleteCloudFormationStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? DeleteCloudFormationStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -2119,21 +2133,20 @@ class GetTestCaseResponse {
 
   factory GetTestCaseResponse.fromJson(Map<String, dynamic> json) {
     return GetTestCaseResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: TestCaseLatestVersion.fromJson(
-          json['latestVersion'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['latestVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       status: TestCaseLifecycle.fromString((json['status'] as String)),
-      steps: (json['steps'] as List)
+      steps: ((json['steps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
-      testCaseArn: json['testCaseArn'] as String,
-      testCaseId: json['testCaseId'] as String,
-      testCaseVersion: json['testCaseVersion'] as int,
+      testCaseArn: (json['testCaseArn'] as String?) ?? '',
+      testCaseId: (json['testCaseId'] as String?) ?? '',
+      testCaseVersion: (json['testCaseVersion'] as int?) ?? 0,
       description: json['description'] as String?,
       statusReason: json['statusReason'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2233,23 +2246,23 @@ class GetTestConfigurationResponse {
 
   factory GetTestConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return GetTestConfigurationResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: TestConfigurationLatestVersion.fromJson(
-          json['latestVersion'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      properties: (json['properties'] as Map<String, dynamic>)
+          (json['latestVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      properties: ((json['properties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      resources: (json['resources'] as List)
+      resources: ((json['resources'] as List?) ?? const [])
           .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: TestConfigurationLifecycle.fromString((json['status'] as String)),
-      testConfigurationArn: json['testConfigurationArn'] as String,
-      testConfigurationId: json['testConfigurationId'] as String,
-      testConfigurationVersion: json['testConfigurationVersion'] as int,
+      testConfigurationArn: (json['testConfigurationArn'] as String?) ?? '',
+      testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
+      testConfigurationVersion: (json['testConfigurationVersion'] as int?) ?? 0,
       description: json['description'] as String?,
       serviceSettings: json['serviceSettings'] != null
           ? ServiceSettings.fromJson(
@@ -2353,11 +2366,10 @@ class GetTestRunStepResponse {
 
   factory GetTestRunStepResponse.fromJson(Map<String, dynamic> json) {
     return GetTestRunStepResponse(
-      runStartTime:
-          nonNullableTimeStampFromJson(json['runStartTime'] as Object),
+      runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
       status: StepRunStatus.fromString((json['status'] as String)),
-      stepName: json['stepName'] as String,
-      testRunId: json['testRunId'] as String,
+      stepName: (json['stepName'] as String?) ?? '',
+      testRunId: (json['testRunId'] as String?) ?? '',
       afterStep: json['afterStep'] as bool?,
       beforeStep: json['beforeStep'] as bool?,
       runEndTime: timeStampFromJson(json['runEndTime']),
@@ -2467,25 +2479,26 @@ class GetTestSuiteResponse {
 
   factory GetTestSuiteResponse.fromJson(Map<String, dynamic> json) {
     return GetTestSuiteResponse(
-      afterSteps: (json['afterSteps'] as List)
+      afterSteps: ((json['afterSteps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
-      beforeSteps: (json['beforeSteps'] as List)
+      beforeSteps: ((json['beforeSteps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       latestVersion: TestSuiteLatestVersion.fromJson(
-          json['latestVersion'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      testCases: TestCases.fromJson(json['testCases'] as Map<String, dynamic>),
-      testSuiteArn: json['testSuiteArn'] as String,
-      testSuiteId: json['testSuiteId'] as String,
-      testSuiteVersion: json['testSuiteVersion'] as int,
+          (json['latestVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      testCases: TestCases.fromJson(
+          (json['testCases'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      testSuiteArn: (json['testSuiteArn'] as String?) ?? '',
+      testSuiteId: (json['testSuiteId'] as String?) ?? '',
+      testSuiteVersion: (json['testSuiteVersion'] as int?) ?? 0,
       description: json['description'] as String?,
       status: (json['status'] as String?)?.let(TestSuiteLifecycle.fromString),
       statusReason: json['statusReason'] as String?,
@@ -2572,10 +2585,11 @@ class InputFile {
 
   factory InputFile.fromJson(Map<String, dynamic> json) {
     return InputFile(
-      fileMetadata:
-          FileMetadata.fromJson(json['fileMetadata'] as Map<String, dynamic>),
-      sourceLocation: json['sourceLocation'] as String,
-      targetLocation: json['targetLocation'] as String,
+      fileMetadata: FileMetadata.fromJson(
+          (json['fileMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceLocation: (json['sourceLocation'] as String?) ?? '',
+      targetLocation: (json['targetLocation'] as String?) ?? '',
     );
   }
 
@@ -2601,8 +2615,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -2628,7 +2643,7 @@ class ListTestCasesResponse {
 
   factory ListTestCasesResponse.fromJson(Map<String, dynamic> json) {
     return ListTestCasesResponse(
-      testCases: (json['testCases'] as List)
+      testCases: ((json['testCases'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestCaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2660,7 +2675,7 @@ class ListTestConfigurationsResponse {
 
   factory ListTestConfigurationsResponse.fromJson(Map<String, dynamic> json) {
     return ListTestConfigurationsResponse(
-      testConfigurations: (json['testConfigurations'] as List)
+      testConfigurations: ((json['testConfigurations'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TestConfigurationSummary.fromJson(e as Map<String, dynamic>))
@@ -2693,7 +2708,7 @@ class ListTestRunStepsResponse {
 
   factory ListTestRunStepsResponse.fromJson(Map<String, dynamic> json) {
     return ListTestRunStepsResponse(
-      testRunSteps: (json['testRunSteps'] as List)
+      testRunSteps: ((json['testRunSteps'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestRunStepSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2725,7 +2740,7 @@ class ListTestRunTestCasesResponse {
 
   factory ListTestRunTestCasesResponse.fromJson(Map<String, dynamic> json) {
     return ListTestRunTestCasesResponse(
-      testRunTestCases: (json['testRunTestCases'] as List)
+      testRunTestCases: ((json['testRunTestCases'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestCaseRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2757,7 +2772,7 @@ class ListTestRunsResponse {
 
   factory ListTestRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListTestRunsResponse(
-      testRuns: (json['testRuns'] as List)
+      testRuns: ((json['testRuns'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2790,7 +2805,7 @@ class ListTestSuitesResponse {
 
   factory ListTestSuitesResponse.fromJson(Map<String, dynamic> json) {
     return ListTestSuitesResponse(
-      testSuites: (json['testSuites'] as List)
+      testSuites: ((json['testSuites'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestSuiteSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2879,7 +2894,7 @@ class M2ManagedApplication {
 
   factory M2ManagedApplication.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplication(
-      applicationId: json['applicationId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
       runtime: M2ManagedRuntime.fromString((json['runtime'] as String)),
       listenerPort: json['listenerPort'] as String?,
       vpcEndpointServiceName: json['vpcEndpointServiceName'] as String?,
@@ -2924,7 +2939,7 @@ class M2ManagedApplicationAction {
     return M2ManagedApplicationAction(
       actionType:
           M2ManagedActionType.fromString((json['actionType'] as String)),
-      resource: json['resource'] as String,
+      resource: (json['resource'] as String?) ?? '',
       properties: json['properties'] != null
           ? M2ManagedActionProperties.fromJson(
               json['properties'] as Map<String, dynamic>)
@@ -2983,8 +2998,8 @@ class M2ManagedApplicationStepInput {
     return M2ManagedApplicationStepInput(
       actionType:
           M2ManagedActionType.fromString((json['actionType'] as String)),
-      applicationId: json['applicationId'] as String,
-      runtime: json['runtime'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      runtime: (json['runtime'] as String?) ?? '',
       listenerPort: json['listenerPort'] as int?,
       properties: json['properties'] != null
           ? M2ManagedActionProperties.fromJson(
@@ -3058,7 +3073,8 @@ class M2ManagedApplicationStepSummary {
   factory M2ManagedApplicationStepSummary.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplicationStepSummary(
       stepInput: M2ManagedApplicationStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? M2ManagedApplicationStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -3097,7 +3113,7 @@ class M2ManagedApplicationSummary {
 
   factory M2ManagedApplicationSummary.fromJson(Map<String, dynamic> json) {
     return M2ManagedApplicationSummary(
-      applicationId: json['applicationId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
       runtime: M2ManagedRuntime.fromString((json['runtime'] as String)),
       listenerPort: json['listenerPort'] as int?,
     );
@@ -3170,9 +3186,9 @@ class M2NonManagedApplication {
 
   factory M2NonManagedApplication.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplication(
-      listenerPort: json['listenerPort'] as String,
+      listenerPort: (json['listenerPort'] as String?) ?? '',
       runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
-      vpcEndpointServiceName: json['vpcEndpointServiceName'] as String,
+      vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
   }
@@ -3210,7 +3226,7 @@ class M2NonManagedApplicationAction {
     return M2NonManagedApplicationAction(
       actionType:
           M2NonManagedActionType.fromString((json['actionType'] as String)),
-      resource: json['resource'] as String,
+      resource: (json['resource'] as String?) ?? '',
     );
   }
 
@@ -3259,9 +3275,9 @@ class M2NonManagedApplicationStepInput {
     return M2NonManagedApplicationStepInput(
       actionType:
           M2NonManagedActionType.fromString((json['actionType'] as String)),
-      listenerPort: json['listenerPort'] as int,
+      listenerPort: (json['listenerPort'] as int?) ?? 0,
       runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
-      vpcEndpointServiceName: json['vpcEndpointServiceName'] as String,
+      vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
   }
@@ -3316,7 +3332,8 @@ class M2NonManagedApplicationStepSummary {
       Map<String, dynamic> json) {
     return M2NonManagedApplicationStepSummary(
       stepInput: M2NonManagedApplicationStepInput.fromJson(
-          json['stepInput'] as Map<String, dynamic>),
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? M2NonManagedApplicationStepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -3361,9 +3378,9 @@ class M2NonManagedApplicationSummary {
 
   factory M2NonManagedApplicationSummary.fromJson(Map<String, dynamic> json) {
     return M2NonManagedApplicationSummary(
-      listenerPort: json['listenerPort'] as int,
+      listenerPort: (json['listenerPort'] as int?) ?? 0,
       runtime: M2NonManagedRuntime.fromString((json['runtime'] as String)),
-      vpcEndpointServiceName: json['vpcEndpointServiceName'] as String,
+      vpcEndpointServiceName: (json['vpcEndpointServiceName'] as String?) ?? '',
       webAppName: json['webAppName'] as String?,
     );
   }
@@ -3416,8 +3433,9 @@ class MainframeAction {
   factory MainframeAction.fromJson(Map<String, dynamic> json) {
     return MainframeAction(
       actionType: MainframeActionType.fromJson(
-          json['actionType'] as Map<String, dynamic>),
-      resource: json['resource'] as String,
+          (json['actionType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resource: (json['resource'] as String?) ?? '',
       properties: json['properties'] != null
           ? MainframeActionProperties.fromJson(
               json['properties'] as Map<String, dynamic>)
@@ -3631,8 +3649,9 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      name: json['name'] as String,
-      type: ResourceType.fromJson(json['type'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      type: ResourceType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3812,7 +3831,7 @@ class Script {
 
   factory Script.fromJson(Map<String, dynamic> json) {
     return Script(
-      scriptLocation: json['scriptLocation'] as String,
+      scriptLocation: (json['scriptLocation'] as String?) ?? '',
       type: ScriptType.fromString((json['type'] as String)),
     );
   }
@@ -3842,7 +3861,7 @@ class ScriptSummary {
 
   factory ScriptSummary.fromJson(Map<String, dynamic> json) {
     return ScriptSummary(
-      scriptLocation: json['scriptLocation'] as String,
+      scriptLocation: (json['scriptLocation'] as String?) ?? '',
       type: ScriptType.fromString((json['type'] as String)),
     );
   }
@@ -3951,7 +3970,7 @@ class StartTestRunResponse {
 
   factory StartTestRunResponse.fromJson(Map<String, dynamic> json) {
     return StartTestRunResponse(
-      testRunId: json['testRunId'] as String,
+      testRunId: (json['testRunId'] as String?) ?? '',
       testRunStatus:
           TestRunStatus.fromString((json['testRunStatus'] as String)),
     );
@@ -3986,8 +4005,9 @@ class Step {
 
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
-      action: StepAction.fromJson(json['action'] as Map<String, dynamic>),
-      name: json['name'] as String,
+      action: StepAction.fromJson((json['action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -4127,7 +4147,8 @@ class TN3270 {
 
   factory TN3270.fromJson(Map<String, dynamic> json) {
     return TN3270(
-      script: Script.fromJson(json['script'] as Map<String, dynamic>),
+      script: Script.fromJson((json['script'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       exportDataSetNames: (json['exportDataSetNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4169,8 +4190,11 @@ class TN3270StepInput {
   factory TN3270StepInput.fromJson(Map<String, dynamic> json) {
     return TN3270StepInput(
       resource: MainframeResourceSummary.fromJson(
-          json['resource'] as Map<String, dynamic>),
-      script: ScriptSummary.fromJson(json['script'] as Map<String, dynamic>),
+          (json['resource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      script: ScriptSummary.fromJson(
+          (json['script'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       exportDataSetNames: (json['exportDataSetNames'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4219,7 +4243,7 @@ class TN3270StepOutput {
 
   factory TN3270StepOutput.fromJson(Map<String, dynamic> json) {
     return TN3270StepOutput(
-      scriptOutputLocation: json['scriptOutputLocation'] as String,
+      scriptOutputLocation: (json['scriptOutputLocation'] as String?) ?? '',
       dataSetDetails: (json['dataSetDetails'] as List?)
           ?.nonNulls
           .map((e) => DataSet.fromJson(e as Map<String, dynamic>))
@@ -4259,8 +4283,9 @@ class TN3270Summary {
 
   factory TN3270Summary.fromJson(Map<String, dynamic> json) {
     return TN3270Summary(
-      stepInput:
-          TN3270StepInput.fromJson(json['stepInput'] as Map<String, dynamic>),
+      stepInput: TN3270StepInput.fromJson(
+          (json['stepInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       stepOutput: json['stepOutput'] != null
           ? TN3270StepOutput.fromJson(
               json['stepOutput'] as Map<String, dynamic>)
@@ -4354,7 +4379,7 @@ class TestCaseLatestVersion {
   factory TestCaseLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestCaseLatestVersion(
       status: TestCaseLifecycle.fromString((json['status'] as String)),
-      version: json['version'] as int,
+      version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -4437,12 +4462,11 @@ class TestCaseRunSummary {
 
   factory TestCaseRunSummary.fromJson(Map<String, dynamic> json) {
     return TestCaseRunSummary(
-      runStartTime:
-          nonNullableTimeStampFromJson(json['runStartTime'] as Object),
+      runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
       status: TestCaseRunStatus.fromString((json['status'] as String)),
-      testCaseId: json['testCaseId'] as String,
-      testCaseVersion: json['testCaseVersion'] as int,
-      testRunId: json['testRunId'] as String,
+      testCaseId: (json['testCaseId'] as String?) ?? '',
+      testCaseVersion: (json['testCaseVersion'] as int?) ?? 0,
+      testRunId: (json['testRunId'] as String?) ?? '',
       runEndTime: timeStampFromJson(json['runEndTime']),
       statusReason: json['statusReason'] as String?,
     );
@@ -4507,15 +4531,13 @@ class TestCaseSummary {
 
   factory TestCaseSummary.fromJson(Map<String, dynamic> json) {
     return TestCaseSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
-      latestVersion: json['latestVersion'] as int,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
+      latestVersion: (json['latestVersion'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
       status: TestCaseLifecycle.fromString((json['status'] as String)),
-      testCaseArn: json['testCaseArn'] as String,
-      testCaseId: json['testCaseId'] as String,
+      testCaseArn: (json['testCaseArn'] as String?) ?? '',
+      testCaseId: (json['testCaseId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -4588,7 +4610,7 @@ class TestConfigurationLatestVersion {
   factory TestConfigurationLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestConfigurationLatestVersion(
       status: TestConfigurationLifecycle.fromString((json['status'] as String)),
-      version: json['version'] as int,
+      version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -4659,15 +4681,13 @@ class TestConfigurationSummary {
 
   factory TestConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return TestConfigurationSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
-      latestVersion: json['latestVersion'] as int,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
+      latestVersion: (json['latestVersion'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
       status: TestConfigurationLifecycle.fromString((json['status'] as String)),
-      testConfigurationArn: json['testConfigurationArn'] as String,
-      testConfigurationId: json['testConfigurationId'] as String,
+      testConfigurationArn: (json['testConfigurationArn'] as String?) ?? '',
+      testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -4766,11 +4786,10 @@ class TestRunStepSummary {
 
   factory TestRunStepSummary.fromJson(Map<String, dynamic> json) {
     return TestRunStepSummary(
-      runStartTime:
-          nonNullableTimeStampFromJson(json['runStartTime'] as Object),
+      runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
       status: StepRunStatus.fromString((json['status'] as String)),
-      stepName: json['stepName'] as String,
-      testRunId: json['testRunId'] as String,
+      stepName: (json['stepName'] as String?) ?? '',
+      testRunId: (json['testRunId'] as String?) ?? '',
       afterStep: json['afterStep'] as bool?,
       beforeStep: json['beforeStep'] as bool?,
       runEndTime: timeStampFromJson(json['runEndTime']),
@@ -4859,13 +4878,12 @@ class TestRunSummary {
 
   factory TestRunSummary.fromJson(Map<String, dynamic> json) {
     return TestRunSummary(
-      runStartTime:
-          nonNullableTimeStampFromJson(json['runStartTime'] as Object),
+      runStartTime: nonNullableTimeStampFromJson(json['runStartTime'] ?? 0),
       status: TestRunStatus.fromString((json['status'] as String)),
-      testRunArn: json['testRunArn'] as String,
-      testRunId: json['testRunId'] as String,
-      testSuiteId: json['testSuiteId'] as String,
-      testSuiteVersion: json['testSuiteVersion'] as int,
+      testRunArn: (json['testRunArn'] as String?) ?? '',
+      testRunId: (json['testRunId'] as String?) ?? '',
+      testSuiteId: (json['testSuiteId'] as String?) ?? '',
+      testSuiteVersion: (json['testSuiteVersion'] as int?) ?? 0,
       runEndTime: timeStampFromJson(json['runEndTime']),
       statusReason: json['statusReason'] as String?,
       testConfigurationId: json['testConfigurationId'] as String?,
@@ -4921,7 +4939,7 @@ class TestSuiteLatestVersion {
   factory TestSuiteLatestVersion.fromJson(Map<String, dynamic> json) {
     return TestSuiteLatestVersion(
       status: TestSuiteLifecycle.fromString((json['status'] as String)),
-      version: json['version'] as int,
+      version: (json['version'] as int?) ?? 0,
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -4995,15 +5013,13 @@ class TestSuiteSummary {
 
   factory TestSuiteSummary.fromJson(Map<String, dynamic> json) {
     return TestSuiteSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
-      latestVersion: json['latestVersion'] as int,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
+      latestVersion: (json['latestVersion'] as int?) ?? 0,
+      name: (json['name'] as String?) ?? '',
       status: TestSuiteLifecycle.fromString((json['status'] as String)),
-      testSuiteArn: json['testSuiteArn'] as String,
-      testSuiteId: json['testSuiteId'] as String,
+      testSuiteArn: (json['testSuiteArn'] as String?) ?? '',
+      testSuiteId: (json['testSuiteId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -5056,8 +5072,8 @@ class UpdateTestCaseResponse {
 
   factory UpdateTestCaseResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTestCaseResponse(
-      testCaseId: json['testCaseId'] as String,
-      testCaseVersion: json['testCaseVersion'] as int,
+      testCaseId: (json['testCaseId'] as String?) ?? '',
+      testCaseVersion: (json['testCaseVersion'] as int?) ?? 0,
     );
   }
 
@@ -5085,8 +5101,8 @@ class UpdateTestConfigurationResponse {
 
   factory UpdateTestConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTestConfigurationResponse(
-      testConfigurationId: json['testConfigurationId'] as String,
-      testConfigurationVersion: json['testConfigurationVersion'] as int,
+      testConfigurationId: (json['testConfigurationId'] as String?) ?? '',
+      testConfigurationVersion: (json['testConfigurationVersion'] as int?) ?? 0,
     );
   }
 
@@ -5114,7 +5130,7 @@ class UpdateTestSuiteResponse {
 
   factory UpdateTestSuiteResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTestSuiteResponse(
-      testSuiteId: json['testSuiteId'] as String,
+      testSuiteId: (json['testSuiteId'] as String?) ?? '',
       testSuiteVersion: json['testSuiteVersion'] as int?,
     );
   }

@@ -1921,7 +1921,7 @@ class Alias {
 
   factory Alias.fromJson(Map<String, dynamic> json) {
     return Alias(
-      aliasName: json['AliasName'] as String,
+      aliasName: (json['AliasName'] as String?) ?? '',
       keyArn: json['KeyArn'] as String?,
     );
   }
@@ -1946,7 +1946,8 @@ class CreateAliasOutput {
 
   factory CreateAliasOutput.fromJson(Map<String, dynamic> json) {
     return CreateAliasOutput(
-      alias: Alias.fromJson(json['Alias'] as Map<String, dynamic>),
+      alias: Alias.fromJson((json['Alias'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -1968,7 +1969,8 @@ class CreateKeyOutput {
 
   factory CreateKeyOutput.fromJson(Map<String, dynamic> json) {
     return CreateKeyOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2002,7 +2004,8 @@ class DeleteKeyOutput {
 
   factory DeleteKeyOutput.fromJson(Map<String, dynamic> json) {
     return DeleteKeyOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2259,7 +2262,8 @@ class GetAliasOutput {
 
   factory GetAliasOutput.fromJson(Map<String, dynamic> json) {
     return GetAliasOutput(
-      alias: Alias.fromJson(json['Alias'] as Map<String, dynamic>),
+      alias: Alias.fromJson((json['Alias'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2281,7 +2285,8 @@ class GetKeyOutput {
 
   factory GetKeyOutput.fromJson(Map<String, dynamic> json) {
     return GetKeyOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2325,13 +2330,14 @@ class GetParametersForExportOutput {
 
   factory GetParametersForExportOutput.fromJson(Map<String, dynamic> json) {
     return GetParametersForExportOutput(
-      exportToken: json['ExportToken'] as String,
+      exportToken: (json['ExportToken'] as String?) ?? '',
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
-          json['ParametersValidUntilTimestamp'] as Object),
+          json['ParametersValidUntilTimestamp'] ?? 0),
       signingKeyAlgorithm:
           KeyAlgorithm.fromString((json['SigningKeyAlgorithm'] as String)),
-      signingKeyCertificate: json['SigningKeyCertificate'] as String,
-      signingKeyCertificateChain: json['SigningKeyCertificateChain'] as String,
+      signingKeyCertificate: (json['SigningKeyCertificate'] as String?) ?? '',
+      signingKeyCertificateChain:
+          (json['SigningKeyCertificateChain'] as String?) ?? '',
     );
   }
 
@@ -2383,14 +2389,14 @@ class GetParametersForImportOutput {
 
   factory GetParametersForImportOutput.fromJson(Map<String, dynamic> json) {
     return GetParametersForImportOutput(
-      importToken: json['ImportToken'] as String,
+      importToken: (json['ImportToken'] as String?) ?? '',
       parametersValidUntilTimestamp: nonNullableTimeStampFromJson(
-          json['ParametersValidUntilTimestamp'] as Object),
+          json['ParametersValidUntilTimestamp'] ?? 0),
       wrappingKeyAlgorithm:
           KeyAlgorithm.fromString((json['WrappingKeyAlgorithm'] as String)),
-      wrappingKeyCertificate: json['WrappingKeyCertificate'] as String,
+      wrappingKeyCertificate: (json['WrappingKeyCertificate'] as String?) ?? '',
       wrappingKeyCertificateChain:
-          json['WrappingKeyCertificateChain'] as String,
+          (json['WrappingKeyCertificateChain'] as String?) ?? '',
     );
   }
 
@@ -2428,8 +2434,8 @@ class GetPublicKeyCertificateOutput {
 
   factory GetPublicKeyCertificateOutput.fromJson(Map<String, dynamic> json) {
     return GetPublicKeyCertificateOutput(
-      keyCertificate: json['KeyCertificate'] as String,
-      keyCertificateChain: json['KeyCertificateChain'] as String,
+      keyCertificate: (json['KeyCertificate'] as String?) ?? '',
+      keyCertificateChain: (json['KeyCertificateChain'] as String?) ?? '',
     );
   }
 
@@ -2545,7 +2551,8 @@ class ImportKeyOutput {
 
   factory ImportKeyOutput.fromJson(Map<String, dynamic> json) {
     return ImportKeyOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -2722,13 +2729,14 @@ class Key {
   factory Key.fromJson(Map<String, dynamic> json) {
     return Key(
       createTimestamp:
-          nonNullableTimeStampFromJson(json['CreateTimestamp'] as Object),
-      enabled: json['Enabled'] as bool,
-      exportable: json['Exportable'] as bool,
-      keyArn: json['KeyArn'] as String,
-      keyAttributes:
-          KeyAttributes.fromJson(json['KeyAttributes'] as Map<String, dynamic>),
-      keyCheckValue: json['KeyCheckValue'] as String,
+          nonNullableTimeStampFromJson(json['CreateTimestamp'] ?? 0),
+      enabled: (json['Enabled'] as bool?) ?? false,
+      exportable: (json['Exportable'] as bool?) ?? false,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyAttributes: KeyAttributes.fromJson(
+          (json['KeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
       keyCheckValueAlgorithm: KeyCheckValueAlgorithm.fromString(
           (json['KeyCheckValueAlgorithm'] as String)),
       keyOrigin: KeyOrigin.fromString((json['KeyOrigin'] as String)),
@@ -2834,8 +2842,9 @@ class KeyAttributes {
     return KeyAttributes(
       keyAlgorithm: KeyAlgorithm.fromString((json['KeyAlgorithm'] as String)),
       keyClass: KeyClass.fromString((json['KeyClass'] as String)),
-      keyModesOfUse:
-          KeyModesOfUse.fromJson(json['KeyModesOfUse'] as Map<String, dynamic>),
+      keyModesOfUse: KeyModesOfUse.fromJson(
+          (json['KeyModesOfUse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       keyUsage: KeyUsage.fromString((json['KeyUsage'] as String)),
     );
   }
@@ -3133,12 +3142,13 @@ class KeySummary {
 
   factory KeySummary.fromJson(Map<String, dynamic> json) {
     return KeySummary(
-      enabled: json['Enabled'] as bool,
-      exportable: json['Exportable'] as bool,
-      keyArn: json['KeyArn'] as String,
-      keyAttributes:
-          KeyAttributes.fromJson(json['KeyAttributes'] as Map<String, dynamic>),
-      keyCheckValue: json['KeyCheckValue'] as String,
+      enabled: (json['Enabled'] as bool?) ?? false,
+      exportable: (json['Exportable'] as bool?) ?? false,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyAttributes: KeyAttributes.fromJson(
+          (json['KeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
       keyState: KeyState.fromString((json['KeyState'] as String)),
     );
   }
@@ -3215,7 +3225,7 @@ class ListAliasesOutput {
 
   factory ListAliasesOutput.fromJson(Map<String, dynamic> json) {
     return ListAliasesOutput(
-      aliases: (json['Aliases'] as List)
+      aliases: ((json['Aliases'] as List?) ?? const [])
           .nonNulls
           .map((e) => Alias.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3249,7 +3259,7 @@ class ListKeysOutput {
 
   factory ListKeysOutput.fromJson(Map<String, dynamic> json) {
     return ListKeysOutput(
-      keys: (json['Keys'] as List)
+      keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3283,7 +3293,7 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['Tags'] as List)
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3313,7 +3323,8 @@ class RestoreKeyOutput {
 
   factory RestoreKeyOutput.fromJson(Map<String, dynamic> json) {
     return RestoreKeyOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3361,7 +3372,8 @@ class StartKeyUsageOutput {
 
   factory StartKeyUsageOutput.fromJson(Map<String, dynamic> json) {
     return StartKeyUsageOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3383,7 +3395,8 @@ class StopKeyUsageOutput {
 
   factory StopKeyUsageOutput.fromJson(Map<String, dynamic> json) {
     return StopKeyUsageOutput(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -3410,7 +3423,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -3507,7 +3520,8 @@ class UpdateAliasOutput {
 
   factory UpdateAliasOutput.fromJson(Map<String, dynamic> json) {
     return UpdateAliasOutput(
-      alias: Alias.fromJson(json['Alias'] as Map<String, dynamic>),
+      alias: Alias.fromJson((json['Alias'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3556,10 +3570,10 @@ class WrappedKey {
 
   factory WrappedKey.fromJson(Map<String, dynamic> json) {
     return WrappedKey(
-      keyMaterial: json['KeyMaterial'] as String,
+      keyMaterial: (json['KeyMaterial'] as String?) ?? '',
       wrappedKeyMaterialFormat: WrappedKeyMaterialFormat.fromString(
           (json['WrappedKeyMaterialFormat'] as String)),
-      wrappingKeyArn: json['WrappingKeyArn'] as String,
+      wrappingKeyArn: (json['WrappingKeyArn'] as String?) ?? '',
       keyCheckValue: json['KeyCheckValue'] as String?,
       keyCheckValueAlgorithm: (json['KeyCheckValueAlgorithm'] as String?)
           ?.let(KeyCheckValueAlgorithm.fromString),

@@ -4160,7 +4160,7 @@ class AlgorithmImage {
 
   factory AlgorithmImage.fromJson(Map<String, dynamic> json) {
     return AlgorithmImage(
-      dockerURI: json['dockerURI'] as String,
+      dockerURI: (json['dockerURI'] as String?) ?? '',
       name: json['name'] as String?,
     );
   }
@@ -4476,8 +4476,9 @@ class BatchInferenceJobInput {
 
   factory BatchInferenceJobInput.fromJson(Map<String, dynamic> json) {
     return BatchInferenceJobInput(
-      s3DataSource:
-          S3DataConfig.fromJson(json['s3DataSource'] as Map<String, dynamic>),
+      s3DataSource: S3DataConfig.fromJson(
+          (json['s3DataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4517,7 +4518,8 @@ class BatchInferenceJobOutput {
   factory BatchInferenceJobOutput.fromJson(Map<String, dynamic> json) {
     return BatchInferenceJobOutput(
       s3DataDestination: S3DataConfig.fromJson(
-          json['s3DataDestination'] as Map<String, dynamic>),
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4765,8 +4767,9 @@ class BatchSegmentJobInput {
 
   factory BatchSegmentJobInput.fromJson(Map<String, dynamic> json) {
     return BatchSegmentJobInput(
-      s3DataSource:
-          S3DataConfig.fromJson(json['s3DataSource'] as Map<String, dynamic>),
+      s3DataSource: S3DataConfig.fromJson(
+          (json['s3DataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4789,7 +4792,8 @@ class BatchSegmentJobOutput {
   factory BatchSegmentJobOutput.fromJson(Map<String, dynamic> json) {
     return BatchSegmentJobOutput(
       s3DataDestination: S3DataConfig.fromJson(
-          json['s3DataDestination'] as Map<String, dynamic>),
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6121,7 +6125,8 @@ class DatasetExportJobOutput {
   factory DatasetExportJobOutput.fromJson(Map<String, dynamic> json) {
     return DatasetExportJobOutput(
       s3DataDestination: S3DataConfig.fromJson(
-          json['s3DataDestination'] as Map<String, dynamic>),
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7800,7 +7805,7 @@ class FieldsForThemeGeneration {
 
   factory FieldsForThemeGeneration.fromJson(Map<String, dynamic> json) {
     return FieldsForThemeGeneration(
-      itemName: json['itemName'] as String,
+      itemName: (json['itemName'] as String?) ?? '',
     );
   }
 
@@ -8851,9 +8856,9 @@ class MetricAttribute {
 
   factory MetricAttribute.fromJson(Map<String, dynamic> json) {
     return MetricAttribute(
-      eventType: json['eventType'] as String,
-      expression: json['expression'] as String,
-      metricName: json['metricName'] as String,
+      eventType: (json['eventType'] as String?) ?? '',
+      expression: (json['expression'] as String?) ?? '',
+      metricName: (json['metricName'] as String?) ?? '',
     );
   }
 
@@ -8970,7 +8975,7 @@ class MetricAttributionOutput {
 
   factory MetricAttributionOutput.fromJson(Map<String, dynamic> json) {
     return MetricAttributionOutput(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       s3DataDestination: json['s3DataDestination'] != null
           ? S3DataConfig.fromJson(
               json['s3DataDestination'] as Map<String, dynamic>)
@@ -9661,7 +9666,7 @@ class S3DataConfig {
 
   factory S3DataConfig.fromJson(Map<String, dynamic> json) {
     return S3DataConfig(
-      path: json['path'] as String,
+      path: (json['path'] as String?) ?? '',
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
@@ -10467,8 +10472,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      tagKey: json['tagKey'] as String,
-      tagValue: json['tagValue'] as String,
+      tagKey: (json['tagKey'] as String?) ?? '',
+      tagValue: (json['tagValue'] as String?) ?? '',
     );
   }
 
@@ -10506,7 +10511,8 @@ class ThemeGenerationConfig {
   factory ThemeGenerationConfig.fromJson(Map<String, dynamic> json) {
     return ThemeGenerationConfig(
       fieldsForThemeGeneration: FieldsForThemeGeneration.fromJson(
-          json['fieldsForThemeGeneration'] as Map<String, dynamic>),
+          (json['fieldsForThemeGeneration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

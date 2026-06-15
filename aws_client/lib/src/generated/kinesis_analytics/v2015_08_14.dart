@@ -1517,11 +1517,11 @@ class ApplicationDetail {
 
   factory ApplicationDetail.fromJson(Map<String, dynamic> json) {
     return ApplicationDetail(
-      applicationARN: json['ApplicationARN'] as String,
-      applicationName: json['ApplicationName'] as String,
+      applicationARN: (json['ApplicationARN'] as String?) ?? '',
+      applicationName: (json['ApplicationName'] as String?) ?? '',
       applicationStatus:
           ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
-      applicationVersionId: json['ApplicationVersionId'] as int,
+      applicationVersionId: (json['ApplicationVersionId'] as int?) ?? 0,
       applicationCode: json['ApplicationCode'] as String?,
       applicationDescription: json['ApplicationDescription'] as String?,
       cloudWatchLoggingOptionDescriptions:
@@ -1633,8 +1633,8 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      applicationARN: json['ApplicationARN'] as String,
-      applicationName: json['ApplicationName'] as String,
+      applicationARN: (json['ApplicationARN'] as String?) ?? '',
+      applicationName: (json['ApplicationName'] as String?) ?? '',
       applicationStatus:
           ApplicationStatus.fromString((json['ApplicationStatus'] as String)),
     );
@@ -1721,8 +1721,8 @@ class CSVMappingParameters {
 
   factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
     return CSVMappingParameters(
-      recordColumnDelimiter: json['RecordColumnDelimiter'] as String,
-      recordRowDelimiter: json['RecordRowDelimiter'] as String,
+      recordColumnDelimiter: (json['RecordColumnDelimiter'] as String?) ?? '',
+      recordRowDelimiter: (json['RecordRowDelimiter'] as String?) ?? '',
     );
   }
 
@@ -1784,8 +1784,8 @@ class CloudWatchLoggingOptionDescription {
   factory CloudWatchLoggingOptionDescription.fromJson(
       Map<String, dynamic> json) {
     return CloudWatchLoggingOptionDescription(
-      logStreamARN: json['LogStreamARN'] as String,
-      roleARN: json['RoleARN'] as String,
+      logStreamARN: (json['LogStreamARN'] as String?) ?? '',
+      roleARN: (json['RoleARN'] as String?) ?? '',
       cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String?,
     );
   }
@@ -1848,7 +1848,8 @@ class CreateApplicationResponse {
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationSummary: ApplicationSummary.fromJson(
-          json['ApplicationSummary'] as Map<String, dynamic>),
+          (json['ApplicationSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1939,7 +1940,8 @@ class DescribeApplicationResponse {
   factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationResponse(
       applicationDetail: ApplicationDetail.fromJson(
-          json['ApplicationDetail'] as Map<String, dynamic>),
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2673,7 +2675,7 @@ class JSONMappingParameters {
 
   factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
     return JSONMappingParameters(
-      recordRowPath: json['RecordRowPath'] as String,
+      recordRowPath: (json['RecordRowPath'] as String?) ?? '',
     );
   }
 
@@ -3152,11 +3154,12 @@ class ListApplicationsResponse {
 
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
-      applicationSummaries: (json['ApplicationSummaries'] as List)
+      applicationSummaries: ((json['ApplicationSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hasMoreApplications: json['HasMoreApplications'] as bool,
+      hasMoreApplications: (json['HasMoreApplications'] as bool?) ?? false,
     );
   }
 
@@ -3459,8 +3462,8 @@ class RecordColumn {
 
   factory RecordColumn.fromJson(Map<String, dynamic> json) {
     return RecordColumn(
-      name: json['Name'] as String,
-      sqlType: json['SqlType'] as String,
+      name: (json['Name'] as String?) ?? '',
+      sqlType: (json['SqlType'] as String?) ?? '',
       mapping: json['Mapping'] as String?,
     );
   }
@@ -3601,11 +3604,13 @@ class ReferenceDataSourceDescription {
 
   factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return ReferenceDataSourceDescription(
-      referenceId: json['ReferenceId'] as String,
+      referenceId: (json['ReferenceId'] as String?) ?? '',
       s3ReferenceDataSourceDescription:
           S3ReferenceDataSourceDescription.fromJson(
-              json['S3ReferenceDataSourceDescription'] as Map<String, dynamic>),
-      tableName: json['TableName'] as String,
+              (json['S3ReferenceDataSourceDescription']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      tableName: (json['TableName'] as String?) ?? '',
       referenceSchema: json['ReferenceSchema'] != null
           ? SourceSchema.fromJson(
               json['ReferenceSchema'] as Map<String, dynamic>)
@@ -3766,9 +3771,9 @@ class S3ReferenceDataSourceDescription {
 
   factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
     return S3ReferenceDataSourceDescription(
-      bucketARN: json['BucketARN'] as String,
-      fileKey: json['FileKey'] as String,
-      referenceRoleARN: json['ReferenceRoleARN'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      fileKey: (json['FileKey'] as String?) ?? '',
+      referenceRoleARN: (json['ReferenceRoleARN'] as String?) ?? '',
     );
   }
 
@@ -3838,12 +3843,13 @@ class SourceSchema {
 
   factory SourceSchema.fromJson(Map<String, dynamic> json) {
     return SourceSchema(
-      recordColumns: (json['RecordColumns'] as List)
+      recordColumns: ((json['RecordColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
-      recordFormat:
-          RecordFormat.fromJson(json['RecordFormat'] as Map<String, dynamic>),
+      recordFormat: RecordFormat.fromJson(
+          (json['RecordFormat'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       recordEncoding: json['RecordEncoding'] as String?,
     );
   }
@@ -3907,7 +3913,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

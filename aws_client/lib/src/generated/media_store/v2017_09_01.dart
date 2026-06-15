@@ -986,11 +986,11 @@ class CorsRule {
 
   factory CorsRule.fromJson(Map<String, dynamic> json) {
     return CorsRule(
-      allowedHeaders: (json['AllowedHeaders'] as List)
+      allowedHeaders: ((json['AllowedHeaders'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      allowedOrigins: (json['AllowedOrigins'] as List)
+      allowedOrigins: ((json['AllowedOrigins'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1050,7 +1050,9 @@ class CreateContainerOutput {
 
   factory CreateContainerOutput.fromJson(Map<String, dynamic> json) {
     return CreateContainerOutput(
-      container: Container.fromJson(json['Container'] as Map<String, dynamic>),
+      container: Container.fromJson(
+          (json['Container'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1156,7 +1158,7 @@ class GetContainerPolicyOutput {
 
   factory GetContainerPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetContainerPolicyOutput(
-      policy: json['Policy'] as String,
+      policy: (json['Policy'] as String?) ?? '',
     );
   }
 
@@ -1178,7 +1180,7 @@ class GetCorsPolicyOutput {
 
   factory GetCorsPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetCorsPolicyOutput(
-      corsPolicy: (json['CorsPolicy'] as List)
+      corsPolicy: ((json['CorsPolicy'] as List?) ?? const [])
           .nonNulls
           .map((e) => CorsRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1203,7 +1205,7 @@ class GetLifecyclePolicyOutput {
 
   factory GetLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetLifecyclePolicyOutput(
-      lifecyclePolicy: json['LifecyclePolicy'] as String,
+      lifecyclePolicy: (json['LifecyclePolicy'] as String?) ?? '',
     );
   }
 
@@ -1225,8 +1227,9 @@ class GetMetricPolicyOutput {
 
   factory GetMetricPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetMetricPolicyOutput(
-      metricPolicy:
-          MetricPolicy.fromJson(json['MetricPolicy'] as Map<String, dynamic>),
+      metricPolicy: MetricPolicy.fromJson(
+          (json['MetricPolicy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1255,7 +1258,7 @@ class ListContainersOutput {
 
   factory ListContainersOutput.fromJson(Map<String, dynamic> json) {
     return ListContainersOutput(
-      containers: (json['Containers'] as List)
+      containers: ((json['Containers'] as List?) ?? const [])
           .nonNulls
           .map((e) => Container.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1383,8 +1386,8 @@ class MetricPolicyRule {
 
   factory MetricPolicyRule.fromJson(Map<String, dynamic> json) {
     return MetricPolicyRule(
-      objectGroup: json['ObjectGroup'] as String,
-      objectGroupName: json['ObjectGroupName'] as String,
+      objectGroup: (json['ObjectGroup'] as String?) ?? '',
+      objectGroupName: (json['ObjectGroupName'] as String?) ?? '',
     );
   }
 
@@ -1496,7 +1499,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

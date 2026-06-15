@@ -2567,13 +2567,14 @@ class ChildShard {
 
   factory ChildShard.fromJson(Map<String, dynamic> json) {
     return ChildShard(
-      hashKeyRange:
-          HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
-      parentShards: (json['ParentShards'] as List)
+      hashKeyRange: HashKeyRange.fromJson(
+          (json['HashKeyRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      parentShards: ((json['ParentShards'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      shardId: json['ShardId'] as String,
+      shardId: (json['ShardId'] as String?) ?? '',
     );
   }
 
@@ -2621,10 +2622,10 @@ class Consumer {
 
   factory Consumer.fromJson(Map<String, dynamic> json) {
     return Consumer(
-      consumerARN: json['ConsumerARN'] as String,
-      consumerCreationTimestamp: nonNullableTimeStampFromJson(
-          json['ConsumerCreationTimestamp'] as Object),
-      consumerName: json['ConsumerName'] as String,
+      consumerARN: (json['ConsumerARN'] as String?) ?? '',
+      consumerCreationTimestamp:
+          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
+      consumerName: (json['ConsumerName'] as String?) ?? '',
       consumerStatus:
           ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
     );
@@ -2681,13 +2682,13 @@ class ConsumerDescription {
 
   factory ConsumerDescription.fromJson(Map<String, dynamic> json) {
     return ConsumerDescription(
-      consumerARN: json['ConsumerARN'] as String,
-      consumerCreationTimestamp: nonNullableTimeStampFromJson(
-          json['ConsumerCreationTimestamp'] as Object),
-      consumerName: json['ConsumerName'] as String,
+      consumerARN: (json['ConsumerARN'] as String?) ?? '',
+      consumerCreationTimestamp:
+          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
+      consumerName: (json['ConsumerName'] as String?) ?? '',
       consumerStatus:
           ConsumerStatus.fromString((json['ConsumerStatus'] as String)),
-      streamARN: json['StreamARN'] as String,
+      streamARN: (json['StreamARN'] as String?) ?? '',
     );
   }
 
@@ -2746,10 +2747,10 @@ class DescribeLimitsOutput {
 
   factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeLimitsOutput(
-      onDemandStreamCount: json['OnDemandStreamCount'] as int,
-      onDemandStreamCountLimit: json['OnDemandStreamCountLimit'] as int,
-      openShardCount: json['OpenShardCount'] as int,
-      shardLimit: json['ShardLimit'] as int,
+      onDemandStreamCount: (json['OnDemandStreamCount'] as int?) ?? 0,
+      onDemandStreamCountLimit: (json['OnDemandStreamCountLimit'] as int?) ?? 0,
+      openShardCount: (json['OpenShardCount'] as int?) ?? 0,
+      shardLimit: (json['ShardLimit'] as int?) ?? 0,
     );
   }
 
@@ -2778,7 +2779,8 @@ class DescribeStreamConsumerOutput {
   factory DescribeStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStreamConsumerOutput(
       consumerDescription: ConsumerDescription.fromJson(
-          json['ConsumerDescription'] as Map<String, dynamic>),
+          (json['ConsumerDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2804,7 +2806,8 @@ class DescribeStreamOutput {
   factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStreamOutput(
       streamDescription: StreamDescription.fromJson(
-          json['StreamDescription'] as Map<String, dynamic>),
+          (json['StreamDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2827,7 +2830,8 @@ class DescribeStreamSummaryOutput {
   factory DescribeStreamSummaryOutput.fromJson(Map<String, dynamic> json) {
     return DescribeStreamSummaryOutput(
       streamDescriptionSummary: StreamDescriptionSummary.fromJson(
-          json['StreamDescriptionSummary'] as Map<String, dynamic>),
+          (json['StreamDescriptionSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3002,7 +3006,7 @@ class GetRecordsOutput {
 
   factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
     return GetRecordsOutput(
-      records: (json['Records'] as List)
+      records: ((json['Records'] as List?) ?? const [])
           .nonNulls
           .map((e) => Record.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3039,7 +3043,7 @@ class GetResourcePolicyOutput {
 
   factory GetResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcePolicyOutput(
-      policy: json['Policy'] as String,
+      policy: (json['Policy'] as String?) ?? '',
     );
   }
 
@@ -3092,8 +3096,8 @@ class HashKeyRange {
 
   factory HashKeyRange.fromJson(Map<String, dynamic> json) {
     return HashKeyRange(
-      endingHashKey: json['EndingHashKey'] as String,
-      startingHashKey: json['StartingHashKey'] as String,
+      endingHashKey: (json['EndingHashKey'] as String?) ?? '',
+      startingHashKey: (json['StartingHashKey'] as String?) ?? '',
     );
   }
 
@@ -3228,8 +3232,8 @@ class ListStreamsOutput {
 
   factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListStreamsOutput(
-      hasMoreStreams: json['HasMoreStreams'] as bool,
-      streamNames: (json['StreamNames'] as List)
+      hasMoreStreams: (json['HasMoreStreams'] as bool?) ?? false,
+      streamNames: ((json['StreamNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3274,8 +3278,8 @@ class ListTagsForStreamOutput {
 
   factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForStreamOutput(
-      hasMoreTags: json['HasMoreTags'] as bool,
-      tags: (json['Tags'] as List)
+      hasMoreTags: (json['HasMoreTags'] as bool?) ?? false,
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3345,8 +3349,8 @@ class PutRecordOutput {
 
   factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordOutput(
-      sequenceNumber: json['SequenceNumber'] as String,
-      shardId: json['ShardId'] as String,
+      sequenceNumber: (json['SequenceNumber'] as String?) ?? '',
+      shardId: (json['ShardId'] as String?) ?? '',
       encryptionType:
           (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
     );
@@ -3399,7 +3403,7 @@ class PutRecordsOutput {
 
   factory PutRecordsOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordsOutput(
-      records: (json['Records'] as List)
+      records: ((json['Records'] as List?) ?? const [])
           .nonNulls
           .map((e) => PutRecordsResultEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3558,9 +3562,9 @@ class Record {
 
   factory Record.fromJson(Map<String, dynamic> json) {
     return Record(
-      data: _s.decodeUint8List(json['Data']! as String),
-      partitionKey: json['PartitionKey'] as String,
-      sequenceNumber: json['SequenceNumber'] as String,
+      data: _s.decodeUint8List((json['Data'] as String?) ?? ''),
+      partitionKey: (json['PartitionKey'] as String?) ?? '',
+      sequenceNumber: (json['SequenceNumber'] as String?) ?? '',
       approximateArrivalTimestamp:
           timeStampFromJson(json['ApproximateArrivalTimestamp']),
       encryptionType:
@@ -3598,7 +3602,8 @@ class RegisterStreamConsumerOutput {
 
   factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
     return RegisterStreamConsumerOutput(
-      consumer: Consumer.fromJson(json['Consumer'] as Map<String, dynamic>),
+      consumer: Consumer.fromJson((json['Consumer'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3639,7 +3644,7 @@ class SequenceNumberRange {
 
   factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
     return SequenceNumberRange(
-      startingSequenceNumber: json['StartingSequenceNumber'] as String,
+      startingSequenceNumber: (json['StartingSequenceNumber'] as String?) ?? '',
       endingSequenceNumber: json['EndingSequenceNumber'] as String?,
     );
   }
@@ -3683,11 +3688,13 @@ class Shard {
 
   factory Shard.fromJson(Map<String, dynamic> json) {
     return Shard(
-      hashKeyRange:
-          HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
+      hashKeyRange: HashKeyRange.fromJson(
+          (json['HashKeyRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       sequenceNumberRange: SequenceNumberRange.fromJson(
-          json['SequenceNumberRange'] as Map<String, dynamic>),
-      shardId: json['ShardId'] as String,
+          (json['SequenceNumberRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      shardId: (json['ShardId'] as String?) ?? '',
       adjacentParentShardId: json['AdjacentParentShardId'] as String?,
       parentShardId: json['ParentShardId'] as String?,
     );
@@ -3934,20 +3941,20 @@ class StreamDescription {
 
   factory StreamDescription.fromJson(Map<String, dynamic> json) {
     return StreamDescription(
-      enhancedMonitoring: (json['EnhancedMonitoring'] as List)
+      enhancedMonitoring: ((json['EnhancedMonitoring'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hasMoreShards: json['HasMoreShards'] as bool,
-      retentionPeriodHours: json['RetentionPeriodHours'] as int,
-      shards: (json['Shards'] as List)
+      hasMoreShards: (json['HasMoreShards'] as bool?) ?? false,
+      retentionPeriodHours: (json['RetentionPeriodHours'] as int?) ?? 0,
+      shards: ((json['Shards'] as List?) ?? const [])
           .nonNulls
           .map((e) => Shard.fromJson(e as Map<String, dynamic>))
           .toList(),
-      streamARN: json['StreamARN'] as String,
-      streamCreationTimestamp: nonNullableTimeStampFromJson(
-          json['StreamCreationTimestamp'] as Object),
-      streamName: json['StreamName'] as String,
+      streamARN: (json['StreamARN'] as String?) ?? '',
+      streamCreationTimestamp:
+          nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
+      streamName: (json['StreamName'] as String?) ?? '',
       streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
       encryptionType:
           (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
@@ -4099,16 +4106,16 @@ class StreamDescriptionSummary {
 
   factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
     return StreamDescriptionSummary(
-      enhancedMonitoring: (json['EnhancedMonitoring'] as List)
+      enhancedMonitoring: ((json['EnhancedMonitoring'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
           .toList(),
-      openShardCount: json['OpenShardCount'] as int,
-      retentionPeriodHours: json['RetentionPeriodHours'] as int,
-      streamARN: json['StreamARN'] as String,
-      streamCreationTimestamp: nonNullableTimeStampFromJson(
-          json['StreamCreationTimestamp'] as Object),
-      streamName: json['StreamName'] as String,
+      openShardCount: (json['OpenShardCount'] as int?) ?? 0,
+      retentionPeriodHours: (json['RetentionPeriodHours'] as int?) ?? 0,
+      streamARN: (json['StreamARN'] as String?) ?? '',
+      streamCreationTimestamp:
+          nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
+      streamName: (json['StreamName'] as String?) ?? '',
       streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
       consumerCount: json['ConsumerCount'] as int?,
       encryptionType:
@@ -4234,8 +4241,8 @@ class StreamSummary {
 
   factory StreamSummary.fromJson(Map<String, dynamic> json) {
     return StreamSummary(
-      streamARN: json['StreamARN'] as String,
-      streamName: json['StreamName'] as String,
+      streamARN: (json['StreamARN'] as String?) ?? '',
+      streamName: (json['StreamName'] as String?) ?? '',
       streamStatus: StreamStatus.fromString((json['StreamStatus'] as String)),
       streamCreationTimestamp:
           timeStampFromJson(json['StreamCreationTimestamp']),
@@ -4281,7 +4288,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

@@ -3893,9 +3893,9 @@ class ActionTarget {
 
   factory ActionTarget.fromJson(Map<String, dynamic> json) {
     return ActionTarget(
-      actionTargetArn: json['ActionTargetArn'] as String,
-      description: json['Description'] as String,
-      name: json['Name'] as String,
+      actionTargetArn: (json['ActionTargetArn'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -34807,19 +34807,19 @@ class AwsSecurityFinding {
 
   factory AwsSecurityFinding.fromJson(Map<String, dynamic> json) {
     return AwsSecurityFinding(
-      awsAccountId: json['AwsAccountId'] as String,
-      createdAt: json['CreatedAt'] as String,
-      description: json['Description'] as String,
-      generatorId: json['GeneratorId'] as String,
-      id: json['Id'] as String,
-      productArn: json['ProductArn'] as String,
-      resources: (json['Resources'] as List)
+      awsAccountId: (json['AwsAccountId'] as String?) ?? '',
+      createdAt: (json['CreatedAt'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      generatorId: (json['GeneratorId'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      productArn: (json['ProductArn'] as String?) ?? '',
+      resources: ((json['Resources'] as List?) ?? const [])
           .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemaVersion: json['SchemaVersion'] as String,
-      title: json['Title'] as String,
-      updatedAt: json['UpdatedAt'] as String,
+      schemaVersion: (json['SchemaVersion'] as String?) ?? '',
+      title: (json['Title'] as String?) ?? '',
+      updatedAt: (json['UpdatedAt'] as String?) ?? '',
       action: json['Action'] != null
           ? Action.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
@@ -36515,8 +36515,8 @@ class AwsSecurityFindingIdentifier {
 
   factory AwsSecurityFindingIdentifier.fromJson(Map<String, dynamic> json) {
     return AwsSecurityFindingIdentifier(
-      id: json['Id'] as String,
-      productArn: json['ProductArn'] as String,
+      id: (json['Id'] as String?) ?? '',
+      productArn: (json['ProductArn'] as String?) ?? '',
     );
   }
 
@@ -39180,7 +39180,7 @@ class BatchGetSecurityControlsResponse {
 
   factory BatchGetSecurityControlsResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetSecurityControlsResponse(
-      securityControls: (json['SecurityControls'] as List)
+      securityControls: ((json['SecurityControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => SecurityControl.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39222,7 +39222,7 @@ class BatchGetStandardsControlAssociationsResponse {
       Map<String, dynamic> json) {
     return BatchGetStandardsControlAssociationsResponse(
       standardsControlAssociationDetails:
-          (json['StandardsControlAssociationDetails'] as List)
+          ((json['StandardsControlAssociationDetails'] as List?) ?? const [])
               .nonNulls
               .map((e) => StandardsControlAssociationDetail.fromJson(
                   e as Map<String, dynamic>))
@@ -39265,8 +39265,8 @@ class BatchImportFindingsResponse {
 
   factory BatchImportFindingsResponse.fromJson(Map<String, dynamic> json) {
     return BatchImportFindingsResponse(
-      failedCount: json['FailedCount'] as int,
-      successCount: json['SuccessCount'] as int,
+      failedCount: (json['FailedCount'] as int?) ?? 0,
+      successCount: (json['SuccessCount'] as int?) ?? 0,
       failedFindings: (json['FailedFindings'] as List?)
           ?.nonNulls
           .map((e) => ImportFindingsError.fromJson(e as Map<String, dynamic>))
@@ -39341,12 +39341,12 @@ class BatchUpdateFindingsResponse {
 
   factory BatchUpdateFindingsResponse.fromJson(Map<String, dynamic> json) {
     return BatchUpdateFindingsResponse(
-      processedFindings: (json['ProcessedFindings'] as List)
+      processedFindings: ((json['ProcessedFindings'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AwsSecurityFindingIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
-      unprocessedFindings: (json['UnprocessedFindings'] as List)
+      unprocessedFindings: ((json['UnprocessedFindings'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchUpdateFindingsUnprocessedFinding.fromJson(
               e as Map<String, dynamic>))
@@ -39440,10 +39440,11 @@ class BatchUpdateFindingsUnprocessedFinding {
   factory BatchUpdateFindingsUnprocessedFinding.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateFindingsUnprocessedFinding(
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
       findingIdentifier: AwsSecurityFindingIdentifier.fromJson(
-          json['FindingIdentifier'] as Map<String, dynamic>),
+          (json['FindingIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -40423,7 +40424,7 @@ class CreateActionTargetResponse {
 
   factory CreateActionTargetResponse.fromJson(Map<String, dynamic> json) {
     return CreateActionTargetResponse(
-      actionTargetArn: json['ActionTargetArn'] as String,
+      actionTargetArn: (json['ActionTargetArn'] as String?) ?? '',
     );
   }
 
@@ -40593,7 +40594,7 @@ class CreateInsightResponse {
 
   factory CreateInsightResponse.fromJson(Map<String, dynamic> json) {
     return CreateInsightResponse(
-      insightArn: json['InsightArn'] as String,
+      insightArn: (json['InsightArn'] as String?) ?? '',
     );
   }
 
@@ -40977,7 +40978,7 @@ class DeleteActionTargetResponse {
 
   factory DeleteActionTargetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteActionTargetResponse(
-      actionTargetArn: json['ActionTargetArn'] as String,
+      actionTargetArn: (json['ActionTargetArn'] as String?) ?? '',
     );
   }
 
@@ -41023,7 +41024,7 @@ class DeleteInsightResponse {
 
   factory DeleteInsightResponse.fromJson(Map<String, dynamic> json) {
     return DeleteInsightResponse(
-      insightArn: json['InsightArn'] as String,
+      insightArn: (json['InsightArn'] as String?) ?? '',
     );
   }
 
@@ -41106,7 +41107,7 @@ class DescribeActionTargetsResponse {
 
   factory DescribeActionTargetsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeActionTargetsResponse(
-      actionTargets: (json['ActionTargets'] as List)
+      actionTargets: ((json['ActionTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActionTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -41276,7 +41277,7 @@ class DescribeProductsResponse {
 
   factory DescribeProductsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProductsResponse(
-      products: (json['Products'] as List)
+      products: ((json['Products'] as List?) ?? const [])
           .nonNulls
           .map((e) => Product.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42674,7 +42675,7 @@ class GetFindingsResponse {
 
   factory GetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsResponse(
-      findings: (json['Findings'] as List)
+      findings: ((json['Findings'] as List?) ?? const [])
           .nonNulls
           .map((e) => AwsSecurityFinding.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42703,7 +42704,8 @@ class GetInsightResultsResponse {
   factory GetInsightResultsResponse.fromJson(Map<String, dynamic> json) {
     return GetInsightResultsResponse(
       insightResults: InsightResults.fromJson(
-          json['InsightResults'] as Map<String, dynamic>),
+          (json['InsightResults'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -42729,7 +42731,7 @@ class GetInsightsResponse {
 
   factory GetInsightsResponse.fromJson(Map<String, dynamic> json) {
     return GetInsightsResponse(
-      insights: (json['Insights'] as List)
+      insights: ((json['Insights'] as List?) ?? const [])
           .nonNulls
           .map((e) => Insight.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42843,7 +42845,8 @@ class GetSecurityControlDefinitionResponse {
       Map<String, dynamic> json) {
     return GetSecurityControlDefinitionResponse(
       securityControlDefinition: SecurityControlDefinition.fromJson(
-          json['SecurityControlDefinition'] as Map<String, dynamic>),
+          (json['SecurityControlDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -42909,9 +42912,9 @@ class ImportFindingsError {
 
   factory ImportFindingsError.fromJson(Map<String, dynamic> json) {
     return ImportFindingsError(
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
-      id: json['Id'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -42957,10 +42960,11 @@ class Insight {
   factory Insight.fromJson(Map<String, dynamic> json) {
     return Insight(
       filters: AwsSecurityFindingFilters.fromJson(
-          json['Filters'] as Map<String, dynamic>),
-      groupByAttribute: json['GroupByAttribute'] as String,
-      insightArn: json['InsightArn'] as String,
-      name: json['Name'] as String,
+          (json['Filters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      groupByAttribute: (json['GroupByAttribute'] as String?) ?? '',
+      insightArn: (json['InsightArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -42995,8 +42999,8 @@ class InsightResultValue {
 
   factory InsightResultValue.fromJson(Map<String, dynamic> json) {
     return InsightResultValue(
-      count: json['Count'] as int,
-      groupByAttributeValue: json['GroupByAttributeValue'] as String,
+      count: (json['Count'] as int?) ?? 0,
+      groupByAttributeValue: (json['GroupByAttributeValue'] as String?) ?? '',
     );
   }
 
@@ -43033,9 +43037,9 @@ class InsightResults {
 
   factory InsightResults.fromJson(Map<String, dynamic> json) {
     return InsightResults(
-      groupByAttribute: json['GroupByAttribute'] as String,
-      insightArn: json['InsightArn'] as String,
-      resultValues: (json['ResultValues'] as List)
+      groupByAttribute: (json['GroupByAttribute'] as String?) ?? '',
+      insightArn: (json['InsightArn'] as String?) ?? '',
+      resultValues: ((json['ResultValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => InsightResultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -43684,11 +43688,12 @@ class ListSecurityControlDefinitionsResponse {
   factory ListSecurityControlDefinitionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSecurityControlDefinitionsResponse(
-      securityControlDefinitions: (json['SecurityControlDefinitions'] as List)
-          .nonNulls
-          .map((e) =>
-              SecurityControlDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      securityControlDefinitions:
+          ((json['SecurityControlDefinitions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  SecurityControlDefinition.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -43722,7 +43727,7 @@ class ListStandardsControlAssociationsResponse {
       Map<String, dynamic> json) {
     return ListStandardsControlAssociationsResponse(
       standardsControlAssociationSummaries:
-          (json['StandardsControlAssociationSummaries'] as List)
+          ((json['StandardsControlAssociationSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => StandardsControlAssociationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -43828,7 +43833,7 @@ class Malware {
 
   factory Malware.fromJson(Map<String, dynamic> json) {
     return Malware(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       path: json['Path'] as String?,
       state: (json['State'] as String?)?.let(MalwareState.fromString),
       type: (json['Type'] as String?)?.let(MalwareType.fromString),
@@ -44505,9 +44510,9 @@ class Note {
 
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
-      text: json['Text'] as String,
-      updatedAt: json['UpdatedAt'] as String,
-      updatedBy: json['UpdatedBy'] as String,
+      text: (json['Text'] as String?) ?? '',
+      updatedAt: (json['UpdatedAt'] as String?) ?? '',
+      updatedBy: (json['UpdatedBy'] as String?) ?? '',
     );
   }
 
@@ -44538,8 +44543,8 @@ class NoteUpdate {
 
   factory NoteUpdate.fromJson(Map<String, dynamic> json) {
     return NoteUpdate(
-      text: json['Text'] as String,
-      updatedBy: json['UpdatedBy'] as String,
+      text: (json['Text'] as String?) ?? '',
+      updatedBy: (json['UpdatedBy'] as String?) ?? '',
     );
   }
 
@@ -44877,8 +44882,9 @@ class ParameterDefinition {
   factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
     return ParameterDefinition(
       configurationOptions: ConfigurationOptions.fromJson(
-          json['ConfigurationOptions'] as Map<String, dynamic>),
-      description: json['Description'] as String,
+          (json['ConfigurationOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      description: (json['Description'] as String?) ?? '',
     );
   }
 
@@ -45137,7 +45143,7 @@ class PatchSummary {
 
   factory PatchSummary.fromJson(Map<String, dynamic> json) {
     return PatchSummary(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       failedCount: json['FailedCount'] as int?,
       installedCount: json['InstalledCount'] as int?,
       installedOtherCount: json['InstalledOtherCount'] as int?,
@@ -45541,7 +45547,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      productArn: json['ProductArn'] as String,
+      productArn: (json['ProductArn'] as String?) ?? '',
       activationUrl: json['ActivationUrl'] as String?,
       categories: (json['Categories'] as List?)
           ?.nonNulls
@@ -45761,8 +45767,8 @@ class RelatedFinding {
 
   factory RelatedFinding.fromJson(Map<String, dynamic> json) {
     return RelatedFinding(
-      id: json['Id'] as String,
-      productArn: json['ProductArn'] as String,
+      id: (json['Id'] as String?) ?? '',
+      productArn: (json['ProductArn'] as String?) ?? '',
     );
   }
 
@@ -45867,8 +45873,8 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      id: json['Id'] as String,
-      type: json['Type'] as String,
+      id: (json['Id'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
       applicationArn: json['ApplicationArn'] as String?,
       applicationName: json['ApplicationName'] as String?,
       dataClassification: json['DataClassification'] != null
@@ -48054,15 +48060,15 @@ class SecurityControl {
 
   factory SecurityControl.fromJson(Map<String, dynamic> json) {
     return SecurityControl(
-      description: json['Description'] as String,
-      remediationUrl: json['RemediationUrl'] as String,
-      securityControlArn: json['SecurityControlArn'] as String,
-      securityControlId: json['SecurityControlId'] as String,
+      description: (json['Description'] as String?) ?? '',
+      remediationUrl: (json['RemediationUrl'] as String?) ?? '',
+      securityControlArn: (json['SecurityControlArn'] as String?) ?? '',
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
       securityControlStatus:
           ControlStatus.fromString((json['SecurityControlStatus'] as String)),
       severityRating:
           SeverityRating.fromString((json['SeverityRating'] as String)),
-      title: json['Title'] as String,
+      title: (json['Title'] as String?) ?? '',
       lastUpdateReason: json['LastUpdateReason'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
@@ -48193,12 +48199,12 @@ class SecurityControlDefinition {
     return SecurityControlDefinition(
       currentRegionAvailability: RegionAvailabilityStatus.fromString(
           (json['CurrentRegionAvailability'] as String)),
-      description: json['Description'] as String,
-      remediationUrl: json['RemediationUrl'] as String,
-      securityControlId: json['SecurityControlId'] as String,
+      description: (json['Description'] as String?) ?? '',
+      remediationUrl: (json['RemediationUrl'] as String?) ?? '',
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
       severityRating:
           SeverityRating.fromString((json['SeverityRating'] as String)),
-      title: json['Title'] as String,
+      title: (json['Title'] as String?) ?? '',
       customizableProperties: (json['CustomizableProperties'] as List?)
           ?.nonNulls
           .map((e) => SecurityControlProperty.fromString((e as String)))
@@ -49080,9 +49086,9 @@ class StandardsControlAssociationDetail {
     return StandardsControlAssociationDetail(
       associationStatus:
           AssociationStatus.fromString((json['AssociationStatus'] as String)),
-      securityControlArn: json['SecurityControlArn'] as String,
-      securityControlId: json['SecurityControlId'] as String,
-      standardsArn: json['StandardsArn'] as String,
+      securityControlArn: (json['SecurityControlArn'] as String?) ?? '',
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
+      standardsArn: (json['StandardsArn'] as String?) ?? '',
       relatedRequirements: (json['RelatedRequirements'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -49150,8 +49156,8 @@ class StandardsControlAssociationId {
 
   factory StandardsControlAssociationId.fromJson(Map<String, dynamic> json) {
     return StandardsControlAssociationId(
-      securityControlId: json['SecurityControlId'] as String,
-      standardsArn: json['StandardsArn'] as String,
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
+      standardsArn: (json['StandardsArn'] as String?) ?? '',
     );
   }
 
@@ -49221,9 +49227,9 @@ class StandardsControlAssociationSummary {
     return StandardsControlAssociationSummary(
       associationStatus:
           AssociationStatus.fromString((json['AssociationStatus'] as String)),
-      securityControlArn: json['SecurityControlArn'] as String,
-      securityControlId: json['SecurityControlId'] as String,
-      standardsArn: json['StandardsArn'] as String,
+      securityControlArn: (json['SecurityControlArn'] as String?) ?? '',
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
+      standardsArn: (json['StandardsArn'] as String?) ?? '',
       relatedRequirements: (json['RelatedRequirements'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -49294,8 +49300,8 @@ class StandardsControlAssociationUpdate {
     return StandardsControlAssociationUpdate(
       associationStatus:
           AssociationStatus.fromString((json['AssociationStatus'] as String)),
-      securityControlId: json['SecurityControlId'] as String,
-      standardsArn: json['StandardsArn'] as String,
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
+      standardsArn: (json['StandardsArn'] as String?) ?? '',
       updatedReason: json['UpdatedReason'] as String?,
     );
   }
@@ -49439,12 +49445,14 @@ class StandardsSubscription {
 
   factory StandardsSubscription.fromJson(Map<String, dynamic> json) {
     return StandardsSubscription(
-      standardsArn: json['StandardsArn'] as String,
-      standardsInput: (json['StandardsInput'] as Map<String, dynamic>)
+      standardsArn: (json['StandardsArn'] as String?) ?? '',
+      standardsInput: ((json['StandardsInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
       standardsStatus:
           StandardsStatus.fromString((json['StandardsStatus'] as String)),
-      standardsSubscriptionArn: json['StandardsSubscriptionArn'] as String,
+      standardsSubscriptionArn:
+          (json['StandardsSubscriptionArn'] as String?) ?? '',
       standardsStatusReason: json['StandardsStatusReason'] != null
           ? StandardsStatusReason.fromJson(
               json['StandardsStatusReason'] as Map<String, dynamic>)
@@ -49682,7 +49690,7 @@ class StatusReason {
 
   factory StatusReason.fromJson(Map<String, dynamic> json) {
     return StatusReason(
-      reasonCode: json['ReasonCode'] as String,
+      reasonCode: (json['ReasonCode'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -50346,7 +50354,7 @@ class UnprocessedSecurityControl {
   factory UnprocessedSecurityControl.fromJson(Map<String, dynamic> json) {
     return UnprocessedSecurityControl(
       errorCode: UnprocessedErrorCode.fromString((json['ErrorCode'] as String)),
-      securityControlId: json['SecurityControlId'] as String,
+      securityControlId: (json['SecurityControlId'] as String?) ?? '',
       errorReason: json['ErrorReason'] as String?,
     );
   }
@@ -50394,7 +50402,8 @@ class UnprocessedStandardsControlAssociation {
     return UnprocessedStandardsControlAssociation(
       errorCode: UnprocessedErrorCode.fromString((json['ErrorCode'] as String)),
       standardsControlAssociationId: StandardsControlAssociationId.fromJson(
-          json['StandardsControlAssociationId'] as Map<String, dynamic>),
+          (json['StandardsControlAssociationId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       errorReason: json['ErrorReason'] as String?,
     );
   }
@@ -50442,8 +50451,9 @@ class UnprocessedStandardsControlAssociationUpdate {
       errorCode: UnprocessedErrorCode.fromString((json['ErrorCode'] as String)),
       standardsControlAssociationUpdate:
           StandardsControlAssociationUpdate.fromJson(
-              json['StandardsControlAssociationUpdate']
-                  as Map<String, dynamic>),
+              (json['StandardsControlAssociationUpdate']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       errorReason: json['ErrorReason'] as String?,
     );
   }
@@ -50990,7 +51000,7 @@ class Vulnerability {
 
   factory Vulnerability.fromJson(Map<String, dynamic> json) {
     return Vulnerability(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       codeVulnerabilities: (json['CodeVulnerabilities'] as List?)
           ?.nonNulls
           .map((e) => VulnerabilityCodeVulnerabilities.fromJson(
@@ -51213,7 +51223,7 @@ class VulnerabilityVendor {
 
   factory VulnerabilityVendor.fromJson(Map<String, dynamic> json) {
     return VulnerabilityVendor(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       url: json['Url'] as String?,
       vendorCreatedAt: json['VendorCreatedAt'] as String?,
       vendorSeverity: json['VendorSeverity'] as String?,

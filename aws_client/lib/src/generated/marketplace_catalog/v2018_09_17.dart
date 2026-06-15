@@ -1825,7 +1825,7 @@ class Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
-      type: json['Type'] as String,
+      type: (json['Type'] as String?) ?? '',
       identifier: json['Identifier'] as String?,
     );
   }
@@ -3892,8 +3892,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

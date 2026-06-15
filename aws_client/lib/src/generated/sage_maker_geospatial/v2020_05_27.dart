@@ -1204,8 +1204,8 @@ class EoCloudCoverInput {
 
   factory EoCloudCoverInput.fromJson(Map<String, dynamic> json) {
     return EoCloudCoverInput(
-      lowerBound: json['LowerBound'] as double,
-      upperBound: json['UpperBound'] as double,
+      lowerBound: (json['LowerBound'] as double?) ?? 0,
+      upperBound: (json['UpperBound'] as double?) ?? 0,
     );
   }
 
@@ -1251,14 +1251,14 @@ class ExportEarthObservationJobOutput {
 
   factory ExportEarthObservationJobOutput.fromJson(Map<String, dynamic> json) {
     return ExportEarthObservationJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      executionRoleArn: json['ExecutionRoleArn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       exportStatus: EarthObservationJobExportStatus.fromString(
           (json['ExportStatus'] as String)),
       outputConfig: OutputConfigInput.fromJson(
-          json['OutputConfig'] as Map<String, dynamic>),
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       exportSourceImages: json['ExportSourceImages'] as bool?,
     );
   }
@@ -1383,7 +1383,7 @@ class ExportS3DataInput {
 
   factory ExportS3DataInput.fromJson(Map<String, dynamic> json) {
     return ExportS3DataInput(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -1425,14 +1425,14 @@ class ExportVectorEnrichmentJobOutput {
 
   factory ExportVectorEnrichmentJobOutput.fromJson(Map<String, dynamic> json) {
     return ExportVectorEnrichmentJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      executionRoleArn: json['ExecutionRoleArn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       exportStatus: VectorEnrichmentJobExportStatus.fromString(
           (json['ExportStatus'] as String)),
       outputConfig: ExportVectorEnrichmentJobOutputConfig.fromJson(
-          json['OutputConfig'] as Map<String, dynamic>),
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1466,7 +1466,8 @@ class ExportVectorEnrichmentJobOutputConfig {
       Map<String, dynamic> json) {
     return ExportVectorEnrichmentJobOutputConfig(
       s3Data: VectorEnrichmentJobS3Data.fromJson(
-          json['S3Data'] as Map<String, dynamic>),
+          (json['S3Data'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1501,8 +1502,8 @@ class Filter {
 
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
-      name: json['Name'] as String,
-      type: json['Type'] as String,
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
       maximum: json['Maximum'] as double?,
       minimum: json['Minimum'] as double?,
     );
@@ -1572,14 +1573,14 @@ class Geometry {
 
   factory Geometry.fromJson(Map<String, dynamic> json) {
     return Geometry(
-      coordinates: (json['Coordinates'] as List)
+      coordinates: ((json['Coordinates'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
               .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
               .toList())
           .toList(),
-      type: json['Type'] as String,
+      type: (json['Type'] as String?) ?? '',
     );
   }
 
@@ -1656,15 +1657,16 @@ class GetEarthObservationJobOutput {
 
   factory GetEarthObservationJobOutput.fromJson(Map<String, dynamic> json) {
     return GetEarthObservationJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
       inputConfig: InputConfigOutput.fromJson(
-          json['InputConfig'] as Map<String, dynamic>),
-      jobConfig:
-          JobConfigInput.fromJson(json['JobConfig'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['InputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobConfig: JobConfigInput.fromJson(
+          (json['JobConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       errorDetails: json['ErrorDetails'] != null
           ? EarthObservationJobErrorDetails.fromJson(
@@ -1759,15 +1761,15 @@ class GetRasterDataCollectionOutput {
 
   factory GetRasterDataCollectionOutput.fromJson(Map<String, dynamic> json) {
     return GetRasterDataCollectionOutput(
-      arn: json['Arn'] as String,
-      description: json['Description'] as String,
-      descriptionPageUrl: json['DescriptionPageUrl'] as String,
-      imageSourceBands: (json['ImageSourceBands'] as List)
+      arn: (json['Arn'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      descriptionPageUrl: (json['DescriptionPageUrl'] as String?) ?? '',
+      imageSourceBands: ((json['ImageSourceBands'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      name: json['Name'] as String,
-      supportedFilters: (json['SupportedFilters'] as List)
+      name: (json['Name'] as String?) ?? '',
+      supportedFilters: ((json['SupportedFilters'] as List?) ?? const [])
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1878,16 +1880,17 @@ class GetVectorEnrichmentJobOutput {
 
   factory GetVectorEnrichmentJobOutput.fromJson(Map<String, dynamic> json) {
     return GetVectorEnrichmentJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
-      executionRoleArn: json['ExecutionRoleArn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       inputConfig: VectorEnrichmentJobInputConfig.fromJson(
-          json['InputConfig'] as Map<String, dynamic>),
+          (json['InputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       jobConfig: VectorEnrichmentJobConfig.fromJson(
-          json['JobConfig'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['JobConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
       type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       errorDetails: json['ErrorDetails'] != null
@@ -2047,9 +2050,10 @@ class ItemSource {
 
   factory ItemSource.fromJson(Map<String, dynamic> json) {
     return ItemSource(
-      dateTime: nonNullableTimeStampFromJson(json['DateTime'] as Object),
-      geometry: Geometry.fromJson(json['Geometry'] as Map<String, dynamic>),
-      id: json['Id'] as String,
+      dateTime: nonNullableTimeStampFromJson(json['DateTime'] ?? 0),
+      geometry: Geometry.fromJson((json['Geometry'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      id: (json['Id'] as String?) ?? '',
       assets: (json['Assets'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, AssetValue.fromJson(e as Map<String, dynamic>))),
       properties: json['Properties'] != null
@@ -2220,8 +2224,8 @@ class LandsatCloudCoverLandInput {
 
   factory LandsatCloudCoverLandInput.fromJson(Map<String, dynamic> json) {
     return LandsatCloudCoverLandInput(
-      lowerBound: json['LowerBound'] as double,
-      upperBound: json['UpperBound'] as double,
+      lowerBound: (json['LowerBound'] as double?) ?? 0,
+      upperBound: (json['UpperBound'] as double?) ?? 0,
     );
   }
 
@@ -2251,7 +2255,7 @@ class ListEarthObservationJobOutput {
   factory ListEarthObservationJobOutput.fromJson(Map<String, dynamic> json) {
     return ListEarthObservationJobOutput(
       earthObservationJobSummaries:
-          (json['EarthObservationJobSummaries'] as List)
+          ((json['EarthObservationJobSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => ListEarthObservationJobOutputConfig.fromJson(
                   e as Map<String, dynamic>))
@@ -2306,12 +2310,11 @@ class ListEarthObservationJobOutputConfig {
   factory ListEarthObservationJobOutputConfig.fromJson(
       Map<String, dynamic> json) {
     return ListEarthObservationJobOutputConfig(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
-      name: json['Name'] as String,
-      operationType: json['OperationType'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
+      operationType: (json['OperationType'] as String?) ?? '',
       status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2353,8 +2356,9 @@ class ListRasterDataCollectionsOutput {
 
   factory ListRasterDataCollectionsOutput.fromJson(Map<String, dynamic> json) {
     return ListRasterDataCollectionsOutput(
-      rasterDataCollectionSummaries: (json['RasterDataCollectionSummaries']
-              as List)
+      rasterDataCollectionSummaries: ((json['RasterDataCollectionSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RasterDataCollectionMetadata.fromJson(e as Map<String, dynamic>))
@@ -2412,7 +2416,7 @@ class ListVectorEnrichmentJobOutput {
   factory ListVectorEnrichmentJobOutput.fromJson(Map<String, dynamic> json) {
     return ListVectorEnrichmentJobOutput(
       vectorEnrichmentJobSummaries:
-          (json['VectorEnrichmentJobSummaries'] as List)
+          ((json['VectorEnrichmentJobSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => ListVectorEnrichmentJobOutputConfig.fromJson(
                   e as Map<String, dynamic>))
@@ -2467,11 +2471,10 @@ class ListVectorEnrichmentJobOutputConfig {
   factory ListVectorEnrichmentJobOutputConfig.fromJson(
       Map<String, dynamic> json) {
     return ListVectorEnrichmentJobOutputConfig(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      name: (json['Name'] as String?) ?? '',
       status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
       type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -2537,10 +2540,10 @@ class MapMatchingConfig {
 
   factory MapMatchingConfig.fromJson(Map<String, dynamic> json) {
     return MapMatchingConfig(
-      idAttributeName: json['IdAttributeName'] as String,
-      timestampAttributeName: json['TimestampAttributeName'] as String,
-      xAttributeName: json['XAttributeName'] as String,
-      yAttributeName: json['YAttributeName'] as String,
+      idAttributeName: (json['IdAttributeName'] as String?) ?? '',
+      timestampAttributeName: (json['TimestampAttributeName'] as String?) ?? '',
+      xAttributeName: (json['XAttributeName'] as String?) ?? '',
+      yAttributeName: (json['YAttributeName'] as String?) ?? '',
     );
   }
 
@@ -2571,7 +2574,7 @@ class MultiPolygonGeometryInput {
 
   factory MultiPolygonGeometryInput.fromJson(Map<String, dynamic> json) {
     return MultiPolygonGeometryInput(
-      coordinates: (json['Coordinates'] as List)
+      coordinates: ((json['Coordinates'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
@@ -2613,8 +2616,8 @@ class Operation {
 
   factory Operation.fromJson(Map<String, dynamic> json) {
     return Operation(
-      equation: json['Equation'] as String,
-      name: json['Name'] as String,
+      equation: (json['Equation'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       outputType: (json['OutputType'] as String?)?.let(OutputType.fromString),
     );
   }
@@ -2646,7 +2649,7 @@ class OutputBand {
 
   factory OutputBand.fromJson(Map<String, dynamic> json) {
     return OutputBand(
-      bandName: json['BandName'] as String,
+      bandName: (json['BandName'] as String?) ?? '',
       outputDataType: OutputType.fromString((json['OutputDataType'] as String)),
     );
   }
@@ -2673,8 +2676,9 @@ class OutputConfigInput {
 
   factory OutputConfigInput.fromJson(Map<String, dynamic> json) {
     return OutputConfigInput(
-      s3Data:
-          ExportS3DataInput.fromJson(json['S3Data'] as Map<String, dynamic>),
+      s3Data: ExportS3DataInput.fromJson(
+          (json['S3Data'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2699,8 +2703,9 @@ class OutputResolutionResamplingInput {
 
   factory OutputResolutionResamplingInput.fromJson(Map<String, dynamic> json) {
     return OutputResolutionResamplingInput(
-      userDefined:
-          UserDefined.fromJson(json['UserDefined'] as Map<String, dynamic>),
+      userDefined: UserDefined.fromJson(
+          (json['UserDefined'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2782,7 +2787,7 @@ class PlatformInput {
 
   factory PlatformInput.fromJson(Map<String, dynamic> json) {
     return PlatformInput(
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
       comparisonOperator: (json['ComparisonOperator'] as String?)
           ?.let(ComparisonOperator.fromString),
     );
@@ -2814,7 +2819,7 @@ class PolygonGeometryInput {
 
   factory PolygonGeometryInput.fromJson(Map<String, dynamic> json) {
     return PolygonGeometryInput(
-      coordinates: (json['Coordinates'] as List)
+      coordinates: ((json['Coordinates'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
@@ -3011,7 +3016,8 @@ class PropertyFilter {
 
   factory PropertyFilter.fromJson(Map<String, dynamic> json) {
     return PropertyFilter(
-      property: Property.fromJson(json['Property'] as Map<String, dynamic>),
+      property: Property.fromJson((json['Property'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3092,10 +3098,10 @@ class RasterDataCollectionMetadata {
 
   factory RasterDataCollectionMetadata.fromJson(Map<String, dynamic> json) {
     return RasterDataCollectionMetadata(
-      arn: json['Arn'] as String,
-      description: json['Description'] as String,
-      name: json['Name'] as String,
-      supportedFilters: (json['SupportedFilters'] as List)
+      arn: (json['Arn'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      supportedFilters: ((json['SupportedFilters'] as List?) ?? const [])
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3190,10 +3196,13 @@ class RasterDataCollectionQueryOutput {
 
   factory RasterDataCollectionQueryOutput.fromJson(Map<String, dynamic> json) {
     return RasterDataCollectionQueryOutput(
-      rasterDataCollectionArn: json['RasterDataCollectionArn'] as String,
-      rasterDataCollectionName: json['RasterDataCollectionName'] as String,
+      rasterDataCollectionArn:
+          (json['RasterDataCollectionArn'] as String?) ?? '',
+      rasterDataCollectionName:
+          (json['RasterDataCollectionName'] as String?) ?? '',
       timeRangeFilter: TimeRangeFilterOutput.fromJson(
-          json['TimeRangeFilter'] as Map<String, dynamic>),
+          (json['TimeRangeFilter'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       areaOfInterest: json['AreaOfInterest'] != null
           ? AreaOfInterest.fromJson(
               json['AreaOfInterest'] as Map<String, dynamic>)
@@ -3279,7 +3288,8 @@ class ResamplingConfigInput {
   factory ResamplingConfigInput.fromJson(Map<String, dynamic> json) {
     return ResamplingConfigInput(
       outputResolution: OutputResolutionResamplingInput.fromJson(
-          json['OutputResolution'] as Map<String, dynamic>),
+          (json['OutputResolution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       algorithmName: (json['AlgorithmName'] as String?)
           ?.let(AlgorithmNameResampling.fromString),
       targetBands: (json['TargetBands'] as List?)
@@ -3318,8 +3328,8 @@ class ReverseGeocodingConfig {
 
   factory ReverseGeocodingConfig.fromJson(Map<String, dynamic> json) {
     return ReverseGeocodingConfig(
-      xAttributeName: json['XAttributeName'] as String,
-      yAttributeName: json['YAttributeName'] as String,
+      xAttributeName: (json['XAttributeName'] as String?) ?? '',
+      yAttributeName: (json['YAttributeName'] as String?) ?? '',
     );
   }
 
@@ -3352,7 +3362,7 @@ class SearchRasterDataCollectionOutput {
 
   factory SearchRasterDataCollectionOutput.fromJson(Map<String, dynamic> json) {
     return SearchRasterDataCollectionOutput(
-      approximateResultCount: json['ApproximateResultCount'] as int,
+      approximateResultCount: (json['ApproximateResultCount'] as int?) ?? 0,
       items: (json['Items'] as List?)
           ?.nonNulls
           .map((e) => ItemSource.fromJson(e as Map<String, dynamic>))
@@ -3473,14 +3483,14 @@ class StartEarthObservationJobOutput {
 
   factory StartEarthObservationJobOutput.fromJson(Map<String, dynamic> json) {
     return StartEarthObservationJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
-      executionRoleArn: json['ExecutionRoleArn'] as String,
-      jobConfig:
-          JobConfigInput.fromJson(json['JobConfig'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
+      jobConfig: JobConfigInput.fromJson(
+          (json['JobConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       status: EarthObservationJobStatus.fromString((json['Status'] as String)),
       inputConfig: json['InputConfig'] != null
           ? InputConfigOutput.fromJson(
@@ -3569,16 +3579,17 @@ class StartVectorEnrichmentJobOutput {
 
   factory StartVectorEnrichmentJobOutput.fromJson(Map<String, dynamic> json) {
     return StartVectorEnrichmentJobOutput(
-      arn: json['Arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      durationInSeconds: json['DurationInSeconds'] as int,
-      executionRoleArn: json['ExecutionRoleArn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      durationInSeconds: (json['DurationInSeconds'] as int?) ?? 0,
+      executionRoleArn: (json['ExecutionRoleArn'] as String?) ?? '',
       inputConfig: VectorEnrichmentJobInputConfig.fromJson(
-          json['InputConfig'] as Map<String, dynamic>),
+          (json['InputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       jobConfig: VectorEnrichmentJobConfig.fromJson(
-          json['JobConfig'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['JobConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       status: VectorEnrichmentJobStatus.fromString((json['Status'] as String)),
       type: VectorEnrichmentJobType.fromString((json['Type'] as String)),
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -3702,7 +3713,7 @@ class TemporalStatisticsConfigInput {
 
   factory TemporalStatisticsConfigInput.fromJson(Map<String, dynamic> json) {
     return TemporalStatisticsConfigInput(
-      statistics: (json['Statistics'] as List)
+      statistics: ((json['Statistics'] as List?) ?? const [])
           .nonNulls
           .map((e) => TemporalStatistics.fromString((e as String)))
           .toList(),
@@ -3764,8 +3775,8 @@ class TimeRangeFilterOutput {
 
   factory TimeRangeFilterOutput.fromJson(Map<String, dynamic> json) {
     return TimeRangeFilterOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
     );
   }
 
@@ -3821,7 +3832,7 @@ class UserDefined {
   factory UserDefined.fromJson(Map<String, dynamic> json) {
     return UserDefined(
       unit: Unit.fromString((json['Unit'] as String)),
-      value: json['Value'] as double,
+      value: (json['Value'] as double?) ?? 0,
     );
   }
 
@@ -4044,7 +4055,8 @@ class VectorEnrichmentJobInputConfig {
   factory VectorEnrichmentJobInputConfig.fromJson(Map<String, dynamic> json) {
     return VectorEnrichmentJobInputConfig(
       dataSourceConfig: VectorEnrichmentJobDataSourceConfigInput.fromJson(
-          json['DataSourceConfig'] as Map<String, dynamic>),
+          (json['DataSourceConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       documentType: VectorEnrichmentJobDocumentType.fromString(
           (json['DocumentType'] as String)),
     );
@@ -4075,7 +4087,7 @@ class VectorEnrichmentJobS3Data {
 
   factory VectorEnrichmentJobS3Data.fromJson(Map<String, dynamic> json) {
     return VectorEnrichmentJobS3Data(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -4145,8 +4157,8 @@ class ViewOffNadirInput {
 
   factory ViewOffNadirInput.fromJson(Map<String, dynamic> json) {
     return ViewOffNadirInput(
-      lowerBound: json['LowerBound'] as double,
-      upperBound: json['UpperBound'] as double,
+      lowerBound: (json['LowerBound'] as double?) ?? 0,
+      upperBound: (json['UpperBound'] as double?) ?? 0,
     );
   }
 
@@ -4180,8 +4192,8 @@ class ViewSunAzimuthInput {
 
   factory ViewSunAzimuthInput.fromJson(Map<String, dynamic> json) {
     return ViewSunAzimuthInput(
-      lowerBound: json['LowerBound'] as double,
-      upperBound: json['UpperBound'] as double,
+      lowerBound: (json['LowerBound'] as double?) ?? 0,
+      upperBound: (json['UpperBound'] as double?) ?? 0,
     );
   }
 
@@ -4210,8 +4222,8 @@ class ViewSunElevationInput {
 
   factory ViewSunElevationInput.fromJson(Map<String, dynamic> json) {
     return ViewSunElevationInput(
-      lowerBound: json['LowerBound'] as double,
-      upperBound: json['UpperBound'] as double,
+      lowerBound: (json['LowerBound'] as double?) ?? 0,
+      upperBound: (json['UpperBound'] as double?) ?? 0,
     );
   }
 
@@ -4291,11 +4303,11 @@ class ZonalStatisticsConfigInput {
 
   factory ZonalStatisticsConfigInput.fromJson(Map<String, dynamic> json) {
     return ZonalStatisticsConfigInput(
-      statistics: (json['Statistics'] as List)
+      statistics: ((json['Statistics'] as List?) ?? const [])
           .nonNulls
           .map((e) => ZonalStatistics.fromString((e as String)))
           .toList(),
-      zoneS3Path: json['ZoneS3Path'] as String,
+      zoneS3Path: (json['ZoneS3Path'] as String?) ?? '',
       targetBands: (json['TargetBands'] as List?)
           ?.nonNulls
           .map((e) => e as String)

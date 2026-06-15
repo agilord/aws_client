@@ -983,8 +983,8 @@ class CopyDestinationImageSetProperties {
   factory CopyDestinationImageSetProperties.fromJson(
       Map<String, dynamic> json) {
     return CopyDestinationImageSetProperties(
-      imageSetId: json['imageSetId'] as String,
-      latestVersionId: json['latestVersionId'] as String,
+      imageSetId: (json['imageSetId'] as String?) ?? '',
+      latestVersionId: (json['latestVersionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetArn: json['imageSetArn'] as String?,
       imageSetState:
@@ -1058,11 +1058,13 @@ class CopyImageSetResponse {
 
   factory CopyImageSetResponse.fromJson(Map<String, dynamic> json) {
     return CopyImageSetResponse(
-      datastoreId: json['datastoreId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
       destinationImageSetProperties: CopyDestinationImageSetProperties.fromJson(
-          json['destinationImageSetProperties'] as Map<String, dynamic>),
+          (json['destinationImageSetProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       sourceImageSetProperties: CopySourceImageSetProperties.fromJson(
-          json['sourceImageSetProperties'] as Map<String, dynamic>),
+          (json['sourceImageSetProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1137,8 +1139,8 @@ class CopySourceImageSetProperties {
 
   factory CopySourceImageSetProperties.fromJson(Map<String, dynamic> json) {
     return CopySourceImageSetProperties(
-      imageSetId: json['imageSetId'] as String,
-      latestVersionId: json['latestVersionId'] as String,
+      imageSetId: (json['imageSetId'] as String?) ?? '',
+      latestVersionId: (json['latestVersionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetArn: json['imageSetArn'] as String?,
       imageSetState:
@@ -1184,7 +1186,7 @@ class CreateDatastoreResponse {
 
   factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateDatastoreResponse(
-      datastoreId: json['datastoreId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['datastoreStatus'] as String)),
     );
@@ -1250,13 +1252,13 @@ class DICOMImportJobProperties {
 
   factory DICOMImportJobProperties.fromJson(Map<String, dynamic> json) {
     return DICOMImportJobProperties(
-      dataAccessRoleArn: json['dataAccessRoleArn'] as String,
-      datastoreId: json['datastoreId'] as String,
-      inputS3Uri: json['inputS3Uri'] as String,
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
+      dataAccessRoleArn: (json['dataAccessRoleArn'] as String?) ?? '',
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      inputS3Uri: (json['inputS3Uri'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
-      outputS3Uri: json['outputS3Uri'] as String,
+      outputS3Uri: (json['outputS3Uri'] as String?) ?? '',
       endedAt: timeStampFromJson(json['endedAt']),
       message: json['message'] as String?,
       submittedAt: timeStampFromJson(json['submittedAt']),
@@ -1329,9 +1331,9 @@ class DICOMImportJobSummary {
 
   factory DICOMImportJobSummary.fromJson(Map<String, dynamic> json) {
     return DICOMImportJobSummary(
-      datastoreId: json['datastoreId'] as String,
-      jobId: json['jobId'] as String,
-      jobName: json['jobName'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
+      jobName: (json['jobName'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
       dataAccessRoleArn: json['dataAccessRoleArn'] as String?,
       endedAt: timeStampFromJson(json['endedAt']),
@@ -1591,8 +1593,8 @@ class DatastoreProperties {
 
   factory DatastoreProperties.fromJson(Map<String, dynamic> json) {
     return DatastoreProperties(
-      datastoreId: json['datastoreId'] as String,
-      datastoreName: json['datastoreName'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      datastoreName: (json['datastoreName'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['datastoreStatus'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1671,8 +1673,8 @@ class DatastoreSummary {
 
   factory DatastoreSummary.fromJson(Map<String, dynamic> json) {
     return DatastoreSummary(
-      datastoreId: json['datastoreId'] as String,
-      datastoreName: json['datastoreName'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      datastoreName: (json['datastoreName'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['datastoreStatus'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -1713,7 +1715,7 @@ class DeleteDatastoreResponse {
 
   factory DeleteDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDatastoreResponse(
-      datastoreId: json['datastoreId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['datastoreStatus'] as String)),
     );
@@ -1751,8 +1753,8 @@ class DeleteImageSetResponse {
 
   factory DeleteImageSetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteImageSetResponse(
-      datastoreId: json['datastoreId'] as String,
-      imageSetId: json['imageSetId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
           ImageSetState.fromString((json['imageSetState'] as String)),
       imageSetWorkflowStatus: ImageSetWorkflowStatus.fromString(
@@ -1785,7 +1787,8 @@ class GetDICOMImportJobResponse {
   factory GetDICOMImportJobResponse.fromJson(Map<String, dynamic> json) {
     return GetDICOMImportJobResponse(
       jobProperties: DICOMImportJobProperties.fromJson(
-          json['jobProperties'] as Map<String, dynamic>),
+          (json['jobProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1808,7 +1811,8 @@ class GetDatastoreResponse {
   factory GetDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return GetDatastoreResponse(
       datastoreProperties: DatastoreProperties.fromJson(
-          json['datastoreProperties'] as Map<String, dynamic>),
+          (json['datastoreProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1922,11 +1926,11 @@ class GetImageSetResponse {
 
   factory GetImageSetResponse.fromJson(Map<String, dynamic> json) {
     return GetImageSetResponse(
-      datastoreId: json['datastoreId'] as String,
-      imageSetId: json['imageSetId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
           ImageSetState.fromString((json['imageSetState'] as String)),
-      versionId: json['versionId'] as String,
+      versionId: (json['versionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       deletedAt: timeStampFromJson(json['deletedAt']),
       imageSetArn: json['imageSetArn'] as String?,
@@ -2031,10 +2035,10 @@ class ImageSetProperties {
 
   factory ImageSetProperties.fromJson(Map<String, dynamic> json) {
     return ImageSetProperties(
-      imageSetId: json['imageSetId'] as String,
+      imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
           ImageSetState.fromString((json['imageSetState'] as String)),
-      versionId: json['versionId'] as String,
+      versionId: (json['versionId'] as String?) ?? '',
       imageSetWorkflowStatus: (json['ImageSetWorkflowStatus'] as String?)
           ?.let(ImageSetWorkflowStatus.fromString),
       createdAt: timeStampFromJson(json['createdAt']),
@@ -2139,7 +2143,7 @@ class ImageSetsMetadataSummary {
 
   factory ImageSetsMetadataSummary.fromJson(Map<String, dynamic> json) {
     return ImageSetsMetadataSummary(
-      imageSetId: json['imageSetId'] as String,
+      imageSetId: (json['imageSetId'] as String?) ?? '',
       dICOMTags: json['DICOMTags'] != null
           ? DICOMTags.fromJson(json['DICOMTags'] as Map<String, dynamic>)
           : null,
@@ -2196,7 +2200,7 @@ class ListDICOMImportJobsResponse {
 
   factory ListDICOMImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListDICOMImportJobsResponse(
-      jobSummaries: (json['jobSummaries'] as List)
+      jobSummaries: ((json['jobSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => DICOMImportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2262,7 +2266,8 @@ class ListImageSetVersionsResponse {
 
   factory ListImageSetVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListImageSetVersionsResponse(
-      imageSetPropertiesList: (json['imageSetPropertiesList'] as List)
+      imageSetPropertiesList: ((json['imageSetPropertiesList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ImageSetProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2290,8 +2295,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -2521,11 +2527,12 @@ class SearchImageSetsResponse {
 
   factory SearchImageSetsResponse.fromJson(Map<String, dynamic> json) {
     return SearchImageSetsResponse(
-      imageSetsMetadataSummaries: (json['imageSetsMetadataSummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              ImageSetsMetadataSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      imageSetsMetadataSummaries:
+          ((json['imageSetsMetadataSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  ImageSetsMetadataSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
       sort: json['sort'] != null
           ? Sort.fromJson(json['sort'] as Map<String, dynamic>)
@@ -2626,10 +2633,10 @@ class StartDICOMImportJobResponse {
 
   factory StartDICOMImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartDICOMImportJobResponse(
-      datastoreId: json['datastoreId'] as String,
-      jobId: json['jobId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      jobId: (json['jobId'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
-      submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] as Object),
+      submittedAt: nonNullableTimeStampFromJson(json['submittedAt'] ?? 0),
     );
   }
 
@@ -2709,11 +2716,11 @@ class UpdateImageSetMetadataResponse {
 
   factory UpdateImageSetMetadataResponse.fromJson(Map<String, dynamic> json) {
     return UpdateImageSetMetadataResponse(
-      datastoreId: json['datastoreId'] as String,
-      imageSetId: json['imageSetId'] as String,
+      datastoreId: (json['datastoreId'] as String?) ?? '',
+      imageSetId: (json['imageSetId'] as String?) ?? '',
       imageSetState:
           ImageSetState.fromString((json['imageSetState'] as String)),
-      latestVersionId: json['latestVersionId'] as String,
+      latestVersionId: (json['latestVersionId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       imageSetWorkflowStatus: (json['imageSetWorkflowStatus'] as String?)
           ?.let(ImageSetWorkflowStatus.fromString),

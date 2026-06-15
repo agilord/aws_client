@@ -703,7 +703,9 @@ class BatchUpdateRecommendationResourceExclusionResponse {
       Map<String, dynamic> json) {
     return BatchUpdateRecommendationResourceExclusionResponse(
       batchUpdateRecommendationResourceExclusionErrors:
-          (json['batchUpdateRecommendationResourceExclusionErrors'] as List)
+          ((json['batchUpdateRecommendationResourceExclusionErrors']
+                      as List?) ??
+                  const [])
               .nonNulls
               .map((e) => UpdateRecommendationResourceExclusionError.fromJson(
                   e as Map<String, dynamic>))
@@ -760,17 +762,18 @@ class CheckSummary {
 
   factory CheckSummary.fromJson(Map<String, dynamic> json) {
     return CheckSummary(
-      arn: json['arn'] as String,
-      awsServices: (json['awsServices'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      awsServices: ((json['awsServices'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      metadata: (json['metadata'] as Map<String, dynamic>)
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      name: json['name'] as String,
-      pillars: (json['pillars'] as List)
+      name: (json['name'] as String?) ?? '',
+      pillars: ((json['pillars'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
@@ -882,7 +885,7 @@ class ListChecksResponse {
 
   factory ListChecksResponse.fromJson(Map<String, dynamic> json) {
     return ListChecksResponse(
-      checkSummaries: (json['checkSummaries'] as List)
+      checkSummaries: ((json['checkSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => CheckSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -919,7 +922,8 @@ class ListOrganizationRecommendationAccountsResponse {
       Map<String, dynamic> json) {
     return ListOrganizationRecommendationAccountsResponse(
       accountRecommendationLifecycleSummaries:
-          (json['accountRecommendationLifecycleSummaries'] as List)
+          ((json['accountRecommendationLifecycleSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => AccountRecommendationLifecycleSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -958,7 +962,8 @@ class ListOrganizationRecommendationResourcesResponse {
       Map<String, dynamic> json) {
     return ListOrganizationRecommendationResourcesResponse(
       organizationRecommendationResourceSummaries:
-          (json['organizationRecommendationResourceSummaries'] as List)
+          ((json['organizationRecommendationResourceSummaries'] as List?) ??
+                  const [])
               .nonNulls
               .map((e) => OrganizationRecommendationResourceSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -997,7 +1002,7 @@ class ListOrganizationRecommendationsResponse {
       Map<String, dynamic> json) {
     return ListOrganizationRecommendationsResponse(
       organizationRecommendationSummaries:
-          (json['organizationRecommendationSummaries'] as List)
+          ((json['organizationRecommendationSummaries'] as List?) ?? const [])
               .nonNulls
               .map((e) => OrganizationRecommendationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -1034,8 +1039,9 @@ class ListRecommendationResourcesResponse {
   factory ListRecommendationResourcesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListRecommendationResourcesResponse(
-      recommendationResourceSummaries: (json['recommendationResourceSummaries']
-              as List)
+      recommendationResourceSummaries: ((json['recommendationResourceSummaries']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RecommendationResourceSummary.fromJson(e as Map<String, dynamic>))
@@ -1070,7 +1076,8 @@ class ListRecommendationsResponse {
 
   factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecommendationsResponse(
-      recommendationSummaries: (json['recommendationSummaries'] as List)
+      recommendationSummaries: ((json['recommendationSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1187,16 +1194,17 @@ class OrganizationRecommendation {
 
   factory OrganizationRecommendation.fromJson(Map<String, dynamic> json) {
     return OrganizationRecommendation(
-      arn: json['arn'] as String,
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      pillars: (json['pillars'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      pillars: ((json['pillars'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
-          json['resourcesAggregates'] as Map<String, dynamic>),
+          (json['resourcesAggregates'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       source: RecommendationSource.fromString((json['source'] as String)),
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
@@ -1321,15 +1329,15 @@ class OrganizationRecommendationResourceSummary {
   factory OrganizationRecommendationResourceSummary.fromJson(
       Map<String, dynamic> json) {
     return OrganizationRecommendationResourceSummary(
-      arn: json['arn'] as String,
-      awsResourceId: json['awsResourceId'] as String,
-      id: json['id'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      metadata: (json['metadata'] as Map<String, dynamic>)
+      arn: (json['arn'] as String?) ?? '',
+      awsResourceId: (json['awsResourceId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      recommendationArn: json['recommendationArn'] as String,
-      regionCode: json['regionCode'] as String,
+      recommendationArn: (json['recommendationArn'] as String?) ?? '',
+      regionCode: (json['regionCode'] as String?) ?? '',
       status: ResourceStatus.fromString((json['status'] as String)),
       accountId: json['accountId'] as String?,
       exclusionStatus:
@@ -1429,15 +1437,16 @@ class OrganizationRecommendationSummary {
   factory OrganizationRecommendationSummary.fromJson(
       Map<String, dynamic> json) {
     return OrganizationRecommendationSummary(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      pillars: (json['pillars'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      pillars: ((json['pillars'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
-          json['resourcesAggregates'] as Map<String, dynamic>),
+          (json['resourcesAggregates'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       source: RecommendationSource.fromString((json['source'] as String)),
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
@@ -1591,16 +1600,17 @@ class Recommendation {
 
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
-      arn: json['arn'] as String,
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      pillars: (json['pillars'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      pillars: ((json['pillars'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
-          json['resourcesAggregates'] as Map<String, dynamic>),
+          (json['resourcesAggregates'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       source: RecommendationSource.fromString((json['source'] as String)),
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),
@@ -1693,9 +1703,10 @@ class RecommendationCostOptimizingAggregates {
   factory RecommendationCostOptimizingAggregates.fromJson(
       Map<String, dynamic> json) {
     return RecommendationCostOptimizingAggregates(
-      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double,
+      estimatedMonthlySavings:
+          (json['estimatedMonthlySavings'] as double?) ?? 0,
       estimatedPercentMonthlySavings:
-          json['estimatedPercentMonthlySavings'] as double,
+          (json['estimatedPercentMonthlySavings'] as double?) ?? 0,
     );
   }
 
@@ -1864,15 +1875,15 @@ class RecommendationResourceSummary {
 
   factory RecommendationResourceSummary.fromJson(Map<String, dynamic> json) {
     return RecommendationResourceSummary(
-      arn: json['arn'] as String,
-      awsResourceId: json['awsResourceId'] as String,
-      id: json['id'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      metadata: (json['metadata'] as Map<String, dynamic>)
+      arn: (json['arn'] as String?) ?? '',
+      awsResourceId: (json['awsResourceId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      metadata: ((json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      recommendationArn: json['recommendationArn'] as String,
-      regionCode: json['regionCode'] as String,
+      recommendationArn: (json['recommendationArn'] as String?) ?? '',
+      regionCode: (json['regionCode'] as String?) ?? '',
       status: ResourceStatus.fromString((json['status'] as String)),
       exclusionStatus:
           (json['exclusionStatus'] as String?)?.let(ExclusionStatus.fromString),
@@ -1926,9 +1937,9 @@ class RecommendationResourcesAggregates {
   factory RecommendationResourcesAggregates.fromJson(
       Map<String, dynamic> json) {
     return RecommendationResourcesAggregates(
-      errorCount: json['errorCount'] as int,
-      okCount: json['okCount'] as int,
-      warningCount: json['warningCount'] as int,
+      errorCount: (json['errorCount'] as int?) ?? 0,
+      okCount: (json['okCount'] as int?) ?? 0,
+      warningCount: (json['warningCount'] as int?) ?? 0,
     );
   }
 
@@ -2051,15 +2062,16 @@ class RecommendationSummary {
 
   factory RecommendationSummary.fromJson(Map<String, dynamic> json) {
     return RecommendationSummary(
-      arn: json['arn'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      pillars: (json['pillars'] as List)
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      pillars: ((json['pillars'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecommendationPillar.fromString((e as String)))
           .toList(),
       resourcesAggregates: RecommendationResourcesAggregates.fromJson(
-          json['resourcesAggregates'] as Map<String, dynamic>),
+          (json['resourcesAggregates'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       source: RecommendationSource.fromString((json['source'] as String)),
       status: RecommendationStatus.fromString((json['status'] as String)),
       type: RecommendationType.fromString((json['type'] as String)),

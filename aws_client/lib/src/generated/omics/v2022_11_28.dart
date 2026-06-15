@@ -3555,10 +3555,9 @@ class ActivateReadSetJobItem {
 
   factory ActivateReadSetJobItem.fromJson(Map<String, dynamic> json) {
     return ActivateReadSetJobItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
@@ -3600,7 +3599,7 @@ class ActivateReadSetSourceItem {
 
   factory ActivateReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ActivateReadSetSourceItem(
-      readSetId: json['readSetId'] as String,
+      readSetId: (json['readSetId'] as String?) ?? '',
       status:
           ReadSetActivationJobItemStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String?,
@@ -3635,7 +3634,7 @@ class AnnotationImportItemDetail {
   factory AnnotationImportItemDetail.fromJson(Map<String, dynamic> json) {
     return AnnotationImportItemDetail(
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
-      source: json['source'] as String,
+      source: (json['source'] as String?) ?? '',
     );
   }
 
@@ -3713,14 +3712,13 @@ class AnnotationImportJobItem {
 
   factory AnnotationImportJobItem.fromJson(Map<String, dynamic> json) {
     return AnnotationImportJobItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destinationName: json['destinationName'] as String,
-      id: json['id'] as String,
-      roleArn: json['roleArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationName: (json['destinationName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: JobStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      versionName: json['versionName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      versionName: (json['versionName'] as String?) ?? '',
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       completionTime: timeStampFromJson(json['completionTime']),
@@ -3811,20 +3809,22 @@ class AnnotationStoreItem {
 
   factory AnnotationStoreItem.fromJson(Map<String, dynamic> json) {
     return AnnotationStoreItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sseConfig: SseConfig.fromJson(
+          (json['sseConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeArn: json['storeArn'] as String,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeArn: (json['storeArn'] as String?) ?? '',
       storeFormat: StoreFormat.fromString((json['storeFormat'] as String)),
-      storeSizeBytes: json['storeSizeBytes'] as int,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -3909,18 +3909,17 @@ class AnnotationStoreVersionItem {
 
   factory AnnotationStoreVersionItem.fromJson(Map<String, dynamic> json) {
     return AnnotationStoreVersionItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: VersionStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeId: json['storeId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      versionArn: json['versionArn'] as String,
-      versionName: json['versionName'] as String,
-      versionSizeBytes: json['versionSizeBytes'] as int,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeId: (json['storeId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      versionArn: (json['versionArn'] as String?) ?? '',
+      versionName: (json['versionName'] as String?) ?? '',
+      versionSizeBytes: (json['versionSizeBytes'] as int?) ?? 0,
     );
   }
 
@@ -4032,7 +4031,7 @@ class CompleteMultipartReadSetUploadResponse {
   factory CompleteMultipartReadSetUploadResponse.fromJson(
       Map<String, dynamic> json) {
     return CompleteMultipartReadSetUploadResponse(
-      readSetId: json['readSetId'] as String,
+      readSetId: (json['readSetId'] as String?) ?? '',
     );
   }
 
@@ -4114,12 +4113,11 @@ class CreateAnnotationStoreResponse {
 
   factory CreateAnnotationStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateAnnotationStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: StoreStatus.fromString((json['status'] as String)),
-      versionName: json['versionName'] as String,
+      versionName: (json['versionName'] as String?) ?? '',
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
           : null,
@@ -4190,13 +4188,12 @@ class CreateAnnotationStoreVersionResponse {
   factory CreateAnnotationStoreVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAnnotationStoreVersionResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: VersionStatus.fromString((json['status'] as String)),
-      storeId: json['storeId'] as String,
-      versionName: json['versionName'] as String,
+      storeId: (json['storeId'] as String?) ?? '',
+      versionName: (json['versionName'] as String?) ?? '',
       versionOptions: json['versionOptions'] != null
           ? VersionOptions.fromJson(
               json['versionOptions'] as Map<String, dynamic>)
@@ -4275,14 +4272,13 @@ class CreateMultipartReadSetUploadResponse {
   factory CreateMultipartReadSetUploadResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateMultipartReadSetUploadResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      referenceArn: json['referenceArn'] as String,
-      sampleId: json['sampleId'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      referenceArn: (json['referenceArn'] as String?) ?? '',
+      sampleId: (json['sampleId'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
-      subjectId: json['subjectId'] as String,
-      uploadId: json['uploadId'] as String,
+      subjectId: (json['subjectId'] as String?) ?? '',
+      uploadId: (json['uploadId'] as String?) ?? '',
       description: json['description'] as String?,
       generatedFrom: json['generatedFrom'] as String?,
       name: json['name'] as String?,
@@ -4349,10 +4345,9 @@ class CreateReferenceStoreResponse {
 
   factory CreateReferenceStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateReferenceStoreResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -4454,10 +4449,9 @@ class CreateSequenceStoreResponse {
 
   factory CreateSequenceStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateSequenceStoreResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
           ?.let(ETagAlgorithmFamily.fromString),
@@ -4554,10 +4548,9 @@ class CreateVariantStoreResponse {
 
   factory CreateVariantStoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateVariantStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: StoreStatus.fromString((json['status'] as String)),
       reference: json['reference'] != null
           ? ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>)
@@ -4894,7 +4887,7 @@ class ExportReadSetDetail {
 
   factory ExportReadSetDetail.fromJson(Map<String, dynamic> json) {
     return ExportReadSetDetail(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       status: ReadSetExportJobItemStatus.fromString((json['status'] as String)),
       statusMessage: json['statusMessage'] as String?,
     );
@@ -4972,11 +4965,10 @@ class ExportReadSetJobDetail {
 
   factory ExportReadSetJobDetail.fromJson(Map<String, dynamic> json) {
     return ExportReadSetJobDetail(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destination: json['destination'] as String,
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destination: (json['destination'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetExportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
@@ -5204,25 +5196,24 @@ class GetAnnotationImportResponse {
 
   factory GetAnnotationImportResponse.fromJson(Map<String, dynamic> json) {
     return GetAnnotationImportResponse(
-      completionTime:
-          nonNullableTimeStampFromJson(json['completionTime'] as Object),
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destinationName: json['destinationName'] as String,
-      formatOptions:
-          FormatOptions.fromJson(json['formatOptions'] as Map<String, dynamic>),
-      id: json['id'] as String,
-      items: (json['items'] as List)
+      completionTime: nonNullableTimeStampFromJson(json['completionTime'] ?? 0),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationName: (json['destinationName'] as String?) ?? '',
+      formatOptions: FormatOptions.fromJson(
+          (json['formatOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               AnnotationImportItemDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      roleArn: json['roleArn'] as String,
-      runLeftNormalization: json['runLeftNormalization'] as bool,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      runLeftNormalization: (json['runLeftNormalization'] as bool?) ?? false,
       status: JobStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      versionName: json['versionName'] as String,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      versionName: (json['versionName'] as String?) ?? '',
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5326,22 +5317,25 @@ class GetAnnotationStoreResponse {
 
   factory GetAnnotationStoreResponse.fromJson(Map<String, dynamic> json) {
     return GetAnnotationStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      numVersions: json['numVersions'] as int,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      numVersions: (json['numVersions'] as int?) ?? 0,
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sseConfig: SseConfig.fromJson(
+          (json['sseConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeArn: json['storeArn'] as String,
-      storeSizeBytes: json['storeSizeBytes'] as int,
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeArn: (json['storeArn'] as String?) ?? '',
+      storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       storeFormat:
           (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
       storeOptions: json['storeOptions'] != null
@@ -5445,20 +5439,20 @@ class GetAnnotationStoreVersionResponse {
   factory GetAnnotationStoreVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAnnotationStoreVersionResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: VersionStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeId: json['storeId'] as String,
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      versionArn: json['versionArn'] as String,
-      versionName: json['versionName'] as String,
-      versionSizeBytes: json['versionSizeBytes'] as int,
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeId: (json['storeId'] as String?) ?? '',
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      versionArn: (json['versionArn'] as String?) ?? '',
+      versionName: (json['versionName'] as String?) ?? '',
+      versionSizeBytes: (json['versionSizeBytes'] as int?) ?? 0,
       versionOptions: json['versionOptions'] != null
           ? VersionOptions.fromJson(
               json['versionOptions'] as Map<String, dynamic>)
@@ -5532,10 +5526,9 @@ class GetReadSetActivationJobResponse {
 
   factory GetReadSetActivationJobResponse.fromJson(Map<String, dynamic> json) {
     return GetReadSetActivationJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       sources: (json['sources'] as List?)
@@ -5606,11 +5599,10 @@ class GetReadSetExportJobResponse {
 
   factory GetReadSetExportJobResponse.fromJson(Map<String, dynamic> json) {
     return GetReadSetExportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destination: json['destination'] as String,
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destination: (json['destination'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetExportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
       readSets: (json['readSets'] as List?)
@@ -5682,12 +5674,11 @@ class GetReadSetImportJobResponse {
 
   factory GetReadSetImportJobResponse.fromJson(Map<String, dynamic> json) {
     return GetReadSetImportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      roleArn: json['roleArn'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
-      sources: (json['sources'] as List)
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
+      sources: ((json['sources'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ImportReadSetSourceItem.fromJson(e as Map<String, dynamic>))
@@ -5797,12 +5788,11 @@ class GetReadSetMetadataResponse {
 
   factory GetReadSetMetadataResponse.fromJson(Map<String, dynamic> json) {
     return GetReadSetMetadataResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       fileType: FileType.fromString((json['fileType'] as String)),
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetStatus.fromString((json['status'] as String)),
       creationJobId: json['creationJobId'] as String?,
       creationType:
@@ -5921,12 +5911,11 @@ class GetReferenceImportJobResponse {
 
   factory GetReferenceImportJobResponse.fromJson(Map<String, dynamic> json) {
     return GetReferenceImportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      referenceStoreId: json['referenceStoreId'] as String,
-      roleArn: json['roleArn'] as String,
-      sources: (json['sources'] as List)
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      sources: ((json['sources'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ImportReferenceSourceItem.fromJson(e as Map<String, dynamic>))
@@ -6014,13 +6003,12 @@ class GetReferenceMetadataResponse {
 
   factory GetReferenceMetadataResponse.fromJson(Map<String, dynamic> json) {
     return GetReferenceMetadataResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      md5: json['md5'] as String,
-      referenceStoreId: json['referenceStoreId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      md5: (json['md5'] as String?) ?? '',
+      referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       creationJobId: json['creationJobId'] as String?,
       creationType: (json['creationType'] as String?)
           ?.let(ReferenceCreationType.fromString),
@@ -6109,10 +6097,9 @@ class GetReferenceStoreResponse {
 
   factory GetReferenceStoreResponse.fromJson(Map<String, dynamic> json) {
     return GetReferenceStoreResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -6611,10 +6598,9 @@ class GetSequenceStoreResponse {
 
   factory GetSequenceStoreResponse.fromJson(Map<String, dynamic> json) {
     return GetSequenceStoreResponse(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
           ?.let(ETagAlgorithmFamily.fromString),
@@ -6730,20 +6716,19 @@ class GetVariantImportResponse {
 
   factory GetVariantImportResponse.fromJson(Map<String, dynamic> json) {
     return GetVariantImportResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destinationName: json['destinationName'] as String,
-      id: json['id'] as String,
-      items: (json['items'] as List)
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationName: (json['destinationName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               VariantImportItemDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      roleArn: json['roleArn'] as String,
-      runLeftNormalization: json['runLeftNormalization'] as bool,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      runLeftNormalization: (json['runLeftNormalization'] as bool?) ?? false,
       status: JobStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       completionTime: timeStampFromJson(json['completionTime']),
@@ -6833,21 +6818,24 @@ class GetVariantStoreResponse {
 
   factory GetVariantStoreResponse.fromJson(Map<String, dynamic> json) {
     return GetVariantStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sseConfig: SseConfig.fromJson(
+          (json['sseConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeArn: json['storeArn'] as String,
-      storeSizeBytes: json['storeSizeBytes'] as int,
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeArn: (json['storeArn'] as String?) ?? '',
+      storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -7080,11 +7068,10 @@ class ImportReadSetJobItem {
 
   factory ImportReadSetJobItem.fromJson(Map<String, dynamic> json) {
     return ImportReadSetJobItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      roleArn: json['roleArn'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
@@ -7164,12 +7151,13 @@ class ImportReadSetSourceItem {
 
   factory ImportReadSetSourceItem.fromJson(Map<String, dynamic> json) {
     return ImportReadSetSourceItem(
-      sampleId: json['sampleId'] as String,
+      sampleId: (json['sampleId'] as String?) ?? '',
       sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
-      sourceFiles:
-          SourceFiles.fromJson(json['sourceFiles'] as Map<String, dynamic>),
+      sourceFiles: SourceFiles.fromJson(
+          (json['sourceFiles'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ReadSetImportJobItemStatus.fromString((json['status'] as String)),
-      subjectId: json['subjectId'] as String,
+      subjectId: (json['subjectId'] as String?) ?? '',
       description: json['description'] as String?,
       generatedFrom: json['generatedFrom'] as String?,
       name: json['name'] as String?,
@@ -7271,11 +7259,10 @@ class ImportReferenceJobItem {
 
   factory ImportReferenceJobItem.fromJson(Map<String, dynamic> json) {
     return ImportReferenceJobItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      referenceStoreId: json['referenceStoreId'] as String,
-      roleArn: json['roleArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: ReferenceImportJobStatus.fromString((json['status'] as String)),
       completionTime: timeStampFromJson(json['completionTime']),
     );
@@ -7728,7 +7715,7 @@ class ListReadSetsResponse {
 
   factory ListReadSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListReadSetsResponse(
-      readSets: (json['readSets'] as List)
+      readSets: ((json['readSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => ReadSetListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7793,7 +7780,7 @@ class ListReferenceStoresResponse {
 
   factory ListReferenceStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListReferenceStoresResponse(
-      referenceStores: (json['referenceStores'] as List)
+      referenceStores: ((json['referenceStores'] as List?) ?? const [])
           .nonNulls
           .map((e) => ReferenceStoreDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7825,7 +7812,7 @@ class ListReferencesResponse {
 
   factory ListReferencesResponse.fromJson(Map<String, dynamic> json) {
     return ListReferencesResponse(
-      references: (json['references'] as List)
+      references: ((json['references'] as List?) ?? const [])
           .nonNulls
           .map((e) => ReferenceListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7953,7 +7940,7 @@ class ListSequenceStoresResponse {
 
   factory ListSequenceStoresResponse.fromJson(Map<String, dynamic> json) {
     return ListSequenceStoresResponse(
-      sequenceStores: (json['sequenceStores'] as List)
+      sequenceStores: ((json['sequenceStores'] as List?) ?? const [])
           .nonNulls
           .map((e) => SequenceStoreDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7986,7 +7973,7 @@ class ListSharesResponse {
 
   factory ListSharesResponse.fromJson(Map<String, dynamic> json) {
     return ListSharesResponse(
-      shares: (json['shares'] as List)
+      shares: ((json['shares'] as List?) ?? const [])
           .nonNulls
           .map((e) => ShareDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8014,8 +8001,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -8215,15 +8203,14 @@ class MultipartReadSetUploadListItem {
 
   factory MultipartReadSetUploadListItem.fromJson(Map<String, dynamic> json) {
     return MultipartReadSetUploadListItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      generatedFrom: json['generatedFrom'] as String,
-      referenceArn: json['referenceArn'] as String,
-      sampleId: json['sampleId'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      generatedFrom: (json['generatedFrom'] as String?) ?? '',
+      referenceArn: (json['referenceArn'] as String?) ?? '',
+      sampleId: (json['sampleId'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       sourceFileType: FileType.fromString((json['sourceFileType'] as String)),
-      subjectId: json['subjectId'] as String,
-      uploadId: json['uploadId'] as String,
+      subjectId: (json['subjectId'] as String?) ?? '',
+      uploadId: (json['uploadId'] as String?) ?? '',
       description: json['description'] as String?,
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -8394,9 +8381,9 @@ class ReadSetBatchError {
 
   factory ReadSetBatchError.fromJson(Map<String, dynamic> json) {
     return ReadSetBatchError(
-      code: json['code'] as String,
-      id: json['id'] as String,
-      message: json['message'] as String,
+      code: (json['code'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -8676,12 +8663,11 @@ class ReadSetListItem {
 
   factory ReadSetListItem.fromJson(Map<String, dynamic> json) {
     return ReadSetListItem(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       fileType: FileType.fromString((json['fileType'] as String)),
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetStatus.fromString((json['status'] as String)),
       creationType:
           (json['creationType'] as String?)?.let(CreationType.fromString),
@@ -8853,9 +8839,9 @@ class ReadSetUploadPartListItem {
 
   factory ReadSetUploadPartListItem.fromJson(Map<String, dynamic> json) {
     return ReadSetUploadPartListItem(
-      checksum: json['checksum'] as String,
-      partNumber: json['partNumber'] as int,
-      partSize: json['partSize'] as int,
+      checksum: (json['checksum'] as String?) ?? '',
+      partNumber: (json['partNumber'] as int?) ?? 0,
+      partSize: (json['partSize'] as int?) ?? 0,
       partSource: ReadSetPartSource.fromString((json['partSource'] as String)),
       creationTime: timeStampFromJson(json['creationTime']),
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
@@ -9082,13 +9068,12 @@ class ReferenceListItem {
 
   factory ReferenceListItem.fromJson(Map<String, dynamic> json) {
     return ReferenceListItem(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      md5: json['md5'] as String,
-      referenceStoreId: json['referenceStoreId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      md5: (json['md5'] as String?) ?? '',
+      referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       description: json['description'] as String?,
       name: json['name'] as String?,
       status: (json['status'] as String?)?.let(ReferenceStatus.fromString),
@@ -9166,10 +9151,9 @@ class ReferenceStoreDetail {
 
   factory ReferenceStoreDetail.fromJson(Map<String, dynamic> json) {
     return ReferenceStoreDetail(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       name: json['name'] as String?,
       sseConfig: json['sseConfig'] != null
@@ -9616,10 +9600,9 @@ class SequenceStoreDetail {
 
   factory SequenceStoreDetail.fromJson(Map<String, dynamic> json) {
     return SequenceStoreDetail(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       eTagAlgorithmFamily: (json['eTagAlgorithmFamily'] as String?)
           ?.let(ETagAlgorithmFamily.fromString),
@@ -9851,7 +9834,7 @@ class SourceFiles {
 
   factory SourceFiles.fromJson(Map<String, dynamic> json) {
     return SourceFiles(
-      source1: json['source1'] as String,
+      source1: (json['source1'] as String?) ?? '',
       source2: json['source2'] as String?,
     );
   }
@@ -9906,7 +9889,7 @@ class StartAnnotationImportResponse {
 
   factory StartAnnotationImportResponse.fromJson(Map<String, dynamic> json) {
     return StartAnnotationImportResponse(
-      jobId: json['jobId'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
     );
   }
 
@@ -9941,10 +9924,9 @@ class StartReadSetActivationJobResponse {
   factory StartReadSetActivationJobResponse.fromJson(
       Map<String, dynamic> json) {
     return StartReadSetActivationJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetActivationJobStatus.fromString((json['status'] as String)),
     );
   }
@@ -10006,11 +9988,10 @@ class StartReadSetExportJobResponse {
 
   factory StartReadSetExportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartReadSetExportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destination: json['destination'] as String,
-      id: json['id'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destination: (json['destination'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetExportJobStatus.fromString((json['status'] as String)),
     );
   }
@@ -10057,11 +10038,10 @@ class StartReadSetImportJobResponse {
 
   factory StartReadSetImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartReadSetImportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      roleArn: json['roleArn'] as String,
-      sequenceStoreId: json['sequenceStoreId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      sequenceStoreId: (json['sequenceStoreId'] as String?) ?? '',
       status: ReadSetImportJobStatus.fromString((json['status'] as String)),
     );
   }
@@ -10173,11 +10153,10 @@ class StartReferenceImportJobResponse {
 
   factory StartReferenceImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartReferenceImportJobResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
-      referenceStoreId: json['referenceStoreId'] as String,
-      roleArn: json['roleArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      referenceStoreId: (json['referenceStoreId'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: ReferenceImportJobStatus.fromString((json['status'] as String)),
     );
   }
@@ -10301,7 +10280,7 @@ class StartVariantImportResponse {
 
   factory StartVariantImportResponse.fromJson(Map<String, dynamic> json) {
     return StartVariantImportResponse(
-      jobId: json['jobId'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
     );
   }
 
@@ -10673,15 +10652,15 @@ class UpdateAnnotationStoreResponse {
 
   factory UpdateAnnotationStoreResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAnnotationStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       storeFormat:
           (json['storeFormat'] as String?)?.let(StoreFormat.fromString),
       storeOptions: json['storeOptions'] != null
@@ -10753,15 +10732,14 @@ class UpdateAnnotationStoreVersionResponse {
   factory UpdateAnnotationStoreVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateAnnotationStoreVersionResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: VersionStatus.fromString((json['status'] as String)),
-      storeId: json['storeId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
-      versionName: json['versionName'] as String,
+      storeId: (json['storeId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
+      versionName: (json['versionName'] as String?) ?? '',
     );
   }
 
@@ -10821,15 +10799,15 @@ class UpdateVariantStoreResponse {
 
   factory UpdateVariantStoreResponse.fromJson(Map<String, dynamic> json) {
     return UpdateVariantStoreResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -10864,7 +10842,7 @@ class UploadReadSetPartResponse {
 
   factory UploadReadSetPartResponse.fromJson(Map<String, dynamic> json) {
     return UploadReadSetPartResponse(
-      checksum: json['checksum'] as String,
+      checksum: (json['checksum'] as String?) ?? '',
     );
   }
 
@@ -10896,7 +10874,7 @@ class VariantImportItemDetail {
   factory VariantImportItemDetail.fromJson(Map<String, dynamic> json) {
     return VariantImportItemDetail(
       jobStatus: JobStatus.fromString((json['jobStatus'] as String)),
-      source: json['source'] as String,
+      source: (json['source'] as String?) ?? '',
       statusMessage: json['statusMessage'] as String?,
     );
   }
@@ -10973,13 +10951,12 @@ class VariantImportJobItem {
 
   factory VariantImportJobItem.fromJson(Map<String, dynamic> json) {
     return VariantImportJobItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      destinationName: json['destinationName'] as String,
-      id: json['id'] as String,
-      roleArn: json['roleArn'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      destinationName: (json['destinationName'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       status: JobStatus.fromString((json['status'] as String)),
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
       annotationFields: (json['annotationFields'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       completionTime: timeStampFromJson(json['completionTime']),
@@ -11064,19 +11041,21 @@ class VariantStoreItem {
 
   factory VariantStoreItem.fromJson(Map<String, dynamic> json) {
     return VariantStoreItem(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      description: json['description'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      reference:
-          ReferenceItem.fromJson(json['reference'] as Map<String, dynamic>),
-      sseConfig: SseConfig.fromJson(json['sseConfig'] as Map<String, dynamic>),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      reference: ReferenceItem.fromJson(
+          (json['reference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sseConfig: SseConfig.fromJson(
+          (json['sseConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: StoreStatus.fromString((json['status'] as String)),
-      statusMessage: json['statusMessage'] as String,
-      storeArn: json['storeArn'] as String,
-      storeSizeBytes: json['storeSizeBytes'] as int,
-      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      storeArn: (json['storeArn'] as String?) ?? '',
+      storeSizeBytes: (json['storeSizeBytes'] as int?) ?? 0,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] ?? 0),
     );
   }
 
@@ -11153,8 +11132,8 @@ class VersionDeleteError {
 
   factory VersionDeleteError.fromJson(Map<String, dynamic> json) {
     return VersionDeleteError(
-      message: json['message'] as String,
-      versionName: json['versionName'] as String,
+      message: (json['message'] as String?) ?? '',
+      versionName: (json['versionName'] as String?) ?? '',
     );
   }
 

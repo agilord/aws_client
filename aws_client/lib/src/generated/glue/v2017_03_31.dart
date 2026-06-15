@@ -12030,17 +12030,19 @@ class Aggregate {
 
   factory Aggregate.fromJson(Map<String, dynamic> json) {
     return Aggregate(
-      aggs: (json['Aggs'] as List)
+      aggs: ((json['Aggs'] as List?) ?? const [])
           .nonNulls
           .map((e) => AggregateOperation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      groups: (json['Groups'] as List)
+      groups: ((json['Groups'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -12080,8 +12082,10 @@ class AggregateOperation {
   factory AggregateOperation.fromJson(Map<String, dynamic> json) {
     return AggregateOperation(
       aggFunc: AggFunction.fromString((json['AggFunc'] as String)),
-      column:
-          (json['Column'] as List).nonNulls.map((e) => e as String).toList(),
+      column: ((json['Column'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -12492,13 +12496,15 @@ class ApplyMapping {
 
   factory ApplyMapping.fromJson(Map<String, dynamic> json) {
     return ApplyMapping(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      mapping: (json['Mapping'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      mapping: ((json['Mapping'] as List?) ?? const [])
           .nonNulls
           .map((e) => Mapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -12552,11 +12558,11 @@ class AthenaConnectorSource {
 
   factory AthenaConnectorSource.fromJson(Map<String, dynamic> json) {
     return AthenaConnectorSource(
-      connectionName: json['ConnectionName'] as String,
-      connectionType: json['ConnectionType'] as String,
-      connectorName: json['ConnectorName'] as String,
-      name: json['Name'] as String,
-      schemaName: json['SchemaName'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      connectorName: (json['ConnectorName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      schemaName: (json['SchemaName'] as String?) ?? '',
       connectionTable: json['ConnectionTable'] as String?,
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
@@ -12843,11 +12849,13 @@ class BasicCatalogTarget {
 
   factory BasicCatalogTarget.fromJson(Map<String, dynamic> json) {
     return BasicCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -13131,7 +13139,7 @@ class BatchGetDataQualityResultResponse {
   factory BatchGetDataQualityResultResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchGetDataQualityResultResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataQualityResult.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13746,9 +13754,9 @@ class BinaryColumnStatisticsData {
 
   factory BinaryColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return BinaryColumnStatisticsData(
-      averageLength: json['AverageLength'] as double,
-      maximumLength: json['MaximumLength'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      averageLength: (json['AverageLength'] as double?) ?? 0,
+      maximumLength: (json['MaximumLength'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
     );
   }
 
@@ -14068,9 +14076,9 @@ class BooleanColumnStatisticsData {
 
   factory BooleanColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return BooleanColumnStatisticsData(
-      numberOfFalses: json['NumberOfFalses'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
-      numberOfTrues: json['NumberOfTrues'] as int,
+      numberOfFalses: (json['NumberOfFalses'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
+      numberOfTrues: (json['NumberOfTrues'] as int?) ?? 0,
     );
   }
 
@@ -14188,9 +14196,9 @@ class CatalogDeltaSource {
 
   factory CatalogDeltaSource.fromJson(Map<String, dynamic> json) {
     return CatalogDeltaSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalDeltaOptions:
           (json['AdditionalDeltaOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -14284,9 +14292,9 @@ class CatalogHudiSource {
 
   factory CatalogHudiSource.fromJson(Map<String, dynamic> json) {
     return CatalogHudiSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalHudiOptions:
           (json['AdditionalHudiOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -14387,9 +14395,9 @@ class CatalogKafkaSource {
 
   factory CatalogKafkaSource.fromJson(Map<String, dynamic> json) {
     return CatalogKafkaSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       dataPreviewOptions: json['DataPreviewOptions'] != null
           ? StreamingDataPreviewOptions.fromJson(
               json['DataPreviewOptions'] as Map<String, dynamic>)
@@ -14458,9 +14466,9 @@ class CatalogKinesisSource {
 
   factory CatalogKinesisSource.fromJson(Map<String, dynamic> json) {
     return CatalogKinesisSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       dataPreviewOptions: json['DataPreviewOptions'] != null
           ? StreamingDataPreviewOptions.fromJson(
               json['DataPreviewOptions'] as Map<String, dynamic>)
@@ -14546,9 +14554,9 @@ class CatalogSource {
 
   factory CatalogSource.fromJson(Map<String, dynamic> json) {
     return CatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -14595,9 +14603,11 @@ class CatalogTarget {
 
   factory CatalogTarget.fromJson(Map<String, dynamic> json) {
     return CatalogTarget(
-      databaseName: json['DatabaseName'] as String,
-      tables:
-          (json['Tables'] as List).nonNulls.map((e) => e as String).toList(),
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tables: ((json['Tables'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       connectionName: json['ConnectionName'] as String?,
       dlqEventQueueArn: json['DlqEventQueueArn'] as String?,
       eventQueueArn: json['EventQueueArn'] as String?,
@@ -15563,8 +15573,8 @@ class CodeGenEdge {
 
   factory CodeGenEdge.fromJson(Map<String, dynamic> json) {
     return CodeGenEdge(
-      source: json['Source'] as String,
-      target: json['Target'] as String,
+      source: (json['Source'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
       targetParameter: json['TargetParameter'] as String?,
     );
   }
@@ -15604,12 +15614,12 @@ class CodeGenNode {
 
   factory CodeGenNode.fromJson(Map<String, dynamic> json) {
     return CodeGenNode(
-      args: (json['Args'] as List)
+      args: ((json['Args'] as List?) ?? const [])
           .nonNulls
           .map((e) => CodeGenNodeArg.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['Id'] as String,
-      nodeType: json['NodeType'] as String,
+      id: (json['Id'] as String?) ?? '',
+      nodeType: (json['NodeType'] as String?) ?? '',
       lineNumber: json['LineNumber'] as int?,
     );
   }
@@ -15647,8 +15657,8 @@ class CodeGenNodeArg {
 
   factory CodeGenNodeArg.fromJson(Map<String, dynamic> json) {
     return CodeGenNodeArg(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
       param: json['Param'] as bool?,
     );
   }
@@ -15688,7 +15698,7 @@ class Column {
 
   factory Column.fromJson(Map<String, dynamic> json) {
     return Column(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       comment: json['Comment'] as String?,
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -15831,12 +15841,12 @@ class ColumnStatistics {
 
   factory ColumnStatistics.fromJson(Map<String, dynamic> json) {
     return ColumnStatistics(
-      analyzedTime:
-          nonNullableTimeStampFromJson(json['AnalyzedTime'] as Object),
-      columnName: json['ColumnName'] as String,
-      columnType: json['ColumnType'] as String,
+      analyzedTime: nonNullableTimeStampFromJson(json['AnalyzedTime'] ?? 0),
+      columnName: (json['ColumnName'] as String?) ?? '',
+      columnType: (json['ColumnType'] as String?) ?? '',
       statisticsData: ColumnStatisticsData.fromJson(
-          json['StatisticsData'] as Map<String, dynamic>),
+          (json['StatisticsData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -16316,8 +16326,8 @@ class ConditionExpression {
 
   factory ConditionExpression.fromJson(Map<String, dynamic> json) {
     return ConditionExpression(
-      condition: json['Condition'] as String,
-      targetColumn: json['TargetColumn'] as String,
+      condition: (json['Condition'] as String?) ?? '',
+      targetColumn: (json['TargetColumn'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -17033,7 +17043,7 @@ class ConnectionPasswordEncryption {
   factory ConnectionPasswordEncryption.fromJson(Map<String, dynamic> json) {
     return ConnectionPasswordEncryption(
       returnConnectionPasswordEncrypted:
-          json['ReturnConnectionPasswordEncrypted'] as bool,
+          (json['ReturnConnectionPasswordEncrypted'] as bool?) ?? false,
       awsKmsKeyId: json['AwsKmsKeyId'] as String?,
     );
   }
@@ -17226,10 +17236,11 @@ class ConnectorDataSource {
 
   factory ConnectorDataSource.fromJson(Map<String, dynamic> json) {
     return ConnectorDataSource(
-      connectionType: json['ConnectionType'] as String,
-      data: (json['Data'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      name: json['Name'] as String,
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      data:
+          ((json['Data'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      name: (json['Name'] as String?) ?? '',
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
           .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
@@ -17302,10 +17313,11 @@ class ConnectorDataTarget {
 
   factory ConnectorDataTarget.fromJson(Map<String, dynamic> json) {
     return ConnectorDataTarget(
-      connectionType: json['ConnectionType'] as String,
-      data: (json['Data'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      name: json['Name'] as String,
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      data:
+          ((json['Data'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      name: (json['Name'] as String?) ?? '',
       inputs:
           (json['Inputs'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -18976,7 +18988,7 @@ class CsvClassifier {
 
   factory CsvClassifier.fromJson(Map<String, dynamic> json) {
     return CsvClassifier(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       allowSingleColumn: json['AllowSingleColumn'] as bool?,
       containsHeader:
           (json['ContainsHeader'] as String?)?.let(CsvHeaderOption.fromString),
@@ -19092,11 +19104,13 @@ class CustomCode {
 
   factory CustomCode.fromJson(Map<String, dynamic> json) {
     return CustomCode(
-      className: json['ClassName'] as String,
-      code: json['Code'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      className: (json['ClassName'] as String?) ?? '',
+      code: (json['Code'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
           .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
@@ -19146,8 +19160,8 @@ class CustomEntityType {
 
   factory CustomEntityType.fromJson(Map<String, dynamic> json) {
     return CustomEntityType(
-      name: json['Name'] as String,
-      regexString: json['RegexString'] as String,
+      name: (json['Name'] as String?) ?? '',
+      regexString: (json['RegexString'] as String?) ?? '',
       contextWords: (json['ContextWords'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -20165,8 +20179,8 @@ class DataQualityTargetTable {
 
   factory DataQualityTargetTable.fromJson(Map<String, dynamic> json) {
     return DataQualityTargetTable(
-      databaseName: json['DatabaseName'] as String,
-      tableName: json['TableName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
     );
   }
@@ -20194,7 +20208,9 @@ class DataSource {
 
   factory DataSource.fromJson(Map<String, dynamic> json) {
     return DataSource(
-      glueTable: GlueTable.fromJson(json['GlueTable'] as Map<String, dynamic>),
+      glueTable: GlueTable.fromJson(
+          (json['GlueTable'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -20254,7 +20270,7 @@ class Database {
 
   factory Database.fromJson(Map<String, dynamic> json) {
     return Database(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       createTableDefaultPermissions: (json['CreateTableDefaultPermissions']
               as List?)
@@ -20458,8 +20474,8 @@ class Datatype {
 
   factory Datatype.fromJson(Map<String, dynamic> json) {
     return Datatype(
-      id: json['Id'] as String,
-      label: json['Label'] as String,
+      id: (json['Id'] as String?) ?? '',
+      label: (json['Label'] as String?) ?? '',
     );
   }
 
@@ -20496,8 +20512,8 @@ class DateColumnStatisticsData {
 
   factory DateColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return DateColumnStatisticsData(
-      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
       maximumValue: timeStampFromJson(json['MaximumValue']),
       minimumValue: timeStampFromJson(json['MinimumValue']),
     );
@@ -20542,8 +20558,8 @@ class DecimalColumnStatisticsData {
 
   factory DecimalColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return DecimalColumnStatisticsData(
-      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
       maximumValue: json['MaximumValue'] != null
           ? DecimalNumber.fromJson(json['MaximumValue'] as Map<String, dynamic>)
           : null,
@@ -20583,8 +20599,9 @@ class DecimalNumber {
 
   factory DecimalNumber.fromJson(Map<String, dynamic> json) {
     return DecimalNumber(
-      scale: json['Scale'] as int,
-      unscaledValue: _s.decodeUint8List(json['UnscaledValue']! as String),
+      scale: (json['Scale'] as int?) ?? 0,
+      unscaledValue:
+          _s.decodeUint8List((json['UnscaledValue'] as String?) ?? ''),
     );
   }
 
@@ -21503,12 +21520,12 @@ class DirectJDBCSource {
 
   factory DirectJDBCSource.fromJson(Map<String, dynamic> json) {
     return DirectJDBCSource(
-      connectionName: json['ConnectionName'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
       connectionType:
           JDBCConnectionType.fromString((json['ConnectionType'] as String)),
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       redshiftTmpDir: json['RedshiftTmpDir'] as String?,
     );
   }
@@ -21558,7 +21575,7 @@ class DirectKafkaSource {
 
   factory DirectKafkaSource.fromJson(Map<String, dynamic> json) {
     return DirectKafkaSource(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       dataPreviewOptions: json['DataPreviewOptions'] != null
           ? StreamingDataPreviewOptions.fromJson(
               json['DataPreviewOptions'] as Map<String, dynamic>)
@@ -21615,7 +21632,7 @@ class DirectKinesisSource {
 
   factory DirectKinesisSource.fromJson(Map<String, dynamic> json) {
     return DirectKinesisSource(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       dataPreviewOptions: json['DataPreviewOptions'] != null
           ? StreamingDataPreviewOptions.fromJson(
               json['DataPreviewOptions'] as Map<String, dynamic>)
@@ -21716,8 +21733,8 @@ class DoubleColumnStatisticsData {
 
   factory DoubleColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return DoubleColumnStatisticsData(
-      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
       maximumValue: json['MaximumValue'] as double?,
       minimumValue: json['MinimumValue'] as double?,
     );
@@ -21756,9 +21773,11 @@ class DropDuplicates {
 
   factory DropDuplicates.fromJson(Map<String, dynamic> json) {
     return DropDuplicates(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       columns: (json['Columns'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -21798,10 +21817,12 @@ class DropFields {
 
   factory DropFields.fromJson(Map<String, dynamic> json) {
     return DropFields(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
@@ -21853,9 +21874,11 @@ class DropNullFields {
 
   factory DropNullFields.fromJson(Map<String, dynamic> json) {
     return DropNullFields(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       nullCheckBoxList: json['NullCheckBoxList'] != null
           ? NullCheckBoxList.fromJson(
               json['NullCheckBoxList'] as Map<String, dynamic>)
@@ -21921,12 +21944,14 @@ class DynamicTransform {
 
   factory DynamicTransform.fromJson(Map<String, dynamic> json) {
     return DynamicTransform(
-      functionName: json['FunctionName'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
-      transformName: json['TransformName'] as String,
+      functionName: (json['FunctionName'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
+      transformName: (json['TransformName'] as String?) ?? '',
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
           .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
@@ -21981,9 +22006,9 @@ class DynamoDBCatalogSource {
 
   factory DynamoDBCatalogSource.fromJson(Map<String, dynamic> json) {
     return DynamoDBCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -22278,10 +22303,12 @@ class EvaluateDataQuality {
 
   factory EvaluateDataQuality.fromJson(Map<String, dynamic> json) {
     return EvaluateDataQuality(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      ruleset: json['Ruleset'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      ruleset: (json['Ruleset'] as String?) ?? '',
       output: (json['Output'] as String?)?.let(DQTransformOutput.fromString),
       publishingOptions: json['PublishingOptions'] != null
           ? DQResultsPublishingOptions.fromJson(
@@ -22350,10 +22377,12 @@ class EvaluateDataQualityMultiFrame {
 
   factory EvaluateDataQualityMultiFrame.fromJson(Map<String, dynamic> json) {
     return EvaluateDataQualityMultiFrame(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      ruleset: json['Ruleset'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      ruleset: (json['Ruleset'] as String?) ?? '',
       additionalDataSources:
           (json['AdditionalDataSources'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -22448,7 +22477,7 @@ class EventBatchingCondition {
 
   factory EventBatchingCondition.fromJson(Map<String, dynamic> json) {
     return EventBatchingCondition(
-      batchSize: json['BatchSize'] as int,
+      batchSize: (json['BatchSize'] as int?) ?? 0,
       batchWindow: json['BatchWindow'] as int?,
     );
   }
@@ -22655,10 +22684,12 @@ class FillMissingValues {
 
   factory FillMissingValues.fromJson(Map<String, dynamic> json) {
     return FillMissingValues(
-      imputedPath: json['ImputedPath'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      imputedPath: (json['ImputedPath'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       filledPath: json['FilledPath'] as String?,
     );
   }
@@ -22702,15 +22733,17 @@ class Filter {
 
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
-      filters: (json['Filters'] as List)
+      filters: ((json['Filters'] as List?) ?? const [])
           .nonNulls
           .map((e) => FilterExpression.fromJson(e as Map<String, dynamic>))
           .toList(),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       logicalOperator:
           FilterLogicalOperator.fromString((json['LogicalOperator'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -22748,7 +22781,7 @@ class FilterExpression {
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
       operation: FilterOperation.fromString((json['Operation'] as String)),
-      values: (json['Values'] as List)
+      values: ((json['Values'] as List?) ?? const [])
           .nonNulls
           .map((e) => FilterValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -22839,7 +22872,10 @@ class FilterValue {
   factory FilterValue.fromJson(Map<String, dynamic> json) {
     return FilterValue(
       type: FilterValueType.fromString((json['Type'] as String)),
-      value: (json['Value'] as List).nonNulls.map((e) => e as String).toList(),
+      value: ((json['Value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -24226,7 +24262,7 @@ class GetDatabasesResponse {
 
   factory GetDatabasesResponse.fromJson(Map<String, dynamic> json) {
     return GetDatabasesResponse(
-      databaseList: (json['DatabaseList'] as List)
+      databaseList: ((json['DatabaseList'] as List?) ?? const [])
           .nonNulls
           .map((e) => Database.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24813,7 +24849,7 @@ class GetMLTransformsResponse {
 
   factory GetMLTransformsResponse.fromJson(Map<String, dynamic> json) {
     return GetMLTransformsResponse(
-      transforms: (json['Transforms'] as List)
+      transforms: ((json['Transforms'] as List?) ?? const [])
           .nonNulls
           .map((e) => MLTransform.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24841,7 +24877,7 @@ class GetMappingResponse {
 
   factory GetMappingResponse.fromJson(Map<String, dynamic> json) {
     return GetMappingResponse(
-      mapping: (json['Mapping'] as List)
+      mapping: ((json['Mapping'] as List?) ?? const [])
           .nonNulls
           .map((e) => MappingEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26230,7 +26266,7 @@ class GlueStudioSchemaColumn {
 
   factory GlueStudioSchemaColumn.fromJson(Map<String, dynamic> json) {
     return GlueStudioSchemaColumn(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: json['Type'] as String?,
     );
   }
@@ -26284,8 +26320,8 @@ class GlueTable {
 
   factory GlueTable.fromJson(Map<String, dynamic> json) {
     return GlueTable(
-      databaseName: json['DatabaseName'] as String,
-      tableName: json['TableName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       catalogId: json['CatalogId'] as String?,
@@ -26338,9 +26374,9 @@ class GovernedCatalogSource {
 
   factory GovernedCatalogSource.fromJson(Map<String, dynamic> json) {
     return GovernedCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalOptions: json['AdditionalOptions'] != null
           ? S3SourceAdditionalOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -26397,11 +26433,13 @@ class GovernedCatalogTarget {
 
   factory GovernedCatalogTarget.fromJson(Map<String, dynamic> json) {
     return GovernedCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -26473,9 +26511,9 @@ class GrokClassifier {
 
   factory GrokClassifier.fromJson(Map<String, dynamic> json) {
     return GrokClassifier(
-      classification: json['Classification'] as String,
-      grokPattern: json['GrokPattern'] as String,
-      name: json['Name'] as String,
+      classification: (json['Classification'] as String?) ?? '',
+      grokPattern: (json['GrokPattern'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       customPatterns: json['CustomPatterns'] as String?,
       lastUpdated: timeStampFromJson(json['LastUpdated']),
@@ -26880,10 +26918,10 @@ class JDBCConnectorSource {
 
   factory JDBCConnectorSource.fromJson(Map<String, dynamic> json) {
     return JDBCConnectorSource(
-      connectionName: json['ConnectionName'] as String,
-      connectionType: json['ConnectionType'] as String,
-      connectorName: json['ConnectorName'] as String,
-      name: json['Name'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      connectorName: (json['ConnectorName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       additionalOptions: json['AdditionalOptions'] != null
           ? JDBCConnectorOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -26960,13 +26998,15 @@ class JDBCConnectorTarget {
 
   factory JDBCConnectorTarget.fromJson(Map<String, dynamic> json) {
     return JDBCConnectorTarget(
-      connectionName: json['ConnectionName'] as String,
-      connectionTable: json['ConnectionTable'] as String,
-      connectionType: json['ConnectionType'] as String,
-      connectorName: json['ConnectorName'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
+      connectionTable: (json['ConnectionTable'] as String?) ?? '',
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      connectorName: (json['ConnectorName'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       outputSchemas: (json['OutputSchemas'] as List?)
@@ -28548,14 +28588,16 @@ class Join {
 
   factory Join.fromJson(Map<String, dynamic> json) {
     return Join(
-      columns: (json['Columns'] as List)
+      columns: ((json['Columns'] as List?) ?? const [])
           .nonNulls
           .map((e) => JoinColumn.fromJson(e as Map<String, dynamic>))
           .toList(),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       joinType: JoinType.fromString((json['JoinType'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -28588,8 +28630,8 @@ class JoinColumn {
 
   factory JoinColumn.fromJson(Map<String, dynamic> json) {
     return JoinColumn(
-      from: json['From'] as String,
-      keys: (json['Keys'] as List)
+      from: (json['From'] as String?) ?? '',
+      keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
@@ -28654,8 +28696,8 @@ class JsonClassifier {
 
   factory JsonClassifier.fromJson(Map<String, dynamic> json) {
     return JsonClassifier(
-      jsonPath: json['JsonPath'] as String,
-      name: json['Name'] as String,
+      jsonPath: (json['JsonPath'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       version: json['Version'] as int?,
@@ -28886,8 +28928,8 @@ class KeySchemaElement {
 
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
-      name: json['Name'] as String,
-      type: json['Type'] as String,
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
     );
   }
 
@@ -29532,7 +29574,7 @@ class ListDataQualityResultsResponse {
 
   factory ListDataQualityResultsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataQualityResultsResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DataQualityResultDescription.fromJson(e as Map<String, dynamic>))
@@ -29802,7 +29844,7 @@ class ListMLTransformsResponse {
 
   factory ListMLTransformsResponse.fromJson(Map<String, dynamic> json) {
     return ListMLTransformsResponse(
-      transformIds: (json['TransformIds'] as List)
+      transformIds: ((json['TransformIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -30226,8 +30268,8 @@ class LongColumnStatisticsData {
 
   factory LongColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return LongColumnStatisticsData(
-      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
       maximumValue: json['MaximumValue'] as int?,
       minimumValue: json['MinimumValue'] as int?,
     );
@@ -30745,14 +30787,16 @@ class Merge {
 
   factory Merge.fromJson(Map<String, dynamic> json) {
     return Merge(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      primaryKeys: (json['PrimaryKeys'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      primaryKeys: ((json['PrimaryKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
-      source: json['Source'] as String,
+      source: (json['Source'] as String?) ?? '',
     );
   }
 
@@ -30921,9 +30965,9 @@ class MicrosoftSQLServerCatalogSource {
 
   factory MicrosoftSQLServerCatalogSource.fromJson(Map<String, dynamic> json) {
     return MicrosoftSQLServerCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -30962,11 +31006,13 @@ class MicrosoftSQLServerCatalogTarget {
 
   factory MicrosoftSQLServerCatalogTarget.fromJson(Map<String, dynamic> json) {
     return MicrosoftSQLServerCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -31047,9 +31093,9 @@ class MySQLCatalogSource {
 
   factory MySQLCatalogSource.fromJson(Map<String, dynamic> json) {
     return MySQLCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -31088,11 +31134,13 @@ class MySQLCatalogTarget {
 
   factory MySQLCatalogTarget.fromJson(Map<String, dynamic> json) {
     return MySQLCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -31270,8 +31318,9 @@ class NullValueField {
 
   factory NullValueField.fromJson(Map<String, dynamic> json) {
     return NullValueField(
-      datatype: Datatype.fromJson(json['Datatype'] as Map<String, dynamic>),
-      value: json['Value'] as String,
+      datatype: Datatype.fromJson((json['Datatype'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -31519,9 +31568,9 @@ class OracleSQLCatalogSource {
 
   factory OracleSQLCatalogSource.fromJson(Map<String, dynamic> json) {
     return OracleSQLCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -31560,11 +31609,13 @@ class OracleSQLCatalogTarget {
 
   factory OracleSQLCatalogTarget.fromJson(Map<String, dynamic> json) {
     return OracleSQLCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -31598,8 +31649,8 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      column: json['Column'] as String,
-      sortOrder: json['SortOrder'] as int,
+      column: (json['Column'] as String?) ?? '',
+      sortOrder: (json['SortOrder'] as int?) ?? 0,
     );
   }
 
@@ -31693,13 +31744,15 @@ class PIIDetection {
 
   factory PIIDetection.fromJson(Map<String, dynamic> json) {
     return PIIDetection(
-      entityTypesToDetect: (json['EntityTypesToDetect'] as List)
+      entityTypesToDetect: ((json['EntityTypesToDetect'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       piiType: PiiType.fromString((json['PiiType'] as String)),
       maskValue: json['MaskValue'] as String?,
       outputColumnName: json['OutputColumnName'] as String?,
@@ -31956,10 +32009,10 @@ class PartitionIndexDescriptor {
 
   factory PartitionIndexDescriptor.fromJson(Map<String, dynamic> json) {
     return PartitionIndexDescriptor(
-      indexName: json['IndexName'] as String,
+      indexName: (json['IndexName'] as String?) ?? '',
       indexStatus:
           PartitionIndexStatus.fromString((json['IndexStatus'] as String)),
-      keys: (json['Keys'] as List)
+      keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -32062,8 +32115,10 @@ class PartitionValueList {
 
   factory PartitionValueList.fromJson(Map<String, dynamic> json) {
     return PartitionValueList(
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -32189,9 +32244,9 @@ class PostgreSQLCatalogSource {
 
   factory PostgreSQLCatalogSource.fromJson(Map<String, dynamic> json) {
     return PostgreSQLCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -32230,11 +32285,13 @@ class PostgreSQLCatalogTarget {
 
   factory PostgreSQLCatalogTarget.fromJson(Map<String, dynamic> json) {
     return PostgreSQLCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -32694,9 +32751,11 @@ class Recipe {
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       recipeReference: json['RecipeReference'] != null
           ? RecipeReference.fromJson(
               json['RecipeReference'] as Map<String, dynamic>)
@@ -32737,7 +32796,7 @@ class RecipeAction {
 
   factory RecipeAction.fromJson(Map<String, dynamic> json) {
     return RecipeAction(
-      operation: json['Operation'] as String,
+      operation: (json['Operation'] as String?) ?? '',
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -32768,8 +32827,8 @@ class RecipeReference {
 
   factory RecipeReference.fromJson(Map<String, dynamic> json) {
     return RecipeReference(
-      recipeArn: json['RecipeArn'] as String,
-      recipeVersion: json['RecipeVersion'] as String,
+      recipeArn: (json['RecipeArn'] as String?) ?? '',
+      recipeVersion: (json['RecipeVersion'] as String?) ?? '',
     );
   }
 
@@ -32798,7 +32857,8 @@ class RecipeStep {
 
   factory RecipeStep.fromJson(Map<String, dynamic> json) {
     return RecipeStep(
-      action: RecipeAction.fromJson(json['Action'] as Map<String, dynamic>),
+      action: RecipeAction.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       conditionExpressions: (json['ConditionExpressions'] as List?)
           ?.nonNulls
           .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
@@ -32899,9 +32959,9 @@ class RedshiftSource {
 
   factory RedshiftSource.fromJson(Map<String, dynamic> json) {
     return RedshiftSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       redshiftTmpDir: json['RedshiftTmpDir'] as String?,
       tmpDirIAMRole: json['TmpDirIAMRole'] as String?,
     );
@@ -32960,11 +33020,13 @@ class RedshiftTarget {
 
   factory RedshiftTarget.fromJson(Map<String, dynamic> json) {
     return RedshiftTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       redshiftTmpDir: json['RedshiftTmpDir'] as String?,
       tmpDirIAMRole: json['TmpDirIAMRole'] as String?,
       upsertRedshiftOptions: json['UpsertRedshiftOptions'] != null
@@ -33150,9 +33212,9 @@ class RelationalCatalogSource {
 
   factory RelationalCatalogSource.fromJson(Map<String, dynamic> json) {
     return RelationalCatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
     );
   }
 
@@ -33263,14 +33325,16 @@ class RenameField {
 
   factory RenameField.fromJson(Map<String, dynamic> json) {
     return RenameField(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      sourcePath: (json['SourcePath'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      targetPath: (json['TargetPath'] as List)
+      name: (json['Name'] as String?) ?? '',
+      sourcePath: ((json['SourcePath'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      targetPath: ((json['TargetPath'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -33569,9 +33633,9 @@ class S3CatalogDeltaSource {
 
   factory S3CatalogDeltaSource.fromJson(Map<String, dynamic> json) {
     return S3CatalogDeltaSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalDeltaOptions:
           (json['AdditionalDeltaOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -33627,9 +33691,9 @@ class S3CatalogHudiSource {
 
   factory S3CatalogHudiSource.fromJson(Map<String, dynamic> json) {
     return S3CatalogHudiSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalHudiOptions:
           (json['AdditionalHudiOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -33686,9 +33750,9 @@ class S3CatalogSource {
 
   factory S3CatalogSource.fromJson(Map<String, dynamic> json) {
     return S3CatalogSource(
-      database: json['Database'] as String,
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalOptions: json['AdditionalOptions'] != null
           ? S3SourceAdditionalOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -33745,11 +33809,13 @@ class S3CatalogTarget {
 
   factory S3CatalogTarget.fromJson(Map<String, dynamic> json) {
     return S3CatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -33893,8 +33959,11 @@ class S3CsvSource {
 
   factory S3CsvSource.fromJson(Map<String, dynamic> json) {
     return S3CsvSource(
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       quoteChar: QuoteChar.fromString((json['QuoteChar'] as String)),
       separator: Separator.fromString((json['Separator'] as String)),
       additionalOptions: json['AdditionalOptions'] != null
@@ -34006,11 +34075,13 @@ class S3DeltaCatalogTarget {
 
   factory S3DeltaCatalogTarget.fromJson(Map<String, dynamic> json) {
     return S3DeltaCatalogTarget(
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitionKeys: (json['PartitionKeys'] as List?)
@@ -34088,10 +34159,12 @@ class S3DeltaDirectTarget {
       compression: DeltaTargetCompressionType.fromString(
           (json['Compression'] as String)),
       format: TargetFormat.fromString((json['Format'] as String)),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitionKeys: (json['PartitionKeys'] as List?)
@@ -34154,8 +34227,11 @@ class S3DeltaSource {
 
   factory S3DeltaSource.fromJson(Map<String, dynamic> json) {
     return S3DeltaSource(
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       additionalDeltaOptions:
           (json['AdditionalDeltaOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -34270,10 +34346,12 @@ class S3DirectTarget {
   factory S3DirectTarget.fromJson(Map<String, dynamic> json) {
     return S3DirectTarget(
       format: TargetFormat.fromString((json['Format'] as String)),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
       compression: json['Compression'] as String?,
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
@@ -34389,10 +34467,12 @@ class S3GlueParquetTarget {
 
   factory S3GlueParquetTarget.fromJson(Map<String, dynamic> json) {
     return S3GlueParquetTarget(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
       compression: (json['Compression'] as String?)
           ?.let(ParquetCompressionType.fromString),
       partitionKeys: (json['PartitionKeys'] as List?)
@@ -34460,13 +34540,17 @@ class S3HudiCatalogTarget {
 
   factory S3HudiCatalogTarget.fromJson(Map<String, dynamic> json) {
     return S3HudiCatalogTarget(
-      additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
-      database: json['Database'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      table: json['Table'] as String,
+      additionalOptions:
+          ((json['AdditionalOptions'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      database: (json['Database'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      table: (json['Table'] as String?) ?? '',
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -34539,15 +34623,19 @@ class S3HudiDirectTarget {
 
   factory S3HudiDirectTarget.fromJson(Map<String, dynamic> json) {
     return S3HudiDirectTarget(
-      additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      additionalOptions:
+          ((json['AdditionalOptions'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
       compression:
           HudiTargetCompressionType.fromString((json['Compression'] as String)),
       format: TargetFormat.fromString((json['Format'] as String)),
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
       partitionKeys: (json['PartitionKeys'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
@@ -34608,8 +34696,11 @@ class S3HudiSource {
 
   factory S3HudiSource.fromJson(Map<String, dynamic> json) {
     return S3HudiSource(
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       additionalHudiOptions:
           (json['AdditionalHudiOptions'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -34720,8 +34811,11 @@ class S3JsonSource {
 
   factory S3JsonSource.fromJson(Map<String, dynamic> json) {
     return S3JsonSource(
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       additionalOptions: json['AdditionalOptions'] != null
           ? S3DirectSourceAdditionalOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -34845,8 +34939,11 @@ class S3ParquetSource {
 
   factory S3ParquetSource.fromJson(Map<String, dynamic> json) {
     return S3ParquetSource(
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       additionalOptions: json['AdditionalOptions'] != null
           ? S3DirectSourceAdditionalOptions.fromJson(
               json['AdditionalOptions'] as Map<String, dynamic>)
@@ -35533,10 +35630,12 @@ class SelectFields {
 
   factory SelectFields.fromJson(Map<String, dynamic> json) {
     return SelectFields(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
@@ -35576,10 +35675,12 @@ class SelectFromCollection {
 
   factory SelectFromCollection.fromJson(Map<String, dynamic> json) {
     return SelectFromCollection(
-      index: json['Index'] as int,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      index: (json['Index'] as int?) ?? 0,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -36139,8 +36240,9 @@ class SnowflakeSource {
 
   factory SnowflakeSource.fromJson(Map<String, dynamic> json) {
     return SnowflakeSource(
-      data: SnowflakeNodeData.fromJson(json['Data'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      data: SnowflakeNodeData.fromJson(
+          (json['Data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
           .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
@@ -36179,8 +36281,9 @@ class SnowflakeTarget {
 
   factory SnowflakeTarget.fromJson(Map<String, dynamic> json) {
     return SnowflakeTarget(
-      data: SnowflakeNodeData.fromJson(json['Data'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      data: SnowflakeNodeData.fromJson(
+          (json['Data'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       inputs:
           (json['Inputs'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -36391,10 +36494,10 @@ class SparkConnectorSource {
 
   factory SparkConnectorSource.fromJson(Map<String, dynamic> json) {
     return SparkConnectorSource(
-      connectionName: json['ConnectionName'] as String,
-      connectionType: json['ConnectionType'] as String,
-      connectorName: json['ConnectorName'] as String,
-      name: json['Name'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      connectorName: (json['ConnectorName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       outputSchemas: (json['OutputSchemas'] as List?)
@@ -36458,12 +36561,14 @@ class SparkConnectorTarget {
 
   factory SparkConnectorTarget.fromJson(Map<String, dynamic> json) {
     return SparkConnectorTarget(
-      connectionName: json['ConnectionName'] as String,
-      connectionType: json['ConnectionType'] as String,
-      connectorName: json['ConnectorName'] as String,
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      connectionName: (json['ConnectionName'] as String?) ?? '',
+      connectionType: (json['ConnectionType'] as String?) ?? '',
+      connectorName: (json['ConnectorName'] as String?) ?? '',
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       outputSchemas: (json['OutputSchemas'] as List?)
@@ -36530,14 +36635,16 @@ class SparkSQL {
 
   factory SparkSQL.fromJson(Map<String, dynamic> json) {
     return SparkSQL(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      sqlAliases: (json['SqlAliases'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      sqlAliases: ((json['SqlAliases'] as List?) ?? const [])
           .nonNulls
           .map((e) => SqlAlias.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sqlQuery: json['SqlQuery'] as String,
+      sqlQuery: (json['SqlQuery'] as String?) ?? '',
       outputSchemas: (json['OutputSchemas'] as List?)
           ?.nonNulls
           .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
@@ -36593,10 +36700,12 @@ class Spigot {
 
   factory Spigot.fromJson(Map<String, dynamic> json) {
     return Spigot(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      path: json['Path'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      path: (json['Path'] as String?) ?? '',
       prob: json['Prob'] as double?,
       topk: json['Topk'] as int?,
     );
@@ -36640,10 +36749,12 @@ class SplitFields {
 
   factory SplitFields.fromJson(Map<String, dynamic> json) {
     return SplitFields(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
-      paths: (json['Paths'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      paths: ((json['Paths'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
           .toList(),
@@ -36677,8 +36788,8 @@ class SqlAlias {
 
   factory SqlAlias.fromJson(Map<String, dynamic> json) {
     return SqlAlias(
-      alias: json['Alias'] as String,
-      from: json['From'] as String,
+      alias: (json['Alias'] as String?) ?? '',
+      from: (json['From'] as String?) ?? '',
     );
   }
 
@@ -37750,10 +37861,10 @@ class StringColumnStatisticsData {
 
   factory StringColumnStatisticsData.fromJson(Map<String, dynamic> json) {
     return StringColumnStatisticsData(
-      averageLength: json['AverageLength'] as double,
-      maximumLength: json['MaximumLength'] as int,
-      numberOfDistinctValues: json['NumberOfDistinctValues'] as int,
-      numberOfNulls: json['NumberOfNulls'] as int,
+      averageLength: (json['AverageLength'] as double?) ?? 0,
+      maximumLength: (json['MaximumLength'] as int?) ?? 0,
+      numberOfDistinctValues: (json['NumberOfDistinctValues'] as int?) ?? 0,
+      numberOfNulls: (json['NumberOfNulls'] as int?) ?? 0,
     );
   }
 
@@ -37923,7 +38034,7 @@ class Table {
 
   factory Table.fromJson(Map<String, dynamic> json) {
     return Table(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       createTime: timeStampFromJson(json['CreateTime']),
       createdBy: json['CreatedBy'] as String?,
@@ -38975,7 +39086,7 @@ class TransformConfigParameter {
 
   factory TransformConfigParameter.fromJson(Map<String, dynamic> json) {
     return TransformConfigParameter(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: ParamType.fromString((json['Type'] as String)),
       isOptional: json['IsOptional'] as bool?,
       listType: (json['ListType'] as String?)?.let(ParamType.fromString),
@@ -39530,9 +39641,11 @@ class Union {
 
   factory Union.fromJson(Map<String, dynamic> json) {
     return Union(
-      inputs:
-          (json['Inputs'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['Name'] as String,
+      inputs: ((json['Inputs'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
       unionType: UnionType.fromString((json['UnionType'] as String)),
     );
   }
@@ -41142,8 +41255,8 @@ class XMLClassifier {
 
   factory XMLClassifier.fromJson(Map<String, dynamic> json) {
     return XMLClassifier(
-      classification: json['Classification'] as String,
-      name: json['Name'] as String,
+      classification: (json['Classification'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       lastUpdated: timeStampFromJson(json['LastUpdated']),
       rowTag: json['RowTag'] as String?,

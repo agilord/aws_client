@@ -1251,7 +1251,7 @@ class BaseScreenshot {
 
   factory BaseScreenshot.fromJson(Map<String, dynamic> json) {
     return BaseScreenshot(
-      screenshotName: json['ScreenshotName'] as String,
+      screenshotName: (json['ScreenshotName'] as String?) ?? '',
       ignoreCoordinates: (json['IgnoreCoordinates'] as List?)
           ?.nonNulls
           .map((e) => e as String)

@@ -1219,8 +1219,8 @@ class CreateGroupMembershipResponse {
 
   factory CreateGroupMembershipResponse.fromJson(Map<String, dynamic> json) {
     return CreateGroupMembershipResponse(
-      identityStoreId: json['IdentityStoreId'] as String,
-      membershipId: json['MembershipId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      membershipId: (json['MembershipId'] as String?) ?? '',
     );
   }
 
@@ -1248,8 +1248,8 @@ class CreateGroupResponse {
 
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateGroupResponse(
-      groupId: json['GroupId'] as String,
-      identityStoreId: json['IdentityStoreId'] as String,
+      groupId: (json['GroupId'] as String?) ?? '',
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
     );
   }
 
@@ -1277,8 +1277,8 @@ class CreateUserResponse {
 
   factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
     return CreateUserResponse(
-      identityStoreId: json['IdentityStoreId'] as String,
-      userId: json['UserId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
     );
   }
 
@@ -1348,10 +1348,11 @@ class DescribeGroupMembershipResponse {
 
   factory DescribeGroupMembershipResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGroupMembershipResponse(
-      groupId: json['GroupId'] as String,
-      identityStoreId: json['IdentityStoreId'] as String,
-      memberId: MemberId.fromJson(json['MemberId'] as Map<String, dynamic>),
-      membershipId: json['MembershipId'] as String,
+      groupId: (json['GroupId'] as String?) ?? '',
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      memberId: MemberId.fromJson((json['MemberId'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      membershipId: (json['MembershipId'] as String?) ?? '',
     );
   }
 
@@ -1401,8 +1402,8 @@ class DescribeGroupResponse {
 
   factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) {
     return DescribeGroupResponse(
-      groupId: json['GroupId'] as String,
-      identityStoreId: json['IdentityStoreId'] as String,
+      groupId: (json['GroupId'] as String?) ?? '',
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       externalIds: (json['ExternalIds'] as List?)
@@ -1502,8 +1503,8 @@ class DescribeUserResponse {
 
   factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
     return DescribeUserResponse(
-      identityStoreId: json['IdentityStoreId'] as String,
-      userId: json['UserId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
       addresses: (json['Addresses'] as List?)
           ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))
@@ -1626,8 +1627,8 @@ class ExternalId {
 
   factory ExternalId.fromJson(Map<String, dynamic> json) {
     return ExternalId(
-      id: json['Id'] as String,
-      issuer: json['Issuer'] as String,
+      id: (json['Id'] as String?) ?? '',
+      issuer: (json['Issuer'] as String?) ?? '',
     );
   }
 
@@ -1685,8 +1686,8 @@ class GetGroupIdResponse {
 
   factory GetGroupIdResponse.fromJson(Map<String, dynamic> json) {
     return GetGroupIdResponse(
-      groupId: json['GroupId'] as String,
-      identityStoreId: json['IdentityStoreId'] as String,
+      groupId: (json['GroupId'] as String?) ?? '',
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
     );
   }
 
@@ -1714,8 +1715,8 @@ class GetGroupMembershipIdResponse {
 
   factory GetGroupMembershipIdResponse.fromJson(Map<String, dynamic> json) {
     return GetGroupMembershipIdResponse(
-      identityStoreId: json['IdentityStoreId'] as String,
-      membershipId: json['MembershipId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      membershipId: (json['MembershipId'] as String?) ?? '',
     );
   }
 
@@ -1743,8 +1744,8 @@ class GetUserIdResponse {
 
   factory GetUserIdResponse.fromJson(Map<String, dynamic> json) {
     return GetUserIdResponse(
-      identityStoreId: json['IdentityStoreId'] as String,
-      userId: json['UserId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
     );
   }
 
@@ -1791,8 +1792,8 @@ class Group {
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
-      groupId: json['GroupId'] as String,
-      identityStoreId: json['IdentityStoreId'] as String,
+      groupId: (json['GroupId'] as String?) ?? '',
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
       description: json['Description'] as String?,
       displayName: json['DisplayName'] as String?,
       externalIds: (json['ExternalIds'] as List?)
@@ -1845,7 +1846,7 @@ class GroupMembership {
 
   factory GroupMembership.fromJson(Map<String, dynamic> json) {
     return GroupMembership(
-      identityStoreId: json['IdentityStoreId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
       groupId: json['GroupId'] as String?,
       memberId: json['MemberId'] != null
           ? MemberId.fromJson(json['MemberId'] as Map<String, dynamic>)
@@ -1919,7 +1920,7 @@ class IsMemberInGroupsResponse {
 
   factory IsMemberInGroupsResponse.fromJson(Map<String, dynamic> json) {
     return IsMemberInGroupsResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) => GroupMembershipExistenceResult.fromJson(
               e as Map<String, dynamic>))
@@ -1956,7 +1957,7 @@ class ListGroupMembershipsForMemberResponse {
   factory ListGroupMembershipsForMemberResponse.fromJson(
       Map<String, dynamic> json) {
     return ListGroupMembershipsForMemberResponse(
-      groupMemberships: (json['GroupMemberships'] as List)
+      groupMemberships: ((json['GroupMemberships'] as List?) ?? const [])
           .nonNulls
           .map((e) => GroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1993,7 +1994,7 @@ class ListGroupMembershipsResponse {
 
   factory ListGroupMembershipsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupMembershipsResponse(
-      groupMemberships: (json['GroupMemberships'] as List)
+      groupMemberships: ((json['GroupMemberships'] as List?) ?? const [])
           .nonNulls
           .map((e) => GroupMembership.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2029,7 +2030,7 @@ class ListGroupsResponse {
 
   factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListGroupsResponse(
-      groups: (json['Groups'] as List)
+      groups: ((json['Groups'] as List?) ?? const [])
           .nonNulls
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2065,7 +2066,7 @@ class ListUsersResponse {
 
   factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
     return ListUsersResponse(
-      users: (json['Users'] as List)
+      users: ((json['Users'] as List?) ?? const [])
           .nonNulls
           .map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2335,8 +2336,8 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      identityStoreId: json['IdentityStoreId'] as String,
-      userId: json['UserId'] as String,
+      identityStoreId: (json['IdentityStoreId'] as String?) ?? '',
+      userId: (json['UserId'] as String?) ?? '',
       addresses: (json['Addresses'] as List?)
           ?.nonNulls
           .map((e) => Address.fromJson(e as Map<String, dynamic>))

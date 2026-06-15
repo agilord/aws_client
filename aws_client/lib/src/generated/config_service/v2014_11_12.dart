@@ -5133,7 +5133,7 @@ class AccountAggregationSource {
 
   factory AccountAggregationSource.fromJson(Map<String, dynamic> json) {
     return AccountAggregationSource(
-      accountIds: (json['AccountIds'] as List)
+      accountIds: ((json['AccountIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -5619,10 +5619,10 @@ class AggregateResourceIdentifier {
 
   factory AggregateResourceIdentifier.fromJson(Map<String, dynamic> json) {
     return AggregateResourceIdentifier(
-      resourceId: json['ResourceId'] as String,
+      resourceId: (json['ResourceId'] as String?) ?? '',
       resourceType: ResourceType.fromString((json['ResourceType'] as String)),
-      sourceAccountId: json['SourceAccountId'] as String,
-      sourceRegion: json['SourceRegion'] as String,
+      sourceAccountId: (json['SourceAccountId'] as String?) ?? '',
+      sourceRegion: (json['SourceRegion'] as String?) ?? '',
       resourceName: json['ResourceName'] as String?,
     );
   }
@@ -6539,7 +6539,8 @@ class ConfigRule {
 
   factory ConfigRule.fromJson(Map<String, dynamic> json) {
     return ConfigRule(
-      source: Source.fromJson(json['Source'] as Map<String, dynamic>),
+      source: Source.fromJson((json['Source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       configRuleArn: json['ConfigRuleArn'] as String?,
       configRuleId: json['ConfigRuleId'] as String?,
       configRuleName: json['ConfigRuleName'] as String?,
@@ -7620,7 +7621,7 @@ class ConformancePackComplianceSummary {
     return ConformancePackComplianceSummary(
       conformancePackComplianceStatus: ConformancePackComplianceType.fromString(
           (json['ConformancePackComplianceStatus'] as String)),
-      conformancePackName: json['ConformancePackName'] as String,
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
     );
   }
 
@@ -7705,9 +7706,9 @@ class ConformancePackDetail {
 
   factory ConformancePackDetail.fromJson(Map<String, dynamic> json) {
     return ConformancePackDetail(
-      conformancePackArn: json['ConformancePackArn'] as String,
-      conformancePackId: json['ConformancePackId'] as String,
-      conformancePackName: json['ConformancePackName'] as String,
+      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
+      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       conformancePackInputParameters: (json['ConformancePackInputParameters']
               as List?)
           ?.nonNulls
@@ -7830,11 +7831,12 @@ class ConformancePackEvaluationResult {
       complianceType: ConformancePackComplianceType.fromString(
           (json['ComplianceType'] as String)),
       configRuleInvokedTime:
-          nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] as Object),
+          nonNullableTimeStampFromJson(json['ConfigRuleInvokedTime'] ?? 0),
       evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
-          json['EvaluationResultIdentifier'] as Map<String, dynamic>),
+          (json['EvaluationResultIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       resultRecordedTime:
-          nonNullableTimeStampFromJson(json['ResultRecordedTime'] as Object),
+          nonNullableTimeStampFromJson(json['ResultRecordedTime'] ?? 0),
       annotation: json['Annotation'] as String?,
     );
   }
@@ -7872,8 +7874,8 @@ class ConformancePackInputParameter {
 
   factory ConformancePackInputParameter.fromJson(Map<String, dynamic> json) {
     return ConformancePackInputParameter(
-      parameterName: json['ParameterName'] as String,
-      parameterValue: json['ParameterValue'] as String,
+      parameterName: (json['ParameterName'] as String?) ?? '',
+      parameterValue: (json['ParameterValue'] as String?) ?? '',
     );
   }
 
@@ -8011,14 +8013,14 @@ class ConformancePackStatusDetail {
 
   factory ConformancePackStatusDetail.fromJson(Map<String, dynamic> json) {
     return ConformancePackStatusDetail(
-      conformancePackArn: json['ConformancePackArn'] as String,
-      conformancePackId: json['ConformancePackId'] as String,
-      conformancePackName: json['ConformancePackName'] as String,
+      conformancePackArn: (json['ConformancePackArn'] as String?) ?? '',
+      conformancePackId: (json['ConformancePackId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       conformancePackState: ConformancePackState.fromString(
           (json['ConformancePackState'] as String)),
-      lastUpdateRequestedTime: nonNullableTimeStampFromJson(
-          json['LastUpdateRequestedTime'] as Object),
-      stackArn: json['StackArn'] as String,
+      lastUpdateRequestedTime:
+          nonNullableTimeStampFromJson(json['LastUpdateRequestedTime'] ?? 0),
+      stackArn: (json['StackArn'] as String?) ?? '',
       conformancePackStatusReason:
           json['ConformancePackStatusReason'] as String?,
       lastUpdateCompletedTime:
@@ -8077,8 +8079,8 @@ class CustomPolicyDetails {
 
   factory CustomPolicyDetails.fromJson(Map<String, dynamic> json) {
     return CustomPolicyDetails(
-      policyRuntime: json['PolicyRuntime'] as String,
-      policyText: json['PolicyText'] as String,
+      policyRuntime: (json['PolicyRuntime'] as String?) ?? '',
+      policyText: (json['PolicyText'] as String?) ?? '',
       enableDebugLogDelivery: json['EnableDebugLogDelivery'] as bool?,
     );
   }
@@ -8783,9 +8785,9 @@ class DescribeConformancePackComplianceResponse {
   factory DescribeConformancePackComplianceResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeConformancePackComplianceResponse(
-      conformancePackName: json['ConformancePackName'] as String,
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       conformancePackRuleComplianceList:
-          (json['ConformancePackRuleComplianceList'] as List)
+          ((json['ConformancePackRuleComplianceList'] as List?) ?? const [])
               .nonNulls
               .map((e) => ConformancePackRuleCompliance.fromJson(
                   e as Map<String, dynamic>))
@@ -9298,12 +9300,12 @@ class Evaluation {
 
   factory Evaluation.fromJson(Map<String, dynamic> json) {
     return Evaluation(
-      complianceResourceId: json['ComplianceResourceId'] as String,
-      complianceResourceType: json['ComplianceResourceType'] as String,
+      complianceResourceId: (json['ComplianceResourceId'] as String?) ?? '',
+      complianceResourceType: (json['ComplianceResourceType'] as String?) ?? '',
       complianceType:
           ComplianceType.fromString((json['ComplianceType'] as String)),
       orderingTimestamp:
-          nonNullableTimeStampFromJson(json['OrderingTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['OrderingTimestamp'] ?? 0),
       annotation: json['Annotation'] as String?,
     );
   }
@@ -10038,7 +10040,7 @@ class GetAggregateDiscoveredResourceCountsResponse {
   factory GetAggregateDiscoveredResourceCountsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetAggregateDiscoveredResourceCountsResponse(
-      totalDiscoveredResources: json['TotalDiscoveredResources'] as int,
+      totalDiscoveredResources: (json['TotalDiscoveredResources'] as int?) ?? 0,
       groupByKey: json['GroupByKey'] as String?,
       groupedResourceCounts: (json['GroupedResourceCounts'] as List?)
           ?.nonNulls
@@ -10245,7 +10247,7 @@ class GetConformancePackComplianceDetailsResponse {
   factory GetConformancePackComplianceDetailsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetConformancePackComplianceDetailsResponse(
-      conformancePackName: json['ConformancePackName'] as String,
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       conformancePackRuleEvaluationResults:
           (json['ConformancePackRuleEvaluationResults'] as List?)
               ?.nonNulls
@@ -10654,8 +10656,8 @@ class GroupedResourceCount {
 
   factory GroupedResourceCount.fromJson(Map<String, dynamic> json) {
     return GroupedResourceCount(
-      groupName: json['GroupName'] as String,
-      resourceCount: json['ResourceCount'] as int,
+      groupName: (json['GroupName'] as String?) ?? '',
+      resourceCount: (json['ResourceCount'] as int?) ?? 0,
     );
   }
 
@@ -10722,7 +10724,7 @@ class ListConformancePackComplianceScoresResponse {
       Map<String, dynamic> json) {
     return ListConformancePackComplianceScoresResponse(
       conformancePackComplianceScores:
-          (json['ConformancePackComplianceScores'] as List)
+          ((json['ConformancePackComplianceScores'] as List?) ?? const [])
               .nonNulls
               .map((e) => ConformancePackComplianceScore.fromJson(
                   e as Map<String, dynamic>))
@@ -11006,8 +11008,8 @@ class MemberAccountStatus {
 
   factory MemberAccountStatus.fromJson(Map<String, dynamic> json) {
     return MemberAccountStatus(
-      accountId: json['AccountId'] as String,
-      configRuleName: json['ConfigRuleName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
       memberAccountRuleStatus: MemberAccountRuleStatus.fromString(
           (json['MemberAccountRuleStatus'] as String)),
       errorCode: json['ErrorCode'] as String?,
@@ -11074,7 +11076,7 @@ class OrganizationAggregationSource {
 
   factory OrganizationAggregationSource.fromJson(Map<String, dynamic> json) {
     return OrganizationAggregationSource(
-      roleArn: json['RoleArn'] as String,
+      roleArn: (json['RoleArn'] as String?) ?? '',
       allAwsRegions: json['AllAwsRegions'] as bool?,
       awsRegions: (json['AwsRegions'] as List?)
           ?.nonNulls
@@ -11137,8 +11139,10 @@ class OrganizationConfigRule {
 
   factory OrganizationConfigRule.fromJson(Map<String, dynamic> json) {
     return OrganizationConfigRule(
-      organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String,
-      organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
+      organizationConfigRuleArn:
+          (json['OrganizationConfigRuleArn'] as String?) ?? '',
+      organizationConfigRuleName:
+          (json['OrganizationConfigRuleName'] as String?) ?? '',
       excludedAccounts: (json['ExcludedAccounts'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11269,7 +11273,8 @@ class OrganizationConfigRuleStatus {
 
   factory OrganizationConfigRuleStatus.fromJson(Map<String, dynamic> json) {
     return OrganizationConfigRuleStatus(
-      organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
+      organizationConfigRuleName:
+          (json['OrganizationConfigRuleName'] as String?) ?? '',
       organizationRuleStatus: OrganizationRuleStatus.fromString(
           (json['OrganizationRuleStatus'] as String)),
       errorCode: json['ErrorCode'] as String?,
@@ -11372,12 +11377,11 @@ class OrganizationConformancePack {
 
   factory OrganizationConformancePack.fromJson(Map<String, dynamic> json) {
     return OrganizationConformancePack(
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['LastUpdateTime'] as Object),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
       organizationConformancePackArn:
-          json['OrganizationConformancePackArn'] as String,
+          (json['OrganizationConformancePackArn'] as String?) ?? '',
       organizationConformancePackName:
-          json['OrganizationConformancePackName'] as String,
+          (json['OrganizationConformancePackName'] as String?) ?? '',
       conformancePackInputParameters: (json['ConformancePackInputParameters']
               as List?)
           ?.nonNulls
@@ -11502,8 +11506,8 @@ class OrganizationConformancePackDetailedStatus {
   factory OrganizationConformancePackDetailedStatus.fromJson(
       Map<String, dynamic> json) {
     return OrganizationConformancePackDetailedStatus(
-      accountId: json['AccountId'] as String,
-      conformancePackName: json['ConformancePackName'] as String,
+      accountId: (json['AccountId'] as String?) ?? '',
+      conformancePackName: (json['ConformancePackName'] as String?) ?? '',
       status: OrganizationResourceDetailedStatus.fromString(
           (json['Status'] as String)),
       errorCode: json['ErrorCode'] as String?,
@@ -11612,7 +11616,7 @@ class OrganizationConformancePackStatus {
       Map<String, dynamic> json) {
     return OrganizationConformancePackStatus(
       organizationConformancePackName:
-          json['OrganizationConformancePackName'] as String,
+          (json['OrganizationConformancePackName'] as String?) ?? '',
       status: OrganizationResourceStatus.fromString((json['Status'] as String)),
       errorCode: json['ErrorCode'] as String?,
       errorMessage: json['ErrorMessage'] as String?,
@@ -11971,9 +11975,9 @@ class OrganizationCustomRuleMetadata {
 
   factory OrganizationCustomRuleMetadata.fromJson(Map<String, dynamic> json) {
     return OrganizationCustomRuleMetadata(
-      lambdaFunctionArn: json['LambdaFunctionArn'] as String,
+      lambdaFunctionArn: (json['LambdaFunctionArn'] as String?) ?? '',
       organizationConfigRuleTriggerTypes:
-          (json['OrganizationConfigRuleTriggerTypes'] as List)
+          ((json['OrganizationConfigRuleTriggerTypes'] as List?) ?? const [])
               .nonNulls
               .map((e) =>
                   OrganizationConfigRuleTriggerType.fromString((e as String)))
@@ -12074,7 +12078,7 @@ class OrganizationManagedRuleMetadata {
 
   factory OrganizationManagedRuleMetadata.fromJson(Map<String, dynamic> json) {
     return OrganizationManagedRuleMetadata(
-      ruleIdentifier: json['RuleIdentifier'] as String,
+      ruleIdentifier: (json['RuleIdentifier'] as String?) ?? '',
       description: json['Description'] as String?,
       inputParameters: json['InputParameters'] as String?,
       maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
@@ -13113,7 +13117,7 @@ class RecordingModeOverride {
     return RecordingModeOverride(
       recordingFrequency:
           RecordingFrequency.fromString((json['recordingFrequency'] as String)),
-      resourceTypes: (json['resourceTypes'] as List)
+      resourceTypes: ((json['resourceTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceType.fromString((e as String)))
           .toList(),
@@ -13394,8 +13398,8 @@ class RemediationConfiguration {
 
   factory RemediationConfiguration.fromJson(Map<String, dynamic> json) {
     return RemediationConfiguration(
-      configRuleName: json['ConfigRuleName'] as String,
-      targetId: json['TargetId'] as String,
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
+      targetId: (json['TargetId'] as String?) ?? '',
       targetType:
           RemediationTargetType.fromString((json['TargetType'] as String)),
       arn: json['Arn'] as String?,
@@ -13476,9 +13480,9 @@ class RemediationException {
 
   factory RemediationException.fromJson(Map<String, dynamic> json) {
     return RemediationException(
-      configRuleName: json['ConfigRuleName'] as String,
-      resourceId: json['ResourceId'] as String,
-      resourceType: json['ResourceType'] as String,
+      configRuleName: (json['ConfigRuleName'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
       expirationTime: timeStampFromJson(json['ExpirationTime']),
       message: json['Message'] as String?,
     );
@@ -13855,9 +13859,9 @@ class ResourceDetails {
 
   factory ResourceDetails.fromJson(Map<String, dynamic> json) {
     return ResourceDetails(
-      resourceConfiguration: json['ResourceConfiguration'] as String,
-      resourceId: json['ResourceId'] as String,
-      resourceType: json['ResourceType'] as String,
+      resourceConfiguration: (json['ResourceConfiguration'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
       resourceConfigurationSchemaType:
           (json['ResourceConfigurationSchemaType'] as String?)
               ?.let(ResourceConfigurationSchemaType.fromString),
@@ -14073,7 +14077,7 @@ class ResourceKey {
 
   factory ResourceKey.fromJson(Map<String, dynamic> json) {
     return ResourceKey(
-      resourceId: json['resourceId'] as String,
+      resourceId: (json['resourceId'] as String?) ?? '',
       resourceType: ResourceType.fromString((json['resourceType'] as String)),
     );
   }
@@ -14597,8 +14601,8 @@ class RetentionConfiguration {
 
   factory RetentionConfiguration.fromJson(Map<String, dynamic> json) {
     return RetentionConfiguration(
-      name: json['Name'] as String,
-      retentionPeriodInDays: json['RetentionPeriodInDays'] as int,
+      name: (json['Name'] as String?) ?? '',
+      retentionPeriodInDays: (json['RetentionPeriodInDays'] as int?) ?? 0,
     );
   }
 
@@ -15072,8 +15076,10 @@ class StaticValue {
 
   factory StaticValue.fromJson(Map<String, dynamic> json) {
     return StaticValue(
-      values:
-          (json['Values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -15191,7 +15197,7 @@ class StoredQuery {
 
   factory StoredQuery.fromJson(Map<String, dynamic> json) {
     return StoredQuery(
-      queryName: json['QueryName'] as String,
+      queryName: (json['QueryName'] as String?) ?? '',
       description: json['Description'] as String?,
       expression: json['Expression'] as String?,
       queryArn: json['QueryArn'] as String?,
@@ -15239,9 +15245,9 @@ class StoredQueryMetadata {
 
   factory StoredQueryMetadata.fromJson(Map<String, dynamic> json) {
     return StoredQueryMetadata(
-      queryArn: json['QueryArn'] as String,
-      queryId: json['QueryId'] as String,
-      queryName: json['QueryName'] as String,
+      queryArn: (json['QueryArn'] as String?) ?? '',
+      queryId: (json['QueryId'] as String?) ?? '',
+      queryName: (json['QueryName'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -15325,7 +15331,7 @@ class TemplateSSMDocumentDetails {
 
   factory TemplateSSMDocumentDetails.fromJson(Map<String, dynamic> json) {
     return TemplateSSMDocumentDetails(
-      documentName: json['DocumentName'] as String,
+      documentName: (json['DocumentName'] as String?) ?? '',
       documentVersion: json['DocumentVersion'] as String?,
     );
   }
