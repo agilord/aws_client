@@ -73,7 +73,8 @@ void main() {
     client.close();
   });
 
-  test('query error: SNS getTopicAttributes on missing topic throws typed '
+  test(
+      'query error: SNS getTopicAttributes on missing topic throws typed '
       'exception', () async {
     final client = localClient(sns.Sns.new);
     await expectLater(
@@ -95,7 +96,8 @@ void main() {
     client.close();
   });
 
-  test('json error: SecretsManager getSecretValue on missing secret throws '
+  test(
+      'json error: SecretsManager getSecretValue on missing secret throws '
       'typed exception', () async {
     final client = localClient(secrets.SecretsManager.new);
     await expectLater(
@@ -105,7 +107,8 @@ void main() {
     client.close();
   });
 
-  test('json error: SSM getParameter on missing parameter throws typed '
+  test(
+      'json error: SSM getParameter on missing parameter throws typed '
       'exception', () async {
     final client = localClient(ssm.Ssm.new);
     await expectLater(
@@ -115,7 +118,8 @@ void main() {
     client.close();
   });
 
-  test('json error: CloudWatchLogs getLogEvents on missing group throws typed '
+  test(
+      'json error: CloudWatchLogs getLogEvents on missing group throws typed '
       'exception', () async {
     final client = localClient(logs.CloudWatchLogs.new);
     await expectLater(
@@ -125,7 +129,8 @@ void main() {
     client.close();
   });
 
-  test('json error: Kinesis describeStream on missing stream throws typed '
+  test(
+      'json error: Kinesis describeStream on missing stream throws typed '
       'exception', () async {
     final client = localClient(kinesis.Kinesis.new);
     await expectLater(
@@ -135,7 +140,8 @@ void main() {
     client.close();
   });
 
-  test('json error: StepFunctions describeExecution on missing execution '
+  test(
+      'json error: StepFunctions describeExecution on missing execution '
       'throws typed exception', () async {
     final client = localClient(sfn.Sfn.new);
     await expectLater(

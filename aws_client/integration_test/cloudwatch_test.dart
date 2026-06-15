@@ -46,8 +46,7 @@ void main() {
       alarmDescription: 'smoke-test alarm',
     );
 
-    final described =
-        await cloudWatch.describeAlarms(alarmNames: [alarmName]);
+    final described = await cloudWatch.describeAlarms(alarmNames: [alarmName]);
     final alarm = described.metricAlarms!.single;
     expect(alarm.alarmName, equals(alarmName));
     expect(alarm.threshold, equals(100));

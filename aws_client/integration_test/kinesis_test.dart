@@ -80,8 +80,7 @@ void main() {
     final records = await kinesis.getRecords(
       shardIterator: iterator.shardIterator!,
     );
-    final payloads =
-        records.records.map((r) => utf8.decode(r.data)).toSet();
+    final payloads = records.records.map((r) => utf8.decode(r.data)).toSet();
     expect(payloads, containsAll(['payload-0', 'payload-1', 'payload-2']));
 
     await kinesis.deleteStream(streamName: streamName);

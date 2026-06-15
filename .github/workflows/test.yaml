@@ -62,7 +62,7 @@ jobs:
         working-directory: aws_client
 
       - name: Run smoke tests on aws_client
-        run: dart pub get && dart test test/localstack
+        run: dart pub get && dart test integration_test
         working-directory: aws_client
 
       - name: Stop LocalStack

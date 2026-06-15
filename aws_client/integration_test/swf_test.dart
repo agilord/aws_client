@@ -18,8 +18,8 @@ void main() {
       description: 'smoke-test domain',
     );
 
-    final listed =
-        await swf.listDomains(registrationStatus: RegistrationStatus.registered);
+    final listed = await swf.listDomains(
+        registrationStatus: RegistrationStatus.registered);
     expect(listed.domainInfos.map((d) => d.name), contains(name));
 
     final described = await swf.describeDomain(name: name);
@@ -28,8 +28,7 @@ void main() {
 
     await swf.deprecateDomain(name: name);
 
-    final deprecated =
-        await swf.describeDomain(name: name);
+    final deprecated = await swf.describeDomain(name: name);
     expect(deprecated.domainInfo.status, equals(RegistrationStatus.deprecated));
   });
 }

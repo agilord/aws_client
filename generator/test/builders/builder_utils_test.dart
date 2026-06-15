@@ -73,12 +73,11 @@ void main() {
     "Blb": {"type": "blob"}
   }
 }
-''') as Map<String, dynamic>)
-      ..initReferences();
+''') as Map<String, dynamic>)..initReferences();
 
-    String required(String shapeName) => extractJsonCode(
-        api.shapes[shapeName]!, "json['X']",
-        nullability: Nullability.input);
+    String required(String shapeName) =>
+        extractJsonCode(api.shapes[shapeName]!, "json['X']",
+            nullability: Nullability.input);
 
     test('list defaults to an empty list', () {
       expect(required('StringList'),
@@ -118,7 +117,8 @@ void main() {
     });
 
     test('blob defaults to empty bytes', () {
-      expect(required('Blb'), "_s.decodeUint8List((json['X'] as String?) ?? '')");
+      expect(
+          required('Blb'), "_s.decodeUint8List((json['X'] as String?) ?? '')");
     });
 
     test('optional output members stay null-aware, not defaulted', () {
@@ -153,8 +153,7 @@ void main() {
     "Color": {"type": "string", "enum": ["RED", "GREEN"]}
   }
 }
-''') as Map<String, dynamic>)
-        ..initReferences();
+''') as Map<String, dynamic>)..initReferences();
       final result = extractJsonCode(enumApi.shapes['Color']!, "json['X']",
           nullability: Nullability.input);
       // Still a bare, throwing cast — locks in the deferred enum decision.

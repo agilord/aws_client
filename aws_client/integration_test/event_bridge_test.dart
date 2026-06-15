@@ -42,7 +42,8 @@ void main() {
     );
     expect(put.failedEntryCount, equals(0));
 
-    final removed = await events.removeTargets(rule: ruleName, ids: ['target-1']);
+    final removed =
+        await events.removeTargets(rule: ruleName, ids: ['target-1']);
     expect(removed.failedEntryCount, equals(0));
 
     await events.deleteRule(name: ruleName);

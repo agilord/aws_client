@@ -17,7 +17,11 @@ void main() {
       'Comment': 'smoke-test pass state',
       'StartAt': 'Echo',
       'States': {
-        'Echo': {'Type': 'Pass', 'Result': {'ok': true}, 'End': true},
+        'Echo': {
+          'Type': 'Pass',
+          'Result': {'ok': true},
+          'End': true
+        },
       },
     });
 

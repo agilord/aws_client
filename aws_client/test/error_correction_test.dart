@@ -24,7 +24,8 @@ void main() {
       expect(empty.failed, isEmpty);
     });
 
-    test('Firehose ExtendedS3DestinationDescription defaults missing required '
+    test(
+        'Firehose ExtendedS3DestinationDescription defaults missing required '
         'scalars and structures', () {
       final desc = ExtendedS3DestinationDescription.fromJson({
         'CompressionFormat': 'UNCOMPRESSED',

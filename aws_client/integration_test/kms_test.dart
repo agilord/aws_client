@@ -31,7 +31,8 @@ void main() {
     expect(utf8.decode(decrypted.plaintext!), equals('secret-payload'));
   });
 
-  test('KMS (json): generateDataKey returns plaintext and ciphertext', () async {
+  test('KMS (json): generateDataKey returns plaintext and ciphertext',
+      () async {
     final created = await kms.createKey(description: 'data-key source');
     final keyId = created.keyMetadata!.keyId;
 

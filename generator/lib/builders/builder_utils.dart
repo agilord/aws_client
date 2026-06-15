@@ -22,7 +22,8 @@ class Nullability {
 
 String extractJsonCode(Shape shape, String variable,
     {Member? member, required Nullability nullability, String? variableType}) {
-  final correctMissing = nullability.inputNullable && !nullability.outputNullable;
+  final correctMissing =
+      nullability.inputNullable && !nullability.outputNullable;
 
   if (member?.jsonvalue == true || shape.member?.jsonvalue == true) {
     if (shape.type == 'list') {

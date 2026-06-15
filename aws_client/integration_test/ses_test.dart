@@ -14,7 +14,8 @@ void main() {
 
     await ses.verifyEmailIdentity(emailAddress: email);
 
-    final listed = await ses.listIdentities(identityType: IdentityType.emailAddress);
+    final listed =
+        await ses.listIdentities(identityType: IdentityType.emailAddress);
     expect(listed.identities, contains(email));
 
     final attributes =

@@ -48,8 +48,9 @@ void main() {
     final got = await iam.getRole(roleName: roleName);
     expect(got.role.roleName, equals(roleName));
     // The trust policy round-trips URL-encoded; decode before comparing JSON.
-    final trust = jsonDecode(Uri.decodeComponent(
-        got.role.assumeRolePolicyDocument!)) as Map<String, dynamic>;
+    final trust =
+        jsonDecode(Uri.decodeComponent(got.role.assumeRolePolicyDocument!))
+            as Map<String, dynamic>;
     expect(trust['Statement'], isList);
 
     await iam.deleteRole(roleName: roleName);
