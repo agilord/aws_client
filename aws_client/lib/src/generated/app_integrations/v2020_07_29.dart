@@ -1468,7 +1468,7 @@ class EventFilter {
 
   factory EventFilter.fromJson(Map<String, dynamic> json) {
     return EventFilter(
-      source: json['Source'] as String,
+      source: (json['Source'] as String?) ?? '',
     );
   }
 
@@ -1698,7 +1698,7 @@ class ExternalUrlConfig {
 
   factory ExternalUrlConfig.fromJson(Map<String, dynamic> json) {
     return ExternalUrlConfig(
-      accessUrl: json['AccessUrl'] as String,
+      accessUrl: (json['AccessUrl'] as String?) ?? '',
       approvedOrigins: (json['ApprovedOrigins'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1731,8 +1731,10 @@ class FileConfiguration {
 
   factory FileConfiguration.fromJson(Map<String, dynamic> json) {
     return FileConfiguration(
-      folders:
-          (json['Folders'] as List).nonNulls.map((e) => e as String).toList(),
+      folders: ((json['Folders'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       filters: (json['Filters'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
@@ -2307,7 +2309,7 @@ class OnDemandConfiguration {
 
   factory OnDemandConfiguration.fromJson(Map<String, dynamic> json) {
     return OnDemandConfiguration(
-      startTime: json['StartTime'] as String,
+      startTime: (json['StartTime'] as String?) ?? '',
       endTime: json['EndTime'] as String?,
     );
   }
@@ -2341,8 +2343,8 @@ class Publication {
 
   factory Publication.fromJson(Map<String, dynamic> json) {
     return Publication(
-      event: json['Event'] as String,
-      schema: json['Schema'] as String,
+      event: (json['Event'] as String?) ?? '',
+      schema: (json['Schema'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -2379,7 +2381,7 @@ class ScheduleConfiguration {
 
   factory ScheduleConfiguration.fromJson(Map<String, dynamic> json) {
     return ScheduleConfiguration(
-      scheduleExpression: json['ScheduleExpression'] as String,
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
       firstExecutionFrom: json['FirstExecutionFrom'] as String?,
       object: json['Object'] as String?,
     );
@@ -2412,7 +2414,7 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> json) {
     return Subscription(
-      event: json['Event'] as String,
+      event: (json['Event'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }

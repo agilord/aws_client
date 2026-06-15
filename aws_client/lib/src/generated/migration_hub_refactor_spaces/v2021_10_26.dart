@@ -3107,7 +3107,7 @@ class LambdaEndpointInput {
 
   factory LambdaEndpointInput.fromJson(Map<String, dynamic> json) {
     return LambdaEndpointInput(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
     );
   }
 
@@ -3879,7 +3879,7 @@ class UriPathRouteInput {
     return UriPathRouteInput(
       activationState:
           RouteActivationState.fromString((json['ActivationState'] as String)),
-      sourcePath: json['SourcePath'] as String,
+      sourcePath: (json['SourcePath'] as String?) ?? '',
       appendSourcePath: json['AppendSourcePath'] as bool?,
       includeChildPaths: json['IncludeChildPaths'] as bool?,
       methods: (json['Methods'] as List?)
@@ -3959,7 +3959,7 @@ class UrlEndpointInput {
 
   factory UrlEndpointInput.fromJson(Map<String, dynamic> json) {
     return UrlEndpointInput(
-      url: json['Url'] as String,
+      url: (json['Url'] as String?) ?? '',
       healthUrl: json['HealthUrl'] as String?,
     );
   }

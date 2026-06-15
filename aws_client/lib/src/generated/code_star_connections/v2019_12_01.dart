@@ -1378,7 +1378,7 @@ class CreateConnectionOutput {
 
   factory CreateConnectionOutput.fromJson(Map<String, dynamic> json) {
     return CreateConnectionOutput(
-      connectionArn: json['ConnectionArn'] as String,
+      connectionArn: (json['ConnectionArn'] as String?) ?? '',
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -1439,7 +1439,8 @@ class CreateRepositoryLinkOutput {
   factory CreateRepositoryLinkOutput.fromJson(Map<String, dynamic> json) {
     return CreateRepositoryLinkOutput(
       repositoryLinkInfo: RepositoryLinkInfo.fromJson(
-          json['RepositoryLinkInfo'] as Map<String, dynamic>),
+          (json['RepositoryLinkInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1464,7 +1465,8 @@ class CreateSyncConfigurationOutput {
   factory CreateSyncConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return CreateSyncConfigurationOutput(
       syncConfiguration: SyncConfiguration.fromJson(
-          json['SyncConfiguration'] as Map<String, dynamic>),
+          (json['SyncConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1613,7 +1615,8 @@ class GetRepositoryLinkOutput {
   factory GetRepositoryLinkOutput.fromJson(Map<String, dynamic> json) {
     return GetRepositoryLinkOutput(
       repositoryLinkInfo: RepositoryLinkInfo.fromJson(
-          json['RepositoryLinkInfo'] as Map<String, dynamic>),
+          (json['RepositoryLinkInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1637,7 +1640,8 @@ class GetRepositorySyncStatusOutput {
   factory GetRepositorySyncStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetRepositorySyncStatusOutput(
       latestSync: RepositorySyncAttempt.fromJson(
-          json['LatestSync'] as Map<String, dynamic>),
+          (json['LatestSync'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1670,7 +1674,8 @@ class GetResourceSyncStatusOutput {
   factory GetResourceSyncStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetResourceSyncStatusOutput(
       latestSync: ResourceSyncAttempt.fromJson(
-          json['LatestSync'] as Map<String, dynamic>),
+          (json['LatestSync'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       desiredState: json['DesiredState'] != null
           ? Revision.fromJson(json['DesiredState'] as Map<String, dynamic>)
           : null,
@@ -1705,7 +1710,8 @@ class GetSyncBlockerSummaryOutput {
   factory GetSyncBlockerSummaryOutput.fromJson(Map<String, dynamic> json) {
     return GetSyncBlockerSummaryOutput(
       syncBlockerSummary: SyncBlockerSummary.fromJson(
-          json['SyncBlockerSummary'] as Map<String, dynamic>),
+          (json['SyncBlockerSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1729,7 +1735,8 @@ class GetSyncConfigurationOutput {
   factory GetSyncConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return GetSyncConfigurationOutput(
       syncConfiguration: SyncConfiguration.fromJson(
-          json['SyncConfiguration'] as Map<String, dynamic>),
+          (json['SyncConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1905,7 +1912,7 @@ class ListRepositoryLinksOutput {
 
   factory ListRepositoryLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListRepositoryLinksOutput(
-      repositoryLinks: (json['RepositoryLinks'] as List)
+      repositoryLinks: ((json['RepositoryLinks'] as List?) ?? const [])
           .nonNulls
           .map((e) => RepositoryLinkInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1942,11 +1949,12 @@ class ListRepositorySyncDefinitionsOutput {
   factory ListRepositorySyncDefinitionsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListRepositorySyncDefinitionsOutput(
-      repositorySyncDefinitions: (json['RepositorySyncDefinitions'] as List)
-          .nonNulls
-          .map((e) =>
-              RepositorySyncDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      repositorySyncDefinitions:
+          ((json['RepositorySyncDefinitions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  RepositorySyncDefinition.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1976,7 +1984,7 @@ class ListSyncConfigurationsOutput {
 
   factory ListSyncConfigurationsOutput.fromJson(Map<String, dynamic> json) {
     return ListSyncConfigurationsOutput(
-      syncConfigurations: (json['SyncConfigurations'] as List)
+      syncConfigurations: ((json['SyncConfigurations'] as List?) ?? const [])
           .nonNulls
           .map((e) => SyncConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2092,12 +2100,12 @@ class RepositoryLinkInfo {
 
   factory RepositoryLinkInfo.fromJson(Map<String, dynamic> json) {
     return RepositoryLinkInfo(
-      connectionArn: json['ConnectionArn'] as String,
-      ownerId: json['OwnerId'] as String,
+      connectionArn: (json['ConnectionArn'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
       providerType: ProviderType.fromString((json['ProviderType'] as String)),
-      repositoryLinkArn: json['RepositoryLinkArn'] as String,
-      repositoryLinkId: json['RepositoryLinkId'] as String,
-      repositoryName: json['RepositoryName'] as String,
+      repositoryLinkArn: (json['RepositoryLinkArn'] as String?) ?? '',
+      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
       encryptionKeyArn: json['EncryptionKeyArn'] as String?,
     );
   }
@@ -2161,11 +2169,11 @@ class RepositorySyncAttempt {
 
   factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
     return RepositorySyncAttempt(
-      events: (json['Events'] as List)
+      events: ((json['Events'] as List?) ?? const [])
           .nonNulls
           .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       status: RepositorySyncStatus.fromString((json['Status'] as String)),
     );
   }
@@ -2208,10 +2216,10 @@ class RepositorySyncDefinition {
 
   factory RepositorySyncDefinition.fromJson(Map<String, dynamic> json) {
     return RepositorySyncDefinition(
-      branch: json['Branch'] as String,
-      directory: json['Directory'] as String,
-      parent: json['Parent'] as String,
-      target: json['Target'] as String,
+      branch: (json['Branch'] as String?) ?? '',
+      directory: (json['Directory'] as String?) ?? '',
+      parent: (json['Parent'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
     );
   }
 
@@ -2252,9 +2260,9 @@ class RepositorySyncEvent {
 
   factory RepositorySyncEvent.fromJson(Map<String, dynamic> json) {
     return RepositorySyncEvent(
-      event: json['Event'] as String,
-      time: nonNullableTimeStampFromJson(json['Time'] as Object),
-      type: json['Type'] as String,
+      event: (json['Event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+      type: (json['Type'] as String?) ?? '',
       externalId: json['ExternalId'] as String?,
     );
   }
@@ -2342,17 +2350,19 @@ class ResourceSyncAttempt {
 
   factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
     return ResourceSyncAttempt(
-      events: (json['Events'] as List)
+      events: ((json['Events'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      initialRevision:
-          Revision.fromJson(json['InitialRevision'] as Map<String, dynamic>),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] as Object),
+      initialRevision: Revision.fromJson(
+          (json['InitialRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
       status: ResourceSyncStatus.fromString((json['Status'] as String)),
-      target: json['Target'] as String,
-      targetRevision:
-          Revision.fromJson(json['TargetRevision'] as Map<String, dynamic>),
+      target: (json['Target'] as String?) ?? '',
+      targetRevision: Revision.fromJson(
+          (json['TargetRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2398,9 +2408,9 @@ class ResourceSyncEvent {
 
   factory ResourceSyncEvent.fromJson(Map<String, dynamic> json) {
     return ResourceSyncEvent(
-      event: json['Event'] as String,
-      time: nonNullableTimeStampFromJson(json['Time'] as Object),
-      type: json['Type'] as String,
+      event: (json['Event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+      type: (json['Type'] as String?) ?? '',
       externalId: json['ExternalId'] as String?,
     );
   }
@@ -2469,12 +2479,12 @@ class Revision {
 
   factory Revision.fromJson(Map<String, dynamic> json) {
     return Revision(
-      branch: json['Branch'] as String,
-      directory: json['Directory'] as String,
-      ownerId: json['OwnerId'] as String,
+      branch: (json['Branch'] as String?) ?? '',
+      directory: (json['Directory'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
       providerType: ProviderType.fromString((json['ProviderType'] as String)),
-      repositoryName: json['RepositoryName'] as String,
-      sha: json['Sha'] as String,
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
+      sha: (json['Sha'] as String?) ?? '',
     );
   }
 
@@ -2535,9 +2545,9 @@ class SyncBlocker {
 
   factory SyncBlocker.fromJson(Map<String, dynamic> json) {
     return SyncBlocker(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      createdReason: json['CreatedReason'] as String,
-      id: json['Id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      createdReason: (json['CreatedReason'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
       status: BlockerStatus.fromString((json['Status'] as String)),
       type: BlockerType.fromString((json['Type'] as String)),
       contexts: (json['Contexts'] as List?)
@@ -2586,8 +2596,8 @@ class SyncBlockerContext {
 
   factory SyncBlockerContext.fromJson(Map<String, dynamic> json) {
     return SyncBlockerContext(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2620,7 +2630,7 @@ class SyncBlockerSummary {
 
   factory SyncBlockerSummary.fromJson(Map<String, dynamic> json) {
     return SyncBlockerSummary(
-      resourceName: json['ResourceName'] as String,
+      resourceName: (json['ResourceName'] as String?) ?? '',
       latestBlockers: (json['LatestBlockers'] as List?)
           ?.nonNulls
           .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
@@ -2700,13 +2710,13 @@ class SyncConfiguration {
 
   factory SyncConfiguration.fromJson(Map<String, dynamic> json) {
     return SyncConfiguration(
-      branch: json['Branch'] as String,
-      ownerId: json['OwnerId'] as String,
+      branch: (json['Branch'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
       providerType: ProviderType.fromString((json['ProviderType'] as String)),
-      repositoryLinkId: json['RepositoryLinkId'] as String,
-      repositoryName: json['RepositoryName'] as String,
-      resourceName: json['ResourceName'] as String,
-      roleArn: json['RoleArn'] as String,
+      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
+      resourceName: (json['ResourceName'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       syncType: SyncConfigurationType.fromString((json['SyncType'] as String)),
       configFile: json['ConfigFile'] as String?,
       publishDeploymentStatus: (json['PublishDeploymentStatus'] as String?)
@@ -2778,8 +2788,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2855,7 +2865,8 @@ class UpdateRepositoryLinkOutput {
   factory UpdateRepositoryLinkOutput.fromJson(Map<String, dynamic> json) {
     return UpdateRepositoryLinkOutput(
       repositoryLinkInfo: RepositoryLinkInfo.fromJson(
-          json['RepositoryLinkInfo'] as Map<String, dynamic>),
+          (json['RepositoryLinkInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2885,9 +2896,10 @@ class UpdateSyncBlockerOutput {
 
   factory UpdateSyncBlockerOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSyncBlockerOutput(
-      resourceName: json['ResourceName'] as String,
-      syncBlocker:
-          SyncBlocker.fromJson(json['SyncBlocker'] as Map<String, dynamic>),
+      resourceName: (json['ResourceName'] as String?) ?? '',
+      syncBlocker: SyncBlocker.fromJson(
+          (json['SyncBlocker'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       parentResourceName: json['ParentResourceName'] as String?,
     );
   }
@@ -2915,7 +2927,8 @@ class UpdateSyncConfigurationOutput {
   factory UpdateSyncConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSyncConfigurationOutput(
       syncConfiguration: SyncConfiguration.fromJson(
-          json['SyncConfiguration'] as Map<String, dynamic>),
+          (json['SyncConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2954,13 +2967,15 @@ class VpcConfiguration {
 
   factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
     return VpcConfiguration(
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcId: json['VpcId'] as String,
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['VpcId'] as String?) ?? '',
       tlsCertificate: json['TlsCertificate'] as String?,
     );
   }

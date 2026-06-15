@@ -5333,11 +5333,12 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchAssociateApprovalRuleTemplateWithRepositoriesOutput(
-      associatedRepositoryNames: (json['associatedRepositoryNames'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      errors: (json['errors'] as List)
+      associatedRepositoryNames:
+          ((json['associatedRepositoryNames'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
@@ -5375,9 +5376,9 @@ class BatchDescribeMergeConflictsError {
 
   factory BatchDescribeMergeConflictsError.fromJson(Map<String, dynamic> json) {
     return BatchDescribeMergeConflictsError(
-      exceptionName: json['exceptionName'] as String,
-      filePath: json['filePath'] as String,
-      message: json['message'] as String,
+      exceptionName: (json['exceptionName'] as String?) ?? '',
+      filePath: (json['filePath'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -5429,12 +5430,12 @@ class BatchDescribeMergeConflictsOutput {
   factory BatchDescribeMergeConflictsOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchDescribeMergeConflictsOutput(
-      conflicts: (json['conflicts'] as List)
+      conflicts: ((json['conflicts'] as List?) ?? const [])
           .nonNulls
           .map((e) => Conflict.fromJson(e as Map<String, dynamic>))
           .toList(),
-      destinationCommitId: json['destinationCommitId'] as String,
-      sourceCommitId: json['sourceCommitId'] as String,
+      destinationCommitId: (json['destinationCommitId'] as String?) ?? '',
+      sourceCommitId: (json['sourceCommitId'] as String?) ?? '',
       baseCommitId: json['baseCommitId'] as String?,
       errors: (json['errors'] as List?)
           ?.nonNulls
@@ -5523,11 +5524,11 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
       Map<String, dynamic> json) {
     return BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput(
       disassociatedRepositoryNames:
-          (json['disassociatedRepositoryNames'] as List)
+          ((json['disassociatedRepositoryNames'] as List?) ?? const [])
               .nonNulls
               .map((e) => e as String)
               .toList(),
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDisassociateApprovalRuleTemplateFromRepositoriesError
               .fromJson(e as Map<String, dynamic>))
@@ -6394,7 +6395,8 @@ class CreateApprovalRuleTemplateOutput {
   factory CreateApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return CreateApprovalRuleTemplateOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
-          json['approvalRuleTemplate'] as Map<String, dynamic>),
+          (json['approvalRuleTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6477,8 +6479,9 @@ class CreatePullRequestApprovalRuleOutput {
   factory CreatePullRequestApprovalRuleOutput.fromJson(
       Map<String, dynamic> json) {
     return CreatePullRequestApprovalRuleOutput(
-      approvalRule:
-          ApprovalRule.fromJson(json['approvalRule'] as Map<String, dynamic>),
+      approvalRule: ApprovalRule.fromJson(
+          (json['approvalRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6500,8 +6503,9 @@ class CreatePullRequestOutput {
 
   factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) {
     return CreatePullRequestOutput(
-      pullRequest:
-          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6581,7 +6585,7 @@ class DeleteApprovalRuleTemplateOutput {
 
   factory DeleteApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return DeleteApprovalRuleTemplateOutput(
-      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
+      approvalRuleTemplateId: (json['approvalRuleTemplateId'] as String?) ?? '',
     );
   }
 
@@ -6685,10 +6689,10 @@ class DeleteFileOutput {
 
   factory DeleteFileOutput.fromJson(Map<String, dynamic> json) {
     return DeleteFileOutput(
-      blobId: json['blobId'] as String,
-      commitId: json['commitId'] as String,
-      filePath: json['filePath'] as String,
-      treeId: json['treeId'] as String,
+      blobId: (json['blobId'] as String?) ?? '',
+      commitId: (json['commitId'] as String?) ?? '',
+      filePath: (json['filePath'] as String?) ?? '',
+      treeId: (json['treeId'] as String?) ?? '',
     );
   }
 
@@ -6721,7 +6725,7 @@ class DeletePullRequestApprovalRuleOutput {
   factory DeletePullRequestApprovalRuleOutput.fromJson(
       Map<String, dynamic> json) {
     return DeletePullRequestApprovalRuleOutput(
-      approvalRuleId: json['approvalRuleId'] as String,
+      approvalRuleId: (json['approvalRuleId'] as String?) ?? '',
     );
   }
 
@@ -6790,13 +6794,14 @@ class DescribeMergeConflictsOutput {
   factory DescribeMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeMergeConflictsOutput(
       conflictMetadata: ConflictMetadata.fromJson(
-          json['conflictMetadata'] as Map<String, dynamic>),
-      destinationCommitId: json['destinationCommitId'] as String,
-      mergeHunks: (json['mergeHunks'] as List)
+          (json['conflictMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      destinationCommitId: (json['destinationCommitId'] as String?) ?? '',
+      mergeHunks: ((json['mergeHunks'] as List?) ?? const [])
           .nonNulls
           .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sourceCommitId: json['sourceCommitId'] as String,
+      sourceCommitId: (json['sourceCommitId'] as String?) ?? '',
       baseCommitId: json['baseCommitId'] as String?,
       nextToken: json['nextToken'] as String?,
     );
@@ -6835,7 +6840,7 @@ class DescribePullRequestEventsOutput {
 
   factory DescribePullRequestEventsOutput.fromJson(Map<String, dynamic> json) {
     return DescribePullRequestEventsOutput(
-      pullRequestEvents: (json['pullRequestEvents'] as List)
+      pullRequestEvents: ((json['pullRequestEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => PullRequestEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6913,8 +6918,9 @@ class EvaluatePullRequestApprovalRulesOutput {
   factory EvaluatePullRequestApprovalRulesOutput.fromJson(
       Map<String, dynamic> json) {
     return EvaluatePullRequestApprovalRulesOutput(
-      evaluation:
-          Evaluation.fromJson(json['evaluation'] as Map<String, dynamic>),
+      evaluation: Evaluation.fromJson(
+          (json['evaluation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7256,7 +7262,8 @@ class GetApprovalRuleTemplateOutput {
   factory GetApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
     return GetApprovalRuleTemplateOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
-          json['approvalRuleTemplate'] as Map<String, dynamic>),
+          (json['approvalRuleTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7279,7 +7286,7 @@ class GetBlobOutput {
 
   factory GetBlobOutput.fromJson(Map<String, dynamic> json) {
     return GetBlobOutput(
-      content: _s.decodeUint8List(json['content']! as String),
+      content: _s.decodeUint8List((json['content'] as String?) ?? ''),
     );
   }
 
@@ -7355,7 +7362,7 @@ class GetCommentReactionsOutput {
 
   factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) {
     return GetCommentReactionsOutput(
-      reactionsForComment: (json['reactionsForComment'] as List)
+      reactionsForComment: ((json['reactionsForComment'] as List?) ?? const [])
           .nonNulls
           .map((e) => ReactionForComment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7457,7 +7464,8 @@ class GetCommitOutput {
 
   factory GetCommitOutput.fromJson(Map<String, dynamic> json) {
     return GetCommitOutput(
-      commit: Commit.fromJson(json['commit'] as Map<String, dynamic>),
+      commit: Commit.fromJson((json['commit'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -7542,12 +7550,12 @@ class GetFileOutput {
 
   factory GetFileOutput.fromJson(Map<String, dynamic> json) {
     return GetFileOutput(
-      blobId: json['blobId'] as String,
-      commitId: json['commitId'] as String,
-      fileContent: _s.decodeUint8List(json['fileContent']! as String),
+      blobId: (json['blobId'] as String?) ?? '',
+      commitId: (json['commitId'] as String?) ?? '',
+      fileContent: _s.decodeUint8List((json['fileContent'] as String?) ?? ''),
       fileMode: FileModeTypeEnum.fromString((json['fileMode'] as String)),
-      filePath: json['filePath'] as String,
-      fileSize: json['fileSize'] as int,
+      filePath: (json['filePath'] as String?) ?? '',
+      fileSize: (json['fileSize'] as int?) ?? 0,
     );
   }
 
@@ -7606,8 +7614,8 @@ class GetFolderOutput {
 
   factory GetFolderOutput.fromJson(Map<String, dynamic> json) {
     return GetFolderOutput(
-      commitId: json['commitId'] as String,
-      folderPath: json['folderPath'] as String,
+      commitId: (json['commitId'] as String?) ?? '',
+      folderPath: (json['folderPath'] as String?) ?? '',
       files: (json['files'] as List?)
           ?.nonNulls
           .map((e) => File.fromJson(e as Map<String, dynamic>))
@@ -7731,13 +7739,14 @@ class GetMergeConflictsOutput {
 
   factory GetMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeConflictsOutput(
-      conflictMetadataList: (json['conflictMetadataList'] as List)
-          .nonNulls
-          .map((e) => ConflictMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      destinationCommitId: json['destinationCommitId'] as String,
-      mergeable: json['mergeable'] as bool,
-      sourceCommitId: json['sourceCommitId'] as String,
+      conflictMetadataList:
+          ((json['conflictMetadataList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ConflictMetadata.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      destinationCommitId: (json['destinationCommitId'] as String?) ?? '',
+      mergeable: (json['mergeable'] as bool?) ?? false,
+      sourceCommitId: (json['sourceCommitId'] as String?) ?? '',
       baseCommitId: json['baseCommitId'] as String?,
       nextToken: json['nextToken'] as String?,
     );
@@ -7785,13 +7794,13 @@ class GetMergeOptionsOutput {
 
   factory GetMergeOptionsOutput.fromJson(Map<String, dynamic> json) {
     return GetMergeOptionsOutput(
-      baseCommitId: json['baseCommitId'] as String,
-      destinationCommitId: json['destinationCommitId'] as String,
-      mergeOptions: (json['mergeOptions'] as List)
+      baseCommitId: (json['baseCommitId'] as String?) ?? '',
+      destinationCommitId: (json['destinationCommitId'] as String?) ?? '',
+      mergeOptions: ((json['mergeOptions'] as List?) ?? const [])
           .nonNulls
           .map((e) => MergeOptionTypeEnum.fromString((e as String)))
           .toList(),
-      sourceCommitId: json['sourceCommitId'] as String,
+      sourceCommitId: (json['sourceCommitId'] as String?) ?? '',
     );
   }
 
@@ -7845,8 +7854,9 @@ class GetPullRequestOutput {
 
   factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) {
     return GetPullRequestOutput(
-      pullRequest:
-          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8108,7 +8118,7 @@ class ListFileCommitHistoryResponse {
 
   factory ListFileCommitHistoryResponse.fromJson(Map<String, dynamic> json) {
     return ListFileCommitHistoryResponse(
-      revisionDag: (json['revisionDag'] as List)
+      revisionDag: ((json['revisionDag'] as List?) ?? const [])
           .nonNulls
           .map((e) => FileVersion.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8141,7 +8151,7 @@ class ListPullRequestsOutput {
 
   factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) {
     return ListPullRequestsOutput(
-      pullRequestIds: (json['pullRequestIds'] as List)
+      pullRequestIds: ((json['pullRequestIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -9544,9 +9554,9 @@ class PutFileOutput {
 
   factory PutFileOutput.fromJson(Map<String, dynamic> json) {
     return PutFileOutput(
-      blobId: json['blobId'] as String,
-      commitId: json['commitId'] as String,
-      treeId: json['treeId'] as String,
+      blobId: (json['blobId'] as String?) ?? '',
+      commitId: (json['commitId'] as String?) ?? '',
+      treeId: (json['treeId'] as String?) ?? '',
     );
   }
 
@@ -9914,12 +9924,12 @@ class RepositoryTrigger {
 
   factory RepositoryTrigger.fromJson(Map<String, dynamic> json) {
     return RepositoryTrigger(
-      destinationArn: json['destinationArn'] as String,
-      events: (json['events'] as List)
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => RepositoryTriggerEventEnum.fromString((e as String)))
           .toList(),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       branches: (json['branches'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -10220,7 +10230,8 @@ class UpdateApprovalRuleTemplateContentOutput {
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateContentOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
-          json['approvalRuleTemplate'] as Map<String, dynamic>),
+          (json['approvalRuleTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10244,7 +10255,8 @@ class UpdateApprovalRuleTemplateDescriptionOutput {
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateDescriptionOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
-          json['approvalRuleTemplate'] as Map<String, dynamic>),
+          (json['approvalRuleTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10268,7 +10280,8 @@ class UpdateApprovalRuleTemplateNameOutput {
       Map<String, dynamic> json) {
     return UpdateApprovalRuleTemplateNameOutput(
       approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
-          json['approvalRuleTemplate'] as Map<String, dynamic>),
+          (json['approvalRuleTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10315,8 +10328,9 @@ class UpdatePullRequestApprovalRuleContentOutput {
   factory UpdatePullRequestApprovalRuleContentOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdatePullRequestApprovalRuleContentOutput(
-      approvalRule:
-          ApprovalRule.fromJson(json['approvalRule'] as Map<String, dynamic>),
+      approvalRule: ApprovalRule.fromJson(
+          (json['approvalRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10339,8 +10353,9 @@ class UpdatePullRequestDescriptionOutput {
   factory UpdatePullRequestDescriptionOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdatePullRequestDescriptionOutput(
-      pullRequest:
-          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10362,8 +10377,9 @@ class UpdatePullRequestStatusOutput {
 
   factory UpdatePullRequestStatusOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePullRequestStatusOutput(
-      pullRequest:
-          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10385,8 +10401,9 @@ class UpdatePullRequestTitleOutput {
 
   factory UpdatePullRequestTitleOutput.fromJson(Map<String, dynamic> json) {
     return UpdatePullRequestTitleOutput(
-      pullRequest:
-          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

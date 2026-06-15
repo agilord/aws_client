@@ -1515,7 +1515,7 @@ class DescribeStatementResponse {
 
   factory DescribeStatementResponse.fromJson(Map<String, dynamic> json) {
     return DescribeStatementResponse(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       clusterIdentifier: json['ClusterIdentifier'] as String?,
       createdAt: timeStampFromJson(json['CreatedAt']),
       database: json['Database'] as String?,
@@ -1807,7 +1807,7 @@ class GetStatementResultResponse {
 
   factory GetStatementResultResponse.fromJson(Map<String, dynamic> json) {
     return GetStatementResultResponse(
-      records: (json['Records'] as List)
+      records: ((json['Records'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
@@ -1928,7 +1928,7 @@ class ListStatementsResponse {
 
   factory ListStatementsResponse.fromJson(Map<String, dynamic> json) {
     return ListStatementsResponse(
-      statements: (json['Statements'] as List)
+      statements: ((json['Statements'] as List?) ?? const [])
           .nonNulls
           .map((e) => StatementData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2001,8 +2001,8 @@ class SqlParameter {
 
   factory SqlParameter.fromJson(Map<String, dynamic> json) {
     return SqlParameter(
-      name: json['name'] as String,
-      value: json['value'] as String,
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2071,7 +2071,7 @@ class StatementData {
 
   factory StatementData.fromJson(Map<String, dynamic> json) {
     return StatementData(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       createdAt: timeStampFromJson(json['CreatedAt']),
       isBatchStatement: json['IsBatchStatement'] as bool?,
       queryParameters: (json['QueryParameters'] as List?)
@@ -2221,7 +2221,7 @@ class SubStatementData {
 
   factory SubStatementData.fromJson(Map<String, dynamic> json) {
     return SubStatementData(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       createdAt: timeStampFromJson(json['CreatedAt']),
       duration: json['Duration'] as int?,
       error: json['Error'] as String?,

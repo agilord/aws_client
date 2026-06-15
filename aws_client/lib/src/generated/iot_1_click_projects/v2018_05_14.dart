@@ -624,7 +624,8 @@ class DescribePlacementResponse {
   factory DescribePlacementResponse.fromJson(Map<String, dynamic> json) {
     return DescribePlacementResponse(
       placement: PlacementDescription.fromJson(
-          json['placement'] as Map<String, dynamic>),
+          (json['placement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -646,8 +647,9 @@ class DescribeProjectResponse {
 
   factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProjectResponse(
-      project:
-          ProjectDescription.fromJson(json['project'] as Map<String, dynamic>),
+      project: ProjectDescription.fromJson(
+          (json['project'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -715,7 +717,8 @@ class GetDevicesInPlacementResponse {
 
   factory GetDevicesInPlacementResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicesInPlacementResponse(
-      devices: (json['devices'] as Map<String, dynamic>)
+      devices: ((json['devices'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -743,7 +746,7 @@ class ListPlacementsResponse {
 
   factory ListPlacementsResponse.fromJson(Map<String, dynamic> json) {
     return ListPlacementsResponse(
-      placements: (json['placements'] as List)
+      placements: ((json['placements'] as List?) ?? const [])
           .nonNulls
           .map((e) => PlacementSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -776,7 +779,7 @@ class ListProjectsResponse {
 
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
-      projects: (json['projects'] as List)
+      projects: ((json['projects'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -847,12 +850,13 @@ class PlacementDescription {
 
   factory PlacementDescription.fromJson(Map<String, dynamic> json) {
     return PlacementDescription(
-      attributes: (json['attributes'] as Map<String, dynamic>)
+      attributes: ((json['attributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      placementName: json['placementName'] as String,
-      projectName: json['projectName'] as String,
-      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      placementName: (json['placementName'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] ?? 0),
     );
   }
 
@@ -898,10 +902,10 @@ class PlacementSummary {
 
   factory PlacementSummary.fromJson(Map<String, dynamic> json) {
     return PlacementSummary(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      placementName: json['placementName'] as String,
-      projectName: json['projectName'] as String,
-      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      placementName: (json['placementName'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] ?? 0),
     );
   }
 
@@ -992,9 +996,9 @@ class ProjectDescription {
 
   factory ProjectDescription.fromJson(Map<String, dynamic> json) {
     return ProjectDescription(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      projectName: json['projectName'] as String,
-      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      projectName: (json['projectName'] as String?) ?? '',
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] ?? 0),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       placementTemplate: json['placementTemplate'] != null
@@ -1056,9 +1060,9 @@ class ProjectSummary {
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      projectName: json['projectName'] as String,
-      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      projectName: (json['projectName'] as String?) ?? '',
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] ?? 0),
       arn: json['arn'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),

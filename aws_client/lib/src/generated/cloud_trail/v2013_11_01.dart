@@ -3579,7 +3579,7 @@ class AdvancedEventSelector {
 
   factory AdvancedEventSelector.fromJson(Map<String, dynamic> json) {
     return AdvancedEventSelector(
-      fieldSelectors: (json['FieldSelectors'] as List)
+      fieldSelectors: ((json['FieldSelectors'] as List?) ?? const [])
           .nonNulls
           .map((e) => AdvancedFieldSelector.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4499,7 +4499,7 @@ class AdvancedFieldSelector {
 
   factory AdvancedFieldSelector.fromJson(Map<String, dynamic> json) {
     return AdvancedFieldSelector(
-      field: json['Field'] as String,
+      field: (json['Field'] as String?) ?? '',
       endsWith: (json['EndsWith'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4575,7 +4575,7 @@ class CancelQueryResponse {
 
   factory CancelQueryResponse.fromJson(Map<String, dynamic> json) {
     return CancelQueryResponse(
-      queryId: json['QueryId'] as String,
+      queryId: (json['QueryId'] as String?) ?? '',
       queryStatus: QueryStatus.fromString((json['QueryStatus'] as String)),
     );
   }
@@ -5311,7 +5311,7 @@ class Destination {
 
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
-      location: json['Location'] as String,
+      location: (json['Location'] as String?) ?? '',
       type: DestinationType.fromString((json['Type'] as String)),
     );
   }
@@ -6553,7 +6553,8 @@ class ImportSource {
 
   factory ImportSource.fromJson(Map<String, dynamic> json) {
     return ImportSource(
-      s3: S3ImportSource.fromJson(json['S3'] as Map<String, dynamic>),
+      s3: S3ImportSource.fromJson(
+          (json['S3'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -7283,8 +7284,8 @@ class PartitionKey {
 
   factory PartitionKey.fromJson(Map<String, dynamic> json) {
     return PartitionKey(
-      name: json['Name'] as String,
-      type: json['Type'] as String,
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?) ?? '',
     );
   }
 
@@ -7881,9 +7882,9 @@ class S3ImportSource {
 
   factory S3ImportSource.fromJson(Map<String, dynamic> json) {
     return S3ImportSource(
-      s3BucketAccessRoleArn: json['S3BucketAccessRoleArn'] as String,
-      s3BucketRegion: json['S3BucketRegion'] as String,
-      s3LocationUri: json['S3LocationUri'] as String,
+      s3BucketAccessRoleArn: (json['S3BucketAccessRoleArn'] as String?) ?? '',
+      s3BucketRegion: (json['S3BucketRegion'] as String?) ?? '',
+      s3LocationUri: (json['S3LocationUri'] as String?) ?? '',
     );
   }
 
@@ -8209,7 +8210,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

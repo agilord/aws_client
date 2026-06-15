@@ -1640,7 +1640,7 @@ class ListEnvironmentsOutput {
 
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
-      environments: (json['Environments'] as List)
+      environments: ((json['Environments'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

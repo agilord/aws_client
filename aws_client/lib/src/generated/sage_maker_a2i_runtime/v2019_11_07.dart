@@ -341,11 +341,10 @@ class DescribeHumanLoopResponse {
 
   factory DescribeHumanLoopResponse.fromJson(Map<String, dynamic> json) {
     return DescribeHumanLoopResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      flowDefinitionArn: json['FlowDefinitionArn'] as String,
-      humanLoopArn: json['HumanLoopArn'] as String,
-      humanLoopName: json['HumanLoopName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      flowDefinitionArn: (json['FlowDefinitionArn'] as String?) ?? '',
+      humanLoopArn: (json['HumanLoopArn'] as String?) ?? '',
+      humanLoopName: (json['HumanLoopName'] as String?) ?? '',
       humanLoopStatus:
           HumanLoopStatus.fromString((json['HumanLoopStatus'] as String)),
       failureCode: json['FailureCode'] as String?,
@@ -431,7 +430,7 @@ class HumanLoopOutput {
 
   factory HumanLoopOutput.fromJson(Map<String, dynamic> json) {
     return HumanLoopOutput(
-      outputS3Uri: json['OutputS3Uri'] as String,
+      outputS3Uri: (json['OutputS3Uri'] as String?) ?? '',
     );
   }
 
@@ -529,7 +528,7 @@ class ListHumanLoopsResponse {
 
   factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
     return ListHumanLoopsResponse(
-      humanLoopSummaries: (json['HumanLoopSummaries'] as List)
+      humanLoopSummaries: ((json['HumanLoopSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

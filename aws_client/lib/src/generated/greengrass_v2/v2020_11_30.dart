@@ -1882,7 +1882,7 @@ class ComponentDeploymentSpecification {
 
   factory ComponentDeploymentSpecification.fromJson(Map<String, dynamic> json) {
     return ComponentDeploymentSpecification(
-      componentVersion: json['componentVersion'] as String,
+      componentVersion: (json['componentVersion'] as String?) ?? '',
       configurationUpdate: json['configurationUpdate'] != null
           ? ComponentConfigurationUpdate.fromJson(
               json['configurationUpdate'] as Map<String, dynamic>)
@@ -2285,12 +2285,13 @@ class CreateComponentVersionResponse {
 
   factory CreateComponentVersionResponse.fromJson(Map<String, dynamic> json) {
     return CreateComponentVersionResponse(
-      componentName: json['componentName'] as String,
-      componentVersion: json['componentVersion'] as String,
+      componentName: (json['componentName'] as String?) ?? '',
+      componentVersion: (json['componentVersion'] as String?) ?? '',
       creationTimestamp:
-          nonNullableTimeStampFromJson(json['creationTimestamp'] as Object),
-      status:
-          CloudComponentStatus.fromJson(json['status'] as Map<String, dynamic>),
+          nonNullableTimeStampFromJson(json['creationTimestamp'] ?? 0),
+      status: CloudComponentStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       arn: json['arn'] as String?,
     );
   }
@@ -2966,12 +2967,12 @@ class EffectiveDeployment {
       coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus.fromString(
           (json['coreDeviceExecutionStatus'] as String)),
       creationTimestamp:
-          nonNullableTimeStampFromJson(json['creationTimestamp'] as Object),
-      deploymentId: json['deploymentId'] as String,
-      deploymentName: json['deploymentName'] as String,
+          nonNullableTimeStampFromJson(json['creationTimestamp'] ?? 0),
+      deploymentId: (json['deploymentId'] as String?) ?? '',
+      deploymentName: (json['deploymentName'] as String?) ?? '',
       modifiedTimestamp:
-          nonNullableTimeStampFromJson(json['modifiedTimestamp'] as Object),
-      targetArn: json['targetArn'] as String,
+          nonNullableTimeStampFromJson(json['modifiedTimestamp'] ?? 0),
+      targetArn: (json['targetArn'] as String?) ?? '',
       description: json['description'] as String?,
       iotJobArn: json['iotJobArn'] as String?,
       iotJobId: json['iotJobId'] as String?,
@@ -3100,7 +3101,7 @@ class GetComponentResponse {
 
   factory GetComponentResponse.fromJson(Map<String, dynamic> json) {
     return GetComponentResponse(
-      recipe: _s.decodeUint8List(json['recipe']! as String),
+      recipe: _s.decodeUint8List((json['recipe'] as String?) ?? ''),
       recipeOutputFormat:
           RecipeOutputFormat.fromString((json['recipeOutputFormat'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3131,7 +3132,7 @@ class GetComponentVersionArtifactResponse {
   factory GetComponentVersionArtifactResponse.fromJson(
       Map<String, dynamic> json) {
     return GetComponentVersionArtifactResponse(
-      preSignedUrl: json['preSignedUrl'] as String,
+      preSignedUrl: (json['preSignedUrl'] as String?) ?? '',
     );
   }
 
@@ -3610,7 +3611,7 @@ class IoTJobAbortConfig {
 
   factory IoTJobAbortConfig.fromJson(Map<String, dynamic> json) {
     return IoTJobAbortConfig(
-      criteriaList: (json['criteriaList'] as List)
+      criteriaList: ((json['criteriaList'] as List?) ?? const [])
           .nonNulls
           .map((e) => IoTJobAbortCriteria.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3668,8 +3669,9 @@ class IoTJobAbortCriteria {
       action: IoTJobAbortAction.fromString((json['action'] as String)),
       failureType: IoTJobExecutionFailureType.fromString(
           (json['failureType'] as String)),
-      minNumberOfExecutedThings: json['minNumberOfExecutedThings'] as int,
-      thresholdPercentage: json['thresholdPercentage'] as double,
+      minNumberOfExecutedThings:
+          (json['minNumberOfExecutedThings'] as int?) ?? 0,
+      thresholdPercentage: (json['thresholdPercentage'] as double?) ?? 0,
     );
   }
 
@@ -3765,10 +3767,11 @@ class IoTJobExponentialRolloutRate {
 
   factory IoTJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
     return IoTJobExponentialRolloutRate(
-      baseRatePerMinute: json['baseRatePerMinute'] as int,
-      incrementFactor: json['incrementFactor'] as double,
+      baseRatePerMinute: (json['baseRatePerMinute'] as int?) ?? 0,
+      incrementFactor: (json['incrementFactor'] as double?) ?? 0,
       rateIncreaseCriteria: IoTJobRateIncreaseCriteria.fromJson(
-          json['rateIncreaseCriteria'] as Map<String, dynamic>),
+          (json['rateIncreaseCriteria'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

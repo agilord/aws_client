@@ -1999,11 +1999,12 @@ class AssociateCustomDomainResponse {
 
   factory AssociateCustomDomainResponse.fromJson(Map<String, dynamic> json) {
     return AssociateCustomDomainResponse(
-      customDomain:
-          CustomDomain.fromJson(json['CustomDomain'] as Map<String, dynamic>),
-      dNSTarget: json['DNSTarget'] as String,
-      serviceArn: json['ServiceArn'] as String,
-      vpcDNSTargets: (json['VpcDNSTargets'] as List)
+      customDomain: CustomDomain.fromJson(
+          (json['CustomDomain'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      dNSTarget: (json['DNSTarget'] as String?) ?? '',
+      serviceArn: (json['ServiceArn'] as String?) ?? '',
+      vpcDNSTargets: ((json['VpcDNSTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2559,9 +2560,10 @@ class CodeRepository {
 
   factory CodeRepository.fromJson(Map<String, dynamic> json) {
     return CodeRepository(
-      repositoryUrl: json['RepositoryUrl'] as String,
+      repositoryUrl: (json['RepositoryUrl'] as String?) ?? '',
       sourceCodeVersion: SourceCodeVersion.fromJson(
-          json['SourceCodeVersion'] as Map<String, dynamic>),
+          (json['SourceCodeVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       codeConfiguration: json['CodeConfiguration'] != null
           ? CodeConfiguration.fromJson(
               json['CodeConfiguration'] as Map<String, dynamic>)
@@ -2737,7 +2739,8 @@ class CreateAutoScalingConfigurationResponse {
       Map<String, dynamic> json) {
     return CreateAutoScalingConfigurationResponse(
       autoScalingConfiguration: AutoScalingConfiguration.fromJson(
-          json['AutoScalingConfiguration'] as Map<String, dynamic>),
+          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2759,8 +2762,9 @@ class CreateConnectionResponse {
 
   factory CreateConnectionResponse.fromJson(Map<String, dynamic> json) {
     return CreateConnectionResponse(
-      connection:
-          Connection.fromJson(json['Connection'] as Map<String, dynamic>),
+      connection: Connection.fromJson(
+          (json['Connection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2785,7 +2789,8 @@ class CreateObservabilityConfigurationResponse {
       Map<String, dynamic> json) {
     return CreateObservabilityConfigurationResponse(
       observabilityConfiguration: ObservabilityConfiguration.fromJson(
-          json['ObservabilityConfiguration'] as Map<String, dynamic>),
+          (json['ObservabilityConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2814,8 +2819,9 @@ class CreateServiceResponse {
 
   factory CreateServiceResponse.fromJson(Map<String, dynamic> json) {
     return CreateServiceResponse(
-      operationId: json['OperationId'] as String,
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      operationId: (json['OperationId'] as String?) ?? '',
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2840,8 +2846,9 @@ class CreateVpcConnectorResponse {
 
   factory CreateVpcConnectorResponse.fromJson(Map<String, dynamic> json) {
     return CreateVpcConnectorResponse(
-      vpcConnector:
-          VpcConnector.fromJson(json['VpcConnector'] as Map<String, dynamic>),
+      vpcConnector: VpcConnector.fromJson(
+          (json['VpcConnector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2866,7 +2873,8 @@ class CreateVpcIngressConnectionResponse {
       Map<String, dynamic> json) {
     return CreateVpcIngressConnectionResponse(
       vpcIngressConnection: VpcIngressConnection.fromJson(
-          json['VpcIngressConnection'] as Map<String, dynamic>),
+          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2905,8 +2913,8 @@ class CustomDomain {
 
   factory CustomDomain.fromJson(Map<String, dynamic> json) {
     return CustomDomain(
-      domainName: json['DomainName'] as String,
-      enableWWWSubdomain: json['EnableWWWSubdomain'] as bool,
+      domainName: (json['DomainName'] as String?) ?? '',
+      enableWWWSubdomain: (json['EnableWWWSubdomain'] as bool?) ?? false,
       status:
           CustomDomainAssociationStatus.fromString((json['Status'] as String)),
       certificateValidationRecords: (json['CertificateValidationRecords']
@@ -2966,7 +2974,8 @@ class DeleteAutoScalingConfigurationResponse {
       Map<String, dynamic> json) {
     return DeleteAutoScalingConfigurationResponse(
       autoScalingConfiguration: AutoScalingConfiguration.fromJson(
-          json['AutoScalingConfiguration'] as Map<String, dynamic>),
+          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3015,7 +3024,8 @@ class DeleteObservabilityConfigurationResponse {
       Map<String, dynamic> json) {
     return DeleteObservabilityConfigurationResponse(
       observabilityConfiguration: ObservabilityConfiguration.fromJson(
-          json['ObservabilityConfiguration'] as Map<String, dynamic>),
+          (json['ObservabilityConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3043,8 +3053,9 @@ class DeleteServiceResponse {
 
   factory DeleteServiceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteServiceResponse(
-      operationId: json['OperationId'] as String,
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      operationId: (json['OperationId'] as String?) ?? '',
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3069,8 +3080,9 @@ class DeleteVpcConnectorResponse {
 
   factory DeleteVpcConnectorResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVpcConnectorResponse(
-      vpcConnector:
-          VpcConnector.fromJson(json['VpcConnector'] as Map<String, dynamic>),
+      vpcConnector: VpcConnector.fromJson(
+          (json['VpcConnector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3095,7 +3107,8 @@ class DeleteVpcIngressConnectionResponse {
       Map<String, dynamic> json) {
     return DeleteVpcIngressConnectionResponse(
       vpcIngressConnection: VpcIngressConnection.fromJson(
-          json['VpcIngressConnection'] as Map<String, dynamic>),
+          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3120,7 +3133,8 @@ class DescribeAutoScalingConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeAutoScalingConfigurationResponse(
       autoScalingConfiguration: AutoScalingConfiguration.fromJson(
-          json['AutoScalingConfiguration'] as Map<String, dynamic>),
+          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3163,13 +3177,13 @@ class DescribeCustomDomainsResponse {
 
   factory DescribeCustomDomainsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeCustomDomainsResponse(
-      customDomains: (json['CustomDomains'] as List)
+      customDomains: ((json['CustomDomains'] as List?) ?? const [])
           .nonNulls
           .map((e) => CustomDomain.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dNSTarget: json['DNSTarget'] as String,
-      serviceArn: json['ServiceArn'] as String,
-      vpcDNSTargets: (json['VpcDNSTargets'] as List)
+      dNSTarget: (json['DNSTarget'] as String?) ?? '',
+      serviceArn: (json['ServiceArn'] as String?) ?? '',
+      vpcDNSTargets: ((json['VpcDNSTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3206,7 +3220,8 @@ class DescribeObservabilityConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeObservabilityConfigurationResponse(
       observabilityConfiguration: ObservabilityConfiguration.fromJson(
-          json['ObservabilityConfiguration'] as Map<String, dynamic>),
+          (json['ObservabilityConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3229,7 +3244,8 @@ class DescribeServiceResponse {
 
   factory DescribeServiceResponse.fromJson(Map<String, dynamic> json) {
     return DescribeServiceResponse(
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3252,8 +3268,9 @@ class DescribeVpcConnectorResponse {
 
   factory DescribeVpcConnectorResponse.fromJson(Map<String, dynamic> json) {
     return DescribeVpcConnectorResponse(
-      vpcConnector:
-          VpcConnector.fromJson(json['VpcConnector'] as Map<String, dynamic>),
+      vpcConnector: VpcConnector.fromJson(
+          (json['VpcConnector'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3278,7 +3295,8 @@ class DescribeVpcIngressConnectionResponse {
       Map<String, dynamic> json) {
     return DescribeVpcIngressConnectionResponse(
       vpcIngressConnection: VpcIngressConnection.fromJson(
-          json['VpcIngressConnection'] as Map<String, dynamic>),
+          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3314,11 +3332,12 @@ class DisassociateCustomDomainResponse {
 
   factory DisassociateCustomDomainResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateCustomDomainResponse(
-      customDomain:
-          CustomDomain.fromJson(json['CustomDomain'] as Map<String, dynamic>),
-      dNSTarget: json['DNSTarget'] as String,
-      serviceArn: json['ServiceArn'] as String,
-      vpcDNSTargets: (json['VpcDNSTargets'] as List)
+      customDomain: CustomDomain.fromJson(
+          (json['CustomDomain'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      dNSTarget: (json['DNSTarget'] as String?) ?? '',
+      serviceArn: (json['ServiceArn'] as String?) ?? '',
+      vpcDNSTargets: ((json['VpcDNSTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcDNSTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3404,7 +3423,7 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      kmsKey: json['KmsKey'] as String,
+      kmsKey: (json['KmsKey'] as String?) ?? '',
     );
   }
 
@@ -3611,7 +3630,7 @@ class ImageRepository {
 
   factory ImageRepository.fromJson(Map<String, dynamic> json) {
     return ImageRepository(
-      imageIdentifier: json['ImageIdentifier'] as String,
+      imageIdentifier: (json['ImageIdentifier'] as String?) ?? '',
       imageRepositoryType: ImageRepositoryType.fromString(
           (json['ImageRepositoryType'] as String)),
       imageConfiguration: json['ImageConfiguration'] != null
@@ -3788,7 +3807,7 @@ class ListAutoScalingConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListAutoScalingConfigurationsResponse(
       autoScalingConfigurationSummaryList:
-          (json['AutoScalingConfigurationSummaryList'] as List)
+          ((json['AutoScalingConfigurationSummaryList'] as List?) ?? const [])
               .nonNulls
               .map((e) => AutoScalingConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -3826,10 +3845,11 @@ class ListConnectionsResponse {
 
   factory ListConnectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectionsResponse(
-      connectionSummaryList: (json['ConnectionSummaryList'] as List)
-          .nonNulls
-          .map((e) => ConnectionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      connectionSummaryList:
+          ((json['ConnectionSummaryList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ConnectionSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -3864,7 +3884,7 @@ class ListObservabilityConfigurationsResponse {
       Map<String, dynamic> json) {
     return ListObservabilityConfigurationsResponse(
       observabilityConfigurationSummaryList:
-          (json['ObservabilityConfigurationSummaryList'] as List)
+          ((json['ObservabilityConfigurationSummaryList'] as List?) ?? const [])
               .nonNulls
               .map((e) => ObservabilityConfigurationSummary.fromJson(
                   e as Map<String, dynamic>))
@@ -3937,7 +3957,7 @@ class ListServicesForAutoScalingConfigurationResponse {
   factory ListServicesForAutoScalingConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return ListServicesForAutoScalingConfigurationResponse(
-      serviceArnList: (json['ServiceArnList'] as List)
+      serviceArnList: ((json['ServiceArnList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3971,7 +3991,7 @@ class ListServicesResponse {
 
   factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
     return ListServicesResponse(
-      serviceSummaryList: (json['ServiceSummaryList'] as List)
+      serviceSummaryList: ((json['ServiceSummaryList'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4030,7 +4050,7 @@ class ListVpcConnectorsResponse {
 
   factory ListVpcConnectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListVpcConnectorsResponse(
-      vpcConnectors: (json['VpcConnectors'] as List)
+      vpcConnectors: ((json['VpcConnectors'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4091,8 +4111,9 @@ class ListVpcIngressConnectionsResponse {
   factory ListVpcIngressConnectionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListVpcIngressConnectionsResponse(
-      vpcIngressConnectionSummaryList: (json['VpcIngressConnectionSummaryList']
-              as List)
+      vpcIngressConnectionSummaryList: ((json['VpcIngressConnectionSummaryList']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               VpcIngressConnectionSummary.fromJson(e as Map<String, dynamic>))
@@ -4472,7 +4493,8 @@ class PauseServiceResponse {
 
   factory PauseServiceResponse.fromJson(Map<String, dynamic> json) {
     return PauseServiceResponse(
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       operationId: json['OperationId'] as String?,
     );
   }
@@ -4518,7 +4540,8 @@ class ResumeServiceResponse {
 
   factory ResumeServiceResponse.fromJson(Map<String, dynamic> json) {
     return ResumeServiceResponse(
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       operationId: json['OperationId'] as String?,
     );
   }
@@ -4667,19 +4690,23 @@ class Service {
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
       autoScalingConfigurationSummary: AutoScalingConfigurationSummary.fromJson(
-          json['AutoScalingConfigurationSummary'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+          (json['AutoScalingConfigurationSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       instanceConfiguration: InstanceConfiguration.fromJson(
-          json['InstanceConfiguration'] as Map<String, dynamic>),
+          (json['InstanceConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       networkConfiguration: NetworkConfiguration.fromJson(
-          json['NetworkConfiguration'] as Map<String, dynamic>),
-      serviceArn: json['ServiceArn'] as String,
-      serviceId: json['ServiceId'] as String,
-      serviceName: json['ServiceName'] as String,
+          (json['NetworkConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serviceArn: (json['ServiceArn'] as String?) ?? '',
+      serviceId: (json['ServiceId'] as String?) ?? '',
+      serviceName: (json['ServiceName'] as String?) ?? '',
       sourceConfiguration: SourceConfiguration.fromJson(
-          json['SourceConfiguration'] as Map<String, dynamic>),
+          (json['SourceConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ServiceStatus.fromString((json['Status'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       deletedAt: timeStampFromJson(json['DeletedAt']),
       encryptionConfiguration: json['EncryptionConfiguration'] != null
           ? EncryptionConfiguration.fromJson(
@@ -4767,7 +4794,7 @@ class ServiceObservabilityConfiguration {
   factory ServiceObservabilityConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServiceObservabilityConfiguration(
-      observabilityEnabled: json['ObservabilityEnabled'] as bool,
+      observabilityEnabled: (json['ObservabilityEnabled'] as bool?) ?? false,
       observabilityConfigurationArn:
           json['ObservabilityConfigurationArn'] as String?,
     );
@@ -4923,7 +4950,7 @@ class SourceCodeVersion {
   factory SourceCodeVersion.fromJson(Map<String, dynamic> json) {
     return SourceCodeVersion(
       type: SourceCodeVersionType.fromString((json['Type'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -5034,7 +5061,7 @@ class StartDeploymentResponse {
 
   factory StartDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return StartDeploymentResponse(
-      operationId: json['OperationId'] as String,
+      operationId: (json['OperationId'] as String?) ?? '',
     );
   }
 
@@ -5152,7 +5179,8 @@ class UpdateDefaultAutoScalingConfigurationResponse {
       Map<String, dynamic> json) {
     return UpdateDefaultAutoScalingConfigurationResponse(
       autoScalingConfiguration: AutoScalingConfiguration.fromJson(
-          json['AutoScalingConfiguration'] as Map<String, dynamic>),
+          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5182,8 +5210,9 @@ class UpdateServiceResponse {
 
   factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateServiceResponse(
-      operationId: json['OperationId'] as String,
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
+      operationId: (json['OperationId'] as String?) ?? '',
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5210,7 +5239,8 @@ class UpdateVpcIngressConnectionResponse {
       Map<String, dynamic> json) {
     return UpdateVpcIngressConnectionResponse(
       vpcIngressConnection: VpcIngressConnection.fromJson(
-          json['VpcIngressConnection'] as Map<String, dynamic>),
+          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

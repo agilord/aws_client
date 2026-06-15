@@ -818,7 +818,8 @@ class CreateEnvironmentMembershipResult {
       Map<String, dynamic> json) {
     return CreateEnvironmentMembershipResult(
       membership: EnvironmentMember.fromJson(
-          json['membership'] as Map<String, dynamic>),
+          (json['membership'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -928,7 +929,7 @@ class DescribeEnvironmentStatusResult {
 
   factory DescribeEnvironmentStatusResult.fromJson(Map<String, dynamic> json) {
     return DescribeEnvironmentStatusResult(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
       status: EnvironmentStatus.fromString((json['status'] as String)),
     );
   }
@@ -1056,8 +1057,8 @@ class Environment {
 
   factory Environment.fromJson(Map<String, dynamic> json) {
     return Environment(
-      arn: json['arn'] as String,
-      ownerArn: json['ownerArn'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      ownerArn: (json['ownerArn'] as String?) ?? '',
       type: EnvironmentType.fromString((json['type'] as String)),
       connectionType:
           (json['connectionType'] as String?)?.let(ConnectionType.fromString),
@@ -1217,10 +1218,10 @@ class EnvironmentMember {
 
   factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
     return EnvironmentMember(
-      environmentId: json['environmentId'] as String,
+      environmentId: (json['environmentId'] as String?) ?? '',
       permissions: Permissions.fromString((json['permissions'] as String)),
-      userArn: json['userArn'] as String,
-      userId: json['userId'] as String,
+      userArn: (json['userArn'] as String?) ?? '',
+      userId: (json['userId'] as String?) ?? '',
       lastAccess: timeStampFromJson(json['lastAccess']),
     );
   }
@@ -1425,8 +1426,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

@@ -1485,8 +1485,8 @@ class AddPolicyStatementOutput {
 
   factory AddPolicyStatementOutput.fromJson(Map<String, dynamic> json) {
     return AddPolicyStatementOutput(
-      arn: json['arn'] as String,
-      token: json['token'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      token: (json['token'] as String?) ?? '',
       policy: json['policy'] as String?,
     );
   }
@@ -1540,15 +1540,16 @@ class BatchDeleteUniqueIdOutput {
 
   factory BatchDeleteUniqueIdOutput.fromJson(Map<String, dynamic> json) {
     return BatchDeleteUniqueIdOutput(
-      deleted: (json['deleted'] as List)
+      deleted: ((json['deleted'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeletedUniqueId.fromJson(e as Map<String, dynamic>))
           .toList(),
-      disconnectedUniqueIds: (json['disconnectedUniqueIds'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      errors: (json['errors'] as List)
+      disconnectedUniqueIds:
+          ((json['disconnectedUniqueIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeleteUniqueIdError.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1610,14 +1611,15 @@ class CreateIdMappingWorkflowOutput {
   factory CreateIdMappingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return CreateIdMappingWorkflowOutput(
       idMappingTechniques: IdMappingTechniques.fromJson(
-          json['idMappingTechniques'] as Map<String, dynamic>),
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+          (json['idMappingTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
@@ -1707,11 +1709,11 @@ class CreateIdNamespaceOutput {
 
   factory CreateIdNamespaceOutput.fromJson(Map<String, dynamic> json) {
     return CreateIdNamespaceOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      idNamespaceArn: json['idNamespaceArn'] as String,
-      idNamespaceName: json['idNamespaceName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
+      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
       type: IdNamespaceType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
@@ -1802,19 +1804,20 @@ class CreateMatchingWorkflowOutput {
 
   factory CreateMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return CreateMatchingWorkflowOutput(
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputSourceConfig: (json['outputSourceConfig'] as List)
+      outputSourceConfig: ((json['outputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
-          json['resolutionTechniques'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+          (json['resolutionTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       incrementalRunConfig: json['incrementalRunConfig'] != null
           ? IncrementalRunConfig.fromJson(
@@ -1871,13 +1874,13 @@ class CreateSchemaMappingOutput {
 
   factory CreateSchemaMappingOutput.fromJson(Map<String, dynamic> json) {
     return CreateSchemaMappingOutput(
-      description: json['description'] as String,
-      mappedInputFields: (json['mappedInputFields'] as List)
+      description: (json['description'] as String?) ?? '',
+      mappedInputFields: ((json['mappedInputFields'] as List?) ?? const [])
           .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemaArn: json['schemaArn'] as String,
-      schemaName: json['schemaName'] as String,
+      schemaArn: (json['schemaArn'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
     );
   }
 
@@ -1905,7 +1908,7 @@ class DeleteIdMappingWorkflowOutput {
 
   factory DeleteIdMappingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return DeleteIdMappingWorkflowOutput(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -1927,7 +1930,7 @@ class DeleteIdNamespaceOutput {
 
   factory DeleteIdNamespaceOutput.fromJson(Map<String, dynamic> json) {
     return DeleteIdNamespaceOutput(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -1949,7 +1952,7 @@ class DeleteMatchingWorkflowOutput {
 
   factory DeleteMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return DeleteMatchingWorkflowOutput(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -1979,8 +1982,8 @@ class DeletePolicyStatementOutput {
 
   factory DeletePolicyStatementOutput.fromJson(Map<String, dynamic> json) {
     return DeletePolicyStatementOutput(
-      arn: json['arn'] as String,
-      token: json['token'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      token: (json['token'] as String?) ?? '',
       policy: json['policy'] as String?,
     );
   }
@@ -2007,7 +2010,7 @@ class DeleteSchemaMappingOutput {
 
   factory DeleteSchemaMappingOutput.fromJson(Map<String, dynamic> json) {
     return DeleteSchemaMappingOutput(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -2036,7 +2039,7 @@ class DeleteUniqueIdError {
     return DeleteUniqueIdError(
       errorType:
           DeleteUniqueIdErrorType.fromString((json['errorType'] as String)),
-      uniqueId: json['uniqueId'] as String,
+      uniqueId: (json['uniqueId'] as String?) ?? '',
     );
   }
 
@@ -2091,7 +2094,7 @@ class DeletedUniqueId {
 
   factory DeletedUniqueId.fromJson(Map<String, dynamic> json) {
     return DeletedUniqueId(
-      uniqueId: json['uniqueId'] as String,
+      uniqueId: (json['uniqueId'] as String?) ?? '',
     );
   }
 
@@ -2171,8 +2174,8 @@ class GetIdMappingJobOutput {
 
   factory GetIdMappingJobOutput.fromJson(Map<String, dynamic> json) {
     return GetIdMappingJobOutput(
-      jobId: json['jobId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      jobId: (json['jobId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       errorDetails: json['errorDetails'] != null
@@ -2261,17 +2264,18 @@ class GetIdMappingWorkflowOutput {
 
   factory GetIdMappingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return GetIdMappingWorkflowOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       idMappingTechniques: IdMappingTechniques.fromJson(
-          json['idMappingTechniques'] as Map<String, dynamic>),
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+          (json['idMappingTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
@@ -2369,11 +2373,11 @@ class GetIdNamespaceOutput {
 
   factory GetIdNamespaceOutput.fromJson(Map<String, dynamic> json) {
     return GetIdNamespaceOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      idNamespaceArn: json['idNamespaceArn'] as String,
-      idNamespaceName: json['idNamespaceName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
+      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
       type: IdNamespaceType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
@@ -2483,8 +2487,8 @@ class GetMatchingJobOutput {
 
   factory GetMatchingJobOutput.fromJson(Map<String, dynamic> json) {
     return GetMatchingJobOutput(
-      jobId: json['jobId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      jobId: (json['jobId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
       errorDetails: json['errorDetails'] != null
@@ -2577,21 +2581,22 @@ class GetMatchingWorkflowOutput {
 
   factory GetMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return GetMatchingWorkflowOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputSourceConfig: (json['outputSourceConfig'] as List)
+      outputSourceConfig: ((json['outputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
-          json['resolutionTechniques'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+          (json['resolutionTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       incrementalRunConfig: json['incrementalRunConfig'] != null
           ? IncrementalRunConfig.fromJson(
@@ -2649,8 +2654,8 @@ class GetPolicyOutput {
 
   factory GetPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetPolicyOutput(
-      arn: json['arn'] as String,
-      token: json['token'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      token: (json['token'] as String?) ?? '',
       policy: json['policy'] as String?,
     );
   }
@@ -2732,15 +2737,18 @@ class GetProviderServiceOutput {
 
   factory GetProviderServiceOutput.fromJson(Map<String, dynamic> json) {
     return GetProviderServiceOutput(
-      anonymizedOutput: json['anonymizedOutput'] as bool,
+      anonymizedOutput: (json['anonymizedOutput'] as bool?) ?? false,
       providerEndpointConfiguration: ProviderEndpointConfiguration.fromJson(
-          json['providerEndpointConfiguration'] as Map<String, dynamic>),
+          (json['providerEndpointConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       providerEntityOutputDefinition: Document.fromJson(
-          json['providerEntityOutputDefinition'] as Map<String, dynamic>),
-      providerName: json['providerName'] as String,
-      providerServiceArn: json['providerServiceArn'] as String,
-      providerServiceDisplayName: json['providerServiceDisplayName'] as String,
-      providerServiceName: json['providerServiceName'] as String,
+          (json['providerEntityOutputDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      providerName: (json['providerName'] as String?) ?? '',
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
+      providerServiceDisplayName:
+          (json['providerServiceDisplayName'] as String?) ?? '',
+      providerServiceName: (json['providerServiceName'] as String?) ?? '',
       providerServiceType:
           ServiceType.fromString((json['providerServiceType'] as String)),
       providerComponentSchema: json['providerComponentSchema'] != null
@@ -2853,15 +2861,15 @@ class GetSchemaMappingOutput {
 
   factory GetSchemaMappingOutput.fromJson(Map<String, dynamic> json) {
     return GetSchemaMappingOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      hasWorkflows: json['hasWorkflows'] as bool,
-      mappedInputFields: (json['mappedInputFields'] as List)
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      hasWorkflows: (json['hasWorkflows'] as bool?) ?? false,
+      mappedInputFields: ((json['mappedInputFields'] as List?) ?? const [])
           .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemaArn: json['schemaArn'] as String,
-      schemaName: json['schemaName'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      schemaArn: (json['schemaArn'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2978,8 +2986,8 @@ class IdMappingJobOutputSource {
 
   factory IdMappingJobOutputSource.fromJson(Map<String, dynamic> json) {
     return IdMappingJobOutputSource(
-      outputS3Path: json['outputS3Path'] as String,
-      roleArn: json['roleArn'] as String,
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       kMSArn: json['KMSArn'] as String?,
     );
   }
@@ -3160,7 +3168,7 @@ class IdMappingWorkflowInputSource {
 
   factory IdMappingWorkflowInputSource.fromJson(Map<String, dynamic> json) {
     return IdMappingWorkflowInputSource(
-      inputSourceARN: json['inputSourceARN'] as String,
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
       schemaName: json['schemaName'] as String?,
       type: (json['type'] as String?)?.let(IdNamespaceType.fromString),
     );
@@ -3194,7 +3202,7 @@ class IdMappingWorkflowOutputSource {
 
   factory IdMappingWorkflowOutputSource.fromJson(Map<String, dynamic> json) {
     return IdMappingWorkflowOutputSource(
-      outputS3Path: json['outputS3Path'] as String,
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
       kMSArn: json['KMSArn'] as String?,
     );
   }
@@ -3250,10 +3258,10 @@ class IdMappingWorkflowSummary {
 
   factory IdMappingWorkflowSummary.fromJson(Map<String, dynamic> json) {
     return IdMappingWorkflowSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
     );
   }
 
@@ -3362,7 +3370,7 @@ class IdNamespaceInputSource {
 
   factory IdNamespaceInputSource.fromJson(Map<String, dynamic> json) {
     return IdNamespaceInputSource(
-      inputSourceARN: json['inputSourceARN'] as String,
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
       schemaName: json['schemaName'] as String?,
     );
   }
@@ -3420,11 +3428,11 @@ class IdNamespaceSummary {
 
   factory IdNamespaceSummary.fromJson(Map<String, dynamic> json) {
     return IdNamespaceSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      idNamespaceArn: json['idNamespaceArn'] as String,
-      idNamespaceName: json['idNamespaceName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
+      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
       type: IdNamespaceType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
@@ -3536,8 +3544,8 @@ class InputSource {
 
   factory InputSource.fromJson(Map<String, dynamic> json) {
     return InputSource(
-      inputSourceARN: json['inputSourceARN'] as String,
-      schemaName: json['schemaName'] as String,
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
       applyNormalization: json['applyNormalization'] as bool?,
     );
   }
@@ -3567,7 +3575,7 @@ class IntermediateSourceConfiguration {
 
   factory IntermediateSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return IntermediateSourceConfiguration(
-      intermediateS3Path: json['intermediateS3Path'] as String,
+      intermediateS3Path: (json['intermediateS3Path'] as String?) ?? '',
     );
   }
 
@@ -3650,8 +3658,8 @@ class JobOutputSource {
 
   factory JobOutputSource.fromJson(Map<String, dynamic> json) {
     return JobOutputSource(
-      outputS3Path: json['outputS3Path'] as String,
-      roleArn: json['roleArn'] as String,
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       kMSArn: json['KMSArn'] as String?,
     );
   }
@@ -3708,8 +3716,8 @@ class JobSummary {
 
   factory JobSummary.fromJson(Map<String, dynamic> json) {
     return JobSummary(
-      jobId: json['jobId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      jobId: (json['jobId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: JobStatus.fromString((json['status'] as String)),
       endTime: timeStampFromJson(json['endTime']),
     );
@@ -3973,8 +3981,9 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4032,12 +4041,12 @@ class MatchingWorkflowSummary {
 
   factory MatchingWorkflowSummary.fromJson(Map<String, dynamic> json) {
     return MatchingWorkflowSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       resolutionType:
           ResolutionType.fromString((json['resolutionType'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
     );
   }
 
@@ -4074,7 +4083,7 @@ class NamespaceProviderProperties {
 
   factory NamespaceProviderProperties.fromJson(Map<String, dynamic> json) {
     return NamespaceProviderProperties(
-      providerServiceArn: json['providerServiceArn'] as String,
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
       providerConfiguration: json['providerConfiguration'] != null
           ? Document.fromJson(
               json['providerConfiguration'] as Map<String, dynamic>)
@@ -4193,7 +4202,7 @@ class OutputAttribute {
 
   factory OutputAttribute.fromJson(Map<String, dynamic> json) {
     return OutputAttribute(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       hashed: json['hashed'] as bool?,
     );
   }
@@ -4242,11 +4251,11 @@ class OutputSource {
 
   factory OutputSource.fromJson(Map<String, dynamic> json) {
     return OutputSource(
-      output: (json['output'] as List)
+      output: ((json['output'] as List?) ?? const [])
           .nonNulls
           .map((e) => OutputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputS3Path: json['outputS3Path'] as String,
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
       kMSArn: json['KMSArn'] as String?,
       applyNormalization: json['applyNormalization'] as bool?,
     );
@@ -4445,10 +4454,10 @@ class ProviderMarketplaceConfiguration {
 
   factory ProviderMarketplaceConfiguration.fromJson(Map<String, dynamic> json) {
     return ProviderMarketplaceConfiguration(
-      assetId: json['assetId'] as String,
-      dataSetId: json['dataSetId'] as String,
-      listingId: json['listingId'] as String,
-      revisionId: json['revisionId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      dataSetId: (json['dataSetId'] as String?) ?? '',
+      listingId: (json['listingId'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -4488,7 +4497,7 @@ class ProviderProperties {
 
   factory ProviderProperties.fromJson(Map<String, dynamic> json) {
     return ProviderProperties(
-      providerServiceArn: json['providerServiceArn'] as String,
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
       intermediateSourceConfiguration:
           json['intermediateSourceConfiguration'] != null
               ? IntermediateSourceConfiguration.fromJson(
@@ -4540,7 +4549,7 @@ class ProviderSchemaAttribute {
 
   factory ProviderSchemaAttribute.fromJson(Map<String, dynamic> json) {
     return ProviderSchemaAttribute(
-      fieldName: json['fieldName'] as String,
+      fieldName: (json['fieldName'] as String?) ?? '',
       type: SchemaAttributeType.fromString((json['type'] as String)),
       hashing: json['hashing'] as bool?,
       subType: json['subType'] as String?,
@@ -4591,10 +4600,11 @@ class ProviderServiceSummary {
 
   factory ProviderServiceSummary.fromJson(Map<String, dynamic> json) {
     return ProviderServiceSummary(
-      providerName: json['providerName'] as String,
-      providerServiceArn: json['providerServiceArn'] as String,
-      providerServiceDisplayName: json['providerServiceDisplayName'] as String,
-      providerServiceName: json['providerServiceName'] as String,
+      providerName: (json['providerName'] as String?) ?? '',
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
+      providerServiceDisplayName:
+          (json['providerServiceDisplayName'] as String?) ?? '',
+      providerServiceName: (json['providerServiceName'] as String?) ?? '',
       providerServiceType:
           ServiceType.fromString((json['providerServiceType'] as String)),
     );
@@ -4634,8 +4644,8 @@ class PutPolicyOutput {
 
   factory PutPolicyOutput.fromJson(Map<String, dynamic> json) {
     return PutPolicyOutput(
-      arn: json['arn'] as String,
-      token: json['token'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      token: (json['token'] as String?) ?? '',
       policy: json['policy'] as String?,
     );
   }
@@ -4750,11 +4760,11 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      matchingKeys: (json['matchingKeys'] as List)
+      matchingKeys: ((json['matchingKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      ruleName: json['ruleName'] as String,
+      ruleName: (json['ruleName'] as String?) ?? '',
     );
   }
 
@@ -4811,7 +4821,7 @@ class RuleBasedProperties {
     return RuleBasedProperties(
       attributeMatchingModel: AttributeMatchingModel.fromString(
           (json['attributeMatchingModel'] as String)),
-      rules: (json['rules'] as List)
+      rules: ((json['rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4916,7 +4926,7 @@ class SchemaInputAttribute {
 
   factory SchemaInputAttribute.fromJson(Map<String, dynamic> json) {
     return SchemaInputAttribute(
-      fieldName: json['fieldName'] as String,
+      fieldName: (json['fieldName'] as String?) ?? '',
       type: SchemaAttributeType.fromString((json['type'] as String)),
       groupName: json['groupName'] as String?,
       hashed: json['hashed'] as bool?,
@@ -4972,11 +4982,11 @@ class SchemaMappingSummary {
 
   factory SchemaMappingSummary.fromJson(Map<String, dynamic> json) {
     return SchemaMappingSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      hasWorkflows: json['hasWorkflows'] as bool,
-      schemaArn: json['schemaArn'] as String,
-      schemaName: json['schemaName'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      hasWorkflows: (json['hasWorkflows'] as bool?) ?? false,
+      schemaArn: (json['schemaArn'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
     );
   }
 
@@ -5024,7 +5034,7 @@ class StartIdMappingJobOutput {
 
   factory StartIdMappingJobOutput.fromJson(Map<String, dynamic> json) {
     return StartIdMappingJobOutput(
-      jobId: json['jobId'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5053,7 +5063,7 @@ class StartMatchingJobOutput {
 
   factory StartMatchingJobOutput.fromJson(Map<String, dynamic> json) {
     return StartMatchingJobOutput(
-      jobId: json['jobId'] as String,
+      jobId: (json['jobId'] as String?) ?? '',
     );
   }
 
@@ -5144,14 +5154,15 @@ class UpdateIdMappingWorkflowOutput {
   factory UpdateIdMappingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return UpdateIdMappingWorkflowOutput(
       idMappingTechniques: IdMappingTechniques.fromJson(
-          json['idMappingTechniques'] as Map<String, dynamic>),
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+          (json['idMappingTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               IdMappingWorkflowInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      workflowArn: json['workflowArn'] as String,
-      workflowName: json['workflowName'] as String,
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
@@ -5237,11 +5248,11 @@ class UpdateIdNamespaceOutput {
 
   factory UpdateIdNamespaceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateIdNamespaceOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      idNamespaceArn: json['idNamespaceArn'] as String,
-      idNamespaceName: json['idNamespaceName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
+      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
       type: IdNamespaceType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       description: json['description'] as String?,
       idMappingWorkflowProperties:
           (json['idMappingWorkflowProperties'] as List?)
@@ -5323,18 +5334,19 @@ class UpdateMatchingWorkflowOutput {
 
   factory UpdateMatchingWorkflowOutput.fromJson(Map<String, dynamic> json) {
     return UpdateMatchingWorkflowOutput(
-      inputSourceConfig: (json['inputSourceConfig'] as List)
+      inputSourceConfig: ((json['inputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => InputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputSourceConfig: (json['outputSourceConfig'] as List)
+      outputSourceConfig: ((json['outputSourceConfig'] as List?) ?? const [])
           .nonNulls
           .map((e) => OutputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolutionTechniques: ResolutionTechniques.fromJson(
-          json['resolutionTechniques'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
-      workflowName: json['workflowName'] as String,
+          (json['resolutionTechniques'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
       incrementalRunConfig: json['incrementalRunConfig'] != null
           ? IncrementalRunConfig.fromJson(
@@ -5389,12 +5401,12 @@ class UpdateSchemaMappingOutput {
 
   factory UpdateSchemaMappingOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSchemaMappingOutput(
-      mappedInputFields: (json['mappedInputFields'] as List)
+      mappedInputFields: ((json['mappedInputFields'] as List?) ?? const [])
           .nonNulls
           .map((e) => SchemaInputAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      schemaArn: json['schemaArn'] as String,
-      schemaName: json['schemaName'] as String,
+      schemaArn: (json['schemaArn'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }

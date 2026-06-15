@@ -1122,13 +1122,17 @@ class CellOutput {
 
   factory CellOutput.fromJson(Map<String, dynamic> json) {
     return CellOutput(
-      cellArn: json['cellArn'] as String,
-      cellName: json['cellName'] as String,
-      cells: (json['cells'] as List).nonNulls.map((e) => e as String).toList(),
-      parentReadinessScopes: (json['parentReadinessScopes'] as List)
+      cellArn: (json['cellArn'] as String?) ?? '',
+      cellName: (json['cellName'] as String?) ?? '',
+      cells: ((json['cells'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
+      parentReadinessScopes:
+          ((json['parentReadinessScopes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2053,9 +2057,9 @@ class ListRulesOutput {
 
   factory ListRulesOutput.fromJson(Map<String, dynamic> json) {
     return ListRulesOutput(
-      resourceType: json['resourceType'] as String,
-      ruleDescription: json['ruleDescription'] as String,
-      ruleId: json['ruleId'] as String,
+      resourceType: (json['resourceType'] as String?) ?? '',
+      ruleDescription: (json['ruleDescription'] as String?) ?? '',
+      ruleId: (json['ruleId'] as String?) ?? '',
     );
   }
 
@@ -2240,8 +2244,8 @@ class ReadinessCheckOutput {
 
   factory ReadinessCheckOutput.fromJson(Map<String, dynamic> json) {
     return ReadinessCheckOutput(
-      readinessCheckArn: json['readinessCheckArn'] as String,
-      resourceSet: json['resourceSet'] as String,
+      readinessCheckArn: (json['readinessCheckArn'] as String?) ?? '',
+      resourceSet: (json['resourceSet'] as String?) ?? '',
       readinessCheckName: json['readinessCheckName'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2306,7 +2310,7 @@ class Recommendation {
 
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
-      recommendationText: json['recommendationText'] as String,
+      recommendationText: (json['recommendationText'] as String?) ?? '',
     );
   }
 
@@ -2341,9 +2345,12 @@ class RecoveryGroupOutput {
 
   factory RecoveryGroupOutput.fromJson(Map<String, dynamic> json) {
     return RecoveryGroupOutput(
-      cells: (json['cells'] as List).nonNulls.map((e) => e as String).toList(),
-      recoveryGroupArn: json['recoveryGroupArn'] as String,
-      recoveryGroupName: json['recoveryGroupName'] as String,
+      cells: ((json['cells'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      recoveryGroupArn: (json['recoveryGroupArn'] as String?) ?? '',
+      recoveryGroupName: (json['recoveryGroupName'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -2441,7 +2448,7 @@ class ResourceResult {
   factory ResourceResult.fromJson(Map<String, dynamic> json) {
     return ResourceResult(
       lastCheckedTimestamp:
-          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
       readiness: Readiness.fromString((json['readiness'] as String)),
       componentId: json['componentId'] as String?,
       resourceArn: json['resourceArn'] as String?,
@@ -2498,10 +2505,10 @@ class ResourceSetOutput {
 
   factory ResourceSetOutput.fromJson(Map<String, dynamic> json) {
     return ResourceSetOutput(
-      resourceSetArn: json['resourceSetArn'] as String,
-      resourceSetName: json['resourceSetName'] as String,
-      resourceSetType: json['resourceSetType'] as String,
-      resources: (json['resources'] as List)
+      resourceSetArn: (json['resourceSetArn'] as String?) ?? '',
+      resourceSetName: (json['resourceSetName'] as String?) ?? '',
+      resourceSetType: (json['resourceSetType'] as String?) ?? '',
+      resources: ((json['resources'] as List?) ?? const [])
           .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2551,13 +2558,13 @@ class RuleResult {
   factory RuleResult.fromJson(Map<String, dynamic> json) {
     return RuleResult(
       lastCheckedTimestamp:
-          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] as Object),
-      messages: (json['messages'] as List)
+          nonNullableTimeStampFromJson(json['lastCheckedTimestamp'] ?? 0),
+      messages: ((json['messages'] as List?) ?? const [])
           .nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
       readiness: Readiness.fromString((json['readiness'] as String)),
-      ruleId: json['ruleId'] as String,
+      ruleId: (json['ruleId'] as String?) ?? '',
     );
   }
 

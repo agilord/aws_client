@@ -3794,7 +3794,7 @@ class AssetSummary {
 
   factory AssetSummary.fromJson(Map<String, dynamic> json) {
     return AssetSummary(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       hashes: (json['hashes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(HashAlgorithm.fromString(k), e as String)),
       size: json['size'] as int?,
@@ -4310,8 +4310,9 @@ class DescribePackageResult {
 
   factory DescribePackageResult.fromJson(Map<String, dynamic> json) {
     return DescribePackageResult(
-      package:
-          PackageDescription.fromJson(json['package'] as Map<String, dynamic>),
+      package: PackageDescription.fromJson(
+          (json['package'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4336,7 +4337,8 @@ class DescribePackageVersionResult {
   factory DescribePackageVersionResult.fromJson(Map<String, dynamic> json) {
     return DescribePackageVersionResult(
       packageVersion: PackageVersionDescription.fromJson(
-          json['packageVersion'] as Map<String, dynamic>),
+          (json['packageVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6577,7 +6579,7 @@ class PackageVersionSummary {
   factory PackageVersionSummary.fromJson(Map<String, dynamic> json) {
     return PackageVersionSummary(
       status: PackageVersionStatus.fromString((json['status'] as String)),
-      version: json['version'] as String,
+      version: (json['version'] as String?) ?? '',
       origin: json['origin'] != null
           ? PackageVersionOrigin.fromJson(
               json['origin'] as Map<String, dynamic>)
@@ -7067,8 +7069,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

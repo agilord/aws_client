@@ -4352,7 +4352,7 @@ class AccessControlConfigurationSummary {
   factory AccessControlConfigurationSummary.fromJson(
       Map<String, dynamic> json) {
     return AccessControlConfigurationSummary(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -4405,7 +4405,8 @@ class AclConfiguration {
 
   factory AclConfiguration.fromJson(Map<String, dynamic> json) {
     return AclConfiguration(
-      allowedGroupsColumnName: json['AllowedGroupsColumnName'] as String,
+      allowedGroupsColumnName:
+          (json['AllowedGroupsColumnName'] as String?) ?? '',
     );
   }
 
@@ -4436,9 +4437,10 @@ class AdditionalResultAttribute {
 
   factory AdditionalResultAttribute.fromJson(Map<String, dynamic> json) {
     return AdditionalResultAttribute(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: AdditionalResultAttributeValue.fromJson(
-          json['Value'] as Map<String, dynamic>),
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       valueType: AdditionalResultAttributeValueType.fromString(
           (json['ValueType'] as String)),
     );
@@ -4612,11 +4614,12 @@ class AlfrescoConfiguration {
 
   factory AlfrescoConfiguration.fromJson(Map<String, dynamic> json) {
     return AlfrescoConfiguration(
-      secretArn: json['SecretArn'] as String,
-      siteId: json['SiteId'] as String,
-      siteUrl: json['SiteUrl'] as String,
-      sslCertificateS3Path:
-          S3Path.fromJson(json['SslCertificateS3Path'] as Map<String, dynamic>),
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      siteId: (json['SiteId'] as String?) ?? '',
+      siteUrl: (json['SiteUrl'] as String?) ?? '',
+      sslCertificateS3Path: S3Path.fromJson(
+          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       blogFieldMappings: (json['BlogFieldMappings'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5110,9 +5113,9 @@ class BasicAuthenticationConfiguration {
 
   factory BasicAuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return BasicAuthenticationConfiguration(
-      credentials: json['Credentials'] as String,
-      host: json['Host'] as String,
-      port: json['Port'] as int,
+      credentials: (json['Credentials'] as String?) ?? '',
+      host: (json['Host'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
     );
   }
 
@@ -5222,8 +5225,8 @@ class BatchDeleteFeaturedResultsSetError {
       Map<String, dynamic> json) {
     return BatchDeleteFeaturedResultsSetError(
       errorCode: ErrorCode.fromString((json['ErrorCode'] as String)),
-      errorMessage: json['ErrorMessage'] as String,
-      id: json['Id'] as String,
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -5251,7 +5254,7 @@ class BatchDeleteFeaturedResultsSetResponse {
   factory BatchDeleteFeaturedResultsSetResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteFeaturedResultsSetResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDeleteFeaturedResultsSetError.fromJson(
               e as Map<String, dynamic>))
@@ -5546,8 +5549,8 @@ class BoxConfiguration {
 
   factory BoxConfiguration.fromJson(Map<String, dynamic> json) {
     return BoxConfiguration(
-      enterpriseId: json['EnterpriseId'] as String,
-      secretArn: json['SecretArn'] as String,
+      enterpriseId: (json['EnterpriseId'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
       commentFieldMappings: (json['CommentFieldMappings'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5654,8 +5657,8 @@ class CapacityUnitsConfiguration {
 
   factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
     return CapacityUnitsConfiguration(
-      queryCapacityUnits: json['QueryCapacityUnits'] as int,
-      storageCapacityUnits: json['StorageCapacityUnits'] as int,
+      queryCapacityUnits: (json['QueryCapacityUnits'] as int?) ?? 0,
+      storageCapacityUnits: (json['StorageCapacityUnits'] as int?) ?? 0,
     );
   }
 
@@ -5779,7 +5782,8 @@ class CollapsedResultDetail {
   factory CollapsedResultDetail.fromJson(Map<String, dynamic> json) {
     return CollapsedResultDetail(
       documentAttribute: DocumentAttribute.fromJson(
-          json['DocumentAttribute'] as Map<String, dynamic>),
+          (json['DocumentAttribute'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       expandedResults: (json['ExpandedResults'] as List?)
           ?.nonNulls
           .map((e) => ExpandedResultItem.fromJson(e as Map<String, dynamic>))
@@ -5828,12 +5832,13 @@ class ColumnConfiguration {
 
   factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
     return ColumnConfiguration(
-      changeDetectingColumns: (json['ChangeDetectingColumns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      documentDataColumnName: json['DocumentDataColumnName'] as String,
-      documentIdColumnName: json['DocumentIdColumnName'] as String,
+      changeDetectingColumns:
+          ((json['ChangeDetectingColumns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      documentDataColumnName: (json['DocumentDataColumnName'] as String?) ?? '',
+      documentIdColumnName: (json['DocumentIdColumnName'] as String?) ?? '',
       documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
           ?.nonNulls
@@ -6225,8 +6230,8 @@ class ConfluenceConfiguration {
 
   factory ConfluenceConfiguration.fromJson(Map<String, dynamic> json) {
     return ConfluenceConfiguration(
-      secretArn: json['SecretArn'] as String,
-      serverUrl: json['ServerUrl'] as String,
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      serverUrl: (json['ServerUrl'] as String?) ?? '',
       version: ConfluenceVersion.fromString((json['Version'] as String)),
       attachmentConfiguration: json['AttachmentConfiguration'] != null
           ? ConfluenceAttachmentConfiguration.fromJson(
@@ -6604,11 +6609,11 @@ class ConnectionConfiguration {
 
   factory ConnectionConfiguration.fromJson(Map<String, dynamic> json) {
     return ConnectionConfiguration(
-      databaseHost: json['DatabaseHost'] as String,
-      databaseName: json['DatabaseName'] as String,
-      databasePort: json['DatabasePort'] as int,
-      secretArn: json['SecretArn'] as String,
-      tableName: json['TableName'] as String,
+      databaseHost: (json['DatabaseHost'] as String?) ?? '',
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      databasePort: (json['DatabasePort'] as int?) ?? 0,
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
     );
   }
 
@@ -6756,7 +6761,7 @@ class CreateAccessControlConfigurationResponse {
   factory CreateAccessControlConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAccessControlConfigurationResponse(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -6778,7 +6783,7 @@ class CreateDataSourceResponse {
 
   factory CreateDataSourceResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataSourceResponse(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -6800,7 +6805,7 @@ class CreateExperienceResponse {
 
   factory CreateExperienceResponse.fromJson(Map<String, dynamic> json) {
     return CreateExperienceResponse(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
@@ -7655,8 +7660,8 @@ class DataSourceToIndexFieldMapping {
 
   factory DataSourceToIndexFieldMapping.fromJson(Map<String, dynamic> json) {
     return DataSourceToIndexFieldMapping(
-      dataSourceFieldName: json['DataSourceFieldName'] as String,
-      indexFieldName: json['IndexFieldName'] as String,
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?) ?? '',
+      indexFieldName: (json['IndexFieldName'] as String?) ?? '',
       dateFieldFormat: json['DateFieldFormat'] as String?,
     );
   }
@@ -7723,12 +7728,14 @@ class DataSourceVpcConfiguration {
 
   factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceVpcConfiguration(
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -7777,9 +7784,11 @@ class DatabaseConfiguration {
   factory DatabaseConfiguration.fromJson(Map<String, dynamic> json) {
     return DatabaseConfiguration(
       columnConfiguration: ColumnConfiguration.fromJson(
-          json['ColumnConfiguration'] as Map<String, dynamic>),
+          (json['ColumnConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       connectionConfiguration: ConnectionConfiguration.fromJson(
-          json['ConnectionConfiguration'] as Map<String, dynamic>),
+          (json['ConnectionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       databaseEngineType:
           DatabaseEngineType.fromString((json['DatabaseEngineType'] as String)),
       aclConfiguration: json['AclConfiguration'] != null
@@ -7891,7 +7900,7 @@ class DescribeAccessControlConfigurationResponse {
   factory DescribeAccessControlConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAccessControlConfigurationResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       accessControlList: (json['AccessControlList'] as List?)
           ?.nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
@@ -9203,9 +9212,10 @@ class DocumentAttribute {
 
   factory DocumentAttribute.fromJson(Map<String, dynamic> json) {
     return DocumentAttribute(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: DocumentAttributeValue.fromJson(
-          json['Value'] as Map<String, dynamic>),
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9264,7 +9274,7 @@ class DocumentAttributeCondition {
   factory DocumentAttributeCondition.fromJson(Map<String, dynamic> json) {
     return DocumentAttributeCondition(
       conditionDocumentAttributeKey:
-          json['ConditionDocumentAttributeKey'] as String,
+          (json['ConditionDocumentAttributeKey'] as String?) ?? '',
       operator: ConditionOperator.fromString((json['Operator'] as String)),
       conditionOnValue: json['ConditionOnValue'] != null
           ? DocumentAttributeValue.fromJson(
@@ -9562,7 +9572,7 @@ class DocumentMetadataConfiguration {
 
   factory DocumentMetadataConfiguration.fromJson(Map<String, dynamic> json) {
     return DocumentMetadataConfiguration(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: DocumentAttributeValueType.fromString((json['Type'] as String)),
       relevance: json['Relevance'] != null
           ? Relevance.fromJson(json['Relevance'] as Map<String, dynamic>)
@@ -10274,7 +10284,8 @@ class FaqStatistics {
 
   factory FaqStatistics.fromJson(Map<String, dynamic> json) {
     return FaqStatistics(
-      indexedQuestionAnswersCount: json['IndexedQuestionAnswersCount'] as int,
+      indexedQuestionAnswersCount:
+          (json['IndexedQuestionAnswersCount'] as int?) ?? 0,
     );
   }
 
@@ -10866,11 +10877,12 @@ class FsxConfiguration {
 
   factory FsxConfiguration.fromJson(Map<String, dynamic> json) {
     return FsxConfiguration(
-      fileSystemId: json['FileSystemId'] as String,
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
       fileSystemType:
           FsxFileSystemType.fromString((json['FileSystemType'] as String)),
       vpcConfiguration: DataSourceVpcConfiguration.fromJson(
-          json['VpcConfiguration'] as Map<String, dynamic>),
+          (json['VpcConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11231,7 +11243,7 @@ class GitHubConfiguration {
 
   factory GitHubConfiguration.fromJson(Map<String, dynamic> json) {
     return GitHubConfiguration(
-      secretArn: json['SecretArn'] as String,
+      secretArn: (json['SecretArn'] as String?) ?? '',
       exclusionFileNamePatterns: (json['ExclusionFileNamePatterns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11551,7 +11563,7 @@ class GoogleDriveConfiguration {
 
   factory GoogleDriveConfiguration.fromJson(Map<String, dynamic> json) {
     return GoogleDriveConfiguration(
-      secretArn: json['SecretArn'] as String,
+      secretArn: (json['SecretArn'] as String?) ?? '',
       excludeMimeTypes: (json['ExcludeMimeTypes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11759,7 +11771,7 @@ class HierarchicalPrincipal {
 
   factory HierarchicalPrincipal.fromJson(Map<String, dynamic> json) {
     return HierarchicalPrincipal(
-      principalList: (json['PrincipalList'] as List)
+      principalList: ((json['PrincipalList'] as List?) ?? const [])
           .nonNulls
           .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11799,8 +11811,8 @@ class Highlight {
 
   factory Highlight.fromJson(Map<String, dynamic> json) {
     return Highlight(
-      beginOffset: json['BeginOffset'] as int,
-      endOffset: json['EndOffset'] as int,
+      beginOffset: (json['BeginOffset'] as int?) ?? 0,
+      endOffset: (json['EndOffset'] as int?) ?? 0,
       topAnswer: json['TopAnswer'] as bool?,
       type: (json['Type'] as String?)?.let(HighlightType.fromString),
     );
@@ -11877,8 +11889,8 @@ class HookConfiguration {
 
   factory HookConfiguration.fromJson(Map<String, dynamic> json) {
     return HookConfiguration(
-      lambdaArn: json['LambdaArn'] as String,
-      s3Bucket: json['S3Bucket'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       invocationCondition: json['InvocationCondition'] != null
           ? DocumentAttributeCondition.fromJson(
               json['InvocationCondition'] as Map<String, dynamic>)
@@ -11934,9 +11946,9 @@ class IndexConfigurationSummary {
 
   factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) {
     return IndexConfigurationSummary(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
       status: IndexStatus.fromString((json['Status'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       edition: (json['Edition'] as String?)?.let(IndexEdition.fromString),
       id: json['Id'] as String?,
       name: json['Name'] as String?,
@@ -11992,10 +12004,12 @@ class IndexStatistics {
 
   factory IndexStatistics.fromJson(Map<String, dynamic> json) {
     return IndexStatistics(
-      faqStatistics:
-          FaqStatistics.fromJson(json['FaqStatistics'] as Map<String, dynamic>),
+      faqStatistics: FaqStatistics.fromJson(
+          (json['FaqStatistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       textDocumentStatistics: TextDocumentStatistics.fromJson(
-          json['TextDocumentStatistics'] as Map<String, dynamic>),
+          (json['TextDocumentStatistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12248,8 +12262,8 @@ class JiraConfiguration {
 
   factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
     return JiraConfiguration(
-      jiraAccountUrl: json['JiraAccountUrl'] as String,
-      secretArn: json['SecretArn'] as String,
+      jiraAccountUrl: (json['JiraAccountUrl'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
       attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -12360,8 +12374,8 @@ class JsonTokenTypeConfiguration {
 
   factory JsonTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
     return JsonTokenTypeConfiguration(
-      groupAttributeField: json['GroupAttributeField'] as String,
-      userNameAttributeField: json['UserNameAttributeField'] as String,
+      groupAttributeField: (json['GroupAttributeField'] as String?) ?? '',
+      userNameAttributeField: (json['UserNameAttributeField'] as String?) ?? '',
     );
   }
 
@@ -12473,11 +12487,12 @@ class ListAccessControlConfigurationsResponse {
   factory ListAccessControlConfigurationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAccessControlConfigurationsResponse(
-      accessControlConfigurations: (json['AccessControlConfigurations'] as List)
-          .nonNulls
-          .map((e) => AccessControlConfigurationSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      accessControlConfigurations:
+          ((json['AccessControlConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AccessControlConfigurationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -13024,10 +13039,11 @@ class OnPremiseConfiguration {
 
   factory OnPremiseConfiguration.fromJson(Map<String, dynamic> json) {
     return OnPremiseConfiguration(
-      hostUrl: json['HostUrl'] as String,
-      organizationName: json['OrganizationName'] as String,
-      sslCertificateS3Path:
-          S3Path.fromJson(json['SslCertificateS3Path'] as Map<String, dynamic>),
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      organizationName: (json['OrganizationName'] as String?) ?? '',
+      sslCertificateS3Path: S3Path.fromJson(
+          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -13100,10 +13116,11 @@ class OneDriveConfiguration {
 
   factory OneDriveConfiguration.fromJson(Map<String, dynamic> json) {
     return OneDriveConfiguration(
-      oneDriveUsers:
-          OneDriveUsers.fromJson(json['OneDriveUsers'] as Map<String, dynamic>),
-      secretArn: json['SecretArn'] as String,
-      tenantDomain: json['TenantDomain'] as String,
+      oneDriveUsers: OneDriveUsers.fromJson(
+          (json['OneDriveUsers'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      tenantDomain: (json['TenantDomain'] as String?) ?? '',
       disableLocalGroups: json['DisableLocalGroups'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
           ?.nonNulls
@@ -13292,7 +13309,7 @@ class Principal {
   factory Principal.fromJson(Map<String, dynamic> json) {
     return Principal(
       access: ReadAccessType.fromString((json['Access'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: PrincipalType.fromString((json['Type'] as String)),
       dataSourceId: json['DataSourceId'] as String?,
     );
@@ -13379,8 +13396,8 @@ class ProxyConfiguration {
 
   factory ProxyConfiguration.fromJson(Map<String, dynamic> json) {
     return ProxyConfiguration(
-      host: json['Host'] as String,
-      port: json['Port'] as int,
+      host: (json['Host'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
       credentials: json['Credentials'] as String?,
     );
   }
@@ -13902,8 +13919,8 @@ class QuipConfiguration {
 
   factory QuipConfiguration.fromJson(Map<String, dynamic> json) {
     return QuipConfiguration(
-      domain: json['Domain'] as String,
-      secretArn: json['SecretArn'] as String,
+      domain: (json['Domain'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
       attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -14355,7 +14372,7 @@ class S3DataSourceConfiguration {
 
   factory S3DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return S3DataSourceConfiguration(
-      bucketName: json['BucketName'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
       accessControlListConfiguration: json['AccessControlListConfiguration'] !=
               null
           ? AccessControlListConfiguration.fromJson(
@@ -14416,8 +14433,8 @@ class S3Path {
 
   factory S3Path.fromJson(Map<String, dynamic> json) {
     return S3Path(
-      bucket: json['Bucket'] as String,
-      key: json['Key'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
+      key: (json['Key'] as String?) ?? '',
     );
   }
 
@@ -14451,8 +14468,8 @@ class SaaSConfiguration {
 
   factory SaaSConfiguration.fromJson(Map<String, dynamic> json) {
     return SaaSConfiguration(
-      hostUrl: json['HostUrl'] as String,
-      organizationName: json['OrganizationName'] as String,
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      organizationName: (json['OrganizationName'] as String?) ?? '',
     );
   }
 
@@ -14497,7 +14514,7 @@ class SalesforceChatterFeedConfiguration {
   factory SalesforceChatterFeedConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SalesforceChatterFeedConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
           ?.nonNulls
@@ -14634,8 +14651,8 @@ class SalesforceConfiguration {
 
   factory SalesforceConfiguration.fromJson(Map<String, dynamic> json) {
     return SalesforceConfiguration(
-      secretArn: json['SecretArn'] as String,
-      serverUrl: json['ServerUrl'] as String,
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      serverUrl: (json['ServerUrl'] as String?) ?? '',
       chatterFeedConfiguration: json['ChatterFeedConfiguration'] != null
           ? SalesforceChatterFeedConfiguration.fromJson(
               json['ChatterFeedConfiguration'] as Map<String, dynamic>)
@@ -14736,8 +14753,8 @@ class SalesforceCustomKnowledgeArticleTypeConfiguration {
   factory SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SalesforceCustomKnowledgeArticleTypeConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
-      name: json['Name'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
           ?.nonNulls
@@ -14788,7 +14805,7 @@ class SalesforceKnowledgeArticleConfiguration {
   factory SalesforceKnowledgeArticleConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SalesforceKnowledgeArticleConfiguration(
-      includedStates: (json['IncludedStates'] as List)
+      includedStates: ((json['IncludedStates'] as List?) ?? const [])
           .nonNulls
           .map((e) => SalesforceKnowledgeArticleState.fromString((e as String)))
           .toList(),
@@ -14868,7 +14885,7 @@ class SalesforceStandardKnowledgeArticleTypeConfiguration {
   factory SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SalesforceStandardKnowledgeArticleTypeConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
           ?.nonNulls
@@ -14961,7 +14978,7 @@ class SalesforceStandardObjectConfiguration {
   factory SalesforceStandardObjectConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SalesforceStandardObjectConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
       name: SalesforceStandardObjectName.fromString((json['Name'] as String)),
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       fieldMappings: (json['FieldMappings'] as List?)
@@ -15156,8 +15173,10 @@ class SeedUrlConfiguration {
 
   factory SeedUrlConfiguration.fromJson(Map<String, dynamic> json) {
     return SeedUrlConfiguration(
-      seedUrls:
-          (json['SeedUrls'] as List).nonNulls.map((e) => e as String).toList(),
+      seedUrls: ((json['SeedUrls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       webCrawlerMode:
           (json['WebCrawlerMode'] as String?)?.let(WebCrawlerMode.fromString),
     );
@@ -15282,8 +15301,8 @@ class ServiceNowConfiguration {
 
   factory ServiceNowConfiguration.fromJson(Map<String, dynamic> json) {
     return ServiceNowConfiguration(
-      hostUrl: json['HostUrl'] as String,
-      secretArn: json['SecretArn'] as String,
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
       serviceNowBuildVersion: ServiceNowBuildVersionType.fromString(
           (json['ServiceNowBuildVersion'] as String)),
       authenticationType: (json['AuthenticationType'] as String?)
@@ -15380,7 +15399,7 @@ class ServiceNowKnowledgeArticleConfiguration {
   factory ServiceNowKnowledgeArticleConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServiceNowKnowledgeArticleConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
       crawlAttachments: json['CrawlAttachments'] as bool?,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       excludeAttachmentFilePatterns:
@@ -15477,7 +15496,7 @@ class ServiceNowServiceCatalogConfiguration {
   factory ServiceNowServiceCatalogConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServiceNowServiceCatalogConfiguration(
-      documentDataFieldName: json['DocumentDataFieldName'] as String,
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
       crawlAttachments: json['CrawlAttachments'] as bool?,
       documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
       excludeAttachmentFilePatterns:
@@ -15638,10 +15657,13 @@ class SharePointConfiguration {
 
   factory SharePointConfiguration.fromJson(Map<String, dynamic> json) {
     return SharePointConfiguration(
-      secretArn: json['SecretArn'] as String,
+      secretArn: (json['SecretArn'] as String?) ?? '',
       sharePointVersion:
           SharePointVersion.fromString((json['SharePointVersion'] as String)),
-      urls: (json['Urls'] as List).nonNulls.map((e) => e as String).toList(),
+      urls: ((json['Urls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       authenticationType: (json['AuthenticationType'] as String?)
           ?.let(SharePointOnlineAuthenticationType.fromString),
       crawlAttachments: json['CrawlAttachments'] as bool?,
@@ -15764,8 +15786,10 @@ class SiteMapsConfiguration {
 
   factory SiteMapsConfiguration.fromJson(Map<String, dynamic> json) {
     return SiteMapsConfiguration(
-      siteMaps:
-          (json['SiteMaps'] as List).nonNulls.map((e) => e as String).toList(),
+      siteMaps: ((json['SiteMaps'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -15911,13 +15935,13 @@ class SlackConfiguration {
 
   factory SlackConfiguration.fromJson(Map<String, dynamic> json) {
     return SlackConfiguration(
-      secretArn: json['SecretArn'] as String,
-      sinceCrawlDate: json['SinceCrawlDate'] as String,
-      slackEntityList: (json['SlackEntityList'] as List)
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      sinceCrawlDate: (json['SinceCrawlDate'] as String?) ?? '',
+      slackEntityList: ((json['SlackEntityList'] as List?) ?? const [])
           .nonNulls
           .map((e) => SlackEntity.fromString((e as String)))
           .toList(),
-      teamId: json['TeamId'] as String,
+      teamId: (json['TeamId'] as String?) ?? '',
       crawlBotMessage: json['CrawlBotMessage'] as bool?,
       excludeArchived: json['ExcludeArchived'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
@@ -16624,8 +16648,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -16715,8 +16739,9 @@ class TextDocumentStatistics {
 
   factory TextDocumentStatistics.fromJson(Map<String, dynamic> json) {
     return TextDocumentStatistics(
-      indexedTextBytes: json['IndexedTextBytes'] as int,
-      indexedTextDocumentsCount: json['IndexedTextDocumentsCount'] as int,
+      indexedTextBytes: (json['IndexedTextBytes'] as int?) ?? 0,
+      indexedTextDocumentsCount:
+          (json['IndexedTextDocumentsCount'] as int?) ?? 0,
     );
   }
 
@@ -17341,7 +17366,8 @@ class WebCrawlerConfiguration {
 
   factory WebCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
     return WebCrawlerConfiguration(
-      urls: Urls.fromJson(json['Urls'] as Map<String, dynamic>),
+      urls: Urls.fromJson(
+          (json['Urls'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       authenticationConfiguration: json['AuthenticationConfiguration'] != null
           ? AuthenticationConfiguration.fromJson(
               json['AuthenticationConfiguration'] as Map<String, dynamic>)
@@ -17477,7 +17503,7 @@ class WorkDocsConfiguration {
 
   factory WorkDocsConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkDocsConfiguration(
-      organizationId: json['OrganizationId'] as String,
+      organizationId: (json['OrganizationId'] as String?) ?? '',
       crawlComments: json['CrawlComments'] as bool?,
       exclusionPatterns: (json['ExclusionPatterns'] as List?)
           ?.nonNulls

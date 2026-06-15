@@ -1548,9 +1548,9 @@ class DecryptDataOutput {
 
   factory DecryptDataOutput.fromJson(Map<String, dynamic> json) {
     return DecryptDataOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
-      plainText: json['PlainText'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
+      plainText: (json['PlainText'] as String?) ?? '',
     );
   }
 
@@ -1948,8 +1948,8 @@ class EncryptDataOutput {
 
   factory EncryptDataOutput.fromJson(Map<String, dynamic> json) {
     return EncryptDataOutput(
-      cipherText: json['CipherText'] as String,
-      keyArn: json['KeyArn'] as String,
+      cipherText: (json['CipherText'] as String?) ?? '',
+      keyArn: (json['KeyArn'] as String?) ?? '',
       keyCheckValue: json['KeyCheckValue'] as String?,
     );
   }
@@ -2046,9 +2046,9 @@ class GenerateCardValidationDataOutput {
 
   factory GenerateCardValidationDataOutput.fromJson(Map<String, dynamic> json) {
     return GenerateCardValidationDataOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
-      validationData: json['ValidationData'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
+      validationData: (json['ValidationData'] as String?) ?? '',
     );
   }
 
@@ -2089,9 +2089,9 @@ class GenerateMacOutput {
 
   factory GenerateMacOutput.fromJson(Map<String, dynamic> json) {
     return GenerateMacOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
-      mac: json['Mac'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
+      mac: (json['Mac'] as String?) ?? '',
     );
   }
 
@@ -2153,12 +2153,15 @@ class GeneratePinDataOutput {
 
   factory GeneratePinDataOutput.fromJson(Map<String, dynamic> json) {
     return GeneratePinDataOutput(
-      encryptedPinBlock: json['EncryptedPinBlock'] as String,
-      encryptionKeyArn: json['EncryptionKeyArn'] as String,
-      encryptionKeyCheckValue: json['EncryptionKeyCheckValue'] as String,
-      generationKeyArn: json['GenerationKeyArn'] as String,
-      generationKeyCheckValue: json['GenerationKeyCheckValue'] as String,
-      pinData: PinData.fromJson(json['PinData'] as Map<String, dynamic>),
+      encryptedPinBlock: (json['EncryptedPinBlock'] as String?) ?? '',
+      encryptionKeyArn: (json['EncryptionKeyArn'] as String?) ?? '',
+      encryptionKeyCheckValue:
+          (json['EncryptionKeyCheckValue'] as String?) ?? '',
+      generationKeyArn: (json['GenerationKeyArn'] as String?) ?? '',
+      generationKeyCheckValue:
+          (json['GenerationKeyCheckValue'] as String?) ?? '',
+      pinData: PinData.fromJson((json['PinData'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2697,9 +2700,9 @@ class ReEncryptDataOutput {
 
   factory ReEncryptDataOutput.fromJson(Map<String, dynamic> json) {
     return ReEncryptDataOutput(
-      cipherText: json['CipherText'] as String,
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
+      cipherText: (json['CipherText'] as String?) ?? '',
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
     );
   }
 
@@ -3045,9 +3048,9 @@ class TranslatePinDataOutput {
 
   factory TranslatePinDataOutput.fromJson(Map<String, dynamic> json) {
     return TranslatePinDataOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
-      pinBlock: json['PinBlock'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
+      pinBlock: (json['PinBlock'] as String?) ?? '',
     );
   }
 
@@ -3154,8 +3157,8 @@ class VerifyAuthRequestCryptogramOutput {
   factory VerifyAuthRequestCryptogramOutput.fromJson(
       Map<String, dynamic> json) {
     return VerifyAuthRequestCryptogramOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
       authResponseValue: json['AuthResponseValue'] as String?,
     );
   }
@@ -3192,8 +3195,8 @@ class VerifyCardValidationDataOutput {
 
   factory VerifyCardValidationDataOutput.fromJson(Map<String, dynamic> json) {
     return VerifyCardValidationDataOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
     );
   }
 
@@ -3227,8 +3230,8 @@ class VerifyMacOutput {
 
   factory VerifyMacOutput.fromJson(Map<String, dynamic> json) {
     return VerifyMacOutput(
-      keyArn: json['KeyArn'] as String,
-      keyCheckValue: json['KeyCheckValue'] as String,
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyCheckValue: (json['KeyCheckValue'] as String?) ?? '',
     );
   }
 
@@ -3276,10 +3279,12 @@ class VerifyPinDataOutput {
 
   factory VerifyPinDataOutput.fromJson(Map<String, dynamic> json) {
     return VerifyPinDataOutput(
-      encryptionKeyArn: json['EncryptionKeyArn'] as String,
-      encryptionKeyCheckValue: json['EncryptionKeyCheckValue'] as String,
-      verificationKeyArn: json['VerificationKeyArn'] as String,
-      verificationKeyCheckValue: json['VerificationKeyCheckValue'] as String,
+      encryptionKeyArn: (json['EncryptionKeyArn'] as String?) ?? '',
+      encryptionKeyCheckValue:
+          (json['EncryptionKeyCheckValue'] as String?) ?? '',
+      verificationKeyArn: (json['VerificationKeyArn'] as String?) ?? '',
+      verificationKeyCheckValue:
+          (json['VerificationKeyCheckValue'] as String?) ?? '',
     );
   }
 

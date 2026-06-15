@@ -1111,8 +1111,8 @@ class AppDefinition {
 
   factory AppDefinition.fromJson(Map<String, dynamic> json) {
     return AppDefinition(
-      appDefinitionVersion: json['appDefinitionVersion'] as String,
-      cards: (json['cards'] as List)
+      appDefinitionVersion: (json['appDefinitionVersion'] as String?) ?? '',
+      cards: ((json['cards'] as List?) ?? const [])
           .nonNulls
           .map((e) => Card.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1147,7 +1147,7 @@ class AppDefinitionInput {
 
   factory AppDefinitionInput.fromJson(Map<String, dynamic> json) {
     return AppDefinitionInput(
-      cards: (json['cards'] as List)
+      cards: ((json['cards'] as List?) ?? const [])
           .nonNulls
           .map((e) => CardInput.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1475,7 +1475,7 @@ class CardStatus {
     return CardStatus(
       currentState:
           ExecutionStatus.fromString((json['currentState'] as String)),
-      currentValue: json['currentValue'] as String,
+      currentValue: (json['currentValue'] as String?) ?? '',
     );
   }
 
@@ -1543,8 +1543,8 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
     );
   }
 
@@ -1620,11 +1620,11 @@ class CreateLibraryItemOutput {
 
   factory CreateLibraryItemOutput.fromJson(Map<String, dynamic> json) {
     return CreateLibraryItemOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      libraryItemId: json['libraryItemId'] as String,
-      ratingCount: json['ratingCount'] as int,
-      status: json['status'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      libraryItemId: (json['libraryItemId'] as String?) ?? '',
+      ratingCount: (json['ratingCount'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
       isVerified: json['isVerified'] as bool?,
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
@@ -1708,15 +1708,15 @@ class CreateQAppOutput {
 
   factory CreateQAppOutput.fromJson(Map<String, dynamic> json) {
     return CreateQAppOutput(
-      appArn: json['appArn'] as String,
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
       status: AppStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      updatedBy: json['updatedBy'] as String,
+      title: (json['title'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      updatedBy: (json['updatedBy'] as String?) ?? '',
       description: json['description'] as String?,
       initialPrompt: json['initialPrompt'] as String?,
       requiredCapabilities: (json['requiredCapabilities'] as List?)
@@ -1773,9 +1773,10 @@ class DocumentAttribute {
 
   factory DocumentAttribute.fromJson(Map<String, dynamic> json) {
     return DocumentAttribute(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       value: DocumentAttributeValue.fromJson(
-          json['value'] as Map<String, dynamic>),
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1909,12 +1910,12 @@ class FileUploadCard {
 
   factory FileUploadCard.fromJson(Map<String, dynamic> json) {
     return FileUploadCard(
-      dependencies: (json['dependencies'] as List)
+      dependencies: ((json['dependencies'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       allowOverride: json['allowOverride'] as bool?,
       fileId: json['fileId'] as String?,
@@ -1976,8 +1977,8 @@ class FileUploadCardInput {
 
   factory FileUploadCardInput.fromJson(Map<String, dynamic> json) {
     return FileUploadCardInput(
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       allowOverride: json['allowOverride'] as bool?,
       fileId: json['fileId'] as String?,
@@ -2061,17 +2062,17 @@ class GetLibraryItemOutput {
 
   factory GetLibraryItemOutput.fromJson(Map<String, dynamic> json) {
     return GetLibraryItemOutput(
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      categories: (json['categories'] as List)
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      categories: ((json['categories'] as List?) ?? const [])
           .nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      libraryItemId: json['libraryItemId'] as String,
-      ratingCount: json['ratingCount'] as int,
-      status: json['status'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      libraryItemId: (json['libraryItemId'] as String?) ?? '',
+      ratingCount: (json['ratingCount'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
       isRatedByUser: json['isRatedByUser'] as bool?,
       isVerified: json['isVerified'] as bool?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -2171,17 +2172,18 @@ class GetQAppOutput {
 
   factory GetQAppOutput.fromJson(Map<String, dynamic> json) {
     return GetQAppOutput(
-      appArn: json['appArn'] as String,
-      appDefinition:
-          AppDefinition.fromJson(json['appDefinition'] as Map<String, dynamic>),
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appDefinition: AppDefinition.fromJson(
+          (json['appDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
       status: AppStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      updatedBy: json['updatedBy'] as String,
+      title: (json['title'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      updatedBy: (json['updatedBy'] as String?) ?? '',
       description: json['description'] as String?,
       initialPrompt: json['initialPrompt'] as String?,
       requiredCapabilities: (json['requiredCapabilities'] as List?)
@@ -2247,10 +2249,12 @@ class GetQAppSessionOutput {
 
   factory GetQAppSessionOutput.fromJson(Map<String, dynamic> json) {
     return GetQAppSessionOutput(
-      cardStatus: (json['cardStatus'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, CardStatus.fromJson(e as Map<String, dynamic>))),
-      sessionArn: json['sessionArn'] as String,
-      sessionId: json['sessionId'] as String,
+      cardStatus: ((json['cardStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, CardStatus.fromJson(e as Map<String, dynamic>))),
+      sessionArn: (json['sessionArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
       status: ExecutionStatus.fromString((json['status'] as String)),
     );
   }
@@ -2351,17 +2355,17 @@ class LibraryItemMember {
 
   factory LibraryItemMember.fromJson(Map<String, dynamic> json) {
     return LibraryItemMember(
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      categories: (json['categories'] as List)
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      categories: ((json['categories'] as List?) ?? const [])
           .nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      libraryItemId: json['libraryItemId'] as String,
-      ratingCount: json['ratingCount'] as int,
-      status: json['status'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      libraryItemId: (json['libraryItemId'] as String?) ?? '',
+      ratingCount: (json['ratingCount'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
       isRatedByUser: json['isRatedByUser'] as bool?,
       isVerified: json['isVerified'] as bool?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -2463,7 +2467,7 @@ class ListQAppsOutput {
 
   factory ListQAppsOutput.fromJson(Map<String, dynamic> json) {
     return ListQAppsOutput(
-      apps: (json['apps'] as List)
+      apps: ((json['apps'] as List?) ?? const [])
           .nonNulls
           .map((e) => UserAppItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2542,8 +2546,9 @@ class PredictAppDefinition {
   factory PredictAppDefinition.fromJson(Map<String, dynamic> json) {
     return PredictAppDefinition(
       appDefinition: AppDefinitionInput.fromJson(
-          json['appDefinition'] as Map<String, dynamic>),
-      title: json['title'] as String,
+          (json['appDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      title: (json['title'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -2597,8 +2602,9 @@ class PredictQAppOutput {
 
   factory PredictQAppOutput.fromJson(Map<String, dynamic> json) {
     return PredictQAppOutput(
-      app: PredictAppDefinition.fromJson(json['app'] as Map<String, dynamic>),
-      problemStatement: json['problemStatement'] as String,
+      app: PredictAppDefinition.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      problemStatement: (json['problemStatement'] as String?) ?? '',
     );
   }
 
@@ -2647,15 +2653,15 @@ class QPluginCard {
 
   factory QPluginCard.fromJson(Map<String, dynamic> json) {
     return QPluginCard(
-      dependencies: (json['dependencies'] as List)
+      dependencies: ((json['dependencies'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      id: json['id'] as String,
-      pluginId: json['pluginId'] as String,
+      id: (json['id'] as String?) ?? '',
+      pluginId: (json['pluginId'] as String?) ?? '',
       pluginType: PluginType.fromString((json['pluginType'] as String)),
-      prompt: json['prompt'] as String,
-      title: json['title'] as String,
+      prompt: (json['prompt'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
     );
   }
@@ -2707,10 +2713,10 @@ class QPluginCardInput {
 
   factory QPluginCardInput.fromJson(Map<String, dynamic> json) {
     return QPluginCardInput(
-      id: json['id'] as String,
-      pluginId: json['pluginId'] as String,
-      prompt: json['prompt'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      pluginId: (json['pluginId'] as String?) ?? '',
+      prompt: (json['prompt'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
     );
   }
@@ -2768,15 +2774,15 @@ class QQueryCard {
 
   factory QQueryCard.fromJson(Map<String, dynamic> json) {
     return QQueryCard(
-      dependencies: (json['dependencies'] as List)
+      dependencies: ((json['dependencies'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       outputSource:
           CardOutputSource.fromString((json['outputSource'] as String)),
-      prompt: json['prompt'] as String,
-      title: json['title'] as String,
+      prompt: (json['prompt'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       attributeFilter: json['attributeFilter'] != null
           ? AttributeFilter.fromJson(
@@ -2837,9 +2843,9 @@ class QQueryCardInput {
 
   factory QQueryCardInput.fromJson(Map<String, dynamic> json) {
     return QQueryCardInput(
-      id: json['id'] as String,
-      prompt: json['prompt'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      prompt: (json['prompt'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       attributeFilter: json['attributeFilter'] != null
           ? AttributeFilter.fromJson(
@@ -2896,8 +2902,8 @@ class StartQAppSessionOutput {
 
   factory StartQAppSessionOutput.fromJson(Map<String, dynamic> json) {
     return StartQAppSessionOutput(
-      sessionArn: json['sessionArn'] as String,
-      sessionId: json['sessionId'] as String,
+      sessionArn: (json['sessionArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
     );
   }
 
@@ -2954,12 +2960,12 @@ class TextInputCard {
 
   factory TextInputCard.fromJson(Map<String, dynamic> json) {
     return TextInputCard(
-      dependencies: (json['dependencies'] as List)
+      dependencies: ((json['dependencies'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       defaultValue: json['defaultValue'] as String?,
       placeholder: json['placeholder'] as String?,
@@ -3011,8 +3017,8 @@ class TextInputCardInput {
 
   factory TextInputCardInput.fromJson(Map<String, dynamic> json) {
     return TextInputCardInput(
-      id: json['id'] as String,
-      title: json['title'] as String,
+      id: (json['id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
       type: CardType.fromString((json['type'] as String)),
       defaultValue: json['defaultValue'] as String?,
       placeholder: json['placeholder'] as String?,
@@ -3105,17 +3111,17 @@ class UpdateLibraryItemOutput {
 
   factory UpdateLibraryItemOutput.fromJson(Map<String, dynamic> json) {
     return UpdateLibraryItemOutput(
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      categories: (json['categories'] as List)
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      categories: ((json['categories'] as List?) ?? const [])
           .nonNulls
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      libraryItemId: json['libraryItemId'] as String,
-      ratingCount: json['ratingCount'] as int,
-      status: json['status'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      libraryItemId: (json['libraryItemId'] as String?) ?? '',
+      ratingCount: (json['ratingCount'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
       isRatedByUser: json['isRatedByUser'] as bool?,
       isVerified: json['isVerified'] as bool?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -3210,15 +3216,15 @@ class UpdateQAppOutput {
 
   factory UpdateQAppOutput.fromJson(Map<String, dynamic> json) {
     return UpdateQAppOutput(
-      appArn: json['appArn'] as String,
-      appId: json['appId'] as String,
-      appVersion: json['appVersion'] as int,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appId: (json['appId'] as String?) ?? '',
+      appVersion: (json['appVersion'] as int?) ?? 0,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
       status: AppStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
-      updatedBy: json['updatedBy'] as String,
+      title: (json['title'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      updatedBy: (json['updatedBy'] as String?) ?? '',
       description: json['description'] as String?,
       initialPrompt: json['initialPrompt'] as String?,
       requiredCapabilities: (json['requiredCapabilities'] as List?)
@@ -3274,8 +3280,8 @@ class UpdateQAppSessionOutput {
 
   factory UpdateQAppSessionOutput.fromJson(Map<String, dynamic> json) {
     return UpdateQAppSessionOutput(
-      sessionArn: json['sessionArn'] as String,
-      sessionId: json['sessionId'] as String,
+      sessionArn: (json['sessionArn'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
     );
   }
 
@@ -3329,10 +3335,10 @@ class UserAppItem {
 
   factory UserAppItem.fromJson(Map<String, dynamic> json) {
     return UserAppItem(
-      appArn: json['appArn'] as String,
-      appId: json['appId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      title: json['title'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appId: (json['appId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      title: (json['title'] as String?) ?? '',
       canEdit: json['canEdit'] as bool?,
       description: json['description'] as String?,
       isVerified: json['isVerified'] as bool?,

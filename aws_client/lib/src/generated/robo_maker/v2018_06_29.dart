@@ -3762,10 +3762,12 @@ class DataSourceConfig {
 
   factory DataSourceConfig.fromJson(Map<String, dynamic> json) {
     return DataSourceConfig(
-      name: json['name'] as String,
-      s3Bucket: json['s3Bucket'] as String,
-      s3Keys:
-          (json['s3Keys'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['name'] as String?) ?? '',
+      s3Bucket: (json['s3Bucket'] as String?) ?? '',
+      s3Keys: ((json['s3Keys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       destination: json['destination'] as String?,
       type: (json['type'] as String?)?.let(DataSourceType.fromString),
     );
@@ -3886,10 +3888,11 @@ class DeploymentApplicationConfig {
 
   factory DeploymentApplicationConfig.fromJson(Map<String, dynamic> json) {
     return DeploymentApplicationConfig(
-      application: json['application'] as String,
-      applicationVersion: json['applicationVersion'] as String,
+      application: (json['application'] as String?) ?? '',
+      applicationVersion: (json['applicationVersion'] as String?) ?? '',
       launchConfig: DeploymentLaunchConfig.fromJson(
-          json['launchConfig'] as Map<String, dynamic>),
+          (json['launchConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4110,8 +4113,8 @@ class DeploymentLaunchConfig {
 
   factory DeploymentLaunchConfig.fromJson(Map<String, dynamic> json) {
     return DeploymentLaunchConfig(
-      launchFile: json['launchFile'] as String,
-      packageName: json['packageName'] as String,
+      launchFile: (json['launchFile'] as String?) ?? '',
+      packageName: (json['packageName'] as String?) ?? '',
       environmentVariables:
           (json['environmentVariables'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -6068,7 +6071,8 @@ class ListSimulationJobsResponse {
 
   factory ListSimulationJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListSimulationJobsResponse(
-      simulationJobSummaries: (json['simulationJobSummaries'] as List)
+      simulationJobSummaries: ((json['simulationJobSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SimulationJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6128,7 +6132,8 @@ class ListWorldExportJobsResponse {
 
   factory ListWorldExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorldExportJobsResponse(
-      worldExportJobSummaries: (json['worldExportJobSummaries'] as List)
+      worldExportJobSummaries: ((json['worldExportJobSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => WorldExportJobSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6166,11 +6171,12 @@ class ListWorldGenerationJobsResponse {
 
   factory ListWorldGenerationJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorldGenerationJobsResponse(
-      worldGenerationJobSummaries: (json['worldGenerationJobSummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              WorldGenerationJobSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      worldGenerationJobSummaries:
+          ((json['worldGenerationJobSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  WorldGenerationJobSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -6399,8 +6405,8 @@ class PortMapping {
 
   factory PortMapping.fromJson(Map<String, dynamic> json) {
     return PortMapping(
-      applicationPort: json['applicationPort'] as int,
-      jobPort: json['jobPort'] as int,
+      applicationPort: (json['applicationPort'] as int?) ?? 0,
+      jobPort: (json['jobPort'] as int?) ?? 0,
       enableOnPublicIp: json['enableOnPublicIp'] as bool?,
     );
   }
@@ -6696,9 +6702,10 @@ class RobotApplicationConfig {
 
   factory RobotApplicationConfig.fromJson(Map<String, dynamic> json) {
     return RobotApplicationConfig(
-      application: json['application'] as String,
-      launchConfig:
-          LaunchConfig.fromJson(json['launchConfig'] as Map<String, dynamic>),
+      application: (json['application'] as String?) ?? '',
+      launchConfig: LaunchConfig.fromJson(
+          (json['launchConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       applicationVersion: json['applicationVersion'] as String?,
       tools: (json['tools'] as List?)
           ?.nonNulls
@@ -7015,8 +7022,8 @@ class S3Object {
 
   factory S3Object.fromJson(Map<String, dynamic> json) {
     return S3Object(
-      bucket: json['bucket'] as String,
-      key: json['key'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
       etag: json['etag'] as String?,
     );
   }
@@ -7084,9 +7091,10 @@ class SimulationApplicationConfig {
 
   factory SimulationApplicationConfig.fromJson(Map<String, dynamic> json) {
     return SimulationApplicationConfig(
-      application: json['application'] as String,
-      launchConfig:
-          LaunchConfig.fromJson(json['launchConfig'] as Map<String, dynamic>),
+      application: (json['application'] as String?) ?? '',
+      launchConfig: LaunchConfig.fromJson(
+          (json['launchConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       applicationVersion: json['applicationVersion'] as String?,
       tools: (json['tools'] as List?)
           ?.nonNulls
@@ -7656,7 +7664,7 @@ class SimulationJobRequest {
 
   factory SimulationJobRequest.fromJson(Map<String, dynamic> json) {
     return SimulationJobRequest(
-      maxJobDurationInSeconds: json['maxJobDurationInSeconds'] as int,
+      maxJobDurationInSeconds: (json['maxJobDurationInSeconds'] as int?) ?? 0,
       compute: json['compute'] != null
           ? Compute.fromJson(json['compute'] as Map<String, dynamic>)
           : null,
@@ -8336,8 +8344,8 @@ class Tool {
 
   factory Tool.fromJson(Map<String, dynamic> json) {
     return Tool(
-      command: json['command'] as String,
-      name: json['name'] as String,
+      command: (json['command'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       exitBehavior:
           (json['exitBehavior'] as String?)?.let(ExitBehavior.fromString),
       streamOutputToCloudWatch: json['streamOutputToCloudWatch'] as bool?,
@@ -8663,8 +8671,8 @@ class UploadConfiguration {
 
   factory UploadConfiguration.fromJson(Map<String, dynamic> json) {
     return UploadConfiguration(
-      name: json['name'] as String,
-      path: json['path'] as String,
+      name: (json['name'] as String?) ?? '',
+      path: (json['path'] as String?) ?? '',
       uploadBehavior:
           UploadBehavior.fromString((json['uploadBehavior'] as String)),
     );
@@ -8704,8 +8712,10 @@ class VPCConfig {
 
   factory VPCConfig.fromJson(Map<String, dynamic> json) {
     return VPCConfig(
-      subnets:
-          (json['subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       assignPublicIp: json['assignPublicIp'] as bool?,
       securityGroups: (json['securityGroups'] as List?)
           ?.nonNulls

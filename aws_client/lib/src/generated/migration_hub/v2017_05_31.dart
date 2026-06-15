@@ -1184,7 +1184,7 @@ class CreatedArtifact {
 
   factory CreatedArtifact.fromJson(Map<String, dynamic> json) {
     return CreatedArtifact(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -1310,7 +1310,7 @@ class DiscoveredResource {
 
   factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
     return DiscoveredResource(
-      configurationId: json['ConfigurationId'] as String,
+      configurationId: (json['ConfigurationId'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -1736,7 +1736,7 @@ class ResourceAttribute {
   factory ResourceAttribute.fromJson(Map<String, dynamic> json) {
     return ResourceAttribute(
       type: ResourceAttributeType.fromString((json['Type'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

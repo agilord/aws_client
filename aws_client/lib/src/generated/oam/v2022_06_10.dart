@@ -1136,7 +1136,7 @@ class ListAttachedLinksOutput {
 
   factory ListAttachedLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListAttachedLinksOutput(
-      items: (json['Items'] as List)
+      items: ((json['Items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListAttachedLinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1226,7 +1226,7 @@ class ListLinksOutput {
 
   factory ListLinksOutput.fromJson(Map<String, dynamic> json) {
     return ListLinksOutput(
-      items: (json['Items'] as List)
+      items: ((json['Items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListLinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1298,7 +1298,7 @@ class ListSinksOutput {
 
   factory ListSinksOutput.fromJson(Map<String, dynamic> json) {
     return ListSinksOutput(
-      items: (json['Items'] as List)
+      items: ((json['Items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListSinksItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1401,7 +1401,7 @@ class LogGroupConfiguration {
 
   factory LogGroupConfiguration.fromJson(Map<String, dynamic> json) {
     return LogGroupConfiguration(
-      filter: json['Filter'] as String,
+      filter: (json['Filter'] as String?) ?? '',
     );
   }
 
@@ -1471,7 +1471,7 @@ class MetricConfiguration {
 
   factory MetricConfiguration.fromJson(Map<String, dynamic> json) {
     return MetricConfiguration(
-      filter: json['Filter'] as String,
+      filter: (json['Filter'] as String?) ?? '',
     );
   }
 

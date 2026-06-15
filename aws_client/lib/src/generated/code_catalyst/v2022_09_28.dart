@@ -1861,8 +1861,8 @@ class AccessTokenSummary {
 
   factory AccessTokenSummary.fromJson(Map<String, dynamic> json) {
     return AccessTokenSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       expiresTime: timeStampFromJson(json['expiresTime']),
     );
   }
@@ -1923,10 +1923,10 @@ class CreateAccessTokenResponse {
 
   factory CreateAccessTokenResponse.fromJson(Map<String, dynamic> json) {
     return CreateAccessTokenResponse(
-      accessTokenId: json['accessTokenId'] as String,
-      expiresTime: nonNullableTimeStampFromJson(json['expiresTime'] as Object),
-      name: json['name'] as String,
-      secret: json['secret'] as String,
+      accessTokenId: (json['accessTokenId'] as String?) ?? '',
+      expiresTime: nonNullableTimeStampFromJson(json['expiresTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      secret: (json['secret'] as String?) ?? '',
     );
   }
 
@@ -1967,9 +1967,9 @@ class CreateDevEnvironmentResponse {
 
   factory CreateDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return CreateDevEnvironmentResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       vpcConnectionName: json['vpcConnectionName'] as String?,
     );
   }
@@ -2010,7 +2010,7 @@ class CreateProjectResponse {
 
   factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
     return CreateProjectResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       spaceName: json['spaceName'] as String?,
@@ -2100,9 +2100,9 @@ class CreateSourceRepositoryResponse {
 
   factory CreateSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
     return CreateSourceRepositoryResponse(
-      name: json['name'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -2151,9 +2151,9 @@ class DeleteDevEnvironmentResponse {
 
   factory DeleteDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDevEnvironmentResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
     );
   }
 
@@ -2187,8 +2187,8 @@ class DeleteProjectResponse {
 
   factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
     return DeleteProjectResponse(
-      name: json['name'] as String,
-      spaceName: json['spaceName'] as String,
+      name: (json['name'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       displayName: json['displayName'] as String?,
     );
   }
@@ -2223,9 +2223,9 @@ class DeleteSourceRepositoryResponse {
 
   factory DeleteSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSourceRepositoryResponse(
-      name: json['name'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
     );
   }
 
@@ -2256,7 +2256,7 @@ class DeleteSpaceResponse {
 
   factory DeleteSpaceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSpaceResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       displayName: json['displayName'] as String?,
     );
   }
@@ -2287,8 +2287,8 @@ class DevEnvironmentAccessDetails {
 
   factory DevEnvironmentAccessDetails.fromJson(Map<String, dynamic> json) {
     return DevEnvironmentAccessDetails(
-      streamUrl: json['streamUrl'] as String,
-      tokenValue: json['tokenValue'] as String,
+      streamUrl: (json['streamUrl'] as String?) ?? '',
+      tokenValue: (json['tokenValue'] as String?) ?? '',
     );
   }
 
@@ -2318,7 +2318,7 @@ class DevEnvironmentRepositorySummary {
 
   factory DevEnvironmentRepositorySummary.fromJson(Map<String, dynamic> json) {
     return DevEnvironmentRepositorySummary(
-      repositoryName: json['repositoryName'] as String,
+      repositoryName: (json['repositoryName'] as String?) ?? '',
       branchName: json['branchName'] as String?,
     );
   }
@@ -2389,11 +2389,11 @@ class DevEnvironmentSessionSummary {
 
   factory DevEnvironmentSessionSummary.fromJson(Map<String, dynamic> json) {
     return DevEnvironmentSessionSummary(
-      devEnvironmentId: json['devEnvironmentId'] as String,
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
-      startedTime: nonNullableTimeStampFromJson(json['startedTime'] as Object),
+      devEnvironmentId: (json['devEnvironmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      startedTime: nonNullableTimeStampFromJson(json['startedTime'] ?? 0),
     );
   }
 
@@ -2520,15 +2520,16 @@ class DevEnvironmentSummary {
 
   factory DevEnvironmentSummary.fromJson(Map<String, dynamic> json) {
     return DevEnvironmentSummary(
-      creatorId: json['creatorId'] as String,
-      id: json['id'] as String,
-      inactivityTimeoutMinutes: json['inactivityTimeoutMinutes'] as int,
+      creatorId: (json['creatorId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
       instanceType: InstanceType.fromString((json['instanceType'] as String)),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       persistentStorage: PersistentStorage.fromJson(
-          json['persistentStorage'] as Map<String, dynamic>),
-      repositories: (json['repositories'] as List)
+          (json['persistentStorage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      repositories: ((json['repositories'] as List?) ?? const [])
           .nonNulls
           .map((e) => DevEnvironmentRepositorySummary.fromJson(
               e as Map<String, dynamic>))
@@ -2680,16 +2681,17 @@ class EventLogEntry {
 
   factory EventLogEntry.fromJson(Map<String, dynamic> json) {
     return EventLogEntry(
-      eventCategory: json['eventCategory'] as String,
-      eventName: json['eventName'] as String,
-      eventSource: json['eventSource'] as String,
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] as Object),
-      eventType: json['eventType'] as String,
-      id: json['id'] as String,
+      eventCategory: (json['eventCategory'] as String?) ?? '',
+      eventName: (json['eventName'] as String?) ?? '',
+      eventSource: (json['eventSource'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       operationType:
           OperationType.fromString((json['operationType'] as String)),
-      userIdentity:
-          UserIdentity.fromJson(json['userIdentity'] as Map<String, dynamic>),
+      userIdentity: UserIdentity.fromJson(
+          (json['userIdentity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       errorCode: json['errorCode'] as String?,
       projectInformation: json['projectInformation'] != null
           ? ProjectInformation.fromJson(
@@ -2912,21 +2914,22 @@ class GetDevEnvironmentResponse {
 
   factory GetDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return GetDevEnvironmentResponse(
-      creatorId: json['creatorId'] as String,
-      id: json['id'] as String,
-      inactivityTimeoutMinutes: json['inactivityTimeoutMinutes'] as int,
+      creatorId: (json['creatorId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      inactivityTimeoutMinutes: (json['inactivityTimeoutMinutes'] as int?) ?? 0,
       instanceType: InstanceType.fromString((json['instanceType'] as String)),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
       persistentStorage: PersistentStorage.fromJson(
-          json['persistentStorage'] as Map<String, dynamic>),
-      projectName: json['projectName'] as String,
-      repositories: (json['repositories'] as List)
+          (json['persistentStorage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      projectName: (json['projectName'] as String?) ?? '',
+      repositories: ((json['repositories'] as List?) ?? const [])
           .nonNulls
           .map((e) => DevEnvironmentRepositorySummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      spaceName: json['spaceName'] as String,
+      spaceName: (json['spaceName'] as String?) ?? '',
       status: DevEnvironmentStatus.fromString((json['status'] as String)),
       alias: json['alias'] as String?,
       ides: (json['ides'] as List?)
@@ -2994,7 +2997,7 @@ class GetProjectResponse {
 
   factory GetProjectResponse.fromJson(Map<String, dynamic> json) {
     return GetProjectResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
       spaceName: json['spaceName'] as String?,
@@ -3026,7 +3029,7 @@ class GetSourceRepositoryCloneUrlsResponse {
   factory GetSourceRepositoryCloneUrlsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetSourceRepositoryCloneUrlsResponse(
-      https: json['https'] as String,
+      https: (json['https'] as String?) ?? '',
     );
   }
 
@@ -3072,12 +3075,12 @@ class GetSourceRepositoryResponse {
 
   factory GetSourceRepositoryResponse.fromJson(Map<String, dynamic> json) {
     return GetSourceRepositoryResponse(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -3122,8 +3125,8 @@ class GetSpaceResponse {
 
   factory GetSpaceResponse.fromJson(Map<String, dynamic> json) {
     return GetSpaceResponse(
-      name: json['name'] as String,
-      regionName: json['regionName'] as String,
+      name: (json['name'] as String?) ?? '',
+      regionName: (json['regionName'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
     );
@@ -3306,16 +3309,17 @@ class GetWorkflowResponse {
 
   factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkflowResponse(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       definition: WorkflowDefinition.fromJson(
-          json['definition'] as Map<String, dynamic>),
-      id: json['id'] as String,
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
-      projectName: json['projectName'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
       runMode: WorkflowRunMode.fromString((json['runMode'] as String)),
-      spaceName: json['spaceName'] as String,
+      spaceName: (json['spaceName'] as String?) ?? '',
       status: WorkflowStatus.fromString((json['status'] as String)),
       sourceBranchName: json['sourceBranchName'] as String?,
       sourceRepositoryName: json['sourceRepositoryName'] as String?,
@@ -3399,14 +3403,14 @@ class GetWorkflowRunResponse {
 
   factory GetWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
     return GetWorkflowRunResponse(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: WorkflowRunStatus.fromString((json['status'] as String)),
-      workflowId: json['workflowId'] as String,
+      workflowId: (json['workflowId'] as String?) ?? '',
       endTime: timeStampFromJson(json['endTime']),
       statusReasons: (json['statusReasons'] as List?)
           ?.nonNulls
@@ -3540,7 +3544,7 @@ class ListAccessTokensResponse {
 
   factory ListAccessTokensResponse.fromJson(Map<String, dynamic> json) {
     return ListAccessTokensResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => AccessTokenSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3574,7 +3578,7 @@ class ListDevEnvironmentSessionsResponse {
   factory ListDevEnvironmentSessionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDevEnvironmentSessionsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DevEnvironmentSessionSummary.fromJson(e as Map<String, dynamic>))
@@ -3608,7 +3612,7 @@ class ListDevEnvironmentsResponse {
 
   factory ListDevEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDevEnvironmentsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DevEnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3641,7 +3645,7 @@ class ListEventLogsResponse {
 
   factory ListEventLogsResponse.fromJson(Map<String, dynamic> json) {
     return ListEventLogsResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventLogEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3724,11 +3728,11 @@ class ListSourceRepositoriesItem {
 
   factory ListSourceRepositoriesItem.fromJson(Map<String, dynamic> json) {
     return ListSourceRepositoriesItem(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      id: json['id'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
     );
   }
@@ -3848,7 +3852,7 @@ class ListSourceRepositoryBranchesResponse {
   factory ListSourceRepositoryBranchesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSourceRepositoryBranchesResponse(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListSourceRepositoryBranchesItem.fromJson(
               e as Map<String, dynamic>))
@@ -3996,7 +4000,7 @@ class PersistentStorage {
 
   factory PersistentStorage.fromJson(Map<String, dynamic> json) {
     return PersistentStorage(
-      sizeInGiB: json['sizeInGiB'] as int,
+      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
     );
   }
 
@@ -4110,7 +4114,7 @@ class ProjectSummary {
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
     );
@@ -4174,8 +4178,8 @@ class SpaceSummary {
 
   factory SpaceSummary.fromJson(Map<String, dynamic> json) {
     return SpaceSummary(
-      name: json['name'] as String,
-      regionName: json['regionName'] as String,
+      name: (json['name'] as String?) ?? '',
+      regionName: (json['regionName'] as String?) ?? '',
       description: json['description'] as String?,
       displayName: json['displayName'] as String?,
     );
@@ -4217,9 +4221,9 @@ class StartDevEnvironmentResponse {
 
   factory StartDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return StartDevEnvironmentResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       status: DevEnvironmentStatus.fromString((json['status'] as String)),
     );
   }
@@ -4265,10 +4269,11 @@ class StartDevEnvironmentSessionResponse {
       Map<String, dynamic> json) {
     return StartDevEnvironmentSessionResponse(
       accessDetails: DevEnvironmentAccessDetails.fromJson(
-          json['accessDetails'] as Map<String, dynamic>),
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+          (json['accessDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       sessionId: json['sessionId'] as String?,
     );
   }
@@ -4311,10 +4316,10 @@ class StartWorkflowRunResponse {
 
   factory StartWorkflowRunResponse.fromJson(Map<String, dynamic> json) {
     return StartWorkflowRunResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
-      workflowId: json['workflowId'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
     );
   }
 
@@ -4354,9 +4359,9 @@ class StopDevEnvironmentResponse {
 
   factory StopDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return StopDevEnvironmentResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       status: DevEnvironmentStatus.fromString((json['status'] as String)),
     );
   }
@@ -4398,10 +4403,10 @@ class StopDevEnvironmentSessionResponse {
   factory StopDevEnvironmentSessionResponse.fromJson(
       Map<String, dynamic> json) {
     return StopDevEnvironmentSessionResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      sessionId: json['sessionId'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      sessionId: (json['sessionId'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
     );
   }
 
@@ -4462,9 +4467,9 @@ class UpdateDevEnvironmentResponse {
 
   factory UpdateDevEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDevEnvironmentResponse(
-      id: json['id'] as String,
-      projectName: json['projectName'] as String,
-      spaceName: json['spaceName'] as String,
+      id: (json['id'] as String?) ?? '',
+      projectName: (json['projectName'] as String?) ?? '',
+      spaceName: (json['spaceName'] as String?) ?? '',
       alias: json['alias'] as String?,
       clientToken: json['clientToken'] as String?,
       ides: (json['ides'] as List?)
@@ -4604,7 +4609,7 @@ class UserIdentity {
 
   factory UserIdentity.fromJson(Map<String, dynamic> json) {
     return UserIdentity(
-      principalId: json['principalId'] as String,
+      principalId: (json['principalId'] as String?) ?? '',
       userType: UserType.fromString((json['userType'] as String)),
       awsAccountId: json['awsAccountId'] as String?,
       userName: json['userName'] as String?,
@@ -4674,7 +4679,7 @@ class WorkflowDefinition {
 
   factory WorkflowDefinition.fromJson(Map<String, dynamic> json) {
     return WorkflowDefinition(
-      path: json['path'] as String,
+      path: (json['path'] as String?) ?? '',
     );
   }
 
@@ -4698,7 +4703,7 @@ class WorkflowDefinitionSummary {
 
   factory WorkflowDefinitionSummary.fromJson(Map<String, dynamic> json) {
     return WorkflowDefinitionSummary(
-      path: json['path'] as String,
+      path: (json['path'] as String?) ?? '',
     );
   }
 
@@ -4817,13 +4822,13 @@ class WorkflowRunSummary {
 
   factory WorkflowRunSummary.fromJson(Map<String, dynamic> json) {
     return WorkflowRunSummary(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: WorkflowRunStatus.fromString((json['status'] as String)),
-      workflowId: json['workflowId'] as String,
-      workflowName: json['workflowName'] as String,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
       endTime: timeStampFromJson(json['endTime']),
       statusReasons: (json['statusReasons'] as List?)
           ?.nonNulls
@@ -4928,16 +4933,17 @@ class WorkflowSummary {
 
   factory WorkflowSummary.fromJson(Map<String, dynamic> json) {
     return WorkflowSummary(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
       definition: WorkflowDefinitionSummary.fromJson(
-          json['definition'] as Map<String, dynamic>),
-      id: json['id'] as String,
+          (json['definition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['lastUpdatedTime'] as Object),
-      name: json['name'] as String,
+          nonNullableTimeStampFromJson(json['lastUpdatedTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       runMode: WorkflowRunMode.fromString((json['runMode'] as String)),
-      sourceBranchName: json['sourceBranchName'] as String,
-      sourceRepositoryName: json['sourceRepositoryName'] as String,
+      sourceBranchName: (json['sourceBranchName'] as String?) ?? '',
+      sourceRepositoryName: (json['sourceRepositoryName'] as String?) ?? '',
       status: WorkflowStatus.fromString((json['status'] as String)),
     );
   }

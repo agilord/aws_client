@@ -4917,8 +4917,10 @@ class DeviceFilter {
       attribute:
           DeviceFilterAttribute.fromString((json['attribute'] as String)),
       operator: RuleOperator.fromString((json['operator'] as String)),
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -7283,8 +7285,8 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
-      latitude: json['latitude'] as double,
-      longitude: json['longitude'] as double,
+      latitude: (json['latitude'] as double?) ?? 0,
+      longitude: (json['longitude'] as double?) ?? 0,
     );
   }
 
@@ -9565,8 +9567,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -10070,13 +10072,15 @@ class TestGridVpcConfig {
 
   factory TestGridVpcConfig.fromJson(Map<String, dynamic> json) {
     return TestGridVpcConfig(
-      securityGroupIds: (json['securityGroupIds'] as List)
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcId: json['vpcId'] as String,
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['vpcId'] as String?) ?? '',
     );
   }
 
@@ -10754,13 +10758,15 @@ class VpcConfig {
 
   factory VpcConfig.fromJson(Map<String, dynamic> json) {
     return VpcConfig(
-      securityGroupIds: (json['securityGroupIds'] as List)
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcId: json['vpcId'] as String,
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['vpcId'] as String?) ?? '',
     );
   }
 

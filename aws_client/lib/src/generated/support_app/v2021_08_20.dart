@@ -630,11 +630,12 @@ class ListSlackChannelConfigurationsResult {
   factory ListSlackChannelConfigurationsResult.fromJson(
       Map<String, dynamic> json) {
     return ListSlackChannelConfigurationsResult(
-      slackChannelConfigurations: (json['slackChannelConfigurations'] as List)
-          .nonNulls
-          .map((e) =>
-              SlackChannelConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      slackChannelConfigurations:
+          ((json['slackChannelConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  SlackChannelConfiguration.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -802,8 +803,8 @@ class SlackChannelConfiguration {
 
   factory SlackChannelConfiguration.fromJson(Map<String, dynamic> json) {
     return SlackChannelConfiguration(
-      channelId: json['channelId'] as String,
-      teamId: json['teamId'] as String,
+      channelId: (json['channelId'] as String?) ?? '',
+      teamId: (json['teamId'] as String?) ?? '',
       channelName: json['channelName'] as String?,
       channelRoleArn: json['channelRoleArn'] as String?,
       notifyOnAddCorrespondenceToCase:
@@ -864,7 +865,7 @@ class SlackWorkspaceConfiguration {
 
   factory SlackWorkspaceConfiguration.fromJson(Map<String, dynamic> json) {
     return SlackWorkspaceConfiguration(
-      teamId: json['teamId'] as String,
+      teamId: (json['teamId'] as String?) ?? '',
       allowOrganizationMemberAccount:
           json['allowOrganizationMemberAccount'] as bool?,
       teamName: json['teamName'] as String?,

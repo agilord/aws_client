@@ -1047,7 +1047,7 @@ class AcknowledgeFlow {
 
   factory AcknowledgeFlow.fromJson(Map<String, dynamic> json) {
     return AcknowledgeFlow(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
     );
   }
 
@@ -1795,7 +1795,7 @@ class AssetPropertyTimestamp {
 
   factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) {
     return AssetPropertyTimestamp(
-      timeInSeconds: json['timeInSeconds'] as String,
+      timeInSeconds: (json['timeInSeconds'] as String?) ?? '',
       offsetInNanos: json['offsetInNanos'] as String?,
     );
   }
@@ -1989,7 +1989,7 @@ class Attribute {
 
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
-      jsonPath: json['jsonPath'] as String,
+      jsonPath: (json['jsonPath'] as String?) ?? '',
     );
   }
 
@@ -2012,7 +2012,7 @@ class ClearTimerAction {
 
   factory ClearTimerAction.fromJson(Map<String, dynamic> json) {
     return ClearTimerAction(
-      timerName: json['timerName'] as String,
+      timerName: (json['timerName'] as String?) ?? '',
     );
   }
 
@@ -2500,7 +2500,7 @@ class DetectorDebugOption {
 
   factory DetectorDebugOption.fromJson(Map<String, dynamic> json) {
     return DetectorDebugOption(
-      detectorModelName: json['detectorModelName'] as String,
+      detectorModelName: (json['detectorModelName'] as String?) ?? '',
       keyValue: json['keyValue'] as String?,
     );
   }
@@ -2670,8 +2670,8 @@ class DetectorModelDefinition {
 
   factory DetectorModelDefinition.fromJson(Map<String, dynamic> json) {
     return DetectorModelDefinition(
-      initialStateName: json['initialStateName'] as String,
-      states: (json['states'] as List)
+      initialStateName: (json['initialStateName'] as String?) ?? '',
+      states: ((json['states'] as List?) ?? const [])
           .nonNulls
           .map((e) => State.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2978,9 +2978,9 @@ class DynamoDBAction {
 
   factory DynamoDBAction.fromJson(Map<String, dynamic> json) {
     return DynamoDBAction(
-      hashKeyField: json['hashKeyField'] as String,
-      hashKeyValue: json['hashKeyValue'] as String,
-      tableName: json['tableName'] as String,
+      hashKeyField: (json['hashKeyField'] as String?) ?? '',
+      hashKeyValue: (json['hashKeyValue'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       hashKeyType: json['hashKeyType'] as String?,
       operation: json['operation'] as String?,
       payload: json['payload'] != null
@@ -3085,7 +3085,7 @@ class DynamoDBv2Action {
 
   factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) {
     return DynamoDBv2Action(
-      tableName: json['tableName'] as String,
+      tableName: (json['tableName'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -3132,9 +3132,10 @@ class EmailConfiguration {
 
   factory EmailConfiguration.fromJson(Map<String, dynamic> json) {
     return EmailConfiguration(
-      from: json['from'] as String,
-      recipients:
-          EmailRecipients.fromJson(json['recipients'] as Map<String, dynamic>),
+      from: (json['from'] as String?) ?? '',
+      recipients: EmailRecipients.fromJson(
+          (json['recipients'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       content: json['content'] != null
           ? EmailContent.fromJson(json['content'] as Map<String, dynamic>)
           : null,
@@ -3252,7 +3253,7 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      eventName: json['eventName'] as String,
+      eventName: (json['eventName'] as String?) ?? '',
       actions: (json['actions'] as List?)
           ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
@@ -3297,7 +3298,7 @@ class FirehoseAction {
 
   factory FirehoseAction.fromJson(Map<String, dynamic> json) {
     return FirehoseAction(
-      deliveryStreamName: json['deliveryStreamName'] as String,
+      deliveryStreamName: (json['deliveryStreamName'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -3365,7 +3366,8 @@ class InitializationConfiguration {
 
   factory InitializationConfiguration.fromJson(Map<String, dynamic> json) {
     return InitializationConfiguration(
-      disabledOnInitialization: json['disabledOnInitialization'] as bool,
+      disabledOnInitialization:
+          (json['disabledOnInitialization'] as bool?) ?? false,
     );
   }
 
@@ -3444,12 +3446,10 @@ class InputConfiguration {
 
   factory InputConfiguration.fromJson(Map<String, dynamic> json) {
     return InputConfiguration(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      inputArn: json['inputArn'] as String,
-      inputName: json['inputName'] as String,
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['lastUpdateTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      inputArn: (json['inputArn'] as String?) ?? '',
+      inputName: (json['inputName'] as String?) ?? '',
+      lastUpdateTime: nonNullableTimeStampFromJson(json['lastUpdateTime'] ?? 0),
       status: InputStatus.fromString((json['status'] as String)),
       inputDescription: json['inputDescription'] as String?,
     );
@@ -3489,7 +3489,7 @@ class InputDefinition {
 
   factory InputDefinition.fromJson(Map<String, dynamic> json) {
     return InputDefinition(
-      attributes: (json['attributes'] as List)
+      attributes: ((json['attributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3622,7 +3622,7 @@ class IotEventsAction {
 
   factory IotEventsAction.fromJson(Map<String, dynamic> json) {
     return IotEventsAction(
-      inputName: json['inputName'] as String,
+      inputName: (json['inputName'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -3816,7 +3816,7 @@ class IotTopicPublishAction {
 
   factory IotTopicPublishAction.fromJson(Map<String, dynamic> json) {
     return IotTopicPublishAction(
-      mqttTopic: json['mqttTopic'] as String,
+      mqttTopic: (json['mqttTopic'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -3850,7 +3850,7 @@ class LambdaAction {
 
   factory LambdaAction.fromJson(Map<String, dynamic> json) {
     return LambdaAction(
-      functionArn: json['functionArn'] as String,
+      functionArn: (json['functionArn'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -4139,9 +4139,9 @@ class LoggingOptions {
 
   factory LoggingOptions.fromJson(Map<String, dynamic> json) {
     return LoggingOptions(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       level: LoggingLevel.fromString((json['level'] as String)),
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       detectorDebugOptions: (json['detectorDebugOptions'] as List?)
           ?.nonNulls
           .map((e) => DetectorDebugOption.fromJson(e as Map<String, dynamic>))
@@ -4188,7 +4188,8 @@ class NotificationAction {
   factory NotificationAction.fromJson(Map<String, dynamic> json) {
     return NotificationAction(
       action: NotificationTargetActions.fromJson(
-          json['action'] as Map<String, dynamic>),
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       emailConfigurations: (json['emailConfigurations'] as List?)
           ?.nonNulls
           .map((e) => EmailConfiguration.fromJson(e as Map<String, dynamic>))
@@ -4362,7 +4363,7 @@ class Payload {
 
   factory Payload.fromJson(Map<String, dynamic> json) {
     return Payload(
-      contentExpression: json['contentExpression'] as String,
+      contentExpression: (json['contentExpression'] as String?) ?? '',
       type: PayloadType.fromString((json['type'] as String)),
     );
   }
@@ -4429,7 +4430,7 @@ class ResetTimerAction {
 
   factory ResetTimerAction.fromJson(Map<String, dynamic> json) {
     return ResetTimerAction(
-      timerName: json['timerName'] as String,
+      timerName: (json['timerName'] as String?) ?? '',
     );
   }
 
@@ -4497,7 +4498,7 @@ class SMSConfiguration {
 
   factory SMSConfiguration.fromJson(Map<String, dynamic> json) {
     return SMSConfiguration(
-      recipients: (json['recipients'] as List)
+      recipients: ((json['recipients'] as List?) ?? const [])
           .nonNulls
           .map((e) => RecipientDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4534,7 +4535,7 @@ class SNSTopicPublishAction {
 
   factory SNSTopicPublishAction.fromJson(Map<String, dynamic> json) {
     return SNSTopicPublishAction(
-      targetArn: json['targetArn'] as String,
+      targetArn: (json['targetArn'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -4569,7 +4570,7 @@ class SSOIdentity {
 
   factory SSOIdentity.fromJson(Map<String, dynamic> json) {
     return SSOIdentity(
-      identityStoreId: json['identityStoreId'] as String,
+      identityStoreId: (json['identityStoreId'] as String?) ?? '',
       userId: json['userId'] as String?,
     );
   }
@@ -4610,7 +4611,7 @@ class SetTimerAction {
 
   factory SetTimerAction.fromJson(Map<String, dynamic> json) {
     return SetTimerAction(
-      timerName: json['timerName'] as String,
+      timerName: (json['timerName'] as String?) ?? '',
       durationExpression: json['durationExpression'] as String?,
       seconds: json['seconds'] as int?,
     );
@@ -4643,8 +4644,8 @@ class SetVariableAction {
 
   factory SetVariableAction.fromJson(Map<String, dynamic> json) {
     return SetVariableAction(
-      value: json['value'] as String,
-      variableName: json['variableName'] as String,
+      value: (json['value'] as String?) ?? '',
+      variableName: (json['variableName'] as String?) ?? '',
     );
   }
 
@@ -4682,8 +4683,8 @@ class SimpleRule {
     return SimpleRule(
       comparisonOperator:
           ComparisonOperator.fromString((json['comparisonOperator'] as String)),
-      inputProperty: json['inputProperty'] as String,
-      threshold: json['threshold'] as String,
+      inputProperty: (json['inputProperty'] as String?) ?? '',
+      threshold: (json['threshold'] as String?) ?? '',
     );
   }
 
@@ -4721,7 +4722,7 @@ class SqsAction {
 
   factory SqsAction.fromJson(Map<String, dynamic> json) {
     return SqsAction(
-      queueUrl: json['queueUrl'] as String,
+      queueUrl: (json['queueUrl'] as String?) ?? '',
       payload: json['payload'] != null
           ? Payload.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
@@ -4790,7 +4791,7 @@ class State {
 
   factory State.fromJson(Map<String, dynamic> json) {
     return State(
-      stateName: json['stateName'] as String,
+      stateName: (json['stateName'] as String?) ?? '',
       onEnter: json['onEnter'] != null
           ? OnEnterLifecycle.fromJson(json['onEnter'] as Map<String, dynamic>)
           : null,
@@ -4832,8 +4833,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -4884,9 +4885,9 @@ class TransitionEvent {
 
   factory TransitionEvent.fromJson(Map<String, dynamic> json) {
     return TransitionEvent(
-      condition: json['condition'] as String,
-      eventName: json['eventName'] as String,
-      nextState: json['nextState'] as String,
+      condition: (json['condition'] as String?) ?? '',
+      eventName: (json['eventName'] as String?) ?? '',
+      nextState: (json['nextState'] as String?) ?? '',
       actions: (json['actions'] as List?)
           ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))

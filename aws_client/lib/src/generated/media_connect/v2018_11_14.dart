@@ -2709,10 +2709,10 @@ class Bridge {
 
   factory Bridge.fromJson(Map<String, dynamic> json) {
     return Bridge(
-      bridgeArn: json['bridgeArn'] as String,
+      bridgeArn: (json['bridgeArn'] as String?) ?? '',
       bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
-      name: json['name'] as String,
-      placementArn: json['placementArn'] as String,
+      name: (json['name'] as String?) ?? '',
+      placementArn: (json['placementArn'] as String?) ?? '',
       bridgeMessages: (json['bridgeMessages'] as List?)
           ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
@@ -2788,9 +2788,9 @@ class BridgeFlowOutput {
 
   factory BridgeFlowOutput.fromJson(Map<String, dynamic> json) {
     return BridgeFlowOutput(
-      flowArn: json['flowArn'] as String,
-      flowSourceArn: json['flowSourceArn'] as String,
-      name: json['name'] as String,
+      flowArn: (json['flowArn'] as String?) ?? '',
+      flowSourceArn: (json['flowSourceArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2830,8 +2830,8 @@ class BridgeFlowSource {
 
   factory BridgeFlowSource.fromJson(Map<String, dynamic> json) {
     return BridgeFlowSource(
-      flowArn: json['flowArn'] as String,
-      name: json['name'] as String,
+      flowArn: (json['flowArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       flowVpcInterfaceAttachment: json['flowVpcInterfaceAttachment'] != null
           ? VpcInterfaceAttachment.fromJson(
               json['flowVpcInterfaceAttachment'] as Map<String, dynamic>)
@@ -2886,12 +2886,12 @@ class BridgeNetworkOutput {
 
   factory BridgeNetworkOutput.fromJson(Map<String, dynamic> json) {
     return BridgeNetworkOutput(
-      ipAddress: json['ipAddress'] as String,
-      name: json['name'] as String,
-      networkName: json['networkName'] as String,
-      port: json['port'] as int,
+      ipAddress: (json['ipAddress'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      networkName: (json['networkName'] as String?) ?? '',
+      port: (json['port'] as int?) ?? 0,
       protocol: Protocol.fromString((json['protocol'] as String)),
-      ttl: json['ttl'] as int,
+      ttl: (json['ttl'] as int?) ?? 0,
     );
   }
 
@@ -2940,10 +2940,10 @@ class BridgeNetworkSource {
 
   factory BridgeNetworkSource.fromJson(Map<String, dynamic> json) {
     return BridgeNetworkSource(
-      multicastIp: json['multicastIp'] as String,
-      name: json['name'] as String,
-      networkName: json['networkName'] as String,
-      port: json['port'] as int,
+      multicastIp: (json['multicastIp'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      networkName: (json['networkName'] as String?) ?? '',
+      port: (json['port'] as int?) ?? 0,
       protocol: Protocol.fromString((json['protocol'] as String)),
     );
   }
@@ -3540,10 +3540,12 @@ class DestinationConfiguration {
 
   factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return DestinationConfiguration(
-      destinationIp: json['destinationIp'] as String,
-      destinationPort: json['destinationPort'] as int,
-      interface: Interface.fromJson(json['interface'] as Map<String, dynamic>),
-      outboundIp: json['outboundIp'] as String,
+      destinationIp: (json['destinationIp'] as String?) ?? '',
+      destinationPort: (json['destinationPort'] as int?) ?? 0,
+      interface: Interface.fromJson(
+          (json['interface'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      outboundIp: (json['outboundIp'] as String?) ?? '',
     );
   }
 
@@ -3622,7 +3624,7 @@ class EgressGatewayBridge {
 
   factory EgressGatewayBridge.fromJson(Map<String, dynamic> json) {
     return EgressGatewayBridge(
-      maxBitrate: json['maxBitrate'] as int,
+      maxBitrate: (json['maxBitrate'] as int?) ?? 0,
       instanceId: json['instanceId'] as String?,
     );
   }
@@ -3692,7 +3694,7 @@ class EncodingParameters {
 
   factory EncodingParameters.fromJson(Map<String, dynamic> json) {
     return EncodingParameters(
-      compressionFactor: json['compressionFactor'] as double,
+      compressionFactor: (json['compressionFactor'] as double?) ?? 0,
       encoderProfile:
           EncoderProfile.fromString((json['encoderProfile'] as String)),
     );
@@ -3799,7 +3801,7 @@ class Encryption {
 
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       algorithm: (json['algorithm'] as String?)?.let(Algorithm.fromString),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
@@ -3876,9 +3878,9 @@ class Entitlement {
 
   factory Entitlement.fromJson(Map<String, dynamic> json) {
     return Entitlement(
-      entitlementArn: json['entitlementArn'] as String,
-      name: json['name'] as String,
-      subscribers: (json['subscribers'] as List)
+      entitlementArn: (json['entitlementArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      subscribers: ((json['subscribers'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -4056,18 +4058,19 @@ class Flow {
 
   factory Flow.fromJson(Map<String, dynamic> json) {
     return Flow(
-      availabilityZone: json['availabilityZone'] as String,
-      entitlements: (json['entitlements'] as List)
+      availabilityZone: (json['availabilityZone'] as String?) ?? '',
+      entitlements: ((json['entitlements'] as List?) ?? const [])
           .nonNulls
           .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
           .toList(),
-      flowArn: json['flowArn'] as String,
-      name: json['name'] as String,
-      outputs: (json['outputs'] as List)
+      flowArn: (json['flowArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      outputs: ((json['outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Output.fromJson(e as Map<String, dynamic>))
           .toList(),
-      source: Source.fromJson(json['source'] as Map<String, dynamic>),
+      source: Source.fromJson((json['source'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       status: Status.fromString((json['status'] as String)),
       description: json['description'] as String?,
       egressIp: json['egressIp'] as String?,
@@ -4275,8 +4278,8 @@ class FrameResolution {
 
   factory FrameResolution.fromJson(Map<String, dynamic> json) {
     return FrameResolution(
-      frameHeight: json['frameHeight'] as int,
-      frameWidth: json['frameWidth'] as int,
+      frameHeight: (json['frameHeight'] as int?) ?? 0,
+      frameWidth: (json['frameWidth'] as int?) ?? 0,
     );
   }
 
@@ -4323,13 +4326,13 @@ class Gateway {
 
   factory Gateway.fromJson(Map<String, dynamic> json) {
     return Gateway(
-      egressCidrBlocks: (json['egressCidrBlocks'] as List)
+      egressCidrBlocks: ((json['egressCidrBlocks'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      gatewayArn: json['gatewayArn'] as String,
-      name: json['name'] as String,
-      networks: (json['networks'] as List)
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      networks: ((json['networks'] as List?) ?? const [])
           .nonNulls
           .map((e) => GatewayNetwork.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4375,7 +4378,7 @@ class GatewayBridgeSource {
 
   factory GatewayBridgeSource.fromJson(Map<String, dynamic> json) {
     return GatewayBridgeSource(
-      bridgeArn: json['bridgeArn'] as String,
+      bridgeArn: (json['bridgeArn'] as String?) ?? '',
       vpcInterfaceAttachment: json['vpcInterfaceAttachment'] != null
           ? VpcInterfaceAttachment.fromJson(
               json['vpcInterfaceAttachment'] as Map<String, dynamic>)
@@ -4439,12 +4442,12 @@ class GatewayInstance {
           BridgePlacement.fromString((json['bridgePlacement'] as String)),
       connectionStatus:
           ConnectionStatus.fromString((json['connectionStatus'] as String)),
-      gatewayArn: json['gatewayArn'] as String,
-      gatewayInstanceArn: json['gatewayInstanceArn'] as String,
-      instanceId: json['instanceId'] as String,
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      gatewayInstanceArn: (json['gatewayInstanceArn'] as String?) ?? '',
+      instanceId: (json['instanceId'] as String?) ?? '',
       instanceState:
           InstanceState.fromString((json['instanceState'] as String)),
-      runningBridgeCount: json['runningBridgeCount'] as int,
+      runningBridgeCount: (json['runningBridgeCount'] as int?) ?? 0,
       instanceMessages: (json['instanceMessages'] as List?)
           ?.nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
@@ -4492,8 +4495,8 @@ class GatewayNetwork {
 
   factory GatewayNetwork.fromJson(Map<String, dynamic> json) {
     return GatewayNetwork(
-      cidrBlock: json['cidrBlock'] as String,
-      name: json['name'] as String,
+      cidrBlock: (json['cidrBlock'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -4635,8 +4638,8 @@ class IngressGatewayBridge {
 
   factory IngressGatewayBridge.fromJson(Map<String, dynamic> json) {
     return IngressGatewayBridge(
-      maxBitrate: json['maxBitrate'] as int,
-      maxOutputs: json['maxOutputs'] as int,
+      maxBitrate: (json['maxBitrate'] as int?) ?? 0,
+      maxOutputs: (json['maxOutputs'] as int?) ?? 0,
       instanceId: json['instanceId'] as String?,
     );
   }
@@ -4673,9 +4676,11 @@ class InputConfiguration {
 
   factory InputConfiguration.fromJson(Map<String, dynamic> json) {
     return InputConfiguration(
-      inputIp: json['inputIp'] as String,
-      inputPort: json['inputPort'] as int,
-      interface: Interface.fromJson(json['interface'] as Map<String, dynamic>),
+      inputIp: (json['inputIp'] as String?) ?? '',
+      inputPort: (json['inputPort'] as int?) ?? 0,
+      interface: Interface.fromJson(
+          (json['interface'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4746,7 +4751,7 @@ class Interface {
 
   factory Interface.fromJson(Map<String, dynamic> json) {
     return Interface(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5096,11 +5101,11 @@ class ListedBridge {
 
   factory ListedBridge.fromJson(Map<String, dynamic> json) {
     return ListedBridge(
-      bridgeArn: json['bridgeArn'] as String,
+      bridgeArn: (json['bridgeArn'] as String?) ?? '',
       bridgeState: BridgeState.fromString((json['bridgeState'] as String)),
-      bridgeType: json['bridgeType'] as String,
-      name: json['name'] as String,
-      placementArn: json['placementArn'] as String,
+      bridgeType: (json['bridgeType'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      placementArn: (json['placementArn'] as String?) ?? '',
     );
   }
 
@@ -5140,8 +5145,8 @@ class ListedEntitlement {
 
   factory ListedEntitlement.fromJson(Map<String, dynamic> json) {
     return ListedEntitlement(
-      entitlementArn: json['entitlementArn'] as String,
-      entitlementName: json['entitlementName'] as String,
+      entitlementArn: (json['entitlementArn'] as String?) ?? '',
+      entitlementName: (json['entitlementName'] as String?) ?? '',
       dataTransferSubscriberFeePercent:
           json['dataTransferSubscriberFeePercent'] as int?,
     );
@@ -5198,10 +5203,10 @@ class ListedFlow {
 
   factory ListedFlow.fromJson(Map<String, dynamic> json) {
     return ListedFlow(
-      availabilityZone: json['availabilityZone'] as String,
-      description: json['description'] as String,
-      flowArn: json['flowArn'] as String,
-      name: json['name'] as String,
+      availabilityZone: (json['availabilityZone'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      flowArn: (json['flowArn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       sourceType: SourceType.fromString((json['sourceType'] as String)),
       status: Status.fromString((json['status'] as String)),
       maintenance: json['maintenance'] != null
@@ -5247,9 +5252,9 @@ class ListedGateway {
 
   factory ListedGateway.fromJson(Map<String, dynamic> json) {
     return ListedGateway(
-      gatewayArn: json['gatewayArn'] as String,
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
       gatewayState: GatewayState.fromString((json['gatewayState'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5289,9 +5294,9 @@ class ListedGatewayInstance {
 
   factory ListedGatewayInstance.fromJson(Map<String, dynamic> json) {
     return ListedGatewayInstance(
-      gatewayArn: json['gatewayArn'] as String,
-      gatewayInstanceArn: json['gatewayInstanceArn'] as String,
-      instanceId: json['instanceId'] as String,
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      gatewayInstanceArn: (json['gatewayInstanceArn'] as String?) ?? '',
+      instanceId: (json['instanceId'] as String?) ?? '',
       instanceState:
           (json['instanceState'] as String?)?.let(InstanceState.fromString),
     );
@@ -5429,9 +5434,9 @@ class MediaStream {
 
   factory MediaStream.fromJson(Map<String, dynamic> json) {
     return MediaStream(
-      fmt: json['fmt'] as int,
-      mediaStreamId: json['mediaStreamId'] as int,
-      mediaStreamName: json['mediaStreamName'] as String,
+      fmt: (json['fmt'] as int?) ?? 0,
+      mediaStreamId: (json['mediaStreamId'] as int?) ?? 0,
+      mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
       mediaStreamType:
           MediaStreamType.fromString((json['mediaStreamType'] as String)),
       attributes: json['attributes'] != null
@@ -5481,7 +5486,8 @@ class MediaStreamAttributes {
 
   factory MediaStreamAttributes.fromJson(Map<String, dynamic> json) {
     return MediaStreamAttributes(
-      fmtp: Fmtp.fromJson(json['fmtp'] as Map<String, dynamic>),
+      fmtp: Fmtp.fromJson(
+          (json['fmtp'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       lang: json['lang'] as String?,
     );
   }
@@ -5548,7 +5554,7 @@ class MediaStreamOutputConfiguration {
   factory MediaStreamOutputConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamOutputConfiguration(
       encodingName: EncodingName.fromString((json['encodingName'] as String)),
-      mediaStreamName: json['mediaStreamName'] as String,
+      mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
       destinationConfigurations: (json['destinationConfigurations'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5641,7 +5647,7 @@ class MediaStreamSourceConfiguration {
   factory MediaStreamSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return MediaStreamSourceConfiguration(
       encodingName: EncodingName.fromString((json['encodingName'] as String)),
-      mediaStreamName: json['mediaStreamName'] as String,
+      mediaStreamName: (json['mediaStreamName'] as String?) ?? '',
       inputConfigurations: (json['inputConfigurations'] as List?)
           ?.nonNulls
           .map((e) => InputConfiguration.fromJson(e as Map<String, dynamic>))
@@ -5730,8 +5736,8 @@ class MessageDetail {
 
   factory MessageDetail.fromJson(Map<String, dynamic> json) {
     return MessageDetail(
-      code: json['code'] as String,
-      message: json['message'] as String,
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
       resourceName: json['resourceName'] as String?,
     );
   }
@@ -5759,8 +5765,10 @@ class Messages {
 
   factory Messages.fromJson(Map<String, dynamic> json) {
     return Messages(
-      errors:
-          (json['errors'] as List).nonNulls.map((e) => e as String).toList(),
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5855,16 +5863,17 @@ class Offering {
 
   factory Offering.fromJson(Map<String, dynamic> json) {
     return Offering(
-      currencyCode: json['currencyCode'] as String,
-      duration: json['duration'] as int,
+      currencyCode: (json['currencyCode'] as String?) ?? '',
+      duration: (json['duration'] as int?) ?? 0,
       durationUnits:
           DurationUnits.fromString((json['durationUnits'] as String)),
-      offeringArn: json['offeringArn'] as String,
-      offeringDescription: json['offeringDescription'] as String,
-      pricePerUnit: json['pricePerUnit'] as String,
+      offeringArn: (json['offeringArn'] as String?) ?? '',
+      offeringDescription: (json['offeringDescription'] as String?) ?? '',
+      pricePerUnit: (json['pricePerUnit'] as String?) ?? '',
       priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
       resourceSpecification: ResourceSpecification.fromJson(
-          json['resourceSpecification'] as Map<String, dynamic>),
+          (json['resourceSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5970,8 +5979,8 @@ class Output {
 
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
-      name: json['name'] as String,
-      outputArn: json['outputArn'] as String,
+      name: (json['name'] as String?) ?? '',
+      outputArn: (json['outputArn'] as String?) ?? '',
       bridgeArn: json['bridgeArn'] as String?,
       bridgePorts: (json['bridgePorts'] as List?)
           ?.nonNulls
@@ -6397,22 +6406,23 @@ class Reservation {
 
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
-      currencyCode: json['currencyCode'] as String,
-      duration: json['duration'] as int,
+      currencyCode: (json['currencyCode'] as String?) ?? '',
+      duration: (json['duration'] as int?) ?? 0,
       durationUnits:
           DurationUnits.fromString((json['durationUnits'] as String)),
-      end: json['end'] as String,
-      offeringArn: json['offeringArn'] as String,
-      offeringDescription: json['offeringDescription'] as String,
-      pricePerUnit: json['pricePerUnit'] as String,
+      end: (json['end'] as String?) ?? '',
+      offeringArn: (json['offeringArn'] as String?) ?? '',
+      offeringDescription: (json['offeringDescription'] as String?) ?? '',
+      pricePerUnit: (json['pricePerUnit'] as String?) ?? '',
       priceUnits: PriceUnits.fromString((json['priceUnits'] as String)),
-      reservationArn: json['reservationArn'] as String,
-      reservationName: json['reservationName'] as String,
+      reservationArn: (json['reservationArn'] as String?) ?? '',
+      reservationName: (json['reservationName'] as String?) ?? '',
       reservationState:
           ReservationState.fromString((json['reservationState'] as String)),
       resourceSpecification: ResourceSpecification.fromJson(
-          json['resourceSpecification'] as Map<String, dynamic>),
-      start: json['start'] as String,
+          (json['resourceSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      start: (json['start'] as String?) ?? '',
     );
   }
 
@@ -6800,8 +6810,8 @@ class Source {
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
-      name: json['name'] as String,
-      sourceArn: json['sourceArn'] as String,
+      name: (json['name'] as String?) ?? '',
+      sourceArn: (json['sourceArn'] as String?) ?? '',
       dataTransferSubscriberFeePercent:
           json['dataTransferSubscriberFeePercent'] as int?,
       decryption: json['decryption'] != null
@@ -7050,8 +7060,8 @@ class ThumbnailDetails {
 
   factory ThumbnailDetails.fromJson(Map<String, dynamic> json) {
     return ThumbnailDetails(
-      flowArn: json['flowArn'] as String,
-      thumbnailMessages: (json['thumbnailMessages'] as List)
+      flowArn: (json['flowArn'] as String?) ?? '',
+      thumbnailMessages: ((json['thumbnailMessages'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7226,7 +7236,7 @@ class TransportMediaInfo {
 
   factory TransportMediaInfo.fromJson(Map<String, dynamic> json) {
     return TransportMediaInfo(
-      programs: (json['programs'] as List)
+      programs: ((json['programs'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => TransportStreamProgram.fromJson(e as Map<String, dynamic>))
@@ -7279,8 +7289,8 @@ class TransportStream {
 
   factory TransportStream.fromJson(Map<String, dynamic> json) {
     return TransportStream(
-      pid: json['pid'] as int,
-      streamType: json['streamType'] as String,
+      pid: (json['pid'] as int?) ?? 0,
+      streamType: (json['streamType'] as String?) ?? '',
       channels: json['channels'] as int?,
       codec: json['codec'] as String?,
       frameRate: json['frameRate'] as String?,
@@ -7345,10 +7355,10 @@ class TransportStreamProgram {
 
   factory TransportStreamProgram.fromJson(Map<String, dynamic> json) {
     return TransportStreamProgram(
-      pcrPid: json['pcrPid'] as int,
-      programNumber: json['programNumber'] as int,
-      programPid: json['programPid'] as int,
-      streams: (json['streams'] as List)
+      pcrPid: (json['pcrPid'] as int?) ?? 0,
+      programNumber: (json['programNumber'] as int?) ?? 0,
+      programPid: (json['programPid'] as int?) ?? 0,
+      streams: ((json['streams'] as List?) ?? const [])
           .nonNulls
           .map((e) => TransportStream.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8011,19 +8021,19 @@ class VpcInterface {
 
   factory VpcInterface.fromJson(Map<String, dynamic> json) {
     return VpcInterface(
-      name: json['name'] as String,
-      networkInterfaceIds: (json['networkInterfaceIds'] as List)
+      name: (json['name'] as String?) ?? '',
+      networkInterfaceIds: ((json['networkInterfaceIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
       networkInterfaceType: NetworkInterfaceType.fromString(
           (json['networkInterfaceType'] as String)),
-      roleArn: json['roleArn'] as String,
-      securityGroupIds: (json['securityGroupIds'] as List)
+      roleArn: (json['roleArn'] as String?) ?? '',
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetId: json['subnetId'] as String,
+      subnetId: (json['subnetId'] as String?) ?? '',
     );
   }
 

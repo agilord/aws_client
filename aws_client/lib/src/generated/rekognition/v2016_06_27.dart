@@ -7171,8 +7171,10 @@ class ConnectedHomeSettings {
 
   factory ConnectedHomeSettings.fromJson(Map<String, dynamic> json) {
     return ConnectedHomeSettings(
-      labels:
-          (json['Labels'] as List).nonNulls.map((e) => e as String).toList(),
+      labels: ((json['Labels'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       minConfidence: json['MinConfidence'] as double?,
     );
   }
@@ -7527,7 +7529,7 @@ class CreateFaceLivenessSessionResponse {
   factory CreateFaceLivenessSessionResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateFaceLivenessSessionResponse(
-      sessionId: json['SessionId'] as String,
+      sessionId: (json['SessionId'] as String?) ?? '',
     );
   }
 
@@ -10583,7 +10585,7 @@ class GetFaceLivenessSessionResultsResponse {
   factory GetFaceLivenessSessionResultsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFaceLivenessSessionResultsResponse(
-      sessionId: json['SessionId'] as String,
+      sessionId: (json['SessionId'] as String?) ?? '',
       status: LivenessSessionStatus.fromString((json['Status'] as String)),
       auditImages: (json['AuditImages'] as List?)
           ?.nonNulls
@@ -10900,13 +10902,17 @@ class GetMediaAnalysisJobResponse {
   factory GetMediaAnalysisJobResponse.fromJson(Map<String, dynamic> json) {
     return GetMediaAnalysisJobResponse(
       creationTimestamp:
-          nonNullableTimeStampFromJson(json['CreationTimestamp'] as Object),
-      input: MediaAnalysisInput.fromJson(json['Input'] as Map<String, dynamic>),
-      jobId: json['JobId'] as String,
+          nonNullableTimeStampFromJson(json['CreationTimestamp'] ?? 0),
+      input: MediaAnalysisInput.fromJson(
+          (json['Input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
       operationsConfig: MediaAnalysisOperationsConfig.fromJson(
-          json['OperationsConfig'] as Map<String, dynamic>),
+          (json['OperationsConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputConfig: MediaAnalysisOutputConfig.fromJson(
-          json['OutputConfig'] as Map<String, dynamic>),
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
@@ -12224,7 +12230,7 @@ class ListMediaAnalysisJobsResponse {
 
   factory ListMediaAnalysisJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListMediaAnalysisJobsResponse(
-      mediaAnalysisJobs: (json['MediaAnalysisJobs'] as List)
+      mediaAnalysisJobs: ((json['MediaAnalysisJobs'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               MediaAnalysisJobDescription.fromJson(e as Map<String, dynamic>))
@@ -12488,7 +12494,8 @@ class MediaAnalysisInput {
 
   factory MediaAnalysisInput.fromJson(Map<String, dynamic> json) {
     return MediaAnalysisInput(
-      s3Object: S3Object.fromJson(json['S3Object'] as Map<String, dynamic>),
+      s3Object: S3Object.fromJson((json['S3Object'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -12558,13 +12565,17 @@ class MediaAnalysisJobDescription {
   factory MediaAnalysisJobDescription.fromJson(Map<String, dynamic> json) {
     return MediaAnalysisJobDescription(
       creationTimestamp:
-          nonNullableTimeStampFromJson(json['CreationTimestamp'] as Object),
-      input: MediaAnalysisInput.fromJson(json['Input'] as Map<String, dynamic>),
-      jobId: json['JobId'] as String,
+          nonNullableTimeStampFromJson(json['CreationTimestamp'] ?? 0),
+      input: MediaAnalysisInput.fromJson(
+          (json['Input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
       operationsConfig: MediaAnalysisOperationsConfig.fromJson(
-          json['OperationsConfig'] as Map<String, dynamic>),
+          (json['OperationsConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputConfig: MediaAnalysisOutputConfig.fromJson(
-          json['OutputConfig'] as Map<String, dynamic>),
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: MediaAnalysisJobStatus.fromString((json['Status'] as String)),
       completionTimestamp: timeStampFromJson(json['CompletionTimestamp']),
       failureDetails: json['FailureDetails'] != null
@@ -12780,7 +12791,7 @@ class MediaAnalysisOutputConfig {
 
   factory MediaAnalysisOutputConfig.fromJson(Map<String, dynamic> json) {
     return MediaAnalysisOutputConfig(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
     );
   }
@@ -14770,7 +14781,7 @@ class StartMediaAnalysisJobResponse {
 
   factory StartMediaAnalysisJobResponse.fromJson(Map<String, dynamic> json) {
     return StartMediaAnalysisJobResponse(
-      jobId: json['JobId'] as String,
+      jobId: (json['JobId'] as String?) ?? '',
     );
   }
 
@@ -15138,7 +15149,7 @@ class StreamProcessorDataSharingPreference {
   factory StreamProcessorDataSharingPreference.fromJson(
       Map<String, dynamic> json) {
     return StreamProcessorDataSharingPreference(
-      optIn: json['OptIn'] as bool,
+      optIn: (json['OptIn'] as bool?) ?? false,
     );
   }
 
@@ -15200,7 +15211,7 @@ class StreamProcessorNotificationChannel {
   factory StreamProcessorNotificationChannel.fromJson(
       Map<String, dynamic> json) {
     return StreamProcessorNotificationChannel(
-      sNSTopicArn: json['SNSTopicArn'] as String,
+      sNSTopicArn: (json['SNSTopicArn'] as String?) ?? '',
     );
   }
 

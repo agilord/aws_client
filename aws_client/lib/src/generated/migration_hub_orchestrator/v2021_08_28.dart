@@ -2391,7 +2391,7 @@ class ListMigrationWorkflowTemplatesResponse {
   factory ListMigrationWorkflowTemplatesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListMigrationWorkflowTemplatesResponse(
-      templateSummary: (json['templateSummary'] as List)
+      templateSummary: ((json['templateSummary'] as List?) ?? const [])
           .nonNulls
           .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2423,11 +2423,12 @@ class ListMigrationWorkflowsResponse {
 
   factory ListMigrationWorkflowsResponse.fromJson(Map<String, dynamic> json) {
     return ListMigrationWorkflowsResponse(
-      migrationWorkflowSummary: (json['migrationWorkflowSummary'] as List)
-          .nonNulls
-          .map((e) =>
-              MigrationWorkflowSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      migrationWorkflowSummary:
+          ((json['migrationWorkflowSummary'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  MigrationWorkflowSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2511,11 +2512,12 @@ class ListTemplateStepGroupsResponse {
 
   factory ListTemplateStepGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListTemplateStepGroupsResponse(
-      templateStepGroupSummary: (json['templateStepGroupSummary'] as List)
-          .nonNulls
-          .map((e) =>
-              TemplateStepGroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      templateStepGroupSummary:
+          ((json['templateStepGroupSummary'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  TemplateStepGroupSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2577,11 +2579,12 @@ class ListWorkflowStepGroupsResponse {
 
   factory ListWorkflowStepGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowStepGroupsResponse(
-      workflowStepGroupsSummary: (json['workflowStepGroupsSummary'] as List)
-          .nonNulls
-          .map((e) =>
-              WorkflowStepGroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      workflowStepGroupsSummary:
+          ((json['workflowStepGroupsSummary'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  WorkflowStepGroupSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2610,7 +2613,8 @@ class ListWorkflowStepsResponse {
 
   factory ListWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
     return ListWorkflowStepsResponse(
-      workflowStepsSummary: (json['workflowStepsSummary'] as List)
+      workflowStepsSummary: ((json['workflowStepsSummary'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => WorkflowStepSummary.fromJson(e as Map<String, dynamic>))
           .toList(),

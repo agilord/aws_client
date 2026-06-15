@@ -3741,8 +3741,8 @@ class AggregatedLogOddsMetric {
   factory AggregatedLogOddsMetric.fromJson(Map<String, dynamic> json) {
     return AggregatedLogOddsMetric(
       aggregatedVariablesImportance:
-          json['aggregatedVariablesImportance'] as double,
-      variableNames: (json['variableNames'] as List)
+          (json['aggregatedVariablesImportance'] as double?) ?? 0,
+      variableNames: ((json['variableNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3886,7 +3886,7 @@ class AllowDenyList {
 
   factory AllowDenyList.fromJson(Map<String, dynamic> json) {
     return AllowDenyList(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       arn: json['arn'] as String?,
       createdTime: json['createdTime'] as String?,
       description: json['description'] as String?,
@@ -4981,8 +4981,8 @@ class Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     return Entity(
-      entityId: json['entityId'] as String,
-      entityType: json['entityType'] as String,
+      entityId: (json['entityId'] as String?) ?? '',
+      entityType: (json['entityType'] as String?) ?? '',
     );
   }
 
@@ -5313,7 +5313,7 @@ class EventOrchestration {
 
   factory EventOrchestration.fromJson(Map<String, dynamic> json) {
     return EventOrchestration(
-      eventBridgeEnabled: json['eventBridgeEnabled'] as bool,
+      eventBridgeEnabled: (json['eventBridgeEnabled'] as bool?) ?? false,
     );
   }
 
@@ -5550,8 +5550,8 @@ class ExternalEventsDetail {
 
   factory ExternalEventsDetail.fromJson(Map<String, dynamic> json) {
     return ExternalEventsDetail(
-      dataAccessRoleArn: json['dataAccessRoleArn'] as String,
-      dataLocation: json['dataLocation'] as String,
+      dataAccessRoleArn: (json['dataAccessRoleArn'] as String?) ?? '',
+      dataLocation: (json['dataLocation'] as String?) ?? '',
     );
   }
 
@@ -6822,7 +6822,8 @@ class IngestedEventsDetail {
   factory IngestedEventsDetail.fromJson(Map<String, dynamic> json) {
     return IngestedEventsDetail(
       ingestedEventsTimeWindow: IngestedEventsTimeWindow.fromJson(
-          json['ingestedEventsTimeWindow'] as Map<String, dynamic>),
+          (json['ingestedEventsTimeWindow'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6849,8 +6850,8 @@ class IngestedEventsTimeWindow {
 
   factory IngestedEventsTimeWindow.fromJson(Map<String, dynamic> json) {
     return IngestedEventsTimeWindow(
-      endTime: json['endTime'] as String,
-      startTime: json['startTime'] as String,
+      endTime: (json['endTime'] as String?) ?? '',
+      startTime: (json['startTime'] as String?) ?? '',
     );
   }
 
@@ -7122,9 +7123,9 @@ class LogOddsMetric {
 
   factory LogOddsMetric.fromJson(Map<String, dynamic> json) {
     return LogOddsMetric(
-      variableImportance: json['variableImportance'] as double,
-      variableName: json['variableName'] as String,
-      variableType: json['variableType'] as String,
+      variableImportance: (json['variableImportance'] as double?) ?? 0,
+      variableName: (json['variableName'] as String?) ?? '',
+      variableType: (json['variableType'] as String?) ?? '',
     );
   }
 
@@ -7327,7 +7328,7 @@ class ModelInputConfiguration {
 
   factory ModelInputConfiguration.fromJson(Map<String, dynamic> json) {
     return ModelInputConfiguration(
-      useEventVariables: json['useEventVariables'] as bool,
+      useEventVariables: (json['useEventVariables'] as bool?) ?? false,
       csvInputTemplate: json['csvInputTemplate'] as String?,
       eventTypeName: json['eventTypeName'] as String?,
       format: (json['format'] as String?)?.let(ModelInputDataFormat.fromString),
@@ -7511,9 +7512,9 @@ class ModelVersion {
 
   factory ModelVersion.fromJson(Map<String, dynamic> json) {
     return ModelVersion(
-      modelId: json['modelId'] as String,
+      modelId: (json['modelId'] as String?) ?? '',
       modelType: ModelTypeEnum.fromString((json['modelType'] as String)),
-      modelVersionNumber: json['modelVersionNumber'] as String,
+      modelVersionNumber: (json['modelVersionNumber'] as String?) ?? '',
       arn: json['arn'] as String?,
     );
   }
@@ -8070,9 +8071,9 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      detectorId: json['detectorId'] as String,
-      ruleId: json['ruleId'] as String,
-      ruleVersion: json['ruleVersion'] as String,
+      detectorId: (json['detectorId'] as String?) ?? '',
+      ruleId: (json['ruleId'] as String?) ?? '',
+      ruleVersion: (json['ruleVersion'] as String?) ?? '',
     );
   }
 
@@ -8374,8 +8375,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -8414,7 +8415,7 @@ class TrainingDataSchema {
 
   factory TrainingDataSchema.fromJson(Map<String, dynamic> json) {
     return TrainingDataSchema(
-      modelVariables: (json['modelVariables'] as List)
+      modelVariables: ((json['modelVariables'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -8663,8 +8664,8 @@ class UncertaintyRange {
 
   factory UncertaintyRange.fromJson(Map<String, dynamic> json) {
     return UncertaintyRange(
-      lowerBoundValue: json['lowerBoundValue'] as double,
-      upperBoundValue: json['upperBoundValue'] as double,
+      lowerBoundValue: (json['lowerBoundValue'] as double?) ?? 0,
+      upperBoundValue: (json['upperBoundValue'] as double?) ?? 0,
     );
   }
 

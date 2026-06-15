@@ -4983,8 +4983,8 @@ class RDSDatabase {
 
   factory RDSDatabase.fromJson(Map<String, dynamic> json) {
     return RDSDatabase(
-      databaseName: json['DatabaseName'] as String,
-      instanceIdentifier: json['InstanceIdentifier'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      instanceIdentifier: (json['InstanceIdentifier'] as String?) ?? '',
     );
   }
 
@@ -5370,8 +5370,8 @@ class RedshiftDatabase {
 
   factory RedshiftDatabase.fromJson(Map<String, dynamic> json) {
     return RedshiftDatabase(
-      clusterIdentifier: json['ClusterIdentifier'] as String,
-      databaseName: json['DatabaseName'] as String,
+      clusterIdentifier: (json['ClusterIdentifier'] as String?) ?? '',
+      databaseName: (json['DatabaseName'] as String?) ?? '',
     );
   }
 

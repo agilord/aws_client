@@ -5764,7 +5764,7 @@ class HandshakeParty {
 
   factory HandshakeParty.fromJson(Map<String, dynamic> json) {
     return HandshakeParty(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       type: HandshakePartyType.fromString((json['Type'] as String)),
     );
   }
@@ -7221,8 +7221,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

@@ -1791,9 +1791,9 @@ class IdentityPool {
   factory IdentityPool.fromJson(Map<String, dynamic> json) {
     return IdentityPool(
       allowUnauthenticatedIdentities:
-          json['AllowUnauthenticatedIdentities'] as bool,
-      identityPoolId: json['IdentityPoolId'] as String,
-      identityPoolName: json['IdentityPoolName'] as String,
+          (json['AllowUnauthenticatedIdentities'] as bool?) ?? false,
+      identityPoolId: (json['IdentityPoolId'] as String?) ?? '',
+      identityPoolName: (json['IdentityPoolName'] as String?) ?? '',
       allowClassicFlow: json['AllowClassicFlow'] as bool?,
       cognitoIdentityProviders: (json['CognitoIdentityProviders'] as List?)
           ?.nonNulls
@@ -2051,10 +2051,10 @@ class MappingRule {
 
   factory MappingRule.fromJson(Map<String, dynamic> json) {
     return MappingRule(
-      claim: json['Claim'] as String,
+      claim: (json['Claim'] as String?) ?? '',
       matchType: MappingRuleMatchType.fromString((json['MatchType'] as String)),
-      roleARN: json['RoleARN'] as String,
-      value: json['Value'] as String,
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2195,7 +2195,7 @@ class RulesConfigurationType {
 
   factory RulesConfigurationType.fromJson(Map<String, dynamic> json) {
     return RulesConfigurationType(
-      rules: (json['Rules'] as List)
+      rules: ((json['Rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => MappingRule.fromJson(e as Map<String, dynamic>))
           .toList(),

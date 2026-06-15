@@ -4027,8 +4027,8 @@ class DNISEmergencyCallingConfiguration {
   factory DNISEmergencyCallingConfiguration.fromJson(
       Map<String, dynamic> json) {
     return DNISEmergencyCallingConfiguration(
-      callingCountry: json['CallingCountry'] as String,
-      emergencyPhoneNumber: json['EmergencyPhoneNumber'] as String,
+      callingCountry: (json['CallingCountry'] as String?) ?? '',
+      emergencyPhoneNumber: (json['EmergencyPhoneNumber'] as String?) ?? '',
       testPhoneNumber: json['TestPhoneNumber'] as String?,
     );
   }
@@ -4188,8 +4188,8 @@ class GeoMatchParams {
 
   factory GeoMatchParams.fromJson(Map<String, dynamic> json) {
     return GeoMatchParams(
-      areaCode: json['AreaCode'] as String,
-      country: json['Country'] as String,
+      areaCode: (json['AreaCode'] as String?) ?? '',
+      country: (json['Country'] as String?) ?? '',
     );
   }
 
@@ -6459,7 +6459,7 @@ class ServerSideEncryptionConfiguration {
   factory ServerSideEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServerSideEncryptionConfiguration(
-      kmsKeyArn: json['KmsKeyArn'] as String,
+      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
     );
   }
 
@@ -6568,7 +6568,7 @@ class SipMediaApplicationAlexaSkillConfiguration {
   factory SipMediaApplicationAlexaSkillConfiguration.fromJson(
       Map<String, dynamic> json) {
     return SipMediaApplicationAlexaSkillConfiguration(
-      alexaSkillIds: (json['AlexaSkillIds'] as List)
+      alexaSkillIds: ((json['AlexaSkillIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7033,8 +7033,8 @@ class StreamingConfiguration {
 
   factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamingConfiguration(
-      dataRetentionInHours: json['DataRetentionInHours'] as int,
-      disabled: json['Disabled'] as bool,
+      dataRetentionInHours: (json['DataRetentionInHours'] as int?) ?? 0,
+      disabled: (json['Disabled'] as bool?) ?? false,
       mediaInsightsConfiguration: json['MediaInsightsConfiguration'] != null
           ? MediaInsightsConfiguration.fromJson(
               json['MediaInsightsConfiguration'] as Map<String, dynamic>)
@@ -7104,8 +7104,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7714,8 +7714,8 @@ class VoiceConnectorItem {
 
   factory VoiceConnectorItem.fromJson(Map<String, dynamic> json) {
     return VoiceConnectorItem(
-      priority: json['Priority'] as int,
-      voiceConnectorId: json['VoiceConnectorId'] as String,
+      priority: (json['Priority'] as int?) ?? 0,
+      voiceConnectorId: (json['VoiceConnectorId'] as String?) ?? '',
     );
   }
 

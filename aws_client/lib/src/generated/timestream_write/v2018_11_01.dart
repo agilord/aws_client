@@ -1340,7 +1340,7 @@ class CreateBatchLoadTaskResponse {
 
   factory CreateBatchLoadTaskResponse.fromJson(Map<String, dynamic> json) {
     return CreateBatchLoadTaskResponse(
-      taskId: json['TaskId'] as String,
+      taskId: (json['TaskId'] as String?) ?? '',
     );
   }
 
@@ -1486,7 +1486,7 @@ class DataModel {
 
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
-      dimensionMappings: (json['DimensionMappings'] as List)
+      dimensionMappings: ((json['DimensionMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1610,7 +1610,8 @@ class DataSourceConfiguration {
       dataFormat:
           BatchLoadDataFormat.fromString((json['DataFormat'] as String)),
       dataSourceS3Configuration: DataSourceS3Configuration.fromJson(
-          json['DataSourceS3Configuration'] as Map<String, dynamic>),
+          (json['DataSourceS3Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       csvConfiguration: json['CsvConfiguration'] != null
           ? CsvConfiguration.fromJson(
               json['CsvConfiguration'] as Map<String, dynamic>)
@@ -1645,7 +1646,7 @@ class DataSourceS3Configuration {
 
   factory DataSourceS3Configuration.fromJson(Map<String, dynamic> json) {
     return DataSourceS3Configuration(
-      bucketName: json['BucketName'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
       objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
     );
   }
@@ -1734,7 +1735,8 @@ class DescribeBatchLoadTaskResponse {
   factory DescribeBatchLoadTaskResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBatchLoadTaskResponse(
       batchLoadTaskDescription: BatchLoadTaskDescription.fromJson(
-          json['BatchLoadTaskDescription'] as Map<String, dynamic>),
+          (json['BatchLoadTaskDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1781,7 +1783,7 @@ class DescribeEndpointsResponse {
 
   factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEndpointsResponse(
-      endpoints: (json['Endpoints'] as List)
+      endpoints: ((json['Endpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1918,8 +1920,8 @@ class Endpoint {
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
-      address: json['Address'] as String,
-      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+      address: (json['Address'] as String?) ?? '',
+      cachePeriodInMinutes: (json['CachePeriodInMinutes'] as int?) ?? 0,
     );
   }
 
@@ -2102,7 +2104,8 @@ class MagneticStoreWriteProperties {
 
   factory MagneticStoreWriteProperties.fromJson(Map<String, dynamic> json) {
     return MagneticStoreWriteProperties(
-      enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool,
+      enableMagneticStoreWrites:
+          (json['EnableMagneticStoreWrites'] as bool?) ?? false,
       magneticStoreRejectedDataLocation:
           json['MagneticStoreRejectedDataLocation'] != null
               ? MagneticStoreRejectedDataLocation.fromJson(
@@ -2261,7 +2264,7 @@ class MultiMeasureAttributeMapping {
 
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
-      sourceColumn: json['SourceColumn'] as String,
+      sourceColumn: (json['SourceColumn'] as String?) ?? '',
       measureValueType: (json['MeasureValueType'] as String?)
           ?.let(ScalarMeasureValueType.fromString),
       targetMultiMeasureAttributeName:
@@ -2298,8 +2301,9 @@ class MultiMeasureMappings {
 
   factory MultiMeasureMappings.fromJson(Map<String, dynamic> json) {
     return MultiMeasureMappings(
-      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
-              as List)
+      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
@@ -2578,7 +2582,7 @@ class ReportS3Configuration {
 
   factory ReportS3Configuration.fromJson(Map<String, dynamic> json) {
     return ReportS3Configuration(
-      bucketName: json['BucketName'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
       encryptionOption: (json['EncryptionOption'] as String?)
           ?.let(S3EncryptionOption.fromString),
       kmsKeyId: json['KmsKeyId'] as String?,
@@ -2629,9 +2633,9 @@ class RetentionProperties {
   factory RetentionProperties.fromJson(Map<String, dynamic> json) {
     return RetentionProperties(
       magneticStoreRetentionPeriodInDays:
-          json['MagneticStoreRetentionPeriodInDays'] as int,
+          (json['MagneticStoreRetentionPeriodInDays'] as int?) ?? 0,
       memoryStoreRetentionPeriodInHours:
-          json['MemoryStoreRetentionPeriodInHours'] as int,
+          (json['MemoryStoreRetentionPeriodInHours'] as int?) ?? 0,
     );
   }
 
@@ -2895,8 +2899,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

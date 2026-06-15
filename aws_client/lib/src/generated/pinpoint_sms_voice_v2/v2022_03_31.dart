@@ -4466,7 +4466,7 @@ class AccountAttribute {
   factory AccountAttribute.fromJson(Map<String, dynamic> json) {
     return AccountAttribute(
       name: AccountAttributeName.fromString((json['Name'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4514,9 +4514,9 @@ class AccountLimit {
 
   factory AccountLimit.fromJson(Map<String, dynamic> json) {
     return AccountLimit(
-      max: json['Max'] as int,
+      max: (json['Max'] as int?) ?? 0,
       name: AccountLimitName.fromString((json['Name'] as String)),
-      used: json['Used'] as int,
+      used: (json['Used'] as int?) ?? 0,
     );
   }
 
@@ -4631,10 +4631,11 @@ class AssociateProtectConfigurationResult {
   factory AssociateProtectConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return AssociateProtectConfigurationResult(
-      configurationSetArn: json['ConfigurationSetArn'] as String,
-      configurationSetName: json['ConfigurationSetName'] as String,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+      configurationSetArn: (json['ConfigurationSetArn'] as String?) ?? '',
+      configurationSetName: (json['ConfigurationSetName'] as String?) ?? '',
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -4701,8 +4702,8 @@ class CloudWatchLogsDestination {
 
   factory CloudWatchLogsDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogsDestination(
-      iamRoleArn: json['IamRoleArn'] as String,
-      logGroupArn: json['LogGroupArn'] as String,
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      logGroupArn: (json['LogGroupArn'] as String?) ?? '',
     );
   }
 
@@ -4797,11 +4798,11 @@ class ConfigurationSetInformation {
 
   factory ConfigurationSetInformation.fromJson(Map<String, dynamic> json) {
     return ConfigurationSetInformation(
-      configurationSetArn: json['ConfigurationSetArn'] as String,
-      configurationSetName: json['ConfigurationSetName'] as String,
+      configurationSetArn: (json['ConfigurationSetArn'] as String?) ?? '',
+      configurationSetName: (json['ConfigurationSetName'] as String?) ?? '',
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      eventDestinations: (json['EventDestinations'] as List)
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      eventDestinations: ((json['EventDestinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5144,12 +5145,14 @@ class CreateProtectConfigurationResult {
 
   factory CreateProtectConfigurationResult.fromJson(Map<String, dynamic> json) {
     return CreateProtectConfigurationResult(
-      accountDefault: json['AccountDefault'] as bool,
+      accountDefault: (json['AccountDefault'] as bool?) ?? false,
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5218,12 +5221,12 @@ class CreateRegistrationAssociationResult {
   factory CreateRegistrationAssociationResult.fromJson(
       Map<String, dynamic> json) {
     return CreateRegistrationAssociationResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
-      registrationType: json['RegistrationType'] as String,
-      resourceArn: json['ResourceArn'] as String,
-      resourceId: json['ResourceId'] as String,
-      resourceType: json['ResourceType'] as String,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      registrationType: (json['RegistrationType'] as String?) ?? '',
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
       isoCountryCode: json['IsoCountryCode'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
     );
@@ -5298,9 +5301,11 @@ class CreateRegistrationAttachmentResult {
       attachmentStatus:
           AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      registrationAttachmentArn: json['RegistrationAttachmentArn'] as String,
-      registrationAttachmentId: json['RegistrationAttachmentId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      registrationAttachmentArn:
+          (json['RegistrationAttachmentArn'] as String?) ?? '',
+      registrationAttachmentId:
+          (json['RegistrationAttachmentId'] as String?) ?? '',
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5400,13 +5405,13 @@ class CreateRegistrationResult {
   factory CreateRegistrationResult.fromJson(Map<String, dynamic> json) {
     return CreateRegistrationResult(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      currentVersionNumber: json['CurrentVersionNumber'] as int,
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationStatus:
           RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
-      registrationType: json['RegistrationType'] as String,
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -5499,14 +5504,16 @@ class CreateRegistrationVersionResult {
 
   factory CreateRegistrationVersionResult.fromJson(Map<String, dynamic> json) {
     return CreateRegistrationVersionResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
           (json['RegistrationVersionStatus'] as String)),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
-              json['RegistrationVersionStatusHistory'] as Map<String, dynamic>),
-      versionNumber: json['VersionNumber'] as int,
+              (json['RegistrationVersionStatusHistory']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
     );
   }
 
@@ -5571,13 +5578,13 @@ class CreateVerifiedDestinationNumberResult {
       Map<String, dynamic> json) {
     return CreateVerifiedDestinationNumberResult(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      destinationPhoneNumber: json['DestinationPhoneNumber'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
       status: VerificationStatus.fromString((json['Status'] as String)),
       verifiedDestinationNumberArn:
-          json['VerifiedDestinationNumberArn'] as String,
+          (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
-          json['VerifiedDestinationNumberId'] as String,
+          (json['VerifiedDestinationNumberId'] as String?) ?? '',
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -5619,9 +5626,9 @@ class DeleteAccountDefaultProtectConfigurationResult {
       Map<String, dynamic> json) {
     return DeleteAccountDefaultProtectConfigurationResult(
       defaultProtectConfigurationArn:
-          json['DefaultProtectConfigurationArn'] as String,
+          (json['DefaultProtectConfigurationArn'] as String?) ?? '',
       defaultProtectConfigurationId:
-          json['DefaultProtectConfigurationId'] as String,
+          (json['DefaultProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -6133,12 +6140,14 @@ class DeleteProtectConfigurationResult {
 
   factory DeleteProtectConfigurationResult.fromJson(Map<String, dynamic> json) {
     return DeleteProtectConfigurationResult(
-      accountDefault: json['AccountDefault'] as bool,
+      accountDefault: (json['AccountDefault'] as bool?) ?? false,
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -6204,9 +6213,11 @@ class DeleteRegistrationAttachmentResult {
       attachmentStatus:
           AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      registrationAttachmentArn: json['RegistrationAttachmentArn'] as String,
-      registrationAttachmentId: json['RegistrationAttachmentId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      registrationAttachmentArn:
+          (json['RegistrationAttachmentArn'] as String?) ?? '',
+      registrationAttachmentId:
+          (json['RegistrationAttachmentId'] as String?) ?? '',
       attachmentUploadErrorReason:
           (json['AttachmentUploadErrorReason'] as String?)
               ?.let(AttachmentUploadErrorReason.fromString),
@@ -6265,10 +6276,10 @@ class DeleteRegistrationFieldValueResult {
   factory DeleteRegistrationFieldValueResult.fromJson(
       Map<String, dynamic> json) {
     return DeleteRegistrationFieldValueResult(
-      fieldPath: json['FieldPath'] as String,
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
-      versionNumber: json['VersionNumber'] as int,
+      fieldPath: (json['FieldPath'] as String?) ?? '',
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
           ?.nonNulls
@@ -6378,13 +6389,13 @@ class DeleteRegistrationResult {
   factory DeleteRegistrationResult.fromJson(Map<String, dynamic> json) {
     return DeleteRegistrationResult(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      currentVersionNumber: json['CurrentVersionNumber'] as int,
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationStatus:
           RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
-      registrationType: json['RegistrationType'] as String,
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -6468,12 +6479,12 @@ class DeleteVerifiedDestinationNumberResult {
       Map<String, dynamic> json) {
     return DeleteVerifiedDestinationNumberResult(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      destinationPhoneNumber: json['DestinationPhoneNumber'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
       verifiedDestinationNumberArn:
-          json['VerifiedDestinationNumberArn'] as String,
+          (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
-          json['VerifiedDestinationNumberId'] as String,
+          (json['VerifiedDestinationNumberId'] as String?) ?? '',
     );
   }
 
@@ -6870,11 +6881,12 @@ class DescribeRegistrationAttachmentsResult {
   factory DescribeRegistrationAttachmentsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationAttachmentsResult(
-      registrationAttachments: (json['RegistrationAttachments'] as List)
-          .nonNulls
-          .map((e) => RegistrationAttachmentsInformation.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      registrationAttachments:
+          ((json['RegistrationAttachments'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RegistrationAttachmentsInformation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -6911,13 +6923,14 @@ class DescribeRegistrationFieldDefinitionsResult {
   factory DescribeRegistrationFieldDefinitionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationFieldDefinitionsResult(
-      registrationFieldDefinitions: (json['RegistrationFieldDefinitions']
-              as List)
+      registrationFieldDefinitions: ((json['RegistrationFieldDefinitions']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RegistrationFieldDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      registrationType: json['RegistrationType'] as String,
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -6963,14 +6976,15 @@ class DescribeRegistrationFieldValuesResult {
   factory DescribeRegistrationFieldValuesResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationFieldValuesResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationFieldValues: (json['RegistrationFieldValues'] as List)
-          .nonNulls
-          .map((e) => RegistrationFieldValueInformation.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      registrationId: json['RegistrationId'] as String,
-      versionNumber: json['VersionNumber'] as int,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationFieldValues:
+          ((json['RegistrationFieldValues'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RegistrationFieldValueInformation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7012,13 +7026,14 @@ class DescribeRegistrationSectionDefinitionsResult {
   factory DescribeRegistrationSectionDefinitionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationSectionDefinitionsResult(
-      registrationSectionDefinitions: (json['RegistrationSectionDefinitions']
-              as List)
+      registrationSectionDefinitions: ((json['RegistrationSectionDefinitions']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RegistrationSectionDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      registrationType: json['RegistrationType'] as String,
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7052,7 +7067,9 @@ class DescribeRegistrationTypeDefinitionsResult {
   factory DescribeRegistrationTypeDefinitionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationTypeDefinitionsResult(
-      registrationTypeDefinitions: (json['RegistrationTypeDefinitions'] as List)
+      registrationTypeDefinitions: ((json['RegistrationTypeDefinitions']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RegistrationTypeDefinition.fromJson(e as Map<String, dynamic>))
@@ -7095,13 +7112,14 @@ class DescribeRegistrationVersionsResult {
   factory DescribeRegistrationVersionsResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeRegistrationVersionsResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
-      registrationVersions: (json['RegistrationVersions'] as List)
-          .nonNulls
-          .map((e) => RegistrationVersionInformation.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      registrationVersions:
+          ((json['RegistrationVersions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RegistrationVersionInformation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7135,7 +7153,7 @@ class DescribeRegistrationsResult {
 
   factory DescribeRegistrationsResult.fromJson(Map<String, dynamic> json) {
     return DescribeRegistrationsResult(
-      registrations: (json['Registrations'] as List)
+      registrations: ((json['Registrations'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               RegistrationInformation.fromJson(e as Map<String, dynamic>))
@@ -7238,11 +7256,12 @@ class DescribeVerifiedDestinationNumbersResult {
   factory DescribeVerifiedDestinationNumbersResult.fromJson(
       Map<String, dynamic> json) {
     return DescribeVerifiedDestinationNumbersResult(
-      verifiedDestinationNumbers: (json['VerifiedDestinationNumbers'] as List)
-          .nonNulls
-          .map((e) => VerifiedDestinationNumberInformation.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      verifiedDestinationNumbers:
+          ((json['VerifiedDestinationNumbers'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => VerifiedDestinationNumberInformation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -7349,10 +7368,11 @@ class DisassociateProtectConfigurationResult {
   factory DisassociateProtectConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return DisassociateProtectConfigurationResult(
-      configurationSetArn: json['ConfigurationSetArn'] as String,
-      configurationSetName: json['ConfigurationSetName'] as String,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+      configurationSetArn: (json['ConfigurationSetArn'] as String?) ?? '',
+      configurationSetName: (json['ConfigurationSetName'] as String?) ?? '',
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -7429,14 +7449,16 @@ class DiscardRegistrationVersionResult {
 
   factory DiscardRegistrationVersionResult.fromJson(Map<String, dynamic> json) {
     return DiscardRegistrationVersionResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
           (json['RegistrationVersionStatus'] as String)),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
-              json['RegistrationVersionStatusHistory'] as Map<String, dynamic>),
-      versionNumber: json['VersionNumber'] as int,
+              (json['RegistrationVersionStatusHistory']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
     );
   }
 
@@ -7497,9 +7519,9 @@ class EventDestination {
 
   factory EventDestination.fromJson(Map<String, dynamic> json) {
     return EventDestination(
-      enabled: json['Enabled'] as bool,
-      eventDestinationName: json['EventDestinationName'] as String,
-      matchingEventTypes: (json['MatchingEventTypes'] as List)
+      enabled: (json['Enabled'] as bool?) ?? false,
+      eventDestinationName: (json['EventDestinationName'] as String?) ?? '',
+      matchingEventTypes: ((json['MatchingEventTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
@@ -7653,15 +7675,17 @@ class GetProtectConfigurationCountryRuleSetResult {
   factory GetProtectConfigurationCountryRuleSetResult.fromJson(
       Map<String, dynamic> json) {
     return GetProtectConfigurationCountryRuleSetResult(
-      countryRuleSet: (json['CountryRuleSet'] as Map<String, dynamic>).map(
-          (k, e) => MapEntry(
+      countryRuleSet: ((json['CountryRuleSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
               k,
               ProtectConfigurationCountryRuleSetInformation.fromJson(
                   e as Map<String, dynamic>))),
       numberCapability:
           NumberCapability.fromString((json['NumberCapability'] as String)),
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -7751,10 +7775,10 @@ class KeywordInformation {
 
   factory KeywordInformation.fromJson(Map<String, dynamic> json) {
     return KeywordInformation(
-      keyword: json['Keyword'] as String,
+      keyword: (json['Keyword'] as String?) ?? '',
       keywordAction:
           KeywordAction.fromString((json['KeywordAction'] as String)),
-      keywordMessage: json['KeywordMessage'] as String,
+      keywordMessage: (json['KeywordMessage'] as String?) ?? '',
     );
   }
 
@@ -7791,8 +7815,8 @@ class KinesisFirehoseDestination {
 
   factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseDestination(
-      deliveryStreamArn: json['DeliveryStreamArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
+      deliveryStreamArn: (json['DeliveryStreamArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
     );
   }
 
@@ -7911,14 +7935,15 @@ class ListRegistrationAssociationsResult {
   factory ListRegistrationAssociationsResult.fromJson(
       Map<String, dynamic> json) {
     return ListRegistrationAssociationsResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationAssociations: (json['RegistrationAssociations'] as List)
-          .nonNulls
-          .map((e) => RegistrationAssociationMetadata.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      registrationId: json['RegistrationId'] as String,
-      registrationType: json['RegistrationType'] as String,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationAssociations:
+          ((json['RegistrationAssociations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RegistrationAssociationMetadata.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -8057,9 +8082,9 @@ class OptOutListInformation {
   factory OptOutListInformation.fromJson(Map<String, dynamic> json) {
     return OptOutListInformation(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      optOutListArn: json['OptOutListArn'] as String,
-      optOutListName: json['OptOutListName'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      optOutListArn: (json['OptOutListArn'] as String?) ?? '',
+      optOutListName: (json['OptOutListName'] as String?) ?? '',
     );
   }
 
@@ -8132,10 +8157,10 @@ class OptedOutNumberInformation {
 
   factory OptedOutNumberInformation.fromJson(Map<String, dynamic> json) {
     return OptedOutNumberInformation(
-      endUserOptedOut: json['EndUserOptedOut'] as bool,
-      optedOutNumber: json['OptedOutNumber'] as String,
+      endUserOptedOut: (json['EndUserOptedOut'] as bool?) ?? false,
+      optedOutNumber: (json['OptedOutNumber'] as String?) ?? '',
       optedOutTimestamp:
-          nonNullableTimeStampFromJson(json['OptedOutTimestamp'] as Object),
+          nonNullableTimeStampFromJson(json['OptedOutTimestamp'] ?? 0),
     );
   }
 
@@ -8180,13 +8205,13 @@ class OriginationIdentityMetadata {
 
   factory OriginationIdentityMetadata.fromJson(Map<String, dynamic> json) {
     return OriginationIdentityMetadata(
-      isoCountryCode: json['IsoCountryCode'] as String,
-      numberCapabilities: (json['NumberCapabilities'] as List)
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
+      numberCapabilities: ((json['NumberCapabilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
-      originationIdentity: json['OriginationIdentity'] as String,
-      originationIdentityArn: json['OriginationIdentityArn'] as String,
+      originationIdentity: (json['OriginationIdentity'] as String?) ?? '',
+      originationIdentityArn: (json['OriginationIdentityArn'] as String?) ?? '',
       phoneNumber: json['PhoneNumber'] as String?,
     );
   }
@@ -8348,22 +8373,24 @@ class PhoneNumberInformation {
   factory PhoneNumberInformation.fromJson(Map<String, dynamic> json) {
     return PhoneNumberInformation(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      isoCountryCode: json['IsoCountryCode'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
       messageType: MessageType.fromString((json['MessageType'] as String)),
-      monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
-      numberCapabilities: (json['NumberCapabilities'] as List)
+      monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
+      numberCapabilities: ((json['NumberCapabilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => NumberCapability.fromString((e as String)))
           .toList(),
       numberType: NumberType.fromString((json['NumberType'] as String)),
-      optOutListName: json['OptOutListName'] as String,
-      phoneNumber: json['PhoneNumber'] as String,
-      phoneNumberArn: json['PhoneNumberArn'] as String,
-      selfManagedOptOutsEnabled: json['SelfManagedOptOutsEnabled'] as bool,
+      optOutListName: (json['OptOutListName'] as String?) ?? '',
+      phoneNumber: (json['PhoneNumber'] as String?) ?? '',
+      phoneNumberArn: (json['PhoneNumberArn'] as String?) ?? '',
+      selfManagedOptOutsEnabled:
+          (json['SelfManagedOptOutsEnabled'] as bool?) ?? false,
       status: NumberStatus.fromString((json['Status'] as String)),
-      twoWayEnabled: json['TwoWayEnabled'] as bool,
+      twoWayEnabled: (json['TwoWayEnabled'] as bool?) ?? false,
       phoneNumberId: json['PhoneNumberId'] as String?,
       poolId: json['PoolId'] as String?,
       registrationId: json['RegistrationId'] as String?,
@@ -8532,16 +8559,18 @@ class PoolInformation {
   factory PoolInformation.fromJson(Map<String, dynamic> json) {
     return PoolInformation(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
       messageType: MessageType.fromString((json['MessageType'] as String)),
-      optOutListName: json['OptOutListName'] as String,
-      poolArn: json['PoolArn'] as String,
-      poolId: json['PoolId'] as String,
-      selfManagedOptOutsEnabled: json['SelfManagedOptOutsEnabled'] as bool,
-      sharedRoutesEnabled: json['SharedRoutesEnabled'] as bool,
+      optOutListName: (json['OptOutListName'] as String?) ?? '',
+      poolArn: (json['PoolArn'] as String?) ?? '',
+      poolId: (json['PoolId'] as String?) ?? '',
+      selfManagedOptOutsEnabled:
+          (json['SelfManagedOptOutsEnabled'] as bool?) ?? false,
+      sharedRoutesEnabled: (json['SharedRoutesEnabled'] as bool?) ?? false,
       status: PoolStatus.fromString((json['Status'] as String)),
-      twoWayEnabled: json['TwoWayEnabled'] as bool,
+      twoWayEnabled: (json['TwoWayEnabled'] as bool?) ?? false,
       twoWayChannelArn: json['TwoWayChannelArn'] as String?,
       twoWayChannelRole: json['TwoWayChannelRole'] as String?,
     );
@@ -8725,12 +8754,14 @@ class ProtectConfigurationInformation {
 
   factory ProtectConfigurationInformation.fromJson(Map<String, dynamic> json) {
     return ProtectConfigurationInformation(
-      accountDefault: json['AccountDefault'] as bool,
+      accountDefault: (json['AccountDefault'] as bool?) ?? false,
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -8906,10 +8937,10 @@ class PutRegistrationFieldValueResult {
 
   factory PutRegistrationFieldValueResult.fromJson(Map<String, dynamic> json) {
     return PutRegistrationFieldValueResult(
-      fieldPath: json['FieldPath'] as String,
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
-      versionNumber: json['VersionNumber'] as int,
+      fieldPath: (json['FieldPath'] as String?) ?? '',
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
           ?.nonNulls
@@ -9026,9 +9057,9 @@ class RegistrationAssociationMetadata {
 
   factory RegistrationAssociationMetadata.fromJson(Map<String, dynamic> json) {
     return RegistrationAssociationMetadata(
-      resourceArn: json['ResourceArn'] as String,
-      resourceId: json['ResourceId'] as String,
-      resourceType: json['ResourceType'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
       isoCountryCode: json['IsoCountryCode'] as String?,
       phoneNumber: json['PhoneNumber'] as String?,
     );
@@ -9135,9 +9166,11 @@ class RegistrationAttachmentsInformation {
       attachmentStatus:
           AttachmentStatus.fromString((json['AttachmentStatus'] as String)),
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      registrationAttachmentArn: json['RegistrationAttachmentArn'] as String,
-      registrationAttachmentId: json['RegistrationAttachmentId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      registrationAttachmentArn:
+          (json['RegistrationAttachmentArn'] as String?) ?? '',
+      registrationAttachmentId:
+          (json['RegistrationAttachmentId'] as String?) ?? '',
       attachmentUploadErrorReason:
           (json['AttachmentUploadErrorReason'] as String?)
               ?.let(AttachmentUploadErrorReason.fromString),
@@ -9189,8 +9222,8 @@ class RegistrationDeniedReasonInformation {
   factory RegistrationDeniedReasonInformation.fromJson(
       Map<String, dynamic> json) {
     return RegistrationDeniedReasonInformation(
-      reason: json['Reason'] as String,
-      shortDescription: json['ShortDescription'] as String,
+      reason: (json['Reason'] as String?) ?? '',
+      shortDescription: (json['ShortDescription'] as String?) ?? '',
       documentationLink: json['DocumentationLink'] as String?,
       documentationTitle: json['DocumentationTitle'] as String?,
       longDescription: json['LongDescription'] as String?,
@@ -9268,12 +9301,13 @@ class RegistrationFieldDefinition {
   factory RegistrationFieldDefinition.fromJson(Map<String, dynamic> json) {
     return RegistrationFieldDefinition(
       displayHints: RegistrationFieldDisplayHints.fromJson(
-          json['DisplayHints'] as Map<String, dynamic>),
-      fieldPath: json['FieldPath'] as String,
+          (json['DisplayHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      fieldPath: (json['FieldPath'] as String?) ?? '',
       fieldRequirement:
           FieldRequirement.fromString((json['FieldRequirement'] as String)),
       fieldType: FieldType.fromString((json['FieldType'] as String)),
-      sectionPath: json['SectionPath'] as String,
+      sectionPath: (json['SectionPath'] as String?) ?? '',
       selectValidation: json['SelectValidation'] != null
           ? SelectValidation.fromJson(
               json['SelectValidation'] as Map<String, dynamic>)
@@ -9344,8 +9378,8 @@ class RegistrationFieldDisplayHints {
 
   factory RegistrationFieldDisplayHints.fromJson(Map<String, dynamic> json) {
     return RegistrationFieldDisplayHints(
-      shortDescription: json['ShortDescription'] as String,
-      title: json['Title'] as String,
+      shortDescription: (json['ShortDescription'] as String?) ?? '',
+      title: (json['Title'] as String?) ?? '',
       documentationLink: json['DocumentationLink'] as String?,
       documentationTitle: json['DocumentationTitle'] as String?,
       exampleTextValue: json['ExampleTextValue'] as String?,
@@ -9412,7 +9446,7 @@ class RegistrationFieldValueInformation {
   factory RegistrationFieldValueInformation.fromJson(
       Map<String, dynamic> json) {
     return RegistrationFieldValueInformation(
-      fieldPath: json['FieldPath'] as String,
+      fieldPath: (json['FieldPath'] as String?) ?? '',
       deniedReason: json['DeniedReason'] as String?,
       registrationAttachmentId: json['RegistrationAttachmentId'] as String?,
       selectChoices: (json['SelectChoices'] as List?)
@@ -9559,13 +9593,13 @@ class RegistrationInformation {
   factory RegistrationInformation.fromJson(Map<String, dynamic> json) {
     return RegistrationInformation(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      currentVersionNumber: json['CurrentVersionNumber'] as int,
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      currentVersionNumber: (json['CurrentVersionNumber'] as int?) ?? 0,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationStatus:
           RegistrationStatus.fromString((json['RegistrationStatus'] as String)),
-      registrationType: json['RegistrationType'] as String,
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       additionalAttributes:
           (json['AdditionalAttributes'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -9617,8 +9651,9 @@ class RegistrationSectionDefinition {
   factory RegistrationSectionDefinition.fromJson(Map<String, dynamic> json) {
     return RegistrationSectionDefinition(
       displayHints: RegistrationSectionDisplayHints.fromJson(
-          json['DisplayHints'] as Map<String, dynamic>),
-      sectionPath: json['SectionPath'] as String,
+          (json['DisplayHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sectionPath: (json['SectionPath'] as String?) ?? '',
     );
   }
 
@@ -9659,8 +9694,8 @@ class RegistrationSectionDisplayHints {
 
   factory RegistrationSectionDisplayHints.fromJson(Map<String, dynamic> json) {
     return RegistrationSectionDisplayHints(
-      shortDescription: json['ShortDescription'] as String,
-      title: json['Title'] as String,
+      shortDescription: (json['ShortDescription'] as String?) ?? '',
+      title: (json['Title'] as String?) ?? '',
       documentationLink: json['DocumentationLink'] as String?,
       documentationTitle: json['DocumentationTitle'] as String?,
       longDescription: json['LongDescription'] as String?,
@@ -9725,8 +9760,9 @@ class RegistrationTypeDefinition {
   factory RegistrationTypeDefinition.fromJson(Map<String, dynamic> json) {
     return RegistrationTypeDefinition(
       displayHints: RegistrationTypeDisplayHints.fromJson(
-          json['DisplayHints'] as Map<String, dynamic>),
-      registrationType: json['RegistrationType'] as String,
+          (json['DisplayHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      registrationType: (json['RegistrationType'] as String?) ?? '',
       supportedAssociations: (json['SupportedAssociations'] as List?)
           ?.nonNulls
           .map((e) => SupportedAssociation.fromJson(e as Map<String, dynamic>))
@@ -9774,7 +9810,7 @@ class RegistrationTypeDisplayHints {
 
   factory RegistrationTypeDisplayHints.fromJson(Map<String, dynamic> json) {
     return RegistrationTypeDisplayHints(
-      title: json['Title'] as String,
+      title: (json['Title'] as String?) ?? '',
       documentationLink: json['DocumentationLink'] as String?,
       documentationTitle: json['DocumentationTitle'] as String?,
       longDescription: json['LongDescription'] as String?,
@@ -9935,8 +9971,10 @@ class RegistrationVersionInformation {
           (json['RegistrationVersionStatus'] as String)),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
-              json['RegistrationVersionStatusHistory'] as Map<String, dynamic>),
-      versionNumber: json['VersionNumber'] as int,
+              (json['RegistrationVersionStatusHistory']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
       deniedReasons: (json['DeniedReasons'] as List?)
           ?.nonNulls
           .map((e) => RegistrationDeniedReasonInformation.fromJson(
@@ -10029,8 +10067,7 @@ class RegistrationVersionStatusHistory {
 
   factory RegistrationVersionStatusHistory.fromJson(Map<String, dynamic> json) {
     return RegistrationVersionStatusHistory(
-      draftTimestamp:
-          nonNullableTimeStampFromJson(json['DraftTimestamp'] as Object),
+      draftTimestamp: nonNullableTimeStampFromJson(json['DraftTimestamp'] ?? 0),
       approvedTimestamp: timeStampFromJson(json['ApprovedTimestamp']),
       archivedTimestamp: timeStampFromJson(json['ArchivedTimestamp']),
       deniedTimestamp: timeStampFromJson(json['DeniedTimestamp']),
@@ -10251,15 +10288,15 @@ class ReleaseSenderIdResult {
 
   factory ReleaseSenderIdResult.fromJson(Map<String, dynamic> json) {
     return ReleaseSenderIdResult(
-      isoCountryCode: json['IsoCountryCode'] as String,
-      messageTypes: (json['MessageTypes'] as List)
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
+      messageTypes: ((json['MessageTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
-      monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
-      registered: json['Registered'] as bool,
-      senderId: json['SenderId'] as String,
-      senderIdArn: json['SenderIdArn'] as String,
+      monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
+      registered: (json['Registered'] as bool?) ?? false,
+      senderId: (json['SenderId'] as String?) ?? '',
+      senderIdArn: (json['SenderIdArn'] as String?) ?? '',
       registrationId: json['RegistrationId'] as String?,
     );
   }
@@ -10502,16 +10539,17 @@ class RequestSenderIdResult {
 
   factory RequestSenderIdResult.fromJson(Map<String, dynamic> json) {
     return RequestSenderIdResult(
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      isoCountryCode: json['IsoCountryCode'] as String,
-      messageTypes: (json['MessageTypes'] as List)
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
+      messageTypes: ((json['MessageTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
-      monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
-      registered: json['Registered'] as bool,
-      senderId: json['SenderId'] as String,
-      senderIdArn: json['SenderIdArn'] as String,
+      monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
+      registered: (json['Registered'] as bool?) ?? false,
+      senderId: (json['SenderId'] as String?) ?? '',
+      senderIdArn: (json['SenderIdArn'] as String?) ?? '',
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -10577,7 +10615,7 @@ class SelectOptionDescription {
 
   factory SelectOptionDescription.fromJson(Map<String, dynamic> json) {
     return SelectOptionDescription(
-      option: json['Option'] as String,
+      option: (json['Option'] as String?) ?? '',
       description: json['Description'] as String?,
       title: json['Title'] as String?,
     );
@@ -10614,10 +10652,12 @@ class SelectValidation {
 
   factory SelectValidation.fromJson(Map<String, dynamic> json) {
     return SelectValidation(
-      maxChoices: json['MaxChoices'] as int,
-      minChoices: json['MinChoices'] as int,
-      options:
-          (json['Options'] as List).nonNulls.map((e) => e as String).toList(),
+      maxChoices: (json['MaxChoices'] as int?) ?? 0,
+      minChoices: (json['MinChoices'] as int?) ?? 0,
+      options: ((json['Options'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -10644,7 +10684,7 @@ class SendDestinationNumberVerificationCodeResult {
   factory SendDestinationNumberVerificationCodeResult.fromJson(
       Map<String, dynamic> json) {
     return SendDestinationNumberVerificationCodeResult(
-      messageId: json['MessageId'] as String,
+      messageId: (json['MessageId'] as String?) ?? '',
     );
   }
 
@@ -10834,16 +10874,17 @@ class SenderIdInformation {
 
   factory SenderIdInformation.fromJson(Map<String, dynamic> json) {
     return SenderIdInformation(
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      isoCountryCode: json['IsoCountryCode'] as String,
-      messageTypes: (json['MessageTypes'] as List)
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
+      messageTypes: ((json['MessageTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
-      monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
-      registered: json['Registered'] as bool,
-      senderId: json['SenderId'] as String,
-      senderIdArn: json['SenderIdArn'] as String,
+      monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
+      registered: (json['Registered'] as bool?) ?? false,
+      senderId: (json['SenderId'] as String?) ?? '',
+      senderIdArn: (json['SenderIdArn'] as String?) ?? '',
       registrationId: json['RegistrationId'] as String?,
     );
   }
@@ -10886,9 +10927,9 @@ class SetAccountDefaultProtectConfigurationResult {
       Map<String, dynamic> json) {
     return SetAccountDefaultProtectConfigurationResult(
       defaultProtectConfigurationArn:
-          json['DefaultProtectConfigurationArn'] as String,
+          (json['DefaultProtectConfigurationArn'] as String?) ?? '',
       defaultProtectConfigurationId:
-          json['DefaultProtectConfigurationId'] as String,
+          (json['DefaultProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -11061,7 +11102,7 @@ class SnsDestination {
 
   factory SnsDestination.fromJson(Map<String, dynamic> json) {
     return SnsDestination(
-      topicArn: json['TopicArn'] as String,
+      topicArn: (json['TopicArn'] as String?) ?? '',
     );
   }
 
@@ -11107,10 +11148,10 @@ class SpendLimit {
 
   factory SpendLimit.fromJson(Map<String, dynamic> json) {
     return SpendLimit(
-      enforcedLimit: json['EnforcedLimit'] as int,
-      maxLimit: json['MaxLimit'] as int,
+      enforcedLimit: (json['EnforcedLimit'] as int?) ?? 0,
+      maxLimit: (json['MaxLimit'] as int?) ?? 0,
       name: SpendLimitName.fromString((json['Name'] as String)),
-      overridden: json['Overridden'] as bool,
+      overridden: (json['Overridden'] as bool?) ?? false,
     );
   }
 
@@ -11203,14 +11244,16 @@ class SubmitRegistrationVersionResult {
 
   factory SubmitRegistrationVersionResult.fromJson(Map<String, dynamic> json) {
     return SubmitRegistrationVersionResult(
-      registrationArn: json['RegistrationArn'] as String,
-      registrationId: json['RegistrationId'] as String,
+      registrationArn: (json['RegistrationArn'] as String?) ?? '',
+      registrationId: (json['RegistrationId'] as String?) ?? '',
       registrationVersionStatus: RegistrationVersionStatus.fromString(
           (json['RegistrationVersionStatus'] as String)),
       registrationVersionStatusHistory:
           RegistrationVersionStatusHistory.fromJson(
-              json['RegistrationVersionStatusHistory'] as Map<String, dynamic>),
-      versionNumber: json['VersionNumber'] as int,
+              (json['RegistrationVersionStatusHistory']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      versionNumber: (json['VersionNumber'] as int?) ?? 0,
     );
   }
 
@@ -11295,7 +11338,7 @@ class SupportedAssociation {
           (json['AssociationBehavior'] as String)),
       disassociationBehavior: RegistrationDisassociationBehavior.fromString(
           (json['DisassociationBehavior'] as String)),
-      resourceType: json['ResourceType'] as String,
+      resourceType: (json['ResourceType'] as String?) ?? '',
       isoCountryCode: json['IsoCountryCode'] as String?,
     );
   }
@@ -11329,8 +11372,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -11375,9 +11418,9 @@ class TextValidation {
 
   factory TextValidation.fromJson(Map<String, dynamic> json) {
     return TextValidation(
-      maxLength: json['MaxLength'] as int,
-      minLength: json['MinLength'] as int,
-      pattern: json['Pattern'] as String,
+      maxLength: (json['MaxLength'] as int?) ?? 0,
+      minLength: (json['MinLength'] as int?) ?? 0,
+      pattern: (json['Pattern'] as String?) ?? '',
     );
   }
 
@@ -11733,15 +11776,17 @@ class UpdateProtectConfigurationCountryRuleSetResult {
   factory UpdateProtectConfigurationCountryRuleSetResult.fromJson(
       Map<String, dynamic> json) {
     return UpdateProtectConfigurationCountryRuleSetResult(
-      countryRuleSet: (json['CountryRuleSet'] as Map<String, dynamic>).map(
-          (k, e) => MapEntry(
+      countryRuleSet: ((json['CountryRuleSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
               k,
               ProtectConfigurationCountryRuleSetInformation.fromJson(
                   e as Map<String, dynamic>))),
       numberCapability:
           NumberCapability.fromString((json['NumberCapability'] as String)),
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -11788,12 +11833,14 @@ class UpdateProtectConfigurationResult {
 
   factory UpdateProtectConfigurationResult.fromJson(Map<String, dynamic> json) {
     return UpdateProtectConfigurationResult(
-      accountDefault: json['AccountDefault'] as bool,
+      accountDefault: (json['AccountDefault'] as bool?) ?? false,
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      protectConfigurationArn: json['ProtectConfigurationArn'] as String,
-      protectConfigurationId: json['ProtectConfigurationId'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      protectConfigurationArn:
+          (json['ProtectConfigurationArn'] as String?) ?? '',
+      protectConfigurationId: (json['ProtectConfigurationId'] as String?) ?? '',
     );
   }
 
@@ -11855,16 +11902,17 @@ class UpdateSenderIdResult {
 
   factory UpdateSenderIdResult.fromJson(Map<String, dynamic> json) {
     return UpdateSenderIdResult(
-      deletionProtectionEnabled: json['DeletionProtectionEnabled'] as bool,
-      isoCountryCode: json['IsoCountryCode'] as String,
-      messageTypes: (json['MessageTypes'] as List)
+      deletionProtectionEnabled:
+          (json['DeletionProtectionEnabled'] as bool?) ?? false,
+      isoCountryCode: (json['IsoCountryCode'] as String?) ?? '',
+      messageTypes: ((json['MessageTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageType.fromString((e as String)))
           .toList(),
-      monthlyLeasingPrice: json['MonthlyLeasingPrice'] as String,
-      registered: json['Registered'] as bool,
-      senderId: json['SenderId'] as String,
-      senderIdArn: json['SenderIdArn'] as String,
+      monthlyLeasingPrice: (json['MonthlyLeasingPrice'] as String?) ?? '',
+      registered: (json['Registered'] as bool?) ?? false,
+      senderId: (json['SenderId'] as String?) ?? '',
+      senderIdArn: (json['SenderIdArn'] as String?) ?? '',
       registrationId: json['RegistrationId'] as String?,
     );
   }
@@ -11999,13 +12047,13 @@ class VerifiedDestinationNumberInformation {
       Map<String, dynamic> json) {
     return VerifiedDestinationNumberInformation(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      destinationPhoneNumber: json['DestinationPhoneNumber'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
       status: VerificationStatus.fromString((json['Status'] as String)),
       verifiedDestinationNumberArn:
-          json['VerifiedDestinationNumberArn'] as String,
+          (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
-          json['VerifiedDestinationNumberId'] as String,
+          (json['VerifiedDestinationNumberId'] as String?) ?? '',
     );
   }
 
@@ -12053,13 +12101,13 @@ class VerifyDestinationNumberResult {
   factory VerifyDestinationNumberResult.fromJson(Map<String, dynamic> json) {
     return VerifyDestinationNumberResult(
       createdTimestamp:
-          nonNullableTimeStampFromJson(json['CreatedTimestamp'] as Object),
-      destinationPhoneNumber: json['DestinationPhoneNumber'] as String,
+          nonNullableTimeStampFromJson(json['CreatedTimestamp'] ?? 0),
+      destinationPhoneNumber: (json['DestinationPhoneNumber'] as String?) ?? '',
       status: VerificationStatus.fromString((json['Status'] as String)),
       verifiedDestinationNumberArn:
-          json['VerifiedDestinationNumberArn'] as String,
+          (json['VerifiedDestinationNumberArn'] as String?) ?? '',
       verifiedDestinationNumberId:
-          json['VerifiedDestinationNumberId'] as String,
+          (json['VerifiedDestinationNumberId'] as String?) ?? '',
     );
   }
 

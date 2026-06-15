@@ -4419,7 +4419,7 @@ class ComponentConfiguration {
 
   factory ComponentConfiguration.fromJson(Map<String, dynamic> json) {
     return ComponentConfiguration(
-      componentArn: json['componentArn'] as String,
+      componentArn: (json['componentArn'] as String?) ?? '',
       parameters: (json['parameters'] as List?)
           ?.nonNulls
           .map((e) => ComponentParameter.fromJson(e as Map<String, dynamic>))
@@ -4466,8 +4466,11 @@ class ComponentParameter {
 
   factory ComponentParameter.fromJson(Map<String, dynamic> json) {
     return ComponentParameter(
-      name: json['name'] as String,
-      value: (json['value'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['name'] as String?) ?? '',
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4506,8 +4509,8 @@ class ComponentParameterDetail {
 
   factory ComponentParameterDetail.fromJson(Map<String, dynamic> json) {
     return ComponentParameterDetail(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       defaultValue: (json['defaultValue'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4895,7 +4898,8 @@ class ContainerDistributionConfiguration {
       Map<String, dynamic> json) {
     return ContainerDistributionConfiguration(
       targetRepository: TargetContainerRepository.fromJson(
-          json['targetRepository'] as Map<String, dynamic>),
+          (json['targetRepository'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       containerTags: (json['containerTags'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5997,7 +6001,7 @@ class Distribution {
 
   factory Distribution.fromJson(Map<String, dynamic> json) {
     return Distribution(
-      region: json['region'] as String,
+      region: (json['region'] as String?) ?? '',
       amiDistributionConfiguration: json['amiDistributionConfiguration'] != null
           ? AmiDistributionConfiguration.fromJson(
               json['amiDistributionConfiguration'] as Map<String, dynamic>)
@@ -6098,7 +6102,7 @@ class DistributionConfiguration {
 
   factory DistributionConfiguration.fromJson(Map<String, dynamic> json) {
     return DistributionConfiguration(
-      timeoutMinutes: json['timeoutMinutes'] as int,
+      timeoutMinutes: (json['timeoutMinutes'] as int?) ?? 0,
       arn: json['arn'] as String?,
       dateCreated: json['dateCreated'] as String?,
       dateUpdated: json['dateUpdated'] as String?,
@@ -6371,7 +6375,7 @@ class FastLaunchConfiguration {
 
   factory FastLaunchConfiguration.fromJson(Map<String, dynamic> json) {
     return FastLaunchConfiguration(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       accountId: json['accountId'] as String?,
       launchTemplate: json['launchTemplate'] != null
           ? FastLaunchLaunchTemplateSpecification.fromJson(
@@ -9274,7 +9278,7 @@ class LaunchTemplateConfiguration {
 
   factory LaunchTemplateConfiguration.fromJson(Map<String, dynamic> json) {
     return LaunchTemplateConfiguration(
-      launchTemplateId: json['launchTemplateId'] as String,
+      launchTemplateId: (json['launchTemplateId'] as String?) ?? '',
       accountId: json['accountId'] as String?,
       setDefaultVersion: json['setDefaultVersion'] as bool?,
     );
@@ -9813,9 +9817,11 @@ class LifecyclePolicyDetail {
   factory LifecyclePolicyDetail.fromJson(Map<String, dynamic> json) {
     return LifecyclePolicyDetail(
       action: LifecyclePolicyDetailAction.fromJson(
-          json['action'] as Map<String, dynamic>),
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       filter: LifecyclePolicyDetailFilter.fromJson(
-          json['filter'] as Map<String, dynamic>),
+          (json['filter'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       exclusionRules: json['exclusionRules'] != null
           ? LifecyclePolicyDetailExclusionRules.fromJson(
               json['exclusionRules'] as Map<String, dynamic>)
@@ -10048,7 +10054,7 @@ class LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
       Map<String, dynamic> json) {
     return LifecyclePolicyDetailExclusionRulesAmisLastLaunched(
       unit: LifecyclePolicyTimeUnit.fromString((json['unit'] as String)),
-      value: json['value'] as int,
+      value: (json['value'] as int?) ?? 0,
     );
   }
 
@@ -10098,7 +10104,7 @@ class LifecyclePolicyDetailFilter {
     return LifecyclePolicyDetailFilter(
       type:
           LifecyclePolicyDetailFilterType.fromString((json['type'] as String)),
-      value: json['value'] as int,
+      value: (json['value'] as int?) ?? 0,
       retainAtLeast: json['retainAtLeast'] as int?,
       unit: (json['unit'] as String?)?.let(LifecyclePolicyTimeUnit.fromString),
     );
@@ -10189,8 +10195,8 @@ class LifecyclePolicyResourceSelectionRecipe {
   factory LifecyclePolicyResourceSelectionRecipe.fromJson(
       Map<String, dynamic> json) {
     return LifecyclePolicyResourceSelectionRecipe(
-      name: json['name'] as String,
-      semanticVersion: json['semanticVersion'] as String,
+      name: (json['name'] as String?) ?? '',
+      semanticVersion: (json['semanticVersion'] as String?) ?? '',
     );
   }
 
@@ -11501,7 +11507,7 @@ class PackageVulnerabilityDetails {
 
   factory PackageVulnerabilityDetails.fromJson(Map<String, dynamic> json) {
     return PackageVulnerabilityDetails(
-      vulnerabilityId: json['vulnerabilityId'] as String,
+      vulnerabilityId: (json['vulnerabilityId'] as String?) ?? '',
       cvss: (json['cvss'] as List?)
           ?.nonNulls
           .map((e) => CvssScore.fromJson(e as Map<String, dynamic>))
@@ -11904,8 +11910,8 @@ class S3ExportConfiguration {
     return S3ExportConfiguration(
       diskImageFormat:
           DiskImageFormat.fromString((json['diskImageFormat'] as String)),
-      roleName: json['roleName'] as String,
-      s3Bucket: json['s3Bucket'] as String,
+      roleName: (json['roleName'] as String?) ?? '',
+      s3Bucket: (json['s3Bucket'] as String?) ?? '',
       s3Prefix: json['s3Prefix'] as String?,
     );
   }
@@ -12223,7 +12229,7 @@ class TargetContainerRepository {
 
   factory TargetContainerRepository.fromJson(Map<String, dynamic> json) {
     return TargetContainerRepository(
-      repositoryName: json['repositoryName'] as String,
+      repositoryName: (json['repositoryName'] as String?) ?? '',
       service:
           ContainerRepositoryService.fromString((json['service'] as String)),
     );
@@ -12660,7 +12666,7 @@ class WorkflowConfiguration {
 
   factory WorkflowConfiguration.fromJson(Map<String, dynamic> json) {
     return WorkflowConfiguration(
-      workflowArn: json['workflowArn'] as String,
+      workflowArn: (json['workflowArn'] as String?) ?? '',
       onFailure:
           (json['onFailure'] as String?)?.let(OnWorkflowFailure.fromString),
       parallelGroup: json['parallelGroup'] as String?,
@@ -12832,8 +12838,11 @@ class WorkflowParameter {
 
   factory WorkflowParameter.fromJson(Map<String, dynamic> json) {
     return WorkflowParameter(
-      name: json['name'] as String,
-      value: (json['value'] as List).nonNulls.map((e) => e as String).toList(),
+      name: (json['name'] as String?) ?? '',
+      value: ((json['value'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -12872,8 +12881,8 @@ class WorkflowParameterDetail {
 
   factory WorkflowParameterDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowParameterDetail(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       defaultValue: (json['defaultValue'] as List?)
           ?.nonNulls
           .map((e) => e as String)

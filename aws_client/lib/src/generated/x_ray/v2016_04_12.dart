@@ -3974,16 +3974,16 @@ class SamplingRule {
 
   factory SamplingRule.fromJson(Map<String, dynamic> json) {
     return SamplingRule(
-      fixedRate: json['FixedRate'] as double,
-      hTTPMethod: json['HTTPMethod'] as String,
-      host: json['Host'] as String,
-      priority: json['Priority'] as int,
-      reservoirSize: json['ReservoirSize'] as int,
-      resourceARN: json['ResourceARN'] as String,
-      serviceName: json['ServiceName'] as String,
-      serviceType: json['ServiceType'] as String,
-      uRLPath: json['URLPath'] as String,
-      version: json['Version'] as int,
+      fixedRate: (json['FixedRate'] as double?) ?? 0,
+      hTTPMethod: (json['HTTPMethod'] as String?) ?? '',
+      host: (json['Host'] as String?) ?? '',
+      priority: (json['Priority'] as int?) ?? 0,
+      reservoirSize: (json['ReservoirSize'] as int?) ?? 0,
+      resourceARN: (json['ResourceARN'] as String?) ?? '',
+      serviceName: (json['ServiceName'] as String?) ?? '',
+      serviceType: (json['ServiceType'] as String?) ?? '',
+      uRLPath: (json['URLPath'] as String?) ?? '',
+      version: (json['Version'] as int?) ?? 0,
       attributes: (json['Attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       ruleARN: json['RuleARN'] as String?,
@@ -4678,8 +4678,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

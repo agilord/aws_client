@@ -628,7 +628,7 @@ class DataQuery {
 
   factory DataQuery.fromJson(Map<String, dynamic> json) {
     return DataQuery(
-      queryStatement: json['QueryStatement'] as String,
+      queryStatement: (json['QueryStatement'] as String?) ?? '',
       tableConfigurations:
           (json['TableConfigurations'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
@@ -682,8 +682,9 @@ class DestinationConfigurations {
 
   factory DestinationConfigurations.fromJson(Map<String, dynamic> json) {
     return DestinationConfigurations(
-      s3Destination:
-          S3Destination.fromJson(json['S3Destination'] as Map<String, dynamic>),
+      s3Destination: S3Destination.fromJson(
+          (json['S3Destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -710,9 +711,10 @@ class ExecutionReference {
 
   factory ExecutionReference.fromJson(Map<String, dynamic> json) {
     return ExecutionReference(
-      executionId: json['ExecutionId'] as String,
+      executionId: (json['ExecutionId'] as String?) ?? '',
       executionStatus: ExecutionStatus.fromJson(
-          json['ExecutionStatus'] as Map<String, dynamic>),
+          (json['ExecutionStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -846,12 +848,16 @@ class Export {
 
   factory Export.fromJson(Map<String, dynamic> json) {
     return Export(
-      dataQuery: DataQuery.fromJson(json['DataQuery'] as Map<String, dynamic>),
+      dataQuery: DataQuery.fromJson(
+          (json['DataQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       destinationConfigurations: DestinationConfigurations.fromJson(
-          json['DestinationConfigurations'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['DestinationConfigurations'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       refreshCadence: RefreshCadence.fromJson(
-          json['RefreshCadence'] as Map<String, dynamic>),
+          (json['RefreshCadence'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
       exportArn: json['ExportArn'] as String?,
     );
@@ -894,10 +900,11 @@ class ExportReference {
 
   factory ExportReference.fromJson(Map<String, dynamic> json) {
     return ExportReference(
-      exportArn: json['ExportArn'] as String,
-      exportName: json['ExportName'] as String,
-      exportStatus:
-          ExportStatus.fromJson(json['ExportStatus'] as Map<String, dynamic>),
+      exportArn: (json['ExportArn'] as String?) ?? '',
+      exportName: (json['ExportName'] as String?) ?? '',
+      exportStatus: ExportStatus.fromJson(
+          (json['ExportStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1322,8 +1329,8 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1362,11 +1369,12 @@ class S3Destination {
 
   factory S3Destination.fromJson(Map<String, dynamic> json) {
     return S3Destination(
-      s3Bucket: json['S3Bucket'] as String,
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
       s3OutputConfigurations: S3OutputConfigurations.fromJson(
-          json['S3OutputConfigurations'] as Map<String, dynamic>),
-      s3Prefix: json['S3Prefix'] as String,
-      s3Region: json['S3Region'] as String,
+          (json['S3OutputConfigurations'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      s3Prefix: (json['S3Prefix'] as String?) ?? '',
+      s3Region: (json['S3Region'] as String?) ?? '',
     );
   }
 

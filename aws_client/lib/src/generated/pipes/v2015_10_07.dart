@@ -525,8 +525,10 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets:
-          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       assignPublicIp:
           (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
@@ -854,7 +856,7 @@ class BatchResourceRequirement {
   factory BatchResourceRequirement.fromJson(Map<String, dynamic> json) {
     return BatchResourceRequirement(
       type: BatchResourceRequirementType.fromString((json['Type'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -939,7 +941,7 @@ class CapacityProviderStrategyItem {
 
   factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) {
     return CapacityProviderStrategyItem(
-      capacityProvider: json['capacityProvider'] as String,
+      capacityProvider: (json['capacityProvider'] as String?) ?? '',
       base: json['base'] as int?,
       weight: json['weight'] as int?,
     );
@@ -1337,8 +1339,8 @@ class DimensionMapping {
 
   factory DimensionMapping.fromJson(Map<String, dynamic> json) {
     return DimensionMapping(
-      dimensionName: json['DimensionName'] as String,
-      dimensionValue: json['DimensionValue'] as String,
+      dimensionName: (json['DimensionName'] as String?) ?? '',
+      dimensionValue: (json['DimensionValue'] as String?) ?? '',
       dimensionValueType:
           DimensionValueType.fromString((json['DimensionValueType'] as String)),
     );
@@ -1535,7 +1537,7 @@ class EcsEnvironmentFile {
   factory EcsEnvironmentFile.fromJson(Map<String, dynamic> json) {
     return EcsEnvironmentFile(
       type: EcsEnvironmentFileType.fromString((json['type'] as String)),
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -1620,7 +1622,7 @@ class EcsEphemeralStorage {
 
   factory EcsEphemeralStorage.fromJson(Map<String, dynamic> json) {
     return EcsEphemeralStorage(
-      sizeInGiB: json['sizeInGiB'] as int,
+      sizeInGiB: (json['sizeInGiB'] as int?) ?? 0,
     );
   }
 
@@ -1703,7 +1705,7 @@ class EcsResourceRequirement {
   factory EcsResourceRequirement.fromJson(Map<String, dynamic> json) {
     return EcsResourceRequirement(
       type: EcsResourceRequirementType.fromString((json['type'] as String)),
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2175,10 +2177,11 @@ class MultiMeasureAttributeMapping {
 
   factory MultiMeasureAttributeMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureAttributeMapping(
-      measureValue: json['MeasureValue'] as String,
+      measureValue: (json['MeasureValue'] as String?) ?? '',
       measureValueType:
           MeasureValueType.fromString((json['MeasureValueType'] as String)),
-      multiMeasureAttributeName: json['MultiMeasureAttributeName'] as String,
+      multiMeasureAttributeName:
+          (json['MultiMeasureAttributeName'] as String?) ?? '',
     );
   }
 
@@ -2215,13 +2218,14 @@ class MultiMeasureMapping {
 
   factory MultiMeasureMapping.fromJson(Map<String, dynamic> json) {
     return MultiMeasureMapping(
-      multiMeasureAttributeMappings: (json['MultiMeasureAttributeMappings']
-              as List)
+      multiMeasureAttributeMappings: ((json['MultiMeasureAttributeMappings']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               MultiMeasureAttributeMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      multiMeasureName: json['MultiMeasureName'] as String,
+      multiMeasureName: (json['MultiMeasureName'] as String?) ?? '',
     );
   }
 
@@ -2651,8 +2655,9 @@ class PipeSourceActiveMQBrokerParameters {
       Map<String, dynamic> json) {
     return PipeSourceActiveMQBrokerParameters(
       credentials: MQBrokerAccessCredentials.fromJson(
-          json['Credentials'] as Map<String, dynamic>),
-      queueName: json['QueueName'] as String,
+          (json['Credentials'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      queueName: (json['QueueName'] as String?) ?? '',
       batchSize: json['BatchSize'] as int?,
       maximumBatchingWindowInSeconds:
           json['MaximumBatchingWindowInSeconds'] as int?,
@@ -2903,7 +2908,7 @@ class PipeSourceManagedStreamingKafkaParameters {
   factory PipeSourceManagedStreamingKafkaParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeSourceManagedStreamingKafkaParameters(
-      topicName: json['TopicName'] as String,
+      topicName: (json['TopicName'] as String?) ?? '',
       batchSize: json['BatchSize'] as int?,
       consumerGroupID: json['ConsumerGroupID'] as String?,
       credentials: json['Credentials'] != null
@@ -3087,8 +3092,9 @@ class PipeSourceRabbitMQBrokerParameters {
       Map<String, dynamic> json) {
     return PipeSourceRabbitMQBrokerParameters(
       credentials: MQBrokerAccessCredentials.fromJson(
-          json['Credentials'] as Map<String, dynamic>),
-      queueName: json['QueueName'] as String,
+          (json['Credentials'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      queueName: (json['QueueName'] as String?) ?? '',
       batchSize: json['BatchSize'] as int?,
       maximumBatchingWindowInSeconds:
           json['MaximumBatchingWindowInSeconds'] as int?,
@@ -3167,7 +3173,7 @@ class PipeSourceSelfManagedKafkaParameters {
   factory PipeSourceSelfManagedKafkaParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeSourceSelfManagedKafkaParameters(
-      topicName: json['TopicName'] as String,
+      topicName: (json['TopicName'] as String?) ?? '',
       additionalBootstrapServers: (json['AdditionalBootstrapServers'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3330,8 +3336,8 @@ class PipeTargetBatchJobParameters {
 
   factory PipeTargetBatchJobParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetBatchJobParameters(
-      jobDefinition: json['JobDefinition'] as String,
-      jobName: json['JobName'] as String,
+      jobDefinition: (json['JobDefinition'] as String?) ?? '',
+      jobName: (json['JobName'] as String?) ?? '',
       arrayProperties: json['ArrayProperties'] != null
           ? BatchArrayProperties.fromJson(
               json['ArrayProperties'] as Map<String, dynamic>)
@@ -3519,7 +3525,7 @@ class PipeTargetEcsTaskParameters {
 
   factory PipeTargetEcsTaskParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetEcsTaskParameters(
-      taskDefinitionArn: json['TaskDefinitionArn'] as String,
+      taskDefinitionArn: (json['TaskDefinitionArn'] as String?) ?? '',
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -3744,7 +3750,7 @@ class PipeTargetKinesisStreamParameters {
   factory PipeTargetKinesisStreamParameters.fromJson(
       Map<String, dynamic> json) {
     return PipeTargetKinesisStreamParameters(
-      partitionKey: json['PartitionKey'] as String,
+      partitionKey: (json['PartitionKey'] as String?) ?? '',
     );
   }
 
@@ -4006,8 +4012,11 @@ class PipeTargetRedshiftDataParameters {
 
   factory PipeTargetRedshiftDataParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetRedshiftDataParameters(
-      database: json['Database'] as String,
-      sqls: (json['Sqls'] as List).nonNulls.map((e) => e as String).toList(),
+      database: (json['Database'] as String?) ?? '',
+      sqls: ((json['Sqls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       dbUser: json['DbUser'] as String?,
       secretManagerArn: json['SecretManagerArn'] as String?,
       statementName: json['StatementName'] as String?,
@@ -4217,12 +4226,12 @@ class PipeTargetTimestreamParameters {
 
   factory PipeTargetTimestreamParameters.fromJson(Map<String, dynamic> json) {
     return PipeTargetTimestreamParameters(
-      dimensionMappings: (json['DimensionMappings'] as List)
+      dimensionMappings: ((json['DimensionMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => DimensionMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timeValue: json['TimeValue'] as String,
-      versionValue: json['VersionValue'] as String,
+      timeValue: (json['TimeValue'] as String?) ?? '',
+      versionValue: (json['VersionValue'] as String?) ?? '',
       epochTimeUnit:
           (json['EpochTimeUnit'] as String?)?.let(EpochTimeUnit.fromString),
       multiMeasureMappings: (json['MultiMeasureMappings'] as List?)
@@ -4579,8 +4588,8 @@ class SageMakerPipelineParameter {
 
   factory SageMakerPipelineParameter.fromJson(Map<String, dynamic> json) {
     return SageMakerPipelineParameter(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4719,8 +4728,8 @@ class SingleMeasureMapping {
 
   factory SingleMeasureMapping.fromJson(Map<String, dynamic> json) {
     return SingleMeasureMapping(
-      measureName: json['MeasureName'] as String,
-      measureValue: json['MeasureValue'] as String,
+      measureName: (json['MeasureName'] as String?) ?? '',
+      measureValue: (json['MeasureValue'] as String?) ?? '',
       measureValueType:
           MeasureValueType.fromString((json['MeasureValueType'] as String)),
     );
@@ -4881,8 +4890,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

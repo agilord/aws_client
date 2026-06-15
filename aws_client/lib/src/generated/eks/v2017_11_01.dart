@@ -6337,8 +6337,8 @@ class IdentityProviderConfig {
 
   factory IdentityProviderConfig.fromJson(Map<String, dynamic> json) {
     return IdentityProviderConfig(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -8477,8 +8477,9 @@ class OutpostConfigResponse {
 
   factory OutpostConfigResponse.fromJson(Map<String, dynamic> json) {
     return OutpostConfigResponse(
-      controlPlaneInstanceType: json['controlPlaneInstanceType'] as String,
-      outpostArns: (json['outpostArns'] as List)
+      controlPlaneInstanceType:
+          (json['controlPlaneInstanceType'] as String?) ?? '',
+      outpostArns: ((json['outpostArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),

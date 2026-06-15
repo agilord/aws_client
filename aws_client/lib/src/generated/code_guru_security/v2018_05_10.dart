@@ -663,9 +663,9 @@ class BatchGetFindingsError {
   factory BatchGetFindingsError.fromJson(Map<String, dynamic> json) {
     return BatchGetFindingsError(
       errorCode: ErrorCode.fromString((json['errorCode'] as String)),
-      findingId: json['findingId'] as String,
-      message: json['message'] as String,
-      scanName: json['scanName'] as String,
+      findingId: (json['findingId'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      scanName: (json['scanName'] as String?) ?? '',
     );
   }
 
@@ -700,11 +700,11 @@ class BatchGetFindingsResponse {
 
   factory BatchGetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetFindingsResponse(
-      failedFindings: (json['failedFindings'] as List)
+      failedFindings: ((json['failedFindings'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetFindingsError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      findings: (json['findings'] as List)
+      findings: ((json['findings'] as List?) ?? const [])
           .nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -810,10 +810,11 @@ class CreateScanResponse {
 
   factory CreateScanResponse.fromJson(Map<String, dynamic> json) {
     return CreateScanResponse(
-      resourceId:
-          ResourceId.fromJson(json['resourceId'] as Map<String, dynamic>),
-      runId: json['runId'] as String,
-      scanName: json['scanName'] as String,
+      resourceId: ResourceId.fromJson(
+          (json['resourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      runId: (json['runId'] as String?) ?? '',
+      scanName: (json['scanName'] as String?) ?? '',
       scanState: ScanState.fromString((json['scanState'] as String)),
       scanNameArn: json['scanNameArn'] as String?,
     );
@@ -856,10 +857,11 @@ class CreateUploadUrlResponse {
 
   factory CreateUploadUrlResponse.fromJson(Map<String, dynamic> json) {
     return CreateUploadUrlResponse(
-      codeArtifactId: json['codeArtifactId'] as String,
-      requestHeaders: (json['requestHeaders'] as Map<String, dynamic>)
+      codeArtifactId: (json['codeArtifactId'] as String?) ?? '',
+      requestHeaders: ((json['requestHeaders'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      s3Url: json['s3Url'] as String,
+      s3Url: (json['s3Url'] as String?) ?? '',
     );
   }
 
@@ -1215,7 +1217,8 @@ class GetAccountConfigurationResponse {
   factory GetAccountConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return GetAccountConfigurationResponse(
       encryptionConfig: EncryptionConfig.fromJson(
-          json['encryptionConfig'] as Map<String, dynamic>),
+          (json['encryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1333,9 +1336,9 @@ class GetScanResponse {
   factory GetScanResponse.fromJson(Map<String, dynamic> json) {
     return GetScanResponse(
       analysisType: AnalysisType.fromString((json['analysisType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      runId: json['runId'] as String,
-      scanName: json['scanName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      runId: (json['runId'] as String?) ?? '',
+      scanName: (json['scanName'] as String?) ?? '',
       scanState: ScanState.fromString((json['scanState'] as String)),
       errorMessage: json['errorMessage'] as String?,
       numberOfRevisions: json['numberOfRevisions'] as int?,
@@ -1747,9 +1750,9 @@ class ScanSummary {
 
   factory ScanSummary.fromJson(Map<String, dynamic> json) {
     return ScanSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      runId: json['runId'] as String,
-      scanName: json['scanName'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      runId: (json['runId'] as String?) ?? '',
+      scanName: (json['scanName'] as String?) ?? '',
       scanState: ScanState.fromString((json['scanState'] as String)),
       scanNameArn: json['scanNameArn'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -1889,7 +1892,8 @@ class UpdateAccountConfigurationResponse {
       Map<String, dynamic> json) {
     return UpdateAccountConfigurationResponse(
       encryptionConfig: EncryptionConfig.fromJson(
-          json['encryptionConfig'] as Map<String, dynamic>),
+          (json['encryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

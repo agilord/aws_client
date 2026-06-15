@@ -3820,13 +3820,15 @@ class ActivityTask {
 
   factory ActivityTask.fromJson(Map<String, dynamic> json) {
     return ActivityTask(
-      activityId: json['activityId'] as String,
-      activityType:
-          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-      startedEventId: json['startedEventId'] as int,
-      taskToken: json['taskToken'] as String,
+      activityId: (json['activityId'] as String?) ?? '',
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      taskToken: (json['taskToken'] as String?) ?? '',
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       input: json['input'] as String?,
     );
   }
@@ -3869,8 +3871,9 @@ class ActivityTaskCancelRequestedEventAttributes {
   factory ActivityTaskCancelRequestedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCancelRequestedEventAttributes(
-      activityId: json['activityId'] as String,
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      activityId: (json['activityId'] as String?) ?? '',
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -3916,8 +3919,8 @@ class ActivityTaskCanceledEventAttributes {
   factory ActivityTaskCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCanceledEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
       latestCancelRequestedEventId:
           json['latestCancelRequestedEventId'] as int?,
@@ -3964,8 +3967,8 @@ class ActivityTaskCompletedEventAttributes {
   factory ActivityTaskCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskCompletedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       result: json['result'] as String?,
     );
   }
@@ -4011,8 +4014,8 @@ class ActivityTaskFailedEventAttributes {
   factory ActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskFailedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
       reason: json['reason'] as String?,
     );
@@ -4104,11 +4107,14 @@ class ActivityTaskScheduledEventAttributes {
   factory ActivityTaskScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskScheduledEventAttributes(
-      activityId: json['activityId'] as String,
-      activityType:
-          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      activityId: (json['activityId'] as String?) ?? '',
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       control: json['control'] as String?,
       heartbeatTimeout: json['heartbeatTimeout'] as String?,
       input: json['input'] as String?,
@@ -4170,7 +4176,7 @@ class ActivityTaskStartedEventAttributes {
   factory ActivityTaskStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskStartedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       identity: json['identity'] as String?,
     );
   }
@@ -4196,7 +4202,7 @@ class ActivityTaskStatus {
 
   factory ActivityTaskStatus.fromJson(Map<String, dynamic> json) {
     return ActivityTaskStatus(
-      cancelRequested: json['cancelRequested'] as bool,
+      cancelRequested: (json['cancelRequested'] as bool?) ?? false,
     );
   }
 
@@ -4238,8 +4244,8 @@ class ActivityTaskTimedOutEventAttributes {
   factory ActivityTaskTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ActivityTaskTimedOutEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       timeoutType:
           ActivityTaskTimeoutType.fromString((json['timeoutType'] as String)),
       details: json['details'] as String?,
@@ -4300,8 +4306,8 @@ class ActivityType {
 
   factory ActivityType.fromJson(Map<String, dynamic> json) {
     return ActivityType(
-      name: json['name'] as String,
-      version: json['version'] as String,
+      name: (json['name'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -4461,9 +4467,11 @@ class ActivityTypeDetail {
   factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) {
     return ActivityTypeDetail(
       configuration: ActivityTypeConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      typeInfo:
-          ActivityTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      typeInfo: ActivityTypeInfo.fromJson(
+          (json['typeInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4506,10 +4514,10 @@ class ActivityTypeInfo {
 
   factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) {
     return ActivityTypeInfo(
-      activityType:
-          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
       status: RegistrationStatus.fromString((json['status'] as String)),
       deprecationDate: timeStampFromJson(json['deprecationDate']),
       description: json['description'] as String?,
@@ -4554,7 +4562,7 @@ class ActivityTypeInfos {
 
   factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
     return ActivityTypeInfos(
-      typeInfos: (json['typeInfos'] as List)
+      typeInfos: ((json['typeInfos'] as List?) ?? const [])
           .nonNulls
           .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4663,8 +4671,9 @@ class CancelTimerFailedEventAttributes {
   factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return CancelTimerFailedEventAttributes(
       cause: CancelTimerFailedCause.fromString((json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      timerId: json['timerId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
     );
   }
 
@@ -4771,7 +4780,8 @@ class CancelWorkflowExecutionFailedEventAttributes {
     return CancelWorkflowExecutionFailedEventAttributes(
       cause: CancelWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -4835,12 +4845,14 @@ class ChildWorkflowExecutionCanceledEventAttributes {
   factory ChildWorkflowExecutionCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionCanceledEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       details: json['details'] as String?,
     );
   }
@@ -4897,12 +4909,14 @@ class ChildWorkflowExecutionCompletedEventAttributes {
   factory ChildWorkflowExecutionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionCompletedEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       result: json['result'] as String?,
     );
   }
@@ -4962,12 +4976,14 @@ class ChildWorkflowExecutionFailedEventAttributes {
   factory ChildWorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionFailedEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       details: json['details'] as String?,
       reason: json['reason'] as String?,
     );
@@ -5016,11 +5032,13 @@ class ChildWorkflowExecutionStartedEventAttributes {
   factory ChildWorkflowExecutionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionStartedEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5068,12 +5086,14 @@ class ChildWorkflowExecutionTerminatedEventAttributes {
   factory ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionTerminatedEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5128,14 +5148,16 @@ class ChildWorkflowExecutionTimedOutEventAttributes {
   factory ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ChildWorkflowExecutionTimedOutEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       timeoutType: WorkflowExecutionTimeoutType.fromString(
           (json['timeoutType'] as String)),
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5284,7 +5306,8 @@ class CompleteWorkflowExecutionFailedEventAttributes {
     return CompleteWorkflowExecutionFailedEventAttributes(
       cause: CompleteWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -5529,7 +5552,8 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
     return ContinueAsNewWorkflowExecutionFailedEventAttributes(
       cause: ContinueAsNewWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -5971,16 +5995,18 @@ class DecisionTask {
 
   factory DecisionTask.fromJson(Map<String, dynamic> json) {
     return DecisionTask(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startedEventId: json['startedEventId'] as int,
-      taskToken: json['taskToken'] as String,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      taskToken: (json['taskToken'] as String?) ?? '',
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       nextPageToken: json['nextPageToken'] as String?,
       previousStartedEventId: json['previousStartedEventId'] as int?,
     );
@@ -6039,8 +6065,8 @@ class DecisionTaskCompletedEventAttributes {
   factory DecisionTaskCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskCompletedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       executionContext: json['executionContext'] as String?,
       taskList: json['taskList'] != null
           ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
@@ -6104,7 +6130,8 @@ class DecisionTaskScheduledEventAttributes {
   factory DecisionTaskScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskScheduledEventAttributes(
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
       startToCloseTimeout: json['startToCloseTimeout'] as String?,
       taskPriority: json['taskPriority'] as String?,
@@ -6147,7 +6174,7 @@ class DecisionTaskStartedEventAttributes {
   factory DecisionTaskStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskStartedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       identity: json['identity'] as String?,
     );
   }
@@ -6188,8 +6215,8 @@ class DecisionTaskTimedOutEventAttributes {
   factory DecisionTaskTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return DecisionTaskTimedOutEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       timeoutType:
           DecisionTaskTimeoutType.fromString((json['timeoutType'] as String)),
     );
@@ -6261,7 +6288,7 @@ class DomainConfiguration {
   factory DomainConfiguration.fromJson(Map<String, dynamic> json) {
     return DomainConfiguration(
       workflowExecutionRetentionPeriodInDays:
-          json['workflowExecutionRetentionPeriodInDays'] as String,
+          (json['workflowExecutionRetentionPeriodInDays'] as String?) ?? '',
     );
   }
 
@@ -6293,9 +6320,11 @@ class DomainDetail {
   factory DomainDetail.fromJson(Map<String, dynamic> json) {
     return DomainDetail(
       configuration: DomainConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      domainInfo:
-          DomainInfo.fromJson(json['domainInfo'] as Map<String, dynamic>),
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainInfo: DomainInfo.fromJson(
+          (json['domainInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6345,7 +6374,7 @@ class DomainInfo {
 
   factory DomainInfo.fromJson(Map<String, dynamic> json) {
     return DomainInfo(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: RegistrationStatus.fromString((json['status'] as String)),
       arn: json['arn'] as String?,
       description: json['description'] as String?,
@@ -6387,7 +6416,7 @@ class DomainInfos {
 
   factory DomainInfos.fromJson(Map<String, dynamic> json) {
     return DomainInfos(
-      domainInfos: (json['domainInfos'] as List)
+      domainInfos: ((json['domainInfos'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6540,9 +6569,10 @@ class ExternalWorkflowExecutionCancelRequestedEventAttributes {
   factory ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ExternalWorkflowExecutionCancelRequestedEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6576,9 +6606,10 @@ class ExternalWorkflowExecutionSignaledEventAttributes {
   factory ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ExternalWorkflowExecutionSignaledEventAttributes(
-      initiatedEventId: json['initiatedEventId'] as int,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
       workflowExecution: WorkflowExecution.fromJson(
-          json['workflowExecution'] as Map<String, dynamic>),
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6688,7 +6719,8 @@ class FailWorkflowExecutionFailedEventAttributes {
     return FailWorkflowExecutionFailedEventAttributes(
       cause: FailWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -6725,7 +6757,7 @@ class History {
 
   factory History.fromJson(Map<String, dynamic> json) {
     return History(
-      events: (json['events'] as List)
+      events: ((json['events'] as List?) ?? const [])
           .nonNulls
           .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7332,9 +7364,8 @@ class HistoryEvent {
 
   factory HistoryEvent.fromJson(Map<String, dynamic> json) {
     return HistoryEvent(
-      eventId: json['eventId'] as int,
-      eventTimestamp:
-          nonNullableTimeStampFromJson(json['eventTimestamp'] as Object),
+      eventId: (json['eventId'] as int?) ?? 0,
+      eventTimestamp: nonNullableTimeStampFromJson(json['eventTimestamp'] ?? 0),
       eventType: EventType.fromString((json['eventType'] as String)),
       activityTaskCancelRequestedEventAttributes:
           json['activityTaskCancelRequestedEventAttributes'] != null
@@ -7957,8 +7988,8 @@ class LambdaFunctionCompletedEventAttributes {
   factory LambdaFunctionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionCompletedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       result: json['result'] as String?,
     );
   }
@@ -8004,8 +8035,8 @@ class LambdaFunctionFailedEventAttributes {
   factory LambdaFunctionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionFailedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
       reason: json['reason'] as String?,
     );
@@ -8062,9 +8093,10 @@ class LambdaFunctionScheduledEventAttributes {
   factory LambdaFunctionScheduledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionScheduledEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       control: json['control'] as String?,
       input: json['input'] as String?,
       startToCloseTimeout: json['startToCloseTimeout'] as String?,
@@ -8105,7 +8137,7 @@ class LambdaFunctionStartedEventAttributes {
   factory LambdaFunctionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionStartedEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
     );
   }
 
@@ -8141,8 +8173,8 @@ class LambdaFunctionTimedOutEventAttributes {
   factory LambdaFunctionTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return LambdaFunctionTimedOutEventAttributes(
-      scheduledEventId: json['scheduledEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
       timeoutType: (json['timeoutType'] as String?)
           ?.let(LambdaFunctionTimeoutType.fromString),
     );
@@ -8221,8 +8253,9 @@ class MarkerRecordedEventAttributes {
 
   factory MarkerRecordedEventAttributes.fromJson(Map<String, dynamic> json) {
     return MarkerRecordedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      markerName: json['markerName'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      markerName: (json['markerName'] as String?) ?? '',
       details: json['details'] as String?,
     );
   }
@@ -8255,7 +8288,7 @@ class PendingTaskCount {
 
   factory PendingTaskCount.fromJson(Map<String, dynamic> json) {
     return PendingTaskCount(
-      count: json['count'] as int,
+      count: (json['count'] as int?) ?? 0,
       truncated: json['truncated'] as bool?,
     );
   }
@@ -8367,8 +8400,9 @@ class RecordMarkerFailedEventAttributes {
       Map<String, dynamic> json) {
     return RecordMarkerFailedEventAttributes(
       cause: RecordMarkerFailedCause.fromString((json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      markerName: json['markerName'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      markerName: (json['markerName'] as String?) ?? '',
     );
   }
 
@@ -8493,10 +8527,11 @@ class RequestCancelActivityTaskFailedEventAttributes {
   factory RequestCancelActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RequestCancelActivityTaskFailedEventAttributes(
-      activityId: json['activityId'] as String,
+      activityId: (json['activityId'] as String?) ?? '',
       cause: RequestCancelActivityTaskFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -8642,9 +8677,10 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
     return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
       cause: RequestCancelExternalWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      initiatedEventId: json['initiatedEventId'] as int,
-      workflowId: json['workflowId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
       control: json['control'] as String?,
       runId: json['runId'] as String?,
     );
@@ -8699,8 +8735,9 @@ class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
   factory RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      workflowId: json['workflowId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
       control: json['control'] as String?,
       runId: json['runId'] as String?,
     );
@@ -8739,7 +8776,7 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }
@@ -9028,12 +9065,14 @@ class ScheduleActivityTaskFailedEventAttributes {
   factory ScheduleActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return ScheduleActivityTaskFailedEventAttributes(
-      activityId: json['activityId'] as String,
-      activityType:
-          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      activityId: (json['activityId'] as String?) ?? '',
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       cause:
           ScheduleActivityTaskFailedCause.fromString((json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
     );
   }
 
@@ -9158,9 +9197,10 @@ class ScheduleLambdaFunctionFailedEventAttributes {
     return ScheduleLambdaFunctionFailedEventAttributes(
       cause: ScheduleLambdaFunctionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -9321,9 +9361,10 @@ class SignalExternalWorkflowExecutionFailedEventAttributes {
     return SignalExternalWorkflowExecutionFailedEventAttributes(
       cause: SignalExternalWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      initiatedEventId: json['initiatedEventId'] as int,
-      workflowId: json['workflowId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
       control: json['control'] as String?,
       runId: json['runId'] as String?,
     );
@@ -9386,9 +9427,10 @@ class SignalExternalWorkflowExecutionInitiatedEventAttributes {
   factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return SignalExternalWorkflowExecutionInitiatedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      signalName: json['signalName'] as String,
-      workflowId: json['workflowId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      signalName: (json['signalName'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
       control: json['control'] as String?,
       input: json['input'] as String?,
       runId: json['runId'] as String?,
@@ -9704,11 +9746,13 @@ class StartChildWorkflowExecutionFailedEventAttributes {
     return StartChildWorkflowExecutionFailedEventAttributes(
       cause: StartChildWorkflowExecutionFailedCause.fromString(
           (json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      initiatedEventId: json['initiatedEventId'] as int,
-      workflowId: json['workflowId'] as String,
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       control: json['control'] as String?,
     );
   }
@@ -9831,11 +9875,14 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
       Map<String, dynamic> json) {
     return StartChildWorkflowExecutionInitiatedEventAttributes(
       childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-      workflowId: json['workflowId'] as String,
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      workflowId: (json['workflowId'] as String?) ?? '',
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       control: json['control'] as String?,
       executionStartToCloseTimeout:
           json['executionStartToCloseTimeout'] as String?,
@@ -10058,8 +10105,9 @@ class StartTimerFailedEventAttributes {
   factory StartTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
     return StartTimerFailedEventAttributes(
       cause: StartTimerFailedCause.fromString((json['cause'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      timerId: json['timerId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
     );
   }
 
@@ -10107,7 +10155,7 @@ class TaskList {
 
   factory TaskList.fromJson(Map<String, dynamic> json) {
     return TaskList(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -10143,9 +10191,10 @@ class TimerCanceledEventAttributes {
 
   factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerCanceledEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      startedEventId: json['startedEventId'] as int,
-      timerId: json['timerId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
     );
   }
 
@@ -10178,8 +10227,8 @@ class TimerFiredEventAttributes {
 
   factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerFiredEventAttributes(
-      startedEventId: json['startedEventId'] as int,
-      timerId: json['timerId'] as String,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
     );
   }
 
@@ -10223,9 +10272,10 @@ class TimerStartedEventAttributes {
 
   factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) {
     return TimerStartedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      startToFireTimeout: json['startToFireTimeout'] as String,
-      timerId: json['timerId'] as String,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      startToFireTimeout: (json['startToFireTimeout'] as String?) ?? '',
+      timerId: (json['timerId'] as String?) ?? '',
       control: json['control'] as String?,
     );
   }
@@ -10259,8 +10309,8 @@ class WorkflowExecution {
 
   factory WorkflowExecution.fromJson(Map<String, dynamic> json) {
     return WorkflowExecution(
-      runId: json['runId'] as String,
-      workflowId: json['workflowId'] as String,
+      runId: (json['runId'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
     );
   }
 
@@ -10362,7 +10412,8 @@ class WorkflowExecutionCanceledEventAttributes {
   factory WorkflowExecutionCanceledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionCanceledEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
     );
   }
@@ -10397,7 +10448,8 @@ class WorkflowExecutionCompletedEventAttributes {
   factory WorkflowExecutionCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionCompletedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       result: json['result'] as String?,
     );
   }
@@ -10482,9 +10534,11 @@ class WorkflowExecutionConfiguration {
     return WorkflowExecutionConfiguration(
       childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
       executionStartToCloseTimeout:
-          json['executionStartToCloseTimeout'] as String,
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
+          (json['executionStartToCloseTimeout'] as String?) ?? '',
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      taskStartToCloseTimeout:
+          (json['taskStartToCloseTimeout'] as String?) ?? '',
       lambdaRole: json['lambdaRole'] as String?,
       taskPriority: json['taskPriority'] as String?,
     );
@@ -10594,11 +10648,14 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
       Map<String, dynamic> json) {
     return WorkflowExecutionContinuedAsNewEventAttributes(
       childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
-      newExecutionRunId: json['newExecutionRunId'] as String,
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      newExecutionRunId: (json['newExecutionRunId'] as String?) ?? '',
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       executionStartToCloseTimeout:
           json['executionStartToCloseTimeout'] as String?,
       input: json['input'] as String?,
@@ -10657,7 +10714,7 @@ class WorkflowExecutionCount {
 
   factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionCount(
-      count: json['count'] as int,
+      count: (json['count'] as int?) ?? 0,
       truncated: json['truncated'] as bool?,
     );
   }
@@ -10707,11 +10764,14 @@ class WorkflowExecutionDetail {
   factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionDetail(
       executionConfiguration: WorkflowExecutionConfiguration.fromJson(
-          json['executionConfiguration'] as Map<String, dynamic>),
+          (json['executionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       executionInfo: WorkflowExecutionInfo.fromJson(
-          json['executionInfo'] as Map<String, dynamic>),
+          (json['executionInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       openCounts: WorkflowExecutionOpenCounts.fromJson(
-          json['openCounts'] as Map<String, dynamic>),
+          (json['openCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       latestActivityTaskTimestamp:
           timeStampFromJson(json['latestActivityTaskTimestamp']),
       latestExecutionContext: json['latestExecutionContext'] as String?,
@@ -10761,7 +10821,8 @@ class WorkflowExecutionFailedEventAttributes {
   factory WorkflowExecutionFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionFailedEventAttributes(
-      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
       reason: json['reason'] as String?,
     );
@@ -10870,14 +10931,15 @@ class WorkflowExecutionInfo {
 
   factory WorkflowExecutionInfo.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionInfo(
-      execution:
-          WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
+      execution: WorkflowExecution.fromJson(
+          (json['execution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       executionStatus:
           ExecutionStatus.fromString((json['executionStatus'] as String)),
-      startTimestamp:
-          nonNullableTimeStampFromJson(json['startTimestamp'] as Object),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      startTimestamp: nonNullableTimeStampFromJson(json['startTimestamp'] ?? 0),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       cancelRequested: json['cancelRequested'] as bool?,
       closeStatus:
           (json['closeStatus'] as String?)?.let(CloseStatus.fromString),
@@ -10936,7 +10998,7 @@ class WorkflowExecutionInfos {
 
   factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionInfos(
-      executionInfos: (json['executionInfos'] as List)
+      executionInfos: ((json['executionInfos'] as List?) ?? const [])
           .nonNulls
           .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10984,10 +11046,11 @@ class WorkflowExecutionOpenCounts {
 
   factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) {
     return WorkflowExecutionOpenCounts(
-      openActivityTasks: json['openActivityTasks'] as int,
-      openChildWorkflowExecutions: json['openChildWorkflowExecutions'] as int,
-      openDecisionTasks: json['openDecisionTasks'] as int,
-      openTimers: json['openTimers'] as int,
+      openActivityTasks: (json['openActivityTasks'] as int?) ?? 0,
+      openChildWorkflowExecutions:
+          (json['openChildWorkflowExecutions'] as int?) ?? 0,
+      openDecisionTasks: (json['openDecisionTasks'] as int?) ?? 0,
+      openTimers: (json['openTimers'] as int?) ?? 0,
       openLambdaFunctions: json['openLambdaFunctions'] as int?,
     );
   }
@@ -11042,7 +11105,7 @@ class WorkflowExecutionSignaledEventAttributes {
   factory WorkflowExecutionSignaledEventAttributes.fromJson(
       Map<String, dynamic> json) {
     return WorkflowExecutionSignaledEventAttributes(
-      signalName: json['signalName'] as String,
+      signalName: (json['signalName'] as String?) ?? '',
       externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
       externalWorkflowExecution: json['externalWorkflowExecution'] != null
           ? WorkflowExecution.fromJson(
@@ -11162,9 +11225,11 @@ class WorkflowExecutionStartedEventAttributes {
       Map<String, dynamic> json) {
     return WorkflowExecutionStartedEventAttributes(
       childPolicy: ChildPolicy.fromString((json['childPolicy'] as String)),
-      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       continuedExecutionRunId: json['continuedExecutionRunId'] as String?,
       executionStartToCloseTimeout:
           json['executionStartToCloseTimeout'] as String?,
@@ -11389,8 +11454,8 @@ class WorkflowType {
 
   factory WorkflowType.fromJson(Map<String, dynamic> json) {
     return WorkflowType(
-      name: json['name'] as String,
-      version: json['version'] as String,
+      name: (json['name'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -11569,9 +11634,11 @@ class WorkflowTypeDetail {
   factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeDetail(
       configuration: WorkflowTypeConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      typeInfo:
-          WorkflowTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      typeInfo: WorkflowTypeInfo.fromJson(
+          (json['typeInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11637,11 +11704,11 @@ class WorkflowTypeInfo {
 
   factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfo(
-      creationDate:
-          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
       status: RegistrationStatus.fromString((json['status'] as String)),
-      workflowType:
-          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       deprecationDate: timeStampFromJson(json['deprecationDate']),
       description: json['description'] as String?,
     );
@@ -11685,7 +11752,7 @@ class WorkflowTypeInfos {
 
   factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
     return WorkflowTypeInfos(
-      typeInfos: (json['typeInfos'] as List)
+      typeInfos: ((json['typeInfos'] as List?) ?? const [])
           .nonNulls
           .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
           .toList(),

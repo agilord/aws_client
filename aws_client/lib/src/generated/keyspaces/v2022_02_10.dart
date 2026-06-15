@@ -1695,7 +1695,7 @@ class ClusteringKey {
 
   factory ClusteringKey.fromJson(Map<String, dynamic> json) {
     return ClusteringKey(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       orderBy: SortOrder.fromString((json['orderBy'] as String)),
     );
   }
@@ -1727,8 +1727,8 @@ class ColumnDefinition {
 
   factory ColumnDefinition.fromJson(Map<String, dynamic> json) {
     return ColumnDefinition(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -1753,7 +1753,7 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -1776,7 +1776,7 @@ class CreateKeyspaceResponse {
 
   factory CreateKeyspaceResponse.fromJson(Map<String, dynamic> json) {
     return CreateKeyspaceResponse(
-      resourceArn: json['resourceArn'] as String,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
     );
   }
 
@@ -1799,7 +1799,7 @@ class CreateTableResponse {
 
   factory CreateTableResponse.fromJson(Map<String, dynamic> json) {
     return CreateTableResponse(
-      resourceArn: json['resourceArn'] as String,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
     );
   }
 
@@ -1945,10 +1945,10 @@ class GetKeyspaceResponse {
 
   factory GetKeyspaceResponse.fromJson(Map<String, dynamic> json) {
     return GetKeyspaceResponse(
-      keyspaceName: json['keyspaceName'] as String,
+      keyspaceName: (json['keyspaceName'] as String?) ?? '',
       replicationStrategy:
           Rs.fromString((json['replicationStrategy'] as String)),
-      resourceArn: json['resourceArn'] as String,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
       replicationRegions: (json['replicationRegions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1998,9 +1998,9 @@ class GetTableAutoScalingSettingsResponse {
   factory GetTableAutoScalingSettingsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetTableAutoScalingSettingsResponse(
-      keyspaceName: json['keyspaceName'] as String,
-      resourceArn: json['resourceArn'] as String,
-      tableName: json['tableName'] as String,
+      keyspaceName: (json['keyspaceName'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       autoScalingSpecification: json['autoScalingSpecification'] != null
           ? AutoScalingSpecification.fromJson(
               json['autoScalingSpecification'] as Map<String, dynamic>)
@@ -2103,9 +2103,9 @@ class GetTableResponse {
 
   factory GetTableResponse.fromJson(Map<String, dynamic> json) {
     return GetTableResponse(
-      keyspaceName: json['keyspaceName'] as String,
-      resourceArn: json['resourceArn'] as String,
-      tableName: json['tableName'] as String,
+      keyspaceName: (json['keyspaceName'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       capacitySpecification: json['capacitySpecification'] != null
           ? CapacitySpecificationSummary.fromJson(
               json['capacitySpecification'] as Map<String, dynamic>)
@@ -2210,10 +2210,10 @@ class KeyspaceSummary {
 
   factory KeyspaceSummary.fromJson(Map<String, dynamic> json) {
     return KeyspaceSummary(
-      keyspaceName: json['keyspaceName'] as String,
+      keyspaceName: (json['keyspaceName'] as String?) ?? '',
       replicationStrategy:
           Rs.fromString((json['replicationStrategy'] as String)),
-      resourceArn: json['resourceArn'] as String,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
       replicationRegions: (json['replicationRegions'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2250,7 +2250,7 @@ class ListKeyspacesResponse {
 
   factory ListKeyspacesResponse.fromJson(Map<String, dynamic> json) {
     return ListKeyspacesResponse(
-      keyspaces: (json['keyspaces'] as List)
+      keyspaces: ((json['keyspaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => KeyspaceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2347,7 +2347,7 @@ class PartitionKey {
 
   factory PartitionKey.fromJson(Map<String, dynamic> json) {
     return PartitionKey(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2623,7 +2623,7 @@ class RestoreTableResponse {
 
   factory RestoreTableResponse.fromJson(Map<String, dynamic> json) {
     return RestoreTableResponse(
-      restoredTableARN: json['restoredTableARN'] as String,
+      restoredTableARN: (json['restoredTableARN'] as String?) ?? '',
     );
   }
 
@@ -2659,11 +2659,11 @@ class SchemaDefinition {
 
   factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
     return SchemaDefinition(
-      allColumns: (json['allColumns'] as List)
+      allColumns: ((json['allColumns'] as List?) ?? const [])
           .nonNulls
           .map((e) => ColumnDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      partitionKeys: (json['partitionKeys'] as List)
+      partitionKeys: ((json['partitionKeys'] as List?) ?? const [])
           .nonNulls
           .map((e) => PartitionKey.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2718,7 +2718,7 @@ class StaticColumn {
 
   factory StaticColumn.fromJson(Map<String, dynamic> json) {
     return StaticColumn(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2770,9 +2770,9 @@ class TableSummary {
 
   factory TableSummary.fromJson(Map<String, dynamic> json) {
     return TableSummary(
-      keyspaceName: json['keyspaceName'] as String,
-      resourceArn: json['resourceArn'] as String,
-      tableName: json['tableName'] as String,
+      keyspaceName: (json['keyspaceName'] as String?) ?? '',
+      resourceArn: (json['resourceArn'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
     );
   }
 
@@ -2818,8 +2818,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2886,7 +2886,7 @@ class TargetTrackingScalingPolicyConfiguration {
   factory TargetTrackingScalingPolicyConfiguration.fromJson(
       Map<String, dynamic> json) {
     return TargetTrackingScalingPolicyConfiguration(
-      targetValue: json['targetValue'] as double,
+      targetValue: (json['targetValue'] as double?) ?? 0,
       disableScaleIn: json['disableScaleIn'] as bool?,
       scaleInCooldown: json['scaleInCooldown'] as int?,
       scaleOutCooldown: json['scaleOutCooldown'] as int?,
@@ -2987,7 +2987,7 @@ class UpdateTableResponse {
 
   factory UpdateTableResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTableResponse(
-      resourceArn: json['resourceArn'] as String,
+      resourceArn: (json['resourceArn'] as String?) ?? '',
     );
   }
 

@@ -576,7 +576,7 @@ class AnswerMachineDetectionConfig {
   factory AnswerMachineDetectionConfig.fromJson(Map<String, dynamic> json) {
     return AnswerMachineDetectionConfig(
       enableAnswerMachineDetection:
-          json['enableAnswerMachineDetection'] as bool,
+          (json['enableAnswerMachineDetection'] as bool?) ?? false,
       awaitAnswerMachinePrompt: json['awaitAnswerMachinePrompt'] as bool?,
     );
   }
@@ -614,14 +614,16 @@ class Campaign {
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
-      arn: json['arn'] as String,
-      connectInstanceId: json['connectInstanceId'] as String,
-      dialerConfig:
-          DialerConfig.fromJson(json['dialerConfig'] as Map<String, dynamic>),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
+      dialerConfig: DialerConfig.fromJson(
+          (json['dialerConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       outboundCallConfig: OutboundCallConfig.fromJson(
-          json['outboundCallConfig'] as Map<String, dynamic>),
+          (json['outboundCallConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -698,10 +700,10 @@ class CampaignSummary {
 
   factory CampaignSummary.fromJson(Map<String, dynamic> json) {
     return CampaignSummary(
-      arn: json['arn'] as String,
-      connectInstanceId: json['connectInstanceId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -865,7 +867,7 @@ class EncryptionConfig {
 
   factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
     return EncryptionConfig(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       encryptionType:
           (json['encryptionType'] as String?)?.let(EncryptionType.fromString),
       keyArn: json['keyArn'] as String?,
@@ -1121,10 +1123,11 @@ class InstanceConfig {
 
   factory InstanceConfig.fromJson(Map<String, dynamic> json) {
     return InstanceConfig(
-      connectInstanceId: json['connectInstanceId'] as String,
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
       encryptionConfig: EncryptionConfig.fromJson(
-          json['encryptionConfig'] as Map<String, dynamic>),
-      serviceLinkedRoleArn: json['serviceLinkedRoleArn'] as String,
+          (json['encryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serviceLinkedRoleArn: (json['serviceLinkedRoleArn'] as String?) ?? '',
     );
   }
 
@@ -1210,7 +1213,7 @@ class InstanceOnboardingJobStatus {
 
   factory InstanceOnboardingJobStatus.fromJson(Map<String, dynamic> json) {
     return InstanceOnboardingJobStatus(
-      connectInstanceId: json['connectInstanceId'] as String,
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
       status: InstanceOnboardingJobStatusCode.fromString(
           (json['status'] as String)),
       failureCode: (json['failureCode'] as String?)
@@ -1317,7 +1320,7 @@ class OutboundCallConfig {
 
   factory OutboundCallConfig.fromJson(Map<String, dynamic> json) {
     return OutboundCallConfig(
-      connectContactFlowId: json['connectContactFlowId'] as String,
+      connectContactFlowId: (json['connectContactFlowId'] as String?) ?? '',
       answerMachineDetectionConfig: json['answerMachineDetectionConfig'] != null
           ? AnswerMachineDetectionConfig.fromJson(
               json['answerMachineDetectionConfig'] as Map<String, dynamic>)
@@ -1355,7 +1358,7 @@ class PredictiveDialerConfig {
 
   factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return PredictiveDialerConfig(
-      bandwidthAllocation: json['bandwidthAllocation'] as double,
+      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
       dialingCapacity: json['dialingCapacity'] as double?,
     );
   }
@@ -1382,7 +1385,7 @@ class ProgressiveDialerConfig {
 
   factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
     return ProgressiveDialerConfig(
-      bandwidthAllocation: json['bandwidthAllocation'] as double,
+      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
       dialingCapacity: json['dialingCapacity'] as double?,
     );
   }

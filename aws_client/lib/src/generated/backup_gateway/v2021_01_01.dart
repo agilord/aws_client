@@ -1145,12 +1145,14 @@ class BandwidthRateLimitInterval {
 
   factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
     return BandwidthRateLimitInterval(
-      daysOfWeek:
-          (json['DaysOfWeek'] as List).nonNulls.map((e) => e as int).toList(),
-      endHourOfDay: json['EndHourOfDay'] as int,
-      endMinuteOfHour: json['EndMinuteOfHour'] as int,
-      startHourOfDay: json['StartHourOfDay'] as int,
-      startMinuteOfHour: json['StartMinuteOfHour'] as int,
+      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
+      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
+      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
+      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
       averageUploadRateLimitInBitsPerSec:
           json['AverageUploadRateLimitInBitsPerSec'] as int?,
     );
@@ -1944,8 +1946,8 @@ class MaintenanceStartTime {
 
   factory MaintenanceStartTime.fromJson(Map<String, dynamic> json) {
     return MaintenanceStartTime(
-      hourOfDay: json['HourOfDay'] as int,
-      minuteOfHour: json['MinuteOfHour'] as int,
+      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
+      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
       dayOfMonth: json['DayOfMonth'] as int?,
       dayOfWeek: json['DayOfWeek'] as int?,
     );
@@ -2096,8 +2098,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2434,10 +2436,10 @@ class VmwareToAwsTagMapping {
 
   factory VmwareToAwsTagMapping.fromJson(Map<String, dynamic> json) {
     return VmwareToAwsTagMapping(
-      awsTagKey: json['AwsTagKey'] as String,
-      awsTagValue: json['AwsTagValue'] as String,
-      vmwareCategory: json['VmwareCategory'] as String,
-      vmwareTagName: json['VmwareTagName'] as String,
+      awsTagKey: (json['AwsTagKey'] as String?) ?? '',
+      awsTagValue: (json['AwsTagValue'] as String?) ?? '',
+      vmwareCategory: (json['VmwareCategory'] as String?) ?? '',
+      vmwareTagName: (json['VmwareTagName'] as String?) ?? '',
     );
   }
 

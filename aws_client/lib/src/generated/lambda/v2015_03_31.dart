@@ -5403,10 +5403,11 @@ class AllowedPublishers {
 
   factory AllowedPublishers.fromJson(Map<String, dynamic> json) {
     return AllowedPublishers(
-      signingProfileVersionArns: (json['SigningProfileVersionArns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      signingProfileVersionArns:
+          ((json['SigningProfileVersionArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 
@@ -5518,12 +5519,14 @@ class CodeSigningConfig {
   factory CodeSigningConfig.fromJson(Map<String, dynamic> json) {
     return CodeSigningConfig(
       allowedPublishers: AllowedPublishers.fromJson(
-          json['AllowedPublishers'] as Map<String, dynamic>),
-      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
-      codeSigningConfigId: json['CodeSigningConfigId'] as String,
+          (json['AllowedPublishers'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      codeSigningConfigArn: (json['CodeSigningConfigArn'] as String?) ?? '',
+      codeSigningConfigId: (json['CodeSigningConfigId'] as String?) ?? '',
       codeSigningPolicies: CodeSigningPolicies.fromJson(
-          json['CodeSigningPolicies'] as Map<String, dynamic>),
-      lastModified: json['LastModified'] as String,
+          (json['CodeSigningPolicies'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModified: (json['LastModified'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -5722,7 +5725,8 @@ class CreateCodeSigningConfigResponse {
   factory CreateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
     return CreateCodeSigningConfigResponse(
       codeSigningConfig: CodeSigningConfig.fromJson(
-          json['CodeSigningConfig'] as Map<String, dynamic>),
+          (json['CodeSigningConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5790,9 +5794,9 @@ class CreateFunctionUrlConfigResponse {
   factory CreateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return CreateFunctionUrlConfigResponse(
       authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
-      creationTime: json['CreationTime'] as String,
-      functionArn: json['FunctionArn'] as String,
-      functionUrl: json['FunctionUrl'] as String,
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
       cors: json['Cors'] != null
           ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
           : null,
@@ -6048,7 +6052,7 @@ class EphemeralStorage {
 
   factory EphemeralStorage.fromJson(Map<String, dynamic> json) {
     return EphemeralStorage(
-      size: json['Size'] as int,
+      size: (json['Size'] as int?) ?? 0,
     );
   }
 
@@ -6448,8 +6452,8 @@ class FileSystemConfig {
 
   factory FileSystemConfig.fromJson(Map<String, dynamic> json) {
     return FileSystemConfig(
-      arn: json['Arn'] as String,
-      localMountPath: json['LocalMountPath'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      localMountPath: (json['LocalMountPath'] as String?) ?? '',
     );
   }
 
@@ -7176,10 +7180,10 @@ class FunctionUrlConfig {
   factory FunctionUrlConfig.fromJson(Map<String, dynamic> json) {
     return FunctionUrlConfig(
       authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
-      creationTime: json['CreationTime'] as String,
-      functionArn: json['FunctionArn'] as String,
-      functionUrl: json['FunctionUrl'] as String,
-      lastModifiedTime: json['LastModifiedTime'] as String,
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
       cors: json['Cors'] != null
           ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
           : null,
@@ -7265,7 +7269,8 @@ class GetCodeSigningConfigResponse {
   factory GetCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetCodeSigningConfigResponse(
       codeSigningConfig: CodeSigningConfig.fromJson(
-          json['CodeSigningConfig'] as Map<String, dynamic>),
+          (json['CodeSigningConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7308,8 +7313,8 @@ class GetFunctionCodeSigningConfigResponse {
   factory GetFunctionCodeSigningConfigResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFunctionCodeSigningConfigResponse(
-      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
-      functionName: json['FunctionName'] as String,
+      codeSigningConfigArn: (json['CodeSigningConfigArn'] as String?) ?? '',
+      functionName: (json['FunctionName'] as String?) ?? '',
     );
   }
 
@@ -7498,10 +7503,10 @@ class GetFunctionUrlConfigResponse {
   factory GetFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetFunctionUrlConfigResponse(
       authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
-      creationTime: json['CreationTime'] as String,
-      functionArn: json['FunctionArn'] as String,
-      functionUrl: json['FunctionUrl'] as String,
-      lastModifiedTime: json['LastModifiedTime'] as String,
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
       cors: json['Cors'] != null
           ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
           : null,
@@ -8613,7 +8618,7 @@ class ListFunctionUrlConfigsResponse {
 
   factory ListFunctionUrlConfigsResponse.fromJson(Map<String, dynamic> json) {
     return ListFunctionUrlConfigsResponse(
-      functionUrlConfigs: (json['FunctionUrlConfigs'] as List)
+      functionUrlConfigs: ((json['FunctionUrlConfigs'] as List?) ?? const [])
           .nonNulls
           .map((e) => FunctionUrlConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9250,8 +9255,8 @@ class PutFunctionCodeSigningConfigResponse {
   factory PutFunctionCodeSigningConfigResponse.fromJson(
       Map<String, dynamic> json) {
     return PutFunctionCodeSigningConfigResponse(
-      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
-      functionName: json['FunctionName'] as String,
+      codeSigningConfigArn: (json['CodeSigningConfigArn'] as String?) ?? '',
+      functionName: (json['FunctionName'] as String?) ?? '',
     );
   }
 
@@ -9393,7 +9398,7 @@ class PutRuntimeManagementConfigResponse {
   factory PutRuntimeManagementConfigResponse.fromJson(
       Map<String, dynamic> json) {
     return PutRuntimeManagementConfigResponse(
-      functionArn: json['FunctionArn'] as String,
+      functionArn: (json['FunctionArn'] as String?) ?? '',
       updateRuntimeOn:
           UpdateRuntimeOn.fromString((json['UpdateRuntimeOn'] as String)),
       runtimeVersionArn: json['RuntimeVersionArn'] as String?,
@@ -9970,7 +9975,8 @@ class UpdateCodeSigningConfigResponse {
   factory UpdateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
     return UpdateCodeSigningConfigResponse(
       codeSigningConfig: CodeSigningConfig.fromJson(
-          json['CodeSigningConfig'] as Map<String, dynamic>),
+          (json['CodeSigningConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10044,10 +10050,10 @@ class UpdateFunctionUrlConfigResponse {
   factory UpdateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFunctionUrlConfigResponse(
       authType: FunctionUrlAuthType.fromString((json['AuthType'] as String)),
-      creationTime: json['CreationTime'] as String,
-      functionArn: json['FunctionArn'] as String,
-      functionUrl: json['FunctionUrl'] as String,
-      lastModifiedTime: json['LastModifiedTime'] as String,
+      creationTime: (json['CreationTime'] as String?) ?? '',
+      functionArn: (json['FunctionArn'] as String?) ?? '',
+      functionUrl: (json['FunctionUrl'] as String?) ?? '',
+      lastModifiedTime: (json['LastModifiedTime'] as String?) ?? '',
       cors: json['Cors'] != null
           ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
           : null,

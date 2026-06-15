@@ -2313,8 +2313,8 @@ class AwsCloudMapInstanceAttribute {
 
   factory AwsCloudMapInstanceAttribute.fromJson(Map<String, dynamic> json) {
     return AwsCloudMapInstanceAttribute(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2360,8 +2360,8 @@ class AwsCloudMapServiceDiscovery {
 
   factory AwsCloudMapServiceDiscovery.fromJson(Map<String, dynamic> json) {
     return AwsCloudMapServiceDiscovery(
-      namespaceName: json['namespaceName'] as String,
-      serviceName: json['serviceName'] as String,
+      namespaceName: (json['namespaceName'] as String?) ?? '',
+      serviceName: (json['serviceName'] as String?) ?? '',
       attributes: (json['attributes'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -2490,7 +2490,8 @@ class ClientPolicyTls {
   factory ClientPolicyTls.fromJson(Map<String, dynamic> json) {
     return ClientPolicyTls(
       validation: TlsValidationContext.fromJson(
-          json['validation'] as Map<String, dynamic>),
+          (json['validation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       certificate: json['certificate'] != null
           ? ClientTlsCertificate.fromJson(
               json['certificate'] as Map<String, dynamic>)
@@ -2958,7 +2959,7 @@ class DnsServiceDiscovery {
 
   factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) {
     return DnsServiceDiscovery(
-      hostname: json['hostname'] as String,
+      hostname: (json['hostname'] as String?) ?? '',
       ipPreference:
           (json['ipPreference'] as String?)?.let(IpPreference.fromString),
       responseType:
@@ -3090,7 +3091,7 @@ class FileAccessLog {
 
   factory FileAccessLog.fromJson(Map<String, dynamic> json) {
     return FileAccessLog(
-      path: json['path'] as String,
+      path: (json['path'] as String?) ?? '',
       format: json['format'] != null
           ? LoggingFormat.fromJson(json['format'] as Map<String, dynamic>)
           : null,
@@ -3136,14 +3137,17 @@ class GatewayRouteData {
 
   factory GatewayRouteData.fromJson(Map<String, dynamic> json) {
     return GatewayRouteData(
-      gatewayRouteName: json['gatewayRouteName'] as String,
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: GatewayRouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status:
-          GatewayRouteStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualGatewayName: json['virtualGatewayName'] as String,
+      gatewayRouteName: (json['gatewayRouteName'] as String?) ?? '',
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: GatewayRouteSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: GatewayRouteStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      virtualGatewayName: (json['virtualGatewayName'] as String?) ?? '',
     );
   }
 
@@ -3273,16 +3277,15 @@ class GatewayRouteRef {
 
   factory GatewayRouteRef.fromJson(Map<String, dynamic> json) {
     return GatewayRouteRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      gatewayRouteName: json['gatewayRouteName'] as String,
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
-      virtualGatewayName: json['virtualGatewayName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      gatewayRouteName: (json['gatewayRouteName'] as String?) ?? '',
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualGatewayName: (json['virtualGatewayName'] as String?) ?? '',
     );
   }
 
@@ -3417,7 +3420,8 @@ class GatewayRouteTarget {
   factory GatewayRouteTarget.fromJson(Map<String, dynamic> json) {
     return GatewayRouteTarget(
       virtualService: GatewayRouteVirtualService.fromJson(
-          json['virtualService'] as Map<String, dynamic>),
+          (json['virtualService'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       port: json['port'] as int?,
     );
   }
@@ -3443,7 +3447,7 @@ class GatewayRouteVirtualService {
 
   factory GatewayRouteVirtualService.fromJson(Map<String, dynamic> json) {
     return GatewayRouteVirtualService(
-      virtualServiceName: json['virtualServiceName'] as String,
+      virtualServiceName: (json['virtualServiceName'] as String?) ?? '',
     );
   }
 
@@ -3471,9 +3475,11 @@ class GrpcGatewayRoute {
   factory GrpcGatewayRoute.fromJson(Map<String, dynamic> json) {
     return GrpcGatewayRoute(
       action: GrpcGatewayRouteAction.fromJson(
-          json['action'] as Map<String, dynamic>),
-      match:
-          GrpcGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      match: GrpcGatewayRouteMatch.fromJson(
+          (json['match'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3503,8 +3509,9 @@ class GrpcGatewayRouteAction {
 
   factory GrpcGatewayRouteAction.fromJson(Map<String, dynamic> json) {
     return GrpcGatewayRouteAction(
-      target:
-          GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+      target: GatewayRouteTarget.fromJson(
+          (json['target'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       rewrite: json['rewrite'] != null
           ? GrpcGatewayRouteRewrite.fromJson(
               json['rewrite'] as Map<String, dynamic>)
@@ -3593,7 +3600,7 @@ class GrpcGatewayRouteMetadata {
 
   factory GrpcGatewayRouteMetadata.fromJson(Map<String, dynamic> json) {
     return GrpcGatewayRouteMetadata(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       invert: json['invert'] as bool?,
       match: json['match'] != null
           ? GrpcMetadataMatchMethod.fromJson(
@@ -3743,9 +3750,10 @@ class GrpcRetryPolicy {
 
   factory GrpcRetryPolicy.fromJson(Map<String, dynamic> json) {
     return GrpcRetryPolicy(
-      maxRetries: json['maxRetries'] as int,
-      perRetryTimeout:
-          Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+      maxRetries: (json['maxRetries'] as int?) ?? 0,
+      perRetryTimeout: Duration.fromJson(
+          (json['perRetryTimeout'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       grpcRetryEvents: (json['grpcRetryEvents'] as List?)
           ?.nonNulls
           .map((e) => GrpcRetryPolicyEvent.fromString((e as String)))
@@ -3820,8 +3828,11 @@ class GrpcRoute {
 
   factory GrpcRoute.fromJson(Map<String, dynamic> json) {
     return GrpcRoute(
-      action: GrpcRouteAction.fromJson(json['action'] as Map<String, dynamic>),
-      match: GrpcRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+      action: GrpcRouteAction.fromJson(
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      match: GrpcRouteMatch.fromJson((json['match'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       retryPolicy: json['retryPolicy'] != null
           ? GrpcRetryPolicy.fromJson(
               json['retryPolicy'] as Map<String, dynamic>)
@@ -3858,7 +3869,7 @@ class GrpcRouteAction {
 
   factory GrpcRouteAction.fromJson(Map<String, dynamic> json) {
     return GrpcRouteAction(
-      weightedTargets: (json['weightedTargets'] as List)
+      weightedTargets: ((json['weightedTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3941,7 +3952,7 @@ class GrpcRouteMetadata {
 
   factory GrpcRouteMetadata.fromJson(Map<String, dynamic> json) {
     return GrpcRouteMetadata(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       invert: json['invert'] as bool?,
       match: json['match'] != null
           ? GrpcRouteMetadataMatchMethod.fromJson(
@@ -4154,11 +4165,11 @@ class HealthCheckPolicy {
 
   factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) {
     return HealthCheckPolicy(
-      healthyThreshold: json['healthyThreshold'] as int,
-      intervalMillis: json['intervalMillis'] as int,
+      healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
+      intervalMillis: (json['intervalMillis'] as int?) ?? 0,
       protocol: PortProtocol.fromString((json['protocol'] as String)),
-      timeoutMillis: json['timeoutMillis'] as int,
-      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
+      unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
       port: json['port'] as int?,
     );
@@ -4200,9 +4211,11 @@ class HttpGatewayRoute {
   factory HttpGatewayRoute.fromJson(Map<String, dynamic> json) {
     return HttpGatewayRoute(
       action: HttpGatewayRouteAction.fromJson(
-          json['action'] as Map<String, dynamic>),
-      match:
-          HttpGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      match: HttpGatewayRouteMatch.fromJson(
+          (json['match'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4232,8 +4245,9 @@ class HttpGatewayRouteAction {
 
   factory HttpGatewayRouteAction.fromJson(Map<String, dynamic> json) {
     return HttpGatewayRouteAction(
-      target:
-          GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+      target: GatewayRouteTarget.fromJson(
+          (json['target'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       rewrite: json['rewrite'] != null
           ? HttpGatewayRouteRewrite.fromJson(
               json['rewrite'] as Map<String, dynamic>)
@@ -4272,7 +4286,7 @@ class HttpGatewayRouteHeader {
 
   factory HttpGatewayRouteHeader.fromJson(Map<String, dynamic> json) {
     return HttpGatewayRouteHeader(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       invert: json['invert'] as bool?,
       match: json['match'] != null
           ? HeaderMatchMethod.fromJson(json['match'] as Map<String, dynamic>)
@@ -4541,7 +4555,7 @@ class HttpQueryParameter {
 
   factory HttpQueryParameter.fromJson(Map<String, dynamic> json) {
     return HttpQueryParameter(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       match: json['match'] != null
           ? QueryParameterMatch.fromJson(json['match'] as Map<String, dynamic>)
           : null,
@@ -4606,9 +4620,10 @@ class HttpRetryPolicy {
 
   factory HttpRetryPolicy.fromJson(Map<String, dynamic> json) {
     return HttpRetryPolicy(
-      maxRetries: json['maxRetries'] as int,
-      perRetryTimeout:
-          Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+      maxRetries: (json['maxRetries'] as int?) ?? 0,
+      perRetryTimeout: Duration.fromJson(
+          (json['perRetryTimeout'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       httpRetryEvents: (json['httpRetryEvents'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4658,8 +4673,11 @@ class HttpRoute {
 
   factory HttpRoute.fromJson(Map<String, dynamic> json) {
     return HttpRoute(
-      action: HttpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
-      match: HttpRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+      action: HttpRouteAction.fromJson(
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      match: HttpRouteMatch.fromJson((json['match'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       retryPolicy: json['retryPolicy'] != null
           ? HttpRetryPolicy.fromJson(
               json['retryPolicy'] as Map<String, dynamic>)
@@ -4696,7 +4714,7 @@ class HttpRouteAction {
 
   factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
     return HttpRouteAction(
-      weightedTargets: (json['weightedTargets'] as List)
+      weightedTargets: ((json['weightedTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4731,7 +4749,7 @@ class HttpRouteHeader {
 
   factory HttpRouteHeader.fromJson(Map<String, dynamic> json) {
     return HttpRouteHeader(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       invert: json['invert'] as bool?,
       match: json['match'] != null
           ? HeaderMatchMethod.fromJson(json['match'] as Map<String, dynamic>)
@@ -4918,8 +4936,8 @@ class JsonFormatRef {
 
   factory JsonFormatRef.fromJson(Map<String, dynamic> json) {
     return JsonFormatRef(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -4952,7 +4970,7 @@ class ListGatewayRoutesOutput {
 
   factory ListGatewayRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListGatewayRoutesOutput(
-      gatewayRoutes: (json['gatewayRoutes'] as List)
+      gatewayRoutes: ((json['gatewayRoutes'] as List?) ?? const [])
           .nonNulls
           .map((e) => GatewayRouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4989,7 +5007,7 @@ class ListMeshesOutput {
 
   factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
     return ListMeshesOutput(
-      meshes: (json['meshes'] as List)
+      meshes: ((json['meshes'] as List?) ?? const [])
           .nonNulls
           .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5027,7 +5045,7 @@ class ListRoutesOutput {
 
   factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
     return ListRoutesOutput(
-      routes: (json['routes'] as List)
+      routes: ((json['routes'] as List?) ?? const [])
           .nonNulls
           .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5064,7 +5082,7 @@ class ListTagsForResourceOutput {
 
   factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceOutput(
-      tags: (json['tags'] as List)
+      tags: ((json['tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => TagRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5100,7 +5118,7 @@ class ListVirtualGatewaysOutput {
 
   factory ListVirtualGatewaysOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualGatewaysOutput(
-      virtualGateways: (json['virtualGateways'] as List)
+      virtualGateways: ((json['virtualGateways'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualGatewayRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5137,7 +5155,7 @@ class ListVirtualNodesOutput {
 
   factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualNodesOutput(
-      virtualNodes: (json['virtualNodes'] as List)
+      virtualNodes: ((json['virtualNodes'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5174,7 +5192,7 @@ class ListVirtualRoutersOutput {
 
   factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualRoutersOutput(
-      virtualRouters: (json['virtualRouters'] as List)
+      virtualRouters: ((json['virtualRouters'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5211,7 +5229,7 @@ class ListVirtualServicesOutput {
 
   factory ListVirtualServicesOutput.fromJson(Map<String, dynamic> json) {
     return ListVirtualServicesOutput(
-      virtualServices: (json['virtualServices'] as List)
+      virtualServices: ((json['virtualServices'] as List?) ?? const [])
           .nonNulls
           .map((e) => VirtualServiceRef.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5261,8 +5279,9 @@ class Listener {
 
   factory Listener.fromJson(Map<String, dynamic> json) {
     return Listener(
-      portMapping:
-          PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+      portMapping: PortMapping.fromJson(
+          (json['portMapping'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       connectionPool: json['connectionPool'] != null
           ? VirtualNodeConnectionPool.fromJson(
               json['connectionPool'] as Map<String, dynamic>)
@@ -5389,7 +5408,8 @@ class ListenerTls {
   factory ListenerTls.fromJson(Map<String, dynamic> json) {
     return ListenerTls(
       certificate: ListenerTlsCertificate.fromJson(
-          json['certificate'] as Map<String, dynamic>),
+          (json['certificate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       mode: ListenerTlsMode.fromString((json['mode'] as String)),
       validation: json['validation'] != null
           ? ListenerTlsValidationContext.fromJson(
@@ -5425,7 +5445,7 @@ class ListenerTlsAcmCertificate {
 
   factory ListenerTlsAcmCertificate.fromJson(Map<String, dynamic> json) {
     return ListenerTlsAcmCertificate(
-      certificateArn: json['certificateArn'] as String,
+      certificateArn: (json['certificateArn'] as String?) ?? '',
     );
   }
 
@@ -5505,8 +5525,8 @@ class ListenerTlsFileCertificate {
 
   factory ListenerTlsFileCertificate.fromJson(Map<String, dynamic> json) {
     return ListenerTlsFileCertificate(
-      certificateChain: json['certificateChain'] as String,
-      privateKey: json['privateKey'] as String,
+      certificateChain: (json['certificateChain'] as String?) ?? '',
+      privateKey: (json['privateKey'] as String?) ?? '',
     );
   }
 
@@ -5553,7 +5573,7 @@ class ListenerTlsSdsCertificate {
 
   factory ListenerTlsSdsCertificate.fromJson(Map<String, dynamic> json) {
     return ListenerTlsSdsCertificate(
-      secretName: json['secretName'] as String,
+      secretName: (json['secretName'] as String?) ?? '',
     );
   }
 
@@ -5584,7 +5604,8 @@ class ListenerTlsValidationContext {
   factory ListenerTlsValidationContext.fromJson(Map<String, dynamic> json) {
     return ListenerTlsValidationContext(
       trust: ListenerTlsValidationContextTrust.fromJson(
-          json['trust'] as Map<String, dynamic>),
+          (json['trust'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectAlternativeNames: json['subjectAlternativeNames'] != null
           ? SubjectAlternativeNames.fromJson(
               json['subjectAlternativeNames'] as Map<String, dynamic>)
@@ -5719,8 +5740,8 @@ class MatchRange {
 
   factory MatchRange.fromJson(Map<String, dynamic> json) {
     return MatchRange(
-      end: json['end'] as int,
-      start: json['start'] as int,
+      end: (json['end'] as int?) ?? 0,
+      start: (json['start'] as int?) ?? 0,
     );
   }
 
@@ -5757,11 +5778,14 @@ class MeshData {
 
   factory MeshData.fromJson(Map<String, dynamic> json) {
     return MeshData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: MeshSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status: MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: MeshSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: MeshStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5824,14 +5848,13 @@ class MeshRef {
 
   factory MeshRef.fromJson(Map<String, dynamic> json) {
     return MeshRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
     );
   }
 
@@ -5978,10 +6001,12 @@ class OutlierDetection {
   factory OutlierDetection.fromJson(Map<String, dynamic> json) {
     return OutlierDetection(
       baseEjectionDuration: Duration.fromJson(
-          json['baseEjectionDuration'] as Map<String, dynamic>),
-      interval: Duration.fromJson(json['interval'] as Map<String, dynamic>),
-      maxEjectionPercent: json['maxEjectionPercent'] as int,
-      maxServerErrors: json['maxServerErrors'] as int,
+          (json['baseEjectionDuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      interval: Duration.fromJson((json['interval'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      maxEjectionPercent: (json['maxEjectionPercent'] as int?) ?? 0,
+      maxServerErrors: (json['maxServerErrors'] as int?) ?? 0,
     );
   }
 
@@ -6014,7 +6039,7 @@ class PortMapping {
 
   factory PortMapping.fromJson(Map<String, dynamic> json) {
     return PortMapping(
-      port: json['port'] as int,
+      port: (json['port'] as int?) ?? 0,
       protocol: PortProtocol.fromString((json['protocol'] as String)),
     );
   }
@@ -6114,14 +6139,13 @@ class ResourceMetadata {
 
   factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
     return ResourceMetadata(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      uid: json['uid'] as String,
-      version: json['version'] as int,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      uid: (json['uid'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
     );
   }
 
@@ -6176,13 +6200,16 @@ class RouteData {
 
   factory RouteData.fromJson(Map<String, dynamic> json) {
     return RouteData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      routeName: json['routeName'] as String,
-      spec: RouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status: RouteStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualRouterName: json['virtualRouterName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      routeName: (json['routeName'] as String?) ?? '',
+      spec: RouteSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: RouteStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
     );
   }
 
@@ -6257,16 +6284,15 @@ class RouteRef {
 
   factory RouteRef.fromJson(Map<String, dynamic> json) {
     return RouteRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      routeName: json['routeName'] as String,
-      version: json['version'] as int,
-      virtualRouterName: json['virtualRouterName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      routeName: (json['routeName'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
     );
   }
 
@@ -6441,7 +6467,10 @@ class SubjectAlternativeNameMatchers {
 
   factory SubjectAlternativeNameMatchers.fromJson(Map<String, dynamic> json) {
     return SubjectAlternativeNameMatchers(
-      exact: (json['exact'] as List).nonNulls.map((e) => e as String).toList(),
+      exact: ((json['exact'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -6466,7 +6495,8 @@ class SubjectAlternativeNames {
   factory SubjectAlternativeNames.fromJson(Map<String, dynamic> json) {
     return SubjectAlternativeNames(
       match: SubjectAlternativeNameMatchers.fromJson(
-          json['match'] as Map<String, dynamic>),
+          (json['match'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6498,8 +6528,8 @@ class TagRef {
 
   factory TagRef.fromJson(Map<String, dynamic> json) {
     return TagRef(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -6559,7 +6589,9 @@ class TcpRoute {
 
   factory TcpRoute.fromJson(Map<String, dynamic> json) {
     return TcpRoute(
-      action: TcpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+      action: TcpRouteAction.fromJson(
+          (json['action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       match: json['match'] != null
           ? TcpRouteMatch.fromJson(json['match'] as Map<String, dynamic>)
           : null,
@@ -6593,7 +6625,7 @@ class TcpRouteAction {
 
   factory TcpRouteAction.fromJson(Map<String, dynamic> json) {
     return TcpRouteAction(
-      weightedTargets: (json['weightedTargets'] as List)
+      weightedTargets: ((json['weightedTargets'] as List?) ?? const [])
           .nonNulls
           .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6683,7 +6715,8 @@ class TlsValidationContext {
   factory TlsValidationContext.fromJson(Map<String, dynamic> json) {
     return TlsValidationContext(
       trust: TlsValidationContextTrust.fromJson(
-          json['trust'] as Map<String, dynamic>),
+          (json['trust'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectAlternativeNames: json['subjectAlternativeNames'] != null
           ? SubjectAlternativeNames.fromJson(
               json['subjectAlternativeNames'] as Map<String, dynamic>)
@@ -6714,10 +6747,11 @@ class TlsValidationContextAcmTrust {
 
   factory TlsValidationContextAcmTrust.fromJson(Map<String, dynamic> json) {
     return TlsValidationContextAcmTrust(
-      certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      certificateAuthorityArns:
+          ((json['certificateAuthorityArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 
@@ -6742,7 +6776,7 @@ class TlsValidationContextFileTrust {
 
   factory TlsValidationContextFileTrust.fromJson(Map<String, dynamic> json) {
     return TlsValidationContextFileTrust(
-      certificateChain: json['certificateChain'] as String,
+      certificateChain: (json['certificateChain'] as String?) ?? '',
     );
   }
 
@@ -6771,7 +6805,7 @@ class TlsValidationContextSdsTrust {
 
   factory TlsValidationContextSdsTrust.fromJson(Map<String, dynamic> json) {
     return TlsValidationContextSdsTrust(
-      secretName: json['secretName'] as String,
+      secretName: (json['secretName'] as String?) ?? '',
     );
   }
 
@@ -7068,7 +7102,8 @@ class VirtualGatewayClientPolicyTls {
   factory VirtualGatewayClientPolicyTls.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayClientPolicyTls(
       validation: VirtualGatewayTlsValidationContext.fromJson(
-          json['validation'] as Map<String, dynamic>),
+          (json['validation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       certificate: json['certificate'] != null
           ? VirtualGatewayClientTlsCertificate.fromJson(
               json['certificate'] as Map<String, dynamic>)
@@ -7213,13 +7248,16 @@ class VirtualGatewayData {
 
   factory VirtualGatewayData.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: VirtualGatewaySpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status:
-          VirtualGatewayStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualGatewayName: json['virtualGatewayName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: VirtualGatewaySpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: VirtualGatewayStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      virtualGatewayName: (json['virtualGatewayName'] as String?) ?? '',
     );
   }
 
@@ -7259,7 +7297,7 @@ class VirtualGatewayFileAccessLog {
 
   factory VirtualGatewayFileAccessLog.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayFileAccessLog(
-      path: json['path'] as String,
+      path: (json['path'] as String?) ?? '',
       format: json['format'] != null
           ? LoggingFormat.fromJson(json['format'] as Map<String, dynamic>)
           : null,
@@ -7288,7 +7326,7 @@ class VirtualGatewayGrpcConnectionPool {
 
   factory VirtualGatewayGrpcConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayGrpcConnectionPool(
-      maxRequests: json['maxRequests'] as int,
+      maxRequests: (json['maxRequests'] as int?) ?? 0,
     );
   }
 
@@ -7345,12 +7383,12 @@ class VirtualGatewayHealthCheckPolicy {
 
   factory VirtualGatewayHealthCheckPolicy.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayHealthCheckPolicy(
-      healthyThreshold: json['healthyThreshold'] as int,
-      intervalMillis: json['intervalMillis'] as int,
+      healthyThreshold: (json['healthyThreshold'] as int?) ?? 0,
+      intervalMillis: (json['intervalMillis'] as int?) ?? 0,
       protocol:
           VirtualGatewayPortProtocol.fromString((json['protocol'] as String)),
-      timeoutMillis: json['timeoutMillis'] as int,
-      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      timeoutMillis: (json['timeoutMillis'] as int?) ?? 0,
+      unhealthyThreshold: (json['unhealthyThreshold'] as int?) ?? 0,
       path: json['path'] as String?,
       port: json['port'] as int?,
     );
@@ -7389,7 +7427,7 @@ class VirtualGatewayHttp2ConnectionPool {
   factory VirtualGatewayHttp2ConnectionPool.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayHttp2ConnectionPool(
-      maxRequests: json['maxRequests'] as int,
+      maxRequests: (json['maxRequests'] as int?) ?? 0,
     );
   }
 
@@ -7418,7 +7456,7 @@ class VirtualGatewayHttpConnectionPool {
 
   factory VirtualGatewayHttpConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayHttpConnectionPool(
-      maxConnections: json['maxConnections'] as int,
+      maxConnections: (json['maxConnections'] as int?) ?? 0,
       maxPendingRequests: json['maxPendingRequests'] as int?,
     );
   }
@@ -7458,7 +7496,8 @@ class VirtualGatewayListener {
   factory VirtualGatewayListener.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayListener(
       portMapping: VirtualGatewayPortMapping.fromJson(
-          json['portMapping'] as Map<String, dynamic>),
+          (json['portMapping'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       connectionPool: json['connectionPool'] != null
           ? VirtualGatewayConnectionPool.fromJson(
               json['connectionPool'] as Map<String, dynamic>)
@@ -7522,7 +7561,8 @@ class VirtualGatewayListenerTls {
   factory VirtualGatewayListenerTls.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayListenerTls(
       certificate: VirtualGatewayListenerTlsCertificate.fromJson(
-          json['certificate'] as Map<String, dynamic>),
+          (json['certificate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       mode: VirtualGatewayListenerTlsMode.fromString((json['mode'] as String)),
       validation: json['validation'] != null
           ? VirtualGatewayListenerTlsValidationContext.fromJson(
@@ -7559,7 +7599,7 @@ class VirtualGatewayListenerTlsAcmCertificate {
   factory VirtualGatewayListenerTlsAcmCertificate.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayListenerTlsAcmCertificate(
-      certificateArn: json['certificateArn'] as String,
+      certificateArn: (json['certificateArn'] as String?) ?? '',
     );
   }
 
@@ -7641,8 +7681,8 @@ class VirtualGatewayListenerTlsFileCertificate {
   factory VirtualGatewayListenerTlsFileCertificate.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayListenerTlsFileCertificate(
-      certificateChain: json['certificateChain'] as String,
-      privateKey: json['privateKey'] as String,
+      certificateChain: (json['certificateChain'] as String?) ?? '',
+      privateKey: (json['privateKey'] as String?) ?? '',
     );
   }
 
@@ -7690,7 +7730,7 @@ class VirtualGatewayListenerTlsSdsCertificate {
   factory VirtualGatewayListenerTlsSdsCertificate.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayListenerTlsSdsCertificate(
-      secretName: json['secretName'] as String,
+      secretName: (json['secretName'] as String?) ?? '',
     );
   }
 
@@ -7722,7 +7762,8 @@ class VirtualGatewayListenerTlsValidationContext {
       Map<String, dynamic> json) {
     return VirtualGatewayListenerTlsValidationContext(
       trust: VirtualGatewayListenerTlsValidationContextTrust.fromJson(
-          json['trust'] as Map<String, dynamic>),
+          (json['trust'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectAlternativeNames: json['subjectAlternativeNames'] != null
           ? SubjectAlternativeNames.fromJson(
               json['subjectAlternativeNames'] as Map<String, dynamic>)
@@ -7823,7 +7864,7 @@ class VirtualGatewayPortMapping {
 
   factory VirtualGatewayPortMapping.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayPortMapping(
-      port: json['port'] as int,
+      port: (json['port'] as int?) ?? 0,
       protocol:
           VirtualGatewayPortProtocol.fromString((json['protocol'] as String)),
     );
@@ -7904,15 +7945,14 @@ class VirtualGatewayRef {
 
   factory VirtualGatewayRef.fromJson(Map<String, dynamic> json) {
     return VirtualGatewayRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
-      virtualGatewayName: json['virtualGatewayName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualGatewayName: (json['virtualGatewayName'] as String?) ?? '',
     );
   }
 
@@ -7956,7 +7996,7 @@ class VirtualGatewaySpec {
 
   factory VirtualGatewaySpec.fromJson(Map<String, dynamic> json) {
     return VirtualGatewaySpec(
-      listeners: (json['listeners'] as List)
+      listeners: ((json['listeners'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => VirtualGatewayListener.fromJson(e as Map<String, dynamic>))
@@ -8043,7 +8083,8 @@ class VirtualGatewayTlsValidationContext {
       Map<String, dynamic> json) {
     return VirtualGatewayTlsValidationContext(
       trust: VirtualGatewayTlsValidationContextTrust.fromJson(
-          json['trust'] as Map<String, dynamic>),
+          (json['trust'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subjectAlternativeNames: json['subjectAlternativeNames'] != null
           ? SubjectAlternativeNames.fromJson(
               json['subjectAlternativeNames'] as Map<String, dynamic>)
@@ -8075,10 +8116,11 @@ class VirtualGatewayTlsValidationContextAcmTrust {
   factory VirtualGatewayTlsValidationContextAcmTrust.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayTlsValidationContextAcmTrust(
-      certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      certificateAuthorityArns:
+          ((json['certificateAuthorityArns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 
@@ -8104,7 +8146,7 @@ class VirtualGatewayTlsValidationContextFileTrust {
   factory VirtualGatewayTlsValidationContextFileTrust.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayTlsValidationContextFileTrust(
-      certificateChain: json['certificateChain'] as String,
+      certificateChain: (json['certificateChain'] as String?) ?? '',
     );
   }
 
@@ -8135,7 +8177,7 @@ class VirtualGatewayTlsValidationContextSdsTrust {
   factory VirtualGatewayTlsValidationContextSdsTrust.fromJson(
       Map<String, dynamic> json) {
     return VirtualGatewayTlsValidationContextSdsTrust(
-      secretName: json['secretName'] as String,
+      secretName: (json['secretName'] as String?) ?? '',
     );
   }
 
@@ -8288,13 +8330,16 @@ class VirtualNodeData {
 
   factory VirtualNodeData.fromJson(Map<String, dynamic> json) {
     return VirtualNodeData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: VirtualNodeSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status:
-          VirtualNodeStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualNodeName: json['virtualNodeName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: VirtualNodeSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: VirtualNodeStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      virtualNodeName: (json['virtualNodeName'] as String?) ?? '',
     );
   }
 
@@ -8326,7 +8371,7 @@ class VirtualNodeGrpcConnectionPool {
 
   factory VirtualNodeGrpcConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualNodeGrpcConnectionPool(
-      maxRequests: json['maxRequests'] as int,
+      maxRequests: (json['maxRequests'] as int?) ?? 0,
     );
   }
 
@@ -8350,7 +8395,7 @@ class VirtualNodeHttp2ConnectionPool {
 
   factory VirtualNodeHttp2ConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualNodeHttp2ConnectionPool(
-      maxRequests: json['maxRequests'] as int,
+      maxRequests: (json['maxRequests'] as int?) ?? 0,
     );
   }
 
@@ -8379,7 +8424,7 @@ class VirtualNodeHttpConnectionPool {
 
   factory VirtualNodeHttpConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualNodeHttpConnectionPool(
-      maxConnections: json['maxConnections'] as int,
+      maxConnections: (json['maxConnections'] as int?) ?? 0,
       maxPendingRequests: json['maxPendingRequests'] as int?,
     );
   }
@@ -8443,15 +8488,14 @@ class VirtualNodeRef {
 
   factory VirtualNodeRef.fromJson(Map<String, dynamic> json) {
     return VirtualNodeRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
-      virtualNodeName: json['virtualNodeName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualNodeName: (json['virtualNodeName'] as String?) ?? '',
     );
   }
 
@@ -8488,7 +8532,7 @@ class VirtualNodeServiceProvider {
 
   factory VirtualNodeServiceProvider.fromJson(Map<String, dynamic> json) {
     return VirtualNodeServiceProvider(
-      virtualNodeName: json['virtualNodeName'] as String,
+      virtualNodeName: (json['virtualNodeName'] as String?) ?? '',
     );
   }
 
@@ -8620,7 +8664,7 @@ class VirtualNodeTcpConnectionPool {
 
   factory VirtualNodeTcpConnectionPool.fromJson(Map<String, dynamic> json) {
     return VirtualNodeTcpConnectionPool(
-      maxConnections: json['maxConnections'] as int,
+      maxConnections: (json['maxConnections'] as int?) ?? 0,
     );
   }
 
@@ -8659,13 +8703,16 @@ class VirtualRouterData {
 
   factory VirtualRouterData.fromJson(Map<String, dynamic> json) {
     return VirtualRouterData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: VirtualRouterSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status:
-          VirtualRouterStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualRouterName: json['virtualRouterName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: VirtualRouterSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: VirtualRouterStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
     );
   }
 
@@ -8695,8 +8742,9 @@ class VirtualRouterListener {
 
   factory VirtualRouterListener.fromJson(Map<String, dynamic> json) {
     return VirtualRouterListener(
-      portMapping:
-          PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+      portMapping: PortMapping.fromJson(
+          (json['portMapping'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8757,15 +8805,14 @@ class VirtualRouterRef {
 
   factory VirtualRouterRef.fromJson(Map<String, dynamic> json) {
     return VirtualRouterRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
-      virtualRouterName: json['virtualRouterName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
     );
   }
 
@@ -8802,7 +8849,7 @@ class VirtualRouterServiceProvider {
 
   factory VirtualRouterServiceProvider.fromJson(Map<String, dynamic> json) {
     return VirtualRouterServiceProvider(
-      virtualRouterName: json['virtualRouterName'] as String,
+      virtualRouterName: (json['virtualRouterName'] as String?) ?? '',
     );
   }
 
@@ -8895,7 +8942,7 @@ class VirtualServiceBackend {
 
   factory VirtualServiceBackend.fromJson(Map<String, dynamic> json) {
     return VirtualServiceBackend(
-      virtualServiceName: json['virtualServiceName'] as String,
+      virtualServiceName: (json['virtualServiceName'] as String?) ?? '',
       clientPolicy: json['clientPolicy'] != null
           ? ClientPolicy.fromJson(json['clientPolicy'] as Map<String, dynamic>)
           : null,
@@ -8938,13 +8985,16 @@ class VirtualServiceData {
 
   factory VirtualServiceData.fromJson(Map<String, dynamic> json) {
     return VirtualServiceData(
-      meshName: json['meshName'] as String,
-      metadata:
-          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-      spec: VirtualServiceSpec.fromJson(json['spec'] as Map<String, dynamic>),
-      status:
-          VirtualServiceStatus.fromJson(json['status'] as Map<String, dynamic>),
-      virtualServiceName: json['virtualServiceName'] as String,
+      meshName: (json['meshName'] as String?) ?? '',
+      metadata: ResourceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      spec: VirtualServiceSpec.fromJson(
+          (json['spec'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      status: VirtualServiceStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      virtualServiceName: (json['virtualServiceName'] as String?) ?? '',
     );
   }
 
@@ -9049,15 +9099,14 @@ class VirtualServiceRef {
 
   factory VirtualServiceRef.fromJson(Map<String, dynamic> json) {
     return VirtualServiceRef(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      lastUpdatedAt:
-          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
-      meshName: json['meshName'] as String,
-      meshOwner: json['meshOwner'] as String,
-      resourceOwner: json['resourceOwner'] as String,
-      version: json['version'] as int,
-      virtualServiceName: json['virtualServiceName'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastUpdatedAt: nonNullableTimeStampFromJson(json['lastUpdatedAt'] ?? 0),
+      meshName: (json['meshName'] as String?) ?? '',
+      meshOwner: (json['meshOwner'] as String?) ?? '',
+      resourceOwner: (json['resourceOwner'] as String?) ?? '',
+      version: (json['version'] as int?) ?? 0,
+      virtualServiceName: (json['virtualServiceName'] as String?) ?? '',
     );
   }
 
@@ -9172,8 +9221,8 @@ class WeightedTarget {
 
   factory WeightedTarget.fromJson(Map<String, dynamic> json) {
     return WeightedTarget(
-      virtualNode: json['virtualNode'] as String,
-      weight: json['weight'] as int,
+      virtualNode: (json['virtualNode'] as String?) ?? '',
+      weight: (json['weight'] as int?) ?? 0,
       port: json['port'] as int?,
     );
   }

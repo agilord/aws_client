@@ -1423,7 +1423,7 @@ class AuthenticationConfiguration {
 
   factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfiguration(
-      acceptanceThreshold: json['AcceptanceThreshold'] as int,
+      acceptanceThreshold: (json['AcceptanceThreshold'] as int?) ?? 0,
     );
   }
 
@@ -2420,9 +2420,11 @@ class FraudRiskDetails {
   factory FraudRiskDetails.fromJson(Map<String, dynamic> json) {
     return FraudRiskDetails(
       knownFraudsterRisk: KnownFraudsterRisk.fromJson(
-          json['KnownFraudsterRisk'] as Map<String, dynamic>),
+          (json['KnownFraudsterRisk'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       voiceSpoofingRisk: VoiceSpoofingRisk.fromJson(
-          json['VoiceSpoofingRisk'] as Map<String, dynamic>),
+          (json['VoiceSpoofingRisk'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2772,7 +2774,7 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
 
@@ -2826,7 +2828,7 @@ class KnownFraudsterRisk {
 
   factory KnownFraudsterRisk.fromJson(Map<String, dynamic> json) {
     return KnownFraudsterRisk(
-      riskScore: json['RiskScore'] as int,
+      riskScore: (json['RiskScore'] as int?) ?? 0,
       generatedFraudsterId: json['GeneratedFraudsterId'] as String?,
     );
   }
@@ -3129,7 +3131,7 @@ class OutputDataConfig {
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
@@ -3210,7 +3212,7 @@ class ServerSideEncryptionConfiguration {
   factory ServerSideEncryptionConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ServerSideEncryptionConfiguration(
-      kmsKeyId: json['KmsKeyId'] as String,
+      kmsKeyId: (json['KmsKeyId'] as String?) ?? '',
     );
   }
 
@@ -3754,8 +3756,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -3852,7 +3854,7 @@ class VoiceSpoofingRisk {
 
   factory VoiceSpoofingRisk.fromJson(Map<String, dynamic> json) {
     return VoiceSpoofingRisk(
-      riskScore: json['RiskScore'] as int,
+      riskScore: (json['RiskScore'] as int?) ?? 0,
     );
   }
 
@@ -3940,7 +3942,7 @@ class WatchlistDetails {
 
   factory WatchlistDetails.fromJson(Map<String, dynamic> json) {
     return WatchlistDetails(
-      defaultWatchlistId: json['DefaultWatchlistId'] as String,
+      defaultWatchlistId: (json['DefaultWatchlistId'] as String?) ?? '',
     );
   }
 

@@ -1712,7 +1712,7 @@ class DomainValidation {
 
   factory DomainValidation.fromJson(Map<String, dynamic> json) {
     return DomainValidation(
-      domainName: json['DomainName'] as String,
+      domainName: (json['DomainName'] as String?) ?? '',
       resourceRecord: json['ResourceRecord'] != null
           ? ResourceRecord.fromJson(
               json['ResourceRecord'] as Map<String, dynamic>)
@@ -2304,13 +2304,14 @@ class RenewalSummary {
 
   factory RenewalSummary.fromJson(Map<String, dynamic> json) {
     return RenewalSummary(
-      domainValidationOptions: (json['DomainValidationOptions'] as List)
-          .nonNulls
-          .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      domainValidationOptions:
+          ((json['DomainValidationOptions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => DomainValidation.fromJson(e as Map<String, dynamic>))
+              .toList(),
       renewalStatus:
           RenewalStatus.fromString((json['RenewalStatus'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       renewalStatusReason: (json['RenewalStatusReason'] as String?)
           ?.let(FailureReason.fromString),
     );
@@ -2378,9 +2379,9 @@ class ResourceRecord {
 
   factory ResourceRecord.fromJson(Map<String, dynamic> json) {
     return ResourceRecord(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: RecordType.fromString((json['Type'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2462,7 +2463,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }

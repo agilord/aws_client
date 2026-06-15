@@ -4420,7 +4420,7 @@ class CertificateList {
   factory CertificateList.fromJson(Map<String, dynamic> json) {
     return CertificateList(
       signingAlg: SigningAlg.fromString((json['SigningAlg'] as String)),
-      value: json['Value'] as String,
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4836,7 +4836,7 @@ class DakCertificateMetadata {
 
   factory DakCertificateMetadata.fromJson(Map<String, dynamic> json) {
     return DakCertificateMetadata(
-      certificateId: json['CertificateId'] as String,
+      certificateId: (json['CertificateId'] as String?) ?? '',
       apId: json['ApId'] as String?,
       deviceTypeId: json['DeviceTypeId'] as String?,
       factorySupport: json['FactorySupport'] as bool?,
@@ -5776,8 +5776,8 @@ class GatewayListItem {
 
   factory GatewayListItem.fromJson(Map<String, dynamic> json) {
     return GatewayListItem(
-      downlinkFrequency: json['DownlinkFrequency'] as int,
-      gatewayId: json['GatewayId'] as String,
+      downlinkFrequency: (json['DownlinkFrequency'] as int?) ?? 0,
+      gatewayId: (json['GatewayId'] as String?) ?? '',
     );
   }
 
@@ -9982,11 +9982,11 @@ class ParticipatingGateways {
   factory ParticipatingGateways.fromJson(Map<String, dynamic> json) {
     return ParticipatingGateways(
       downlinkMode: DownlinkMode.fromString((json['DownlinkMode'] as String)),
-      gatewayList: (json['GatewayList'] as List)
+      gatewayList: ((json['GatewayList'] as List?) ?? const [])
           .nonNulls
           .map((e) => GatewayListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      transmissionInterval: json['TransmissionInterval'] as int,
+      transmissionInterval: (json['TransmissionInterval'] as int?) ?? 0,
     );
   }
 
@@ -11460,8 +11460,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

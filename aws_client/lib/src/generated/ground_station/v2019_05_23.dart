@@ -1463,7 +1463,8 @@ class AntennaDownlinkConfig {
   factory AntennaDownlinkConfig.fromJson(Map<String, dynamic> json) {
     return AntennaDownlinkConfig(
       spectrumConfig: SpectrumConfig.fromJson(
-          json['spectrumConfig'] as Map<String, dynamic>),
+          (json['spectrumConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1495,12 +1496,15 @@ class AntennaDownlinkDemodDecodeConfig {
 
   factory AntennaDownlinkDemodDecodeConfig.fromJson(Map<String, dynamic> json) {
     return AntennaDownlinkDemodDecodeConfig(
-      decodeConfig:
-          DecodeConfig.fromJson(json['decodeConfig'] as Map<String, dynamic>),
+      decodeConfig: DecodeConfig.fromJson(
+          (json['decodeConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       demodulationConfig: DemodulationConfig.fromJson(
-          json['demodulationConfig'] as Map<String, dynamic>),
+          (json['demodulationConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       spectrumConfig: SpectrumConfig.fromJson(
-          json['spectrumConfig'] as Map<String, dynamic>),
+          (json['spectrumConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1536,8 +1540,10 @@ class AntennaUplinkConfig {
   factory AntennaUplinkConfig.fromJson(Map<String, dynamic> json) {
     return AntennaUplinkConfig(
       spectrumConfig: UplinkSpectrumConfig.fromJson(
-          json['spectrumConfig'] as Map<String, dynamic>),
-      targetEirp: Eirp.fromJson(json['targetEirp'] as Map<String, dynamic>),
+          (json['spectrumConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetEirp: Eirp.fromJson((json['targetEirp'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       transmitDisabled: json['transmitDisabled'] as bool?,
     );
   }
@@ -1598,10 +1604,12 @@ class AwsGroundStationAgentEndpoint {
   factory AwsGroundStationAgentEndpoint.fromJson(Map<String, dynamic> json) {
     return AwsGroundStationAgentEndpoint(
       egressAddress: ConnectionDetails.fromJson(
-          json['egressAddress'] as Map<String, dynamic>),
+          (json['egressAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       ingressAddress: RangedConnectionDetails.fromJson(
-          json['ingressAddress'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['ingressAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       agentStatus:
           (json['agentStatus'] as String?)?.let(AgentStatus.fromString),
       auditResults:
@@ -2019,8 +2027,9 @@ class ConnectionDetails {
 
   factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
     return ConnectionDetails(
-      socketAddress:
-          SocketAddress.fromJson(json['socketAddress'] as Map<String, dynamic>),
+      socketAddress: SocketAddress.fromJson(
+          (json['socketAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       mtu: json['mtu'] as int?,
     );
   }
@@ -2339,7 +2348,7 @@ class DataflowEndpointConfig {
 
   factory DataflowEndpointConfig.fromJson(Map<String, dynamic> json) {
     return DataflowEndpointConfig(
-      dataflowEndpointName: json['dataflowEndpointName'] as String,
+      dataflowEndpointName: (json['dataflowEndpointName'] as String?) ?? '',
       dataflowEndpointRegion: json['dataflowEndpointRegion'] as String?,
     );
   }
@@ -2422,7 +2431,7 @@ class DecodeConfig {
 
   factory DecodeConfig.fromJson(Map<String, dynamic> json) {
     return DecodeConfig(
-      unvalidatedJSON: json['unvalidatedJSON'] as String,
+      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
     );
   }
 
@@ -2445,7 +2454,7 @@ class DemodulationConfig {
 
   factory DemodulationConfig.fromJson(Map<String, dynamic> json) {
     return DemodulationConfig(
-      unvalidatedJSON: json['unvalidatedJSON'] as String,
+      unvalidatedJSON: (json['unvalidatedJSON'] as String?) ?? '',
     );
   }
 
@@ -2800,7 +2809,7 @@ class Eirp {
   factory Eirp.fromJson(Map<String, dynamic> json) {
     return Eirp(
       units: EirpUnits.fromString((json['units'] as String)),
-      value: json['value'] as double,
+      value: (json['value'] as double?) ?? 0,
     );
   }
 
@@ -2843,7 +2852,7 @@ class Elevation {
   factory Elevation.fromJson(Map<String, dynamic> json) {
     return Elevation(
       unit: AngleUnits.fromString((json['unit'] as String)),
-      value: json['value'] as double,
+      value: (json['value'] as double?) ?? 0,
     );
   }
 
@@ -3245,7 +3254,7 @@ class Frequency {
   factory Frequency.fromJson(Map<String, dynamic> json) {
     return Frequency(
       units: FrequencyUnits.fromString((json['units'] as String)),
-      value: json['value'] as double,
+      value: (json['value'] as double?) ?? 0,
     );
   }
 
@@ -3291,7 +3300,7 @@ class FrequencyBandwidth {
   factory FrequencyBandwidth.fromJson(Map<String, dynamic> json) {
     return FrequencyBandwidth(
       units: BandwidthUnits.fromString((json['units'] as String)),
-      value: json['value'] as double,
+      value: (json['value'] as double?) ?? 0,
     );
   }
 
@@ -3381,11 +3390,12 @@ class GetConfigResponse {
 
   factory GetConfigResponse.fromJson(Map<String, dynamic> json) {
     return GetConfigResponse(
-      configArn: json['configArn'] as String,
-      configData:
-          ConfigTypeData.fromJson(json['configData'] as Map<String, dynamic>),
-      configId: json['configId'] as String,
-      name: json['name'] as String,
+      configArn: (json['configArn'] as String?) ?? '',
+      configData: ConfigTypeData.fromJson(
+          (json['configData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      configId: (json['configId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       configType:
           (json['configType'] as String?)?.let(ConfigCapabilityType.fromString),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3775,8 +3785,8 @@ class IntegerRange {
 
   factory IntegerRange.fromJson(Map<String, dynamic> json) {
     return IntegerRange(
-      maximum: json['maximum'] as int,
-      minimum: json['minimum'] as int,
+      maximum: (json['maximum'] as int?) ?? 0,
+      minimum: (json['minimum'] as int?) ?? 0,
     );
   }
 
@@ -4222,7 +4232,8 @@ class RangedConnectionDetails {
   factory RangedConnectionDetails.fromJson(Map<String, dynamic> json) {
     return RangedConnectionDetails(
       socketAddress: RangedSocketAddress.fromJson(
-          json['socketAddress'] as Map<String, dynamic>),
+          (json['socketAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       mtu: json['mtu'] as int?,
     );
   }
@@ -4252,9 +4263,10 @@ class RangedSocketAddress {
 
   factory RangedSocketAddress.fromJson(Map<String, dynamic> json) {
     return RangedSocketAddress(
-      name: json['name'] as String,
-      portRange:
-          IntegerRange.fromJson(json['portRange'] as Map<String, dynamic>),
+      name: (json['name'] as String?) ?? '',
+      portRange: IntegerRange.fromJson(
+          (json['portRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4346,8 +4358,8 @@ class S3RecordingConfig {
 
   factory S3RecordingConfig.fromJson(Map<String, dynamic> json) {
     return S3RecordingConfig(
-      bucketArn: json['bucketArn'] as String,
-      roleArn: json['roleArn'] as String,
+      bucketArn: (json['bucketArn'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       prefix: json['prefix'] as String?,
     );
   }
@@ -4471,13 +4483,15 @@ class SecurityDetails {
 
   factory SecurityDetails.fromJson(Map<String, dynamic> json) {
     return SecurityDetails(
-      roleArn: json['roleArn'] as String,
-      securityGroupIds: (json['securityGroupIds'] as List)
+      roleArn: (json['roleArn'] as String?) ?? '',
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4508,8 +4522,8 @@ class SocketAddress {
 
   factory SocketAddress.fromJson(Map<String, dynamic> json) {
     return SocketAddress(
-      name: json['name'] as String,
-      port: json['port'] as int,
+      name: (json['name'] as String?) ?? '',
+      port: (json['port'] as int?) ?? 0,
     );
   }
 
@@ -4613,9 +4627,11 @@ class SpectrumConfig {
   factory SpectrumConfig.fromJson(Map<String, dynamic> json) {
     return SpectrumConfig(
       bandwidth: FrequencyBandwidth.fromJson(
-          json['bandwidth'] as Map<String, dynamic>),
-      centerFrequency:
-          Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
+          (json['bandwidth'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      centerFrequency: Frequency.fromJson(
+          (json['centerFrequency'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       polarization:
           (json['polarization'] as String?)?.let(Polarization.fromString),
     );
@@ -4769,7 +4785,7 @@ class UpdateAgentStatusResponse {
 
   factory UpdateAgentStatusResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAgentStatusResponse(
-      agentId: json['agentId'] as String,
+      agentId: (json['agentId'] as String?) ?? '',
     );
   }
 
@@ -4800,8 +4816,8 @@ class UplinkEchoConfig {
 
   factory UplinkEchoConfig.fromJson(Map<String, dynamic> json) {
     return UplinkEchoConfig(
-      antennaUplinkConfigArn: json['antennaUplinkConfigArn'] as String,
-      enabled: json['enabled'] as bool,
+      antennaUplinkConfigArn: (json['antennaUplinkConfigArn'] as String?) ?? '',
+      enabled: (json['enabled'] as bool?) ?? false,
     );
   }
 
@@ -4833,8 +4849,9 @@ class UplinkSpectrumConfig {
 
   factory UplinkSpectrumConfig.fromJson(Map<String, dynamic> json) {
     return UplinkSpectrumConfig(
-      centerFrequency:
-          Frequency.fromJson(json['centerFrequency'] as Map<String, dynamic>),
+      centerFrequency: Frequency.fromJson(
+          (json['centerFrequency'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       polarization:
           (json['polarization'] as String?)?.let(Polarization.fromString),
     );

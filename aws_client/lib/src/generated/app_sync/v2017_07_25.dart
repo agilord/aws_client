@@ -3639,7 +3639,7 @@ class AppSyncRuntime {
   factory AppSyncRuntime.fromJson(Map<String, dynamic> json) {
     return AppSyncRuntime(
       name: RuntimeName.fromString((json['name'] as String)),
-      runtimeVersion: json['runtimeVersion'] as String,
+      runtimeVersion: (json['runtimeVersion'] as String?) ?? '',
     );
   }
 
@@ -3885,7 +3885,7 @@ class CachingConfig {
 
   factory CachingConfig.fromJson(Map<String, dynamic> json) {
     return CachingConfig(
-      ttl: json['ttl'] as int,
+      ttl: (json['ttl'] as int?) ?? 0,
       cachingKeys: (json['cachingKeys'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4005,8 +4005,8 @@ class CognitoUserPoolConfig {
 
   factory CognitoUserPoolConfig.fromJson(Map<String, dynamic> json) {
     return CognitoUserPoolConfig(
-      awsRegion: json['awsRegion'] as String,
-      userPoolId: json['userPoolId'] as String,
+      awsRegion: (json['awsRegion'] as String?) ?? '',
+      userPoolId: (json['userPoolId'] as String?) ?? '',
       appIdClientRegex: json['appIdClientRegex'] as String?,
     );
   }
@@ -5043,8 +5043,8 @@ class DynamodbDataSourceConfig {
 
   factory DynamodbDataSourceConfig.fromJson(Map<String, dynamic> json) {
     return DynamodbDataSourceConfig(
-      awsRegion: json['awsRegion'] as String,
-      tableName: json['tableName'] as String,
+      awsRegion: (json['awsRegion'] as String?) ?? '',
+      tableName: (json['tableName'] as String?) ?? '',
       deltaSyncConfig: json['deltaSyncConfig'] != null
           ? DeltaSyncConfig.fromJson(
               json['deltaSyncConfig'] as Map<String, dynamic>)
@@ -5091,8 +5091,8 @@ class ElasticsearchDataSourceConfig {
 
   factory ElasticsearchDataSourceConfig.fromJson(Map<String, dynamic> json) {
     return ElasticsearchDataSourceConfig(
-      awsRegion: json['awsRegion'] as String,
-      endpoint: json['endpoint'] as String,
+      awsRegion: (json['awsRegion'] as String?) ?? '',
+      endpoint: (json['endpoint'] as String?) ?? '',
     );
   }
 
@@ -5465,7 +5465,7 @@ class EventBridgeDataSourceConfig {
 
   factory EventBridgeDataSourceConfig.fromJson(Map<String, dynamic> json) {
     return EventBridgeDataSourceConfig(
-      eventBusArn: json['eventBusArn'] as String,
+      eventBusArn: (json['eventBusArn'] as String?) ?? '',
     );
   }
 
@@ -6338,7 +6338,7 @@ class LambdaAuthorizerConfig {
 
   factory LambdaAuthorizerConfig.fromJson(Map<String, dynamic> json) {
     return LambdaAuthorizerConfig(
-      authorizerUri: json['authorizerUri'] as String,
+      authorizerUri: (json['authorizerUri'] as String?) ?? '',
       authorizerResultTtlInSeconds:
           json['authorizerResultTtlInSeconds'] as int?,
       identityValidationExpression:
@@ -6397,7 +6397,7 @@ class LambdaDataSourceConfig {
 
   factory LambdaDataSourceConfig.fromJson(Map<String, dynamic> json) {
     return LambdaDataSourceConfig(
-      lambdaFunctionArn: json['lambdaFunctionArn'] as String,
+      lambdaFunctionArn: (json['lambdaFunctionArn'] as String?) ?? '',
     );
   }
 
@@ -6851,7 +6851,7 @@ class LogConfig {
 
   factory LogConfig.fromJson(Map<String, dynamic> json) {
     return LogConfig(
-      cloudWatchLogsRoleArn: json['cloudWatchLogsRoleArn'] as String,
+      cloudWatchLogsRoleArn: (json['cloudWatchLogsRoleArn'] as String?) ?? '',
       fieldLogLevel:
           FieldLogLevel.fromString((json['fieldLogLevel'] as String)),
       excludeVerboseContent: json['excludeVerboseContent'] as bool?,
@@ -6913,7 +6913,7 @@ class OpenIDConnectConfig {
 
   factory OpenIDConnectConfig.fromJson(Map<String, dynamic> json) {
     return OpenIDConnectConfig(
-      issuer: json['issuer'] as String,
+      issuer: (json['issuer'] as String?) ?? '',
       authTTL: json['authTTL'] as int?,
       clientId: json['clientId'] as String?,
       iatTTL: json['iatTTL'] as int?,
@@ -6950,8 +6950,8 @@ class OpenSearchServiceDataSourceConfig {
   factory OpenSearchServiceDataSourceConfig.fromJson(
       Map<String, dynamic> json) {
     return OpenSearchServiceDataSourceConfig(
-      awsRegion: json['awsRegion'] as String,
-      endpoint: json['endpoint'] as String,
+      awsRegion: (json['awsRegion'] as String?) ?? '',
+      endpoint: (json['endpoint'] as String?) ?? '',
     );
   }
 
@@ -8180,10 +8180,10 @@ class UserPoolConfig {
 
   factory UserPoolConfig.fromJson(Map<String, dynamic> json) {
     return UserPoolConfig(
-      awsRegion: json['awsRegion'] as String,
+      awsRegion: (json['awsRegion'] as String?) ?? '',
       defaultAction:
           DefaultAction.fromString((json['defaultAction'] as String)),
-      userPoolId: json['userPoolId'] as String,
+      userPoolId: (json['userPoolId'] as String?) ?? '',
       appIdClientRegex: json['appIdClientRegex'] as String?,
     );
   }

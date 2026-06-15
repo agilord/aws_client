@@ -3379,7 +3379,7 @@ class GetFailbackReplicationConfigurationResponse {
   factory GetFailbackReplicationConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFailbackReplicationConfigurationResponse(
-      recoveryInstanceID: json['recoveryInstanceID'] as String,
+      recoveryInstanceID: (json['recoveryInstanceID'] as String?) ?? '',
       bandwidthThrottling: json['bandwidthThrottling'] as int?,
       name: json['name'] as String?,
       usePrivateIP: json['usePrivateIP'] as bool?,
@@ -3525,7 +3525,7 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
-      jobID: json['jobID'] as String,
+      jobID: (json['jobID'] as String?) ?? '',
       arn: json['arn'] as String?,
       creationDateTime: json['creationDateTime'] as String?,
       endDateTime: json['endDateTime'] as String?,
@@ -4704,8 +4704,8 @@ class PITPolicyRule {
 
   factory PITPolicyRule.fromJson(Map<String, dynamic> json) {
     return PITPolicyRule(
-      interval: json['interval'] as int,
-      retentionDuration: json['retentionDuration'] as int,
+      interval: (json['interval'] as int?) ?? 0,
+      retentionDuration: (json['retentionDuration'] as int?) ?? 0,
       units: PITPolicyRuleUnits.fromString((json['units'] as String)),
       enabled: json['enabled'] as bool?,
       ruleID: json['ruleID'] as int?,
@@ -5767,9 +5767,9 @@ class RecoverySnapshot {
 
   factory RecoverySnapshot.fromJson(Map<String, dynamic> json) {
     return RecoverySnapshot(
-      expectedTimestamp: json['expectedTimestamp'] as String,
-      snapshotID: json['snapshotID'] as String,
-      sourceServerID: json['sourceServerID'] as String,
+      expectedTimestamp: (json['expectedTimestamp'] as String?) ?? '',
+      snapshotID: (json['snapshotID'] as String?) ?? '',
+      sourceServerID: (json['sourceServerID'] as String?) ?? '',
       ebsSnapshots: (json['ebsSnapshots'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -6197,7 +6197,7 @@ class ReplicationConfigurationTemplate {
   factory ReplicationConfigurationTemplate.fromJson(Map<String, dynamic> json) {
     return ReplicationConfigurationTemplate(
       replicationConfigurationTemplateID:
-          json['replicationConfigurationTemplateID'] as String,
+          (json['replicationConfigurationTemplateID'] as String?) ?? '',
       arn: json['arn'] as String?,
       associateDefaultSecurityGroup:
           json['associateDefaultSecurityGroup'] as bool?,

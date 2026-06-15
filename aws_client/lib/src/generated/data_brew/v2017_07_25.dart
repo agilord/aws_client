@@ -1810,7 +1810,7 @@ class AllowedStatistics {
 
   factory AllowedStatistics.fromJson(Map<String, dynamic> json) {
     return AllowedStatistics(
-      statistics: (json['Statistics'] as List)
+      statistics: ((json['Statistics'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1855,7 +1855,7 @@ class BatchDeleteRecipeVersionResponse {
 
   factory BatchDeleteRecipeVersionResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteRecipeVersionResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       errors: (json['Errors'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -1926,7 +1926,8 @@ class ColumnStatisticsConfiguration {
   factory ColumnStatisticsConfiguration.fromJson(Map<String, dynamic> json) {
     return ColumnStatisticsConfiguration(
       statistics: StatisticsConfiguration.fromJson(
-          json['Statistics'] as Map<String, dynamic>),
+          (json['Statistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       selectors: (json['Selectors'] as List?)
           ?.nonNulls
           .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
@@ -1996,8 +1997,8 @@ class ConditionExpression {
 
   factory ConditionExpression.fromJson(Map<String, dynamic> json) {
     return ConditionExpression(
-      condition: json['Condition'] as String,
-      targetColumn: json['TargetColumn'] as String,
+      condition: (json['Condition'] as String?) ?? '',
+      targetColumn: (json['TargetColumn'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -2024,7 +2025,7 @@ class CreateDatasetResponse {
 
   factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
     return CreateDatasetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2046,7 +2047,7 @@ class CreateProfileJobResponse {
 
   factory CreateProfileJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateProfileJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2068,7 +2069,7 @@ class CreateProjectResponse {
 
   factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
     return CreateProjectResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2090,7 +2091,7 @@ class CreateRecipeJobResponse {
 
   factory CreateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
     return CreateRecipeJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2112,7 +2113,7 @@ class CreateRecipeResponse {
 
   factory CreateRecipeResponse.fromJson(Map<String, dynamic> json) {
     return CreateRecipeResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2134,7 +2135,7 @@ class CreateRulesetResponse {
 
   factory CreateRulesetResponse.fromJson(Map<String, dynamic> json) {
     return CreateRulesetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2156,7 +2157,7 @@ class CreateScheduleResponse {
 
   factory CreateScheduleResponse.fromJson(Map<String, dynamic> json) {
     return CreateScheduleResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2251,8 +2252,8 @@ class DataCatalogInputDefinition {
 
   factory DataCatalogInputDefinition.fromJson(Map<String, dynamic> json) {
     return DataCatalogInputDefinition(
-      databaseName: json['DatabaseName'] as String,
-      tableName: json['TableName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       tempDirectory: json['TempDirectory'] != null
           ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
@@ -2310,8 +2311,8 @@ class DataCatalogOutput {
 
   factory DataCatalogOutput.fromJson(Map<String, dynamic> json) {
     return DataCatalogOutput(
-      databaseName: json['DatabaseName'] as String,
-      tableName: json['TableName'] as String,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
       catalogId: json['CatalogId'] as String?,
       databaseOptions: json['DatabaseOptions'] != null
           ? DatabaseTableOutputOptions.fromJson(
@@ -2366,7 +2367,7 @@ class DatabaseInputDefinition {
 
   factory DatabaseInputDefinition.fromJson(Map<String, dynamic> json) {
     return DatabaseInputDefinition(
-      glueConnectionName: json['GlueConnectionName'] as String,
+      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
       databaseTableName: json['DatabaseTableName'] as String?,
       queryString: json['QueryString'] as String?,
       tempDirectory: json['TempDirectory'] != null
@@ -2413,8 +2414,9 @@ class DatabaseOutput {
   factory DatabaseOutput.fromJson(Map<String, dynamic> json) {
     return DatabaseOutput(
       databaseOptions: DatabaseTableOutputOptions.fromJson(
-          json['DatabaseOptions'] as Map<String, dynamic>),
-      glueConnectionName: json['GlueConnectionName'] as String,
+          (json['DatabaseOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      glueConnectionName: (json['GlueConnectionName'] as String?) ?? '',
       databaseOutputMode: (json['DatabaseOutputMode'] as String?)
           ?.let(DatabaseOutputMode.fromString),
     );
@@ -2464,7 +2466,7 @@ class DatabaseTableOutputOptions {
 
   factory DatabaseTableOutputOptions.fromJson(Map<String, dynamic> json) {
     return DatabaseTableOutputOptions(
-      tableName: json['TableName'] as String,
+      tableName: (json['TableName'] as String?) ?? '',
       tempDirectory: json['TempDirectory'] != null
           ? S3Location.fromJson(json['TempDirectory'] as Map<String, dynamic>)
           : null,
@@ -2545,8 +2547,9 @@ class Dataset {
 
   factory Dataset.fromJson(Map<String, dynamic> json) {
     return Dataset(
-      input: Input.fromJson(json['Input'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      input: Input.fromJson((json['Input'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
@@ -2632,7 +2635,7 @@ class DatasetParameter {
 
   factory DatasetParameter.fromJson(Map<String, dynamic> json) {
     return DatasetParameter(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       type: ParameterType.fromString((json['Type'] as String)),
       createColumn: json['CreateColumn'] as bool?,
       datetimeOptions: json['DatetimeOptions'] != null
@@ -2687,7 +2690,7 @@ class DatetimeOptions {
 
   factory DatetimeOptions.fromJson(Map<String, dynamic> json) {
     return DatetimeOptions(
-      format: json['Format'] as String,
+      format: (json['Format'] as String?) ?? '',
       localeCode: json['LocaleCode'] as String?,
       timezoneOffset: json['TimezoneOffset'] as String?,
     );
@@ -2715,7 +2718,7 @@ class DeleteDatasetResponse {
 
   factory DeleteDatasetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteDatasetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2737,7 +2740,7 @@ class DeleteJobResponse {
 
   factory DeleteJobResponse.fromJson(Map<String, dynamic> json) {
     return DeleteJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2759,7 +2762,7 @@ class DeleteProjectResponse {
 
   factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
     return DeleteProjectResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2785,8 +2788,8 @@ class DeleteRecipeVersionResponse {
 
   factory DeleteRecipeVersionResponse.fromJson(Map<String, dynamic> json) {
     return DeleteRecipeVersionResponse(
-      name: json['Name'] as String,
-      recipeVersion: json['RecipeVersion'] as String,
+      name: (json['Name'] as String?) ?? '',
+      recipeVersion: (json['RecipeVersion'] as String?) ?? '',
     );
   }
 
@@ -2810,7 +2813,7 @@ class DeleteRulesetResponse {
 
   factory DeleteRulesetResponse.fromJson(Map<String, dynamic> json) {
     return DeleteRulesetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2832,7 +2835,7 @@ class DeleteScheduleResponse {
 
   factory DeleteScheduleResponse.fromJson(Map<String, dynamic> json) {
     return DeleteScheduleResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -2898,8 +2901,9 @@ class DescribeDatasetResponse {
 
   factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeDatasetResponse(
-      input: Input.fromJson(json['Input'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      input: Input.fromJson((json['Input'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       format: (json['Format'] as String?)?.let(InputFormat.fromString),
@@ -3080,7 +3084,7 @@ class DescribeJobResponse {
 
   factory DescribeJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
@@ -3277,7 +3281,7 @@ class DescribeJobRunResponse {
 
   factory DescribeJobRunResponse.fromJson(Map<String, dynamic> json) {
     return DescribeJobRunResponse(
-      jobName: json['JobName'] as String,
+      jobName: (json['JobName'] as String?) ?? '',
       attempt: json['Attempt'] as int?,
       completedOn: timeStampFromJson(json['CompletedOn']),
       dataCatalogOutputs: (json['DataCatalogOutputs'] as List?)
@@ -3440,7 +3444,7 @@ class DescribeProjectResponse {
 
   factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
     return DescribeProjectResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       datasetName: json['DatasetName'] as String?,
@@ -3555,7 +3559,7 @@ class DescribeRecipeResponse {
 
   factory DescribeRecipeResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRecipeResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       description: json['Description'] as String?,
@@ -3657,7 +3661,7 @@ class DescribeRulesetResponse {
 
   factory DescribeRulesetResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRulesetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       description: json['Description'] as String?,
@@ -3746,7 +3750,7 @@ class DescribeScheduleResponse {
 
   factory DescribeScheduleResponse.fromJson(Map<String, dynamic> json) {
     return DescribeScheduleResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       cronExpression: json['CronExpression'] as String?,
@@ -3882,7 +3886,7 @@ class EntityDetectorConfiguration {
 
   factory EntityDetectorConfiguration.fromJson(Map<String, dynamic> json) {
     return EntityDetectorConfiguration(
-      entityTypes: (json['EntityTypes'] as List)
+      entityTypes: ((json['EntityTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3974,7 +3978,7 @@ class FilesLimit {
 
   factory FilesLimit.fromJson(Map<String, dynamic> json) {
     return FilesLimit(
-      maxFiles: json['MaxFiles'] as int,
+      maxFiles: (json['MaxFiles'] as int?) ?? 0,
       order: (json['Order'] as String?)?.let(Order.fromString),
       orderedBy: (json['OrderedBy'] as String?)?.let(OrderedBy.fromString),
     );
@@ -4015,8 +4019,9 @@ class FilterExpression {
 
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
-      expression: json['Expression'] as String,
-      valuesMap: (json['ValuesMap'] as Map<String, dynamic>)
+      expression: (json['Expression'] as String?) ?? '',
+      valuesMap: ((json['ValuesMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -4283,7 +4288,7 @@ class Job {
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
@@ -4677,7 +4682,7 @@ class ListDatasetsResponse {
 
   factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDatasetsResponse(
-      datasets: (json['Datasets'] as List)
+      datasets: ((json['Datasets'] as List?) ?? const [])
           .nonNulls
           .map((e) => Dataset.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4710,7 +4715,7 @@ class ListJobRunsResponse {
 
   factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobRunsResponse(
-      jobRuns: (json['JobRuns'] as List)
+      jobRuns: ((json['JobRuns'] as List?) ?? const [])
           .nonNulls
           .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4743,7 +4748,7 @@ class ListJobsResponse {
 
   factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListJobsResponse(
-      jobs: (json['Jobs'] as List)
+      jobs: ((json['Jobs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4776,7 +4781,7 @@ class ListProjectsResponse {
 
   factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
     return ListProjectsResponse(
-      projects: (json['Projects'] as List)
+      projects: ((json['Projects'] as List?) ?? const [])
           .nonNulls
           .map((e) => Project.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4809,7 +4814,7 @@ class ListRecipeVersionsResponse {
 
   factory ListRecipeVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListRecipeVersionsResponse(
-      recipes: (json['Recipes'] as List)
+      recipes: ((json['Recipes'] as List?) ?? const [])
           .nonNulls
           .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4842,7 +4847,7 @@ class ListRecipesResponse {
 
   factory ListRecipesResponse.fromJson(Map<String, dynamic> json) {
     return ListRecipesResponse(
-      recipes: (json['Recipes'] as List)
+      recipes: ((json['Recipes'] as List?) ?? const [])
           .nonNulls
           .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4875,7 +4880,7 @@ class ListRulesetsResponse {
 
   factory ListRulesetsResponse.fromJson(Map<String, dynamic> json) {
     return ListRulesetsResponse(
-      rulesets: (json['Rulesets'] as List)
+      rulesets: ((json['Rulesets'] as List?) ?? const [])
           .nonNulls
           .map((e) => RulesetItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4908,7 +4913,7 @@ class ListSchedulesResponse {
 
   factory ListSchedulesResponse.fromJson(Map<String, dynamic> json) {
     return ListSchedulesResponse(
-      schedules: (json['Schedules'] as List)
+      schedules: ((json['Schedules'] as List?) ?? const [])
           .nonNulls
           .map((e) => Schedule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5054,7 +5059,9 @@ class Output {
 
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
-      location: S3Location.fromJson(json['Location'] as Map<String, dynamic>),
+      location: S3Location.fromJson(
+          (json['Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compressionFormat: (json['CompressionFormat'] as String?)
           ?.let(CompressionFormat.fromString),
       format: (json['Format'] as String?)?.let(OutputFormat.fromString),
@@ -5345,8 +5352,8 @@ class Project {
 
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
-      name: json['Name'] as String,
-      recipeName: json['RecipeName'] as String,
+      name: (json['Name'] as String?) ?? '',
+      recipeName: (json['RecipeName'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
@@ -5410,7 +5417,7 @@ class PublishRecipeResponse {
 
   factory PublishRecipeResponse.fromJson(Map<String, dynamic> json) {
     return PublishRecipeResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -5497,7 +5504,7 @@ class Recipe {
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
       description: json['Description'] as String?,
@@ -5569,7 +5576,7 @@ class RecipeAction {
 
   factory RecipeAction.fromJson(Map<String, dynamic> json) {
     return RecipeAction(
-      operation: json['Operation'] as String,
+      operation: (json['Operation'] as String?) ?? '',
       parameters: (json['Parameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -5600,7 +5607,7 @@ class RecipeReference {
 
   factory RecipeReference.fromJson(Map<String, dynamic> json) {
     return RecipeReference(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       recipeVersion: json['RecipeVersion'] as String?,
     );
   }
@@ -5634,7 +5641,8 @@ class RecipeStep {
 
   factory RecipeStep.fromJson(Map<String, dynamic> json) {
     return RecipeStep(
-      action: RecipeAction.fromJson(json['Action'] as Map<String, dynamic>),
+      action: RecipeAction.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       conditionExpressions: (json['ConditionExpressions'] as List?)
           ?.nonNulls
           .map((e) => ConditionExpression.fromJson(e as Map<String, dynamic>))
@@ -5748,8 +5756,8 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      checkExpression: json['CheckExpression'] as String,
-      name: json['Name'] as String,
+      checkExpression: (json['CheckExpression'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       columnSelectors: (json['ColumnSelectors'] as List?)
           ?.nonNulls
           .map((e) => ColumnSelector.fromJson(e as Map<String, dynamic>))
@@ -5833,8 +5841,8 @@ class RulesetItem {
 
   factory RulesetItem.fromJson(Map<String, dynamic> json) {
     return RulesetItem(
-      name: json['Name'] as String,
-      targetArn: json['TargetArn'] as String,
+      name: (json['Name'] as String?) ?? '',
+      targetArn: (json['TargetArn'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
@@ -5897,7 +5905,7 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       bucketOwner: json['BucketOwner'] as String?,
       key: json['Key'] as String?,
     );
@@ -5928,7 +5936,9 @@ class S3TableOutputOptions {
 
   factory S3TableOutputOptions.fromJson(Map<String, dynamic> json) {
     return S3TableOutputOptions(
-      location: S3Location.fromJson(json['Location'] as Map<String, dynamic>),
+      location: S3Location.fromJson(
+          (json['Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6049,7 +6059,7 @@ class Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
     return Schedule(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       createdBy: json['CreatedBy'] as String?,
@@ -6111,7 +6121,7 @@ class SendProjectSessionActionResponse {
 
   factory SendProjectSessionActionResponse.fromJson(Map<String, dynamic> json) {
     return SendProjectSessionActionResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       actionId: json['ActionId'] as int?,
       result: json['Result'] as String?,
     );
@@ -6177,7 +6187,7 @@ class StartJobRunResponse {
 
   factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
     return StartJobRunResponse(
-      runId: json['RunId'] as String,
+      runId: (json['RunId'] as String?) ?? '',
     );
   }
 
@@ -6203,7 +6213,7 @@ class StartProjectSessionResponse {
 
   factory StartProjectSessionResponse.fromJson(Map<String, dynamic> json) {
     return StartProjectSessionResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       clientSessionId: json['ClientSessionId'] as String?,
     );
   }
@@ -6233,9 +6243,10 @@ class StatisticOverride {
 
   factory StatisticOverride.fromJson(Map<String, dynamic> json) {
     return StatisticOverride(
-      parameters: (json['Parameters'] as Map<String, dynamic>)
+      parameters: ((json['Parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      statistic: json['Statistic'] as String,
+      statistic: (json['Statistic'] as String?) ?? '',
     );
   }
 
@@ -6298,7 +6309,7 @@ class StopJobRunResponse {
 
   factory StopJobRunResponse.fromJson(Map<String, dynamic> json) {
     return StopJobRunResponse(
-      runId: json['RunId'] as String,
+      runId: (json['RunId'] as String?) ?? '',
     );
   }
 
@@ -6345,7 +6356,7 @@ class Threshold {
 
   factory Threshold.fromJson(Map<String, dynamic> json) {
     return Threshold(
-      value: json['Value'] as double,
+      value: (json['Value'] as double?) ?? 0,
       type: (json['Type'] as String?)?.let(ThresholdType.fromString),
       unit: (json['Unit'] as String?)?.let(ThresholdUnit.fromString),
     );
@@ -6417,7 +6428,7 @@ class UpdateDatasetResponse {
 
   factory UpdateDatasetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateDatasetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6439,7 +6450,7 @@ class UpdateProfileJobResponse {
 
   factory UpdateProfileJobResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProfileJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6465,7 +6476,7 @@ class UpdateProjectResponse {
 
   factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProjectResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
     );
   }
@@ -6491,7 +6502,7 @@ class UpdateRecipeJobResponse {
 
   factory UpdateRecipeJobResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRecipeJobResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6513,7 +6524,7 @@ class UpdateRecipeResponse {
 
   factory UpdateRecipeResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRecipeResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6535,7 +6546,7 @@ class UpdateRulesetResponse {
 
   factory UpdateRulesetResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRulesetResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6557,7 +6568,7 @@ class UpdateScheduleResponse {
 
   factory UpdateScheduleResponse.fromJson(Map<String, dynamic> json) {
     return UpdateScheduleResponse(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -6590,7 +6601,7 @@ class ValidationConfiguration {
 
   factory ValidationConfiguration.fromJson(Map<String, dynamic> json) {
     return ValidationConfiguration(
-      rulesetArn: json['RulesetArn'] as String,
+      rulesetArn: (json['RulesetArn'] as String?) ?? '',
       validationMode:
           (json['ValidationMode'] as String?)?.let(ValidationMode.fromString),
     );

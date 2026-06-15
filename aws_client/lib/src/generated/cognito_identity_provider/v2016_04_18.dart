@@ -9813,7 +9813,7 @@ class AccountTakeoverActionType {
     return AccountTakeoverActionType(
       eventAction: AccountTakeoverEventActionType.fromString(
           (json['EventAction'] as String)),
-      notify: json['Notify'] as bool,
+      notify: (json['Notify'] as bool?) ?? false,
     );
   }
 
@@ -9908,7 +9908,8 @@ class AccountTakeoverRiskConfigurationType {
       Map<String, dynamic> json) {
     return AccountTakeoverRiskConfigurationType(
       actions: AccountTakeoverActionsType.fromJson(
-          json['Actions'] as Map<String, dynamic>),
+          (json['Actions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       notifyConfiguration: json['NotifyConfiguration'] != null
           ? NotifyConfigurationType.fromJson(
               json['NotifyConfiguration'] as Map<String, dynamic>)
@@ -10104,7 +10105,8 @@ class AdminGetDeviceResponse {
 
   factory AdminGetDeviceResponse.fromJson(Map<String, dynamic> json) {
     return AdminGetDeviceResponse(
-      device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+      device: DeviceType.fromJson((json['Device'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -10188,7 +10190,7 @@ class AdminGetUserResponse {
 
   factory AdminGetUserResponse.fromJson(Map<String, dynamic> json) {
     return AdminGetUserResponse(
-      username: json['Username'] as String,
+      username: (json['Username'] as String?) ?? '',
       enabled: json['Enabled'] as bool?,
       mFAOptions: (json['MFAOptions'] as List?)
           ?.nonNulls
@@ -10892,7 +10894,7 @@ class AttributeType {
 
   factory AttributeType.fromJson(Map<String, dynamic> json) {
     return AttributeType(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -11310,7 +11312,8 @@ class CompromisedCredentialsRiskConfigurationType {
       Map<String, dynamic> json) {
     return CompromisedCredentialsRiskConfigurationType(
       actions: CompromisedCredentialsActionsType.fromJson(
-          json['Actions'] as Map<String, dynamic>),
+          (json['Actions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       eventFilter: (json['EventFilter'] as List?)
           ?.nonNulls
           .map((e) => EventFilterType.fromString((e as String)))
@@ -11460,7 +11463,8 @@ class CreateIdentityProviderResponse {
   factory CreateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return CreateIdentityProviderResponse(
       identityProvider: IdentityProviderType.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11483,7 +11487,8 @@ class CreateResourceServerResponse {
   factory CreateResourceServerResponse.fromJson(Map<String, dynamic> json) {
     return CreateResourceServerResponse(
       resourceServer: ResourceServerType.fromJson(
-          json['ResourceServer'] as Map<String, dynamic>),
+          (json['ResourceServer'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11613,7 +11618,7 @@ class CustomDomainConfigType {
 
   factory CustomDomainConfigType.fromJson(Map<String, dynamic> json) {
     return CustomDomainConfigType(
-      certificateArn: json['CertificateArn'] as String,
+      certificateArn: (json['CertificateArn'] as String?) ?? '',
     );
   }
 
@@ -11647,7 +11652,7 @@ class CustomEmailLambdaVersionConfigType {
   factory CustomEmailLambdaVersionConfigType.fromJson(
       Map<String, dynamic> json) {
     return CustomEmailLambdaVersionConfigType(
-      lambdaArn: json['LambdaArn'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: CustomEmailSenderLambdaVersionType.fromString(
           (json['LambdaVersion'] as String)),
     );
@@ -11698,7 +11703,7 @@ class CustomSMSLambdaVersionConfigType {
 
   factory CustomSMSLambdaVersionConfigType.fromJson(Map<String, dynamic> json) {
     return CustomSMSLambdaVersionConfigType(
-      lambdaArn: json['LambdaArn'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: CustomSMSSenderLambdaVersionType.fromString(
           (json['LambdaVersion'] as String)),
     );
@@ -11809,7 +11814,8 @@ class DescribeIdentityProviderResponse {
   factory DescribeIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return DescribeIdentityProviderResponse(
       identityProvider: IdentityProviderType.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11832,7 +11838,8 @@ class DescribeResourceServerResponse {
   factory DescribeResourceServerResponse.fromJson(Map<String, dynamic> json) {
     return DescribeResourceServerResponse(
       resourceServer: ResourceServerType.fromJson(
-          json['ResourceServer'] as Map<String, dynamic>),
+          (json['ResourceServer'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11856,7 +11863,8 @@ class DescribeRiskConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeRiskConfigurationResponse(
       riskConfiguration: RiskConfigurationType.fromJson(
-          json['RiskConfiguration'] as Map<String, dynamic>),
+          (json['RiskConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12488,7 +12496,7 @@ class EventFeedbackType {
     return EventFeedbackType(
       feedbackValue:
           FeedbackValueType.fromString((json['FeedbackValue'] as String)),
-      provider: json['Provider'] as String,
+      provider: (json['Provider'] as String?) ?? '',
       feedbackDate: timeStampFromJson(json['FeedbackDate']),
     );
   }
@@ -12745,7 +12753,8 @@ class GetDeviceResponse {
 
   factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
     return GetDeviceResponse(
-      device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+      device: DeviceType.fromJson((json['Device'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -12793,7 +12802,8 @@ class GetIdentityProviderByIdentifierResponse {
       Map<String, dynamic> json) {
     return GetIdentityProviderByIdentifierResponse(
       identityProvider: IdentityProviderType.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12866,7 +12876,8 @@ class GetUICustomizationResponse {
   factory GetUICustomizationResponse.fromJson(Map<String, dynamic> json) {
     return GetUICustomizationResponse(
       uICustomization: UICustomizationType.fromJson(
-          json['UICustomization'] as Map<String, dynamic>),
+          (json['UICustomization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -13003,11 +13014,11 @@ class GetUserResponse {
 
   factory GetUserResponse.fromJson(Map<String, dynamic> json) {
     return GetUserResponse(
-      userAttributes: (json['UserAttributes'] as List)
+      userAttributes: ((json['UserAttributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      username: json['Username'] as String,
+      username: (json['Username'] as String?) ?? '',
       mFAOptions: (json['MFAOptions'] as List?)
           ?.nonNulls
           .map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
@@ -13717,7 +13728,7 @@ class ListIdentityProvidersResponse {
 
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityProvidersResponse(
-      providers: (json['Providers'] as List)
+      providers: ((json['Providers'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProviderDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13749,7 +13760,7 @@ class ListResourceServersResponse {
 
   factory ListResourceServersResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceServersResponse(
-      resourceServers: (json['ResourceServers'] as List)
+      resourceServers: ((json['ResourceServers'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceServerType.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14074,11 +14085,11 @@ class LogDeliveryConfigurationType {
 
   factory LogDeliveryConfigurationType.fromJson(Map<String, dynamic> json) {
     return LogDeliveryConfigurationType(
-      logConfigurations: (json['LogConfigurations'] as List)
+      logConfigurations: ((json['LogConfigurations'] as List?) ?? const [])
           .nonNulls
           .map((e) => LogConfigurationType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      userPoolId: json['UserPoolId'] as String,
+      userPoolId: (json['UserPoolId'] as String?) ?? '',
     );
   }
 
@@ -14263,7 +14274,7 @@ class NotifyConfigurationType {
 
   factory NotifyConfigurationType.fromJson(Map<String, dynamic> json) {
     return NotifyConfigurationType(
-      sourceArn: json['SourceArn'] as String,
+      sourceArn: (json['SourceArn'] as String?) ?? '',
       blockEmail: json['BlockEmail'] != null
           ? NotifyEmailType.fromJson(json['BlockEmail'] as Map<String, dynamic>)
           : null,
@@ -14316,7 +14327,7 @@ class NotifyEmailType {
 
   factory NotifyEmailType.fromJson(Map<String, dynamic> json) {
     return NotifyEmailType(
-      subject: json['Subject'] as String,
+      subject: (json['Subject'] as String?) ?? '',
       htmlBody: json['HtmlBody'] as String?,
       textBody: json['TextBody'] as String?,
     );
@@ -14513,7 +14524,7 @@ class PreTokenGenerationVersionConfigType {
   factory PreTokenGenerationVersionConfigType.fromJson(
       Map<String, dynamic> json) {
     return PreTokenGenerationVersionConfigType(
-      lambdaArn: json['LambdaArn'] as String,
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
       lambdaVersion: PreTokenGenerationLambdaVersionType.fromString(
           (json['LambdaVersion'] as String)),
     );
@@ -14658,7 +14669,7 @@ class RecoveryOptionType {
   factory RecoveryOptionType.fromJson(Map<String, dynamic> json) {
     return RecoveryOptionType(
       name: RecoveryOptionNameType.fromString((json['Name'] as String)),
-      priority: json['Priority'] as int,
+      priority: (json['Priority'] as int?) ?? 0,
     );
   }
 
@@ -14716,8 +14727,8 @@ class ResourceServerScopeType {
 
   factory ResourceServerScopeType.fromJson(Map<String, dynamic> json) {
     return ResourceServerScopeType(
-      scopeDescription: json['ScopeDescription'] as String,
-      scopeName: json['ScopeName'] as String,
+      scopeDescription: (json['ScopeDescription'] as String?) ?? '',
+      scopeName: (json['ScopeName'] as String?) ?? '',
     );
   }
 
@@ -15226,7 +15237,8 @@ class SetRiskConfigurationResponse {
   factory SetRiskConfigurationResponse.fromJson(Map<String, dynamic> json) {
     return SetRiskConfigurationResponse(
       riskConfiguration: RiskConfigurationType.fromJson(
-          json['RiskConfiguration'] as Map<String, dynamic>),
+          (json['RiskConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -15249,7 +15261,8 @@ class SetUICustomizationResponse {
   factory SetUICustomizationResponse.fromJson(Map<String, dynamic> json) {
     return SetUICustomizationResponse(
       uICustomization: UICustomizationType.fromJson(
-          json['UICustomization'] as Map<String, dynamic>),
+          (json['UICustomization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -15367,8 +15380,8 @@ class SignUpResponse {
 
   factory SignUpResponse.fromJson(Map<String, dynamic> json) {
     return SignUpResponse(
-      userConfirmed: json['UserConfirmed'] as bool,
-      userSub: json['UserSub'] as String,
+      userConfirmed: (json['UserConfirmed'] as bool?) ?? false,
+      userSub: (json['UserSub'] as String?) ?? '',
       codeDeliveryDetails: json['CodeDeliveryDetails'] != null
           ? CodeDeliveryDetailsType.fromJson(
               json['CodeDeliveryDetails'] as Map<String, dynamic>)
@@ -15439,7 +15452,7 @@ class SmsConfigurationType {
 
   factory SmsConfigurationType.fromJson(Map<String, dynamic> json) {
     return SmsConfigurationType(
-      snsCallerArn: json['SnsCallerArn'] as String,
+      snsCallerArn: (json['SnsCallerArn'] as String?) ?? '',
       externalId: json['ExternalId'] as String?,
       snsRegion: json['SnsRegion'] as String?,
     );
@@ -15881,7 +15894,8 @@ class UpdateIdentityProviderResponse {
   factory UpdateIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return UpdateIdentityProviderResponse(
       identityProvider: IdentityProviderType.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -15904,7 +15918,8 @@ class UpdateResourceServerResponse {
   factory UpdateResourceServerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateResourceServerResponse(
       resourceServer: ResourceServerType.fromJson(
-          json['ResourceServer'] as Map<String, dynamic>),
+          (json['ResourceServer'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -17552,7 +17567,7 @@ class UsernameConfigurationType {
 
   factory UsernameConfigurationType.fromJson(Map<String, dynamic> json) {
     return UsernameConfigurationType(
-      caseSensitive: json['CaseSensitive'] as bool,
+      caseSensitive: (json['CaseSensitive'] as bool?) ?? false,
     );
   }
 

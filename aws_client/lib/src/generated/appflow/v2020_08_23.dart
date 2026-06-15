@@ -1465,7 +1465,7 @@ class AmplitudeSourceProperties {
 
   factory AmplitudeSourceProperties.fromJson(Map<String, dynamic> json) {
     return AmplitudeSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -2158,7 +2158,7 @@ class ConnectorEntity {
 
   factory ConnectorEntity.fromJson(Map<String, dynamic> json) {
     return ConnectorEntity(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       hasNestedEntities: json['hasNestedEntities'] as bool?,
       label: json['label'] as String?,
     );
@@ -2234,7 +2234,7 @@ class ConnectorEntityField {
 
   factory ConnectorEntityField.fromJson(Map<String, dynamic> json) {
     return ConnectorEntityField(
-      identifier: json['identifier'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
       customProperties: (json['customProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       defaultValue: json['defaultValue'] as String?,
@@ -3443,7 +3443,7 @@ class CustomConnectorDestinationProperties {
   factory CustomConnectorDestinationProperties.fromJson(
       Map<String, dynamic> json) {
     return CustomConnectorDestinationProperties(
-      entityName: json['entityName'] as String,
+      entityName: (json['entityName'] as String?) ?? '',
       customProperties: (json['customProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       errorHandlingConfig: json['errorHandlingConfig'] != null
@@ -3576,7 +3576,7 @@ class CustomConnectorSourceProperties {
 
   factory CustomConnectorSourceProperties.fromJson(Map<String, dynamic> json) {
     return CustomConnectorSourceProperties(
-      entityName: json['entityName'] as String,
+      entityName: (json['entityName'] as String?) ?? '',
       customProperties: (json['customProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       dataTransferApi: json['dataTransferApi'] != null
@@ -3616,7 +3616,7 @@ class CustomerProfilesDestinationProperties {
   factory CustomerProfilesDestinationProperties.fromJson(
       Map<String, dynamic> json) {
     return CustomerProfilesDestinationProperties(
-      domainName: json['domainName'] as String,
+      domainName: (json['domainName'] as String?) ?? '',
       objectTypeName: json['objectTypeName'] as String?,
     );
   }
@@ -3783,7 +3783,7 @@ class DatadogConnectorProfileProperties {
   factory DatadogConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return DatadogConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -3819,7 +3819,7 @@ class DatadogSourceProperties {
 
   factory DatadogSourceProperties.fromJson(Map<String, dynamic> json) {
     return DatadogSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -3867,7 +3867,8 @@ class DescribeConnectorEntityResponse {
 
   factory DescribeConnectorEntityResponse.fromJson(Map<String, dynamic> json) {
     return DescribeConnectorEntityResponse(
-      connectorEntityFields: (json['connectorEntityFields'] as List)
+      connectorEntityFields: ((json['connectorEntityFields'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ConnectorEntityField.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4467,7 +4468,8 @@ class DestinationFlowConfig {
       connectorType:
           ConnectorType.fromString((json['connectorType'] as String)),
       destinationConnectorProperties: DestinationConnectorProperties.fromJson(
-          json['destinationConnectorProperties'] as Map<String, dynamic>),
+          (json['destinationConnectorProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       apiVersion: json['apiVersion'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
     );
@@ -4545,7 +4547,7 @@ class DynatraceConnectorProfileProperties {
   factory DynatraceConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return DynatraceConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -4581,7 +4583,7 @@ class DynatraceSourceProperties {
 
   factory DynatraceSourceProperties.fromJson(Map<String, dynamic> json) {
     return DynatraceSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -4682,7 +4684,7 @@ class EventBridgeDestinationProperties {
 
   factory EventBridgeDestinationProperties.fromJson(Map<String, dynamic> json) {
     return EventBridgeDestinationProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -4962,8 +4964,8 @@ class FieldTypeDetails {
 
   factory FieldTypeDetails.fromJson(Map<String, dynamic> json) {
     return FieldTypeDetails(
-      fieldType: json['fieldType'] as String,
-      filterOperators: (json['filterOperators'] as List)
+      fieldType: (json['fieldType'] as String?) ?? '',
+      filterOperators: ((json['filterOperators'] as List?) ?? const [])
           .nonNulls
           .map((e) => Operator.fromString((e as String)))
           .toList(),
@@ -5216,9 +5218,9 @@ class GlueDataCatalogConfig {
 
   factory GlueDataCatalogConfig.fromJson(Map<String, dynamic> json) {
     return GlueDataCatalogConfig(
-      databaseName: json['databaseName'] as String,
-      roleArn: json['roleArn'] as String,
-      tablePrefix: json['tablePrefix'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      tablePrefix: (json['tablePrefix'] as String?) ?? '',
     );
   }
 
@@ -5345,7 +5347,7 @@ class GoogleAnalyticsSourceProperties {
 
   factory GoogleAnalyticsSourceProperties.fromJson(Map<String, dynamic> json) {
     return GoogleAnalyticsSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -5411,7 +5413,7 @@ class HoneycodeDestinationProperties {
 
   factory HoneycodeDestinationProperties.fromJson(Map<String, dynamic> json) {
     return HoneycodeDestinationProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -5557,7 +5559,7 @@ class InforNexusConnectorProfileProperties {
   factory InforNexusConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return InforNexusConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -5593,7 +5595,7 @@ class InforNexusSourceProperties {
 
   factory InforNexusSourceProperties.fromJson(Map<String, dynamic> json) {
     return InforNexusSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -5618,7 +5620,7 @@ class LambdaConnectorProvisioningConfig {
   factory LambdaConnectorProvisioningConfig.fromJson(
       Map<String, dynamic> json) {
     return LambdaConnectorProvisioningConfig(
-      lambdaArn: json['lambdaArn'] as String,
+      lambdaArn: (json['lambdaArn'] as String?) ?? '',
     );
   }
 
@@ -5649,14 +5651,16 @@ class ListConnectorEntitiesResponse {
 
   factory ListConnectorEntitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListConnectorEntitiesResponse(
-      connectorEntityMap: (json['connectorEntityMap'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(
-              k,
-              (e as List)
-                  .nonNulls
-                  .map((e) =>
-                      ConnectorEntity.fromJson(e as Map<String, dynamic>))
-                  .toList())),
+      connectorEntityMap:
+          ((json['connectorEntityMap'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k,
+                  (e as List)
+                      .nonNulls
+                      .map((e) =>
+                          ConnectorEntity.fromJson(e as Map<String, dynamic>))
+                      .toList())),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -5851,7 +5855,7 @@ class MarketoConnectorProfileProperties {
   factory MarketoConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return MarketoConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -5877,7 +5881,7 @@ class MarketoDestinationProperties {
 
   factory MarketoDestinationProperties.fromJson(Map<String, dynamic> json) {
     return MarketoDestinationProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -5920,7 +5924,7 @@ class MarketoSourceProperties {
 
   factory MarketoSourceProperties.fromJson(Map<String, dynamic> json) {
     return MarketoSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -6262,7 +6266,7 @@ class OAuth2Properties {
     return OAuth2Properties(
       oAuth2GrantType:
           OAuth2GrantType.fromString((json['oAuth2GrantType'] as String)),
-      tokenUrl: json['tokenUrl'] as String,
+      tokenUrl: (json['tokenUrl'] as String?) ?? '',
       tokenUrlCustomProperties:
           (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
               ?.map((k, e) => MapEntry(k, e as String)),
@@ -6346,12 +6350,12 @@ class OAuthProperties {
 
   factory OAuthProperties.fromJson(Map<String, dynamic> json) {
     return OAuthProperties(
-      authCodeUrl: json['authCodeUrl'] as String,
-      oAuthScopes: (json['oAuthScopes'] as List)
+      authCodeUrl: (json['authCodeUrl'] as String?) ?? '',
+      oAuthScopes: ((json['oAuthScopes'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      tokenUrl: json['tokenUrl'] as String,
+      tokenUrl: (json['tokenUrl'] as String?) ?? '',
     );
   }
 
@@ -6591,7 +6595,7 @@ class PardotSourceProperties {
 
   factory PardotSourceProperties.fromJson(Map<String, dynamic> json) {
     return PardotSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -6896,8 +6900,8 @@ class RedshiftConnectorProfileProperties {
   factory RedshiftConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return RedshiftConnectorProfileProperties(
-      bucketName: json['bucketName'] as String,
-      roleArn: json['roleArn'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       bucketPrefix: json['bucketPrefix'] as String?,
       clusterIdentifier: json['clusterIdentifier'] as String?,
       dataApiRoleArn: json['dataApiRoleArn'] as String?,
@@ -6964,8 +6968,8 @@ class RedshiftDestinationProperties {
 
   factory RedshiftDestinationProperties.fromJson(Map<String, dynamic> json) {
     return RedshiftDestinationProperties(
-      intermediateBucketName: json['intermediateBucketName'] as String,
-      object: json['object'] as String,
+      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
+      object: (json['object'] as String?) ?? '',
       bucketPrefix: json['bucketPrefix'] as String?,
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
@@ -7134,7 +7138,7 @@ class S3DestinationProperties {
 
   factory S3DestinationProperties.fromJson(Map<String, dynamic> json) {
     return S3DestinationProperties(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
       bucketPrefix: json['bucketPrefix'] as String?,
       s3OutputFormatConfig: json['s3OutputFormatConfig'] != null
           ? S3OutputFormatConfig.fromJson(
@@ -7296,7 +7300,7 @@ class S3SourceProperties {
 
   factory S3SourceProperties.fromJson(Map<String, dynamic> json) {
     return S3SourceProperties(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
       bucketPrefix: json['bucketPrefix'] as String?,
       s3InputFormatConfig: json['s3InputFormatConfig'] != null
           ? S3InputFormatConfig.fromJson(
@@ -7427,10 +7431,10 @@ class SAPODataConnectorProfileProperties {
   factory SAPODataConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return SAPODataConnectorProfileProperties(
-      applicationHostUrl: json['applicationHostUrl'] as String,
-      applicationServicePath: json['applicationServicePath'] as String,
-      clientNumber: json['clientNumber'] as String,
-      portNumber: json['portNumber'] as int,
+      applicationHostUrl: (json['applicationHostUrl'] as String?) ?? '',
+      applicationServicePath: (json['applicationServicePath'] as String?) ?? '',
+      clientNumber: (json['clientNumber'] as String?) ?? '',
+      portNumber: (json['portNumber'] as int?) ?? 0,
       disableSSO: json['disableSSO'] as bool?,
       logonLanguage: json['logonLanguage'] as String?,
       oAuthProperties: json['oAuthProperties'] != null
@@ -7489,7 +7493,7 @@ class SAPODataDestinationProperties {
 
   factory SAPODataDestinationProperties.fromJson(Map<String, dynamic> json) {
     return SAPODataDestinationProperties(
-      objectPath: json['objectPath'] as String,
+      objectPath: (json['objectPath'] as String?) ?? '',
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -7557,7 +7561,7 @@ class SAPODataPaginationConfig {
 
   factory SAPODataPaginationConfig.fromJson(Map<String, dynamic> json) {
     return SAPODataPaginationConfig(
-      maxPageSize: json['maxPageSize'] as int,
+      maxPageSize: (json['maxPageSize'] as int?) ?? 0,
     );
   }
 
@@ -7584,7 +7588,7 @@ class SAPODataParallelismConfig {
 
   factory SAPODataParallelismConfig.fromJson(Map<String, dynamic> json) {
     return SAPODataParallelismConfig(
-      maxParallelism: json['maxParallelism'] as int,
+      maxParallelism: (json['maxParallelism'] as int?) ?? 0,
     );
   }
 
@@ -7922,7 +7926,7 @@ class SalesforceDestinationProperties {
 
   factory SalesforceDestinationProperties.fromJson(Map<String, dynamic> json) {
     return SalesforceDestinationProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       dataTransferApi: (json['dataTransferApi'] as String?)
           ?.let(SalesforceDataTransferApi.fromString),
       errorHandlingConfig: json['errorHandlingConfig'] != null
@@ -8084,7 +8088,7 @@ class SalesforceSourceProperties {
 
   factory SalesforceSourceProperties.fromJson(Map<String, dynamic> json) {
     return SalesforceSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       dataTransferApi: (json['dataTransferApi'] as String?)
           ?.let(SalesforceDataTransferApi.fromString),
       enableDynamicFieldUpdate: json['enableDynamicFieldUpdate'] as bool?,
@@ -8185,7 +8189,7 @@ class ScheduledTriggerProperties {
 
   factory ScheduledTriggerProperties.fromJson(Map<String, dynamic> json) {
     return ScheduledTriggerProperties(
-      scheduleExpression: json['scheduleExpression'] as String,
+      scheduleExpression: (json['scheduleExpression'] as String?) ?? '',
       dataPullMode:
           (json['dataPullMode'] as String?)?.let(DataPullMode.fromString),
       firstExecutionFrom: timeStampFromJson(json['firstExecutionFrom']),
@@ -8299,7 +8303,7 @@ class ServiceNowConnectorProfileProperties {
   factory ServiceNowConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return ServiceNowConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -8335,7 +8339,7 @@ class ServiceNowSourceProperties {
 
   factory ServiceNowSourceProperties.fromJson(Map<String, dynamic> json) {
     return ServiceNowSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -8429,7 +8433,7 @@ class SingularSourceProperties {
 
   factory SingularSourceProperties.fromJson(Map<String, dynamic> json) {
     return SingularSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -8521,7 +8525,7 @@ class SlackConnectorProfileProperties {
 
   factory SlackConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
     return SlackConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -8570,7 +8574,7 @@ class SlackSourceProperties {
 
   factory SlackSourceProperties.fromJson(Map<String, dynamic> json) {
     return SlackSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -8645,9 +8649,9 @@ class SnowflakeConnectorProfileProperties {
   factory SnowflakeConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return SnowflakeConnectorProfileProperties(
-      bucketName: json['bucketName'] as String,
-      stage: json['stage'] as String,
-      warehouse: json['warehouse'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      stage: (json['stage'] as String?) ?? '',
+      warehouse: (json['warehouse'] as String?) ?? '',
       accountName: json['accountName'] as String?,
       bucketPrefix: json['bucketPrefix'] as String?,
       privateLinkServiceName: json['privateLinkServiceName'] as String?,
@@ -8707,8 +8711,8 @@ class SnowflakeDestinationProperties {
 
   factory SnowflakeDestinationProperties.fromJson(Map<String, dynamic> json) {
     return SnowflakeDestinationProperties(
-      intermediateBucketName: json['intermediateBucketName'] as String,
-      object: json['object'] as String,
+      intermediateBucketName: (json['intermediateBucketName'] as String?) ?? '',
+      object: (json['object'] as String?) ?? '',
       bucketPrefix: json['bucketPrefix'] as String?,
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
@@ -9016,7 +9020,8 @@ class SourceFlowConfig {
       connectorType:
           ConnectorType.fromString((json['connectorType'] as String)),
       sourceConnectorProperties: SourceConnectorProperties.fromJson(
-          json['sourceConnectorProperties'] as Map<String, dynamic>),
+          (json['sourceConnectorProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       apiVersion: json['apiVersion'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
       incrementalPullConfig: json['incrementalPullConfig'] != null
@@ -9173,7 +9178,8 @@ class SupportedFieldTypeDetails {
 
   factory SupportedFieldTypeDetails.fromJson(Map<String, dynamic> json) {
     return SupportedFieldTypeDetails(
-      v1: FieldTypeDetails.fromJson(json['v1'] as Map<String, dynamic>),
+      v1: FieldTypeDetails.fromJson(
+          (json['v1'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -9227,7 +9233,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      sourceFields: (json['sourceFields'] as List)
+      sourceFields: ((json['sourceFields'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -9364,7 +9370,7 @@ class TrendmicroSourceProperties {
 
   factory TrendmicroSourceProperties.fromJson(Map<String, dynamic> json) {
     return TrendmicroSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 
@@ -9571,9 +9577,10 @@ class UpsolverDestinationProperties {
 
   factory UpsolverDestinationProperties.fromJson(Map<String, dynamic> json) {
     return UpsolverDestinationProperties(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
       s3OutputFormatConfig: UpsolverS3OutputFormatConfig.fromJson(
-          json['s3OutputFormatConfig'] as Map<String, dynamic>),
+          (json['s3OutputFormatConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       bucketPrefix: json['bucketPrefix'] as String?,
     );
   }
@@ -9621,8 +9628,9 @@ class UpsolverS3OutputFormatConfig {
 
   factory UpsolverS3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
     return UpsolverS3OutputFormatConfig(
-      prefixConfig:
-          PrefixConfig.fromJson(json['prefixConfig'] as Map<String, dynamic>),
+      prefixConfig: PrefixConfig.fromJson(
+          (json['prefixConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       aggregationConfig: json['aggregationConfig'] != null
           ? AggregationConfig.fromJson(
               json['aggregationConfig'] as Map<String, dynamic>)
@@ -9711,7 +9719,7 @@ class VeevaConnectorProfileProperties {
 
   factory VeevaConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
     return VeevaConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -9764,7 +9772,7 @@ class VeevaSourceProperties {
 
   factory VeevaSourceProperties.fromJson(Map<String, dynamic> json) {
     return VeevaSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       documentType: json['documentType'] as String?,
       includeAllVersions: json['includeAllVersions'] as bool?,
       includeRenditions: json['includeRenditions'] as bool?,
@@ -9883,7 +9891,7 @@ class ZendeskConnectorProfileProperties {
   factory ZendeskConnectorProfileProperties.fromJson(
       Map<String, dynamic> json) {
     return ZendeskConnectorProfileProperties(
-      instanceUrl: json['instanceUrl'] as String,
+      instanceUrl: (json['instanceUrl'] as String?) ?? '',
     );
   }
 
@@ -9912,7 +9920,7 @@ class ZendeskDestinationProperties {
 
   factory ZendeskDestinationProperties.fromJson(Map<String, dynamic> json) {
     return ZendeskDestinationProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
       errorHandlingConfig: json['errorHandlingConfig'] != null
           ? ErrorHandlingConfig.fromJson(
               json['errorHandlingConfig'] as Map<String, dynamic>)
@@ -9979,7 +9987,7 @@ class ZendeskSourceProperties {
 
   factory ZendeskSourceProperties.fromJson(Map<String, dynamic> json) {
     return ZendeskSourceProperties(
-      object: json['object'] as String,
+      object: (json['object'] as String?) ?? '',
     );
   }
 

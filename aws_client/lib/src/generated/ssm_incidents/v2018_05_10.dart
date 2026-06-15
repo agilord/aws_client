@@ -1623,9 +1623,9 @@ class BatchGetIncidentFindingsError {
 
   factory BatchGetIncidentFindingsError.fromJson(Map<String, dynamic> json) {
     return BatchGetIncidentFindingsError(
-      code: json['code'] as String,
-      findingId: json['findingId'] as String,
-      message: json['message'] as String,
+      code: (json['code'] as String?) ?? '',
+      findingId: (json['findingId'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
     );
   }
 
@@ -1655,12 +1655,12 @@ class BatchGetIncidentFindingsOutput {
 
   factory BatchGetIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
     return BatchGetIncidentFindingsOutput(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchGetIncidentFindingsError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      findings: (json['findings'] as List)
+      findings: ((json['findings'] as List?) ?? const [])
           .nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1737,8 +1737,8 @@ class CloudFormationStackUpdate {
 
   factory CloudFormationStackUpdate.fromJson(Map<String, dynamic> json) {
     return CloudFormationStackUpdate(
-      stackArn: json['stackArn'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      stackArn: (json['stackArn'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       endTime: timeStampFromJson(json['endTime']),
     );
   }
@@ -1781,9 +1781,9 @@ class CodeDeployDeployment {
 
   factory CodeDeployDeployment.fromJson(Map<String, dynamic> json) {
     return CodeDeployDeployment(
-      deploymentGroupArn: json['deploymentGroupArn'] as String,
-      deploymentId: json['deploymentId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      deploymentGroupArn: (json['deploymentGroupArn'] as String?) ?? '',
+      deploymentId: (json['deploymentId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       endTime: timeStampFromJson(json['endTime']),
     );
   }
@@ -1845,7 +1845,7 @@ class CreateReplicationSetOutput {
 
   factory CreateReplicationSetOutput.fromJson(Map<String, dynamic> json) {
     return CreateReplicationSetOutput(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -1867,7 +1867,7 @@ class CreateResponsePlanOutput {
 
   factory CreateResponsePlanOutput.fromJson(Map<String, dynamic> json) {
     return CreateResponsePlanOutput(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -1893,8 +1893,8 @@ class CreateTimelineEventOutput {
 
   factory CreateTimelineEventOutput.fromJson(Map<String, dynamic> json) {
     return CreateTimelineEventOutput(
-      eventId: json['eventId'] as String,
-      incidentRecordArn: json['incidentRecordArn'] as String,
+      eventId: (json['eventId'] as String?) ?? '',
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
     );
   }
 
@@ -2091,12 +2091,12 @@ class EventSummary {
 
   factory EventSummary.fromJson(Map<String, dynamic> json) {
     return EventSummary(
-      eventId: json['eventId'] as String,
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] as Object),
-      eventType: json['eventType'] as String,
+      eventId: (json['eventId'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
       eventUpdatedTime:
-          nonNullableTimeStampFromJson(json['eventUpdatedTime'] as Object),
-      incidentRecordArn: json['incidentRecordArn'] as String,
+          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
       eventReferences: (json['eventReferences'] as List?)
           ?.nonNulls
           .map((e) => EventReference.fromJson(e as Map<String, dynamic>))
@@ -2172,11 +2172,10 @@ class Finding {
 
   factory Finding.fromJson(Map<String, dynamic> json) {
     return Finding(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      id: json['id'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
       details: json['details'] != null
           ? FindingDetails.fromJson(json['details'] as Map<String, dynamic>)
           : null,
@@ -2251,9 +2250,9 @@ class FindingSummary {
 
   factory FindingSummary.fromJson(Map<String, dynamic> json) {
     return FindingSummary(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
     );
   }
 
@@ -2278,7 +2277,8 @@ class GetIncidentRecordOutput {
   factory GetIncidentRecordOutput.fromJson(Map<String, dynamic> json) {
     return GetIncidentRecordOutput(
       incidentRecord: IncidentRecord.fromJson(
-          json['incidentRecord'] as Map<String, dynamic>),
+          (json['incidentRecord'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2301,7 +2301,8 @@ class GetReplicationSetOutput {
   factory GetReplicationSetOutput.fromJson(Map<String, dynamic> json) {
     return GetReplicationSetOutput(
       replicationSet: ReplicationSet.fromJson(
-          json['replicationSet'] as Map<String, dynamic>),
+          (json['replicationSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2328,7 +2329,7 @@ class GetResourcePoliciesOutput {
 
   factory GetResourcePoliciesOutput.fromJson(Map<String, dynamic> json) {
     return GetResourcePoliciesOutput(
-      resourcePolicies: (json['resourcePolicies'] as List)
+      resourcePolicies: ((json['resourcePolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourcePolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2386,10 +2387,11 @@ class GetResponsePlanOutput {
 
   factory GetResponsePlanOutput.fromJson(Map<String, dynamic> json) {
     return GetResponsePlanOutput(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       incidentTemplate: IncidentTemplate.fromJson(
-          json['incidentTemplate'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['incidentTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       actions: (json['actions'] as List?)
           ?.nonNulls
           .map((e) => Action.fromJson(e as Map<String, dynamic>))
@@ -2441,7 +2443,8 @@ class GetTimelineEventOutput {
 
   factory GetTimelineEventOutput.fromJson(Map<String, dynamic> json) {
     return GetTimelineEventOutput(
-      event: TimelineEvent.fromJson(json['event'] as Map<String, dynamic>),
+      event: TimelineEvent.fromJson((json['event'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2540,18 +2543,18 @@ class IncidentRecord {
 
   factory IncidentRecord.fromJson(Map<String, dynamic> json) {
     return IncidentRecord(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      dedupeString: json['dedupeString'] as String,
-      impact: json['impact'] as int,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      dedupeString: (json['dedupeString'] as String?) ?? '',
+      impact: (json['impact'] as int?) ?? 0,
       incidentRecordSource: IncidentRecordSource.fromJson(
-          json['incidentRecordSource'] as Map<String, dynamic>),
-      lastModifiedBy: json['lastModifiedBy'] as String,
+          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModifiedBy: (json['lastModifiedBy'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
       status: IncidentRecordStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
+      title: (json['title'] as String?) ?? '',
       automationExecutions: (json['automationExecutions'] as List?)
           ?.nonNulls
           .map((e) => AutomationExecution.fromJson(e as Map<String, dynamic>))
@@ -2633,8 +2636,8 @@ class IncidentRecordSource {
 
   factory IncidentRecordSource.fromJson(Map<String, dynamic> json) {
     return IncidentRecordSource(
-      createdBy: json['createdBy'] as String,
-      source: json['source'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      source: (json['source'] as String?) ?? '',
       invokedBy: json['invokedBy'] as String?,
       resourceArn: json['resourceArn'] as String?,
     );
@@ -2705,14 +2708,14 @@ class IncidentRecordSummary {
 
   factory IncidentRecordSummary.fromJson(Map<String, dynamic> json) {
     return IncidentRecordSummary(
-      arn: json['arn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      impact: json['impact'] as int,
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      impact: (json['impact'] as int?) ?? 0,
       incidentRecordSource: IncidentRecordSource.fromJson(
-          json['incidentRecordSource'] as Map<String, dynamic>),
+          (json['incidentRecordSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: IncidentRecordStatus.fromString((json['status'] as String)),
-      title: json['title'] as String,
+      title: (json['title'] as String?) ?? '',
       resolvedTime: timeStampFromJson(json['resolvedTime']),
     );
   }
@@ -2807,8 +2810,8 @@ class IncidentTemplate {
 
   factory IncidentTemplate.fromJson(Map<String, dynamic> json) {
     return IncidentTemplate(
-      impact: json['impact'] as int,
-      title: json['title'] as String,
+      impact: (json['impact'] as int?) ?? 0,
+      title: (json['title'] as String?) ?? '',
       dedupeString: json['dedupeString'] as String?,
       incidentTags: (json['incidentTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2884,7 +2887,8 @@ class ItemIdentifier {
   factory ItemIdentifier.fromJson(Map<String, dynamic> json) {
     return ItemIdentifier(
       type: ItemType.fromString((json['type'] as String)),
-      value: ItemValue.fromJson(json['value'] as Map<String, dynamic>),
+      value: ItemValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2984,7 +2988,7 @@ class ListIncidentFindingsOutput {
 
   factory ListIncidentFindingsOutput.fromJson(Map<String, dynamic> json) {
     return ListIncidentFindingsOutput(
-      findings: (json['findings'] as List)
+      findings: ((json['findings'] as List?) ?? const [])
           .nonNulls
           .map((e) => FindingSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3017,7 +3021,8 @@ class ListIncidentRecordsOutput {
 
   factory ListIncidentRecordsOutput.fromJson(Map<String, dynamic> json) {
     return ListIncidentRecordsOutput(
-      incidentRecordSummaries: (json['incidentRecordSummaries'] as List)
+      incidentRecordSummaries: ((json['incidentRecordSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => IncidentRecordSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3050,7 +3055,7 @@ class ListRelatedItemsOutput {
 
   factory ListRelatedItemsOutput.fromJson(Map<String, dynamic> json) {
     return ListRelatedItemsOutput(
-      relatedItems: (json['relatedItems'] as List)
+      relatedItems: ((json['relatedItems'] as List?) ?? const [])
           .nonNulls
           .map((e) => RelatedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3083,7 +3088,7 @@ class ListReplicationSetsOutput {
 
   factory ListReplicationSetsOutput.fromJson(Map<String, dynamic> json) {
     return ListReplicationSetsOutput(
-      replicationSetArns: (json['replicationSetArns'] as List)
+      replicationSetArns: ((json['replicationSetArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -3116,7 +3121,8 @@ class ListResponsePlansOutput {
 
   factory ListResponsePlansOutput.fromJson(Map<String, dynamic> json) {
     return ListResponsePlansOutput(
-      responsePlanSummaries: (json['responsePlanSummaries'] as List)
+      responsePlanSummaries: ((json['responsePlanSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ResponsePlanSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3144,8 +3150,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3172,7 +3179,7 @@ class ListTimelineEventsOutput {
 
   factory ListTimelineEventsOutput.fromJson(Map<String, dynamic> json) {
     return ListTimelineEventsOutput(
-      eventSummaries: (json['eventSummaries'] as List)
+      eventSummaries: ((json['eventSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3234,10 +3241,11 @@ class PagerDutyConfiguration {
 
   factory PagerDutyConfiguration.fromJson(Map<String, dynamic> json) {
     return PagerDutyConfiguration(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration.fromJson(
-          json['pagerDutyIncidentConfiguration'] as Map<String, dynamic>),
-      secretId: json['secretId'] as String,
+          (json['pagerDutyIncidentConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      secretId: (json['secretId'] as String?) ?? '',
     );
   }
 
@@ -3266,7 +3274,7 @@ class PagerDutyIncidentConfiguration {
 
   factory PagerDutyIncidentConfiguration.fromJson(Map<String, dynamic> json) {
     return PagerDutyIncidentConfiguration(
-      serviceId: json['serviceId'] as String,
+      serviceId: (json['serviceId'] as String?) ?? '',
     );
   }
 
@@ -3302,7 +3310,7 @@ class PagerDutyIncidentDetail {
 
   factory PagerDutyIncidentDetail.fromJson(Map<String, dynamic> json) {
     return PagerDutyIncidentDetail(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       autoResolve: json['autoResolve'] as bool?,
       secretId: json['secretId'] as String?,
     );
@@ -3330,7 +3338,7 @@ class PutResourcePolicyOutput {
 
   factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
     return PutResourcePolicyOutput(
-      policyId: json['policyId'] as String,
+      policyId: (json['policyId'] as String?) ?? '',
     );
   }
 
@@ -3369,7 +3377,7 @@ class RegionInfo {
     return RegionInfo(
       status: RegionStatus.fromString((json['status'] as String)),
       statusUpdateDateTime:
-          nonNullableTimeStampFromJson(json['statusUpdateDateTime'] as Object),
+          nonNullableTimeStampFromJson(json['statusUpdateDateTime'] ?? 0),
       sseKmsKeyId: json['sseKmsKeyId'] as String?,
       statusMessage: json['statusMessage'] as String?,
     );
@@ -3447,8 +3455,9 @@ class RelatedItem {
 
   factory RelatedItem.fromJson(Map<String, dynamic> json) {
     return RelatedItem(
-      identifier:
-          ItemIdentifier.fromJson(json['identifier'] as Map<String, dynamic>),
+      identifier: ItemIdentifier.fromJson(
+          (json['identifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       generatedId: json['generatedId'] as String?,
       title: json['title'] as String?,
     );
@@ -3533,14 +3542,16 @@ class ReplicationSet {
 
   factory ReplicationSet.fromJson(Map<String, dynamic> json) {
     return ReplicationSet(
-      createdBy: json['createdBy'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      deletionProtected: json['deletionProtected'] as bool,
-      lastModifiedBy: json['lastModifiedBy'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      deletionProtected: (json['deletionProtected'] as bool?) ?? false,
+      lastModifiedBy: (json['lastModifiedBy'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['lastModifiedTime'] as Object),
-      regionMap: (json['regionMap'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, RegionInfo.fromJson(e as Map<String, dynamic>))),
+          nonNullableTimeStampFromJson(json['lastModifiedTime'] ?? 0),
+      regionMap: ((json['regionMap'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, RegionInfo.fromJson(e as Map<String, dynamic>))),
       status: ReplicationSetStatus.fromString((json['status'] as String)),
       arn: json['arn'] as String?,
     );
@@ -3606,9 +3617,9 @@ class ResourcePolicy {
 
   factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
     return ResourcePolicy(
-      policyDocument: json['policyDocument'] as String,
-      policyId: json['policyId'] as String,
-      ramResourceShareRegion: json['ramResourceShareRegion'] as String,
+      policyDocument: (json['policyDocument'] as String?) ?? '',
+      policyId: (json['policyId'] as String?) ?? '',
+      ramResourceShareRegion: (json['ramResourceShareRegion'] as String?) ?? '',
     );
   }
 
@@ -3643,8 +3654,8 @@ class ResponsePlanSummary {
 
   factory ResponsePlanSummary.fromJson(Map<String, dynamic> json) {
     return ResponsePlanSummary(
-      arn: json['arn'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       displayName: json['displayName'] as String?,
     );
   }
@@ -3710,8 +3721,8 @@ class SsmAutomation {
 
   factory SsmAutomation.fromJson(Map<String, dynamic> json) {
     return SsmAutomation(
-      documentName: json['documentName'] as String,
-      roleArn: json['roleArn'] as String,
+      documentName: (json['documentName'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       documentVersion: json['documentVersion'] as String?,
       dynamicParameters: (json['dynamicParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
@@ -3766,7 +3777,7 @@ class StartIncidentOutput {
 
   factory StartIncidentOutput.fromJson(Map<String, dynamic> json) {
     return StartIncidentOutput(
-      incidentRecordArn: json['incidentRecordArn'] as String,
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
     );
   }
 
@@ -3827,13 +3838,13 @@ class TimelineEvent {
 
   factory TimelineEvent.fromJson(Map<String, dynamic> json) {
     return TimelineEvent(
-      eventData: json['eventData'] as String,
-      eventId: json['eventId'] as String,
-      eventTime: nonNullableTimeStampFromJson(json['eventTime'] as Object),
-      eventType: json['eventType'] as String,
+      eventData: (json['eventData'] as String?) ?? '',
+      eventId: (json['eventId'] as String?) ?? '',
+      eventTime: nonNullableTimeStampFromJson(json['eventTime'] ?? 0),
+      eventType: (json['eventType'] as String?) ?? '',
       eventUpdatedTime:
-          nonNullableTimeStampFromJson(json['eventUpdatedTime'] as Object),
-      incidentRecordArn: json['incidentRecordArn'] as String,
+          nonNullableTimeStampFromJson(json['eventUpdatedTime'] ?? 0),
+      incidentRecordArn: (json['incidentRecordArn'] as String?) ?? '',
       eventReferences: (json['eventReferences'] as List?)
           ?.nonNulls
           .map((e) => EventReference.fromJson(e as Map<String, dynamic>))

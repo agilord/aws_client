@@ -766,8 +766,8 @@ class Authorization {
 
   factory Authorization.fromJson(Map<String, dynamic> json) {
     return Authorization(
-      cdnIdentifierSecret: json['cdnIdentifierSecret'] as String,
-      secretsRoleArn: json['secretsRoleArn'] as String,
+      cdnIdentifierSecret: (json['cdnIdentifierSecret'] as String?) ?? '',
+      secretsRoleArn: (json['secretsRoleArn'] as String?) ?? '',
     );
   }
 
@@ -877,7 +877,8 @@ class CmafEncryption {
   factory CmafEncryption.fromJson(Map<String, dynamic> json) {
     return CmafEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
       encryptionMethod: (json['encryptionMethod'] as String?)
@@ -1411,7 +1412,8 @@ class DashEncryption {
   factory DashEncryption.fromJson(Map<String, dynamic> json) {
     return DashEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       keyRotationIntervalSeconds: json['keyRotationIntervalSeconds'] as int?,
     );
   }
@@ -2122,7 +2124,8 @@ class HlsEncryption {
   factory HlsEncryption.fromJson(Map<String, dynamic> json) {
     return HlsEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       constantInitializationVector:
           json['constantInitializationVector'] as String?,
       encryptionMethod: (json['encryptionMethod'] as String?)
@@ -2245,7 +2248,7 @@ class HlsManifest {
 
   factory HlsManifest.fromJson(Map<String, dynamic> json) {
     return HlsManifest(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
       adTriggers: (json['adTriggers'] as List?)
           ?.nonNulls
@@ -2740,7 +2743,8 @@ class MssEncryption {
   factory MssEncryption.fromJson(Map<String, dynamic> json) {
     return MssEncryption(
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['spekeKeyProvider'] as Map<String, dynamic>),
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3204,9 +3208,9 @@ class S3Destination {
 
   factory S3Destination.fromJson(Map<String, dynamic> json) {
     return S3Destination(
-      bucketName: json['bucketName'] as String,
-      manifestKey: json['manifestKey'] as String,
-      roleArn: json['roleArn'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
+      manifestKey: (json['manifestKey'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
     );
   }
 
@@ -3271,11 +3275,13 @@ class SpekeKeyProvider {
 
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
-      resourceId: json['resourceId'] as String,
-      roleArn: json['roleArn'] as String,
-      systemIds:
-          (json['systemIds'] as List).nonNulls.map((e) => e as String).toList(),
-      url: json['url'] as String,
+      resourceId: (json['resourceId'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      systemIds: ((json['systemIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      url: (json['url'] as String?) ?? '',
       certificateArn: json['certificateArn'] as String?,
       encryptionContractConfiguration:
           json['encryptionContractConfiguration'] != null

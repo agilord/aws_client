@@ -2131,7 +2131,7 @@ class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
   factory DescribeTrustedAdvisorCheckRefreshStatusesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorCheckRefreshStatusesResponse(
-      statuses: (json['statuses'] as List)
+      statuses: ((json['statuses'] as List?) ?? const [])
           .nonNulls
           .map((e) => TrustedAdvisorCheckRefreshStatus.fromJson(
               e as Map<String, dynamic>))
@@ -2188,7 +2188,7 @@ class DescribeTrustedAdvisorCheckSummariesResponse {
   factory DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorCheckSummariesResponse(
-      summaries: (json['summaries'] as List)
+      summaries: ((json['summaries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
@@ -2217,7 +2217,7 @@ class DescribeTrustedAdvisorChecksResponse {
   factory DescribeTrustedAdvisorChecksResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeTrustedAdvisorChecksResponse(
-      checks: (json['checks'] as List)
+      checks: ((json['checks'] as List?) ?? const [])
           .nonNulls
           .map((e) => TrustedAdvisorCheckDescription.fromJson(
               e as Map<String, dynamic>))
@@ -2280,7 +2280,8 @@ class RefreshTrustedAdvisorCheckResponse {
       Map<String, dynamic> json) {
     return RefreshTrustedAdvisorCheckResponse(
       status: TrustedAdvisorCheckRefreshStatus.fromJson(
-          json['status'] as Map<String, dynamic>),
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2566,12 +2567,14 @@ class TrustedAdvisorCheckDescription {
 
   factory TrustedAdvisorCheckDescription.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorCheckDescription(
-      category: json['category'] as String,
-      description: json['description'] as String,
-      id: json['id'] as String,
-      metadata:
-          (json['metadata'] as List).nonNulls.map((e) => e as String).toList(),
-      name: json['name'] as String,
+      category: (json['category'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      metadata: ((json['metadata'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2633,9 +2636,10 @@ class TrustedAdvisorCheckRefreshStatus {
 
   factory TrustedAdvisorCheckRefreshStatus.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorCheckRefreshStatus(
-      checkId: json['checkId'] as String,
-      millisUntilNextRefreshable: json['millisUntilNextRefreshable'] as int,
-      status: json['status'] as String,
+      checkId: (json['checkId'] as String?) ?? '',
+      millisUntilNextRefreshable:
+          (json['millisUntilNextRefreshable'] as int?) ?? 0,
+      status: (json['status'] as String?) ?? '',
     );
   }
 
@@ -2684,17 +2688,19 @@ class TrustedAdvisorCheckResult {
   factory TrustedAdvisorCheckResult.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorCheckResult(
       categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
-          json['categorySpecificSummary'] as Map<String, dynamic>),
-      checkId: json['checkId'] as String,
-      flaggedResources: (json['flaggedResources'] as List)
+          (json['categorySpecificSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      checkId: (json['checkId'] as String?) ?? '',
+      flaggedResources: ((json['flaggedResources'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TrustedAdvisorResourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
-          json['resourcesSummary'] as Map<String, dynamic>),
-      status: json['status'] as String,
-      timestamp: json['timestamp'] as String,
+          (json['resourcesSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
+      timestamp: (json['timestamp'] as String?) ?? '',
     );
   }
 
@@ -2749,12 +2755,14 @@ class TrustedAdvisorCheckSummary {
   factory TrustedAdvisorCheckSummary.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorCheckSummary(
       categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
-          json['categorySpecificSummary'] as Map<String, dynamic>),
-      checkId: json['checkId'] as String,
+          (json['categorySpecificSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      checkId: (json['checkId'] as String?) ?? '',
       resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
-          json['resourcesSummary'] as Map<String, dynamic>),
-      status: json['status'] as String,
-      timestamp: json['timestamp'] as String,
+          (json['resourcesSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['status'] as String?) ?? '',
+      timestamp: (json['timestamp'] as String?) ?? '',
       hasFlaggedResources: json['hasFlaggedResources'] as bool?,
     );
   }
@@ -2797,9 +2805,10 @@ class TrustedAdvisorCostOptimizingSummary {
   factory TrustedAdvisorCostOptimizingSummary.fromJson(
       Map<String, dynamic> json) {
     return TrustedAdvisorCostOptimizingSummary(
-      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double,
+      estimatedMonthlySavings:
+          (json['estimatedMonthlySavings'] as double?) ?? 0,
       estimatedPercentMonthlySavings:
-          json['estimatedPercentMonthlySavings'] as double,
+          (json['estimatedPercentMonthlySavings'] as double?) ?? 0,
     );
   }
 
@@ -2846,10 +2855,12 @@ class TrustedAdvisorResourceDetail {
 
   factory TrustedAdvisorResourceDetail.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorResourceDetail(
-      metadata:
-          (json['metadata'] as List).nonNulls.map((e) => e as String).toList(),
-      resourceId: json['resourceId'] as String,
-      status: json['status'] as String,
+      metadata: ((json['metadata'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceId: (json['resourceId'] as String?) ?? '',
+      status: (json['status'] as String?) ?? '',
       isSuppressed: json['isSuppressed'] as bool?,
       region: json['region'] as String?,
     );
@@ -2899,10 +2910,10 @@ class TrustedAdvisorResourcesSummary {
 
   factory TrustedAdvisorResourcesSummary.fromJson(Map<String, dynamic> json) {
     return TrustedAdvisorResourcesSummary(
-      resourcesFlagged: json['resourcesFlagged'] as int,
-      resourcesIgnored: json['resourcesIgnored'] as int,
-      resourcesProcessed: json['resourcesProcessed'] as int,
-      resourcesSuppressed: json['resourcesSuppressed'] as int,
+      resourcesFlagged: (json['resourcesFlagged'] as int?) ?? 0,
+      resourcesIgnored: (json['resourcesIgnored'] as int?) ?? 0,
+      resourcesProcessed: (json['resourcesProcessed'] as int?) ?? 0,
+      resourcesSuppressed: (json['resourcesSuppressed'] as int?) ?? 0,
     );
   }
 

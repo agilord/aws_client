@@ -5736,7 +5736,7 @@ class ActiveContext {
 
   factory ActiveContext.fromJson(Map<String, dynamic> json) {
     return ActiveContext(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5799,7 +5799,7 @@ class AgentTurnResult {
 
   factory AgentTurnResult.fromJson(Map<String, dynamic> json) {
     return AgentTurnResult(
-      expectedAgentPrompt: json['expectedAgentPrompt'] as String,
+      expectedAgentPrompt: (json['expectedAgentPrompt'] as String?) ?? '',
       actualAgentPrompt: json['actualAgentPrompt'] as String?,
       actualElicitedSlot: json['actualElicitedSlot'] as String?,
       actualIntent: json['actualIntent'] as String?,
@@ -5837,7 +5837,7 @@ class AgentTurnSpecification {
 
   factory AgentTurnSpecification.fromJson(Map<String, dynamic> json) {
     return AgentTurnSpecification(
-      agentPrompt: json['agentPrompt'] as String,
+      agentPrompt: (json['agentPrompt'] as String?) ?? '',
     );
   }
 
@@ -6048,8 +6048,8 @@ class AllowedInputTypes {
 
   factory AllowedInputTypes.fromJson(Map<String, dynamic> json) {
     return AllowedInputTypes(
-      allowAudioInput: json['allowAudioInput'] as bool,
-      allowDTMFInput: json['allowDTMFInput'] as bool,
+      allowAudioInput: (json['allowAudioInput'] as bool?) ?? false,
+      allowDTMFInput: (json['allowDTMFInput'] as bool?) ?? false,
     );
   }
 
@@ -8451,7 +8451,7 @@ class AudioAndDTMFInputSpecification {
 
   factory AudioAndDTMFInputSpecification.fromJson(Map<String, dynamic> json) {
     return AudioAndDTMFInputSpecification(
-      startTimeoutMs: json['startTimeoutMs'] as int,
+      startTimeoutMs: (json['startTimeoutMs'] as int?) ?? 0,
       audioSpecification: json['audioSpecification'] != null
           ? AudioSpecification.fromJson(
               json['audioSpecification'] as Map<String, dynamic>)
@@ -8491,7 +8491,8 @@ class AudioLogDestination {
   factory AudioLogDestination.fromJson(Map<String, dynamic> json) {
     return AudioLogDestination(
       s3Bucket: S3BucketLogDestination.fromJson(
-          json['s3Bucket'] as Map<String, dynamic>),
+          (json['s3Bucket'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -8524,8 +8525,9 @@ class AudioLogSetting {
   factory AudioLogSetting.fromJson(Map<String, dynamic> json) {
     return AudioLogSetting(
       destination: AudioLogDestination.fromJson(
-          json['destination'] as Map<String, dynamic>),
-      enabled: json['enabled'] as bool,
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      enabled: (json['enabled'] as bool?) ?? false,
       selectiveLoggingEnabled: json['selectiveLoggingEnabled'] as bool?,
     );
   }
@@ -8574,8 +8576,8 @@ class AudioSpecification {
 
   factory AudioSpecification.fromJson(Map<String, dynamic> json) {
     return AudioSpecification(
-      endTimeoutMs: json['endTimeoutMs'] as int,
-      maxLengthMs: json['maxLengthMs'] as int,
+      endTimeoutMs: (json['endTimeoutMs'] as int?) ?? 0,
+      maxLengthMs: (json['maxLengthMs'] as int?) ?? 0,
     );
   }
 
@@ -8798,8 +8800,8 @@ class BedrockGuardrailConfiguration {
 
   factory BedrockGuardrailConfiguration.fromJson(Map<String, dynamic> json) {
     return BedrockGuardrailConfiguration(
-      identifier: json['identifier'] as String,
-      version: json['version'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -8834,7 +8836,8 @@ class BedrockKnowledgeStoreConfiguration {
   factory BedrockKnowledgeStoreConfiguration.fromJson(
       Map<String, dynamic> json) {
     return BedrockKnowledgeStoreConfiguration(
-      bedrockKnowledgeBaseArn: json['bedrockKnowledgeBaseArn'] as String,
+      bedrockKnowledgeBaseArn:
+          (json['bedrockKnowledgeBaseArn'] as String?) ?? '',
       exactResponse: json['exactResponse'] as bool?,
       exactResponseFields: json['exactResponseFields'] != null
           ? BedrockKnowledgeStoreExactResponseFields.fromJson(
@@ -8904,7 +8907,7 @@ class BedrockModelSpecification {
 
   factory BedrockModelSpecification.fromJson(Map<String, dynamic> json) {
     return BedrockModelSpecification(
-      modelArn: json['modelArn'] as String,
+      modelArn: (json['modelArn'] as String?) ?? '',
       customPrompt: json['customPrompt'] as String?,
       guardrail: json['guardrail'] != null
           ? BedrockGuardrailConfiguration.fromJson(
@@ -8999,7 +9002,7 @@ class BotAliasLocaleSettings {
 
   factory BotAliasLocaleSettings.fromJson(Map<String, dynamic> json) {
     return BotAliasLocaleSettings(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       codeHookSpecification: json['codeHookSpecification'] != null
           ? CodeHookSpecification.fromJson(
               json['codeHookSpecification'] as Map<String, dynamic>)
@@ -9214,9 +9217,9 @@ class BotAliasTestExecutionTarget {
 
   factory BotAliasTestExecutionTarget.fromJson(Map<String, dynamic> json) {
     return BotAliasTestExecutionTarget(
-      botAliasId: json['botAliasId'] as String,
-      botId: json['botId'] as String,
-      localeId: json['localeId'] as String,
+      botAliasId: (json['botAliasId'] as String?) ?? '',
+      botId: (json['botId'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -9248,8 +9251,8 @@ class BotExportSpecification {
 
   factory BotExportSpecification.fromJson(Map<String, dynamic> json) {
     return BotExportSpecification(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
     );
   }
 
@@ -9368,10 +9371,11 @@ class BotImportSpecification {
 
   factory BotImportSpecification.fromJson(Map<String, dynamic> json) {
     return BotImportSpecification(
-      botName: json['botName'] as String,
-      dataPrivacy:
-          DataPrivacy.fromJson(json['dataPrivacy'] as Map<String, dynamic>),
-      roleArn: json['roleArn'] as String,
+      botName: (json['botName'] as String?) ?? '',
+      dataPrivacy: DataPrivacy.fromJson(
+          (json['dataPrivacy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleArn: (json['roleArn'] as String?) ?? '',
       botTags: (json['botTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int?,
@@ -9419,9 +9423,9 @@ class BotLocaleExportSpecification {
 
   factory BotLocaleExportSpecification.fromJson(Map<String, dynamic> json) {
     return BotLocaleExportSpecification(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
-      localeId: json['localeId'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -9514,8 +9518,8 @@ class BotLocaleHistoryEvent {
 
   factory BotLocaleHistoryEvent.fromJson(Map<String, dynamic> json) {
     return BotLocaleHistoryEvent(
-      event: json['event'] as String,
-      eventDate: nonNullableTimeStampFromJson(json['eventDate'] as Object),
+      event: (json['event'] as String?) ?? '',
+      eventDate: nonNullableTimeStampFromJson(json['eventDate'] ?? 0),
     );
   }
 
@@ -9586,9 +9590,9 @@ class BotLocaleImportSpecification {
 
   factory BotLocaleImportSpecification.fromJson(Map<String, dynamic> json) {
     return BotLocaleImportSpecification(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
-      localeId: json['localeId'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
       nluIntentConfidenceThreshold:
           json['nluIntentConfidenceThreshold'] as double?,
       voiceSettings: json['voiceSettings'] != null
@@ -9767,11 +9771,11 @@ class BotMember {
 
   factory BotMember.fromJson(Map<String, dynamic> json) {
     return BotMember(
-      botMemberAliasId: json['botMemberAliasId'] as String,
-      botMemberAliasName: json['botMemberAliasName'] as String,
-      botMemberId: json['botMemberId'] as String,
-      botMemberName: json['botMemberName'] as String,
-      botMemberVersion: json['botMemberVersion'] as String,
+      botMemberAliasId: (json['botMemberAliasId'] as String?) ?? '',
+      botMemberAliasName: (json['botMemberAliasName'] as String?) ?? '',
+      botMemberId: (json['botMemberId'] as String?) ?? '',
+      botMemberName: (json['botMemberName'] as String?) ?? '',
+      botMemberVersion: (json['botMemberVersion'] as String?) ?? '',
     );
   }
 
@@ -9921,7 +9925,7 @@ class BotRecommendationSummary {
 
   factory BotRecommendationSummary.fromJson(Map<String, dynamic> json) {
     return BotRecommendationSummary(
-      botRecommendationId: json['botRecommendationId'] as String,
+      botRecommendationId: (json['botRecommendationId'] as String?) ?? '',
       botRecommendationStatus: BotRecommendationStatus.fromString(
           (json['botRecommendationStatus'] as String)),
       creationDateTime: timeStampFromJson(json['creationDateTime']),
@@ -10168,7 +10172,7 @@ class BotVersionLocaleDetails {
 
   factory BotVersionLocaleDetails.fromJson(Map<String, dynamic> json) {
     return BotVersionLocaleDetails(
-      sourceBotVersion: json['sourceBotVersion'] as String,
+      sourceBotVersion: (json['sourceBotVersion'] as String?) ?? '',
     );
   }
 
@@ -10640,8 +10644,8 @@ class Button {
 
   factory Button.fromJson(Map<String, dynamic> json) {
     return Button(
-      text: json['text'] as String,
-      value: json['value'] as String,
+      text: (json['text'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -10672,8 +10676,8 @@ class CloudWatchLogGroupLogDestination {
 
   factory CloudWatchLogGroupLogDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchLogGroupLogDestination(
-      cloudWatchLogGroupArn: json['cloudWatchLogGroupArn'] as String,
-      logPrefix: json['logPrefix'] as String,
+      cloudWatchLogGroupArn: (json['cloudWatchLogGroupArn'] as String?) ?? '',
+      logPrefix: (json['logPrefix'] as String?) ?? '',
     );
   }
 
@@ -10699,7 +10703,8 @@ class CodeHookSpecification {
   factory CodeHookSpecification.fromJson(Map<String, dynamic> json) {
     return CodeHookSpecification(
       lambdaCodeHook: LambdaCodeHook.fromJson(
-          json['lambdaCodeHook'] as Map<String, dynamic>),
+          (json['lambdaCodeHook'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10750,7 +10755,7 @@ class Condition {
 
   factory Condition.fromJson(Map<String, dynamic> json) {
     return Condition(
-      expressionString: json['expressionString'] as String,
+      expressionString: (json['expressionString'] as String?) ?? '',
     );
   }
 
@@ -10784,9 +10789,13 @@ class ConditionalBranch {
 
   factory ConditionalBranch.fromJson(Map<String, dynamic> json) {
     return ConditionalBranch(
-      condition: Condition.fromJson(json['condition'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      nextStep: DialogState.fromJson(json['nextStep'] as Map<String, dynamic>),
+      condition: Condition.fromJson(
+          (json['condition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      nextStep: DialogState.fromJson(
+          (json['nextStep'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       response: json['response'] != null
           ? ResponseSpecification.fromJson(
               json['response'] as Map<String, dynamic>)
@@ -10836,13 +10845,14 @@ class ConditionalSpecification {
 
   factory ConditionalSpecification.fromJson(Map<String, dynamic> json) {
     return ConditionalSpecification(
-      active: json['active'] as bool,
-      conditionalBranches: (json['conditionalBranches'] as List)
+      active: (json['active'] as bool?) ?? false,
+      conditionalBranches: ((json['conditionalBranches'] as List?) ?? const [])
           .nonNulls
           .map((e) => ConditionalBranch.fromJson(e as Map<String, dynamic>))
           .toList(),
       defaultBranch: DefaultConditionalBranch.fromJson(
-          json['defaultBranch'] as Map<String, dynamic>),
+          (json['defaultBranch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10891,7 +10901,7 @@ class ConversationLevelIntentClassificationResultItem {
   factory ConversationLevelIntentClassificationResultItem.fromJson(
       Map<String, dynamic> json) {
     return ConversationLevelIntentClassificationResultItem(
-      intentName: json['intentName'] as String,
+      intentName: (json['intentName'] as String?) ?? '',
       matchResult:
           TestResultMatchStatus.fromString((json['matchResult'] as String)),
     );
@@ -10961,10 +10971,10 @@ class ConversationLevelSlotResolutionResultItem {
   factory ConversationLevelSlotResolutionResultItem.fromJson(
       Map<String, dynamic> json) {
     return ConversationLevelSlotResolutionResultItem(
-      intentName: json['intentName'] as String,
+      intentName: (json['intentName'] as String?) ?? '',
       matchResult:
           TestResultMatchStatus.fromString((json['matchResult'] as String)),
-      slotName: json['slotName'] as String,
+      slotName: (json['slotName'] as String?) ?? '',
     );
   }
 
@@ -11009,19 +11019,22 @@ class ConversationLevelTestResultItem {
 
   factory ConversationLevelTestResultItem.fromJson(Map<String, dynamic> json) {
     return ConversationLevelTestResultItem(
-      conversationId: json['conversationId'] as String,
+      conversationId: (json['conversationId'] as String?) ?? '',
       endToEndResult:
           TestResultMatchStatus.fromString((json['endToEndResult'] as String)),
-      intentClassificationResults: (json['intentClassificationResults'] as List)
-          .nonNulls
-          .map((e) => ConversationLevelIntentClassificationResultItem.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      slotResolutionResults: (json['slotResolutionResults'] as List)
-          .nonNulls
-          .map((e) => ConversationLevelSlotResolutionResultItem.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      intentClassificationResults:
+          ((json['intentClassificationResults'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  ConversationLevelIntentClassificationResultItem.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+      slotResolutionResults:
+          ((json['slotResolutionResults'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ConversationLevelSlotResolutionResultItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       speechTranscriptionResult: (json['speechTranscriptionResult'] as String?)
           ?.let(TestResultMatchStatus.fromString),
     );
@@ -11055,7 +11068,7 @@ class ConversationLevelTestResults {
 
   factory ConversationLevelTestResults.fromJson(Map<String, dynamic> json) {
     return ConversationLevelTestResults(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => ConversationLevelTestResultItem.fromJson(
               e as Map<String, dynamic>))
@@ -11149,11 +11162,12 @@ class ConversationLogsDataSource {
 
   factory ConversationLogsDataSource.fromJson(Map<String, dynamic> json) {
     return ConversationLogsDataSource(
-      botAliasId: json['botAliasId'] as String,
-      botId: json['botId'] as String,
+      botAliasId: (json['botAliasId'] as String?) ?? '',
+      botId: (json['botId'] as String?) ?? '',
       filter: ConversationLogsDataSourceFilterBy.fromJson(
-          json['filter'] as Map<String, dynamic>),
-      localeId: json['localeId'] as String,
+          (json['filter'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -11191,10 +11205,10 @@ class ConversationLogsDataSourceFilterBy {
   factory ConversationLogsDataSourceFilterBy.fromJson(
       Map<String, dynamic> json) {
     return ConversationLogsDataSourceFilterBy(
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
       inputMode: ConversationLogsInputModeFilter.fromString(
           (json['inputMode'] as String)),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
     );
   }
 
@@ -12319,7 +12333,7 @@ class CustomPayload {
 
   factory CustomPayload.fromJson(Map<String, dynamic> json) {
     return CustomPayload(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -12368,9 +12382,9 @@ class CustomVocabularyExportSpecification {
   factory CustomVocabularyExportSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomVocabularyExportSpecification(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
-      localeId: json['localeId'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -12407,9 +12421,9 @@ class CustomVocabularyImportSpecification {
   factory CustomVocabularyImportSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomVocabularyImportSpecification(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
-      localeId: json['localeId'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -12452,8 +12466,8 @@ class CustomVocabularyItem {
 
   factory CustomVocabularyItem.fromJson(Map<String, dynamic> json) {
     return CustomVocabularyItem(
-      itemId: json['itemId'] as String,
-      phrase: json['phrase'] as String,
+      itemId: (json['itemId'] as String?) ?? '',
+      phrase: (json['phrase'] as String?) ?? '',
       displayAs: json['displayAs'] as String?,
       weight: json['weight'] as int?,
     );
@@ -12517,10 +12531,10 @@ class DTMFSpecification {
 
   factory DTMFSpecification.fromJson(Map<String, dynamic> json) {
     return DTMFSpecification(
-      deletionCharacter: json['deletionCharacter'] as String,
-      endCharacter: json['endCharacter'] as String,
-      endTimeoutMs: json['endTimeoutMs'] as int,
-      maxLength: json['maxLength'] as int,
+      deletionCharacter: (json['deletionCharacter'] as String?) ?? '',
+      endCharacter: (json['endCharacter'] as String?) ?? '',
+      endTimeoutMs: (json['endTimeoutMs'] as int?) ?? 0,
+      maxLength: (json['maxLength'] as int?) ?? 0,
     );
   }
 
@@ -12574,7 +12588,7 @@ class DataPrivacy {
 
   factory DataPrivacy.fromJson(Map<String, dynamic> json) {
     return DataPrivacy(
-      childDirected: json['childDirected'] as bool,
+      childDirected: (json['childDirected'] as bool?) ?? false,
     );
   }
 
@@ -12669,9 +12683,8 @@ class DateRangeFilter {
 
   factory DateRangeFilter.fromJson(Map<String, dynamic> json) {
     return DateRangeFilter(
-      endDateTime: nonNullableTimeStampFromJson(json['endDateTime'] as Object),
-      startDateTime:
-          nonNullableTimeStampFromJson(json['startDateTime'] as Object),
+      endDateTime: nonNullableTimeStampFromJson(json['endDateTime'] ?? 0),
+      startDateTime: nonNullableTimeStampFromJson(json['startDateTime'] ?? 0),
     );
   }
 
@@ -15087,7 +15100,7 @@ class DescriptiveBotBuilderSpecification {
   factory DescriptiveBotBuilderSpecification.fromJson(
       Map<String, dynamic> json) {
     return DescriptiveBotBuilderSpecification(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       bedrockModelSpecification: json['bedrockModelSpecification'] != null
           ? BedrockModelSpecification.fromJson(
               json['bedrockModelSpecification'] as Map<String, dynamic>)
@@ -15194,11 +15207,13 @@ class DialogCodeHookInvocationSetting {
 
   factory DialogCodeHookInvocationSetting.fromJson(Map<String, dynamic> json) {
     return DialogCodeHookInvocationSetting(
-      active: json['active'] as bool,
-      enableCodeHookInvocation: json['enableCodeHookInvocation'] as bool,
+      active: (json['active'] as bool?) ?? false,
+      enableCodeHookInvocation:
+          (json['enableCodeHookInvocation'] as bool?) ?? false,
       postCodeHookSpecification:
           PostDialogCodeHookInvocationSpecification.fromJson(
-              json['postCodeHookSpecification'] as Map<String, dynamic>),
+              (json['postCodeHookSpecification'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       invocationLabel: json['invocationLabel'] as String?,
     );
   }
@@ -15229,7 +15244,7 @@ class DialogCodeHookSettings {
 
   factory DialogCodeHookSettings.fromJson(Map<String, dynamic> json) {
     return DialogCodeHookSettings(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
     );
   }
 
@@ -15314,7 +15329,8 @@ class ElicitationCodeHookInvocationSetting {
   factory ElicitationCodeHookInvocationSetting.fromJson(
       Map<String, dynamic> json) {
     return ElicitationCodeHookInvocationSetting(
-      enableCodeHookInvocation: json['enableCodeHookInvocation'] as bool,
+      enableCodeHookInvocation:
+          (json['enableCodeHookInvocation'] as bool?) ?? false,
       invocationLabel: json['invocationLabel'] as String?,
     );
   }
@@ -15405,8 +15421,8 @@ class ExactResponseFields {
 
   factory ExactResponseFields.fromJson(Map<String, dynamic> json) {
     return ExactResponseFields(
-      answerField: json['answerField'] as String,
-      questionField: json['questionField'] as String,
+      answerField: (json['answerField'] as String?) ?? '',
+      questionField: (json['questionField'] as String?) ?? '',
     );
   }
 
@@ -15435,8 +15451,8 @@ class ExecutionErrorDetails {
 
   factory ExecutionErrorDetails.fromJson(Map<String, dynamic> json) {
     return ExecutionErrorDetails(
-      errorCode: json['errorCode'] as String,
-      errorMessage: json['errorMessage'] as String,
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -15799,7 +15815,7 @@ class FulfillmentCodeHookSettings {
 
   factory FulfillmentCodeHookSettings.fromJson(Map<String, dynamic> json) {
     return FulfillmentCodeHookSettings(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       active: json['active'] as bool?,
       fulfillmentUpdatesSpecification:
           json['fulfillmentUpdatesSpecification'] != null
@@ -15860,8 +15876,8 @@ class FulfillmentStartResponseSpecification {
   factory FulfillmentStartResponseSpecification.fromJson(
       Map<String, dynamic> json) {
     return FulfillmentStartResponseSpecification(
-      delayInSeconds: json['delayInSeconds'] as int,
-      messageGroups: (json['messageGroups'] as List)
+      delayInSeconds: (json['delayInSeconds'] as int?) ?? 0,
+      messageGroups: ((json['messageGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15907,8 +15923,8 @@ class FulfillmentUpdateResponseSpecification {
   factory FulfillmentUpdateResponseSpecification.fromJson(
       Map<String, dynamic> json) {
     return FulfillmentUpdateResponseSpecification(
-      frequencyInSeconds: json['frequencyInSeconds'] as int,
-      messageGroups: (json['messageGroups'] as List)
+      frequencyInSeconds: (json['frequencyInSeconds'] as int?) ?? 0,
+      messageGroups: ((json['messageGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15960,7 +15976,7 @@ class FulfillmentUpdatesSpecification {
 
   factory FulfillmentUpdatesSpecification.fromJson(Map<String, dynamic> json) {
     return FulfillmentUpdatesSpecification(
-      active: json['active'] as bool,
+      active: (json['active'] as bool?) ?? false,
       startResponse: json['startResponse'] != null
           ? FulfillmentStartResponseSpecification.fromJson(
               json['startResponse'] as Map<String, dynamic>)
@@ -16265,8 +16281,8 @@ class GrammarSlotTypeSource {
 
   factory GrammarSlotTypeSource.fromJson(Map<String, dynamic> json) {
     return GrammarSlotTypeSource(
-      s3BucketName: json['s3BucketName'] as String,
-      s3ObjectKey: json['s3ObjectKey'] as String,
+      s3BucketName: (json['s3BucketName'] as String?) ?? '',
+      s3ObjectKey: (json['s3ObjectKey'] as String?) ?? '',
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
@@ -16316,7 +16332,7 @@ class ImageResponseCard {
 
   factory ImageResponseCard.fromJson(Map<String, dynamic> json) {
     return ImageResponseCard(
-      title: json['title'] as String,
+      title: (json['title'] as String?) ?? '',
       buttons: (json['buttons'] as List?)
           ?.nonNulls
           .map((e) => Button.fromJson(e as Map<String, dynamic>))
@@ -16703,7 +16719,7 @@ class InputContext {
 
   factory InputContext.fromJson(Map<String, dynamic> json) {
     return InputContext(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -16779,10 +16795,11 @@ class IntentClassificationTestResultItem {
   factory IntentClassificationTestResultItem.fromJson(
       Map<String, dynamic> json) {
     return IntentClassificationTestResultItem(
-      intentName: json['intentName'] as String,
-      multiTurnConversation: json['multiTurnConversation'] as bool,
+      intentName: (json['intentName'] as String?) ?? '',
+      multiTurnConversation: (json['multiTurnConversation'] as bool?) ?? false,
       resultCounts: IntentClassificationTestResultItemCounts.fromJson(
-          json['resultCounts'] as Map<String, dynamic>),
+          (json['resultCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -16821,10 +16838,11 @@ class IntentClassificationTestResultItemCounts {
       Map<String, dynamic> json) {
     return IntentClassificationTestResultItemCounts(
       intentMatchResultCounts:
-          (json['intentMatchResultCounts'] as Map<String, dynamic>).map(
-              (k, e) =>
+          ((json['intentMatchResultCounts'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) =>
                   MapEntry(TestResultMatchStatus.fromString(k), e as int)),
-      totalResultCount: json['totalResultCount'] as int,
+      totalResultCount: (json['totalResultCount'] as int?) ?? 0,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
               ?.map((k, e) =>
@@ -16859,7 +16877,7 @@ class IntentClassificationTestResults {
 
   factory IntentClassificationTestResults.fromJson(Map<String, dynamic> json) {
     return IntentClassificationTestResults(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => IntentClassificationTestResultItem.fromJson(
               e as Map<String, dynamic>))
@@ -17006,7 +17024,8 @@ class IntentConfirmationSetting {
   factory IntentConfirmationSetting.fromJson(Map<String, dynamic> json) {
     return IntentConfirmationSetting(
       promptSpecification: PromptSpecification.fromJson(
-          json['promptSpecification'] as Map<String, dynamic>),
+          (json['promptSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       active: json['active'] as bool?,
       codeHook: json['codeHook'] != null
           ? DialogCodeHookInvocationSetting.fromJson(
@@ -17175,9 +17194,10 @@ class IntentLevelSlotResolutionTestResultItem {
   factory IntentLevelSlotResolutionTestResultItem.fromJson(
       Map<String, dynamic> json) {
     return IntentLevelSlotResolutionTestResultItem(
-      intentName: json['intentName'] as String,
-      multiTurnConversation: json['multiTurnConversation'] as bool,
-      slotResolutionResults: (json['slotResolutionResults'] as List)
+      intentName: (json['intentName'] as String?) ?? '',
+      multiTurnConversation: (json['multiTurnConversation'] as bool?) ?? false,
+      slotResolutionResults: ((json['slotResolutionResults'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               SlotResolutionTestResultItem.fromJson(e as Map<String, dynamic>))
@@ -17209,7 +17229,7 @@ class IntentLevelSlotResolutionTestResults {
   factory IntentLevelSlotResolutionTestResults.fromJson(
       Map<String, dynamic> json) {
     return IntentLevelSlotResolutionTestResults(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => IntentLevelSlotResolutionTestResultItem.fromJson(
               e as Map<String, dynamic>))
@@ -17468,7 +17488,7 @@ class KendraConfiguration {
 
   factory KendraConfiguration.fromJson(Map<String, dynamic> json) {
     return KendraConfiguration(
-      kendraIndex: json['kendraIndex'] as String,
+      kendraIndex: (json['kendraIndex'] as String?) ?? '',
       queryFilterString: json['queryFilterString'] as String?,
       queryFilterStringEnabled: json['queryFilterStringEnabled'] as bool?,
     );
@@ -17504,8 +17524,9 @@ class LambdaCodeHook {
 
   factory LambdaCodeHook.fromJson(Map<String, dynamic> json) {
     return LambdaCodeHook(
-      codeHookInterfaceVersion: json['codeHookInterfaceVersion'] as String,
-      lambdaARN: json['lambdaARN'] as String,
+      codeHookInterfaceVersion:
+          (json['codeHookInterfaceVersion'] as String?) ?? '',
+      lambdaARN: (json['lambdaARN'] as String?) ?? '',
     );
   }
 
@@ -19251,7 +19272,8 @@ class MessageGroup {
 
   factory MessageGroup.fromJson(Map<String, dynamic> json) {
     return MessageGroup(
-      message: Message.fromJson(json['message'] as Map<String, dynamic>),
+      message: Message.fromJson((json['message'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       variations: (json['variations'] as List?)
           ?.nonNulls
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
@@ -19419,8 +19441,8 @@ class OpensearchConfiguration {
 
   factory OpensearchConfiguration.fromJson(Map<String, dynamic> json) {
     return OpensearchConfiguration(
-      domainEndpoint: json['domainEndpoint'] as String,
-      indexName: json['indexName'] as String,
+      domainEndpoint: (json['domainEndpoint'] as String?) ?? '',
+      indexName: (json['indexName'] as String?) ?? '',
       exactResponse: json['exactResponse'] as bool?,
       exactResponseFields: json['exactResponseFields'] != null
           ? ExactResponseFields.fromJson(
@@ -19473,9 +19495,9 @@ class OutputContext {
 
   factory OutputContext.fromJson(Map<String, dynamic> json) {
     return OutputContext(
-      name: json['name'] as String,
-      timeToLiveInSeconds: json['timeToLiveInSeconds'] as int,
-      turnsToLive: json['turnsToLive'] as int,
+      name: (json['name'] as String?) ?? '',
+      timeToLiveInSeconds: (json['timeToLiveInSeconds'] as int?) ?? 0,
+      turnsToLive: (json['turnsToLive'] as int?) ?? 0,
     );
   }
 
@@ -19515,10 +19537,12 @@ class OverallTestResultItem {
   factory OverallTestResultItem.fromJson(Map<String, dynamic> json) {
     return OverallTestResultItem(
       endToEndResultCounts:
-          (json['endToEndResultCounts'] as Map<String, dynamic>).map((k, e) =>
-              MapEntry(TestResultMatchStatus.fromString(k), e as int)),
-      multiTurnConversation: json['multiTurnConversation'] as bool,
-      totalResultCount: json['totalResultCount'] as int,
+          ((json['endToEndResultCounts'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
+      multiTurnConversation: (json['multiTurnConversation'] as bool?) ?? false,
+      totalResultCount: (json['totalResultCount'] as int?) ?? 0,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
               ?.map((k, e) =>
@@ -19555,7 +19579,7 @@ class OverallTestResults {
 
   factory OverallTestResults.fromJson(Map<String, dynamic> json) {
     return OverallTestResults(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => OverallTestResultItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19585,8 +19609,8 @@ class ParentBotNetwork {
 
   factory ParentBotNetwork.fromJson(Map<String, dynamic> json) {
     return ParentBotNetwork(
-      botId: json['botId'] as String,
-      botVersion: json['botVersion'] as String,
+      botId: (json['botId'] as String?) ?? '',
+      botVersion: (json['botVersion'] as String?) ?? '',
     );
   }
 
@@ -19641,7 +19665,7 @@ class PlainTextMessage {
 
   factory PlainTextMessage.fromJson(Map<String, dynamic> json) {
     return PlainTextMessage(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -19944,7 +19968,8 @@ class PromptAttemptSpecification {
   factory PromptAttemptSpecification.fromJson(Map<String, dynamic> json) {
     return PromptAttemptSpecification(
       allowedInputTypes: AllowedInputTypes.fromJson(
-          json['allowedInputTypes'] as Map<String, dynamic>),
+          (json['allowedInputTypes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       allowInterrupt: json['allowInterrupt'] as bool?,
       audioAndDTMFInputSpecification: json['audioAndDTMFInputSpecification'] !=
               null
@@ -20005,8 +20030,8 @@ class PromptSpecification {
 
   factory PromptSpecification.fromJson(Map<String, dynamic> json) {
     return PromptSpecification(
-      maxRetries: json['maxRetries'] as int,
-      messageGroups: (json['messageGroups'] as List)
+      maxRetries: (json['maxRetries'] as int?) ?? 0,
+      messageGroups: ((json['messageGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20110,7 +20135,7 @@ class QnAKendraConfiguration {
 
   factory QnAKendraConfiguration.fromJson(Map<String, dynamic> json) {
     return QnAKendraConfiguration(
-      kendraIndex: json['kendraIndex'] as String,
+      kendraIndex: (json['kendraIndex'] as String?) ?? '',
       exactResponse: json['exactResponse'] as bool?,
       queryFilterString: json['queryFilterString'] as String?,
       queryFilterStringEnabled: json['queryFilterStringEnabled'] as bool?,
@@ -20226,7 +20251,7 @@ class RelativeAggregationDuration {
     return RelativeAggregationDuration(
       timeDimension:
           TimeDimension.fromString((json['timeDimension'] as String)),
-      timeValue: json['timeValue'] as int,
+      timeValue: (json['timeValue'] as int?) ?? 0,
     );
   }
 
@@ -20257,7 +20282,7 @@ class ResponseSpecification {
 
   factory ResponseSpecification.fromJson(Map<String, dynamic> json) {
     return ResponseSpecification(
-      messageGroups: (json['messageGroups'] as List)
+      messageGroups: ((json['messageGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20329,7 +20354,7 @@ class RuntimeHintValue {
 
   factory RuntimeHintValue.fromJson(Map<String, dynamic> json) {
     return RuntimeHintValue(
-      phrase: json['phrase'] as String,
+      phrase: (json['phrase'] as String?) ?? '',
     );
   }
 
@@ -20437,8 +20462,8 @@ class S3BucketLogDestination {
 
   factory S3BucketLogDestination.fromJson(Map<String, dynamic> json) {
     return S3BucketLogDestination(
-      logPrefix: json['logPrefix'] as String,
-      s3BucketArn: json['s3BucketArn'] as String,
+      logPrefix: (json['logPrefix'] as String?) ?? '',
+      s3BucketArn: (json['s3BucketArn'] as String?) ?? '',
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
@@ -20492,7 +20517,7 @@ class S3BucketTranscriptSource {
 
   factory S3BucketTranscriptSource.fromJson(Map<String, dynamic> json) {
     return S3BucketTranscriptSource(
-      s3BucketName: json['s3BucketName'] as String,
+      s3BucketName: (json['s3BucketName'] as String?) ?? '',
       transcriptFormat:
           TranscriptFormat.fromString((json['transcriptFormat'] as String)),
       kmsKeyArn: json['kmsKeyArn'] as String?,
@@ -20533,7 +20558,7 @@ class SSMLMessage {
 
   factory SSMLMessage.fromJson(Map<String, dynamic> json) {
     return SSMLMessage(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -20558,7 +20583,7 @@ class SampleUtterance {
 
   factory SampleUtterance.fromJson(Map<String, dynamic> json) {
     return SampleUtterance(
-      utterance: json['utterance'] as String,
+      utterance: (json['utterance'] as String?) ?? '',
     );
   }
 
@@ -20584,7 +20609,7 @@ class SampleUtteranceGenerationSpecification {
   factory SampleUtteranceGenerationSpecification.fromJson(
       Map<String, dynamic> json) {
     return SampleUtteranceGenerationSpecification(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       bedrockModelSpecification: json['bedrockModelSpecification'] != null
           ? BedrockModelSpecification.fromJson(
               json['bedrockModelSpecification'] as Map<String, dynamic>)
@@ -20614,7 +20639,7 @@ class SampleValue {
 
   factory SampleValue.fromJson(Map<String, dynamic> json) {
     return SampleValue(
-      value: json['value'] as String,
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -20733,7 +20758,7 @@ class SentimentAnalysisSettings {
 
   factory SentimentAnalysisSettings.fromJson(Map<String, dynamic> json) {
     return SentimentAnalysisSettings(
-      detectSentiment: json['detectSentiment'] as bool,
+      detectSentiment: (json['detectSentiment'] as bool?) ?? false,
     );
   }
 
@@ -21049,7 +21074,7 @@ class SlotDefaultValue {
 
   factory SlotDefaultValue.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValue(
-      defaultValue: json['defaultValue'] as String,
+      defaultValue: (json['defaultValue'] as String?) ?? '',
     );
   }
 
@@ -21074,7 +21099,7 @@ class SlotDefaultValueSpecification {
 
   factory SlotDefaultValueSpecification.fromJson(Map<String, dynamic> json) {
     return SlotDefaultValueSpecification(
-      defaultValueList: (json['defaultValueList'] as List)
+      defaultValueList: ((json['defaultValueList'] as List?) ?? const [])
           .nonNulls
           .map((e) => SlotDefaultValue.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21166,8 +21191,8 @@ class SlotPriority {
 
   factory SlotPriority.fromJson(Map<String, dynamic> json) {
     return SlotPriority(
-      priority: json['priority'] as int,
-      slotId: json['slotId'] as String,
+      priority: (json['priority'] as int?) ?? 0,
+      slotId: (json['slotId'] as String?) ?? '',
     );
   }
 
@@ -21198,7 +21223,7 @@ class SlotResolutionImprovementSpecification {
   factory SlotResolutionImprovementSpecification.fromJson(
       Map<String, dynamic> json) {
     return SlotResolutionImprovementSpecification(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       bedrockModelSpecification: json['bedrockModelSpecification'] != null
           ? BedrockModelSpecification.fromJson(
               json['bedrockModelSpecification'] as Map<String, dynamic>)
@@ -21278,8 +21303,9 @@ class SlotResolutionTestResultItem {
   factory SlotResolutionTestResultItem.fromJson(Map<String, dynamic> json) {
     return SlotResolutionTestResultItem(
       resultCounts: SlotResolutionTestResultItemCounts.fromJson(
-          json['resultCounts'] as Map<String, dynamic>),
-      slotName: json['slotName'] as String,
+          (json['resultCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      slotName: (json['slotName'] as String?) ?? '',
     );
   }
 
@@ -21317,9 +21343,11 @@ class SlotResolutionTestResultItemCounts {
       Map<String, dynamic> json) {
     return SlotResolutionTestResultItemCounts(
       slotMatchResultCounts:
-          (json['slotMatchResultCounts'] as Map<String, dynamic>).map((k, e) =>
-              MapEntry(TestResultMatchStatus.fromString(k), e as int)),
-      totalResultCount: json['totalResultCount'] as int,
+          ((json['slotMatchResultCounts'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) =>
+                  MapEntry(TestResultMatchStatus.fromString(k), e as int)),
+      totalResultCount: (json['totalResultCount'] as int?) ?? 0,
       speechTranscriptionResultCounts:
           (json['speechTranscriptionResultCounts'] as Map<String, dynamic>?)
               ?.map((k, e) =>
@@ -21942,7 +21970,7 @@ class SlotValueRegexFilter {
 
   factory SlotValueRegexFilter.fromJson(Map<String, dynamic> json) {
     return SlotValueRegexFilter(
-      pattern: json['pattern'] as String,
+      pattern: (json['pattern'] as String?) ?? '',
     );
   }
 
@@ -22062,9 +22090,10 @@ class Specifications {
 
   factory Specifications.fromJson(Map<String, dynamic> json) {
     return Specifications(
-      slotTypeId: json['slotTypeId'] as String,
+      slotTypeId: (json['slotTypeId'] as String?) ?? '',
       valueElicitationSetting: SubSlotValueElicitationSetting.fromJson(
-          json['valueElicitationSetting'] as Map<String, dynamic>),
+          (json['valueElicitationSetting'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -22485,12 +22514,12 @@ class StillWaitingResponseSpecification {
   factory StillWaitingResponseSpecification.fromJson(
       Map<String, dynamic> json) {
     return StillWaitingResponseSpecification(
-      frequencyInSeconds: json['frequencyInSeconds'] as int,
-      messageGroups: (json['messageGroups'] as List)
+      frequencyInSeconds: (json['frequencyInSeconds'] as int?) ?? 0,
+      messageGroups: ((json['messageGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => MessageGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
-      timeoutInSeconds: json['timeoutInSeconds'] as int,
+      timeoutInSeconds: (json['timeoutInSeconds'] as int?) ?? 0,
       allowInterrupt: json['allowInterrupt'] as bool?,
     );
   }
@@ -22617,8 +22646,8 @@ class SubSlotTypeComposition {
 
   factory SubSlotTypeComposition.fromJson(Map<String, dynamic> json) {
     return SubSlotTypeComposition(
-      name: json['name'] as String,
-      slotTypeId: json['slotTypeId'] as String,
+      name: (json['name'] as String?) ?? '',
+      slotTypeId: (json['slotTypeId'] as String?) ?? '',
     );
   }
 
@@ -22665,7 +22694,8 @@ class SubSlotValueElicitationSetting {
   factory SubSlotValueElicitationSetting.fromJson(Map<String, dynamic> json) {
     return SubSlotValueElicitationSetting(
       promptSpecification: PromptSpecification.fromJson(
-          json['promptSpecification'] as Map<String, dynamic>),
+          (json['promptSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       defaultValueSpecification: json['defaultValueSpecification'] != null
           ? SlotDefaultValueSpecification.fromJson(
               json['defaultValueSpecification'] as Map<String, dynamic>)
@@ -23085,12 +23115,12 @@ class TestSetDiscrepancyErrors {
 
   factory TestSetDiscrepancyErrors.fromJson(Map<String, dynamic> json) {
     return TestSetDiscrepancyErrors(
-      intentDiscrepancies: (json['intentDiscrepancies'] as List)
+      intentDiscrepancies: ((json['intentDiscrepancies'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TestSetIntentDiscrepancyItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      slotDiscrepancies: (json['slotDiscrepancies'] as List)
+      slotDiscrepancies: ((json['slotDiscrepancies'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               TestSetSlotDiscrepancyItem.fromJson(e as Map<String, dynamic>))
@@ -23129,9 +23159,9 @@ class TestSetDiscrepancyReportBotAliasTarget {
   factory TestSetDiscrepancyReportBotAliasTarget.fromJson(
       Map<String, dynamic> json) {
     return TestSetDiscrepancyReportBotAliasTarget(
-      botAliasId: json['botAliasId'] as String,
-      botId: json['botId'] as String,
-      localeId: json['localeId'] as String,
+      botAliasId: (json['botAliasId'] as String?) ?? '',
+      botId: (json['botId'] as String?) ?? '',
+      localeId: (json['localeId'] as String?) ?? '',
     );
   }
 
@@ -23203,7 +23233,7 @@ class TestSetExportSpecification {
 
   factory TestSetExportSpecification.fromJson(Map<String, dynamic> json) {
     return TestSetExportSpecification(
-      testSetId: json['testSetId'] as String,
+      testSetId: (json['testSetId'] as String?) ?? '',
     );
   }
 
@@ -23277,8 +23307,8 @@ class TestSetImportInputLocation {
 
   factory TestSetImportInputLocation.fromJson(Map<String, dynamic> json) {
     return TestSetImportInputLocation(
-      s3BucketName: json['s3BucketName'] as String,
-      s3Path: json['s3Path'] as String,
+      s3BucketName: (json['s3BucketName'] as String?) ?? '',
+      s3Path: (json['s3Path'] as String?) ?? '',
     );
   }
 
@@ -23336,12 +23366,14 @@ class TestSetImportResourceSpecification {
       Map<String, dynamic> json) {
     return TestSetImportResourceSpecification(
       importInputLocation: TestSetImportInputLocation.fromJson(
-          json['importInputLocation'] as Map<String, dynamic>),
+          (json['importInputLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       modality: TestSetModality.fromString((json['modality'] as String)),
-      roleArn: json['roleArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
       storageLocation: TestSetStorageLocation.fromJson(
-          json['storageLocation'] as Map<String, dynamic>),
-      testSetName: json['testSetName'] as String,
+          (json['storageLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      testSetName: (json['testSetName'] as String?) ?? '',
       description: json['description'] as String?,
       testSetTags: (json['testSetTags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -23385,8 +23417,8 @@ class TestSetIntentDiscrepancyItem {
 
   factory TestSetIntentDiscrepancyItem.fromJson(Map<String, dynamic> json) {
     return TestSetIntentDiscrepancyItem(
-      errorMessage: json['errorMessage'] as String,
-      intentName: json['intentName'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      intentName: (json['intentName'] as String?) ?? '',
     );
   }
 
@@ -23436,9 +23468,9 @@ class TestSetSlotDiscrepancyItem {
 
   factory TestSetSlotDiscrepancyItem.fromJson(Map<String, dynamic> json) {
     return TestSetSlotDiscrepancyItem(
-      errorMessage: json['errorMessage'] as String,
-      intentName: json['intentName'] as String,
-      slotName: json['slotName'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      intentName: (json['intentName'] as String?) ?? '',
+      slotName: (json['slotName'] as String?) ?? '',
     );
   }
 
@@ -23531,8 +23563,8 @@ class TestSetStorageLocation {
 
   factory TestSetStorageLocation.fromJson(Map<String, dynamic> json) {
     return TestSetStorageLocation(
-      s3BucketName: json['s3BucketName'] as String,
-      s3Path: json['s3Path'] as String,
+      s3BucketName: (json['s3BucketName'] as String?) ?? '',
+      s3Path: (json['s3Path'] as String?) ?? '',
       kmsKeyArn: json['kmsKeyArn'] as String?,
     );
   }
@@ -23665,9 +23697,10 @@ class TestSetTurnRecord {
 
   factory TestSetTurnRecord.fromJson(Map<String, dynamic> json) {
     return TestSetTurnRecord(
-      recordNumber: json['recordNumber'] as int,
+      recordNumber: (json['recordNumber'] as int?) ?? 0,
       turnSpecification: TurnSpecification.fromJson(
-          json['turnSpecification'] as Map<String, dynamic>),
+          (json['turnSpecification'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       conversationId: json['conversationId'] as String?,
       turnNumber: json['turnNumber'] as int?,
     );
@@ -23733,7 +23766,7 @@ class TextInputSpecification {
 
   factory TextInputSpecification.fromJson(Map<String, dynamic> json) {
     return TextInputSpecification(
-      startTimeoutMs: json['startTimeoutMs'] as int,
+      startTimeoutMs: (json['startTimeoutMs'] as int?) ?? 0,
     );
   }
 
@@ -23759,7 +23792,8 @@ class TextLogDestination {
   factory TextLogDestination.fromJson(Map<String, dynamic> json) {
     return TextLogDestination(
       cloudWatch: CloudWatchLogGroupLogDestination.fromJson(
-          json['cloudWatch'] as Map<String, dynamic>),
+          (json['cloudWatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -23790,8 +23824,9 @@ class TextLogSetting {
   factory TextLogSetting.fromJson(Map<String, dynamic> json) {
     return TextLogSetting(
       destination: TextLogDestination.fromJson(
-          json['destination'] as Map<String, dynamic>),
-      enabled: json['enabled'] as bool,
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      enabled: (json['enabled'] as bool?) ?? false,
       selectiveLoggingEnabled: json['selectiveLoggingEnabled'] as bool?,
     );
   }
@@ -25068,7 +25103,8 @@ class UserTurnInputSpecification {
   factory UserTurnInputSpecification.fromJson(Map<String, dynamic> json) {
     return UserTurnInputSpecification(
       utteranceInput: UtteranceInputSpecification.fromJson(
-          json['utteranceInput'] as Map<String, dynamic>),
+          (json['utteranceInput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       requestAttributes: (json['requestAttributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       sessionState: json['sessionState'] != null
@@ -25106,7 +25142,7 @@ class UserTurnIntentOutput {
 
   factory UserTurnIntentOutput.fromJson(Map<String, dynamic> json) {
     return UserTurnIntentOutput(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       slots: (json['slots'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(k, UserTurnSlotOutput.fromJson(e as Map<String, dynamic>))),
     );
@@ -25141,8 +25177,9 @@ class UserTurnOutputSpecification {
 
   factory UserTurnOutputSpecification.fromJson(Map<String, dynamic> json) {
     return UserTurnOutputSpecification(
-      intent:
-          UserTurnIntentOutput.fromJson(json['intent'] as Map<String, dynamic>),
+      intent: UserTurnIntentOutput.fromJson(
+          (json['intent'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       activeContexts: (json['activeContexts'] as List?)
           ?.nonNulls
           .map((e) => ActiveContext.fromJson(e as Map<String, dynamic>))
@@ -25208,9 +25245,11 @@ class UserTurnResult {
   factory UserTurnResult.fromJson(Map<String, dynamic> json) {
     return UserTurnResult(
       expectedOutput: UserTurnOutputSpecification.fromJson(
-          json['expectedOutput'] as Map<String, dynamic>),
+          (json['expectedOutput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       input: UserTurnInputSpecification.fromJson(
-          json['input'] as Map<String, dynamic>),
+          (json['input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       actualOutput: json['actualOutput'] != null
           ? UserTurnOutputSpecification.fromJson(
               json['actualOutput'] as Map<String, dynamic>)
@@ -25319,9 +25358,11 @@ class UserTurnSpecification {
   factory UserTurnSpecification.fromJson(Map<String, dynamic> json) {
     return UserTurnSpecification(
       expected: UserTurnOutputSpecification.fromJson(
-          json['expected'] as Map<String, dynamic>),
+          (json['expected'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       input: UserTurnInputSpecification.fromJson(
-          json['input'] as Map<String, dynamic>),
+          (json['input'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -25348,7 +25389,8 @@ class UtteranceAggregationDuration {
   factory UtteranceAggregationDuration.fromJson(Map<String, dynamic> json) {
     return UtteranceAggregationDuration(
       relativeAggregationDuration: RelativeAggregationDuration.fromJson(
-          json['relativeAggregationDuration'] as Map<String, dynamic>),
+          (json['relativeAggregationDuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -25371,7 +25413,7 @@ class UtteranceAudioInputSpecification {
 
   factory UtteranceAudioInputSpecification.fromJson(Map<String, dynamic> json) {
     return UtteranceAudioInputSpecification(
-      audioFileS3Location: json['audioFileS3Location'] as String,
+      audioFileS3Location: (json['audioFileS3Location'] as String?) ?? '',
     );
   }
 
@@ -25546,9 +25588,10 @@ class UtteranceLevelTestResultItem {
 
   factory UtteranceLevelTestResultItem.fromJson(Map<String, dynamic> json) {
     return UtteranceLevelTestResultItem(
-      recordNumber: json['recordNumber'] as int,
+      recordNumber: (json['recordNumber'] as int?) ?? 0,
       turnResult: TestSetTurnResult.fromJson(
-          json['turnResult'] as Map<String, dynamic>),
+          (json['turnResult'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       conversationId: json['conversationId'] as String?,
     );
   }
@@ -25578,7 +25621,7 @@ class UtteranceLevelTestResults {
 
   factory UtteranceLevelTestResults.fromJson(Map<String, dynamic> json) {
     return UtteranceLevelTestResults(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               UtteranceLevelTestResultItem.fromJson(e as Map<String, dynamic>))
@@ -25887,7 +25930,7 @@ class VoiceSettings {
 
   factory VoiceSettings.fromJson(Map<String, dynamic> json) {
     return VoiceSettings(
-      voiceId: json['voiceId'] as String,
+      voiceId: (json['voiceId'] as String?) ?? '',
       engine: (json['engine'] as String?)?.let(VoiceEngine.fromString),
     );
   }
@@ -25932,9 +25975,11 @@ class WaitAndContinueSpecification {
   factory WaitAndContinueSpecification.fromJson(Map<String, dynamic> json) {
     return WaitAndContinueSpecification(
       continueResponse: ResponseSpecification.fromJson(
-          json['continueResponse'] as Map<String, dynamic>),
+          (json['continueResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       waitingResponse: ResponseSpecification.fromJson(
-          json['waitingResponse'] as Map<String, dynamic>),
+          (json['waitingResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       active: json['active'] as bool?,
       stillWaitingResponse: json['stillWaitingResponse'] != null
           ? StillWaitingResponseSpecification.fromJson(

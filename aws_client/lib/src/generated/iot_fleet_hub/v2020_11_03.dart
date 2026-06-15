@@ -362,9 +362,9 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      applicationId: json['applicationId'] as String,
-      applicationName: json['applicationName'] as String,
-      applicationUrl: json['applicationUrl'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationName: (json['applicationName'] as String?) ?? '',
+      applicationUrl: (json['applicationUrl'] as String?) ?? '',
       applicationCreationDate: json['applicationCreationDate'] as int?,
       applicationDescription: json['applicationDescription'] as String?,
       applicationLastUpdateDate: json['applicationLastUpdateDate'] as int?,
@@ -410,8 +410,8 @@ class CreateApplicationResponse {
 
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
-      applicationArn: json['applicationArn'] as String,
-      applicationId: json['applicationId'] as String,
+      applicationArn: (json['applicationArn'] as String?) ?? '',
+      applicationId: (json['applicationId'] as String?) ?? '',
     );
   }
 
@@ -497,15 +497,16 @@ class DescribeApplicationResponse {
 
   factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
     return DescribeApplicationResponse(
-      applicationArn: json['applicationArn'] as String,
-      applicationCreationDate: json['applicationCreationDate'] as int,
-      applicationId: json['applicationId'] as String,
-      applicationLastUpdateDate: json['applicationLastUpdateDate'] as int,
-      applicationName: json['applicationName'] as String,
+      applicationArn: (json['applicationArn'] as String?) ?? '',
+      applicationCreationDate: (json['applicationCreationDate'] as int?) ?? 0,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationLastUpdateDate:
+          (json['applicationLastUpdateDate'] as int?) ?? 0,
+      applicationName: (json['applicationName'] as String?) ?? '',
       applicationState:
           ApplicationState.fromString((json['applicationState'] as String)),
-      applicationUrl: json['applicationUrl'] as String,
-      roleArn: json['roleArn'] as String,
+      applicationUrl: (json['applicationUrl'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
       applicationDescription: json['applicationDescription'] as String?,
       errorMessage: json['errorMessage'] as String?,
       ssoClientId: json['ssoClientId'] as String?,

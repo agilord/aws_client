@@ -1017,7 +1017,7 @@ class CreatePipelineOutput {
 
   factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) {
     return CreatePipelineOutput(
-      pipelineId: json['pipelineId'] as String,
+      pipelineId: (json['pipelineId'] as String?) ?? '',
     );
   }
 
@@ -1063,7 +1063,7 @@ class DescribeObjectsOutput {
 
   factory DescribeObjectsOutput.fromJson(Map<String, dynamic> json) {
     return DescribeObjectsOutput(
-      pipelineObjects: (json['pipelineObjects'] as List)
+      pipelineObjects: ((json['pipelineObjects'] as List?) ?? const [])
           .nonNulls
           .map((e) => PipelineObject.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1095,7 +1095,8 @@ class DescribePipelinesOutput {
 
   factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) {
     return DescribePipelinesOutput(
-      pipelineDescriptionList: (json['pipelineDescriptionList'] as List)
+      pipelineDescriptionList: ((json['pipelineDescriptionList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => PipelineDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1121,7 +1122,7 @@ class EvaluateExpressionOutput {
 
   factory EvaluateExpressionOutput.fromJson(Map<String, dynamic> json) {
     return EvaluateExpressionOutput(
-      evaluatedExpression: json['evaluatedExpression'] as String,
+      evaluatedExpression: (json['evaluatedExpression'] as String?) ?? '',
     );
   }
 
@@ -1154,7 +1155,7 @@ class Field {
 
   factory Field.fromJson(Map<String, dynamic> json) {
     return Field(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       refValue: json['refValue'] as String?,
       stringValue: json['stringValue'] as String?,
     );
@@ -1277,7 +1278,7 @@ class ListPipelinesOutput {
 
   factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) {
     return ListPipelinesOutput(
-      pipelineIdList: (json['pipelineIdList'] as List)
+      pipelineIdList: ((json['pipelineIdList'] as List?) ?? const [])
           .nonNulls
           .map((e) => PipelineIdName.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1390,8 +1391,8 @@ class ParameterAttribute {
 
   factory ParameterAttribute.fromJson(Map<String, dynamic> json) {
     return ParameterAttribute(
-      key: json['key'] as String,
-      stringValue: json['stringValue'] as String,
+      key: (json['key'] as String?) ?? '',
+      stringValue: (json['stringValue'] as String?) ?? '',
     );
   }
 
@@ -1420,11 +1421,11 @@ class ParameterObject {
 
   factory ParameterObject.fromJson(Map<String, dynamic> json) {
     return ParameterObject(
-      attributes: (json['attributes'] as List)
+      attributes: ((json['attributes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ParameterAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -1453,8 +1454,8 @@ class ParameterValue {
 
   factory ParameterValue.fromJson(Map<String, dynamic> json) {
     return ParameterValue(
-      id: json['id'] as String,
-      stringValue: json['stringValue'] as String,
+      id: (json['id'] as String?) ?? '',
+      stringValue: (json['stringValue'] as String?) ?? '',
     );
   }
 
@@ -1501,12 +1502,12 @@ class PipelineDescription {
 
   factory PipelineDescription.fromJson(Map<String, dynamic> json) {
     return PipelineDescription(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['name'] as String,
-      pipelineId: json['pipelineId'] as String,
+      name: (json['name'] as String?) ?? '',
+      pipelineId: (json['pipelineId'] as String?) ?? '',
       description: json['description'] as String?,
       tags: (json['tags'] as List?)
           ?.nonNulls
@@ -1583,12 +1584,12 @@ class PipelineObject {
 
   factory PipelineObject.fromJson(Map<String, dynamic> json) {
     return PipelineObject(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -1656,7 +1657,7 @@ class PutPipelineDefinitionOutput {
 
   factory PutPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return PutPipelineDefinitionOutput(
-      errored: json['errored'] as bool,
+      errored: (json['errored'] as bool?) ?? false,
       validationErrors: (json['validationErrors'] as List?)
           ?.nonNulls
           .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
@@ -1763,7 +1764,7 @@ class ReportTaskProgressOutput {
 
   factory ReportTaskProgressOutput.fromJson(Map<String, dynamic> json) {
     return ReportTaskProgressOutput(
-      canceled: json['canceled'] as bool,
+      canceled: (json['canceled'] as bool?) ?? false,
     );
   }
 
@@ -1786,7 +1787,7 @@ class ReportTaskRunnerHeartbeatOutput {
 
   factory ReportTaskRunnerHeartbeatOutput.fromJson(Map<String, dynamic> json) {
     return ReportTaskRunnerHeartbeatOutput(
-      terminate: json['terminate'] as bool,
+      terminate: (json['terminate'] as bool?) ?? false,
     );
   }
 
@@ -1863,8 +1864,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -1961,7 +1962,7 @@ class ValidatePipelineDefinitionOutput {
 
   factory ValidatePipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
     return ValidatePipelineDefinitionOutput(
-      errored: json['errored'] as bool,
+      errored: (json['errored'] as bool?) ?? false,
       validationErrors: (json['validationErrors'] as List?)
           ?.nonNulls
           .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))

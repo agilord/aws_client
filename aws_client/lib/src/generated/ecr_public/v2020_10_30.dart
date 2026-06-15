@@ -1571,7 +1571,7 @@ class DescribeRegistriesResponse {
 
   factory DescribeRegistriesResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRegistriesResponse(
-      registries: (json['registries'] as List)
+      registries: ((json['registries'] as List?) ?? const [])
           .nonNulls
           .map((e) => Registry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1661,7 +1661,8 @@ class GetRegistryCatalogDataResponse {
   factory GetRegistryCatalogDataResponse.fromJson(Map<String, dynamic> json) {
     return GetRegistryCatalogDataResponse(
       registryCatalogData: RegistryCatalogData.fromJson(
-          json['registryCatalogData'] as Map<String, dynamic>),
+          (json['registryCatalogData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2217,7 +2218,8 @@ class PutRegistryCatalogDataResponse {
   factory PutRegistryCatalogDataResponse.fromJson(Map<String, dynamic> json) {
     return PutRegistryCatalogDataResponse(
       registryCatalogData: RegistryCatalogData.fromJson(
-          json['registryCatalogData'] as Map<String, dynamic>),
+          (json['registryCatalogData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2350,14 +2352,14 @@ class Registry {
 
   factory Registry.fromJson(Map<String, dynamic> json) {
     return Registry(
-      aliases: (json['aliases'] as List)
+      aliases: ((json['aliases'] as List?) ?? const [])
           .nonNulls
           .map((e) => RegistryAlias.fromJson(e as Map<String, dynamic>))
           .toList(),
-      registryArn: json['registryArn'] as String,
-      registryId: json['registryId'] as String,
-      registryUri: json['registryUri'] as String,
-      verified: json['verified'] as bool,
+      registryArn: (json['registryArn'] as String?) ?? '',
+      registryId: (json['registryId'] as String?) ?? '',
+      registryUri: (json['registryUri'] as String?) ?? '',
+      verified: (json['verified'] as bool?) ?? false,
     );
   }
 
@@ -2413,9 +2415,9 @@ class RegistryAlias {
 
   factory RegistryAlias.fromJson(Map<String, dynamic> json) {
     return RegistryAlias(
-      defaultRegistryAlias: json['defaultRegistryAlias'] as bool,
-      name: json['name'] as String,
-      primaryRegistryAlias: json['primaryRegistryAlias'] as bool,
+      defaultRegistryAlias: (json['defaultRegistryAlias'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      primaryRegistryAlias: (json['primaryRegistryAlias'] as bool?) ?? false,
       status: RegistryAliasStatus.fromString((json['status'] as String)),
     );
   }

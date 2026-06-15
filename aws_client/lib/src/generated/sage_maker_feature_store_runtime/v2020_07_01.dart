@@ -361,11 +361,11 @@ class BatchGetRecordError {
 
   factory BatchGetRecordError.fromJson(Map<String, dynamic> json) {
     return BatchGetRecordError(
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
-      featureGroupName: json['FeatureGroupName'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
       recordIdentifierValueAsString:
-          json['RecordIdentifierValueAsString'] as String,
+          (json['RecordIdentifierValueAsString'] as String?) ?? '',
     );
   }
 
@@ -405,9 +405,9 @@ class BatchGetRecordIdentifier {
 
   factory BatchGetRecordIdentifier.fromJson(Map<String, dynamic> json) {
     return BatchGetRecordIdentifier(
-      featureGroupName: json['FeatureGroupName'] as String,
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
       recordIdentifiersValueAsString:
-          (json['RecordIdentifiersValueAsString'] as List)
+          ((json['RecordIdentifiersValueAsString'] as List?) ?? const [])
               .nonNulls
               .map((e) => e as String)
               .toList(),
@@ -449,20 +449,21 @@ class BatchGetRecordResponse {
 
   factory BatchGetRecordResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetRecordResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchGetRecordError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      records: (json['Records'] as List)
+      records: ((json['Records'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchGetRecordResultDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
-      unprocessedIdentifiers: (json['UnprocessedIdentifiers'] as List)
-          .nonNulls
-          .map((e) =>
-              BatchGetRecordIdentifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      unprocessedIdentifiers:
+          ((json['UnprocessedIdentifiers'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  BatchGetRecordIdentifier.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -502,13 +503,13 @@ class BatchGetRecordResultDetail {
 
   factory BatchGetRecordResultDetail.fromJson(Map<String, dynamic> json) {
     return BatchGetRecordResultDetail(
-      featureGroupName: json['FeatureGroupName'] as String,
-      record: (json['Record'] as List)
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
+      record: ((json['Record'] as List?) ?? const [])
           .nonNulls
           .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
           .toList(),
       recordIdentifierValueAsString:
-          json['RecordIdentifierValueAsString'] as String,
+          (json['RecordIdentifierValueAsString'] as String?) ?? '',
       expiresAt: json['ExpiresAt'] as String?,
     );
   }
@@ -583,7 +584,7 @@ class FeatureValue {
 
   factory FeatureValue.fromJson(Map<String, dynamic> json) {
     return FeatureValue(
-      featureName: json['FeatureName'] as String,
+      featureName: (json['FeatureName'] as String?) ?? '',
       valueAsString: json['ValueAsString'] as String?,
       valueAsStringList: (json['ValueAsStringList'] as List?)
           ?.nonNulls

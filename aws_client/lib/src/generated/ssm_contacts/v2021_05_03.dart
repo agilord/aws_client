@@ -1967,7 +1967,7 @@ class ChannelTargetInfo {
 
   factory ChannelTargetInfo.fromJson(Map<String, dynamic> json) {
     return ChannelTargetInfo(
-      contactChannelId: json['ContactChannelId'] as String,
+      contactChannelId: (json['ContactChannelId'] as String?) ?? '',
       retryIntervalInMinutes: json['RetryIntervalInMinutes'] as int?,
     );
   }
@@ -2024,8 +2024,8 @@ class Contact {
 
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
-      alias: json['Alias'] as String,
-      contactArn: json['ContactArn'] as String,
+      alias: (json['Alias'] as String?) ?? '',
+      contactArn: (json['ContactArn'] as String?) ?? '',
       type: ContactType.fromString((json['Type'] as String)),
       displayName: json['DisplayName'] as String?,
     );
@@ -2094,11 +2094,12 @@ class ContactChannel {
     return ContactChannel(
       activationStatus:
           ActivationStatus.fromString((json['ActivationStatus'] as String)),
-      contactArn: json['ContactArn'] as String,
-      contactChannelArn: json['ContactChannelArn'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
       deliveryAddress: ContactChannelAddress.fromJson(
-          json['DeliveryAddress'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['DeliveryAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       type: (json['Type'] as String?)?.let(ChannelType.fromString),
     );
   }
@@ -2174,7 +2175,7 @@ class ContactTargetInfo {
 
   factory ContactTargetInfo.fromJson(Map<String, dynamic> json) {
     return ContactTargetInfo(
-      isEssential: json['IsEssential'] as bool,
+      isEssential: (json['IsEssential'] as bool?) ?? false,
       contactId: json['ContactId'] as String?,
     );
   }
@@ -2248,7 +2249,7 @@ class CreateContactChannelResult {
 
   factory CreateContactChannelResult.fromJson(Map<String, dynamic> json) {
     return CreateContactChannelResult(
-      contactChannelArn: json['ContactChannelArn'] as String,
+      contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
     );
   }
 
@@ -2270,7 +2271,7 @@ class CreateContactResult {
 
   factory CreateContactResult.fromJson(Map<String, dynamic> json) {
     return CreateContactResult(
-      contactArn: json['ContactArn'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
     );
   }
 
@@ -2292,7 +2293,7 @@ class CreateRotationOverrideResult {
 
   factory CreateRotationOverrideResult.fromJson(Map<String, dynamic> json) {
     return CreateRotationOverrideResult(
-      rotationOverrideId: json['RotationOverrideId'] as String,
+      rotationOverrideId: (json['RotationOverrideId'] as String?) ?? '',
     );
   }
 
@@ -2314,7 +2315,7 @@ class CreateRotationResult {
 
   factory CreateRotationResult.fromJson(Map<String, dynamic> json) {
     return CreateRotationResult(
-      rotationArn: json['RotationArn'] as String,
+      rotationArn: (json['RotationArn'] as String?) ?? '',
     );
   }
 
@@ -2455,11 +2456,11 @@ class DescribeEngagementResult {
 
   factory DescribeEngagementResult.fromJson(Map<String, dynamic> json) {
     return DescribeEngagementResult(
-      contactArn: json['ContactArn'] as String,
-      content: json['Content'] as String,
-      engagementArn: json['EngagementArn'] as String,
-      sender: json['Sender'] as String,
-      subject: json['Subject'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      content: (json['Content'] as String?) ?? '',
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
+      subject: (json['Subject'] as String?) ?? '',
       incidentId: json['IncidentId'] as String?,
       publicContent: json['PublicContent'] as String?,
       publicSubject: json['PublicSubject'] as String?,
@@ -2552,12 +2553,12 @@ class DescribePageResult {
 
   factory DescribePageResult.fromJson(Map<String, dynamic> json) {
     return DescribePageResult(
-      contactArn: json['ContactArn'] as String,
-      content: json['Content'] as String,
-      engagementArn: json['EngagementArn'] as String,
-      pageArn: json['PageArn'] as String,
-      sender: json['Sender'] as String,
-      subject: json['Subject'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      content: (json['Content'] as String?) ?? '',
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
+      pageArn: (json['PageArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
+      subject: (json['Subject'] as String?) ?? '',
       deliveryTime: timeStampFromJson(json['DeliveryTime']),
       incidentId: json['IncidentId'] as String?,
       publicContent: json['PublicContent'] as String?,
@@ -2630,9 +2631,9 @@ class Engagement {
 
   factory Engagement.fromJson(Map<String, dynamic> json) {
     return Engagement(
-      contactArn: json['ContactArn'] as String,
-      engagementArn: json['EngagementArn'] as String,
-      sender: json['Sender'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
       incidentId: json['IncidentId'] as String?,
       startTime: timeStampFromJson(json['StartTime']),
       stopTime: timeStampFromJson(json['StopTime']),
@@ -2689,11 +2690,12 @@ class GetContactChannelResult {
 
   factory GetContactChannelResult.fromJson(Map<String, dynamic> json) {
     return GetContactChannelResult(
-      contactArn: json['ContactArn'] as String,
-      contactChannelArn: json['ContactChannelArn'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
       deliveryAddress: ContactChannelAddress.fromJson(
-          json['DeliveryAddress'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['DeliveryAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       type: ChannelType.fromString((json['Type'] as String)),
       activationStatus: (json['ActivationStatus'] as String?)
           ?.let(ActivationStatus.fromString),
@@ -2777,9 +2779,10 @@ class GetContactResult {
 
   factory GetContactResult.fromJson(Map<String, dynamic> json) {
     return GetContactResult(
-      alias: json['Alias'] as String,
-      contactArn: json['ContactArn'] as String,
-      plan: Plan.fromJson(json['Plan'] as Map<String, dynamic>),
+      alias: (json['Alias'] as String?) ?? '',
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      plan: Plan.fromJson(
+          (json['Plan'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       type: ContactType.fromString((json['Type'] as String)),
       displayName: json['DisplayName'] as String?,
     );
@@ -2895,16 +2898,17 @@ class GetRotationResult {
 
   factory GetRotationResult.fromJson(Map<String, dynamic> json) {
     return GetRotationResult(
-      contactIds: (json['ContactIds'] as List)
+      contactIds: ((json['ContactIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       recurrence: RecurrenceSettings.fromJson(
-          json['Recurrence'] as Map<String, dynamic>),
-      rotationArn: json['RotationArn'] as String,
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
-      timeZoneId: json['TimeZoneId'] as String,
+          (json['Recurrence'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      rotationArn: (json['RotationArn'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      timeZoneId: (json['TimeZoneId'] as String?) ?? '',
     );
   }
 
@@ -2941,8 +2945,8 @@ class HandOffTime {
 
   factory HandOffTime.fromJson(Map<String, dynamic> json) {
     return HandOffTime(
-      hourOfDay: json['HourOfDay'] as int,
-      minuteOfHour: json['MinuteOfHour'] as int,
+      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
+      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
     );
   }
 
@@ -2970,7 +2974,7 @@ class ListContactChannelsResult {
 
   factory ListContactChannelsResult.fromJson(Map<String, dynamic> json) {
     return ListContactChannelsResult(
-      contactChannels: (json['ContactChannels'] as List)
+      contactChannels: ((json['ContactChannels'] as List?) ?? const [])
           .nonNulls
           .map((e) => ContactChannel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3036,7 +3040,7 @@ class ListEngagementsResult {
 
   factory ListEngagementsResult.fromJson(Map<String, dynamic> json) {
     return ListEngagementsResult(
-      engagements: (json['Engagements'] as List)
+      engagements: ((json['Engagements'] as List?) ?? const [])
           .nonNulls
           .map((e) => Engagement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3101,7 +3105,7 @@ class ListPageResolutionsResult {
 
   factory ListPageResolutionsResult.fromJson(Map<String, dynamic> json) {
     return ListPageResolutionsResult(
-      pageResolutions: (json['PageResolutions'] as List)
+      pageResolutions: ((json['PageResolutions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResolutionContact.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3133,7 +3137,7 @@ class ListPagesByContactResult {
 
   factory ListPagesByContactResult.fromJson(Map<String, dynamic> json) {
     return ListPagesByContactResult(
-      pages: (json['Pages'] as List)
+      pages: ((json['Pages'] as List?) ?? const [])
           .nonNulls
           .map((e) => Page.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3165,7 +3169,7 @@ class ListPagesByEngagementResult {
 
   factory ListPagesByEngagementResult.fromJson(Map<String, dynamic> json) {
     return ListPagesByEngagementResult(
-      pages: (json['Pages'] as List)
+      pages: ((json['Pages'] as List?) ?? const [])
           .nonNulls
           .map((e) => Page.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3297,7 +3301,7 @@ class ListRotationsResult {
 
   factory ListRotationsResult.fromJson(Map<String, dynamic> json) {
     return ListRotationsResult(
-      rotations: (json['Rotations'] as List)
+      rotations: ((json['Rotations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Rotation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3355,9 +3359,10 @@ class MonthlySetting {
 
   factory MonthlySetting.fromJson(Map<String, dynamic> json) {
     return MonthlySetting(
-      dayOfMonth: json['DayOfMonth'] as int,
-      handOffTime:
-          HandOffTime.fromJson(json['HandOffTime'] as Map<String, dynamic>),
+      dayOfMonth: (json['DayOfMonth'] as int?) ?? 0,
+      handOffTime: HandOffTime.fromJson(
+          (json['HandOffTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3410,10 +3415,10 @@ class Page {
 
   factory Page.fromJson(Map<String, dynamic> json) {
     return Page(
-      contactArn: json['ContactArn'] as String,
-      engagementArn: json['EngagementArn'] as String,
-      pageArn: json['PageArn'] as String,
-      sender: json['Sender'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
+      pageArn: (json['PageArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
       deliveryTime: timeStampFromJson(json['DeliveryTime']),
       incidentId: json['IncidentId'] as String?,
       readTime: timeStampFromJson(json['ReadTime']),
@@ -3550,7 +3555,7 @@ class Receipt {
 
   factory Receipt.fromJson(Map<String, dynamic> json) {
     return Receipt(
-      receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] as Object),
+      receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] ?? 0),
       receiptType: ReceiptType.fromString((json['ReceiptType'] as String)),
       contactChannelArn: json['ContactChannelArn'] as String?,
       receiptInfo: json['ReceiptInfo'] as String?,
@@ -3624,8 +3629,8 @@ class RecurrenceSettings {
 
   factory RecurrenceSettings.fromJson(Map<String, dynamic> json) {
     return RecurrenceSettings(
-      numberOfOnCalls: json['NumberOfOnCalls'] as int,
-      recurrenceMultiplier: json['RecurrenceMultiplier'] as int,
+      numberOfOnCalls: (json['NumberOfOnCalls'] as int?) ?? 0,
+      recurrenceMultiplier: (json['RecurrenceMultiplier'] as int?) ?? 0,
       dailySettings: (json['DailySettings'] as List?)
           ?.nonNulls
           .map((e) => HandOffTime.fromJson(e as Map<String, dynamic>))
@@ -3693,7 +3698,7 @@ class ResolutionContact {
 
   factory ResolutionContact.fromJson(Map<String, dynamic> json) {
     return ResolutionContact(
-      contactArn: json['ContactArn'] as String,
+      contactArn: (json['ContactArn'] as String?) ?? '',
       type: ContactType.fromString((json['Type'] as String)),
       stageIndex: json['StageIndex'] as int?,
     );
@@ -3746,8 +3751,8 @@ class Rotation {
 
   factory Rotation.fromJson(Map<String, dynamic> json) {
     return Rotation(
-      name: json['Name'] as String,
-      rotationArn: json['RotationArn'] as String,
+      name: (json['Name'] as String?) ?? '',
+      rotationArn: (json['RotationArn'] as String?) ?? '',
       contactIds: (json['ContactIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3807,14 +3812,14 @@ class RotationOverride {
 
   factory RotationOverride.fromJson(Map<String, dynamic> json) {
     return RotationOverride(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      newContactIds: (json['NewContactIds'] as List)
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      newContactIds: ((json['NewContactIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      rotationOverrideId: json['RotationOverrideId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      rotationOverrideId: (json['RotationOverrideId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
     );
   }
 
@@ -3862,8 +3867,8 @@ class RotationShift {
 
   factory RotationShift.fromJson(Map<String, dynamic> json) {
     return RotationShift(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       contactIds: (json['ContactIds'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3916,10 +3921,11 @@ class ShiftDetails {
 
   factory ShiftDetails.fromJson(Map<String, dynamic> json) {
     return ShiftDetails(
-      overriddenContactIds: (json['OverriddenContactIds'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      overriddenContactIds:
+          ((json['OverriddenContactIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 
@@ -3963,8 +3969,8 @@ class Stage {
 
   factory Stage.fromJson(Map<String, dynamic> json) {
     return Stage(
-      durationInMinutes: json['DurationInMinutes'] as int,
-      targets: (json['Targets'] as List)
+      durationInMinutes: (json['DurationInMinutes'] as int?) ?? 0,
+      targets: ((json['Targets'] as List?) ?? const [])
           .nonNulls
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3991,7 +3997,7 @@ class StartEngagementResult {
 
   factory StartEngagementResult.fromJson(Map<String, dynamic> json) {
     return StartEngagementResult(
-      engagementArn: json['EngagementArn'] as String,
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
     );
   }
 
@@ -4180,8 +4186,9 @@ class WeeklySetting {
   factory WeeklySetting.fromJson(Map<String, dynamic> json) {
     return WeeklySetting(
       dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String)),
-      handOffTime:
-          HandOffTime.fromJson(json['HandOffTime'] as Map<String, dynamic>),
+      handOffTime: HandOffTime.fromJson(
+          (json['HandOffTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

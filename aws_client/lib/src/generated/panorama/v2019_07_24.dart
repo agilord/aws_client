@@ -1454,7 +1454,7 @@ class CreateApplicationInstanceResponse {
   factory CreateApplicationInstanceResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateApplicationInstanceResponse(
-      applicationInstanceId: json['ApplicationInstanceId'] as String,
+      applicationInstanceId: (json['ApplicationInstanceId'] as String?) ?? '',
     );
   }
 
@@ -1476,7 +1476,7 @@ class CreateJobForDevicesResponse {
 
   factory CreateJobForDevicesResponse.fromJson(Map<String, dynamic> json) {
     return CreateJobForDevicesResponse(
-      jobs: (json['Jobs'] as List)
+      jobs: ((json['Jobs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Job.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1502,7 +1502,7 @@ class CreateNodeFromTemplateJobResponse {
   factory CreateNodeFromTemplateJobResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateNodeFromTemplateJobResponse(
-      jobId: json['JobId'] as String,
+      jobId: (json['JobId'] as String?) ?? '',
     );
   }
 
@@ -1524,7 +1524,7 @@ class CreatePackageImportJobResponse {
 
   factory CreatePackageImportJobResponse.fromJson(Map<String, dynamic> json) {
     return CreatePackageImportJobResponse(
-      jobId: json['JobId'] as String,
+      jobId: (json['JobId'] as String?) ?? '',
     );
   }
 
@@ -1555,7 +1555,8 @@ class CreatePackageResponse {
   factory CreatePackageResponse.fromJson(Map<String, dynamic> json) {
     return CreatePackageResponse(
       storageLocation: StorageLocation.fromJson(
-          json['StorageLocation'] as Map<String, dynamic>),
+          (json['StorageLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       arn: json['Arn'] as String?,
       packageId: json['PackageId'] as String?,
     );
@@ -2155,17 +2156,19 @@ class DescribeNodeFromTemplateJobResponse {
   factory DescribeNodeFromTemplateJobResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeNodeFromTemplateJobResponse(
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      jobId: json['JobId'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      jobId: (json['JobId'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['LastUpdatedTime'] as Object),
-      nodeName: json['NodeName'] as String,
-      outputPackageName: json['OutputPackageName'] as String,
-      outputPackageVersion: json['OutputPackageVersion'] as String,
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
+      nodeName: (json['NodeName'] as String?) ?? '',
+      outputPackageName: (json['OutputPackageName'] as String?) ?? '',
+      outputPackageVersion: (json['OutputPackageVersion'] as String?) ?? '',
       status: NodeFromTemplateJobStatus.fromString((json['Status'] as String)),
-      statusMessage: json['StatusMessage'] as String,
-      templateParameters: (json['TemplateParameters'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      statusMessage: (json['StatusMessage'] as String?) ?? '',
+      templateParameters:
+          ((json['TemplateParameters'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
       templateType: TemplateType.fromString((json['TemplateType'] as String)),
       jobTags: (json['JobTags'] as List?)
           ?.nonNulls
@@ -2268,19 +2271,20 @@ class DescribeNodeResponse {
   factory DescribeNodeResponse.fromJson(Map<String, dynamic> json) {
     return DescribeNodeResponse(
       category: NodeCategory.fromString((json['Category'] as String)),
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      description: json['Description'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['LastUpdatedTime'] as Object),
-      name: json['Name'] as String,
-      nodeId: json['NodeId'] as String,
-      nodeInterface:
-          NodeInterface.fromJson(json['NodeInterface'] as Map<String, dynamic>),
-      ownerAccount: json['OwnerAccount'] as String,
-      packageId: json['PackageId'] as String,
-      packageName: json['PackageName'] as String,
-      packageVersion: json['PackageVersion'] as String,
-      patchVersion: json['PatchVersion'] as String,
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      nodeId: (json['NodeId'] as String?) ?? '',
+      nodeInterface: NodeInterface.fromJson(
+          (json['NodeInterface'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ownerAccount: (json['OwnerAccount'] as String?) ?? '',
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageName: (json['PackageName'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
       assetName: json['AssetName'] as String?,
       packageArn: json['PackageArn'] as String?,
     );
@@ -2370,19 +2374,22 @@ class DescribePackageImportJobResponse {
 
   factory DescribePackageImportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribePackageImportJobResponse(
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
       inputConfig: PackageImportJobInputConfig.fromJson(
-          json['InputConfig'] as Map<String, dynamic>),
-      jobId: json['JobId'] as String,
+          (json['InputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
       jobType: PackageImportJobType.fromString((json['JobType'] as String)),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['LastUpdatedTime'] as Object),
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
       output: PackageImportJobOutput.fromJson(
-          json['Output'] as Map<String, dynamic>),
+          (json['Output'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       outputConfig: PackageImportJobOutputConfig.fromJson(
-          json['OutputConfig'] as Map<String, dynamic>),
+          (json['OutputConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: PackageImportJobStatus.fromString((json['Status'] as String)),
-      statusMessage: json['StatusMessage'] as String,
+      statusMessage: (json['StatusMessage'] as String?) ?? '',
       clientToken: json['ClientToken'] as String?,
       jobTags: (json['JobTags'] as List?)
           ?.nonNulls
@@ -2457,14 +2464,16 @@ class DescribePackageResponse {
 
   factory DescribePackageResponse.fromJson(Map<String, dynamic> json) {
     return DescribePackageResponse(
-      arn: json['Arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      packageId: json['PackageId'] as String,
-      packageName: json['PackageName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageName: (json['PackageName'] as String?) ?? '',
       storageLocation: StorageLocation.fromJson(
-          json['StorageLocation'] as Map<String, dynamic>),
-      tags: (json['Tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+          (json['StorageLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
       readAccessPrincipalArns: (json['ReadAccessPrincipalArns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2546,11 +2555,11 @@ class DescribePackageVersionResponse {
 
   factory DescribePackageVersionResponse.fromJson(Map<String, dynamic> json) {
     return DescribePackageVersionResponse(
-      isLatestPatch: json['IsLatestPatch'] as bool,
-      packageId: json['PackageId'] as String,
-      packageName: json['PackageName'] as String,
-      packageVersion: json['PackageVersion'] as String,
-      patchVersion: json['PatchVersion'] as String,
+      isLatestPatch: (json['IsLatestPatch'] as bool?) ?? false,
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageName: (json['PackageName'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
       status: PackageVersionStatus.fromString((json['Status'] as String)),
       ownerAccount: json['OwnerAccount'] as String?,
       packageArn: json['PackageArn'] as String?,
@@ -3021,8 +3030,9 @@ class JobResourceTags {
     return JobResourceTags(
       resourceType:
           JobResourceType.fromString((json['ResourceType'] as String)),
-      tags: (json['Tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -3246,7 +3256,7 @@ class ListDevicesResponse {
 
   factory ListDevicesResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicesResponse(
-      devices: (json['Devices'] as List)
+      devices: ((json['Devices'] as List?) ?? const [])
           .nonNulls
           .map((e) => Device.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3295,7 +3305,8 @@ class ListNodeFromTemplateJobsResponse {
 
   factory ListNodeFromTemplateJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListNodeFromTemplateJobsResponse(
-      nodeFromTemplateJobs: (json['NodeFromTemplateJobs'] as List)
+      nodeFromTemplateJobs: ((json['NodeFromTemplateJobs'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => NodeFromTemplateJob.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3359,7 +3370,7 @@ class ListPackageImportJobsResponse {
 
   factory ListPackageImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListPackageImportJobsResponse(
-      packageImportJobs: (json['PackageImportJobs'] as List)
+      packageImportJobs: ((json['PackageImportJobs'] as List?) ?? const [])
           .nonNulls
           .map((e) => PackageImportJob.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3649,13 +3660,13 @@ class Node {
   factory Node.fromJson(Map<String, dynamic> json) {
     return Node(
       category: NodeCategory.fromString((json['Category'] as String)),
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      name: json['Name'] as String,
-      nodeId: json['NodeId'] as String,
-      packageId: json['PackageId'] as String,
-      packageName: json['PackageName'] as String,
-      packageVersion: json['PackageVersion'] as String,
-      patchVersion: json['PatchVersion'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
+      nodeId: (json['NodeId'] as String?) ?? '',
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageName: (json['PackageName'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
       description: json['Description'] as String?,
       ownerAccount: json['OwnerAccount'] as String?,
       packageArn: json['PackageArn'] as String?,
@@ -3871,7 +3882,7 @@ class NodeInstance {
     return NodeInstance(
       currentStatus:
           NodeInstanceStatus.fromString((json['CurrentStatus'] as String)),
-      nodeInstanceId: json['NodeInstanceId'] as String,
+      nodeInstanceId: (json['NodeInstanceId'] as String?) ?? '',
       nodeId: json['NodeId'] as String?,
       nodeName: json['NodeName'] as String?,
       packageName: json['PackageName'] as String?,
@@ -3933,11 +3944,11 @@ class NodeInterface {
 
   factory NodeInterface.fromJson(Map<String, dynamic> json) {
     return NodeInterface(
-      inputs: (json['Inputs'] as List)
+      inputs: ((json['Inputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => NodeInputPort.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputs: (json['Outputs'] as List)
+      outputs: ((json['Outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => NodeOutputPort.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4041,7 +4052,7 @@ class NtpPayload {
 
   factory NtpPayload.fromJson(Map<String, dynamic> json) {
     return NtpPayload(
-      ntpServers: (json['NtpServers'] as List)
+      ntpServers: ((json['NtpServers'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -4133,8 +4144,8 @@ class OutPutS3Location {
 
   factory OutPutS3Location.fromJson(Map<String, dynamic> json) {
     return OutPutS3Location(
-      bucketName: json['BucketName'] as String,
-      objectKey: json['ObjectKey'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
     );
   }
 
@@ -4260,10 +4271,11 @@ class PackageImportJobOutput {
   factory PackageImportJobOutput.fromJson(Map<String, dynamic> json) {
     return PackageImportJobOutput(
       outputS3Location: OutPutS3Location.fromJson(
-          json['OutputS3Location'] as Map<String, dynamic>),
-      packageId: json['PackageId'] as String,
-      packageVersion: json['PackageVersion'] as String,
-      patchVersion: json['PatchVersion'] as String,
+          (json['OutputS3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
     );
   }
 
@@ -4410,9 +4422,9 @@ class PackageObject {
 
   factory PackageObject.fromJson(Map<String, dynamic> json) {
     return PackageObject(
-      name: json['Name'] as String,
-      packageVersion: json['PackageVersion'] as String,
-      patchVersion: json['PatchVersion'] as String,
+      name: (json['Name'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
     );
   }
 
@@ -4439,8 +4451,9 @@ class PackageVersionInputConfig {
 
   factory PackageVersionInputConfig.fromJson(Map<String, dynamic> json) {
     return PackageVersionInputConfig(
-      s3Location:
-          S3Location.fromJson(json['S3Location'] as Map<String, dynamic>),
+      s3Location: S3Location.fromJson(
+          (json['S3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4471,8 +4484,8 @@ class PackageVersionOutputConfig {
 
   factory PackageVersionOutputConfig.fromJson(Map<String, dynamic> json) {
     return PackageVersionOutputConfig(
-      packageName: json['PackageName'] as String,
-      packageVersion: json['PackageVersion'] as String,
+      packageName: (json['PackageName'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
       markLatest: json['MarkLatest'] as bool?,
     );
   }
@@ -4549,7 +4562,7 @@ class ProvisionDeviceResponse {
 
   factory ProvisionDeviceResponse.fromJson(Map<String, dynamic> json) {
     return ProvisionDeviceResponse(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       status: DeviceStatus.fromString((json['Status'] as String)),
       certificates: _s.decodeNullableUint8List(json['Certificates'] as String?),
       deviceId: json['DeviceId'] as String?,
@@ -4624,8 +4637,8 @@ class ReportedRuntimeContextState {
       deviceReportedStatus: DeviceReportedStatus.fromString(
           (json['DeviceReportedStatus'] as String)),
       deviceReportedTime:
-          nonNullableTimeStampFromJson(json['DeviceReportedTime'] as Object),
-      runtimeContextName: json['RuntimeContextName'] as String,
+          nonNullableTimeStampFromJson(json['DeviceReportedTime'] ?? 0),
+      runtimeContextName: (json['RuntimeContextName'] as String?) ?? '',
     );
   }
 
@@ -4662,8 +4675,8 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucketName: json['BucketName'] as String,
-      objectKey: json['ObjectKey'] as String,
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
       region: json['Region'] as String?,
     );
   }
@@ -4691,7 +4704,7 @@ class SignalApplicationInstanceNodeInstancesResponse {
   factory SignalApplicationInstanceNodeInstancesResponse.fromJson(
       Map<String, dynamic> json) {
     return SignalApplicationInstanceNodeInstancesResponse(
-      applicationInstanceId: json['ApplicationInstanceId'] as String,
+      applicationInstanceId: (json['ApplicationInstanceId'] as String?) ?? '',
     );
   }
 
@@ -4740,10 +4753,13 @@ class StaticIpConnectionInfo {
 
   factory StaticIpConnectionInfo.fromJson(Map<String, dynamic> json) {
     return StaticIpConnectionInfo(
-      defaultGateway: json['DefaultGateway'] as String,
-      dns: (json['Dns'] as List).nonNulls.map((e) => e as String).toList(),
-      ipAddress: json['IpAddress'] as String,
-      mask: json['Mask'] as String,
+      defaultGateway: (json['DefaultGateway'] as String?) ?? '',
+      dns: ((json['Dns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ipAddress: (json['IpAddress'] as String?) ?? '',
+      mask: (json['Mask'] as String?) ?? '',
     );
   }
 
@@ -4808,11 +4824,12 @@ class StorageLocation {
 
   factory StorageLocation.fromJson(Map<String, dynamic> json) {
     return StorageLocation(
-      binaryPrefixLocation: json['BinaryPrefixLocation'] as String,
-      bucket: json['Bucket'] as String,
-      generatedPrefixLocation: json['GeneratedPrefixLocation'] as String,
-      manifestPrefixLocation: json['ManifestPrefixLocation'] as String,
-      repoPrefixLocation: json['RepoPrefixLocation'] as String,
+      binaryPrefixLocation: (json['BinaryPrefixLocation'] as String?) ?? '',
+      bucket: (json['Bucket'] as String?) ?? '',
+      generatedPrefixLocation:
+          (json['GeneratedPrefixLocation'] as String?) ?? '',
+      manifestPrefixLocation: (json['ManifestPrefixLocation'] as String?) ?? '',
+      repoPrefixLocation: (json['RepoPrefixLocation'] as String?) ?? '',
     );
   }
 

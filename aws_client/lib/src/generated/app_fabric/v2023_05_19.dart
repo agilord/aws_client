@@ -1287,14 +1287,15 @@ class AppAuthorization {
 
   factory AppAuthorization.fromJson(Map<String, dynamic> json) {
     return AppAuthorization(
-      app: json['app'] as String,
-      appAuthorizationArn: json['appAuthorizationArn'] as String,
-      appBundleArn: json['appBundleArn'] as String,
+      app: (json['app'] as String?) ?? '',
+      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
       authType: AuthType.fromString((json['authType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       status: AppAuthorizationStatus.fromString((json['status'] as String)),
-      tenant: Tenant.fromJson(json['tenant'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       authUrl: json['authUrl'] as String?,
       persona: (json['persona'] as String?)?.let(Persona.fromString),
     );
@@ -1399,12 +1400,13 @@ class AppAuthorizationSummary {
 
   factory AppAuthorizationSummary.fromJson(Map<String, dynamic> json) {
     return AppAuthorizationSummary(
-      app: json['app'] as String,
-      appAuthorizationArn: json['appAuthorizationArn'] as String,
-      appBundleArn: json['appBundleArn'] as String,
+      app: (json['app'] as String?) ?? '',
+      appAuthorizationArn: (json['appAuthorizationArn'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
       status: AppAuthorizationStatus.fromString((json['status'] as String)),
-      tenant: Tenant.fromJson(json['tenant'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      tenant: Tenant.fromJson((json['tenant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
     );
   }
 
@@ -1442,7 +1444,7 @@ class AppBundle {
 
   factory AppBundle.fromJson(Map<String, dynamic> json) {
     return AppBundle(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       customerManagedKeyArn: json['customerManagedKeyArn'] as String?,
     );
   }
@@ -1469,7 +1471,7 @@ class AppBundleSummary {
 
   factory AppBundleSummary.fromJson(Map<String, dynamic> json) {
     return AppBundleSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -1492,8 +1494,9 @@ class AuditLogDestinationConfiguration {
 
   factory AuditLogDestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuditLogDestinationConfiguration(
-      destination:
-          Destination.fromJson(json['destination'] as Map<String, dynamic>),
+      destination: Destination.fromJson(
+          (json['destination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1612,7 +1615,8 @@ class ConnectAppAuthorizationResponse {
   factory ConnectAppAuthorizationResponse.fromJson(Map<String, dynamic> json) {
     return ConnectAppAuthorizationResponse(
       appAuthorizationSummary: AppAuthorizationSummary.fromJson(
-          json['appAuthorizationSummary'] as Map<String, dynamic>),
+          (json['appAuthorizationSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1635,7 +1639,8 @@ class CreateAppAuthorizationResponse {
   factory CreateAppAuthorizationResponse.fromJson(Map<String, dynamic> json) {
     return CreateAppAuthorizationResponse(
       appAuthorization: AppAuthorization.fromJson(
-          json['appAuthorization'] as Map<String, dynamic>),
+          (json['appAuthorization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1657,7 +1662,9 @@ class CreateAppBundleResponse {
 
   factory CreateAppBundleResponse.fromJson(Map<String, dynamic> json) {
     return CreateAppBundleResponse(
-      appBundle: AppBundle.fromJson(json['appBundle'] as Map<String, dynamic>),
+      appBundle: AppBundle.fromJson(
+          (json['appBundle'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1681,7 +1688,8 @@ class CreateIngestionDestinationResponse {
       Map<String, dynamic> json) {
     return CreateIngestionDestinationResponse(
       ingestionDestination: IngestionDestination.fromJson(
-          json['ingestionDestination'] as Map<String, dynamic>),
+          (json['ingestionDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1703,7 +1711,9 @@ class CreateIngestionResponse {
 
   factory CreateIngestionResponse.fromJson(Map<String, dynamic> json) {
     return CreateIngestionResponse(
-      ingestion: Ingestion.fromJson(json['ingestion'] as Map<String, dynamic>),
+      ingestion: Ingestion.fromJson(
+          (json['ingestion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1858,7 +1868,7 @@ class FirehoseStream {
 
   factory FirehoseStream.fromJson(Map<String, dynamic> json) {
     return FirehoseStream(
-      streamName: json['streamName'] as String,
+      streamName: (json['streamName'] as String?) ?? '',
     );
   }
 
@@ -1895,7 +1905,8 @@ class GetAppAuthorizationResponse {
   factory GetAppAuthorizationResponse.fromJson(Map<String, dynamic> json) {
     return GetAppAuthorizationResponse(
       appAuthorization: AppAuthorization.fromJson(
-          json['appAuthorization'] as Map<String, dynamic>),
+          (json['appAuthorization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1917,7 +1928,9 @@ class GetAppBundleResponse {
 
   factory GetAppBundleResponse.fromJson(Map<String, dynamic> json) {
     return GetAppBundleResponse(
-      appBundle: AppBundle.fromJson(json['appBundle'] as Map<String, dynamic>),
+      appBundle: AppBundle.fromJson(
+          (json['appBundle'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1940,7 +1953,8 @@ class GetIngestionDestinationResponse {
   factory GetIngestionDestinationResponse.fromJson(Map<String, dynamic> json) {
     return GetIngestionDestinationResponse(
       ingestionDestination: IngestionDestination.fromJson(
-          json['ingestionDestination'] as Map<String, dynamic>),
+          (json['ingestionDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1962,7 +1976,9 @@ class GetIngestionResponse {
 
   factory GetIngestionResponse.fromJson(Map<String, dynamic> json) {
     return GetIngestionResponse(
-      ingestion: Ingestion.fromJson(json['ingestion'] as Map<String, dynamic>),
+      ingestion: Ingestion.fromJson(
+          (json['ingestion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2013,15 +2029,15 @@ class Ingestion {
 
   factory Ingestion.fromJson(Map<String, dynamic> json) {
     return Ingestion(
-      app: json['app'] as String,
-      appBundleArn: json['appBundleArn'] as String,
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      app: (json['app'] as String?) ?? '',
+      appBundleArn: (json['appBundleArn'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       ingestionType:
           IngestionType.fromString((json['ingestionType'] as String)),
       state: IngestionState.fromString((json['state'] as String)),
-      tenantId: json['tenantId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      tenantId: (json['tenantId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
     );
   }
 
@@ -2103,12 +2119,14 @@ class IngestionDestination {
 
   factory IngestionDestination.fromJson(Map<String, dynamic> json) {
     return IngestionDestination(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
       destinationConfiguration: DestinationConfiguration.fromJson(
-          json['destinationConfiguration'] as Map<String, dynamic>),
-      ingestionArn: json['ingestionArn'] as String,
+          (json['destinationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ingestionArn: (json['ingestionArn'] as String?) ?? '',
       processingConfiguration: ProcessingConfiguration.fromJson(
-          json['processingConfiguration'] as Map<String, dynamic>),
+          (json['processingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       createdAt: timeStampFromJson(json['createdAt']),
       status: (json['status'] as String?)
           ?.let(IngestionDestinationStatus.fromString),
@@ -2165,7 +2183,7 @@ class IngestionDestinationSummary {
 
   factory IngestionDestinationSummary.fromJson(Map<String, dynamic> json) {
     return IngestionDestinationSummary(
-      arn: json['arn'] as String,
+      arn: (json['arn'] as String?) ?? '',
     );
   }
 
@@ -2215,10 +2233,10 @@ class IngestionSummary {
 
   factory IngestionSummary.fromJson(Map<String, dynamic> json) {
     return IngestionSummary(
-      app: json['app'] as String,
-      arn: json['arn'] as String,
+      app: (json['app'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
       state: IngestionState.fromString((json['state'] as String)),
-      tenantId: json['tenantId'] as String,
+      tenantId: (json['tenantId'] as String?) ?? '',
     );
   }
 
@@ -2269,11 +2287,12 @@ class ListAppAuthorizationsResponse {
 
   factory ListAppAuthorizationsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppAuthorizationsResponse(
-      appAuthorizationSummaryList: (json['appAuthorizationSummaryList'] as List)
-          .nonNulls
-          .map((e) =>
-              AppAuthorizationSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      appAuthorizationSummaryList:
+          ((json['appAuthorizationSummaryList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  AppAuthorizationSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2307,10 +2326,11 @@ class ListAppBundlesResponse {
 
   factory ListAppBundlesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppBundlesResponse(
-      appBundleSummaryList: (json['appBundleSummaryList'] as List)
-          .nonNulls
-          .map((e) => AppBundleSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      appBundleSummaryList:
+          ((json['appBundleSummaryList'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AppBundleSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -2345,7 +2365,8 @@ class ListIngestionDestinationsResponse {
   factory ListIngestionDestinationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListIngestionDestinationsResponse(
-      ingestionDestinations: (json['ingestionDestinations'] as List)
+      ingestionDestinations: ((json['ingestionDestinations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               IngestionDestinationSummary.fromJson(e as Map<String, dynamic>))
@@ -2383,7 +2404,7 @@ class ListIngestionsResponse {
 
   factory ListIngestionsResponse.fromJson(Map<String, dynamic> json) {
     return ListIngestionsResponse(
-      ingestions: (json['ingestions'] as List)
+      ingestions: ((json['ingestions'] as List?) ?? const [])
           .nonNulls
           .map((e) => IngestionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2522,7 +2543,7 @@ class S3Bucket {
 
   factory S3Bucket.fromJson(Map<String, dynamic> json) {
     return S3Bucket(
-      bucketName: json['bucketName'] as String,
+      bucketName: (json['bucketName'] as String?) ?? '',
       prefix: json['prefix'] as String?,
     );
   }
@@ -2617,8 +2638,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2689,8 +2710,8 @@ class Tenant {
 
   factory Tenant.fromJson(Map<String, dynamic> json) {
     return Tenant(
-      tenantDisplayName: json['tenantDisplayName'] as String,
-      tenantIdentifier: json['tenantIdentifier'] as String,
+      tenantDisplayName: (json['tenantDisplayName'] as String?) ?? '',
+      tenantIdentifier: (json['tenantIdentifier'] as String?) ?? '',
     );
   }
 
@@ -2727,7 +2748,8 @@ class UpdateAppAuthorizationResponse {
   factory UpdateAppAuthorizationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAppAuthorizationResponse(
       appAuthorization: AppAuthorization.fromJson(
-          json['appAuthorization'] as Map<String, dynamic>),
+          (json['appAuthorization'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2751,7 +2773,8 @@ class UpdateIngestionDestinationResponse {
       Map<String, dynamic> json) {
     return UpdateIngestionDestinationResponse(
       ingestionDestination: IngestionDestination.fromJson(
-          json['ingestionDestination'] as Map<String, dynamic>),
+          (json['ingestionDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2906,8 +2929,8 @@ class UserAccessTaskItem {
 
   factory UserAccessTaskItem.fromJson(Map<String, dynamic> json) {
     return UserAccessTaskItem(
-      app: json['app'] as String,
-      tenantId: json['tenantId'] as String,
+      app: (json['app'] as String?) ?? '',
+      tenantId: (json['tenantId'] as String?) ?? '',
       error: json['error'] != null
           ? TaskError.fromJson(json['error'] as Map<String, dynamic>)
           : null,

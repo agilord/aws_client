@@ -4057,11 +4057,11 @@ class ApiKeyRestrictions {
 
   factory ApiKeyRestrictions.fromJson(Map<String, dynamic> json) {
     return ApiKeyRestrictions(
-      allowActions: (json['AllowActions'] as List)
+      allowActions: ((json['AllowActions'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      allowResources: (json['AllowResources'] as List)
+      allowResources: ((json['AllowResources'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -4110,8 +4110,9 @@ class BatchDeleteDevicePositionHistoryError {
   factory BatchDeleteDevicePositionHistoryError.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteDevicePositionHistoryError(
-      deviceId: json['DeviceId'] as String,
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
+      deviceId: (json['DeviceId'] as String?) ?? '',
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4136,7 +4137,7 @@ class BatchDeleteDevicePositionHistoryResponse {
   factory BatchDeleteDevicePositionHistoryResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteDevicePositionHistoryResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDeleteDevicePositionHistoryError.fromJson(
               e as Map<String, dynamic>))
@@ -4168,8 +4169,9 @@ class BatchDeleteGeofenceError {
 
   factory BatchDeleteGeofenceError.fromJson(Map<String, dynamic> json) {
     return BatchDeleteGeofenceError(
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
-      geofenceId: json['GeofenceId'] as String,
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
     );
   }
 
@@ -4193,7 +4195,7 @@ class BatchDeleteGeofenceResponse {
 
   factory BatchDeleteGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return BatchDeleteGeofenceResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchDeleteGeofenceError.fromJson(e as Map<String, dynamic>))
@@ -4231,9 +4233,10 @@ class BatchEvaluateGeofencesError {
 
   factory BatchEvaluateGeofencesError.fromJson(Map<String, dynamic> json) {
     return BatchEvaluateGeofencesError(
-      deviceId: json['DeviceId'] as String,
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      deviceId: (json['DeviceId'] as String?) ?? '',
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
     );
   }
 
@@ -4260,7 +4263,7 @@ class BatchEvaluateGeofencesResponse {
 
   factory BatchEvaluateGeofencesResponse.fromJson(Map<String, dynamic> json) {
     return BatchEvaluateGeofencesResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchEvaluateGeofencesError.fromJson(e as Map<String, dynamic>))
@@ -4291,8 +4294,9 @@ class BatchGetDevicePositionError {
 
   factory BatchGetDevicePositionError.fromJson(Map<String, dynamic> json) {
     return BatchGetDevicePositionError(
-      deviceId: json['DeviceId'] as String,
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
+      deviceId: (json['DeviceId'] as String?) ?? '',
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4322,11 +4326,11 @@ class BatchGetDevicePositionResponse {
 
   factory BatchGetDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetDevicePositionResponse(
-      devicePositions: (json['DevicePositions'] as List)
+      devicePositions: ((json['DevicePositions'] as List?) ?? const [])
           .nonNulls
           .map((e) => DevicePosition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchGetDevicePositionError.fromJson(e as Map<String, dynamic>))
@@ -4409,8 +4413,9 @@ class BatchPutGeofenceError {
 
   factory BatchPutGeofenceError.fromJson(Map<String, dynamic> json) {
     return BatchPutGeofenceError(
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
-      geofenceId: json['GeofenceId'] as String,
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
     );
   }
 
@@ -4482,11 +4487,11 @@ class BatchPutGeofenceResponse {
 
   factory BatchPutGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return BatchPutGeofenceResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchPutGeofenceError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successes: (json['Successes'] as List)
+      successes: ((json['Successes'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchPutGeofenceSuccess.fromJson(e as Map<String, dynamic>))
@@ -4528,9 +4533,9 @@ class BatchPutGeofenceSuccess {
 
   factory BatchPutGeofenceSuccess.fromJson(Map<String, dynamic> json) {
     return BatchPutGeofenceSuccess(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      geofenceId: json['GeofenceId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -4568,9 +4573,10 @@ class BatchUpdateDevicePositionError {
 
   factory BatchUpdateDevicePositionError.fromJson(Map<String, dynamic> json) {
     return BatchUpdateDevicePositionError(
-      deviceId: json['DeviceId'] as String,
-      error: BatchItemError.fromJson(json['Error'] as Map<String, dynamic>),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      deviceId: (json['DeviceId'] as String?) ?? '',
+      error: BatchItemError.fromJson((json['Error'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
     );
   }
 
@@ -4597,7 +4603,7 @@ class BatchUpdateDevicePositionResponse {
   factory BatchUpdateDevicePositionResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateDevicePositionResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchUpdateDevicePositionError.fromJson(
               e as Map<String, dynamic>))
@@ -4679,7 +4685,7 @@ class CalculateRouteMatrixResponse {
 
   factory CalculateRouteMatrixResponse.fromJson(Map<String, dynamic> json) {
     return CalculateRouteMatrixResponse(
-      routeMatrix: (json['RouteMatrix'] as List)
+      routeMatrix: ((json['RouteMatrix'] as List?) ?? const [])
           .nonNulls
           .map((e) => (e as List)
               .nonNulls
@@ -4687,7 +4693,8 @@ class CalculateRouteMatrixResponse {
               .toList())
           .toList(),
       summary: CalculateRouteMatrixSummary.fromJson(
-          json['Summary'] as Map<String, dynamic>),
+          (json['Summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       snappedDeparturePositions: (json['SnappedDeparturePositions'] as List?)
           ?.nonNulls
           .map((e) => (e as List).nonNulls.map((e) => e as double).toList())
@@ -4758,10 +4765,10 @@ class CalculateRouteMatrixSummary {
 
   factory CalculateRouteMatrixSummary.fromJson(Map<String, dynamic> json) {
     return CalculateRouteMatrixSummary(
-      dataSource: json['DataSource'] as String,
+      dataSource: (json['DataSource'] as String?) ?? '',
       distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
-      errorCount: json['ErrorCount'] as int,
-      routeCount: json['RouteCount'] as int,
+      errorCount: (json['ErrorCount'] as int?) ?? 0,
+      routeCount: (json['RouteCount'] as int?) ?? 0,
     );
   }
 
@@ -4828,12 +4835,13 @@ class CalculateRouteResponse {
 
   factory CalculateRouteResponse.fromJson(Map<String, dynamic> json) {
     return CalculateRouteResponse(
-      legs: (json['Legs'] as List)
+      legs: ((json['Legs'] as List?) ?? const [])
           .nonNulls
           .map((e) => Leg.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: CalculateRouteSummary.fromJson(
-          json['Summary'] as Map<String, dynamic>),
+          (json['Summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4925,12 +4933,14 @@ class CalculateRouteSummary {
 
   factory CalculateRouteSummary.fromJson(Map<String, dynamic> json) {
     return CalculateRouteSummary(
-      dataSource: json['DataSource'] as String,
-      distance: json['Distance'] as double,
+      dataSource: (json['DataSource'] as String?) ?? '',
+      distance: (json['Distance'] as double?) ?? 0,
       distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
-      durationSeconds: json['DurationSeconds'] as double,
-      routeBBox:
-          (json['RouteBBox'] as List).nonNulls.map((e) => e as double).toList(),
+      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      routeBBox: ((json['RouteBBox'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
     );
   }
 
@@ -5033,9 +5043,11 @@ class Circle {
 
   factory Circle.fromJson(Map<String, dynamic> json) {
     return Circle(
-      center:
-          (json['Center'] as List).nonNulls.map((e) => e as double).toList(),
-      radius: json['Radius'] as double,
+      center: ((json['Center'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+      radius: (json['Radius'] as double?) ?? 0,
     );
   }
 
@@ -5077,9 +5089,9 @@ class CreateGeofenceCollectionResponse {
 
   factory CreateGeofenceCollectionResponse.fromJson(Map<String, dynamic> json) {
     return CreateGeofenceCollectionResponse(
-      collectionArn: json['CollectionArn'] as String,
-      collectionName: json['CollectionName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
+      collectionArn: (json['CollectionArn'] as String?) ?? '',
+      collectionName: (json['CollectionName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
     );
   }
 
@@ -5128,10 +5140,10 @@ class CreateKeyResponse {
 
   factory CreateKeyResponse.fromJson(Map<String, dynamic> json) {
     return CreateKeyResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      key: json['Key'] as String,
-      keyArn: json['KeyArn'] as String,
-      keyName: json['KeyName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      key: (json['Key'] as String?) ?? '',
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyName: (json['KeyName'] as String?) ?? '',
     );
   }
 
@@ -5176,9 +5188,9 @@ class CreateMapResponse {
 
   factory CreateMapResponse.fromJson(Map<String, dynamic> json) {
     return CreateMapResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      mapArn: json['MapArn'] as String,
-      mapName: json['MapName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      mapArn: (json['MapArn'] as String?) ?? '',
+      mapName: (json['MapName'] as String?) ?? '',
     );
   }
 
@@ -5222,9 +5234,9 @@ class CreatePlaceIndexResponse {
 
   factory CreatePlaceIndexResponse.fromJson(Map<String, dynamic> json) {
     return CreatePlaceIndexResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      indexArn: json['IndexArn'] as String,
-      indexName: json['IndexName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      indexArn: (json['IndexArn'] as String?) ?? '',
+      indexName: (json['IndexName'] as String?) ?? '',
     );
   }
 
@@ -5280,9 +5292,9 @@ class CreateRouteCalculatorResponse {
 
   factory CreateRouteCalculatorResponse.fromJson(Map<String, dynamic> json) {
     return CreateRouteCalculatorResponse(
-      calculatorArn: json['CalculatorArn'] as String,
-      calculatorName: json['CalculatorName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
+      calculatorArn: (json['CalculatorArn'] as String?) ?? '',
+      calculatorName: (json['CalculatorName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
     );
   }
 
@@ -5326,9 +5338,9 @@ class CreateTrackerResponse {
 
   factory CreateTrackerResponse.fromJson(Map<String, dynamic> json) {
     return CreateTrackerResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      trackerArn: json['TrackerArn'] as String,
-      trackerName: json['TrackerName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      trackerArn: (json['TrackerArn'] as String?) ?? '',
+      trackerName: (json['TrackerName'] as String?) ?? '',
     );
   }
 
@@ -5535,11 +5547,11 @@ class DescribeGeofenceCollectionResponse {
   factory DescribeGeofenceCollectionResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeGeofenceCollectionResponse(
-      collectionArn: json['CollectionArn'] as String,
-      collectionName: json['CollectionName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      collectionArn: (json['CollectionArn'] as String?) ?? '',
+      collectionName: (json['CollectionName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       geofenceCount: json['GeofenceCount'] as int?,
       kmsKeyId: json['KmsKeyId'] as String?,
       pricingPlan:
@@ -5630,14 +5642,15 @@ class DescribeKeyResponse {
 
   factory DescribeKeyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeKeyResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      expireTime: nonNullableTimeStampFromJson(json['ExpireTime'] as Object),
-      key: json['Key'] as String,
-      keyArn: json['KeyArn'] as String,
-      keyName: json['KeyName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      expireTime: nonNullableTimeStampFromJson(json['ExpireTime'] ?? 0),
+      key: (json['Key'] as String?) ?? '',
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyName: (json['KeyName'] as String?) ?? '',
       restrictions: ApiKeyRestrictions.fromJson(
-          json['Restrictions'] as Map<String, dynamic>),
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+          (json['Restrictions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       description: json['Description'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5722,13 +5735,14 @@ class DescribeMapResponse {
   factory DescribeMapResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMapResponse(
       configuration: MapConfiguration.fromJson(
-          json['Configuration'] as Map<String, dynamic>),
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
-      description: json['Description'] as String,
-      mapArn: json['MapArn'] as String,
-      mapName: json['MapName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+          (json['Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      mapArn: (json['MapArn'] as String?) ?? '',
+      mapName: (json['MapName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -5829,14 +5843,15 @@ class DescribePlaceIndexResponse {
 
   factory DescribePlaceIndexResponse.fromJson(Map<String, dynamic> json) {
     return DescribePlaceIndexResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
       dataSourceConfiguration: DataSourceConfiguration.fromJson(
-          json['DataSourceConfiguration'] as Map<String, dynamic>),
-      description: json['Description'] as String,
-      indexArn: json['IndexArn'] as String,
-      indexName: json['IndexName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+          (json['DataSourceConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      description: (json['Description'] as String?) ?? '',
+      indexArn: (json['IndexArn'] as String?) ?? '',
+      indexName: (json['IndexName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -5946,12 +5961,12 @@ class DescribeRouteCalculatorResponse {
 
   factory DescribeRouteCalculatorResponse.fromJson(Map<String, dynamic> json) {
     return DescribeRouteCalculatorResponse(
-      calculatorArn: json['CalculatorArn'] as String,
-      calculatorName: json['CalculatorName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
-      description: json['Description'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      calculatorArn: (json['CalculatorArn'] as String?) ?? '',
+      calculatorName: (json['CalculatorName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -6067,11 +6082,11 @@ class DescribeTrackerResponse {
 
   factory DescribeTrackerResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTrackerResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
-      trackerArn: json['TrackerArn'] as String,
-      trackerName: json['TrackerName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      trackerArn: (json['TrackerArn'] as String?) ?? '',
+      trackerName: (json['TrackerName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       eventBridgeEnabled: json['EventBridgeEnabled'] as bool?,
       kmsKeyEnableGeospatialQueries:
           json['KmsKeyEnableGeospatialQueries'] as bool?,
@@ -6154,11 +6169,12 @@ class DevicePosition {
 
   factory DevicePosition.fromJson(Map<String, dynamic> json) {
     return DevicePosition(
-      position:
-          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
-      receivedTime:
-          nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      position: ((json['Position'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+      receivedTime: nonNullableTimeStampFromJson(json['ReceivedTime'] ?? 0),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
       accuracy: json['Accuracy'] != null
           ? PositionalAccuracy.fromJson(
               json['Accuracy'] as Map<String, dynamic>)
@@ -6378,7 +6394,7 @@ class ForecastGeofenceEventsResponse {
   factory ForecastGeofenceEventsResponse.fromJson(Map<String, dynamic> json) {
     return ForecastGeofenceEventsResponse(
       distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
-      forecastedEvents: (json['ForecastedEvents'] as List)
+      forecastedEvents: ((json['ForecastedEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => ForecastedEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6452,12 +6468,12 @@ class ForecastedEvent {
 
   factory ForecastedEvent.fromJson(Map<String, dynamic> json) {
     return ForecastedEvent(
-      eventId: json['EventId'] as String,
+      eventId: (json['EventId'] as String?) ?? '',
       eventType:
           ForecastedGeofenceEventType.fromString((json['EventType'] as String)),
-      geofenceId: json['GeofenceId'] as String,
-      isDeviceInGeofence: json['IsDeviceInGeofence'] as bool,
-      nearestDistance: json['NearestDistance'] as double,
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
+      isDeviceInGeofence: (json['IsDeviceInGeofence'] as bool?) ?? false,
+      nearestDistance: (json['NearestDistance'] as double?) ?? 0,
       forecastedBreachTime: timeStampFromJson(json['ForecastedBreachTime']),
       geofenceProperties: (json['GeofenceProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -6592,7 +6608,7 @@ class GetDevicePositionHistoryResponse {
 
   factory GetDevicePositionHistoryResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicePositionHistoryResponse(
-      devicePositions: (json['DevicePositions'] as List)
+      devicePositions: ((json['DevicePositions'] as List?) ?? const [])
           .nonNulls
           .map((e) => DevicePosition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6644,11 +6660,12 @@ class GetDevicePositionResponse {
 
   factory GetDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return GetDevicePositionResponse(
-      position:
-          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
-      receivedTime:
-          nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      position: ((json['Position'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+      receivedTime: nonNullableTimeStampFromJson(json['ReceivedTime'] ?? 0),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
       accuracy: json['Accuracy'] != null
           ? PositionalAccuracy.fromJson(
               json['Accuracy'] as Map<String, dynamic>)
@@ -6734,12 +6751,13 @@ class GetGeofenceResponse {
 
   factory GetGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return GetGeofenceResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      geofenceId: json['GeofenceId'] as String,
-      geometry:
-          GeofenceGeometry.fromJson(json['Geometry'] as Map<String, dynamic>),
-      status: json['Status'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
+      geometry: GeofenceGeometry.fromJson(
+          (json['Geometry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['Status'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       geofenceProperties: (json['GeofenceProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -6882,7 +6900,8 @@ class GetPlaceResponse {
 
   factory GetPlaceResponse.fromJson(Map<String, dynamic> json) {
     return GetPlaceResponse(
-      place: Place.fromJson(json['Place'] as Map<String, dynamic>),
+      place: Place.fromJson((json['Place'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -6920,7 +6939,7 @@ class InferredState {
 
   factory InferredState.fromJson(Map<String, dynamic> json) {
     return InferredState(
-      proxyDetected: json['ProxyDetected'] as bool,
+      proxyDetected: (json['ProxyDetected'] as bool?) ?? false,
       accuracy: json['Accuracy'] != null
           ? PositionalAccuracy.fromJson(
               json['Accuracy'] as Map<String, dynamic>)
@@ -7046,17 +7065,17 @@ class Leg {
 
   factory Leg.fromJson(Map<String, dynamic> json) {
     return Leg(
-      distance: json['Distance'] as double,
-      durationSeconds: json['DurationSeconds'] as double,
-      endPosition: (json['EndPosition'] as List)
+      distance: (json['Distance'] as double?) ?? 0,
+      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      endPosition: ((json['EndPosition'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as double)
           .toList(),
-      startPosition: (json['StartPosition'] as List)
+      startPosition: ((json['StartPosition'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as double)
           .toList(),
-      steps: (json['Steps'] as List)
+      steps: ((json['Steps'] as List?) ?? const [])
           .nonNulls
           .map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7136,7 +7155,7 @@ class ListDevicePositionsResponse {
 
   factory ListDevicePositionsResponse.fromJson(Map<String, dynamic> json) {
     return ListDevicePositionsResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListDevicePositionsResponseEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7184,10 +7203,12 @@ class ListDevicePositionsResponseEntry {
 
   factory ListDevicePositionsResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListDevicePositionsResponseEntry(
-      deviceId: json['DeviceId'] as String,
-      position:
-          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      deviceId: (json['DeviceId'] as String?) ?? '',
+      position: ((json['Position'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
       accuracy: json['Accuracy'] != null
           ? PositionalAccuracy.fromJson(
               json['Accuracy'] as Map<String, dynamic>)
@@ -7229,7 +7250,7 @@ class ListGeofenceCollectionsResponse {
 
   factory ListGeofenceCollectionsResponse.fromJson(Map<String, dynamic> json) {
     return ListGeofenceCollectionsResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListGeofenceCollectionsResponseEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7288,10 +7309,10 @@ class ListGeofenceCollectionsResponseEntry {
   factory ListGeofenceCollectionsResponseEntry.fromJson(
       Map<String, dynamic> json) {
     return ListGeofenceCollectionsResponseEntry(
-      collectionName: json['CollectionName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      collectionName: (json['CollectionName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
@@ -7379,12 +7400,13 @@ class ListGeofenceResponseEntry {
 
   factory ListGeofenceResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListGeofenceResponseEntry(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      geofenceId: json['GeofenceId'] as String,
-      geometry:
-          GeofenceGeometry.fromJson(json['Geometry'] as Map<String, dynamic>),
-      status: json['Status'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
+      geometry: GeofenceGeometry.fromJson(
+          (json['Geometry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: (json['Status'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       geofenceProperties: (json['GeofenceProperties'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -7423,7 +7445,7 @@ class ListGeofencesResponse {
 
   factory ListGeofencesResponse.fromJson(Map<String, dynamic> json) {
     return ListGeofencesResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ListGeofenceResponseEntry.fromJson(e as Map<String, dynamic>))
@@ -7459,7 +7481,7 @@ class ListKeysResponse {
 
   factory ListKeysResponse.fromJson(Map<String, dynamic> json) {
     return ListKeysResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListKeysResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7512,12 +7534,13 @@ class ListKeysResponseEntry {
 
   factory ListKeysResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListKeysResponseEntry(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      expireTime: nonNullableTimeStampFromJson(json['ExpireTime'] as Object),
-      keyName: json['KeyName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      expireTime: nonNullableTimeStampFromJson(json['ExpireTime'] ?? 0),
+      keyName: (json['KeyName'] as String?) ?? '',
       restrictions: ApiKeyRestrictions.fromJson(
-          json['Restrictions'] as Map<String, dynamic>),
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+          (json['Restrictions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       description: json['Description'] as String?,
     );
   }
@@ -7555,7 +7578,7 @@ class ListMapsResponse {
 
   factory ListMapsResponse.fromJson(Map<String, dynamic> json) {
     return ListMapsResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListMapsResponseEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7609,11 +7632,11 @@ class ListMapsResponseEntry {
 
   factory ListMapsResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListMapsResponseEntry(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
-      description: json['Description'] as String,
-      mapName: json['MapName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      mapName: (json['MapName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
     );
@@ -7653,7 +7676,7 @@ class ListPlaceIndexesResponse {
 
   factory ListPlaceIndexesResponse.fromJson(Map<String, dynamic> json) {
     return ListPlaceIndexesResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ListPlaceIndexesResponseEntry.fromJson(e as Map<String, dynamic>))
@@ -7722,11 +7745,11 @@ class ListPlaceIndexesResponseEntry {
 
   factory ListPlaceIndexesResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListPlaceIndexesResponseEntry(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
-      description: json['Description'] as String,
-      indexName: json['IndexName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      indexName: (json['IndexName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
     );
@@ -7766,7 +7789,7 @@ class ListRouteCalculatorsResponse {
 
   factory ListRouteCalculatorsResponse.fromJson(Map<String, dynamic> json) {
     return ListRouteCalculatorsResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ListRouteCalculatorsResponseEntry.fromJson(
               e as Map<String, dynamic>))
@@ -7849,11 +7872,11 @@ class ListRouteCalculatorsResponseEntry {
   factory ListRouteCalculatorsResponseEntry.fromJson(
       Map<String, dynamic> json) {
     return ListRouteCalculatorsResponseEntry(
-      calculatorName: json['CalculatorName'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      dataSource: json['DataSource'] as String,
-      description: json['Description'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      calculatorName: (json['CalculatorName'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
     );
@@ -7923,7 +7946,7 @@ class ListTrackerConsumersResponse {
 
   factory ListTrackerConsumersResponse.fromJson(Map<String, dynamic> json) {
     return ListTrackerConsumersResponse(
-      consumerArns: (json['ConsumerArns'] as List)
+      consumerArns: ((json['ConsumerArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7958,7 +7981,7 @@ class ListTrackersResponse {
 
   factory ListTrackersResponse.fromJson(Map<String, dynamic> json) {
     return ListTrackersResponse(
-      entries: (json['Entries'] as List)
+      entries: ((json['Entries'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ListTrackersResponseEntry.fromJson(e as Map<String, dynamic>))
@@ -8012,10 +8035,10 @@ class ListTrackersResponseEntry {
 
   factory ListTrackersResponseEntry.fromJson(Map<String, dynamic> json) {
     return ListTrackersResponseEntry(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
-      trackerName: json['TrackerName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      trackerName: (json['TrackerName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
       pricingPlan:
           (json['PricingPlan'] as String?)?.let(PricingPlan.fromString),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
@@ -8347,7 +8370,7 @@ class MapConfiguration {
 
   factory MapConfiguration.fromJson(Map<String, dynamic> json) {
     return MapConfiguration(
-      style: json['Style'] as String,
+      style: (json['Style'] as String?) ?? '',
       customLayers: (json['CustomLayers'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -8536,8 +8559,9 @@ class Place {
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
-      geometry:
-          PlaceGeometry.fromJson(json['Geometry'] as Map<String, dynamic>),
+      geometry: PlaceGeometry.fromJson(
+          (json['Geometry'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       addressNumber: json['AddressNumber'] as String?,
       categories: (json['Categories'] as List?)
           ?.nonNulls
@@ -8669,7 +8693,7 @@ class PositionalAccuracy {
 
   factory PositionalAccuracy.fromJson(Map<String, dynamic> json) {
     return PositionalAccuracy(
-      horizontal: json['Horizontal'] as double,
+      horizontal: (json['Horizontal'] as double?) ?? 0,
     );
   }
 
@@ -8718,9 +8742,9 @@ class PutGeofenceResponse {
 
   factory PutGeofenceResponse.fromJson(Map<String, dynamic> json) {
     return PutGeofenceResponse(
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      geofenceId: json['GeofenceId'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      geofenceId: (json['GeofenceId'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -8899,8 +8923,9 @@ class SearchForPositionResult {
 
   factory SearchForPositionResult.fromJson(Map<String, dynamic> json) {
     return SearchForPositionResult(
-      distance: json['Distance'] as double,
-      place: Place.fromJson(json['Place'] as Map<String, dynamic>),
+      distance: (json['Distance'] as double?) ?? 0,
+      place: Place.fromJson((json['Place'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       placeId: json['PlaceId'] as String?,
     );
   }
@@ -8958,7 +8983,7 @@ class SearchForSuggestionsResult {
 
   factory SearchForSuggestionsResult.fromJson(Map<String, dynamic> json) {
     return SearchForSuggestionsResult(
-      text: json['Text'] as String,
+      text: (json['Text'] as String?) ?? '',
       categories: (json['Categories'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -9027,7 +9052,8 @@ class SearchForTextResult {
 
   factory SearchForTextResult.fromJson(Map<String, dynamic> json) {
     return SearchForTextResult(
-      place: Place.fromJson(json['Place'] as Map<String, dynamic>),
+      place: Place.fromJson((json['Place'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       distance: json['Distance'] as double?,
       placeId: json['PlaceId'] as String?,
       relevance: json['Relevance'] as double?,
@@ -9066,13 +9092,14 @@ class SearchPlaceIndexForPositionResponse {
   factory SearchPlaceIndexForPositionResponse.fromJson(
       Map<String, dynamic> json) {
     return SearchPlaceIndexForPositionResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SearchForPositionResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: SearchPlaceIndexForPositionSummary.fromJson(
-          json['Summary'] as Map<String, dynamic>),
+          (json['Summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9132,9 +9159,11 @@ class SearchPlaceIndexForPositionSummary {
   factory SearchPlaceIndexForPositionSummary.fromJson(
       Map<String, dynamic> json) {
     return SearchPlaceIndexForPositionSummary(
-      dataSource: json['DataSource'] as String,
-      position:
-          (json['Position'] as List).nonNulls.map((e) => e as double).toList(),
+      dataSource: (json['DataSource'] as String?) ?? '',
+      position: ((json['Position'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
       language: json['Language'] as String?,
       maxResults: json['MaxResults'] as int?,
     );
@@ -9173,13 +9202,14 @@ class SearchPlaceIndexForSuggestionsResponse {
   factory SearchPlaceIndexForSuggestionsResponse.fromJson(
       Map<String, dynamic> json) {
     return SearchPlaceIndexForSuggestionsResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SearchForSuggestionsResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: SearchPlaceIndexForSuggestionsSummary.fromJson(
-          json['Summary'] as Map<String, dynamic>),
+          (json['Summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9262,8 +9292,8 @@ class SearchPlaceIndexForSuggestionsSummary {
   factory SearchPlaceIndexForSuggestionsSummary.fromJson(
       Map<String, dynamic> json) {
     return SearchPlaceIndexForSuggestionsSummary(
-      dataSource: json['DataSource'] as String,
-      text: json['Text'] as String,
+      dataSource: (json['DataSource'] as String?) ?? '',
+      text: (json['Text'] as String?) ?? '',
       biasPosition: (json['BiasPosition'] as List?)
           ?.nonNulls
           .map((e) => e as double)
@@ -9330,12 +9360,13 @@ class SearchPlaceIndexForTextResponse {
 
   factory SearchPlaceIndexForTextResponse.fromJson(Map<String, dynamic> json) {
     return SearchPlaceIndexForTextResponse(
-      results: (json['Results'] as List)
+      results: ((json['Results'] as List?) ?? const [])
           .nonNulls
           .map((e) => SearchForTextResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       summary: SearchPlaceIndexForTextSummary.fromJson(
-          json['Summary'] as Map<String, dynamic>),
+          (json['Summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9425,8 +9456,8 @@ class SearchPlaceIndexForTextSummary {
 
   factory SearchPlaceIndexForTextSummary.fromJson(Map<String, dynamic> json) {
     return SearchPlaceIndexForTextSummary(
-      dataSource: json['DataSource'] as String,
-      text: json['Text'] as String,
+      dataSource: (json['DataSource'] as String?) ?? '',
+      text: (json['Text'] as String?) ?? '',
       biasPosition: (json['BiasPosition'] as List?)
           ?.nonNulls
           .map((e) => e as double)
@@ -9543,13 +9574,13 @@ class Step {
 
   factory Step.fromJson(Map<String, dynamic> json) {
     return Step(
-      distance: json['Distance'] as double,
-      durationSeconds: json['DurationSeconds'] as double,
-      endPosition: (json['EndPosition'] as List)
+      distance: (json['Distance'] as double?) ?? 0,
+      durationSeconds: (json['DurationSeconds'] as double?) ?? 0,
+      endPosition: ((json['EndPosition'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as double)
           .toList(),
-      startPosition: (json['StartPosition'] as List)
+      startPosition: ((json['StartPosition'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as double)
           .toList(),
@@ -9603,7 +9634,7 @@ class TimeZone {
 
   factory TimeZone.fromJson(Map<String, dynamic> json) {
     return TimeZone(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       offset: json['Offset'] as int?,
     );
   }
@@ -9793,9 +9824,9 @@ class UpdateGeofenceCollectionResponse {
 
   factory UpdateGeofenceCollectionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateGeofenceCollectionResponse(
-      collectionArn: json['CollectionArn'] as String,
-      collectionName: json['CollectionName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      collectionArn: (json['CollectionArn'] as String?) ?? '',
+      collectionName: (json['CollectionName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -9838,9 +9869,9 @@ class UpdateKeyResponse {
 
   factory UpdateKeyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateKeyResponse(
-      keyArn: json['KeyArn'] as String,
-      keyName: json['KeyName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      keyArn: (json['KeyArn'] as String?) ?? '',
+      keyName: (json['KeyName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -9883,9 +9914,9 @@ class UpdateMapResponse {
 
   factory UpdateMapResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMapResponse(
-      mapArn: json['MapArn'] as String,
-      mapName: json['MapName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      mapArn: (json['MapArn'] as String?) ?? '',
+      mapName: (json['MapName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -9929,9 +9960,9 @@ class UpdatePlaceIndexResponse {
 
   factory UpdatePlaceIndexResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePlaceIndexResponse(
-      indexArn: json['IndexArn'] as String,
-      indexName: json['IndexName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      indexArn: (json['IndexArn'] as String?) ?? '',
+      indexName: (json['IndexName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -9975,9 +10006,9 @@ class UpdateRouteCalculatorResponse {
 
   factory UpdateRouteCalculatorResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRouteCalculatorResponse(
-      calculatorArn: json['CalculatorArn'] as String,
-      calculatorName: json['CalculatorName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      calculatorArn: (json['CalculatorArn'] as String?) ?? '',
+      calculatorName: (json['CalculatorName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -10021,9 +10052,9 @@ class UpdateTrackerResponse {
 
   factory UpdateTrackerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTrackerResponse(
-      trackerArn: json['TrackerArn'] as String,
-      trackerName: json['TrackerName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      trackerArn: (json['TrackerArn'] as String?) ?? '',
+      trackerName: (json['TrackerName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -10085,13 +10116,13 @@ class VerifyDevicePositionResponse {
 
   factory VerifyDevicePositionResponse.fromJson(Map<String, dynamic> json) {
     return VerifyDevicePositionResponse(
-      deviceId: json['DeviceId'] as String,
+      deviceId: (json['DeviceId'] as String?) ?? '',
       distanceUnit: DistanceUnit.fromString((json['DistanceUnit'] as String)),
-      inferredState:
-          InferredState.fromJson(json['InferredState'] as Map<String, dynamic>),
-      receivedTime:
-          nonNullableTimeStampFromJson(json['ReceivedTime'] as Object),
-      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] as Object),
+      inferredState: InferredState.fromJson(
+          (json['InferredState'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      receivedTime: nonNullableTimeStampFromJson(json['ReceivedTime'] ?? 0),
+      sampleTime: nonNullableTimeStampFromJson(json['SampleTime'] ?? 0),
     );
   }
 

@@ -1476,12 +1476,12 @@ class DetectorState {
 
   factory DetectorState.fromJson(Map<String, dynamic> json) {
     return DetectorState(
-      stateName: json['stateName'] as String,
-      timers: (json['timers'] as List)
+      stateName: (json['stateName'] as String?) ?? '',
+      timers: ((json['timers'] as List?) ?? const [])
           .nonNulls
           .map((e) => Timer.fromJson(e as Map<String, dynamic>))
           .toList(),
-      variables: (json['variables'] as List)
+      variables: ((json['variables'] as List?) ?? const [])
           .nonNulls
           .map((e) => Variable.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2149,8 +2149,8 @@ class Timer {
 
   factory Timer.fromJson(Map<String, dynamic> json) {
     return Timer(
-      name: json['name'] as String,
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
+      name: (json['name'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
     );
   }
 
@@ -2271,8 +2271,8 @@ class Variable {
 
   factory Variable.fromJson(Map<String, dynamic> json) {
     return Variable(
-      name: json['name'] as String,
-      value: json['value'] as String,
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 

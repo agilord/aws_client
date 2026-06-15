@@ -5335,25 +5335,26 @@ class Anomaly {
 
   factory Anomaly.fromJson(Map<String, dynamic> json) {
     return Anomaly(
-      active: json['active'] as bool,
-      anomalyDetectorArn: json['anomalyDetectorArn'] as String,
-      anomalyId: json['anomalyId'] as String,
-      description: json['description'] as String,
-      firstSeen: json['firstSeen'] as int,
-      histogram: (json['histogram'] as Map<String, dynamic>)
+      active: (json['active'] as bool?) ?? false,
+      anomalyDetectorArn: (json['anomalyDetectorArn'] as String?) ?? '',
+      anomalyId: (json['anomalyId'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      firstSeen: (json['firstSeen'] as int?) ?? 0,
+      histogram: ((json['histogram'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as int)),
-      lastSeen: json['lastSeen'] as int,
-      logGroupArnList: (json['logGroupArnList'] as List)
+      lastSeen: (json['lastSeen'] as int?) ?? 0,
+      logGroupArnList: ((json['logGroupArnList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      logSamples: (json['logSamples'] as List)
+      logSamples: ((json['logSamples'] as List?) ?? const [])
           .nonNulls
           .map((e) => LogEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      patternId: json['patternId'] as String,
-      patternString: json['patternString'] as String,
-      patternTokens: (json['patternTokens'] as List)
+      patternId: (json['patternId'] as String?) ?? '',
+      patternString: (json['patternString'] as String?) ?? '',
+      patternTokens: ((json['patternTokens'] as List?) ?? const [])
           .nonNulls
           .map((e) => PatternToken.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6056,7 +6057,7 @@ class DeliveryDestinationConfiguration {
 
   factory DeliveryDestinationConfiguration.fromJson(Map<String, dynamic> json) {
     return DeliveryDestinationConfiguration(
-      destinationResourceArn: json['destinationResourceArn'] as String,
+      destinationResourceArn: (json['destinationResourceArn'] as String?) ?? '',
     );
   }
 
@@ -8263,9 +8264,9 @@ class MetricTransformation {
 
   factory MetricTransformation.fromJson(Map<String, dynamic> json) {
     return MetricTransformation(
-      metricName: json['metricName'] as String,
-      metricNamespace: json['metricNamespace'] as String,
-      metricValue: json['metricValue'] as String,
+      metricName: (json['metricName'] as String?) ?? '',
+      metricNamespace: (json['metricNamespace'] as String?) ?? '',
+      metricValue: (json['metricValue'] as String?) ?? '',
       defaultValue: json['defaultValue'] as double?,
       dimensions: (json['dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),

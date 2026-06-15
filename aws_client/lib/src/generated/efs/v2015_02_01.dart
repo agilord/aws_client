@@ -2226,9 +2226,9 @@ class CreationInfo {
 
   factory CreationInfo.fromJson(Map<String, dynamic> json) {
     return CreationInfo(
-      ownerGid: json['OwnerGid'] as int,
-      ownerUid: json['OwnerUid'] as int,
-      permissions: json['Permissions'] as String,
+      ownerGid: (json['OwnerGid'] as int?) ?? 0,
+      ownerUid: (json['OwnerUid'] as int?) ?? 0,
+      permissions: (json['Permissions'] as String?) ?? '',
     );
   }
 
@@ -2369,7 +2369,7 @@ class DescribeMountTargetSecurityGroupsResponse {
   factory DescribeMountTargetSecurityGroupsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeMountTargetSecurityGroupsResponse(
-      securityGroups: (json['SecurityGroups'] as List)
+      securityGroups: ((json['SecurityGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2488,7 +2488,7 @@ class DescribeTagsResponse {
 
   factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeTagsResponse(
-      tags: (json['Tags'] as List)
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2559,8 +2559,8 @@ class Destination {
 
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
-      fileSystemId: json['FileSystemId'] as String,
-      region: json['Region'] as String,
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
+      region: (json['Region'] as String?) ?? '',
       status: ReplicationStatus.fromString((json['Status'] as String)),
       lastReplicatedTimestamp:
           timeStampFromJson(json['LastReplicatedTimestamp']),
@@ -2754,19 +2754,19 @@ class FileSystemDescription {
 
   factory FileSystemDescription.fromJson(Map<String, dynamic> json) {
     return FileSystemDescription(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      creationToken: json['CreationToken'] as String,
-      fileSystemId: json['FileSystemId'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      creationToken: (json['CreationToken'] as String?) ?? '',
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
       lifeCycleState:
           LifeCycleState.fromString((json['LifeCycleState'] as String)),
-      numberOfMountTargets: json['NumberOfMountTargets'] as int,
-      ownerId: json['OwnerId'] as String,
+      numberOfMountTargets: (json['NumberOfMountTargets'] as int?) ?? 0,
+      ownerId: (json['OwnerId'] as String?) ?? '',
       performanceMode:
           PerformanceMode.fromString((json['PerformanceMode'] as String)),
-      sizeInBytes:
-          FileSystemSize.fromJson(json['SizeInBytes'] as Map<String, dynamic>),
-      tags: (json['Tags'] as List)
+      sizeInBytes: FileSystemSize.fromJson(
+          (json['SizeInBytes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2947,7 +2947,7 @@ class FileSystemSize {
 
   factory FileSystemSize.fromJson(Map<String, dynamic> json) {
     return FileSystemSize(
-      value: json['Value'] as int,
+      value: (json['Value'] as int?) ?? 0,
       timestamp: timeStampFromJson(json['Timestamp']),
       valueInArchive: json['ValueInArchive'] as int?,
       valueInIA: json['ValueInIA'] as int?,
@@ -3172,11 +3172,11 @@ class MountTargetDescription {
 
   factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
     return MountTargetDescription(
-      fileSystemId: json['FileSystemId'] as String,
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
       lifeCycleState:
           LifeCycleState.fromString((json['LifeCycleState'] as String)),
-      mountTargetId: json['MountTargetId'] as String,
-      subnetId: json['SubnetId'] as String,
+      mountTargetId: (json['MountTargetId'] as String?) ?? '',
+      subnetId: (json['SubnetId'] as String?) ?? '',
       availabilityZoneId: json['AvailabilityZoneId'] as String?,
       availabilityZoneName: json['AvailabilityZoneName'] as String?,
       ipAddress: json['IpAddress'] as String?,
@@ -3252,8 +3252,8 @@ class PosixUser {
 
   factory PosixUser.fromJson(Map<String, dynamic> json) {
     return PosixUser(
-      gid: json['Gid'] as int,
-      uid: json['Uid'] as int,
+      gid: (json['Gid'] as int?) ?? 0,
+      uid: (json['Uid'] as int?) ?? 0,
       secondaryGids: (json['SecondaryGids'] as List?)
           ?.nonNulls
           .map((e) => e as int)
@@ -3333,17 +3333,16 @@ class ReplicationConfigurationDescription {
   factory ReplicationConfigurationDescription.fromJson(
       Map<String, dynamic> json) {
     return ReplicationConfigurationDescription(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      destinations: (json['Destinations'] as List)
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      destinations: ((json['Destinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
       originalSourceFileSystemArn:
-          json['OriginalSourceFileSystemArn'] as String,
-      sourceFileSystemArn: json['SourceFileSystemArn'] as String,
-      sourceFileSystemId: json['SourceFileSystemId'] as String,
-      sourceFileSystemRegion: json['SourceFileSystemRegion'] as String,
+          (json['OriginalSourceFileSystemArn'] as String?) ?? '',
+      sourceFileSystemArn: (json['SourceFileSystemArn'] as String?) ?? '',
+      sourceFileSystemId: (json['SourceFileSystemId'] as String?) ?? '',
+      sourceFileSystemRegion: (json['SourceFileSystemRegion'] as String?) ?? '',
     );
   }
 
@@ -3552,8 +3551,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

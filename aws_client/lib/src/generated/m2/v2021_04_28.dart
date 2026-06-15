@@ -1469,8 +1469,8 @@ class AlternateKey {
 
   factory AlternateKey.fromJson(Map<String, dynamic> json) {
     return AlternateKey(
-      length: json['length'] as int,
-      offset: json['offset'] as int,
+      length: (json['length'] as int?) ?? 0,
+      offset: (json['offset'] as int?) ?? 0,
       allowDuplicates: json['allowDuplicates'] as bool?,
       name: json['name'] as String?,
     );
@@ -1592,13 +1592,12 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      applicationArn: json['applicationArn'] as String,
-      applicationId: json['applicationId'] as String,
-      applicationVersion: json['applicationVersion'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      applicationArn: (json['applicationArn'] as String?) ?? '',
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       engineType: EngineType.fromString((json['engineType'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: ApplicationLifecycle.fromString((json['status'] as String)),
       deploymentStatus: (json['deploymentStatus'] as String?)
           ?.let(ApplicationDeploymentLifecycle.fromString),
@@ -1683,9 +1682,8 @@ class ApplicationVersionSummary {
 
   factory ApplicationVersionSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationVersionSummary(
-      applicationVersion: json['applicationVersion'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       status:
           ApplicationVersionLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
@@ -1818,9 +1816,9 @@ class BatchJobExecutionSummary {
 
   factory BatchJobExecutionSummary.fromJson(Map<String, dynamic> json) {
     return BatchJobExecutionSummary(
-      applicationId: json['applicationId'] as String,
-      executionId: json['executionId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      applicationId: (json['applicationId'] as String?) ?? '',
+      executionId: (json['executionId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: BatchJobExecutionStatus.fromString((json['status'] as String)),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
@@ -1969,9 +1967,9 @@ class CreateApplicationResponse {
 
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
-      applicationArn: json['applicationArn'] as String,
-      applicationId: json['applicationId'] as String,
-      applicationVersion: json['applicationVersion'] as int,
+      applicationArn: (json['applicationArn'] as String?) ?? '',
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
     );
   }
 
@@ -1999,7 +1997,7 @@ class CreateDataSetImportTaskResponse {
 
   factory CreateDataSetImportTaskResponse.fromJson(Map<String, dynamic> json) {
     return CreateDataSetImportTaskResponse(
-      taskId: json['taskId'] as String,
+      taskId: (json['taskId'] as String?) ?? '',
     );
   }
 
@@ -2021,7 +2019,7 @@ class CreateDeploymentResponse {
 
   factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return CreateDeploymentResponse(
-      deploymentId: json['deploymentId'] as String,
+      deploymentId: (json['deploymentId'] as String?) ?? '',
     );
   }
 
@@ -2043,7 +2041,7 @@ class CreateEnvironmentResponse {
 
   factory CreateEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentResponse(
-      environmentId: json['environmentId'] as String,
+      environmentId: (json['environmentId'] as String?) ?? '',
     );
   }
 
@@ -2173,11 +2171,11 @@ class DataSetImportSummary {
 
   factory DataSetImportSummary.fromJson(Map<String, dynamic> json) {
     return DataSetImportSummary(
-      failed: json['failed'] as int,
-      inProgress: json['inProgress'] as int,
-      pending: json['pending'] as int,
-      succeeded: json['succeeded'] as int,
-      total: json['total'] as int,
+      failed: (json['failed'] as int?) ?? 0,
+      inProgress: (json['inProgress'] as int?) ?? 0,
+      pending: (json['pending'] as int?) ?? 0,
+      succeeded: (json['succeeded'] as int?) ?? 0,
+      total: (json['total'] as int?) ?? 0,
     );
   }
 
@@ -2222,8 +2220,9 @@ class DataSetImportTask {
     return DataSetImportTask(
       status: DataSetTaskLifecycle.fromString((json['status'] as String)),
       summary: DataSetImportSummary.fromJson(
-          json['summary'] as Map<String, dynamic>),
-      taskId: json['taskId'] as String,
+          (json['summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      taskId: (json['taskId'] as String?) ?? '',
       statusReason: json['statusReason'] as String?,
     );
   }
@@ -2273,7 +2272,7 @@ class DataSetSummary {
 
   factory DataSetSummary.fromJson(Map<String, dynamic> json) {
     return DataSetSummary(
-      dataSetName: json['dataSetName'] as String,
+      dataSetName: (json['dataSetName'] as String?) ?? '',
       creationTime: timeStampFromJson(json['creationTime']),
       dataSetOrg: json['dataSetOrg'] as String?,
       format: json['format'] as String?,
@@ -2492,7 +2491,7 @@ class DeployedVersionSummary {
 
   factory DeployedVersionSummary.fromJson(Map<String, dynamic> json) {
     return DeployedVersionSummary(
-      applicationVersion: json['applicationVersion'] as int,
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
       status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
@@ -2562,12 +2561,11 @@ class DeploymentSummary {
 
   factory DeploymentSummary.fromJson(Map<String, dynamic> json) {
     return DeploymentSummary(
-      applicationId: json['applicationId'] as String,
-      applicationVersion: json['applicationVersion'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      deploymentId: json['deploymentId'] as String,
-      environmentId: json['environmentId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      deploymentId: (json['deploymentId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
       status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
@@ -2608,8 +2606,8 @@ class EfsStorageConfiguration {
 
   factory EfsStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return EfsStorageConfiguration(
-      fileSystemId: json['file-system-id'] as String,
-      mountPoint: json['mount-point'] as String,
+      fileSystemId: (json['file-system-id'] as String?) ?? '',
+      mountPoint: (json['mount-point'] as String?) ?? '',
     );
   }
 
@@ -2652,8 +2650,8 @@ class EngineVersionsSummary {
 
   factory EngineVersionsSummary.fromJson(Map<String, dynamic> json) {
     return EngineVersionsSummary(
-      engineType: json['engineType'] as String,
-      engineVersion: json['engineVersion'] as String,
+      engineType: (json['engineType'] as String?) ?? '',
+      engineVersion: (json['engineVersion'] as String?) ?? '',
     );
   }
 
@@ -2725,14 +2723,13 @@ class EnvironmentSummary {
 
   factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentSummary(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       engineType: EngineType.fromString((json['engineType'] as String)),
-      engineVersion: json['engineVersion'] as String,
-      environmentArn: json['environmentArn'] as String,
-      environmentId: json['environmentId'] as String,
-      instanceType: json['instanceType'] as String,
-      name: json['name'] as String,
+      engineVersion: (json['engineVersion'] as String?) ?? '',
+      environmentArn: (json['environmentArn'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      instanceType: (json['instanceType'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: EnvironmentLifecycle.fromString((json['status'] as String)),
     );
   }
@@ -2791,7 +2788,7 @@ class FileBatchJobDefinition {
 
   factory FileBatchJobDefinition.fromJson(Map<String, dynamic> json) {
     return FileBatchJobDefinition(
-      fileName: json['fileName'] as String,
+      fileName: (json['fileName'] as String?) ?? '',
       folderPath: json['folderPath'] as String?,
     );
   }
@@ -2822,7 +2819,7 @@ class FileBatchJobIdentifier {
 
   factory FileBatchJobIdentifier.fromJson(Map<String, dynamic> json) {
     return FileBatchJobIdentifier(
-      fileName: json['fileName'] as String,
+      fileName: (json['fileName'] as String?) ?? '',
       folderPath: json['folderPath'] as String?,
     );
   }
@@ -2852,8 +2849,8 @@ class FsxStorageConfiguration {
 
   factory FsxStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return FsxStorageConfiguration(
-      fileSystemId: json['file-system-id'] as String,
-      mountPoint: json['mount-point'] as String,
+      fileSystemId: (json['file-system-id'] as String?) ?? '',
+      mountPoint: (json['mount-point'] as String?) ?? '',
     );
   }
 
@@ -3029,14 +3026,14 @@ class GetApplicationResponse {
 
   factory GetApplicationResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationResponse(
-      applicationArn: json['applicationArn'] as String,
-      applicationId: json['applicationId'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      applicationArn: (json['applicationArn'] as String?) ?? '',
+      applicationId: (json['applicationId'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       engineType: EngineType.fromString((json['engineType'] as String)),
       latestVersion: ApplicationVersionSummary.fromJson(
-          json['latestVersion'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['latestVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       status: ApplicationLifecycle.fromString((json['status'] as String)),
       deployedVersion: json['deployedVersion'] != null
           ? DeployedVersionSummary.fromJson(
@@ -3154,11 +3151,10 @@ class GetApplicationVersionResponse {
 
   factory GetApplicationVersionResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationVersionResponse(
-      applicationVersion: json['applicationVersion'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      definitionContent: json['definitionContent'] as String,
-      name: json['name'] as String,
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      definitionContent: (json['definitionContent'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status:
           ApplicationVersionLifecycle.fromString((json['status'] as String)),
       description: json['description'] as String?,
@@ -3248,9 +3244,9 @@ class GetBatchJobExecutionResponse {
 
   factory GetBatchJobExecutionResponse.fromJson(Map<String, dynamic> json) {
     return GetBatchJobExecutionResponse(
-      applicationId: json['applicationId'] as String,
-      executionId: json['executionId'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      applicationId: (json['applicationId'] as String?) ?? '',
+      executionId: (json['executionId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       status: BatchJobExecutionStatus.fromString((json['status'] as String)),
       batchJobIdentifier: json['batchJobIdentifier'] != null
           ? BatchJobIdentifier.fromJson(
@@ -3345,7 +3341,7 @@ class GetDataSetDetailsResponse {
 
   factory GetDataSetDetailsResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetDetailsResponse(
-      dataSetName: json['dataSetName'] as String,
+      dataSetName: (json['dataSetName'] as String?) ?? '',
       blocksize: json['blocksize'] as int?,
       creationTime: timeStampFromJson(json['creationTime']),
       dataSetOrg: json['dataSetOrg'] != null
@@ -3406,7 +3402,7 @@ class GetDataSetImportTaskResponse {
   factory GetDataSetImportTaskResponse.fromJson(Map<String, dynamic> json) {
     return GetDataSetImportTaskResponse(
       status: DataSetTaskLifecycle.fromString((json['status'] as String)),
-      taskId: json['taskId'] as String,
+      taskId: (json['taskId'] as String?) ?? '',
       summary: json['summary'] != null
           ? DataSetImportSummary.fromJson(
               json['summary'] as Map<String, dynamic>)
@@ -3460,12 +3456,11 @@ class GetDeploymentResponse {
 
   factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) {
     return GetDeploymentResponse(
-      applicationId: json['applicationId'] as String,
-      applicationVersion: json['applicationVersion'] as int,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      deploymentId: json['deploymentId'] as String,
-      environmentId: json['environmentId'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      deploymentId: (json['deploymentId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
       status: DeploymentLifecycle.fromString((json['status'] as String)),
       statusReason: json['statusReason'] as String?,
     );
@@ -3592,22 +3587,23 @@ class GetEnvironmentResponse {
 
   factory GetEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentResponse(
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       engineType: EngineType.fromString((json['engineType'] as String)),
-      engineVersion: json['engineVersion'] as String,
-      environmentArn: json['environmentArn'] as String,
-      environmentId: json['environmentId'] as String,
-      instanceType: json['instanceType'] as String,
-      name: json['name'] as String,
-      securityGroupIds: (json['securityGroupIds'] as List)
+      engineVersion: (json['engineVersion'] as String?) ?? '',
+      environmentArn: (json['environmentArn'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      instanceType: (json['instanceType'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
       status: EnvironmentLifecycle.fromString((json['status'] as String)),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcId: json['vpcId'] as String,
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['vpcId'] as String?) ?? '',
       actualCapacity: json['actualCapacity'] as int?,
       description: json['description'] as String?,
       highAvailabilityConfig: json['highAvailabilityConfig'] != null
@@ -3695,7 +3691,7 @@ class GetSignedBluinsightsUrlResponse {
 
   factory GetSignedBluinsightsUrlResponse.fromJson(Map<String, dynamic> json) {
     return GetSignedBluinsightsUrlResponse(
-      signedBiUrl: json['signedBiUrl'] as String,
+      signedBiUrl: (json['signedBiUrl'] as String?) ?? '',
     );
   }
 
@@ -3719,7 +3715,7 @@ class HighAvailabilityConfig {
 
   factory HighAvailabilityConfig.fromJson(Map<String, dynamic> json) {
     return HighAvailabilityConfig(
-      desiredCapacity: json['desiredCapacity'] as int,
+      desiredCapacity: (json['desiredCapacity'] as int?) ?? 0,
     );
   }
 
@@ -3842,7 +3838,7 @@ class JobStepRestartMarker {
 
   factory JobStepRestartMarker.fromJson(Map<String, dynamic> json) {
     return JobStepRestartMarker(
-      fromStep: json['fromStep'] as String,
+      fromStep: (json['fromStep'] as String?) ?? '',
       fromProcStep: json['fromProcStep'] as String?,
       toProcStep: json['toProcStep'] as String?,
       toStep: json['toStep'] as String?,
@@ -3878,7 +3874,7 @@ class ListApplicationVersionsResponse {
 
   factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationVersionsResponse(
-      applicationVersions: (json['applicationVersions'] as List)
+      applicationVersions: ((json['applicationVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ApplicationVersionSummary.fromJson(e as Map<String, dynamic>))
@@ -3913,7 +3909,7 @@ class ListApplicationsResponse {
 
   factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationsResponse(
-      applications: (json['applications'] as List)
+      applications: ((json['applications'] as List?) ?? const [])
           .nonNulls
           .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3946,7 +3942,7 @@ class ListBatchJobDefinitionsResponse {
 
   factory ListBatchJobDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return ListBatchJobDefinitionsResponse(
-      batchJobDefinitions: (json['batchJobDefinitions'] as List)
+      batchJobDefinitions: ((json['batchJobDefinitions'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchJobDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3979,7 +3975,7 @@ class ListBatchJobExecutionsResponse {
 
   factory ListBatchJobExecutionsResponse.fromJson(Map<String, dynamic> json) {
     return ListBatchJobExecutionsResponse(
-      batchJobExecutions: (json['batchJobExecutions'] as List)
+      batchJobExecutions: ((json['batchJobExecutions'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               BatchJobExecutionSummary.fromJson(e as Map<String, dynamic>))
@@ -4040,7 +4036,7 @@ class ListDataSetImportHistoryResponse {
 
   factory ListDataSetImportHistoryResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSetImportHistoryResponse(
-      dataSetImportTasks: (json['dataSetImportTasks'] as List)
+      dataSetImportTasks: ((json['dataSetImportTasks'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSetImportTask.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4075,7 +4071,7 @@ class ListDataSetsResponse {
 
   factory ListDataSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListDataSetsResponse(
-      dataSets: (json['dataSets'] as List)
+      dataSets: ((json['dataSets'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSetSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4108,7 +4104,7 @@ class ListDeploymentsResponse {
 
   factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
     return ListDeploymentsResponse(
-      deployments: (json['deployments'] as List)
+      deployments: ((json['deployments'] as List?) ?? const [])
           .nonNulls
           .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4141,7 +4137,7 @@ class ListEngineVersionsResponse {
 
   factory ListEngineVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListEngineVersionsResponse(
-      engineVersions: (json['engineVersions'] as List)
+      engineVersions: ((json['engineVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) => EngineVersionsSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4175,7 +4171,7 @@ class ListEnvironmentsResponse {
 
   factory ListEnvironmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsResponse(
-      environments: (json['environments'] as List)
+      environments: ((json['environments'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4203,8 +4199,9 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -4233,8 +4230,8 @@ class LogGroupSummary {
 
   factory LogGroupSummary.fromJson(Map<String, dynamic> json) {
     return LogGroupSummary(
-      logGroupName: json['logGroupName'] as String,
-      logType: json['logType'] as String,
+      logGroupName: (json['logGroupName'] as String?) ?? '',
+      logType: (json['logType'] as String?) ?? '',
     );
   }
 
@@ -4356,8 +4353,8 @@ class PoDetailAttributes {
 
   factory PoDetailAttributes.fromJson(Map<String, dynamic> json) {
     return PoDetailAttributes(
-      encoding: json['encoding'] as String,
-      format: json['format'] as String,
+      encoding: (json['encoding'] as String?) ?? '',
+      format: (json['format'] as String?) ?? '',
     );
   }
 
@@ -4392,8 +4389,8 @@ class PrimaryKey {
 
   factory PrimaryKey.fromJson(Map<String, dynamic> json) {
     return PrimaryKey(
-      length: json['length'] as int,
-      offset: json['offset'] as int,
+      length: (json['length'] as int?) ?? 0,
+      offset: (json['offset'] as int?) ?? 0,
       name: json['name'] as String?,
     );
   }
@@ -4448,8 +4445,8 @@ class PsDetailAttributes {
 
   factory PsDetailAttributes.fromJson(Map<String, dynamic> json) {
     return PsDetailAttributes(
-      encoding: json['encoding'] as String,
-      format: json['format'] as String,
+      encoding: (json['encoding'] as String?) ?? '',
+      format: (json['format'] as String?) ?? '',
     );
   }
 
@@ -4504,9 +4501,10 @@ class RestartBatchJobIdentifier {
 
   factory RestartBatchJobIdentifier.fromJson(Map<String, dynamic> json) {
     return RestartBatchJobIdentifier(
-      executionId: json['executionId'] as String,
+      executionId: (json['executionId'] as String?) ?? '',
       jobStepRestartMarker: JobStepRestartMarker.fromJson(
-          json['jobStepRestartMarker'] as Map<String, dynamic>),
+          (json['jobStepRestartMarker'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4544,9 +4542,10 @@ class S3BatchJobIdentifier {
 
   factory S3BatchJobIdentifier.fromJson(Map<String, dynamic> json) {
     return S3BatchJobIdentifier(
-      bucket: json['bucket'] as String,
-      identifier:
-          JobIdentifier.fromJson(json['identifier'] as Map<String, dynamic>),
+      bucket: (json['bucket'] as String?) ?? '',
+      identifier: JobIdentifier.fromJson(
+          (json['identifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       keyPrefix: json['keyPrefix'] as String?,
     );
   }
@@ -4574,7 +4573,7 @@ class ScriptBatchJobDefinition {
 
   factory ScriptBatchJobDefinition.fromJson(Map<String, dynamic> json) {
     return ScriptBatchJobDefinition(
-      scriptName: json['scriptName'] as String,
+      scriptName: (json['scriptName'] as String?) ?? '',
     );
   }
 
@@ -4598,7 +4597,7 @@ class ScriptBatchJobIdentifier {
 
   factory ScriptBatchJobIdentifier.fromJson(Map<String, dynamic> json) {
     return ScriptBatchJobIdentifier(
-      scriptName: json['scriptName'] as String,
+      scriptName: (json['scriptName'] as String?) ?? '',
     );
   }
 
@@ -4632,7 +4631,7 @@ class StartBatchJobResponse {
 
   factory StartBatchJobResponse.fromJson(Map<String, dynamic> json) {
     return StartBatchJobResponse(
-      executionId: json['executionId'] as String,
+      executionId: (json['executionId'] as String?) ?? '',
     );
   }
 
@@ -4726,7 +4725,7 @@ class UpdateApplicationResponse {
 
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateApplicationResponse(
-      applicationVersion: json['applicationVersion'] as int,
+      applicationVersion: (json['applicationVersion'] as int?) ?? 0,
     );
   }
 
@@ -4748,7 +4747,7 @@ class UpdateEnvironmentResponse {
 
   factory UpdateEnvironmentResponse.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentResponse(
-      environmentId: json['environmentId'] as String,
+      environmentId: (json['environmentId'] as String?) ?? '',
     );
   }
 

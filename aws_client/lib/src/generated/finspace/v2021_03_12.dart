@@ -2680,7 +2680,7 @@ class ChangeRequest {
   factory ChangeRequest.fromJson(Map<String, dynamic> json) {
     return ChangeRequest(
       changeType: ChangeType.fromString((json['changeType'] as String)),
-      dbPath: json['dbPath'] as String,
+      dbPath: (json['dbPath'] as String?) ?? '',
       s3Path: json['s3Path'] as String?,
     );
   }
@@ -3785,8 +3785,8 @@ class CustomDNSServer {
 
   factory CustomDNSServer.fromJson(Map<String, dynamic> json) {
     return CustomDNSServer(
-      customDNSServerIP: json['customDNSServerIP'] as String,
-      customDNSServerName: json['customDNSServerName'] as String,
+      customDNSServerIP: (json['customDNSServerIP'] as String?) ?? '',
+      customDNSServerName: (json['customDNSServerName'] as String?) ?? '',
     );
   }
 
@@ -5439,8 +5439,8 @@ class IcmpTypeCode {
 
   factory IcmpTypeCode.fromJson(Map<String, dynamic> json) {
     return IcmpTypeCode(
-      code: json['code'] as int,
-      type: json['type'] as int,
+      code: (json['code'] as int?) ?? 0,
+      type: (json['type'] as int?) ?? 0,
     );
   }
 
@@ -5566,8 +5566,8 @@ class KxCacheStorageConfiguration {
 
   factory KxCacheStorageConfiguration.fromJson(Map<String, dynamic> json) {
     return KxCacheStorageConfiguration(
-      size: json['size'] as int,
-      type: json['type'] as String,
+      size: (json['size'] as int?) ?? 0,
+      type: (json['type'] as String?) ?? '',
     );
   }
 
@@ -6008,9 +6008,11 @@ class KxDatabaseCacheConfiguration {
 
   factory KxDatabaseCacheConfiguration.fromJson(Map<String, dynamic> json) {
     return KxDatabaseCacheConfiguration(
-      cacheType: json['cacheType'] as String,
-      dbPaths:
-          (json['dbPaths'] as List).nonNulls.map((e) => e as String).toList(),
+      cacheType: (json['cacheType'] as String?) ?? '',
+      dbPaths: ((json['dbPaths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       dataviewName: json['dataviewName'] as String?,
     );
   }
@@ -6056,7 +6058,7 @@ class KxDatabaseConfiguration {
 
   factory KxDatabaseConfiguration.fromJson(Map<String, dynamic> json) {
     return KxDatabaseConfiguration(
-      databaseName: json['databaseName'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
       cacheConfigurations: (json['cacheConfigurations'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -6420,9 +6422,11 @@ class KxDataviewSegmentConfiguration {
 
   factory KxDataviewSegmentConfiguration.fromJson(Map<String, dynamic> json) {
     return KxDataviewSegmentConfiguration(
-      dbPaths:
-          (json['dbPaths'] as List).nonNulls.map((e) => e as String).toList(),
-      volumeName: json['volumeName'] as String,
+      dbPaths: ((json['dbPaths'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      volumeName: (json['volumeName'] as String?) ?? '',
       onDemand: json['onDemand'] as bool?,
     );
   }
@@ -7034,9 +7038,9 @@ class KxScalingGroupConfiguration {
 
   factory KxScalingGroupConfiguration.fromJson(Map<String, dynamic> json) {
     return KxScalingGroupConfiguration(
-      memoryReservation: json['memoryReservation'] as int,
-      nodeCount: json['nodeCount'] as int,
-      scalingGroupName: json['scalingGroupName'] as String,
+      memoryReservation: (json['memoryReservation'] as int?) ?? 0,
+      nodeCount: (json['nodeCount'] as int?) ?? 0,
+      scalingGroupName: (json['scalingGroupName'] as String?) ?? '',
       cpu: json['cpu'] as double?,
       memoryLimit: json['memoryLimit'] as int?,
     );
@@ -7675,10 +7679,10 @@ class NetworkACLEntry {
 
   factory NetworkACLEntry.fromJson(Map<String, dynamic> json) {
     return NetworkACLEntry(
-      cidrBlock: json['cidrBlock'] as String,
-      protocol: json['protocol'] as String,
+      cidrBlock: (json['cidrBlock'] as String?) ?? '',
+      protocol: (json['protocol'] as String?) ?? '',
       ruleAction: RuleAction.fromString((json['ruleAction'] as String)),
-      ruleNumber: json['ruleNumber'] as int,
+      ruleNumber: (json['ruleNumber'] as int?) ?? 0,
       icmpTypeCode: json['icmpTypeCode'] != null
           ? IcmpTypeCode.fromJson(json['icmpTypeCode'] as Map<String, dynamic>)
           : null,
@@ -7721,8 +7725,8 @@ class PortRange {
 
   factory PortRange.fromJson(Map<String, dynamic> json) {
     return PortRange(
-      from: json['from'] as int,
-      to: json['to'] as int,
+      from: (json['from'] as int?) ?? 0,
+      to: (json['to'] as int?) ?? 0,
     );
   }
 
@@ -7846,8 +7850,8 @@ class TransitGatewayConfiguration {
 
   factory TransitGatewayConfiguration.fromJson(Map<String, dynamic> json) {
     return TransitGatewayConfiguration(
-      routableCIDRSpace: json['routableCIDRSpace'] as String,
-      transitGatewayID: json['transitGatewayID'] as String,
+      routableCIDRSpace: (json['routableCIDRSpace'] as String?) ?? '',
+      transitGatewayID: (json['transitGatewayID'] as String?) ?? '',
       attachmentNetworkAclConfiguration:
           (json['attachmentNetworkAclConfiguration'] as List?)
               ?.nonNulls

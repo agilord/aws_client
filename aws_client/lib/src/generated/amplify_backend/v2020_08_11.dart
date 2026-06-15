@@ -1461,8 +1461,8 @@ class BackendJobRespObj {
 
   factory BackendJobRespObj.fromJson(Map<String, dynamic> json) {
     return BackendJobRespObj(
-      appId: json['appId'] as String,
-      backendEnvironmentName: json['backendEnvironmentName'] as String,
+      appId: (json['appId'] as String?) ?? '',
+      backendEnvironmentName: (json['backendEnvironmentName'] as String?) ?? '',
       createTime: json['createTime'] as String?,
       error: json['error'] as String?,
       jobId: json['jobId'] as String?,
@@ -1512,7 +1512,7 @@ class BackendStoragePermissions {
 
   factory BackendStoragePermissions.fromJson(Map<String, dynamic> json) {
     return BackendStoragePermissions(
-      authenticated: (json['authenticated'] as List)
+      authenticated: ((json['authenticated'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuthenticatedElement.fromString((e as String)))
           .toList(),
@@ -1716,8 +1716,8 @@ class CreateBackendAuthIdentityPoolConfig {
   factory CreateBackendAuthIdentityPoolConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthIdentityPoolConfig(
-      identityPoolName: json['identityPoolName'] as String,
-      unauthenticatedLogin: json['unauthenticatedLogin'] as bool,
+      identityPoolName: (json['identityPoolName'] as String?) ?? '',
+      unauthenticatedLogin: (json['unauthenticatedLogin'] as bool?) ?? false,
     );
   }
 
@@ -1801,15 +1801,15 @@ class CreateBackendAuthOAuthConfig {
     return CreateBackendAuthOAuthConfig(
       oAuthGrantType:
           OAuthGrantType.fromString((json['oAuthGrantType'] as String)),
-      oAuthScopes: (json['oAuthScopes'] as List)
+      oAuthScopes: ((json['oAuthScopes'] as List?) ?? const [])
           .nonNulls
           .map((e) => OAuthScopesElement.fromString((e as String)))
           .toList(),
-      redirectSignInURIs: (json['redirectSignInURIs'] as List)
+      redirectSignInURIs: ((json['redirectSignInURIs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      redirectSignOutURIs: (json['redirectSignOutURIs'] as List)
+      redirectSignOutURIs: ((json['redirectSignOutURIs'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1858,7 +1858,7 @@ class CreateBackendAuthPasswordPolicyConfig {
   factory CreateBackendAuthPasswordPolicyConfig.fromJson(
       Map<String, dynamic> json) {
     return CreateBackendAuthPasswordPolicyConfig(
-      minimumLength: json['minimumLength'] as double,
+      minimumLength: (json['minimumLength'] as double?) ?? 0,
       additionalConstraints: (json['additionalConstraints'] as List?)
           ?.nonNulls
           .map((e) => AdditionalConstraintsElement.fromString((e as String)))
@@ -1910,7 +1910,8 @@ class CreateBackendAuthResourceConfig {
           AuthResources.fromString((json['authResources'] as String)),
       service: Service.fromString((json['service'] as String)),
       userPoolConfigs: CreateBackendAuthUserPoolConfig.fromJson(
-          json['userPoolConfigs'] as Map<String, dynamic>),
+          (json['userPoolConfigs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       identityPoolConfigs: json['identityPoolConfigs'] != null
           ? CreateBackendAuthIdentityPoolConfig.fromJson(
               json['identityPoolConfigs'] as Map<String, dynamic>)
@@ -2038,12 +2039,13 @@ class CreateBackendAuthUserPoolConfig {
 
   factory CreateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
     return CreateBackendAuthUserPoolConfig(
-      requiredSignUpAttributes: (json['requiredSignUpAttributes'] as List)
+      requiredSignUpAttributes: ((json['requiredSignUpAttributes'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => RequiredSignUpAttributesElement.fromString((e as String)))
           .toList(),
       signInMethod: SignInMethod.fromString((json['signInMethod'] as String)),
-      userPoolName: json['userPoolName'] as String,
+      userPoolName: (json['userPoolName'] as String?) ?? '',
       forgotPassword: json['forgotPassword'] != null
           ? CreateBackendAuthForgotPasswordConfig.fromJson(
               json['forgotPassword'] as Map<String, dynamic>)
@@ -3011,7 +3013,7 @@ class GetBackendStorageResourceConfig {
 
   factory GetBackendStorageResourceConfig.fromJson(Map<String, dynamic> json) {
     return GetBackendStorageResourceConfig(
-      imported: json['imported'] as bool,
+      imported: (json['imported'] as bool?) ?? false,
       serviceName: ServiceName.fromString((json['serviceName'] as String)),
       bucketName: json['bucketName'] as String?,
       permissions: json['permissions'] != null

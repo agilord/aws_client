@@ -754,8 +754,9 @@ class LockConfiguration {
 
   factory LockConfiguration.fromJson(Map<String, dynamic> json) {
     return LockConfiguration(
-      unlockDelay:
-          UnlockDelay.fromJson(json['UnlockDelay'] as Map<String, dynamic>),
+      unlockDelay: UnlockDelay.fromJson(
+          (json['UnlockDelay'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -908,7 +909,7 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      resourceTagKey: json['ResourceTagKey'] as String,
+      resourceTagKey: (json['ResourceTagKey'] as String?) ?? '',
       resourceTagValue: json['ResourceTagValue'] as String?,
     );
   }
@@ -958,7 +959,7 @@ class RetentionPeriod {
     return RetentionPeriod(
       retentionPeriodUnit: RetentionPeriodUnit.fromString(
           (json['RetentionPeriodUnit'] as String)),
-      retentionPeriodValue: json['RetentionPeriodValue'] as int,
+      retentionPeriodValue: (json['RetentionPeriodValue'] as int?) ?? 0,
     );
   }
 
@@ -1092,8 +1093,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1141,7 +1142,7 @@ class UnlockDelay {
     return UnlockDelay(
       unlockDelayUnit:
           UnlockDelayUnit.fromString((json['UnlockDelayUnit'] as String)),
-      unlockDelayValue: json['UnlockDelayValue'] as int,
+      unlockDelayValue: (json['UnlockDelayValue'] as int?) ?? 0,
     );
   }
 

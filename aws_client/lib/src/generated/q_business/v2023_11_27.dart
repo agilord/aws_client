@@ -2928,10 +2928,13 @@ class ActionExecution {
 
   factory ActionExecution.fromJson(Map<String, dynamic> json) {
     return ActionExecution(
-      payload: (json['payload'] as Map<String, dynamic>).map((k, e) => MapEntry(
-          k, ActionExecutionPayloadField.fromJson(e as Map<String, dynamic>))),
-      payloadFieldNameSeparator: json['payloadFieldNameSeparator'] as String,
-      pluginId: json['pluginId'] as String,
+      payload: ((json['payload'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(k,
+              ActionExecutionPayloadField.fromJson(e as Map<String, dynamic>))),
+      payloadFieldNameSeparator:
+          (json['payloadFieldNameSeparator'] as String?) ?? '',
+      pluginId: (json['pluginId'] as String?) ?? '',
     );
   }
 
@@ -2959,7 +2962,8 @@ class ActionExecutionPayloadField {
   factory ActionExecutionPayloadField.fromJson(Map<String, dynamic> json) {
     return ActionExecutionPayloadField(
       value: ActionPayloadFieldValue.fromJson(
-          json['value'] as Map<String, dynamic>),
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3567,7 +3571,7 @@ class AuthChallengeRequest {
 
   factory AuthChallengeRequest.fromJson(Map<String, dynamic> json) {
     return AuthChallengeRequest(
-      authorizationUrl: json['authorizationUrl'] as String,
+      authorizationUrl: (json['authorizationUrl'] as String?) ?? '',
     );
   }
 
@@ -3668,8 +3672,8 @@ class BasicAuthConfiguration {
 
   factory BasicAuthConfiguration.fromJson(Map<String, dynamic> json) {
     return BasicAuthConfiguration(
-      roleArn: json['roleArn'] as String,
-      secretArn: json['secretArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      secretArn: (json['secretArn'] as String?) ?? '',
     );
   }
 
@@ -4311,10 +4315,12 @@ class CustomPluginConfiguration {
 
   factory CustomPluginConfiguration.fromJson(Map<String, dynamic> json) {
     return CustomPluginConfiguration(
-      apiSchema: APISchema.fromJson(json['apiSchema'] as Map<String, dynamic>),
+      apiSchema: APISchema.fromJson(
+          (json['apiSchema'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       apiSchemaType:
           APISchemaType.fromString((json['apiSchemaType'] as String)),
-      description: json['description'] as String,
+      description: (json['description'] as String?) ?? '',
     );
   }
 
@@ -4599,12 +4605,14 @@ class DataSourceVpcConfiguration {
 
   factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return DataSourceVpcConfiguration(
-      securityGroupIds: (json['securityGroupIds'] as List)
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -5023,7 +5031,7 @@ class DocumentAttributeCondition {
 
   factory DocumentAttributeCondition.fromJson(Map<String, dynamic> json) {
     return DocumentAttributeCondition(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       operator: DocumentEnrichmentConditionOperator.fromString(
           (json['operator'] as String)),
       value: json['value'] != null
@@ -5130,7 +5138,7 @@ class DocumentAttributeTarget {
 
   factory DocumentAttributeTarget.fromJson(Map<String, dynamic> json) {
     return DocumentAttributeTarget(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       attributeValueOperator: (json['attributeValueOperator'] as String?)
           ?.let(AttributeValueOperator.fromString),
       value: json['value'] != null
@@ -6910,7 +6918,7 @@ class KendraIndexConfiguration {
 
   factory KendraIndexConfiguration.fromJson(Map<String, dynamic> json) {
     return KendraIndexConfiguration(
-      indexId: json['indexId'] as String,
+      indexId: (json['indexId'] as String?) ?? '',
     );
   }
 
@@ -7585,7 +7593,7 @@ class NativeIndexConfiguration {
 
   factory NativeIndexConfiguration.fromJson(Map<String, dynamic> json) {
     return NativeIndexConfiguration(
-      indexId: json['indexId'] as String,
+      indexId: (json['indexId'] as String?) ?? '',
       boostingOverride: (json['boostingOverride'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k,
@@ -7692,8 +7700,8 @@ class OAuth2ClientCredentialConfiguration {
   factory OAuth2ClientCredentialConfiguration.fromJson(
       Map<String, dynamic> json) {
     return OAuth2ClientCredentialConfiguration(
-      roleArn: json['roleArn'] as String,
-      secretArn: json['secretArn'] as String,
+      roleArn: (json['roleArn'] as String?) ?? '',
+      secretArn: (json['secretArn'] as String?) ?? '',
     );
   }
 
@@ -7726,8 +7734,8 @@ class OpenIDConnectProviderConfiguration {
   factory OpenIDConnectProviderConfiguration.fromJson(
       Map<String, dynamic> json) {
     return OpenIDConnectProviderConfiguration(
-      secretsArn: json['secretsArn'] as String,
-      secretsRole: json['secretsRole'] as String,
+      secretsArn: (json['secretsArn'] as String?) ?? '',
+      secretsRole: (json['secretsRole'] as String?) ?? '',
     );
   }
 
@@ -8401,8 +8409,8 @@ class S3 {
 
   factory S3.fromJson(Map<String, dynamic> json) {
     return S3(
-      bucket: json['bucket'] as String,
-      key: json['key'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
     );
   }
 
@@ -8444,9 +8452,9 @@ class SamlConfiguration {
 
   factory SamlConfiguration.fromJson(Map<String, dynamic> json) {
     return SamlConfiguration(
-      metadataXML: json['metadataXML'] as String,
-      roleArn: json['roleArn'] as String,
-      userIdAttribute: json['userIdAttribute'] as String,
+      metadataXML: (json['metadataXML'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      userIdAttribute: (json['userIdAttribute'] as String?) ?? '',
       userGroupAttribute: json['userGroupAttribute'] as String?,
     );
   }
@@ -8478,7 +8486,7 @@ class SamlProviderConfiguration {
 
   factory SamlProviderConfiguration.fromJson(Map<String, dynamic> json) {
     return SamlProviderConfiguration(
-      authenticationUrl: json['authenticationUrl'] as String,
+      authenticationUrl: (json['authenticationUrl'] as String?) ?? '',
     );
   }
 
@@ -8773,8 +8781,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -8900,8 +8908,8 @@ class TopicConfiguration {
 
   factory TopicConfiguration.fromJson(Map<String, dynamic> json) {
     return TopicConfiguration(
-      name: json['name'] as String,
-      rules: (json['rules'] as List)
+      name: (json['name'] as String?) ?? '',
+      rules: ((json['rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9089,7 +9097,7 @@ class UserAlias {
 
   factory UserAlias.fromJson(Map<String, dynamic> json) {
     return UserAlias(
-      userId: json['userId'] as String,
+      userId: (json['userId'] as String?) ?? '',
       dataSourceId: json['dataSourceId'] as String?,
       indexId: json['indexId'] as String?,
     );

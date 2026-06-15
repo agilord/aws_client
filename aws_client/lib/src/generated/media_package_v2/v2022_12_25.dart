@@ -1251,10 +1251,10 @@ class ChannelGroupListConfiguration {
 
   factory ChannelGroupListConfiguration.fromJson(Map<String, dynamic> json) {
     return ChannelGroupListConfiguration(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
     );
   }
@@ -1330,11 +1330,11 @@ class ChannelListConfiguration {
 
   factory ChannelListConfiguration.fromJson(Map<String, dynamic> json) {
     return ChannelListConfiguration(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       inputType: (json['InputType'] as String?)?.let(InputType.fromString),
     );
@@ -1434,11 +1434,11 @@ class CreateChannelGroupResponse {
 
   factory CreateChannelGroupResponse.fromJson(Map<String, dynamic> json) {
     return CreateChannelGroupResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      egressDomain: json['EgressDomain'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      egressDomain: (json['EgressDomain'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
@@ -1532,11 +1532,11 @@ class CreateChannelResponse {
 
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
     return CreateChannelResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
@@ -1893,15 +1893,16 @@ class CreateOriginEndpointResponse {
 
   factory CreateOriginEndpointResponse.fromJson(Map<String, dynamic> json) {
     return CreateOriginEndpointResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
           ContainerType.fromString((json['ContainerType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
-      originEndpointName: json['OriginEndpointName'] as String,
-      segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
+      originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
+      segment: Segment.fromJson((json['Segment'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       dashManifests: (json['DashManifests'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -2181,9 +2182,11 @@ class Encryption {
   factory Encryption.fromJson(Map<String, dynamic> json) {
     return Encryption(
       encryptionMethod: EncryptionMethod.fromJson(
-          json['EncryptionMethod'] as Map<String, dynamic>),
+          (json['EncryptionMethod'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       spekeKeyProvider: SpekeKeyProvider.fromJson(
-          json['SpekeKeyProvider'] as Map<String, dynamic>),
+          (json['SpekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       constantInitializationVector:
           json['ConstantInitializationVector'] as String?,
       keyRotationIntervalSeconds: json['KeyRotationIntervalSeconds'] as int?,
@@ -2515,11 +2518,11 @@ class GetChannelGroupResponse {
 
   factory GetChannelGroupResponse.fromJson(Map<String, dynamic> json) {
     return GetChannelGroupResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      egressDomain: json['EgressDomain'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      egressDomain: (json['EgressDomain'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -2571,9 +2574,9 @@ class GetChannelPolicyResponse {
 
   factory GetChannelPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetChannelPolicyResponse(
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      policy: json['Policy'] as String,
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      policy: (json['Policy'] as String?) ?? '',
     );
   }
 
@@ -2653,11 +2656,11 @@ class GetChannelResponse {
 
   factory GetChannelResponse.fromJson(Map<String, dynamic> json) {
     return GetChannelResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
@@ -2774,8 +2777,8 @@ class GetDashManifestConfiguration {
 
   factory GetDashManifestConfiguration.fromJson(Map<String, dynamic> json) {
     return GetDashManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
-      url: json['Url'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
+      url: (json['Url'] as String?) ?? '',
       drmSignaling:
           (json['DrmSignaling'] as String?)?.let(DashDrmSignaling.fromString),
       filterConfiguration: json['FilterConfiguration'] != null
@@ -2889,8 +2892,8 @@ class GetHlsManifestConfiguration {
 
   factory GetHlsManifestConfiguration.fromJson(Map<String, dynamic> json) {
     return GetHlsManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
-      url: json['Url'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
+      url: (json['Url'] as String?) ?? '',
       childManifestName: json['ChildManifestName'] as String?,
       filterConfiguration: json['FilterConfiguration'] != null
           ? FilterConfiguration.fromJson(
@@ -2978,8 +2981,8 @@ class GetLowLatencyHlsManifestConfiguration {
   factory GetLowLatencyHlsManifestConfiguration.fromJson(
       Map<String, dynamic> json) {
     return GetLowLatencyHlsManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
-      url: json['Url'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
+      url: (json['Url'] as String?) ?? '',
       childManifestName: json['ChildManifestName'] as String?,
       filterConfiguration: json['FilterConfiguration'] != null
           ? FilterConfiguration.fromJson(
@@ -3045,10 +3048,10 @@ class GetOriginEndpointPolicyResponse {
 
   factory GetOriginEndpointPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetOriginEndpointPolicyResponse(
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      originEndpointName: json['OriginEndpointName'] as String,
-      policy: json['Policy'] as String,
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
+      policy: (json['Policy'] as String?) ?? '',
     );
   }
 
@@ -3144,15 +3147,16 @@ class GetOriginEndpointResponse {
 
   factory GetOriginEndpointResponse.fromJson(Map<String, dynamic> json) {
     return GetOriginEndpointResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
           ContainerType.fromString((json['ContainerType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
-      originEndpointName: json['OriginEndpointName'] as String,
-      segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
+      originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
+      segment: Segment.fromJson((json['Segment'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       dashManifests: (json['DashManifests'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -3352,7 +3356,7 @@ class ListDashManifestConfiguration {
 
   factory ListDashManifestConfiguration.fromJson(Map<String, dynamic> json) {
     return ListDashManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
       url: json['Url'] as String?,
     );
   }
@@ -3396,7 +3400,7 @@ class ListHlsManifestConfiguration {
 
   factory ListHlsManifestConfiguration.fromJson(Map<String, dynamic> json) {
     return ListHlsManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
       childManifestName: json['ChildManifestName'] as String?,
       url: json['Url'] as String?,
     );
@@ -3444,7 +3448,7 @@ class ListLowLatencyHlsManifestConfiguration {
   factory ListLowLatencyHlsManifestConfiguration.fromJson(
       Map<String, dynamic> json) {
     return ListLowLatencyHlsManifestConfiguration(
-      manifestName: json['ManifestName'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
       childManifestName: json['ChildManifestName'] as String?,
       url: json['Url'] as String?,
     );
@@ -3584,12 +3588,12 @@ class OriginEndpointListConfiguration {
 
   factory OriginEndpointListConfiguration.fromJson(Map<String, dynamic> json) {
     return OriginEndpointListConfiguration(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
           ContainerType.fromString((json['ContainerType'] as String)),
-      originEndpointName: json['OriginEndpointName'] as String,
+      originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
       createdAt: timeStampFromJson(json['CreatedAt']),
       dashManifests: (json['DashManifests'] as List?)
           ?.nonNulls
@@ -3983,15 +3987,16 @@ class SpekeKeyProvider {
 
   factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
     return SpekeKeyProvider(
-      drmSystems: (json['DrmSystems'] as List)
+      drmSystems: ((json['DrmSystems'] as List?) ?? const [])
           .nonNulls
           .map((e) => DrmSystem.fromString((e as String)))
           .toList(),
       encryptionContractConfiguration: EncryptionContractConfiguration.fromJson(
-          json['EncryptionContractConfiguration'] as Map<String, dynamic>),
-      resourceId: json['ResourceId'] as String,
-      roleArn: json['RoleArn'] as String,
-      url: json['Url'] as String,
+          (json['EncryptionContractConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      url: (json['Url'] as String?) ?? '',
     );
   }
 
@@ -4070,11 +4075,11 @@ class UpdateChannelGroupResponse {
 
   factory UpdateChannelGroupResponse.fromJson(Map<String, dynamic> json) {
     return UpdateChannelGroupResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      egressDomain: json['EgressDomain'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      egressDomain: (json['EgressDomain'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -4168,11 +4173,11 @@ class UpdateChannelResponse {
 
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
     return UpdateChannelResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
       description: json['Description'] as String?,
       eTag: json['ETag'] as String?,
       ingestEndpoints: (json['IngestEndpoints'] as List?)
@@ -4292,15 +4297,16 @@ class UpdateOriginEndpointResponse {
 
   factory UpdateOriginEndpointResponse.fromJson(Map<String, dynamic> json) {
     return UpdateOriginEndpointResponse(
-      arn: json['Arn'] as String,
-      channelGroupName: json['ChannelGroupName'] as String,
-      channelName: json['ChannelName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelGroupName: (json['ChannelGroupName'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
       containerType:
           ContainerType.fromString((json['ContainerType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] as Object),
-      originEndpointName: json['OriginEndpointName'] as String,
-      segment: Segment.fromJson(json['Segment'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      modifiedAt: nonNullableTimeStampFromJson(json['ModifiedAt'] ?? 0),
+      originEndpointName: (json['OriginEndpointName'] as String?) ?? '',
+      segment: Segment.fromJson((json['Segment'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       dashManifests: (json['DashManifests'] as List?)
           ?.nonNulls
           .map((e) =>

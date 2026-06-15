@@ -530,8 +530,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -564,7 +564,7 @@ class UsageAllocation {
 
   factory UsageAllocation.fromJson(Map<String, dynamic> json) {
     return UsageAllocation(
-      allocatedUsageQuantity: json['AllocatedUsageQuantity'] as int,
+      allocatedUsageQuantity: (json['AllocatedUsageQuantity'] as int?) ?? 0,
       tags: (json['Tags'] as List?)
           ?.nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -623,9 +623,9 @@ class UsageRecord {
 
   factory UsageRecord.fromJson(Map<String, dynamic> json) {
     return UsageRecord(
-      customerIdentifier: json['CustomerIdentifier'] as String,
-      dimension: json['Dimension'] as String,
-      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+      customerIdentifier: (json['CustomerIdentifier'] as String?) ?? '',
+      dimension: (json['Dimension'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
       quantity: json['Quantity'] as int?,
       usageAllocations: (json['UsageAllocations'] as List?)
           ?.nonNulls

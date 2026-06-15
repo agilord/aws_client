@@ -2199,9 +2199,9 @@ class App {
 
   factory App.fromJson(Map<String, dynamic> json) {
     return App(
-      appName: json['AppName'] as String,
-      port: json['Port'] as int,
-      protocol: json['Protocol'] as String,
+      appName: (json['AppName'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
+      protocol: (json['Protocol'] as String?) ?? '',
     );
   }
 
@@ -2255,11 +2255,11 @@ class AppsListData {
 
   factory AppsListData.fromJson(Map<String, dynamic> json) {
     return AppsListData(
-      appsList: (json['AppsList'] as List)
+      appsList: ((json['AppsList'] as List?) ?? const [])
           .nonNulls
           .map((e) => App.fromJson(e as Map<String, dynamic>))
           .toList(),
-      listName: json['ListName'] as String,
+      listName: (json['ListName'] as String?) ?? '',
       createTime: timeStampFromJson(json['CreateTime']),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       listId: json['ListId'] as String?,
@@ -2539,11 +2539,11 @@ class BatchAssociateResourceResponse {
 
   factory BatchAssociateResourceResponse.fromJson(Map<String, dynamic> json) {
     return BatchAssociateResourceResponse(
-      failedItems: (json['FailedItems'] as List)
+      failedItems: ((json['FailedItems'] as List?) ?? const [])
           .nonNulls
           .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
+      resourceSetIdentifier: (json['ResourceSetIdentifier'] as String?) ?? '',
     );
   }
 
@@ -2573,11 +2573,11 @@ class BatchDisassociateResourceResponse {
   factory BatchDisassociateResourceResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDisassociateResourceResponse(
-      failedItems: (json['FailedItems'] as List)
+      failedItems: ((json['FailedItems'] as List?) ?? const [])
           .nonNulls
           .map((e) => FailedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resourceSetIdentifier: json['ResourceSetIdentifier'] as String,
+      resourceSetIdentifier: (json['ResourceSetIdentifier'] as String?) ?? '',
     );
   }
 
@@ -3099,8 +3099,9 @@ class EC2AssociateRouteTableAction {
 
   factory EC2AssociateRouteTableAction.fromJson(Map<String, dynamic> json) {
     return EC2AssociateRouteTableAction(
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
       gatewayId: json['GatewayId'] != null
           ? ActionTarget.fromJson(json['GatewayId'] as Map<String, dynamic>)
@@ -3147,9 +3148,11 @@ class EC2CopyRouteTableAction {
 
   factory EC2CopyRouteTableAction.fromJson(Map<String, dynamic> json) {
     return EC2CopyRouteTableAction(
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
-      vpcId: ActionTarget.fromJson(json['VpcId'] as Map<String, dynamic>),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vpcId: ActionTarget.fromJson((json['VpcId'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       description: json['Description'] as String?,
     );
   }
@@ -3204,8 +3207,9 @@ class EC2CreateRouteAction {
 
   factory EC2CreateRouteAction.fromJson(Map<String, dynamic> json) {
     return EC2CreateRouteAction(
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
       destinationCidrBlock: json['DestinationCidrBlock'] as String?,
       destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
@@ -3257,7 +3261,8 @@ class EC2CreateRouteTableAction {
 
   factory EC2CreateRouteTableAction.fromJson(Map<String, dynamic> json) {
     return EC2CreateRouteTableAction(
-      vpcId: ActionTarget.fromJson(json['VpcId'] as Map<String, dynamic>),
+      vpcId: ActionTarget.fromJson((json['VpcId'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       description: json['Description'] as String?,
     );
   }
@@ -3301,8 +3306,9 @@ class EC2DeleteRouteAction {
 
   factory EC2DeleteRouteAction.fromJson(Map<String, dynamic> json) {
     return EC2DeleteRouteAction(
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
       destinationCidrBlock: json['DestinationCidrBlock'] as String?,
       destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
@@ -3364,8 +3370,9 @@ class EC2ReplaceRouteAction {
 
   factory EC2ReplaceRouteAction.fromJson(Map<String, dynamic> json) {
     return EC2ReplaceRouteAction(
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
       destinationCidrBlock: json['DestinationCidrBlock'] as String?,
       destinationIpv6CidrBlock: json['DestinationIpv6CidrBlock'] as String?,
@@ -3418,10 +3425,12 @@ class EC2ReplaceRouteTableAssociationAction {
   factory EC2ReplaceRouteTableAssociationAction.fromJson(
       Map<String, dynamic> json) {
     return EC2ReplaceRouteTableAssociationAction(
-      associationId:
-          ActionTarget.fromJson(json['AssociationId'] as Map<String, dynamic>),
-      routeTableId:
-          ActionTarget.fromJson(json['RouteTableId'] as Map<String, dynamic>),
+      associationId: ActionTarget.fromJson(
+          (json['AssociationId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      routeTableId: ActionTarget.fromJson(
+          (json['RouteTableId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['Description'] as String?,
     );
   }
@@ -4253,9 +4262,10 @@ class GetResourceSetResponse {
 
   factory GetResourceSetResponse.fromJson(Map<String, dynamic> json) {
     return GetResourceSetResponse(
-      resourceSet:
-          ResourceSet.fromJson(json['ResourceSet'] as Map<String, dynamic>),
-      resourceSetArn: json['ResourceSetArn'] as String,
+      resourceSet: ResourceSet.fromJson(
+          (json['ResourceSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceSetArn: (json['ResourceSetArn'] as String?) ?? '',
     );
   }
 
@@ -4746,7 +4756,7 @@ class ListResourceSetResourcesResponse {
 
   factory ListResourceSetResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListResourceSetResourcesResponse(
-      items: (json['Items'] as List)
+      items: ((json['Items'] as List?) ?? const [])
           .nonNulls
           .map((e) => Resource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4905,7 +4915,8 @@ class NetworkAclCommonPolicy {
   factory NetworkAclCommonPolicy.fromJson(Map<String, dynamic> json) {
     return NetworkAclCommonPolicy(
       networkAclEntrySet: NetworkAclEntrySet.fromJson(
-          json['NetworkAclEntrySet'] as Map<String, dynamic>),
+          (json['NetworkAclEntrySet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -4967,8 +4978,8 @@ class NetworkAclEntry {
 
   factory NetworkAclEntry.fromJson(Map<String, dynamic> json) {
     return NetworkAclEntry(
-      egress: json['Egress'] as bool,
-      protocol: json['Protocol'] as String,
+      egress: (json['Egress'] as bool?) ?? false,
+      protocol: (json['Protocol'] as String?) ?? '',
       ruleAction:
           NetworkAclRuleAction.fromString((json['RuleAction'] as String)),
       cidrBlock: json['CidrBlock'] as String?,
@@ -5061,9 +5072,9 @@ class NetworkAclEntrySet {
   factory NetworkAclEntrySet.fromJson(Map<String, dynamic> json) {
     return NetworkAclEntrySet(
       forceRemediateForFirstEntries:
-          json['ForceRemediateForFirstEntries'] as bool,
+          (json['ForceRemediateForFirstEntries'] as bool?) ?? false,
       forceRemediateForLastEntries:
-          json['ForceRemediateForLastEntries'] as bool,
+          (json['ForceRemediateForLastEntries'] as bool?) ?? false,
       firstEntries: (json['FirstEntries'] as List?)
           ?.nonNulls
           .map((e) => NetworkAclEntry.fromJson(e as Map<String, dynamic>))
@@ -6400,12 +6411,13 @@ class Policy {
 
   factory Policy.fromJson(Map<String, dynamic> json) {
     return Policy(
-      excludeResourceTags: json['ExcludeResourceTags'] as bool,
-      policyName: json['PolicyName'] as String,
-      remediationEnabled: json['RemediationEnabled'] as bool,
-      resourceType: json['ResourceType'] as String,
+      excludeResourceTags: (json['ExcludeResourceTags'] as bool?) ?? false,
+      policyName: (json['PolicyName'] as String?) ?? '',
+      remediationEnabled: (json['RemediationEnabled'] as bool?) ?? false,
+      resourceType: (json['ResourceType'] as String?) ?? '',
       securityServicePolicyData: SecurityServicePolicyData.fromJson(
-          json['SecurityServicePolicyData'] as Map<String, dynamic>),
+          (json['SecurityServicePolicyData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       deleteUnusedFMManagedResources:
           json['DeleteUnusedFMManagedResources'] as bool?,
       excludeMap: (json['ExcludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
@@ -6854,7 +6866,9 @@ class PossibleRemediationAction {
 
   factory PossibleRemediationAction.fromJson(Map<String, dynamic> json) {
     return PossibleRemediationAction(
-      orderedRemediationActions: (json['OrderedRemediationActions'] as List)
+      orderedRemediationActions: ((json['OrderedRemediationActions']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RemediationActionWithOrder.fromJson(e as Map<String, dynamic>))
@@ -6948,8 +6962,8 @@ class ProtocolsListData {
 
   factory ProtocolsListData.fromJson(Map<String, dynamic> json) {
     return ProtocolsListData(
-      listName: json['ListName'] as String,
-      protocolsList: (json['ProtocolsList'] as List)
+      listName: (json['ListName'] as String?) ?? '',
+      protocolsList: ((json['ProtocolsList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7141,9 +7155,10 @@ class PutResourceSetResponse {
 
   factory PutResourceSetResponse.fromJson(Map<String, dynamic> json) {
     return PutResourceSetResponse(
-      resourceSet:
-          ResourceSet.fromJson(json['ResourceSet'] as Map<String, dynamic>),
-      resourceSetArn: json['ResourceSetArn'] as String,
+      resourceSet: ResourceSet.fromJson(
+          (json['ResourceSet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceSetArn: (json['ResourceSetArn'] as String?) ?? '',
     );
   }
 
@@ -7483,7 +7498,7 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      uri: json['URI'] as String,
+      uri: (json['URI'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
     );
   }
@@ -7568,8 +7583,8 @@ class ResourceSet {
 
   factory ResourceSet.fromJson(Map<String, dynamic> json) {
     return ResourceSet(
-      name: json['Name'] as String,
-      resourceTypeList: (json['ResourceTypeList'] as List)
+      name: (json['Name'] as String?) ?? '',
+      resourceTypeList: ((json['ResourceTypeList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -7721,7 +7736,7 @@ class ResourceTag {
 
   factory ResourceTag.fromJson(Map<String, dynamic> json) {
     return ResourceTag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -9053,8 +9068,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -9394,11 +9409,11 @@ class ViolationDetail {
 
   factory ViolationDetail.fromJson(Map<String, dynamic> json) {
     return ViolationDetail(
-      memberAccount: json['MemberAccount'] as String,
-      policyId: json['PolicyId'] as String,
-      resourceId: json['ResourceId'] as String,
-      resourceType: json['ResourceType'] as String,
-      resourceViolations: (json['ResourceViolations'] as List)
+      memberAccount: (json['MemberAccount'] as String?) ?? '',
+      policyId: (json['PolicyId'] as String?) ?? '',
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      resourceType: (json['ResourceType'] as String?) ?? '',
+      resourceViolations: ((json['ResourceViolations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceViolation.fromJson(e as Map<String, dynamic>))
           .toList(),

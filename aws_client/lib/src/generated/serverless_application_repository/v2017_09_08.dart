@@ -891,8 +891,8 @@ class ApplicationDependencySummary {
 
   factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) {
     return ApplicationDependencySummary(
-      applicationId: json['applicationId'] as String,
-      semanticVersion: json['semanticVersion'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      semanticVersion: (json['semanticVersion'] as String?) ?? '',
     );
   }
 
@@ -933,9 +933,11 @@ class ApplicationPolicyStatement {
 
   factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
     return ApplicationPolicyStatement(
-      actions:
-          (json['actions'] as List).nonNulls.map((e) => e as String).toList(),
-      principals: (json['principals'] as List)
+      actions: ((json['actions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principals: ((json['principals'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1016,10 +1018,10 @@ class ApplicationSummary {
 
   factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
     return ApplicationSummary(
-      applicationId: json['applicationId'] as String,
-      author: json['author'] as String,
-      description: json['description'] as String,
-      name: json['name'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      author: (json['author'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       creationTime: json['creationTime'] as String?,
       homePageUrl: json['homePageUrl'] as String?,
       labels:
@@ -1936,11 +1938,12 @@ class ParameterDefinition {
 
   factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
     return ParameterDefinition(
-      name: json['name'] as String,
-      referencedByResources: (json['referencedByResources'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+      name: (json['name'] as String?) ?? '',
+      referencedByResources:
+          ((json['referencedByResources'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
       allowedPattern: json['allowedPattern'] as String?,
       allowedValues: (json['allowedValues'] as List?)
           ?.nonNulls
@@ -2393,19 +2396,21 @@ class Version {
 
   factory Version.fromJson(Map<String, dynamic> json) {
     return Version(
-      applicationId: json['applicationId'] as String,
-      creationTime: json['creationTime'] as String,
-      parameterDefinitions: (json['parameterDefinitions'] as List)
+      applicationId: (json['applicationId'] as String?) ?? '',
+      creationTime: (json['creationTime'] as String?) ?? '',
+      parameterDefinitions: ((json['parameterDefinitions'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ParameterDefinition.fromJson(e as Map<String, dynamic>))
           .toList(),
-      requiredCapabilities: (json['requiredCapabilities'] as List)
-          .nonNulls
-          .map((e) => Capability.fromString((e as String)))
-          .toList(),
-      resourcesSupported: json['resourcesSupported'] as bool,
-      semanticVersion: json['semanticVersion'] as String,
-      templateUrl: json['templateUrl'] as String,
+      requiredCapabilities:
+          ((json['requiredCapabilities'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Capability.fromString((e as String)))
+              .toList(),
+      resourcesSupported: (json['resourcesSupported'] as bool?) ?? false,
+      semanticVersion: (json['semanticVersion'] as String?) ?? '',
+      templateUrl: (json['templateUrl'] as String?) ?? '',
       sourceCodeArchiveUrl: json['sourceCodeArchiveUrl'] as String?,
       sourceCodeUrl: json['sourceCodeUrl'] as String?,
     );
@@ -2464,9 +2469,9 @@ class VersionSummary {
 
   factory VersionSummary.fromJson(Map<String, dynamic> json) {
     return VersionSummary(
-      applicationId: json['applicationId'] as String,
-      creationTime: json['creationTime'] as String,
-      semanticVersion: json['semanticVersion'] as String,
+      applicationId: (json['applicationId'] as String?) ?? '',
+      creationTime: (json['creationTime'] as String?) ?? '',
+      semanticVersion: (json['semanticVersion'] as String?) ?? '',
       sourceCodeUrl: json['sourceCodeUrl'] as String?,
     );
   }

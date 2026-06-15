@@ -1162,7 +1162,7 @@ class AddTagsToResourceResponse {
 
   factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> json) {
     return AddTagsToResourceResponse(
-      status: json['Status'] as String,
+      status: (json['Status'] as String?) ?? '',
     );
   }
 
@@ -1285,7 +1285,7 @@ class DeleteHapgResponse {
 
   factory DeleteHapgResponse.fromJson(Map<String, dynamic> json) {
     return DeleteHapgResponse(
-      status: json['Status'] as String,
+      status: (json['Status'] as String?) ?? '',
     );
   }
 
@@ -1308,7 +1308,7 @@ class DeleteHsmResponse {
 
   factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) {
     return DeleteHsmResponse(
-      status: json['Status'] as String,
+      status: (json['Status'] as String?) ?? '',
     );
   }
 
@@ -1330,7 +1330,7 @@ class DeleteLunaClientResponse {
 
   factory DeleteLunaClientResponse.fromJson(Map<String, dynamic> json) {
     return DeleteLunaClientResponse(
-      status: json['Status'] as String,
+      status: (json['Status'] as String?) ?? '',
     );
   }
 
@@ -1752,8 +1752,10 @@ class ListHapgsResponse {
 
   factory ListHapgsResponse.fromJson(Map<String, dynamic> json) {
     return ListHapgsResponse(
-      hapgList:
-          (json['HapgList'] as List).nonNulls.map((e) => e as String).toList(),
+      hapgList: ((json['HapgList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1815,7 +1817,7 @@ class ListLunaClientsResponse {
 
   factory ListLunaClientsResponse.fromJson(Map<String, dynamic> json) {
     return ListLunaClientsResponse(
-      clientList: (json['ClientList'] as List)
+      clientList: ((json['ClientList'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1843,7 +1845,7 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tagList: (json['TagList'] as List)
+      tagList: ((json['TagList'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1935,7 +1937,7 @@ class RemoveTagsFromResourceResponse {
 
   factory RemoveTagsFromResourceResponse.fromJson(Map<String, dynamic> json) {
     return RemoveTagsFromResourceResponse(
-      status: json['Status'] as String,
+      status: (json['Status'] as String?) ?? '',
     );
   }
 
@@ -1987,8 +1989,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

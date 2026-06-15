@@ -2682,7 +2682,7 @@ class Attribute {
 
   factory Attribute.fromJson(Map<String, dynamic> json) {
     return Attribute(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }
@@ -5878,7 +5878,7 @@ class RegistryScanningRule {
 
   factory RegistryScanningRule.fromJson(Map<String, dynamic> json) {
     return RegistryScanningRule(
-      repositoryFilters: (json['repositoryFilters'] as List)
+      repositoryFilters: ((json['repositoryFilters'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ScanningRepositoryFilter.fromJson(e as Map<String, dynamic>))
@@ -5937,7 +5937,7 @@ class ReplicationConfiguration {
 
   factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) {
     return ReplicationConfiguration(
-      rules: (json['rules'] as List)
+      rules: ((json['rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => ReplicationRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5969,8 +5969,8 @@ class ReplicationDestination {
 
   factory ReplicationDestination.fromJson(Map<String, dynamic> json) {
     return ReplicationDestination(
-      region: json['region'] as String,
-      registryId: json['registryId'] as String,
+      region: (json['region'] as String?) ?? '',
+      registryId: (json['registryId'] as String?) ?? '',
     );
   }
 
@@ -6002,7 +6002,7 @@ class ReplicationRule {
 
   factory ReplicationRule.fromJson(Map<String, dynamic> json) {
     return ReplicationRule(
-      destinations: (json['destinations'] as List)
+      destinations: ((json['destinations'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => ReplicationDestination.fromJson(e as Map<String, dynamic>))
@@ -6274,7 +6274,7 @@ class RepositoryFilter {
 
   factory RepositoryFilter.fromJson(Map<String, dynamic> json) {
     return RepositoryFilter(
-      filter: json['filter'] as String,
+      filter: (json['filter'] as String?) ?? '',
       filterType:
           RepositoryFilterType.fromString((json['filterType'] as String)),
     );
@@ -6557,7 +6557,7 @@ class ScanningRepositoryFilter {
 
   factory ScanningRepositoryFilter.fromJson(Map<String, dynamic> json) {
     return ScanningRepositoryFilter(
-      filter: json['filter'] as String,
+      filter: (json['filter'] as String?) ?? '',
       filterType: ScanningRepositoryFilterType.fromString(
           (json['filterType'] as String)),
     );
@@ -6760,8 +6760,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

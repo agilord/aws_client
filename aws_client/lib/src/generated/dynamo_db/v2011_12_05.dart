@@ -1059,7 +1059,8 @@ class DeleteRequest {
 
   factory DeleteRequest.fromJson(Map<String, dynamic> json) {
     return DeleteRequest(
-      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+      key: Key.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1199,7 +1200,8 @@ class Key {
   factory Key.fromJson(Map<String, dynamic> json) {
     return Key(
       hashKeyElement: AttributeValue.fromJson(
-          json['HashKeyElement'] as Map<String, dynamic>),
+          (json['HashKeyElement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       rangeKeyElement: json['RangeKeyElement'] != null
           ? AttributeValue.fromJson(
               json['RangeKeyElement'] as Map<String, dynamic>)
@@ -1243,7 +1245,8 @@ class KeySchema {
   factory KeySchema.fromJson(Map<String, dynamic> json) {
     return KeySchema(
       hashKeyElement: KeySchemaElement.fromJson(
-          json['HashKeyElement'] as Map<String, dynamic>),
+          (json['HashKeyElement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       rangeKeyElement: json['RangeKeyElement'] != null
           ? KeySchemaElement.fromJson(
               json['RangeKeyElement'] as Map<String, dynamic>)
@@ -1278,7 +1281,7 @@ class KeySchemaElement {
 
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       attributeType:
           ScalarAttributeType.fromString((json['AttributeType'] as String)),
     );
@@ -1307,7 +1310,7 @@ class KeysAndAttributes {
 
   factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
     return KeysAndAttributes(
-      keys: (json['Keys'] as List)
+      keys: ((json['Keys'] as List?) ?? const [])
           .nonNulls
           .map((e) => Key.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1486,8 +1489,10 @@ class PutRequest {
 
   factory PutRequest.fromJson(Map<String, dynamic> json) {
     return PutRequest(
-      item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      item: ((json['Item'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
     );
   }
 

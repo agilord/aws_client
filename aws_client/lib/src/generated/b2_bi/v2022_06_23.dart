@@ -1370,9 +1370,9 @@ class CapabilitySummary {
 
   factory CapabilitySummary.fromJson(Map<String, dynamic> json) {
     return CapabilitySummary(
-      capabilityId: json['capabilityId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
+      capabilityId: (json['capabilityId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       type: CapabilityType.fromString((json['type'] as String)),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
     );
@@ -1446,12 +1446,13 @@ class CreateCapabilityResponse {
 
   factory CreateCapabilityResponse.fromJson(Map<String, dynamic> json) {
     return CreateCapabilityResponse(
-      capabilityArn: json['capabilityArn'] as String,
-      capabilityId: json['capabilityId'] as String,
+      capabilityArn: (json['capabilityArn'] as String?) ?? '',
+      capabilityId: (json['capabilityId'] as String?) ?? '',
       configuration: CapabilityConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
@@ -1525,10 +1526,10 @@ class CreatePartnershipResponse {
 
   factory CreatePartnershipResponse.fromJson(Map<String, dynamic> json) {
     return CreatePartnershipResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      partnershipArn: json['partnershipArn'] as String,
-      partnershipId: json['partnershipId'] as String,
-      profileId: json['profileId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      partnershipArn: (json['partnershipArn'] as String?) ?? '',
+      partnershipId: (json['partnershipId'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       capabilities: (json['capabilities'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -1606,12 +1607,12 @@ class CreateProfileResponse {
 
   factory CreateProfileResponse.fromJson(Map<String, dynamic> json) {
     return CreateProfileResponse(
-      businessName: json['businessName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      profileArn: json['profileArn'] as String,
-      profileId: json['profileId'] as String,
+      businessName: (json['businessName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      phone: (json['phone'] as String?) ?? '',
+      profileArn: (json['profileArn'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
       logging: (json['logging'] as String?)?.let(Logging.fromString),
@@ -1692,14 +1693,15 @@ class CreateTransformerResponse {
 
   factory CreateTransformerResponse.fromJson(Map<String, dynamic> json) {
     return CreateTransformerResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
-      mappingTemplate: json['mappingTemplate'] as String,
-      name: json['name'] as String,
+      mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: TransformerStatus.fromString((json['status'] as String)),
-      transformerArn: json['transformerArn'] as String,
-      transformerId: json['transformerId'] as String,
+      transformerArn: (json['transformerArn'] as String?) ?? '',
+      transformerId: (json['transformerId'] as String?) ?? '',
       sampleDocument: json['sampleDocument'] as String?,
     );
   }
@@ -1755,12 +1757,15 @@ class EdiConfiguration {
 
   factory EdiConfiguration.fromJson(Map<String, dynamic> json) {
     return EdiConfiguration(
-      inputLocation:
-          S3Location.fromJson(json['inputLocation'] as Map<String, dynamic>),
-      outputLocation:
-          S3Location.fromJson(json['outputLocation'] as Map<String, dynamic>),
-      transformerId: json['transformerId'] as String,
-      type: EdiType.fromJson(json['type'] as Map<String, dynamic>),
+      inputLocation: S3Location.fromJson(
+          (json['inputLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      outputLocation: S3Location.fromJson(
+          (json['outputLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      transformerId: (json['transformerId'] as String?) ?? '',
+      type: EdiType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1863,12 +1868,13 @@ class GetCapabilityResponse {
 
   factory GetCapabilityResponse.fromJson(Map<String, dynamic> json) {
     return GetCapabilityResponse(
-      capabilityArn: json['capabilityArn'] as String,
-      capabilityId: json['capabilityId'] as String,
+      capabilityArn: (json['capabilityArn'] as String?) ?? '',
+      capabilityId: (json['capabilityId'] as String?) ?? '',
       configuration: CapabilityConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
@@ -1950,10 +1956,10 @@ class GetPartnershipResponse {
 
   factory GetPartnershipResponse.fromJson(Map<String, dynamic> json) {
     return GetPartnershipResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      partnershipArn: json['partnershipArn'] as String,
-      partnershipId: json['partnershipId'] as String,
-      profileId: json['profileId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      partnershipArn: (json['partnershipArn'] as String?) ?? '',
+      partnershipId: (json['partnershipId'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       capabilities: (json['capabilities'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2039,12 +2045,12 @@ class GetProfileResponse {
 
   factory GetProfileResponse.fromJson(Map<String, dynamic> json) {
     return GetProfileResponse(
-      businessName: json['businessName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      profileArn: json['profileArn'] as String,
-      profileId: json['profileId'] as String,
+      businessName: (json['businessName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      phone: (json['phone'] as String?) ?? '',
+      profileArn: (json['profileArn'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
       logging: (json['logging'] as String?)?.let(Logging.fromString),
@@ -2175,14 +2181,15 @@ class GetTransformerResponse {
 
   factory GetTransformerResponse.fromJson(Map<String, dynamic> json) {
     return GetTransformerResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
-      mappingTemplate: json['mappingTemplate'] as String,
-      name: json['name'] as String,
+      mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: TransformerStatus.fromString((json['status'] as String)),
-      transformerArn: json['transformerArn'] as String,
-      transformerId: json['transformerId'] as String,
+      transformerArn: (json['transformerArn'] as String?) ?? '',
+      transformerId: (json['transformerId'] as String?) ?? '',
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       sampleDocument: json['sampleDocument'] as String?,
     );
@@ -2231,7 +2238,7 @@ class ListCapabilitiesResponse {
 
   factory ListCapabilitiesResponse.fromJson(Map<String, dynamic> json) {
     return ListCapabilitiesResponse(
-      capabilities: (json['capabilities'] as List)
+      capabilities: ((json['capabilities'] as List?) ?? const [])
           .nonNulls
           .map((e) => CapabilitySummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2266,7 +2273,7 @@ class ListPartnershipsResponse {
 
   factory ListPartnershipsResponse.fromJson(Map<String, dynamic> json) {
     return ListPartnershipsResponse(
-      partnerships: (json['partnerships'] as List)
+      partnerships: ((json['partnerships'] as List?) ?? const [])
           .nonNulls
           .map((e) => PartnershipSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2301,7 +2308,7 @@ class ListProfilesResponse {
 
   factory ListProfilesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilesResponse(
-      profiles: (json['profiles'] as List)
+      profiles: ((json['profiles'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProfileSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2367,7 +2374,7 @@ class ListTransformersResponse {
 
   factory ListTransformersResponse.fromJson(Map<String, dynamic> json) {
     return ListTransformersResponse(
-      transformers: (json['transformers'] as List)
+      transformers: ((json['transformers'] as List?) ?? const [])
           .nonNulls
           .map((e) => TransformerSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2438,9 +2445,9 @@ class PartnershipSummary {
 
   factory PartnershipSummary.fromJson(Map<String, dynamic> json) {
     return PartnershipSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      partnershipId: json['partnershipId'] as String,
-      profileId: json['profileId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      partnershipId: (json['partnershipId'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       capabilities: (json['capabilities'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2508,10 +2515,10 @@ class ProfileSummary {
 
   factory ProfileSummary.fromJson(Map<String, dynamic> json) {
     return ProfileSummary(
-      businessName: json['businessName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
-      profileId: json['profileId'] as String,
+      businessName: (json['businessName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       logGroupName: json['logGroupName'] as String?,
       logging: (json['logging'] as String?)?.let(Logging.fromString),
       modifiedAt: timeStampFromJson(json['modifiedAt']),
@@ -2580,7 +2587,7 @@ class StartTransformerJobResponse {
 
   factory StartTransformerJobResponse.fromJson(Map<String, dynamic> json) {
     return StartTransformerJobResponse(
-      transformerJobId: json['transformerJobId'] as String,
+      transformerJobId: (json['transformerJobId'] as String?) ?? '',
     );
   }
 
@@ -2614,8 +2621,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2640,7 +2647,7 @@ class TestMappingResponse {
 
   factory TestMappingResponse.fromJson(Map<String, dynamic> json) {
     return TestMappingResponse(
-      mappedFileContent: json['mappedFileContent'] as String,
+      mappedFileContent: (json['mappedFileContent'] as String?) ?? '',
     );
   }
 
@@ -2663,7 +2670,7 @@ class TestParsingResponse {
 
   factory TestParsingResponse.fromJson(Map<String, dynamic> json) {
     return TestParsingResponse(
-      parsedFileContent: json['parsedFileContent'] as String,
+      parsedFileContent: (json['parsedFileContent'] as String?) ?? '',
     );
   }
 
@@ -2760,13 +2767,14 @@ class TransformerSummary {
 
   factory TransformerSummary.fromJson(Map<String, dynamic> json) {
     return TransformerSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
-      mappingTemplate: json['mappingTemplate'] as String,
-      name: json['name'] as String,
+      mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: TransformerStatus.fromString((json['status'] as String)),
-      transformerId: json['transformerId'] as String,
+      transformerId: (json['transformerId'] as String?) ?? '',
       modifiedAt: timeStampFromJson(json['modifiedAt']),
       sampleDocument: json['sampleDocument'] as String?,
     );
@@ -2838,12 +2846,13 @@ class UpdateCapabilityResponse {
 
   factory UpdateCapabilityResponse.fromJson(Map<String, dynamic> json) {
     return UpdateCapabilityResponse(
-      capabilityArn: json['capabilityArn'] as String,
-      capabilityId: json['capabilityId'] as String,
+      capabilityArn: (json['capabilityArn'] as String?) ?? '',
+      capabilityId: (json['capabilityId'] as String?) ?? '',
       configuration: CapabilityConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       type: CapabilityType.fromString((json['type'] as String)),
       instructionsDocuments: (json['instructionsDocuments'] as List?)
           ?.nonNulls
@@ -2926,10 +2935,10 @@ class UpdatePartnershipResponse {
 
   factory UpdatePartnershipResponse.fromJson(Map<String, dynamic> json) {
     return UpdatePartnershipResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      partnershipArn: json['partnershipArn'] as String,
-      partnershipId: json['partnershipId'] as String,
-      profileId: json['profileId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      partnershipArn: (json['partnershipArn'] as String?) ?? '',
+      partnershipId: (json['partnershipId'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       capabilities: (json['capabilities'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -3014,12 +3023,12 @@ class UpdateProfileResponse {
 
   factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
     return UpdateProfileResponse(
-      businessName: json['businessName'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      profileArn: json['profileArn'] as String,
-      profileId: json['profileId'] as String,
+      businessName: (json['businessName'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      phone: (json['phone'] as String?) ?? '',
+      profileArn: (json['profileArn'] as String?) ?? '',
+      profileId: (json['profileId'] as String?) ?? '',
       email: json['email'] as String?,
       logGroupName: json['logGroupName'] as String?,
       logging: (json['logging'] as String?)?.let(Logging.fromString),
@@ -3107,15 +3116,16 @@ class UpdateTransformerResponse {
 
   factory UpdateTransformerResponse.fromJson(Map<String, dynamic> json) {
     return UpdateTransformerResponse(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      ediType: EdiType.fromJson(json['ediType'] as Map<String, dynamic>),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      ediType: EdiType.fromJson((json['ediType'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       fileFormat: FileFormat.fromString((json['fileFormat'] as String)),
-      mappingTemplate: json['mappingTemplate'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      mappingTemplate: (json['mappingTemplate'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: TransformerStatus.fromString((json['status'] as String)),
-      transformerArn: json['transformerArn'] as String,
-      transformerId: json['transformerId'] as String,
+      transformerArn: (json['transformerArn'] as String?) ?? '',
+      transformerId: (json['transformerId'] as String?) ?? '',
       sampleDocument: json['sampleDocument'] as String?,
     );
   }

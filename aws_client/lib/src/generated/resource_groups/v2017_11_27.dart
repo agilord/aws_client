@@ -1425,8 +1425,8 @@ class Group {
 
   factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
-      groupArn: json['GroupArn'] as String,
-      name: json['Name'] as String,
+      groupArn: (json['GroupArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -1531,7 +1531,7 @@ class GroupConfigurationItem {
 
   factory GroupConfigurationItem.fromJson(Map<String, dynamic> json) {
     return GroupConfigurationItem(
-      type: json['Type'] as String,
+      type: (json['Type'] as String?) ?? '',
       parameters: (json['Parameters'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -1574,7 +1574,7 @@ class GroupConfigurationParameter {
 
   factory GroupConfigurationParameter.fromJson(Map<String, dynamic> json) {
     return GroupConfigurationParameter(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       values:
           (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
     );
@@ -1726,9 +1726,10 @@ class GroupQuery {
 
   factory GroupQuery.fromJson(Map<String, dynamic> json) {
     return GroupQuery(
-      groupName: json['GroupName'] as String,
-      resourceQuery:
-          ResourceQuery.fromJson(json['ResourceQuery'] as Map<String, dynamic>),
+      groupName: (json['GroupName'] as String?) ?? '',
+      resourceQuery: ResourceQuery.fromJson(
+          (json['ResourceQuery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2268,7 +2269,7 @@ class ResourceQuery {
 
   factory ResourceQuery.fromJson(Map<String, dynamic> json) {
     return ResourceQuery(
-      query: json['Query'] as String,
+      query: (json['Query'] as String?) ?? '',
       type: QueryType.fromString((json['Type'] as String)),
     );
   }

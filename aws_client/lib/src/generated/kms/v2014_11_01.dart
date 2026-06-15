@@ -11284,7 +11284,7 @@ class KeyMetadata {
 
   factory KeyMetadata.fromJson(Map<String, dynamic> json) {
     return KeyMetadata(
-      keyId: json['KeyId'] as String,
+      keyId: (json['KeyId'] as String?) ?? '',
       awsAccountId: json['AWSAccountId'] as String?,
       arn: json['Arn'] as String?,
       cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
@@ -12274,8 +12274,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      tagKey: json['TagKey'] as String,
-      tagValue: json['TagValue'] as String,
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValue: (json['TagValue'] as String?) ?? '',
     );
   }
 

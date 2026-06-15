@@ -956,12 +956,12 @@ class ContactInformation {
 
   factory ContactInformation.fromJson(Map<String, dynamic> json) {
     return ContactInformation(
-      addressLine1: json['AddressLine1'] as String,
-      city: json['City'] as String,
-      countryCode: json['CountryCode'] as String,
-      fullName: json['FullName'] as String,
-      phoneNumber: json['PhoneNumber'] as String,
-      postalCode: json['PostalCode'] as String,
+      addressLine1: (json['AddressLine1'] as String?) ?? '',
+      city: (json['City'] as String?) ?? '',
+      countryCode: (json['CountryCode'] as String?) ?? '',
+      fullName: (json['FullName'] as String?) ?? '',
+      phoneNumber: (json['PhoneNumber'] as String?) ?? '',
+      postalCode: (json['PostalCode'] as String?) ?? '',
       addressLine2: json['AddressLine2'] as String?,
       addressLine3: json['AddressLine3'] as String?,
       companyName: json['CompanyName'] as String?,

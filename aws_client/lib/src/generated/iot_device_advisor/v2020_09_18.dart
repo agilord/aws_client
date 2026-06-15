@@ -1129,9 +1129,10 @@ class SuiteDefinitionConfiguration {
 
   factory SuiteDefinitionConfiguration.fromJson(Map<String, dynamic> json) {
     return SuiteDefinitionConfiguration(
-      devicePermissionRoleArn: json['devicePermissionRoleArn'] as String,
-      rootGroup: json['rootGroup'] as String,
-      suiteDefinitionName: json['suiteDefinitionName'] as String,
+      devicePermissionRoleArn:
+          (json['devicePermissionRoleArn'] as String?) ?? '',
+      rootGroup: (json['rootGroup'] as String?) ?? '',
+      suiteDefinitionName: (json['suiteDefinitionName'] as String?) ?? '',
       devices: (json['devices'] as List?)
           ?.nonNulls
           .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
@@ -1254,7 +1255,8 @@ class SuiteRunConfiguration {
   factory SuiteRunConfiguration.fromJson(Map<String, dynamic> json) {
     return SuiteRunConfiguration(
       primaryDevice: DeviceUnderTest.fromJson(
-          json['primaryDevice'] as Map<String, dynamic>),
+          (json['primaryDevice'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       parallelRun: json['parallelRun'] as bool?,
       selectedTestList: (json['selectedTestList'] as List?)
           ?.nonNulls

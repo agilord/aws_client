@@ -6876,9 +6876,9 @@ class AcceptPredictionsOutput {
 
   factory AcceptPredictionsOutput.fromJson(Map<String, dynamic> json) {
     return AcceptPredictionsOutput(
-      assetId: json['assetId'] as String,
-      domainId: json['domainId'] as String,
-      revision: json['revision'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
     );
   }
 
@@ -6993,21 +6993,22 @@ class AcceptSubscriptionRequestOutput {
 
   factory AcceptSubscriptionRequestOutput.fromJson(Map<String, dynamic> json) {
     return AcceptSubscriptionRequestOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -7252,10 +7253,10 @@ class AssetFilterSummary {
 
   factory AssetFilterSummary.fromJson(Map<String, dynamic> json) {
     return AssetFilterSummary(
-      assetId: json['assetId'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       effectiveColumnNames: (json['effectiveColumnNames'] as List?)
@@ -7398,12 +7399,12 @@ class AssetItem {
 
   factory AssetItem.fromJson(Map<String, dynamic> json) {
     return AssetItem(
-      domainId: json['domainId'] as String,
-      identifier: json['identifier'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      typeIdentifier: json['typeIdentifier'] as String,
-      typeRevision: json['typeRevision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      identifier: (json['identifier'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
+      typeRevision: (json['typeRevision'] as String?) ?? '',
       additionalAttributes: json['additionalAttributes'] != null
           ? AssetItemAdditionalAttributes.fromJson(
               json['additionalAttributes'] as Map<String, dynamic>)
@@ -7615,7 +7616,7 @@ class AssetListingDetails {
 
   factory AssetListingDetails.fromJson(Map<String, dynamic> json) {
     return AssetListingDetails(
-      listingId: json['listingId'] as String,
+      listingId: (json['listingId'] as String?) ?? '',
       listingStatus:
           ListingStatus.fromString((json['listingStatus'] as String)),
     );
@@ -7860,10 +7861,12 @@ class AssetScope {
 
   factory AssetScope.fromJson(Map<String, dynamic> json) {
     return AssetScope(
-      assetId: json['assetId'] as String,
-      filterIds:
-          (json['filterIds'] as List).nonNulls.map((e) => e as String).toList(),
-      status: json['status'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      filterIds: ((json['filterIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: (json['status'] as String?) ?? '',
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -7961,12 +7964,14 @@ class AssetTypeItem {
 
   factory AssetTypeItem.fromJson(Map<String, dynamic> json) {
     return AssetTypeItem(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -8148,16 +8153,18 @@ class CancelSubscriptionOutput {
 
   factory CancelSubscriptionOutput.fromJson(Map<String, dynamic> json) {
     return CancelSubscriptionOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
-          json['subscribedListing'] as Map<String, dynamic>),
+          (json['subscribedListing'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
-          json['subscribedPrincipal'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+          (json['subscribedPrincipal'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       retainPermissions: json['retainPermissions'] as bool?,
       subscriptionRequestId: json['subscriptionRequestId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -8220,7 +8227,7 @@ class CloudFormationProperties {
 
   factory CloudFormationProperties.fromJson(Map<String, dynamic> json) {
     return CloudFormationProperties(
-      templateUrl: json['templateUrl'] as String,
+      templateUrl: (json['templateUrl'] as String?) ?? '',
     );
   }
 
@@ -8324,12 +8331,12 @@ class ConfigurableEnvironmentAction {
 
   factory ConfigurableEnvironmentAction.fromJson(Map<String, dynamic> json) {
     return ConfigurableEnvironmentAction(
-      parameters: (json['parameters'] as List)
+      parameters: ((json['parameters'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ConfigurableActionParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       auth: (json['auth'] as String?)
           ?.let(ConfigurableActionTypeAuthorization.fromString),
     );
@@ -8398,12 +8405,13 @@ class CreateAssetFilterOutput {
 
   factory CreateAssetFilterOutput.fromJson(Map<String, dynamic> json) {
     return CreateAssetFilterOutput(
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
       configuration: AssetFilterConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       effectiveColumnNames: (json['effectiveColumnNames'] as List?)
@@ -8530,17 +8538,17 @@ class CreateAssetOutput {
 
   factory CreateAssetOutput.fromJson(Map<String, dynamic> json) {
     return CreateAssetOutput(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as List)
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as List?) ?? const [])
           .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
-      typeIdentifier: json['typeIdentifier'] as String,
-      typeRevision: json['typeRevision'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
+      typeRevision: (json['typeRevision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -8712,17 +8720,17 @@ class CreateAssetRevisionOutput {
 
   factory CreateAssetRevisionOutput.fromJson(Map<String, dynamic> json) {
     return CreateAssetRevisionOutput(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as List)
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as List?) ?? const [])
           .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
-      typeIdentifier: json['typeIdentifier'] as String,
-      typeRevision: json['typeRevision'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
+      typeRevision: (json['typeRevision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -8861,11 +8869,13 @@ class CreateAssetTypeOutput {
 
   factory CreateAssetTypeOutput.fromJson(Map<String, dynamic> json) {
     return CreateAssetTypeOutput(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
-      name: json['name'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
+      name: (json['name'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -8993,11 +9003,11 @@ class CreateDataProductOutput {
 
   factory CreateDataProductOutput.fromJson(Map<String, dynamic> json) {
     return CreateDataProductOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       status: DataProductStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -9117,11 +9127,11 @@ class CreateDataProductRevisionOutput {
 
   factory CreateDataProductRevisionOutput.fromJson(Map<String, dynamic> json) {
     return CreateDataProductRevisionOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       status: DataProductStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -9271,11 +9281,11 @@ class CreateDataSourceOutput {
 
   factory CreateDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return CreateDataSourceOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       assetFormsOutput: (json['assetFormsOutput'] as List?)
           ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
@@ -9415,7 +9425,7 @@ class CreateDomainOutput {
 
   factory CreateDomainOutput.fromJson(Map<String, dynamic> json) {
     return CreateDomainOutput(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       arn: json['arn'] as String?,
       description: json['description'] as String?,
       domainExecutionRole: json['domainExecutionRole'] as String?,
@@ -9503,14 +9513,15 @@ class CreateDomainUnitOutput {
 
   factory CreateDomainUnitOutput.fromJson(Map<String, dynamic> json) {
     return CreateDomainUnitOutput(
-      ancestorDomainUnitIds: (json['ancestorDomainUnitIds'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owners: (json['owners'] as List)
+      ancestorDomainUnitIds:
+          ((json['ancestorDomainUnitIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owners: ((json['owners'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
@@ -9601,12 +9612,13 @@ class CreateEnvironmentActionOutput {
 
   factory CreateEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentActionOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      parameters:
-          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      parameters: ActionParameters.fromJson(
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
     );
   }
@@ -9724,11 +9736,11 @@ class CreateEnvironmentOutput {
 
   factory CreateEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -9880,11 +9892,11 @@ class CreateEnvironmentProfileOutput {
 
   factory CreateEnvironmentProfileOutput.fromJson(Map<String, dynamic> json) {
     return CreateEnvironmentProfileOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -9989,9 +10001,9 @@ class CreateFormTypeOutput {
 
   factory CreateFormTypeOutput.fromJson(Map<String, dynamic> json) {
     return CreateFormTypeOutput(
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       description: json['description'] as String?,
       originDomainId: json['originDomainId'] as String?,
       originProjectId: json['originProjectId'] as String?,
@@ -10074,10 +10086,10 @@ class CreateGlossaryOutput {
 
   factory CreateGlossaryOutput.fromJson(Map<String, dynamic> json) {
     return CreateGlossaryOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       description: json['description'] as String?,
       status: (json['status'] as String?)?.let(GlossaryStatus.fromString),
     );
@@ -10164,10 +10176,10 @@ class CreateGlossaryTermOutput {
 
   factory CreateGlossaryTermOutput.fromJson(Map<String, dynamic> json) {
     return CreateGlossaryTermOutput(
-      domainId: json['domainId'] as String,
-      glossaryId: json['glossaryId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      glossaryId: (json['glossaryId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GlossaryTermStatus.fromString((json['status'] as String)),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
@@ -10262,8 +10274,8 @@ class CreateListingChangeSetOutput {
 
   factory CreateListingChangeSetOutput.fromJson(Map<String, dynamic> json) {
     return CreateListingChangeSetOutput(
-      listingId: json['listingId'] as String,
-      listingRevision: json['listingRevision'] as String,
+      listingId: (json['listingId'] as String?) ?? '',
+      listingRevision: (json['listingRevision'] as String?) ?? '',
       status: ListingStatus.fromString((json['status'] as String)),
     );
   }
@@ -10344,10 +10356,10 @@ class CreateProjectOutput {
 
   factory CreateProjectOutput.fromJson(Map<String, dynamic> json) {
     return CreateProjectOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       domainUnitId: json['domainUnitId'] as String?,
@@ -10469,16 +10481,17 @@ class CreateSubscriptionGrantOutput {
 
   factory CreateSubscriptionGrantOutput.fromJson(Map<String, dynamic> json) {
     return CreateSubscriptionGrantOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      grantedEntity:
-          GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      grantedEntity: GrantedEntity.fromJson(
+          (json['grantedEntity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       status:
           SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
-      subscriptionTargetId: json['subscriptionTargetId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
           ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
@@ -10571,21 +10584,22 @@ class CreateSubscriptionRequestOutput {
 
   factory CreateSubscriptionRequestOutput.fromJson(Map<String, dynamic> json) {
     return CreateSubscriptionRequestOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -10689,29 +10703,32 @@ class CreateSubscriptionTargetOutput {
 
   factory CreateSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return CreateSubscriptionTargetOutput(
-      applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      manageAccessRole: json['manageAccessRole'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
-      subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
+      applicableAssetTypes:
+          ((json['applicableAssetTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      authorizedPrincipals:
+          ((json['authorizedPrincipals'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      manageAccessRole: (json['manageAccessRole'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      subscriptionTargetConfig: ((json['subscriptionTargetConfig'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -10836,8 +10853,8 @@ class CustomParameter {
 
   factory CustomParameter.fromJson(Map<String, dynamic> json) {
     return CustomParameter(
-      fieldType: json['fieldType'] as String,
-      keyName: json['keyName'] as String,
+      fieldType: (json['fieldType'] as String?) ?? '',
+      keyName: (json['keyName'] as String?) ?? '',
       defaultValue: json['defaultValue'] as String?,
       description: json['description'] as String?,
       isEditable: json['isEditable'] as bool?,
@@ -10907,7 +10924,7 @@ class DataProductItem {
 
   factory DataProductItem.fromJson(Map<String, dynamic> json) {
     return DataProductItem(
-      identifier: json['identifier'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
       itemType: DataProductItemType.fromString((json['itemType'] as String)),
       glossaryTerms: (json['glossaryTerms'] as List?)
           ?.nonNulls
@@ -11205,10 +11222,10 @@ class DataProductResultItem {
 
   factory DataProductResultItem.fromJson(Map<String, dynamic> json) {
     return DataProductResultItem(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -11477,14 +11494,14 @@ class DataSourceRunActivity {
 
   factory DataSourceRunActivity.fromJson(Map<String, dynamic> json) {
     return DataSourceRunActivity(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       dataAssetStatus: DataAssetActivityStatus.fromString(
           (json['dataAssetStatus'] as String)),
-      dataSourceRunId: json['dataSourceRunId'] as String,
-      database: json['database'] as String,
-      projectId: json['projectId'] as String,
-      technicalName: json['technicalName'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      dataSourceRunId: (json['dataSourceRunId'] as String?) ?? '',
+      database: (json['database'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      technicalName: (json['technicalName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataAssetId: json['dataAssetId'] as String?,
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
@@ -11586,13 +11603,13 @@ class DataSourceRunSummary {
 
   factory DataSourceRunSummary.fromJson(Map<String, dynamic> json) {
     return DataSourceRunSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      dataSourceId: json['dataSourceId'] as String,
-      id: json['id'] as String,
-      projectId: json['projectId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dataSourceId: (json['dataSourceId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       status: DataSourceRunStatus.fromString((json['status'] as String)),
       type: DataSourceRunType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       errorMessage: json['errorMessage'] != null
           ? DataSourceErrorMessage.fromJson(
               json['errorMessage'] as Map<String, dynamic>)
@@ -11730,12 +11747,12 @@ class DataSourceSummary {
 
   factory DataSourceSummary.fromJson(Map<String, dynamic> json) {
     return DataSourceSummary(
-      dataSourceId: json['dataSourceId'] as String,
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      name: json['name'] as String,
+      dataSourceId: (json['dataSourceId'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: DataSourceStatus.fromString((json['status'] as String)),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       enableSetting:
           (json['enableSetting'] as String?)?.let(EnableSetting.fromString),
@@ -11936,11 +11953,11 @@ class DeleteDataSourceOutput {
 
   factory DeleteDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return DeleteDataSourceOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       assetFormsOutput: (json['assetFormsOutput'] as List?)
           ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
@@ -12204,16 +12221,17 @@ class DeleteSubscriptionGrantOutput {
 
   factory DeleteSubscriptionGrantOutput.fromJson(Map<String, dynamic> json) {
     return DeleteSubscriptionGrantOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      grantedEntity:
-          GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      grantedEntity: GrantedEntity.fromJson(
+          (json['grantedEntity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       status:
           SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
-      subscriptionTargetId: json['subscriptionTargetId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
           ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
@@ -12498,11 +12516,11 @@ class DomainSummary {
 
   factory DomainSummary.fromJson(Map<String, dynamic> json) {
     return DomainSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      managedAccountId: json['managedAccountId'] as String,
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      managedAccountId: (json['managedAccountId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: DomainStatus.fromString((json['status'] as String)),
       description: json['description'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -12564,7 +12582,7 @@ class DomainUnitFilterForProject {
 
   factory DomainUnitFilterForProject.fromJson(Map<String, dynamic> json) {
     return DomainUnitFilterForProject(
-      domainUnit: json['domainUnit'] as String,
+      domainUnit: (json['domainUnit'] as String?) ?? '',
       includeChildDomainUnits: json['includeChildDomainUnits'] as bool?,
     );
   }
@@ -12726,8 +12744,8 @@ class DomainUnitSummary {
 
   factory DomainUnitSummary.fromJson(Map<String, dynamic> json) {
     return DomainUnitSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -12841,12 +12859,13 @@ class EnvironmentActionSummary {
 
   factory EnvironmentActionSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentActionSummary(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      parameters:
-          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      parameters: ActionParameters.fromJson(
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
     );
   }
@@ -12917,8 +12936,8 @@ class EnvironmentBlueprintConfigurationItem {
   factory EnvironmentBlueprintConfigurationItem.fromJson(
       Map<String, dynamic> json) {
     return EnvironmentBlueprintConfigurationItem(
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
           ?.nonNulls
@@ -13002,11 +13021,12 @@ class EnvironmentBlueprintSummary {
 
   factory EnvironmentBlueprintSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentBlueprintSummary(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      provider: json['provider'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       provisioningProperties: ProvisioningProperties.fromJson(
-          json['provisioningProperties'] as Map<String, dynamic>),
+          (json['provisioningProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       updatedAt: timeStampFromJson(json['updatedAt']),
@@ -13048,7 +13068,7 @@ class EnvironmentError {
 
   factory EnvironmentError.fromJson(Map<String, dynamic> json) {
     return EnvironmentError(
-      message: json['message'] as String,
+      message: (json['message'] as String?) ?? '',
       code: json['code'] as String?,
     );
   }
@@ -13139,11 +13159,11 @@ class EnvironmentProfileSummary {
 
   factory EnvironmentProfileSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentProfileSummary(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -13269,11 +13289,11 @@ class EnvironmentSummary {
 
   factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
     return EnvironmentSummary(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -13333,8 +13353,8 @@ class EqualToExpression {
 
   factory EqualToExpression.fromJson(Map<String, dynamic> json) {
     return EqualToExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -13439,7 +13459,7 @@ class FilterExpression {
 
   factory FilterExpression.fromJson(Map<String, dynamic> json) {
     return FilterExpression(
-      expression: json['expression'] as String,
+      expression: (json['expression'] as String?) ?? '',
       type: FilterExpressionType.fromString((json['type'] as String)),
     );
   }
@@ -13532,8 +13552,8 @@ class FormEntryOutput {
 
   factory FormEntryOutput.fromJson(Map<String, dynamic> json) {
     return FormEntryOutput(
-      typeName: json['typeName'] as String,
-      typeRevision: json['typeRevision'] as String,
+      typeName: (json['typeName'] as String?) ?? '',
+      typeRevision: (json['typeRevision'] as String?) ?? '',
       required: json['required'] as bool?,
     );
   }
@@ -13608,7 +13628,7 @@ class FormOutput {
 
   factory FormOutput.fromJson(Map<String, dynamic> json) {
     return FormOutput(
-      formName: json['formName'] as String,
+      formName: (json['formName'] as String?) ?? '',
       content: json['content'] as String?,
       typeName: json['typeName'] as String?,
       typeRevision: json['typeRevision'] as String?,
@@ -13685,9 +13705,9 @@ class FormTypeData {
 
   factory FormTypeData.fromJson(Map<String, dynamic> json) {
     return FormTypeData(
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -13801,12 +13821,13 @@ class GetAssetFilterOutput {
 
   factory GetAssetFilterOutput.fromJson(Map<String, dynamic> json) {
     return GetAssetFilterOutput(
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
       configuration: AssetFilterConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       effectiveColumnNames: (json['effectiveColumnNames'] as List?)
@@ -13928,17 +13949,17 @@ class GetAssetOutput {
 
   factory GetAssetOutput.fromJson(Map<String, dynamic> json) {
     return GetAssetOutput(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as List)
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as List?) ?? const [])
           .nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
-      typeIdentifier: json['typeIdentifier'] as String,
-      typeRevision: json['typeRevision'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
+      typeRevision: (json['typeRevision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -14070,12 +14091,14 @@ class GetAssetTypeOutput {
 
   factory GetAssetTypeOutput.fromJson(Map<String, dynamic> json) {
     return GetAssetTypeOutput(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -14178,11 +14201,11 @@ class GetDataProductOutput {
 
   factory GetDataProductOutput.fromJson(Map<String, dynamic> json) {
     return GetDataProductOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       status: DataProductStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -14338,11 +14361,11 @@ class GetDataSourceOutput {
 
   factory GetDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return GetDataSourceOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       assetFormsOutput: (json['assetFormsOutput'] as List?)
           ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
@@ -14496,14 +14519,14 @@ class GetDataSourceRunOutput {
 
   factory GetDataSourceRunOutput.fromJson(Map<String, dynamic> json) {
     return GetDataSourceRunOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      dataSourceId: json['dataSourceId'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      projectId: json['projectId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dataSourceId: (json['dataSourceId'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       status: DataSourceRunStatus.fromString((json['status'] as String)),
       type: DataSourceRunType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
       errorMessage: json['errorMessage'] != null
@@ -14614,8 +14637,8 @@ class GetDomainOutput {
 
   factory GetDomainOutput.fromJson(Map<String, dynamic> json) {
     return GetDomainOutput(
-      domainExecutionRole: json['domainExecutionRole'] as String,
-      id: json['id'] as String,
+      domainExecutionRole: (json['domainExecutionRole'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: DomainStatus.fromString((json['status'] as String)),
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -14712,10 +14735,10 @@ class GetDomainUnitOutput {
 
   factory GetDomainUnitOutput.fromJson(Map<String, dynamic> json) {
     return GetDomainUnitOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owners: (json['owners'] as List)
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owners: ((json['owners'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
@@ -14786,12 +14809,13 @@ class GetEnvironmentActionOutput {
 
   factory GetEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentActionOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      parameters:
-          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      parameters: ActionParameters.fromJson(
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
     );
   }
@@ -14857,8 +14881,8 @@ class GetEnvironmentBlueprintConfigurationOutput {
   factory GetEnvironmentBlueprintConfigurationOutput.fromJson(
       Map<String, dynamic> json) {
     return GetEnvironmentBlueprintConfigurationOutput(
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
           ?.nonNulls
@@ -14953,11 +14977,12 @@ class GetEnvironmentBlueprintOutput {
 
   factory GetEnvironmentBlueprintOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentBlueprintOutput(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      provider: json['provider'] as String,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       provisioningProperties: ProvisioningProperties.fromJson(
-          json['provisioningProperties'] as Map<String, dynamic>),
+          (json['provisioningProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       createdAt: timeStampFromJson(json['createdAt']),
       deploymentProperties: json['deploymentProperties'] != null
           ? DeploymentProperties.fromJson(
@@ -15136,11 +15161,11 @@ class GetEnvironmentOutput {
 
   factory GetEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -15291,11 +15316,11 @@ class GetEnvironmentProfileOutput {
 
   factory GetEnvironmentProfileOutput.fromJson(Map<String, dynamic> json) {
     return GetEnvironmentProfileOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -15396,10 +15421,11 @@ class GetFormTypeOutput {
 
   factory GetFormTypeOutput.fromJson(Map<String, dynamic> json) {
     return GetFormTypeOutput(
-      domainId: json['domainId'] as String,
-      model: Model.fromJson(json['model'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      model: Model.fromJson((json['model'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -15490,10 +15516,10 @@ class GetGlossaryOutput {
 
   factory GetGlossaryOutput.fromJson(Map<String, dynamic> json) {
     return GetGlossaryOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       status: GlossaryStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -15584,10 +15610,10 @@ class GetGlossaryTermOutput {
 
   factory GetGlossaryTermOutput.fromJson(Map<String, dynamic> json) {
     return GetGlossaryTermOutput(
-      domainId: json['domainId'] as String,
-      glossaryId: json['glossaryId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      glossaryId: (json['glossaryId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GlossaryTermStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -15690,7 +15716,7 @@ class GetIamPortalLoginUrlOutput {
 
   factory GetIamPortalLoginUrlOutput.fromJson(Map<String, dynamic> json) {
     return GetIamPortalLoginUrlOutput(
-      userProfileId: json['userProfileId'] as String,
+      userProfileId: (json['userProfileId'] as String?) ?? '',
       authCodeUrl: json['authCodeUrl'] as String?,
     );
   }
@@ -15771,9 +15797,9 @@ class GetLineageNodeOutput {
 
   factory GetLineageNodeOutput.fromJson(Map<String, dynamic> json) {
     return GetLineageNodeOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      typeName: json['typeName'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      typeName: (json['typeName'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -15885,9 +15911,9 @@ class GetListingOutput {
 
   factory GetListingOutput.fromJson(Map<String, dynamic> json) {
     return GetListingOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      listingRevision: json['listingRevision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      listingRevision: (json['listingRevision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -15969,9 +15995,9 @@ class GetMetadataGenerationRunOutput {
 
   factory GetMetadataGenerationRunOutput.fromJson(Map<String, dynamic> json) {
     return GetMetadataGenerationRunOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       status: (json['status'] as String?)
@@ -16058,10 +16084,10 @@ class GetProjectOutput {
 
   factory GetProjectOutput.fromJson(Map<String, dynamic> json) {
     return GetProjectOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       domainUnitId: json['domainUnitId'] as String?,
@@ -16157,16 +16183,17 @@ class GetSubscriptionGrantOutput {
 
   factory GetSubscriptionGrantOutput.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionGrantOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      grantedEntity:
-          GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      grantedEntity: GrantedEntity.fromJson(
+          (json['grantedEntity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       status:
           SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
-      subscriptionTargetId: json['subscriptionTargetId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
           ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
@@ -16255,16 +16282,18 @@ class GetSubscriptionOutput {
 
   factory GetSubscriptionOutput.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
-          json['subscribedListing'] as Map<String, dynamic>),
+          (json['subscribedListing'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
-          json['subscribedPrincipal'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+          (json['subscribedPrincipal'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       retainPermissions: json['retainPermissions'] as bool?,
       subscriptionRequestId: json['subscriptionRequestId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -16356,21 +16385,22 @@ class GetSubscriptionRequestDetailsOutput {
   factory GetSubscriptionRequestDetailsOutput.fromJson(
       Map<String, dynamic> json) {
     return GetSubscriptionRequestDetailsOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -16474,29 +16504,32 @@ class GetSubscriptionTargetOutput {
 
   factory GetSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return GetSubscriptionTargetOutput(
-      applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      manageAccessRole: json['manageAccessRole'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
-      subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
+      applicableAssetTypes:
+          ((json['applicableAssetTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      authorizedPrincipals:
+          ((json['authorizedPrincipals'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      manageAccessRole: (json['manageAccessRole'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      subscriptionTargetConfig: ((json['subscriptionTargetConfig'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -16694,10 +16727,10 @@ class GlossaryItem {
 
   factory GlossaryItem.fromJson(Map<String, dynamic> json) {
     return GlossaryItem(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       status: GlossaryStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -16804,10 +16837,10 @@ class GlossaryTermItem {
 
   factory GlossaryTermItem.fromJson(Map<String, dynamic> json) {
     return GlossaryTermItem(
-      domainId: json['domainId'] as String,
-      glossaryId: json['glossaryId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      glossaryId: (json['glossaryId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GlossaryTermStatus.fromString((json['status'] as String)),
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
@@ -16932,8 +16965,9 @@ class GlueRunConfigurationOutput {
 
   factory GlueRunConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return GlueRunConfigurationOutput(
-      relationalFilterConfigurations: (json['relationalFilterConfigurations']
-              as List)
+      relationalFilterConfigurations: ((json['relationalFilterConfigurations']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RelationalFilterConfiguration.fromJson(e as Map<String, dynamic>))
@@ -16973,7 +17007,8 @@ class GlueSelfGrantStatusOutput {
 
   factory GlueSelfGrantStatusOutput.fromJson(Map<String, dynamic> json) {
     return GlueSelfGrantStatusOutput(
-      selfGrantStatusDetails: (json['selfGrantStatusDetails'] as List)
+      selfGrantStatusDetails: ((json['selfGrantStatusDetails'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SelfGrantStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17045,8 +17080,8 @@ class GreaterThanExpression {
 
   factory GreaterThanExpression.fromJson(Map<String, dynamic> json) {
     return GreaterThanExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -17075,8 +17110,8 @@ class GreaterThanOrEqualToExpression {
 
   factory GreaterThanOrEqualToExpression.fromJson(Map<String, dynamic> json) {
     return GreaterThanOrEqualToExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -17101,7 +17136,7 @@ class GroupDetails {
 
   factory GroupDetails.fromJson(Map<String, dynamic> json) {
     return GroupDetails(
-      groupId: json['groupId'] as String,
+      groupId: (json['groupId'] as String?) ?? '',
     );
   }
 
@@ -17248,8 +17283,8 @@ class Import {
 
   factory Import.fromJson(Map<String, dynamic> json) {
     return Import(
-      name: json['name'] as String,
-      revision: json['revision'] as String,
+      name: (json['name'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
     );
   }
 
@@ -17278,9 +17313,11 @@ class InExpression {
 
   factory InExpression.fromJson(Map<String, dynamic> json) {
     return InExpression(
-      columnName: json['columnName'] as String,
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+      columnName: (json['columnName'] as String?) ?? '',
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -17322,7 +17359,7 @@ class IsNotNullExpression {
 
   factory IsNotNullExpression.fromJson(Map<String, dynamic> json) {
     return IsNotNullExpression(
-      columnName: json['columnName'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
     );
   }
 
@@ -17345,7 +17382,7 @@ class IsNullExpression {
 
   factory IsNullExpression.fromJson(Map<String, dynamic> json) {
     return IsNullExpression(
-      columnName: json['columnName'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
     );
   }
 
@@ -17412,8 +17449,8 @@ class LessThanExpression {
 
   factory LessThanExpression.fromJson(Map<String, dynamic> json) {
     return LessThanExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -17442,8 +17479,8 @@ class LessThanOrEqualToExpression {
 
   factory LessThanOrEqualToExpression.fromJson(Map<String, dynamic> json) {
     return LessThanOrEqualToExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -17472,8 +17509,8 @@ class LikeExpression {
 
   factory LikeExpression.fromJson(Map<String, dynamic> json) {
     return LikeExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -17573,9 +17610,9 @@ class LineageNodeSummary {
 
   factory LineageNodeSummary.fromJson(Map<String, dynamic> json) {
     return LineageNodeSummary(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      typeName: json['typeName'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      typeName: (json['typeName'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -17662,10 +17699,12 @@ class LineageNodeTypeItem {
 
   factory LineageNodeTypeItem.fromJson(Map<String, dynamic> json) {
     return LineageNodeTypeItem(
-      domainId: json['domainId'] as String,
-      formsOutput: (json['formsOutput'] as Map<String, dynamic>).map((k, e) =>
-          MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
-      revision: json['revision'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      formsOutput: ((json['formsOutput'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) =>
+              MapEntry(k, FormEntryOutput.fromJson(e as Map<String, dynamic>))),
+      revision: (json['revision'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
@@ -17718,7 +17757,7 @@ class ListAssetFiltersOutput {
 
   factory ListAssetFiltersOutput.fromJson(Map<String, dynamic> json) {
     return ListAssetFiltersOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetFilterSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17793,7 +17832,7 @@ class ListDataProductRevisionsOutput {
 
   factory ListDataProductRevisionsOutput.fromJson(Map<String, dynamic> json) {
     return ListDataProductRevisionsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataProductRevision.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17831,7 +17870,7 @@ class ListDataSourceRunActivitiesOutput {
   factory ListDataSourceRunActivitiesOutput.fromJson(
       Map<String, dynamic> json) {
     return ListDataSourceRunActivitiesOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSourceRunActivity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17868,7 +17907,7 @@ class ListDataSourceRunsOutput {
 
   factory ListDataSourceRunsOutput.fromJson(Map<String, dynamic> json) {
     return ListDataSourceRunsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSourceRunSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17905,7 +17944,7 @@ class ListDataSourcesOutput {
 
   factory ListDataSourcesOutput.fromJson(Map<String, dynamic> json) {
     return ListDataSourcesOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17942,7 +17981,7 @@ class ListDomainUnitsForParentOutput {
 
   factory ListDomainUnitsForParentOutput.fromJson(Map<String, dynamic> json) {
     return ListDomainUnitsForParentOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainUnitSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -17979,7 +18018,7 @@ class ListDomainsOutput {
 
   factory ListDomainsOutput.fromJson(Map<String, dynamic> json) {
     return ListDomainsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18016,7 +18055,7 @@ class ListEntityOwnersOutput {
 
   factory ListEntityOwnersOutput.fromJson(Map<String, dynamic> json) {
     return ListEntityOwnersOutput(
-      owners: (json['owners'] as List)
+      owners: ((json['owners'] as List?) ?? const [])
           .nonNulls
           .map((e) => OwnerPropertiesOutput.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18134,7 +18173,7 @@ class ListEnvironmentBlueprintsOutput {
 
   factory ListEnvironmentBlueprintsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentBlueprintsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               EnvironmentBlueprintSummary.fromJson(e as Map<String, dynamic>))
@@ -18173,7 +18212,7 @@ class ListEnvironmentProfilesOutput {
 
   factory ListEnvironmentProfilesOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentProfilesOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               EnvironmentProfileSummary.fromJson(e as Map<String, dynamic>))
@@ -18211,7 +18250,7 @@ class ListEnvironmentsOutput {
 
   factory ListEnvironmentsOutput.fromJson(Map<String, dynamic> json) {
     return ListEnvironmentsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => EnvironmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18359,7 +18398,7 @@ class ListPolicyGrantsOutput {
 
   factory ListPolicyGrantsOutput.fromJson(Map<String, dynamic> json) {
     return ListPolicyGrantsOutput(
-      grantList: (json['grantList'] as List)
+      grantList: ((json['grantList'] as List?) ?? const [])
           .nonNulls
           .map((e) => PolicyGrantMember.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18396,7 +18435,7 @@ class ListProjectMembershipsOutput {
 
   factory ListProjectMembershipsOutput.fromJson(Map<String, dynamic> json) {
     return ListProjectMembershipsOutput(
-      members: (json['members'] as List)
+      members: ((json['members'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProjectMember.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18471,7 +18510,7 @@ class ListSubscriptionGrantsOutput {
 
   factory ListSubscriptionGrantsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionGrantsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SubscriptionGrantSummary.fromJson(e as Map<String, dynamic>))
@@ -18510,7 +18549,7 @@ class ListSubscriptionRequestsOutput {
 
   factory ListSubscriptionRequestsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionRequestsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SubscriptionRequestSummary.fromJson(e as Map<String, dynamic>))
@@ -18549,7 +18588,7 @@ class ListSubscriptionTargetsOutput {
 
   factory ListSubscriptionTargetsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionTargetsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SubscriptionTargetSummary.fromJson(e as Map<String, dynamic>))
@@ -18587,7 +18626,7 @@ class ListSubscriptionsOutput {
 
   factory ListSubscriptionsOutput.fromJson(Map<String, dynamic> json) {
     return ListSubscriptionsOutput(
-      items: (json['items'] as List)
+      items: ((json['items'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscriptionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18718,8 +18757,8 @@ class ListingRevision {
 
   factory ListingRevision.fromJson(Map<String, dynamic> json) {
     return ListingRevision(
-      id: json['id'] as String,
-      revision: json['revision'] as String,
+      id: (json['id'] as String?) ?? '',
+      revision: (json['revision'] as String?) ?? '',
     );
   }
 
@@ -18976,9 +19015,9 @@ class MetadataGenerationRunItem {
 
   factory MetadataGenerationRunItem.fromJson(Map<String, dynamic> json) {
     return MetadataGenerationRunItem(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       status: (json['status'] as String?)
@@ -19051,7 +19090,7 @@ class MetadataGenerationRunTarget {
 
   factory MetadataGenerationRunTarget.fromJson(Map<String, dynamic> json) {
     return MetadataGenerationRunTarget(
-      identifier: json['identifier'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
       type: MetadataGenerationTargetType.fromString((json['type'] as String)),
       revision: json['revision'] as String?,
     );
@@ -19135,8 +19174,8 @@ class NotEqualToExpression {
 
   factory NotEqualToExpression.fromJson(Map<String, dynamic> json) {
     return NotEqualToExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -19165,9 +19204,11 @@ class NotInExpression {
 
   factory NotInExpression.fromJson(Map<String, dynamic> json) {
     return NotInExpression(
-      columnName: json['columnName'] as String,
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as String).toList(),
+      columnName: (json['columnName'] as String?) ?? '',
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -19196,8 +19237,8 @@ class NotLikeExpression {
 
   factory NotLikeExpression.fromJson(Map<String, dynamic> json) {
     return NotLikeExpression(
-      columnName: json['columnName'] as String,
-      value: json['value'] as String,
+      columnName: (json['columnName'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -19262,16 +19303,17 @@ class NotificationOutput {
 
   factory NotificationOutput.fromJson(Map<String, dynamic> json) {
     return NotificationOutput(
-      actionLink: json['actionLink'] as String,
+      actionLink: (json['actionLink'] as String?) ?? '',
       creationTimestamp:
-          nonNullableTimeStampFromJson(json['creationTimestamp'] as Object),
-      domainIdentifier: json['domainIdentifier'] as String,
-      identifier: json['identifier'] as String,
+          nonNullableTimeStampFromJson(json['creationTimestamp'] ?? 0),
+      domainIdentifier: (json['domainIdentifier'] as String?) ?? '',
+      identifier: (json['identifier'] as String?) ?? '',
       lastUpdatedTimestamp:
-          nonNullableTimeStampFromJson(json['lastUpdatedTimestamp'] as Object),
-      message: json['message'] as String,
-      title: json['title'] as String,
-      topic: Topic.fromJson(json['topic'] as Map<String, dynamic>),
+          nonNullableTimeStampFromJson(json['lastUpdatedTimestamp'] ?? 0),
+      message: (json['message'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
+      topic: Topic.fromJson((json['topic'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       type: NotificationType.fromString((json['type'] as String)),
       metadata: (json['metadata'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -19326,7 +19368,7 @@ class NotificationResource {
 
   factory NotificationResource.fromJson(Map<String, dynamic> json) {
     return NotificationResource(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       type: NotificationResourceType.fromString((json['type'] as String)),
       name: json['name'] as String?,
     );
@@ -19995,8 +20037,9 @@ class ProjectMember {
   factory ProjectMember.fromJson(Map<String, dynamic> json) {
     return ProjectMember(
       designation: UserDesignation.fromString((json['designation'] as String)),
-      memberDetails:
-          MemberDetails.fromJson(json['memberDetails'] as Map<String, dynamic>),
+      memberDetails: MemberDetails.fromJson(
+          (json['memberDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -20115,10 +20158,10 @@ class ProjectSummary {
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) {
     return ProjectSummary(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       domainUnitId: json['domainUnitId'] as String?,
@@ -20255,8 +20298,8 @@ class PutEnvironmentBlueprintConfigurationOutput {
   factory PutEnvironmentBlueprintConfigurationOutput.fromJson(
       Map<String, dynamic> json) {
     return PutEnvironmentBlueprintConfigurationOutput(
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       enabledRegions: (json['enabledRegions'] as List?)
           ?.nonNulls
@@ -20343,7 +20386,7 @@ class RedshiftClusterStorage {
 
   factory RedshiftClusterStorage.fromJson(Map<String, dynamic> json) {
     return RedshiftClusterStorage(
-      clusterName: json['clusterName'] as String,
+      clusterName: (json['clusterName'] as String?) ?? '',
     );
   }
 
@@ -20367,7 +20410,7 @@ class RedshiftCredentialConfiguration {
 
   factory RedshiftCredentialConfiguration.fromJson(Map<String, dynamic> json) {
     return RedshiftCredentialConfiguration(
-      secretManagerArn: json['secretManagerArn'] as String,
+      secretManagerArn: (json['secretManagerArn'] as String?) ?? '',
     );
   }
 
@@ -20447,11 +20490,14 @@ class RedshiftRunConfigurationOutput {
   factory RedshiftRunConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return RedshiftRunConfigurationOutput(
       redshiftCredentialConfiguration: RedshiftCredentialConfiguration.fromJson(
-          json['redshiftCredentialConfiguration'] as Map<String, dynamic>),
+          (json['redshiftCredentialConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       redshiftStorage: RedshiftStorage.fromJson(
-          json['redshiftStorage'] as Map<String, dynamic>),
-      relationalFilterConfigurations: (json['relationalFilterConfigurations']
-              as List)
+          (json['redshiftStorage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      relationalFilterConfigurations: ((json['relationalFilterConfigurations']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               RelationalFilterConfiguration.fromJson(e as Map<String, dynamic>))
@@ -20492,7 +20538,8 @@ class RedshiftSelfGrantStatusOutput {
 
   factory RedshiftSelfGrantStatusOutput.fromJson(Map<String, dynamic> json) {
     return RedshiftSelfGrantStatusOutput(
-      selfGrantStatusDetails: (json['selfGrantStatusDetails'] as List)
+      selfGrantStatusDetails: ((json['selfGrantStatusDetails'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SelfGrantStatusDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20518,7 +20565,7 @@ class RedshiftServerlessStorage {
 
   factory RedshiftServerlessStorage.fromJson(Map<String, dynamic> json) {
     return RedshiftServerlessStorage(
-      workgroupName: json['workgroupName'] as String,
+      workgroupName: (json['workgroupName'] as String?) ?? '',
     );
   }
 
@@ -20613,9 +20660,9 @@ class RejectPredictionsOutput {
 
   factory RejectPredictionsOutput.fromJson(Map<String, dynamic> json) {
     return RejectPredictionsOutput(
-      assetId: json['assetId'] as String,
-      assetRevision: json['assetRevision'] as String,
-      domainId: json['domainId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      assetRevision: (json['assetRevision'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
     );
   }
 
@@ -20727,21 +20774,22 @@ class RejectSubscriptionRequestOutput {
 
   factory RejectSubscriptionRequestOutput.fromJson(Map<String, dynamic> json) {
     return RejectSubscriptionRequestOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -20800,7 +20848,7 @@ class RelationalFilterConfiguration {
 
   factory RelationalFilterConfiguration.fromJson(Map<String, dynamic> json) {
     return RelationalFilterConfiguration(
-      databaseName: json['databaseName'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
       filterExpressions: (json['filterExpressions'] as List?)
           ?.nonNulls
           .map((e) => FilterExpression.fromJson(e as Map<String, dynamic>))
@@ -20868,8 +20916,8 @@ class Resource {
 
   factory Resource.fromJson(Map<String, dynamic> json) {
     return Resource(
-      type: json['type'] as String,
-      value: json['value'] as String,
+      type: (json['type'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
       name: json['name'] as String?,
       provider: json['provider'] as String?,
     );
@@ -20940,16 +20988,18 @@ class RevokeSubscriptionOutput {
 
   factory RevokeSubscriptionOutput.fromJson(Map<String, dynamic> json) {
     return RevokeSubscriptionOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
-          json['subscribedListing'] as Map<String, dynamic>),
+          (json['subscribedListing'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
-          json['subscribedPrincipal'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+          (json['subscribedPrincipal'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       retainPermissions: json['retainPermissions'] as bool?,
       subscriptionRequestId: json['subscriptionRequestId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -21046,7 +21096,9 @@ class RowFilterConfiguration {
 
   factory RowFilterConfiguration.fromJson(Map<String, dynamic> json) {
     return RowFilterConfiguration(
-      rowFilter: RowFilter.fromJson(json['rowFilter'] as Map<String, dynamic>),
+      rowFilter: RowFilter.fromJson(
+          (json['rowFilter'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       sensitive: json['sensitive'] as bool?,
     );
   }
@@ -21717,7 +21769,7 @@ class SelfGrantStatusDetail {
 
   factory SelfGrantStatusDetail.fromJson(Map<String, dynamic> json) {
     return SelfGrantStatusDetail(
-      databaseName: json['databaseName'] as String,
+      databaseName: (json['databaseName'] as String?) ?? '',
       status: SelfGrantStatus.fromString((json['status'] as String)),
       failureCause: json['failureCause'] as String?,
       schemaName: json['schemaName'] as String?,
@@ -21946,14 +21998,14 @@ class StartDataSourceRunOutput {
 
   factory StartDataSourceRunOutput.fromJson(Map<String, dynamic> json) {
     return StartDataSourceRunOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      dataSourceId: json['dataSourceId'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      projectId: json['projectId'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      dataSourceId: (json['dataSourceId'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       status: DataSourceRunStatus.fromString((json['status'] as String)),
       type: DataSourceRunType.fromString((json['type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       dataSourceConfigurationSnapshot:
           json['dataSourceConfigurationSnapshot'] as String?,
       errorMessage: json['errorMessage'] != null
@@ -22040,8 +22092,8 @@ class StartMetadataGenerationRunOutput {
 
   factory StartMetadataGenerationRunOutput.fromJson(Map<String, dynamic> json) {
     return StartMetadataGenerationRunOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       owningProjectId: json['owningProjectId'] as String?,
@@ -22113,8 +22165,8 @@ class SubscribedAsset {
 
   factory SubscribedAsset.fromJson(Map<String, dynamic> json) {
     return SubscribedAsset(
-      assetId: json['assetId'] as String,
-      assetRevision: json['assetRevision'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
+      assetRevision: (json['assetRevision'] as String?) ?? '',
       status: SubscriptionGrantStatus.fromString((json['status'] as String)),
       assetScope: json['assetScope'] != null
           ? AssetScope.fromJson(json['assetScope'] as Map<String, dynamic>)
@@ -22261,12 +22313,12 @@ class SubscribedListing {
 
   factory SubscribedListing.fromJson(Map<String, dynamic> json) {
     return SubscribedListing(
-      description: json['description'] as String,
-      id: json['id'] as String,
-      item:
-          SubscribedListingItem.fromJson(json['item'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      ownerProjectId: json['ownerProjectId'] as String,
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      item: SubscribedListingItem.fromJson(
+          (json['item'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      ownerProjectId: (json['ownerProjectId'] as String?) ?? '',
       ownerProjectName: json['ownerProjectName'] as String?,
       revision: json['revision'] as String?,
     );
@@ -22593,16 +22645,17 @@ class SubscriptionGrantSummary {
 
   factory SubscriptionGrantSummary.fromJson(Map<String, dynamic> json) {
     return SubscriptionGrantSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      grantedEntity:
-          GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      grantedEntity: GrantedEntity.fromJson(
+          (json['grantedEntity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       status:
           SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
-      subscriptionTargetId: json['subscriptionTargetId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
           ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
@@ -22713,21 +22766,22 @@ class SubscriptionRequestSummary {
 
   factory SubscriptionRequestSummary.fromJson(Map<String, dynamic> json) {
     return SubscriptionRequestSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -22831,16 +22885,18 @@ class SubscriptionSummary {
 
   factory SubscriptionSummary.fromJson(Map<String, dynamic> json) {
     return SubscriptionSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       status: SubscriptionStatus.fromString((json['status'] as String)),
       subscribedListing: SubscribedListing.fromJson(
-          json['subscribedListing'] as Map<String, dynamic>),
+          (json['subscribedListing'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       subscribedPrincipal: SubscribedPrincipal.fromJson(
-          json['subscribedPrincipal'] as Map<String, dynamic>),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+          (json['subscribedPrincipal'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       retainPermissions: json['retainPermissions'] as bool?,
       subscriptionRequestId: json['subscriptionRequestId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -22891,8 +22947,8 @@ class SubscriptionTargetForm {
 
   factory SubscriptionTargetForm.fromJson(Map<String, dynamic> json) {
     return SubscriptionTargetForm(
-      content: json['content'] as String,
-      formName: json['formName'] as String,
+      content: (json['content'] as String?) ?? '',
+      formName: (json['formName'] as String?) ?? '',
     );
   }
 
@@ -22974,29 +23030,32 @@ class SubscriptionTargetSummary {
 
   factory SubscriptionTargetSummary.fromJson(Map<String, dynamic> json) {
     return SubscriptionTargetSummary(
-      applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      manageAccessRole: json['manageAccessRole'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
-      subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
+      applicableAssetTypes:
+          ((json['applicableAssetTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      authorizedPrincipals:
+          ((json['authorizedPrincipals'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      manageAccessRole: (json['manageAccessRole'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      subscriptionTargetConfig: ((json['subscriptionTargetConfig'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -23185,9 +23244,9 @@ class TimeSeriesDataPointFormOutput {
 
   factory TimeSeriesDataPointFormOutput.fromJson(Map<String, dynamic> json) {
     return TimeSeriesDataPointFormOutput(
-      formName: json['formName'] as String,
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
-      typeIdentifier: json['typeIdentifier'] as String,
+      formName: (json['formName'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
       content: json['content'] as String?,
       id: json['id'] as String?,
       typeRevision: json['typeRevision'] as String?,
@@ -23244,9 +23303,9 @@ class TimeSeriesDataPointSummaryFormOutput {
   factory TimeSeriesDataPointSummaryFormOutput.fromJson(
       Map<String, dynamic> json) {
     return TimeSeriesDataPointSummaryFormOutput(
-      formName: json['formName'] as String,
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] as Object),
-      typeIdentifier: json['typeIdentifier'] as String,
+      formName: (json['formName'] as String?) ?? '',
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+      typeIdentifier: (json['typeIdentifier'] as String?) ?? '',
       contentSummary: json['contentSummary'] as String?,
       id: json['id'] as String?,
       typeRevision: json['typeRevision'] as String?,
@@ -23381,9 +23440,10 @@ class Topic {
   factory Topic.fromJson(Map<String, dynamic> json) {
     return Topic(
       resource: NotificationResource.fromJson(
-          json['resource'] as Map<String, dynamic>),
+          (json['resource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       role: NotificationRole.fromString((json['role'] as String)),
-      subject: json['subject'] as String,
+      subject: (json['subject'] as String?) ?? '',
     );
   }
 
@@ -23491,12 +23551,13 @@ class UpdateAssetFilterOutput {
 
   factory UpdateAssetFilterOutput.fromJson(Map<String, dynamic> json) {
     return UpdateAssetFilterOutput(
-      assetId: json['assetId'] as String,
+      assetId: (json['assetId'] as String?) ?? '',
       configuration: AssetFilterConfiguration.fromJson(
-          json['configuration'] as Map<String, dynamic>),
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       effectiveColumnNames: (json['effectiveColumnNames'] as List?)
@@ -23643,11 +23704,11 @@ class UpdateDataSourceOutput {
 
   factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) {
     return UpdateDataSourceOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
       assetFormsOutput: (json['assetFormsOutput'] as List?)
           ?.nonNulls
           .map((e) => FormOutput.fromJson(e as Map<String, dynamic>))
@@ -23781,7 +23842,7 @@ class UpdateDomainOutput {
 
   factory UpdateDomainOutput.fromJson(Map<String, dynamic> json) {
     return UpdateDomainOutput(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
       description: json['description'] as String?,
       domainExecutionRole: json['domainExecutionRole'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -23861,10 +23922,10 @@ class UpdateDomainUnitOutput {
 
   factory UpdateDomainUnitOutput.fromJson(Map<String, dynamic> json) {
     return UpdateDomainUnitOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owners: (json['owners'] as List)
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owners: ((json['owners'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               DomainUnitOwnerProperties.fromJson(e as Map<String, dynamic>))
@@ -23935,12 +23996,13 @@ class UpdateEnvironmentActionOutput {
 
   factory UpdateEnvironmentActionOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentActionOutput(
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      parameters:
-          ActionParameters.fromJson(json['parameters'] as Map<String, dynamic>),
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      parameters: ActionParameters.fromJson(
+          (json['parameters'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       description: json['description'] as String?,
     );
   }
@@ -24062,11 +24124,11 @@ class UpdateEnvironmentOutput {
 
   factory UpdateEnvironmentOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -24222,11 +24284,11 @@ class UpdateEnvironmentProfileOutput {
 
   factory UpdateEnvironmentProfileOutput.fromJson(Map<String, dynamic> json) {
     return UpdateEnvironmentProfileOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentBlueprintId: json['environmentBlueprintId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentBlueprintId: (json['environmentBlueprintId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       awsAccountId: json['awsAccountId'] as String?,
       awsAccountRegion: json['awsAccountRegion'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
@@ -24302,10 +24364,10 @@ class UpdateGlossaryOutput {
 
   factory UpdateGlossaryOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGlossaryOutput(
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
-      owningProjectId: json['owningProjectId'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      owningProjectId: (json['owningProjectId'] as String?) ?? '',
       description: json['description'] as String?,
       status: (json['status'] as String?)?.let(GlossaryStatus.fromString),
     );
@@ -24373,10 +24435,10 @@ class UpdateGlossaryTermOutput {
 
   factory UpdateGlossaryTermOutput.fromJson(Map<String, dynamic> json) {
     return UpdateGlossaryTermOutput(
-      domainId: json['domainId'] as String,
-      glossaryId: json['glossaryId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      domainId: (json['domainId'] as String?) ?? '',
+      glossaryId: (json['glossaryId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: GlossaryTermStatus.fromString((json['status'] as String)),
       longDescription: json['longDescription'] as String?,
       shortDescription: json['shortDescription'] as String?,
@@ -24504,10 +24566,10 @@ class UpdateProjectOutput {
 
   factory UpdateProjectOutput.fromJson(Map<String, dynamic> json) {
     return UpdateProjectOutput(
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      name: json['name'] as String,
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdAt: timeStampFromJson(json['createdAt']),
       description: json['description'] as String?,
       domainUnitId: json['domainUnitId'] as String?,
@@ -24608,16 +24670,17 @@ class UpdateSubscriptionGrantStatusOutput {
   factory UpdateSubscriptionGrantStatusOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateSubscriptionGrantStatusOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      grantedEntity:
-          GrantedEntity.fromJson(json['grantedEntity'] as Map<String, dynamic>),
-      id: json['id'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      grantedEntity: GrantedEntity.fromJson(
+          (json['grantedEntity'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
       status:
           SubscriptionGrantOverallStatus.fromString((json['status'] as String)),
-      subscriptionTargetId: json['subscriptionTargetId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      subscriptionTargetId: (json['subscriptionTargetId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       assets: (json['assets'] as List?)
           ?.nonNulls
           .map((e) => SubscribedAsset.fromJson(e as Map<String, dynamic>))
@@ -24711,21 +24774,22 @@ class UpdateSubscriptionRequestOutput {
 
   factory UpdateSubscriptionRequestOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSubscriptionRequestOutput(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      id: json['id'] as String,
-      requestReason: json['requestReason'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      requestReason: (json['requestReason'] as String?) ?? '',
       status: SubscriptionRequestStatus.fromString((json['status'] as String)),
-      subscribedListings: (json['subscribedListings'] as List)
+      subscribedListings: ((json['subscribedListings'] as List?) ?? const [])
           .nonNulls
           .map((e) => SubscribedListing.fromJson(e as Map<String, dynamic>))
           .toList(),
-      subscribedPrincipals: (json['subscribedPrincipals'] as List)
+      subscribedPrincipals: ((json['subscribedPrincipals'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => SubscribedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
       decisionComment: json['decisionComment'] as String?,
       reviewerId: json['reviewerId'] as String?,
       updatedBy: json['updatedBy'] as String?,
@@ -24838,29 +24902,32 @@ class UpdateSubscriptionTargetOutput {
 
   factory UpdateSubscriptionTargetOutput.fromJson(Map<String, dynamic> json) {
     return UpdateSubscriptionTargetOutput(
-      applicableAssetTypes: (json['applicableAssetTypes'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      authorizedPrincipals: (json['authorizedPrincipals'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      createdBy: json['createdBy'] as String,
-      domainId: json['domainId'] as String,
-      environmentId: json['environmentId'] as String,
-      id: json['id'] as String,
-      manageAccessRole: json['manageAccessRole'] as String,
-      name: json['name'] as String,
-      projectId: json['projectId'] as String,
-      provider: json['provider'] as String,
-      subscriptionTargetConfig: (json['subscriptionTargetConfig'] as List)
+      applicableAssetTypes:
+          ((json['applicableAssetTypes'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      authorizedPrincipals:
+          ((json['authorizedPrincipals'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      createdBy: (json['createdBy'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      environmentId: (json['environmentId'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      manageAccessRole: (json['manageAccessRole'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      projectId: (json['projectId'] as String?) ?? '',
+      provider: (json['provider'] as String?) ?? '',
+      subscriptionTargetConfig: ((json['subscriptionTargetConfig'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => SubscriptionTargetForm.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: json['type'] as String,
+      type: (json['type'] as String?) ?? '',
       updatedAt: timeStampFromJson(json['updatedAt']),
       updatedBy: json['updatedBy'] as String?,
     );
@@ -24995,7 +25062,7 @@ class UserDetails {
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
-      userId: json['userId'] as String,
+      userId: (json['userId'] as String?) ?? '',
     );
   }
 

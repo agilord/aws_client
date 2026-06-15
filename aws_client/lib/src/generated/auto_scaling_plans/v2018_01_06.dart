@@ -455,7 +455,7 @@ class CreateScalingPlanResponse {
 
   factory CreateScalingPlanResponse.fromJson(Map<String, dynamic> json) {
     return CreateScalingPlanResponse(
-      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+      scalingPlanVersion: (json['ScalingPlanVersion'] as int?) ?? 0,
     );
   }
 
@@ -533,8 +533,8 @@ class CustomizedLoadMetricSpecification {
   factory CustomizedLoadMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomizedLoadMetricSpecification(
-      metricName: json['MetricName'] as String,
-      namespace: json['Namespace'] as String,
+      metricName: (json['MetricName'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
       statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
@@ -615,8 +615,8 @@ class CustomizedScalingMetricSpecification {
   factory CustomizedScalingMetricSpecification.fromJson(
       Map<String, dynamic> json) {
     return CustomizedScalingMetricSpecification(
-      metricName: json['MetricName'] as String,
-      namespace: json['Namespace'] as String,
+      metricName: (json['MetricName'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
       statistic: MetricStatistic.fromString((json['Statistic'] as String)),
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
@@ -780,7 +780,7 @@ class GetScalingPlanResourceForecastDataResponse {
   factory GetScalingPlanResourceForecastDataResponse.fromJson(
       Map<String, dynamic> json) {
     return GetScalingPlanResourceForecastDataResponse(
-      datapoints: (json['Datapoints'] as List)
+      datapoints: ((json['Datapoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => Datapoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -827,8 +827,8 @@ class MetricDimension {
 
   factory MetricDimension.fromJson(Map<String, dynamic> json) {
     return MetricDimension(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1284,15 +1284,16 @@ class ScalingInstruction {
 
   factory ScalingInstruction.fromJson(Map<String, dynamic> json) {
     return ScalingInstruction(
-      maxCapacity: json['MaxCapacity'] as int,
-      minCapacity: json['MinCapacity'] as int,
-      resourceId: json['ResourceId'] as String,
+      maxCapacity: (json['MaxCapacity'] as int?) ?? 0,
+      minCapacity: (json['MinCapacity'] as int?) ?? 0,
+      resourceId: (json['ResourceId'] as String?) ?? '',
       scalableDimension:
           ScalableDimension.fromString((json['ScalableDimension'] as String)),
       serviceNamespace:
           ServiceNamespace.fromString((json['ServiceNamespace'] as String)),
-      targetTrackingConfigurations: (json['TargetTrackingConfigurations']
-              as List)
+      targetTrackingConfigurations: ((json['TargetTrackingConfigurations']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               TargetTrackingConfiguration.fromJson(e as Map<String, dynamic>))
@@ -1468,13 +1469,14 @@ class ScalingPlan {
   factory ScalingPlan.fromJson(Map<String, dynamic> json) {
     return ScalingPlan(
       applicationSource: ApplicationSource.fromJson(
-          json['ApplicationSource'] as Map<String, dynamic>),
-      scalingInstructions: (json['ScalingInstructions'] as List)
+          (json['ApplicationSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scalingInstructions: ((json['ScalingInstructions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScalingInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scalingPlanName: json['ScalingPlanName'] as String,
-      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+      scalingPlanName: (json['ScalingPlanName'] as String?) ?? '',
+      scalingPlanVersion: (json['ScalingPlanVersion'] as int?) ?? 0,
       statusCode:
           ScalingPlanStatusCode.fromString((json['StatusCode'] as String)),
       creationTime: timeStampFromJson(json['CreationTime']),
@@ -1631,11 +1633,11 @@ class ScalingPlanResource {
 
   factory ScalingPlanResource.fromJson(Map<String, dynamic> json) {
     return ScalingPlanResource(
-      resourceId: json['ResourceId'] as String,
+      resourceId: (json['ResourceId'] as String?) ?? '',
       scalableDimension:
           ScalableDimension.fromString((json['ScalableDimension'] as String)),
-      scalingPlanName: json['ScalingPlanName'] as String,
-      scalingPlanVersion: json['ScalingPlanVersion'] as int,
+      scalingPlanName: (json['ScalingPlanName'] as String?) ?? '',
+      scalingPlanVersion: (json['ScalingPlanVersion'] as int?) ?? 0,
       scalingStatusCode:
           ScalingStatusCode.fromString((json['ScalingStatusCode'] as String)),
       serviceNamespace:
@@ -1712,7 +1714,7 @@ class ScalingPolicy {
 
   factory ScalingPolicy.fromJson(Map<String, dynamic> json) {
     return ScalingPolicy(
-      policyName: json['PolicyName'] as String,
+      policyName: (json['PolicyName'] as String?) ?? '',
       policyType: PolicyType.fromString((json['PolicyType'] as String)),
       targetTrackingConfiguration: json['TargetTrackingConfiguration'] != null
           ? TargetTrackingConfiguration.fromJson(
@@ -1881,7 +1883,7 @@ class TargetTrackingConfiguration {
 
   factory TargetTrackingConfiguration.fromJson(Map<String, dynamic> json) {
     return TargetTrackingConfiguration(
-      targetValue: json['TargetValue'] as double,
+      targetValue: (json['TargetValue'] as double?) ?? 0,
       customizedScalingMetricSpecification:
           json['CustomizedScalingMetricSpecification'] != null
               ? CustomizedScalingMetricSpecification.fromJson(

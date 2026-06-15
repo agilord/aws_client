@@ -1924,7 +1924,7 @@ class AuthenticationConfiguration {
   factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
     return AuthenticationConfiguration(
       connectivity: Connectivity.fromString((json['Connectivity'] as String)),
-      roleARN: json['RoleARN'] as String,
+      roleARN: (json['RoleARN'] as String?) ?? '',
     );
   }
 
@@ -2144,7 +2144,7 @@ class CopyCommand {
 
   factory CopyCommand.fromJson(Map<String, dynamic> json) {
     return CopyCommand(
-      dataTableName: json['DataTableName'] as String,
+      dataTableName: (json['DataTableName'] as String?) ?? '',
       copyOptions: json['CopyOptions'] as String?,
       dataTableColumns: json['DataTableColumns'] as String?,
     );
@@ -2363,19 +2363,19 @@ class DeliveryStreamDescription {
 
   factory DeliveryStreamDescription.fromJson(Map<String, dynamic> json) {
     return DeliveryStreamDescription(
-      deliveryStreamARN: json['DeliveryStreamARN'] as String,
-      deliveryStreamName: json['DeliveryStreamName'] as String,
+      deliveryStreamARN: (json['DeliveryStreamARN'] as String?) ?? '',
+      deliveryStreamName: (json['DeliveryStreamName'] as String?) ?? '',
       deliveryStreamStatus: DeliveryStreamStatus.fromString(
           (json['DeliveryStreamStatus'] as String)),
       deliveryStreamType:
           DeliveryStreamType.fromString((json['DeliveryStreamType'] as String)),
-      destinations: (json['Destinations'] as List)
+      destinations: ((json['Destinations'] as List?) ?? const [])
           .nonNulls
           .map(
               (e) => DestinationDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
-      hasMoreDestinations: json['HasMoreDestinations'] as bool,
-      versionId: json['VersionId'] as String,
+      hasMoreDestinations: (json['HasMoreDestinations'] as bool?) ?? false,
+      versionId: (json['VersionId'] as String?) ?? '',
       createTimestamp: timeStampFromJson(json['CreateTimestamp']),
       deliveryStreamEncryptionConfiguration:
           json['DeliveryStreamEncryptionConfiguration'] != null
@@ -2644,7 +2644,8 @@ class DescribeDeliveryStreamOutput {
   factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
     return DescribeDeliveryStreamOutput(
       deliveryStreamDescription: DeliveryStreamDescription.fromJson(
-          json['DeliveryStreamDescription'] as Map<String, dynamic>),
+          (json['DeliveryStreamDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2761,7 +2762,7 @@ class DestinationDescription {
 
   factory DestinationDescription.fromJson(Map<String, dynamic> json) {
     return DestinationDescription(
-      destinationId: json['DestinationId'] as String,
+      destinationId: (json['DestinationId'] as String?) ?? '',
       amazonOpenSearchServerlessDestinationDescription:
           json['AmazonOpenSearchServerlessDestinationDescription'] != null
               ? AmazonOpenSearchServerlessDestinationDescription.fromJson(
@@ -2904,8 +2905,9 @@ class DestinationTableConfiguration {
 
   factory DestinationTableConfiguration.fromJson(Map<String, dynamic> json) {
     return DestinationTableConfiguration(
-      destinationDatabaseName: json['DestinationDatabaseName'] as String,
-      destinationTableName: json['DestinationTableName'] as String,
+      destinationDatabaseName:
+          (json['DestinationDatabaseName'] as String?) ?? '',
+      destinationTableName: (json['DestinationTableName'] as String?) ?? '',
       s3ErrorOutputPrefix: json['S3ErrorOutputPrefix'] as String?,
       uniqueKeys: (json['UniqueKeys'] as List?)
           ?.nonNulls
@@ -3764,14 +3766,16 @@ class ExtendedS3DestinationDescription {
 
   factory ExtendedS3DestinationDescription.fromJson(Map<String, dynamic> json) {
     return ExtendedS3DestinationDescription(
-      bucketARN: json['BucketARN'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
       bufferingHints: BufferingHints.fromJson(
-          json['BufferingHints'] as Map<String, dynamic>),
+          (json['BufferingHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compressionFormat:
           CompressionFormat.fromString((json['CompressionFormat'] as String)),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
-          json['EncryptionConfiguration'] as Map<String, dynamic>),
-      roleARN: json['RoleARN'] as String,
+          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleARN: (json['RoleARN'] as String?) ?? '',
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
           ? CloudWatchLoggingOptions.fromJson(
               json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
@@ -3995,7 +3999,7 @@ class FailureDescription {
 
   factory FailureDescription.fromJson(Map<String, dynamic> json) {
     return FailureDescription(
-      details: json['Details'] as String,
+      details: (json['Details'] as String?) ?? '',
       type: DeliveryStreamFailureType.fromString((json['Type'] as String)),
     );
   }
@@ -4120,8 +4124,8 @@ class HttpEndpointCommonAttribute {
 
   factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) {
     return HttpEndpointCommonAttribute(
-      attributeName: json['AttributeName'] as String,
-      attributeValue: json['AttributeValue'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      attributeValue: (json['AttributeValue'] as String?) ?? '',
     );
   }
 
@@ -4888,7 +4892,7 @@ class KMSEncryptionConfig {
 
   factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) {
     return KMSEncryptionConfig(
-      awsKMSKeyARN: json['AWSKMSKeyARN'] as String,
+      awsKMSKeyARN: (json['AWSKMSKeyARN'] as String?) ?? '',
     );
   }
 
@@ -5003,11 +5007,12 @@ class ListDeliveryStreamsOutput {
 
   factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
     return ListDeliveryStreamsOutput(
-      deliveryStreamNames: (json['DeliveryStreamNames'] as List)
+      deliveryStreamNames: ((json['DeliveryStreamNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      hasMoreDeliveryStreams: json['HasMoreDeliveryStreams'] as bool,
+      hasMoreDeliveryStreams:
+          (json['HasMoreDeliveryStreams'] as bool?) ?? false,
     );
   }
 
@@ -5039,8 +5044,8 @@ class ListTagsForDeliveryStreamOutput {
 
   factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
     return ListTagsForDeliveryStreamOutput(
-      hasMoreTags: json['HasMoreTags'] as bool,
-      tags: (json['Tags'] as List)
+      hasMoreTags: (json['HasMoreTags'] as bool?) ?? false,
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5621,7 +5626,7 @@ class ProcessorParameter {
     return ProcessorParameter(
       parameterName:
           ProcessorParameterName.fromString((json['ParameterName'] as String)),
-      parameterValue: json['ParameterValue'] as String,
+      parameterValue: (json['ParameterValue'] as String?) ?? '',
     );
   }
 
@@ -5701,8 +5706,8 @@ class PutRecordBatchOutput {
 
   factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordBatchOutput(
-      failedPutCount: json['FailedPutCount'] as int,
-      requestResponses: (json['RequestResponses'] as List)
+      failedPutCount: (json['FailedPutCount'] as int?) ?? 0,
+      requestResponses: ((json['RequestResponses'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
@@ -5778,7 +5783,7 @@ class PutRecordOutput {
 
   factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
     return PutRecordOutput(
-      recordId: json['RecordId'] as String,
+      recordId: (json['RecordId'] as String?) ?? '',
       encrypted: json['Encrypted'] as bool?,
     );
   }
@@ -5966,12 +5971,14 @@ class RedshiftDestinationDescription {
 
   factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
     return RedshiftDestinationDescription(
-      clusterJDBCURL: json['ClusterJDBCURL'] as String,
-      copyCommand:
-          CopyCommand.fromJson(json['CopyCommand'] as Map<String, dynamic>),
-      roleARN: json['RoleARN'] as String,
+      clusterJDBCURL: (json['ClusterJDBCURL'] as String?) ?? '',
+      copyCommand: CopyCommand.fromJson(
+          (json['CopyCommand'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleARN: (json['RoleARN'] as String?) ?? '',
       s3DestinationDescription: S3DestinationDescription.fromJson(
-          json['S3DestinationDescription'] as Map<String, dynamic>),
+          (json['S3DestinationDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
           ? CloudWatchLoggingOptions.fromJson(
               json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
@@ -6346,14 +6353,16 @@ class S3DestinationDescription {
 
   factory S3DestinationDescription.fromJson(Map<String, dynamic> json) {
     return S3DestinationDescription(
-      bucketARN: json['BucketARN'] as String,
+      bucketARN: (json['BucketARN'] as String?) ?? '',
       bufferingHints: BufferingHints.fromJson(
-          json['BufferingHints'] as Map<String, dynamic>),
+          (json['BufferingHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       compressionFormat:
           CompressionFormat.fromString((json['CompressionFormat'] as String)),
       encryptionConfiguration: EncryptionConfiguration.fromJson(
-          json['EncryptionConfiguration'] as Map<String, dynamic>),
-      roleARN: json['RoleARN'] as String,
+          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleARN: (json['RoleARN'] as String?) ?? '',
       cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
           ? CloudWatchLoggingOptions.fromJson(
               json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
@@ -6584,7 +6593,7 @@ class SecretsManagerConfiguration {
 
   factory SecretsManagerConfiguration.fromJson(Map<String, dynamic> json) {
     return SecretsManagerConfiguration(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
       roleARN: json['RoleARN'] as String?,
       secretARN: json['SecretARN'] as String?,
     );
@@ -7286,7 +7295,7 @@ class SnowflakeVpcConfiguration {
 
   factory SnowflakeVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return SnowflakeVpcConfiguration(
-      privateLinkVpceId: json['PrivateLinkVpceId'] as String,
+      privateLinkVpceId: (json['PrivateLinkVpceId'] as String?) ?? '',
     );
   }
 
@@ -7783,7 +7792,7 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: json['Value'] as String?,
     );
   }
@@ -8006,14 +8015,16 @@ class VpcConfigurationDescription {
 
   factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
     return VpcConfigurationDescription(
-      roleARN: json['RoleARN'] as String,
-      securityGroupIds: (json['SecurityGroupIds'] as List)
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['SubnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcId: json['VpcId'] as String,
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['VpcId'] as String?) ?? '',
     );
   }
 

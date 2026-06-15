@@ -2048,7 +2048,7 @@ class InviteAction {
 
   factory InviteAction.fromJson(Map<String, dynamic> json) {
     return InviteAction(
-      principal: json['Principal'] as String,
+      principal: (json['Principal'] as String?) ?? '',
     );
   }
 
@@ -4148,7 +4148,7 @@ class RemoveAction {
 
   factory RemoveAction.fromJson(Map<String, dynamic> json) {
     return RemoveAction(
-      memberId: json['MemberId'] as String,
+      memberId: (json['MemberId'] as String?) ?? '',
     );
   }
 

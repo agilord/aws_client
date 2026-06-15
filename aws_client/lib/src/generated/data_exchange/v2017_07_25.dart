@@ -1212,8 +1212,8 @@ class AssetDestinationEntry {
 
   factory AssetDestinationEntry.fromJson(Map<String, dynamic> json) {
     return AssetDestinationEntry(
-      assetId: json['AssetId'] as String,
-      bucket: json['Bucket'] as String,
+      assetId: (json['AssetId'] as String?) ?? '',
+      bucket: (json['Bucket'] as String?) ?? '',
       key: json['Key'] as String?,
     );
   }
@@ -1366,16 +1366,17 @@ class AssetEntry {
 
   factory AssetEntry.fromJson(Map<String, dynamic> json) {
     return AssetEntry(
-      arn: json['Arn'] as String,
-      assetDetails:
-          AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
+      arn: (json['Arn'] as String?) ?? '',
+      assetDetails: AssetDetails.fromJson(
+          (json['AssetDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       assetType: AssetType.fromString((json['AssetType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      dataSetId: json['DataSetId'] as String,
-      id: json['Id'] as String,
-      name: json['Name'] as String,
-      revisionId: json['RevisionId'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       sourceId: json['SourceId'] as String?,
     );
   }
@@ -1421,8 +1422,8 @@ class AssetSourceEntry {
 
   factory AssetSourceEntry.fromJson(Map<String, dynamic> json) {
     return AssetSourceEntry(
-      bucket: json['Bucket'] as String,
-      key: json['Key'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
+      key: (json['Key'] as String?) ?? '',
     );
   }
 
@@ -1473,7 +1474,7 @@ class AutoExportRevisionDestinationEntry {
   factory AutoExportRevisionDestinationEntry.fromJson(
       Map<String, dynamic> json) {
     return AutoExportRevisionDestinationEntry(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       keyPattern: json['KeyPattern'] as String?,
     );
   }
@@ -1506,7 +1507,8 @@ class AutoExportRevisionToS3RequestDetails {
       Map<String, dynamic> json) {
     return AutoExportRevisionToS3RequestDetails(
       revisionDestination: AutoExportRevisionDestinationEntry.fromJson(
-          json['RevisionDestination'] as Map<String, dynamic>),
+          (json['RevisionDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       encryption: json['Encryption'] != null
           ? ExportServerSideEncryption.fromJson(
               json['Encryption'] as Map<String, dynamic>)
@@ -1945,9 +1947,10 @@ class CreateS3DataAccessFromS3BucketResponseDetails {
       Map<String, dynamic> json) {
     return CreateS3DataAccessFromS3BucketResponseDetails(
       assetSource: S3DataAccessAssetSourceEntry.fromJson(
-          json['AssetSource'] as Map<String, dynamic>),
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+          (json['AssetSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
     );
   }
 
@@ -2014,14 +2017,14 @@ class DataSetEntry {
 
   factory DataSetEntry.fromJson(Map<String, dynamic> json) {
     return DataSetEntry(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       assetType: AssetType.fromString((json['AssetType'] as String)),
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      description: json['Description'] as String,
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       origin: Origin.fromString((json['Origin'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       originDetails: json['OriginDetails'] != null
           ? OriginDetails.fromJson(
               json['OriginDetails'] as Map<String, dynamic>)
@@ -2085,7 +2088,7 @@ class DatabaseLFTagPolicy {
 
   factory DatabaseLFTagPolicy.fromJson(Map<String, dynamic> json) {
     return DatabaseLFTagPolicy(
-      expression: (json['Expression'] as List)
+      expression: ((json['Expression'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2116,11 +2119,11 @@ class DatabaseLFTagPolicyAndPermissions {
   factory DatabaseLFTagPolicyAndPermissions.fromJson(
       Map<String, dynamic> json) {
     return DatabaseLFTagPolicyAndPermissions(
-      expression: (json['Expression'] as List)
+      expression: ((json['Expression'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      permissions: (json['Permissions'] as List)
+      permissions: ((json['Permissions'] as List?) ?? const [])
           .nonNulls
           .map((e) => DatabaseLFTagPolicyPermission.fromString((e as String)))
           .toList(),
@@ -2273,12 +2276,14 @@ class EventActionEntry {
 
   factory EventActionEntry.fromJson(Map<String, dynamic> json) {
     return EventActionEntry(
-      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
-      arn: json['Arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      event: Event.fromJson(json['Event'] as Map<String, dynamic>),
-      id: json['Id'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      action: Action.fromJson((json['Action'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      arn: (json['Arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      event: Event.fromJson((json['Event'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      id: (json['Id'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
     );
   }
 
@@ -2357,9 +2362,9 @@ class ExportAssetToSignedUrlResponseDetails {
   factory ExportAssetToSignedUrlResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ExportAssetToSignedUrlResponseDetails(
-      assetId: json['AssetId'] as String,
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+      assetId: (json['AssetId'] as String?) ?? '',
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
       signedUrl: json['SignedUrl'] as String?,
       signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
     );
@@ -2440,12 +2445,12 @@ class ExportAssetsToS3ResponseDetails {
 
   factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) {
     return ExportAssetsToS3ResponseDetails(
-      assetDestinations: (json['AssetDestinations'] as List)
+      assetDestinations: ((json['AssetDestinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetDestinationEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
       encryption: json['Encryption'] != null
           ? ExportServerSideEncryption.fromJson(
               json['Encryption'] as Map<String, dynamic>)
@@ -2520,12 +2525,13 @@ class ExportRevisionsToS3ResponseDetails {
   factory ExportRevisionsToS3ResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ExportRevisionsToS3ResponseDetails(
-      dataSetId: json['DataSetId'] as String,
-      revisionDestinations: (json['RevisionDestinations'] as List)
-          .nonNulls
-          .map((e) =>
-              RevisionDestinationEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionDestinations:
+          ((json['RevisionDestinations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  RevisionDestinationEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
       encryption: json['Encryption'] != null
           ? ExportServerSideEncryption.fromJson(
               json['Encryption'] as Map<String, dynamic>)
@@ -3147,16 +3153,18 @@ class ImportAssetFromApiGatewayApiResponseDetails {
   factory ImportAssetFromApiGatewayApiResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetFromApiGatewayApiResponseDetails(
-      apiId: json['ApiId'] as String,
-      apiName: json['ApiName'] as String,
-      apiSpecificationMd5Hash: json['ApiSpecificationMd5Hash'] as String,
-      apiSpecificationUploadUrl: json['ApiSpecificationUploadUrl'] as String,
+      apiId: (json['ApiId'] as String?) ?? '',
+      apiName: (json['ApiName'] as String?) ?? '',
+      apiSpecificationMd5Hash:
+          (json['ApiSpecificationMd5Hash'] as String?) ?? '',
+      apiSpecificationUploadUrl:
+          (json['ApiSpecificationUploadUrl'] as String?) ?? '',
       apiSpecificationUploadUrlExpiresAt: nonNullableTimeStampFromJson(
-          json['ApiSpecificationUploadUrlExpiresAt'] as Object),
-      dataSetId: json['DataSetId'] as String,
+          json['ApiSpecificationUploadUrlExpiresAt'] ?? 0),
+      dataSetId: (json['DataSetId'] as String?) ?? '',
       protocolType: ProtocolType.fromString((json['ProtocolType'] as String)),
-      revisionId: json['RevisionId'] as String,
-      stage: json['Stage'] as String,
+      revisionId: (json['RevisionId'] as String?) ?? '',
+      stage: (json['Stage'] as String?) ?? '',
       apiDescription: json['ApiDescription'] as String?,
       apiKey: json['ApiKey'] as String?,
     );
@@ -3204,7 +3212,7 @@ class ImportAssetFromSignedUrlJobErrorDetails {
   factory ImportAssetFromSignedUrlJobErrorDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetFromSignedUrlJobErrorDetails(
-      assetName: json['AssetName'] as String,
+      assetName: (json['AssetName'] as String?) ?? '',
     );
   }
 
@@ -3287,9 +3295,9 @@ class ImportAssetFromSignedUrlResponseDetails {
   factory ImportAssetFromSignedUrlResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetFromSignedUrlResponseDetails(
-      assetName: json['AssetName'] as String,
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+      assetName: (json['AssetName'] as String?) ?? '',
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
       md5Hash: json['Md5Hash'] as String?,
       signedUrl: json['SignedUrl'] as String?,
       signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
@@ -3398,10 +3406,10 @@ class ImportAssetsFromLakeFormationTagPolicyResponseDetails {
   factory ImportAssetsFromLakeFormationTagPolicyResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetsFromLakeFormationTagPolicyResponseDetails(
-      catalogId: json['CatalogId'] as String,
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
-      roleArn: json['RoleArn'] as String,
+      catalogId: (json['CatalogId'] as String?) ?? '',
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       database: json['Database'] != null
           ? DatabaseLFTagPolicyAndPermissions.fromJson(
               json['Database'] as Map<String, dynamic>)
@@ -3480,13 +3488,13 @@ class ImportAssetsFromRedshiftDataSharesResponseDetails {
   factory ImportAssetsFromRedshiftDataSharesResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetsFromRedshiftDataSharesResponseDetails(
-      assetSources: (json['AssetSources'] as List)
+      assetSources: ((json['AssetSources'] as List?) ?? const [])
           .nonNulls
           .map((e) => RedshiftDataShareAssetSourceEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
     );
   }
 
@@ -3551,12 +3559,12 @@ class ImportAssetsFromS3ResponseDetails {
   factory ImportAssetsFromS3ResponseDetails.fromJson(
       Map<String, dynamic> json) {
     return ImportAssetsFromS3ResponseDetails(
-      assetSources: (json['AssetSources'] as List)
+      assetSources: ((json['AssetSources'] as List?) ?? const [])
           .nonNulls
           .map((e) => AssetSourceEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dataSetId: json['DataSetId'] as String,
-      revisionId: json['RevisionId'] as String,
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
     );
   }
 
@@ -3615,14 +3623,15 @@ class JobEntry {
 
   factory JobEntry.fromJson(Map<String, dynamic> json) {
     return JobEntry(
-      arn: json['Arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      details:
-          ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
-      id: json['Id'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      details: ResponseDetails.fromJson(
+          (json['Details'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['Id'] as String?) ?? '',
       state: State.fromString((json['State'] as String)),
       type: Type.fromString((json['Type'] as String)),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       errors: (json['Errors'] as List?)
           ?.nonNulls
           .map((e) => JobError.fromJson(e as Map<String, dynamic>))
@@ -3688,7 +3697,7 @@ class JobError {
   factory JobError.fromJson(Map<String, dynamic> json) {
     return JobError(
       code: Code.fromString((json['Code'] as String)),
-      message: json['Message'] as String,
+      message: (json['Message'] as String?) ?? '',
       details: json['Details'] != null
           ? Details.fromJson(json['Details'] as Map<String, dynamic>)
           : null,
@@ -3773,7 +3782,7 @@ class KmsKeyToGrant {
 
   factory KmsKeyToGrant.fromJson(Map<String, dynamic> json) {
     return KmsKeyToGrant(
-      kmsKeyArn: json['KmsKeyArn'] as String,
+      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
     );
   }
 
@@ -3869,9 +3878,11 @@ class LFTag {
 
   factory LFTag.fromJson(Map<String, dynamic> json) {
     return LFTag(
-      tagKey: json['TagKey'] as String,
-      tagValues:
-          (json['TagValues'] as List).nonNulls.map((e) => e as String).toList(),
+      tagKey: (json['TagKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -3904,9 +3915,10 @@ class LFTagPolicyDetails {
 
   factory LFTagPolicyDetails.fromJson(Map<String, dynamic> json) {
     return LFTagPolicyDetails(
-      catalogId: json['CatalogId'] as String,
+      catalogId: (json['CatalogId'] as String?) ?? '',
       resourceDetails: LFResourceDetails.fromJson(
-          json['ResourceDetails'] as Map<String, dynamic>),
+          (json['ResourceDetails'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       resourceType: LFResourceType.fromString((json['ResourceType'] as String)),
     );
   }
@@ -3949,12 +3961,13 @@ class LakeFormationDataPermissionAsset {
     return LakeFormationDataPermissionAsset(
       lakeFormationDataPermissionDetails:
           LakeFormationDataPermissionDetails.fromJson(
-              json['LakeFormationDataPermissionDetails']
-                  as Map<String, dynamic>),
+              (json['LakeFormationDataPermissionDetails']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
       lakeFormationDataPermissionType:
           LakeFormationDataPermissionType.fromString(
               (json['LakeFormationDataPermissionType'] as String)),
-      permissions: (json['Permissions'] as List)
+      permissions: ((json['Permissions'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFPermission.fromString((e as String)))
           .toList(),
@@ -4338,7 +4351,7 @@ class RedshiftDataShareAsset {
 
   factory RedshiftDataShareAsset.fromJson(Map<String, dynamic> json) {
     return RedshiftDataShareAsset(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
     );
   }
 
@@ -4362,7 +4375,7 @@ class RedshiftDataShareAssetSourceEntry {
   factory RedshiftDataShareAssetSourceEntry.fromJson(
       Map<String, dynamic> json) {
     return RedshiftDataShareAssetSourceEntry(
-      dataShareArn: json['DataShareArn'] as String,
+      dataShareArn: (json['DataShareArn'] as String?) ?? '',
     );
   }
 
@@ -4655,8 +4668,8 @@ class RevisionDestinationEntry {
 
   factory RevisionDestinationEntry.fromJson(Map<String, dynamic> json) {
     return RevisionDestinationEntry(
-      bucket: json['Bucket'] as String,
-      revisionId: json['RevisionId'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
+      revisionId: (json['RevisionId'] as String?) ?? '',
       keyPattern: json['KeyPattern'] as String?,
     );
   }
@@ -4735,11 +4748,11 @@ class RevisionEntry {
 
   factory RevisionEntry.fromJson(Map<String, dynamic> json) {
     return RevisionEntry(
-      arn: json['Arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
-      dataSetId: json['DataSetId'] as String,
-      id: json['Id'] as String,
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
+      arn: (json['Arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      dataSetId: (json['DataSetId'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
       comment: json['Comment'] as String?,
       finalized: json['Finalized'] as bool?,
       revocationComment: json['RevocationComment'] as String?,
@@ -4788,7 +4801,7 @@ class RevisionPublished {
 
   factory RevisionPublished.fromJson(Map<String, dynamic> json) {
     return RevisionPublished(
-      dataSetId: json['DataSetId'] as String,
+      dataSetId: (json['DataSetId'] as String?) ?? '',
     );
   }
 
@@ -4940,7 +4953,7 @@ class S3DataAccessAsset {
 
   factory S3DataAccessAsset.fromJson(Map<String, dynamic> json) {
     return S3DataAccessAsset(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       keyPrefixes: (json['KeyPrefixes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -4998,7 +5011,7 @@ class S3DataAccessAssetSourceEntry {
 
   factory S3DataAccessAssetSourceEntry.fromJson(Map<String, dynamic> json) {
     return S3DataAccessAssetSourceEntry(
-      bucket: json['Bucket'] as String,
+      bucket: (json['Bucket'] as String?) ?? '',
       keyPrefixes: (json['KeyPrefixes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5062,7 +5075,7 @@ class S3SnapshotAsset {
 
   factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) {
     return S3SnapshotAsset(
-      size: json['Size'] as double,
+      size: (json['Size'] as double?) ?? 0,
     );
   }
 
@@ -5264,7 +5277,7 @@ class TableLFTagPolicy {
 
   factory TableLFTagPolicy.fromJson(Map<String, dynamic> json) {
     return TableLFTagPolicy(
-      expression: (json['Expression'] as List)
+      expression: ((json['Expression'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5294,11 +5307,11 @@ class TableLFTagPolicyAndPermissions {
 
   factory TableLFTagPolicyAndPermissions.fromJson(Map<String, dynamic> json) {
     return TableLFTagPolicyAndPermissions(
-      expression: (json['Expression'] as List)
+      expression: ((json['Expression'] as List?) ?? const [])
           .nonNulls
           .map((e) => LFTag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      permissions: (json['Permissions'] as List)
+      permissions: ((json['Permissions'] as List?) ?? const [])
           .nonNulls
           .map((e) => TableTagPolicyLFPermission.fromString((e as String)))
           .toList(),

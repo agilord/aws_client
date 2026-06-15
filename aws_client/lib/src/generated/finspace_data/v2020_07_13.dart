@@ -2210,7 +2210,7 @@ class DataViewDestinationTypeParams {
 
   factory DataViewDestinationTypeParams.fromJson(Map<String, dynamic> json) {
     return DataViewDestinationTypeParams(
-      destinationType: json['destinationType'] as String,
+      destinationType: (json['destinationType'] as String?) ?? '',
       s3DestinationExportFileFormat:
           (json['s3DestinationExportFileFormat'] as String?)
               ?.let(ExportFileFormat.fromString),
@@ -4035,8 +4035,8 @@ class S3Location {
 
   factory S3Location.fromJson(Map<String, dynamic> json) {
     return S3Location(
-      bucket: json['bucket'] as String,
-      key: json['key'] as String,
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
     );
   }
 

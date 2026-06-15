@@ -3771,9 +3771,10 @@ class AccessControlAttribute {
 
   factory AccessControlAttribute.fromJson(Map<String, dynamic> json) {
     return AccessControlAttribute(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       value: AccessControlAttributeValue.fromJson(
-          json['Value'] as Map<String, dynamic>),
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3802,8 +3803,10 @@ class AccessControlAttributeValue {
 
   factory AccessControlAttributeValue.fromJson(Map<String, dynamic> json) {
     return AccessControlAttributeValue(
-      source:
-          (json['Source'] as List).nonNulls.map((e) => e as String).toList(),
+      source: ((json['Source'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -4167,8 +4170,8 @@ class ApplicationAssignment {
 
   factory ApplicationAssignment.fromJson(Map<String, dynamic> json) {
     return ApplicationAssignment(
-      applicationArn: json['ApplicationArn'] as String,
-      principalId: json['PrincipalId'] as String,
+      applicationArn: (json['ApplicationArn'] as String?) ?? '',
+      principalId: (json['PrincipalId'] as String?) ?? '',
       principalType:
           PrincipalType.fromString((json['PrincipalType'] as String)),
     );
@@ -4251,7 +4254,7 @@ class ApplicationProvider {
 
   factory ApplicationProvider.fromJson(Map<String, dynamic> json) {
     return ApplicationProvider(
-      applicationProviderArn: json['ApplicationProviderArn'] as String,
+      applicationProviderArn: (json['ApplicationProviderArn'] as String?) ?? '',
       displayData: json['DisplayData'] != null
           ? DisplayData.fromJson(json['DisplayData'] as Map<String, dynamic>)
           : null,
@@ -4688,7 +4691,7 @@ class CustomerManagedPolicyReference {
 
   factory CustomerManagedPolicyReference.fromJson(Map<String, dynamic> json) {
     return CustomerManagedPolicyReference(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       path: json['Path'] as String?,
     );
   }
@@ -4960,7 +4963,7 @@ class DescribeApplicationProviderResponse {
   factory DescribeApplicationProviderResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeApplicationProviderResponse(
-      applicationProviderArn: json['ApplicationProviderArn'] as String,
+      applicationProviderArn: (json['ApplicationProviderArn'] as String?) ?? '',
       displayData: json['DisplayData'] != null
           ? DisplayData.fromJson(json['DisplayData'] as Map<String, dynamic>)
           : null,
@@ -5391,7 +5394,7 @@ class GetApplicationAccessScopeResponse {
   factory GetApplicationAccessScopeResponse.fromJson(
       Map<String, dynamic> json) {
     return GetApplicationAccessScopeResponse(
-      scope: json['Scope'] as String,
+      scope: (json['Scope'] as String?) ?? '',
       authorizedTargets: (json['AuthorizedTargets'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -5424,7 +5427,7 @@ class GetApplicationAssignmentConfigurationResponse {
   factory GetApplicationAssignmentConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetApplicationAssignmentConfigurationResponse(
-      assignmentRequired: json['AssignmentRequired'] as bool,
+      assignmentRequired: (json['AssignmentRequired'] as bool?) ?? false,
     );
   }
 
@@ -5473,7 +5476,8 @@ class GetApplicationGrantResponse {
 
   factory GetApplicationGrantResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationGrantResponse(
-      grant: Grant.fromJson(json['Grant'] as Map<String, dynamic>),
+      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5613,7 +5617,8 @@ class GrantItem {
 
   factory GrantItem.fromJson(Map<String, dynamic> json) {
     return GrantItem(
-      grant: Grant.fromJson(json['Grant'] as Map<String, dynamic>),
+      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
       grantType: GrantType.fromString((json['GrantType'] as String)),
     );
   }
@@ -5658,7 +5663,8 @@ class IamAuthenticationMethod {
   factory IamAuthenticationMethod.fromJson(Map<String, dynamic> json) {
     return IamAuthenticationMethod(
       actorPolicy: ActorPolicyDocument.fromJson(
-          json['ActorPolicy'] as Map<String, dynamic>),
+          (json['ActorPolicy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5684,7 +5690,8 @@ class InstanceAccessControlAttributeConfiguration {
   factory InstanceAccessControlAttributeConfiguration.fromJson(
       Map<String, dynamic> json) {
     return InstanceAccessControlAttributeConfiguration(
-      accessControlAttributes: (json['AccessControlAttributes'] as List)
+      accessControlAttributes: ((json['AccessControlAttributes'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => AccessControlAttribute.fromJson(e as Map<String, dynamic>))
@@ -6064,7 +6071,7 @@ class ListApplicationAccessScopesResponse {
   factory ListApplicationAccessScopesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListApplicationAccessScopesResponse(
-      scopes: (json['Scopes'] as List)
+      scopes: ((json['Scopes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScopeDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6237,7 +6244,7 @@ class ListApplicationGrantsResponse {
 
   factory ListApplicationGrantsResponse.fromJson(Map<String, dynamic> json) {
     return ListApplicationGrantsResponse(
-      grants: (json['Grants'] as List)
+      grants: ((json['Grants'] as List?) ?? const [])
           .nonNulls
           .map((e) => GrantItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6674,9 +6681,10 @@ class OidcJwtConfiguration {
 
   factory OidcJwtConfiguration.fromJson(Map<String, dynamic> json) {
     return OidcJwtConfiguration(
-      claimAttributePath: json['ClaimAttributePath'] as String,
-      identityStoreAttributePath: json['IdentityStoreAttributePath'] as String,
-      issuerUrl: json['IssuerUrl'] as String,
+      claimAttributePath: (json['ClaimAttributePath'] as String?) ?? '',
+      identityStoreAttributePath:
+          (json['IdentityStoreAttributePath'] as String?) ?? '',
+      issuerUrl: (json['IssuerUrl'] as String?) ?? '',
       jwksRetrievalOption: JwksRetrievalOption.fromString(
           (json['JwksRetrievalOption'] as String)),
     );
@@ -7207,7 +7215,7 @@ class ScopeDetails {
 
   factory ScopeDetails.fromJson(Map<String, dynamic> json) {
     return ScopeDetails(
-      scope: json['Scope'] as String,
+      scope: (json['Scope'] as String?) ?? '',
       authorizedTargets: (json['AuthorizedTargets'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -7318,8 +7326,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

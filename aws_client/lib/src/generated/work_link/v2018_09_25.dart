@@ -1817,8 +1817,8 @@ class DomainSummary {
 
   factory DomainSummary.fromJson(Map<String, dynamic> json) {
     return DomainSummary(
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      domainName: json['DomainName'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      domainName: (json['DomainName'] as String?) ?? '',
       domainStatus: DomainStatus.fromString((json['DomainStatus'] as String)),
       displayName: json['DisplayName'] as String?,
     );

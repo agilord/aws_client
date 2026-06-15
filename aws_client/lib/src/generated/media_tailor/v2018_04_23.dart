@@ -1734,7 +1734,7 @@ class AdBreak {
 
   factory AdBreak.fromJson(Map<String, dynamic> json) {
     return AdBreak(
-      offsetMillis: json['OffsetMillis'] as int,
+      offsetMillis: (json['OffsetMillis'] as int?) ?? 0,
       adBreakMetadata: (json['AdBreakMetadata'] as List?)
           ?.nonNulls
           .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
@@ -1787,7 +1787,7 @@ class AdBreakOpportunity {
 
   factory AdBreakOpportunity.fromJson(Map<String, dynamic> json) {
     return AdBreakOpportunity(
-      offsetMillis: json['OffsetMillis'] as int,
+      offsetMillis: (json['OffsetMillis'] as int?) ?? 0,
     );
   }
 
@@ -1877,15 +1877,15 @@ class Alert {
 
   factory Alert.fromJson(Map<String, dynamic> json) {
     return Alert(
-      alertCode: json['AlertCode'] as String,
-      alertMessage: json['AlertMessage'] as String,
+      alertCode: (json['AlertCode'] as String?) ?? '',
+      alertMessage: (json['AlertMessage'] as String?) ?? '',
       lastModifiedTime:
-          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
-      relatedResourceArns: (json['RelatedResourceArns'] as List)
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] ?? 0),
+      relatedResourceArns: ((json['RelatedResourceArns'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
       category: (json['Category'] as String?)?.let(AlertCategory.fromString),
     );
   }
@@ -2069,7 +2069,7 @@ class AvailMatchingCriteria {
 
   factory AvailMatchingCriteria.fromJson(Map<String, dynamic> json) {
     return AvailMatchingCriteria(
-      dynamicVariable: json['DynamicVariable'] as String,
+      dynamicVariable: (json['DynamicVariable'] as String?) ?? '',
       operator: Operator.fromString((json['Operator'] as String)),
     );
   }
@@ -2287,17 +2287,18 @@ class Channel {
 
   factory Channel.fromJson(Map<String, dynamic> json) {
     return Channel(
-      arn: json['Arn'] as String,
-      channelName: json['ChannelName'] as String,
-      channelState: json['ChannelState'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      channelState: (json['ChannelState'] as String?) ?? '',
       logConfiguration: LogConfigurationForChannel.fromJson(
-          json['LogConfiguration'] as Map<String, dynamic>),
-      outputs: (json['Outputs'] as List)
+          (json['LogConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      outputs: ((json['Outputs'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      playbackMode: json['PlaybackMode'] as String,
-      tier: json['Tier'] as String,
+      playbackMode: (json['PlaybackMode'] as String?) ?? '',
+      tier: (json['Tier'] as String?) ?? '',
       audiences: (json['Audiences'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -2439,7 +2440,7 @@ class ConfigureLogsForPlaybackConfigurationResponse {
   factory ConfigureLogsForPlaybackConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return ConfigureLogsForPlaybackConfigurationResponse(
-      percentEnabled: json['PercentEnabled'] as int,
+      percentEnabled: (json['PercentEnabled'] as int?) ?? 0,
       playbackConfigurationName: json['PlaybackConfigurationName'] as String?,
     );
   }
@@ -3361,7 +3362,8 @@ class DescribeChannelResponse {
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
     return DescribeChannelResponse(
       logConfiguration: LogConfigurationForChannel.fromJson(
-          json['LogConfiguration'] as Map<String, dynamic>),
+          (json['LogConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       arn: json['Arn'] as String?,
       audiences: (json['Audiences'] as List?)
           ?.nonNulls
@@ -4268,7 +4270,7 @@ class HttpConfiguration {
 
   factory HttpConfiguration.fromJson(Map<String, dynamic> json) {
     return HttpConfiguration(
-      baseUrl: json['BaseUrl'] as String,
+      baseUrl: (json['BaseUrl'] as String?) ?? '',
     );
   }
 
@@ -4302,8 +4304,8 @@ class HttpPackageConfiguration {
 
   factory HttpPackageConfiguration.fromJson(Map<String, dynamic> json) {
     return HttpPackageConfiguration(
-      path: json['Path'] as String,
-      sourceGroup: json['SourceGroup'] as String,
+      path: (json['Path'] as String?) ?? '',
+      sourceGroup: (json['SourceGroup'] as String?) ?? '',
       type: Type.fromString((json['Type'] as String)),
     );
   }
@@ -4360,8 +4362,8 @@ class KeyValuePair {
 
   factory KeyValuePair.fromJson(Map<String, dynamic> json) {
     return KeyValuePair(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4713,14 +4715,15 @@ class LiveSource {
 
   factory LiveSource.fromJson(Map<String, dynamic> json) {
     return LiveSource(
-      arn: json['Arn'] as String,
-      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List)
-          .nonNulls
-          .map((e) =>
-              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      liveSourceName: json['LiveSourceName'] as String,
-      sourceLocationName: json['SourceLocationName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      httpPackageConfigurations:
+          ((json['HttpPackageConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      liveSourceName: (json['LiveSourceName'] as String?) ?? '',
+      sourceLocationName: (json['SourceLocationName'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -4770,7 +4773,7 @@ class LogConfiguration {
 
   factory LogConfiguration.fromJson(Map<String, dynamic> json) {
     return LogConfiguration(
-      percentEnabled: json['PercentEnabled'] as int,
+      percentEnabled: (json['PercentEnabled'] as int?) ?? 0,
     );
   }
 
@@ -5203,7 +5206,7 @@ class PrefetchConsumption {
 
   factory PrefetchConsumption.fromJson(Map<String, dynamic> json) {
     return PrefetchConsumption(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
       availMatchingCriteria: (json['AvailMatchingCriteria'] as List?)
           ?.nonNulls
           .map((e) => AvailMatchingCriteria.fromJson(e as Map<String, dynamic>))
@@ -5257,7 +5260,7 @@ class PrefetchRetrieval {
 
   factory PrefetchRetrieval.fromJson(Map<String, dynamic> json) {
     return PrefetchRetrieval(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
       dynamicVariables: (json['DynamicVariables'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       startTime: timeStampFromJson(json['StartTime']),
@@ -5319,13 +5322,16 @@ class PrefetchSchedule {
 
   factory PrefetchSchedule.fromJson(Map<String, dynamic> json) {
     return PrefetchSchedule(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       consumption: PrefetchConsumption.fromJson(
-          json['Consumption'] as Map<String, dynamic>),
-      name: json['Name'] as String,
-      playbackConfigurationName: json['PlaybackConfigurationName'] as String,
-      retrieval:
-          PrefetchRetrieval.fromJson(json['Retrieval'] as Map<String, dynamic>),
+          (json['Consumption'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
+      playbackConfigurationName:
+          (json['PlaybackConfigurationName'] as String?) ?? '',
+      retrieval: PrefetchRetrieval.fromJson(
+          (json['Retrieval'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       streamId: json['StreamId'] as String?,
     );
   }
@@ -5685,9 +5691,9 @@ class ResponseOutputItem {
 
   factory ResponseOutputItem.fromJson(Map<String, dynamic> json) {
     return ResponseOutputItem(
-      manifestName: json['ManifestName'] as String,
-      playbackUrl: json['PlaybackUrl'] as String,
-      sourceGroup: json['SourceGroup'] as String,
+      manifestName: (json['ManifestName'] as String?) ?? '',
+      playbackUrl: (json['PlaybackUrl'] as String?) ?? '',
+      sourceGroup: (json['SourceGroup'] as String?) ?? '',
       dashPlaylistSettings: json['DashPlaylistSettings'] != null
           ? DashPlaylistSettings.fromJson(
               json['DashPlaylistSettings'] as Map<String, dynamic>)
@@ -5839,10 +5845,10 @@ class ScheduleEntry {
 
   factory ScheduleEntry.fromJson(Map<String, dynamic> json) {
     return ScheduleEntry(
-      arn: json['Arn'] as String,
-      channelName: json['ChannelName'] as String,
-      programName: json['ProgramName'] as String,
-      sourceLocationName: json['SourceLocationName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      channelName: (json['ChannelName'] as String?) ?? '',
+      programName: (json['ProgramName'] as String?) ?? '',
+      sourceLocationName: (json['SourceLocationName'] as String?) ?? '',
       approximateDurationSeconds: json['ApproximateDurationSeconds'] as int?,
       approximateStartTime: timeStampFromJson(json['ApproximateStartTime']),
       audiences: (json['Audiences'] as List?)
@@ -6180,10 +6186,11 @@ class SourceLocation {
 
   factory SourceLocation.fromJson(Map<String, dynamic> json) {
     return SourceLocation(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       httpConfiguration: HttpConfiguration.fromJson(
-          json['HttpConfiguration'] as Map<String, dynamic>),
-      sourceLocationName: json['SourceLocationName'] as String,
+          (json['HttpConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      sourceLocationName: (json['SourceLocationName'] as String?) ?? '',
       accessConfiguration: json['AccessConfiguration'] != null
           ? AccessConfiguration.fromJson(
               json['AccessConfiguration'] as Map<String, dynamic>)
@@ -6344,7 +6351,7 @@ class TimeShiftConfiguration {
 
   factory TimeShiftConfiguration.fromJson(Map<String, dynamic> json) {
     return TimeShiftConfiguration(
-      maxTimeDelaySeconds: json['MaxTimeDelaySeconds'] as int,
+      maxTimeDelaySeconds: (json['MaxTimeDelaySeconds'] as int?) ?? 0,
     );
   }
 
@@ -7062,14 +7069,15 @@ class VodSource {
 
   factory VodSource.fromJson(Map<String, dynamic> json) {
     return VodSource(
-      arn: json['Arn'] as String,
-      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List)
-          .nonNulls
-          .map((e) =>
-              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sourceLocationName: json['SourceLocationName'] as String,
-      vodSourceName: json['VodSourceName'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      httpPackageConfigurations:
+          ((json['HttpPackageConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      sourceLocationName: (json['SourceLocationName'] as String?) ?? '',
+      vodSourceName: (json['VodSourceName'] as String?) ?? '',
       creationTime: timeStampFromJson(json['CreationTime']),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       tags: (json['tags'] as Map<String, dynamic>?)

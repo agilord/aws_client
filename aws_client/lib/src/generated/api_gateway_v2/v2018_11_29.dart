@@ -3486,9 +3486,10 @@ class Api {
 
   factory Api.fromJson(Map<String, dynamic> json) {
     return Api(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       protocolType: ProtocolType.fromString((json['protocolType'] as String)),
-      routeSelectionExpression: json['routeSelectionExpression'] as String,
+      routeSelectionExpression:
+          (json['routeSelectionExpression'] as String?) ?? '',
       apiEndpoint: json['apiEndpoint'] as String?,
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiId: json['apiId'] as String?,
@@ -3578,8 +3579,8 @@ class ApiMapping {
 
   factory ApiMapping.fromJson(Map<String, dynamic> json) {
     return ApiMapping(
-      apiId: json['apiId'] as String,
-      stage: json['stage'] as String,
+      apiId: (json['apiId'] as String?) ?? '',
+      stage: (json['stage'] as String?) ?? '',
       apiMappingId: json['apiMappingId'] as String?,
       apiMappingKey: json['apiMappingKey'] as String?,
     );
@@ -3723,7 +3724,7 @@ class Authorizer {
 
   factory Authorizer.fromJson(Map<String, dynamic> json) {
     return Authorizer(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
       authorizerId: json['authorizerId'] as String?,
       authorizerPayloadFormatVersion:
@@ -5364,7 +5365,7 @@ class DomainName {
 
   factory DomainName.fromJson(Map<String, dynamic> json) {
     return DomainName(
-      domainName: json['domainName'] as String,
+      domainName: (json['domainName'] as String?) ?? '',
       apiMappingSelectionExpression:
           json['apiMappingSelectionExpression'] as String?,
       domainNameConfigurations: (json['domainNameConfigurations'] as List?)
@@ -7855,7 +7856,7 @@ class IntegrationResponse {
 
   factory IntegrationResponse.fromJson(Map<String, dynamic> json) {
     return IntegrationResponse(
-      integrationResponseKey: json['integrationResponseKey'] as String,
+      integrationResponseKey: (json['integrationResponseKey'] as String?) ?? '',
       contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
           ?.let(ContentHandlingStrategy.fromString),
       integrationResponseId: json['integrationResponseId'] as String?,
@@ -7996,7 +7997,7 @@ class Model {
 
   factory Model.fromJson(Map<String, dynamic> json) {
     return Model(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       contentType: json['contentType'] as String?,
       description: json['description'] as String?,
       modelId: json['modelId'] as String?,
@@ -8392,7 +8393,7 @@ class Route {
 
   factory Route.fromJson(Map<String, dynamic> json) {
     return Route(
-      routeKey: json['routeKey'] as String,
+      routeKey: (json['routeKey'] as String?) ?? '',
       apiGatewayManaged: json['apiGatewayManaged'] as bool?,
       apiKeyRequired: json['apiKeyRequired'] as bool?,
       authorizationScopes: (json['authorizationScopes'] as List?)
@@ -8481,7 +8482,7 @@ class RouteResponse {
 
   factory RouteResponse.fromJson(Map<String, dynamic> json) {
     return RouteResponse(
-      routeResponseKey: json['routeResponseKey'] as String,
+      routeResponseKey: (json['routeResponseKey'] as String?) ?? '',
       modelSelectionExpression: json['modelSelectionExpression'] as String?,
       responseModels: (json['responseModels'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -8657,7 +8658,7 @@ class Stage {
 
   factory Stage.fromJson(Map<String, dynamic> json) {
     return Stage(
-      stageName: json['stageName'] as String,
+      stageName: (json['stageName'] as String?) ?? '',
       accessLogSettings: json['accessLogSettings'] != null
           ? AccessLogSettings.fromJson(
               json['accessLogSettings'] as Map<String, dynamic>)
@@ -10166,14 +10167,16 @@ class VpcLink {
 
   factory VpcLink.fromJson(Map<String, dynamic> json) {
     return VpcLink(
-      name: json['name'] as String,
-      securityGroupIds: (json['securityGroupIds'] as List)
+      name: (json['name'] as String?) ?? '',
+      securityGroupIds: ((json['securityGroupIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
-      vpcLinkId: json['vpcLinkId'] as String,
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcLinkId: (json['vpcLinkId'] as String?) ?? '',
       createdDate: timeStampFromJson(json['createdDate']),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),

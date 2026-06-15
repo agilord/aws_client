@@ -4483,10 +4483,11 @@ class ElasticChannelConfiguration {
 
   factory ElasticChannelConfiguration.fromJson(Map<String, dynamic> json) {
     return ElasticChannelConfiguration(
-      maximumSubChannels: json['MaximumSubChannels'] as int,
-      minimumMembershipPercentage: json['MinimumMembershipPercentage'] as int,
+      maximumSubChannels: (json['MaximumSubChannels'] as int?) ?? 0,
+      minimumMembershipPercentage:
+          (json['MinimumMembershipPercentage'] as int?) ?? 0,
       targetMembershipsPerSubChannel:
-          json['TargetMembershipsPerSubChannel'] as int,
+          (json['TargetMembershipsPerSubChannel'] as int?) ?? 0,
     );
   }
 
@@ -4561,7 +4562,7 @@ class ExpirationSettings {
     return ExpirationSettings(
       expirationCriterion: ExpirationCriterion.fromString(
           (json['ExpirationCriterion'] as String)),
-      expirationDays: json['ExpirationDays'] as int,
+      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
     );
   }
 
@@ -4797,7 +4798,7 @@ class LambdaConfiguration {
     return LambdaConfiguration(
       invocationType:
           InvocationType.fromString((json['InvocationType'] as String)),
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }
 
@@ -5314,11 +5315,12 @@ class Processor {
   factory Processor.fromJson(Map<String, dynamic> json) {
     return Processor(
       configuration: ProcessorConfiguration.fromJson(
-          json['Configuration'] as Map<String, dynamic>),
-      executionOrder: json['ExecutionOrder'] as int,
+          (json['Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionOrder: (json['ExecutionOrder'] as int?) ?? 0,
       fallbackAction:
           FallbackAction.fromString((json['FallbackAction'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -5347,8 +5349,9 @@ class ProcessorConfiguration {
 
   factory ProcessorConfiguration.fromJson(Map<String, dynamic> json) {
     return ProcessorConfiguration(
-      lambda:
-          LambdaConfiguration.fromJson(json['Lambda'] as Map<String, dynamic>),
+      lambda: LambdaConfiguration.fromJson(
+          (json['Lambda'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5764,7 +5767,7 @@ class StreamingConfiguration {
   factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
     return StreamingConfiguration(
       dataType: MessagingDataType.fromString((json['DataType'] as String)),
-      resourceArn: json['ResourceArn'] as String,
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
     );
   }
 
@@ -5823,8 +5826,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

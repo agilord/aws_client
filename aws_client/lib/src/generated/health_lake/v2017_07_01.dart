@@ -709,9 +709,9 @@ class CreateFHIRDatastoreResponse {
 
   factory CreateFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return CreateFHIRDatastoreResponse(
-      datastoreArn: json['DatastoreArn'] as String,
-      datastoreEndpoint: json['DatastoreEndpoint'] as String,
-      datastoreId: json['DatastoreId'] as String,
+      datastoreArn: (json['DatastoreArn'] as String?) ?? '',
+      datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
     );
@@ -825,9 +825,9 @@ class DatastoreProperties {
 
   factory DatastoreProperties.fromJson(Map<String, dynamic> json) {
     return DatastoreProperties(
-      datastoreArn: json['DatastoreArn'] as String,
-      datastoreEndpoint: json['DatastoreEndpoint'] as String,
-      datastoreId: json['DatastoreId'] as String,
+      datastoreArn: (json['DatastoreArn'] as String?) ?? '',
+      datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
       datastoreTypeVersion:
@@ -922,9 +922,9 @@ class DeleteFHIRDatastoreResponse {
 
   factory DeleteFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return DeleteFHIRDatastoreResponse(
-      datastoreArn: json['DatastoreArn'] as String,
-      datastoreEndpoint: json['DatastoreEndpoint'] as String,
-      datastoreId: json['DatastoreId'] as String,
+      datastoreArn: (json['DatastoreArn'] as String?) ?? '',
+      datastoreEndpoint: (json['DatastoreEndpoint'] as String?) ?? '',
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
       datastoreStatus:
           DatastoreStatus.fromString((json['DatastoreStatus'] as String)),
     );
@@ -957,7 +957,8 @@ class DescribeFHIRDatastoreResponse {
   factory DescribeFHIRDatastoreResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFHIRDatastoreResponse(
       datastoreProperties: DatastoreProperties.fromJson(
-          json['DatastoreProperties'] as Map<String, dynamic>),
+          (json['DatastoreProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -981,7 +982,8 @@ class DescribeFHIRExportJobResponse {
   factory DescribeFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFHIRExportJobResponse(
       exportJobProperties: ExportJobProperties.fromJson(
-          json['ExportJobProperties'] as Map<String, dynamic>),
+          (json['ExportJobProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1005,7 +1007,8 @@ class DescribeFHIRImportJobResponse {
   factory DescribeFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
     return DescribeFHIRImportJobResponse(
       importJobProperties: ImportJobProperties.fromJson(
-          json['ImportJobProperties'] as Map<String, dynamic>),
+          (json['ImportJobProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1111,12 +1114,13 @@ class ExportJobProperties {
 
   factory ExportJobProperties.fromJson(Map<String, dynamic> json) {
     return ExportJobProperties(
-      datastoreId: json['DatastoreId'] as String,
-      jobId: json['JobId'] as String,
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
+      jobId: (json['JobId'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       outputDataConfig: OutputDataConfig.fromJson(
-          json['OutputDataConfig'] as Map<String, dynamic>),
-      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] as Object),
+          (json['OutputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       jobName: json['JobName'] as String?,
@@ -1289,12 +1293,13 @@ class ImportJobProperties {
 
   factory ImportJobProperties.fromJson(Map<String, dynamic> json) {
     return ImportJobProperties(
-      datastoreId: json['DatastoreId'] as String,
+      datastoreId: (json['DatastoreId'] as String?) ?? '',
       inputDataConfig: InputDataConfig.fromJson(
-          json['InputDataConfig'] as Map<String, dynamic>),
-      jobId: json['JobId'] as String,
+          (json['InputDataConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      jobId: (json['JobId'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
-      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] as Object),
+      submitTime: nonNullableTimeStampFromJson(json['SubmitTime'] ?? 0),
       dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
       endTime: timeStampFromJson(json['EndTime']),
       jobName: json['JobName'] as String?,
@@ -1520,7 +1525,8 @@ class ListFHIRDatastoresResponse {
 
   factory ListFHIRDatastoresResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRDatastoresResponse(
-      datastorePropertiesList: (json['DatastorePropertiesList'] as List)
+      datastorePropertiesList: ((json['DatastorePropertiesList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => DatastoreProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1554,7 +1560,8 @@ class ListFHIRExportJobsResponse {
 
   factory ListFHIRExportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRExportJobsResponse(
-      exportJobPropertiesList: (json['ExportJobPropertiesList'] as List)
+      exportJobPropertiesList: ((json['ExportJobPropertiesList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ExportJobProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1588,7 +1595,8 @@ class ListFHIRImportJobsResponse {
 
   factory ListFHIRImportJobsResponse.fromJson(Map<String, dynamic> json) {
     return ListFHIRImportJobsResponse(
-      importJobPropertiesList: (json['ImportJobPropertiesList'] as List)
+      importJobPropertiesList: ((json['ImportJobPropertiesList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ImportJobProperties.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1715,8 +1723,8 @@ class S3Configuration {
 
   factory S3Configuration.fromJson(Map<String, dynamic> json) {
     return S3Configuration(
-      kmsKeyId: json['KmsKeyId'] as String,
-      s3Uri: json['S3Uri'] as String,
+      kmsKeyId: (json['KmsKeyId'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
 
@@ -1744,7 +1752,8 @@ class SseConfiguration {
   factory SseConfiguration.fromJson(Map<String, dynamic> json) {
     return SseConfiguration(
       kmsEncryptionConfig: KmsEncryptionConfig.fromJson(
-          json['KmsEncryptionConfig'] as Map<String, dynamic>),
+          (json['KmsEncryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1776,7 +1785,7 @@ class StartFHIRExportJobResponse {
 
   factory StartFHIRExportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRExportJobResponse(
-      jobId: json['JobId'] as String,
+      jobId: (json['JobId'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       datastoreId: json['DatastoreId'] as String?,
     );
@@ -1812,7 +1821,7 @@ class StartFHIRImportJobResponse {
 
   factory StartFHIRImportJobResponse.fromJson(Map<String, dynamic> json) {
     return StartFHIRImportJobResponse(
-      jobId: json['JobId'] as String,
+      jobId: (json['JobId'] as String?) ?? '',
       jobStatus: JobStatus.fromString((json['JobStatus'] as String)),
       datastoreId: json['DatastoreId'] as String?,
     );
@@ -1846,8 +1855,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

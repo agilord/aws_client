@@ -1545,13 +1545,12 @@ class AuditEvent {
 
   factory AuditEvent.fromJson(Map<String, dynamic> json) {
     return AuditEvent(
-      eventId: json['eventId'] as String,
-      fields: (json['fields'] as List)
+      eventId: (json['eventId'] as String?) ?? '',
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuditEventField.fromJson(e as Map<String, dynamic>))
           .toList(),
-      performedTime:
-          nonNullableTimeStampFromJson(json['performedTime'] as Object),
+      performedTime: nonNullableTimeStampFromJson(json['performedTime'] ?? 0),
       type: AuditEventType.fromString((json['type'] as String)),
       performedBy: json['performedBy'] != null
           ? AuditEventPerformedBy.fromJson(
@@ -1599,9 +1598,10 @@ class AuditEventField {
 
   factory AuditEventField.fromJson(Map<String, dynamic> json) {
     return AuditEventField(
-      eventFieldId: json['eventFieldId'] as String,
+      eventFieldId: (json['eventFieldId'] as String?) ?? '',
       newValue: AuditEventFieldValueUnion.fromJson(
-          json['newValue'] as Map<String, dynamic>),
+          (json['newValue'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       oldValue: json['oldValue'] != null
           ? AuditEventFieldValueUnion.fromJson(
               json['oldValue'] as Map<String, dynamic>)
@@ -1689,7 +1689,7 @@ class AuditEventPerformedBy {
 
   factory AuditEventPerformedBy.fromJson(Map<String, dynamic> json) {
     return AuditEventPerformedBy(
-      iamPrincipalArn: json['iamPrincipalArn'] as String,
+      iamPrincipalArn: (json['iamPrincipalArn'] as String?) ?? '',
       user: json['user'] != null
           ? UserUnion.fromJson(json['user'] as Map<String, dynamic>)
           : null,
@@ -1771,11 +1771,11 @@ class BatchGetFieldResponse {
 
   factory BatchGetFieldResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetFieldResponse(
-      errors: (json['errors'] as List)
+      errors: ((json['errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => GetFieldResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1828,7 +1828,7 @@ class CaseEventIncludedData {
 
   factory CaseEventIncludedData.fromJson(Map<String, dynamic> json) {
     return CaseEventIncludedData(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldIdentifier.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1891,8 +1891,8 @@ class CaseSummary {
 
   factory CaseSummary.fromJson(Map<String, dynamic> json) {
     return CaseSummary(
-      caseId: json['caseId'] as String,
-      templateId: json['templateId'] as String,
+      caseId: (json['caseId'] as String?) ?? '',
+      templateId: (json['templateId'] as String?) ?? '',
     );
   }
 
@@ -1935,7 +1935,7 @@ class CommentContent {
 
   factory CommentContent.fromJson(Map<String, dynamic> json) {
     return CommentContent(
-      body: json['body'] as String,
+      body: (json['body'] as String?) ?? '',
       contentType:
           CommentBodyTextType.fromString((json['contentType'] as String)),
     );
@@ -1998,10 +1998,10 @@ class ContactContent {
 
   factory ContactContent.fromJson(Map<String, dynamic> json) {
     return ContactContent(
-      channel: json['channel'] as String,
+      channel: (json['channel'] as String?) ?? '',
       connectedToSystemTime:
-          nonNullableTimeStampFromJson(json['connectedToSystemTime'] as Object),
-      contactArn: json['contactArn'] as String,
+          nonNullableTimeStampFromJson(json['connectedToSystemTime'] ?? 0),
+      contactArn: (json['contactArn'] as String?) ?? '',
     );
   }
 
@@ -2055,8 +2055,8 @@ class CreateCaseResponse {
 
   factory CreateCaseResponse.fromJson(Map<String, dynamic> json) {
     return CreateCaseResponse(
-      caseArn: json['caseArn'] as String,
-      caseId: json['caseId'] as String,
+      caseArn: (json['caseArn'] as String?) ?? '',
+      caseId: (json['caseId'] as String?) ?? '',
     );
   }
 
@@ -2088,8 +2088,8 @@ class CreateDomainResponse {
 
   factory CreateDomainResponse.fromJson(Map<String, dynamic> json) {
     return CreateDomainResponse(
-      domainArn: json['domainArn'] as String,
-      domainId: json['domainId'] as String,
+      domainArn: (json['domainArn'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
       domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
     );
   }
@@ -2120,8 +2120,8 @@ class CreateFieldResponse {
 
   factory CreateFieldResponse.fromJson(Map<String, dynamic> json) {
     return CreateFieldResponse(
-      fieldArn: json['fieldArn'] as String,
-      fieldId: json['fieldId'] as String,
+      fieldArn: (json['fieldArn'] as String?) ?? '',
+      fieldId: (json['fieldId'] as String?) ?? '',
     );
   }
 
@@ -2149,8 +2149,8 @@ class CreateLayoutResponse {
 
   factory CreateLayoutResponse.fromJson(Map<String, dynamic> json) {
     return CreateLayoutResponse(
-      layoutArn: json['layoutArn'] as String,
-      layoutId: json['layoutId'] as String,
+      layoutArn: (json['layoutArn'] as String?) ?? '',
+      layoutId: (json['layoutId'] as String?) ?? '',
     );
   }
 
@@ -2178,8 +2178,8 @@ class CreateRelatedItemResponse {
 
   factory CreateRelatedItemResponse.fromJson(Map<String, dynamic> json) {
     return CreateRelatedItemResponse(
-      relatedItemArn: json['relatedItemArn'] as String,
-      relatedItemId: json['relatedItemId'] as String,
+      relatedItemArn: (json['relatedItemArn'] as String?) ?? '',
+      relatedItemId: (json['relatedItemId'] as String?) ?? '',
     );
   }
 
@@ -2207,8 +2207,8 @@ class CreateTemplateResponse {
 
   factory CreateTemplateResponse.fromJson(Map<String, dynamic> json) {
     return CreateTemplateResponse(
-      templateArn: json['templateArn'] as String,
-      templateId: json['templateId'] as String,
+      templateArn: (json['templateArn'] as String?) ?? '',
+      templateId: (json['templateId'] as String?) ?? '',
     );
   }
 
@@ -2305,9 +2305,9 @@ class DomainSummary {
 
   factory DomainSummary.fromJson(Map<String, dynamic> json) {
     return DomainSummary(
-      domainArn: json['domainArn'] as String,
-      domainId: json['domainId'] as String,
-      name: json['name'] as String,
+      domainArn: (json['domainArn'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -2357,7 +2357,7 @@ class EventBridgeConfiguration {
 
   factory EventBridgeConfiguration.fromJson(Map<String, dynamic> json) {
     return EventBridgeConfiguration(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       includedData: json['includedData'] != null
           ? EventIncludedData.fromJson(
               json['includedData'] as Map<String, dynamic>)
@@ -2432,8 +2432,8 @@ class FieldError {
 
   factory FieldError.fromJson(Map<String, dynamic> json) {
     return FieldError(
-      errorCode: json['errorCode'] as String,
-      id: json['id'] as String,
+      errorCode: (json['errorCode'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
       message: json['message'] as String?,
     );
   }
@@ -2513,7 +2513,7 @@ class FieldGroup {
 
   factory FieldGroup.fromJson(Map<String, dynamic> json) {
     return FieldGroup(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2542,7 +2542,7 @@ class FieldIdentifier {
 
   factory FieldIdentifier.fromJson(Map<String, dynamic> json) {
     return FieldIdentifier(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -2565,7 +2565,7 @@ class FieldItem {
 
   factory FieldItem.fromJson(Map<String, dynamic> json) {
     return FieldItem(
-      id: json['id'] as String,
+      id: (json['id'] as String?) ?? '',
     );
   }
 
@@ -2614,9 +2614,9 @@ class FieldOption {
 
   factory FieldOption.fromJson(Map<String, dynamic> json) {
     return FieldOption(
-      active: json['active'] as bool,
-      name: json['name'] as String,
-      value: json['value'] as String,
+      active: (json['active'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2651,9 +2651,9 @@ class FieldOptionError {
 
   factory FieldOptionError.fromJson(Map<String, dynamic> json) {
     return FieldOptionError(
-      errorCode: json['errorCode'] as String,
-      message: json['message'] as String,
-      value: json['value'] as String,
+      errorCode: (json['errorCode'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -2696,9 +2696,9 @@ class FieldSummary {
 
   factory FieldSummary.fromJson(Map<String, dynamic> json) {
     return FieldSummary(
-      fieldArn: json['fieldArn'] as String,
-      fieldId: json['fieldId'] as String,
-      name: json['name'] as String,
+      fieldArn: (json['fieldArn'] as String?) ?? '',
+      fieldId: (json['fieldId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       namespace: FieldNamespace.fromString((json['namespace'] as String)),
       type: FieldType.fromString((json['type'] as String)),
     );
@@ -2754,8 +2754,10 @@ class FieldValue {
 
   factory FieldValue.fromJson(Map<String, dynamic> json) {
     return FieldValue(
-      id: json['id'] as String,
-      value: FieldValueUnion.fromJson(json['value'] as Map<String, dynamic>),
+      id: (json['id'] as String?) ?? '',
+      value: FieldValueUnion.fromJson(
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2839,7 +2841,7 @@ class FileContent {
 
   factory FileContent.fromJson(Map<String, dynamic> json) {
     return FileContent(
-      fileArn: json['fileArn'] as String,
+      fileArn: (json['fileArn'] as String?) ?? '',
     );
   }
 
@@ -2883,7 +2885,7 @@ class GetCaseAuditEventsResponse {
 
   factory GetCaseAuditEventsResponse.fromJson(Map<String, dynamic> json) {
     return GetCaseAuditEventsResponse(
-      auditEvents: (json['auditEvents'] as List)
+      auditEvents: ((json['auditEvents'] as List?) ?? const [])
           .nonNulls
           .map((e) => AuditEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2914,7 +2916,8 @@ class GetCaseEventConfigurationResponse {
       Map<String, dynamic> json) {
     return GetCaseEventConfigurationResponse(
       eventBridge: EventBridgeConfiguration.fromJson(
-          json['eventBridge'] as Map<String, dynamic>),
+          (json['eventBridge'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2950,11 +2953,11 @@ class GetCaseResponse {
 
   factory GetCaseResponse.fromJson(Map<String, dynamic> json) {
     return GetCaseResponse(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      templateId: json['templateId'] as String,
+      templateId: (json['templateId'] as String?) ?? '',
       nextToken: json['nextToken'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3006,11 +3009,11 @@ class GetDomainResponse {
 
   factory GetDomainResponse.fromJson(Map<String, dynamic> json) {
     return GetDomainResponse(
-      createdTime: nonNullableTimeStampFromJson(json['createdTime'] as Object),
-      domainArn: json['domainArn'] as String,
-      domainId: json['domainId'] as String,
+      createdTime: nonNullableTimeStampFromJson(json['createdTime'] ?? 0),
+      domainArn: (json['domainArn'] as String?) ?? '',
+      domainId: (json['domainId'] as String?) ?? '',
       domainStatus: DomainStatus.fromString((json['domainStatus'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3082,9 +3085,9 @@ class GetFieldResponse {
 
   factory GetFieldResponse.fromJson(Map<String, dynamic> json) {
     return GetFieldResponse(
-      fieldArn: json['fieldArn'] as String,
-      fieldId: json['fieldId'] as String,
-      name: json['name'] as String,
+      fieldArn: (json['fieldArn'] as String?) ?? '',
+      fieldId: (json['fieldId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       namespace: FieldNamespace.fromString((json['namespace'] as String)),
       type: FieldType.fromString((json['type'] as String)),
       createdTime: timeStampFromJson(json['createdTime']),
@@ -3163,10 +3166,12 @@ class GetLayoutResponse {
 
   factory GetLayoutResponse.fromJson(Map<String, dynamic> json) {
     return GetLayoutResponse(
-      content: LayoutContent.fromJson(json['content'] as Map<String, dynamic>),
-      layoutArn: json['layoutArn'] as String,
-      layoutId: json['layoutId'] as String,
-      name: json['name'] as String,
+      content: LayoutContent.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      layoutArn: (json['layoutArn'] as String?) ?? '',
+      layoutId: (json['layoutId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       createdTime: timeStampFromJson(json['createdTime']),
       deleted: json['deleted'] as bool?,
       lastModifiedTime: timeStampFromJson(json['lastModifiedTime']),
@@ -3250,10 +3255,10 @@ class GetTemplateResponse {
 
   factory GetTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetTemplateResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: TemplateStatus.fromString((json['status'] as String)),
-      templateArn: json['templateArn'] as String,
-      templateId: json['templateId'] as String,
+      templateArn: (json['templateArn'] as String?) ?? '',
+      templateId: (json['templateId'] as String?) ?? '',
       createdTime: timeStampFromJson(json['createdTime']),
       deleted: json['deleted'] as bool?,
       description: json['description'] as String?,
@@ -3395,9 +3400,9 @@ class LayoutSummary {
 
   factory LayoutSummary.fromJson(Map<String, dynamic> json) {
     return LayoutSummary(
-      layoutArn: json['layoutArn'] as String,
-      layoutId: json['layoutId'] as String,
-      name: json['name'] as String,
+      layoutArn: (json['layoutArn'] as String?) ?? '',
+      layoutId: (json['layoutId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -3428,7 +3433,7 @@ class ListCasesForContactResponse {
 
   factory ListCasesForContactResponse.fromJson(Map<String, dynamic> json) {
     return ListCasesForContactResponse(
-      cases: (json['cases'] as List)
+      cases: ((json['cases'] as List?) ?? const [])
           .nonNulls
           .map((e) => CaseSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3461,7 +3466,7 @@ class ListDomainsResponse {
 
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
-      domains: (json['domains'] as List)
+      domains: ((json['domains'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3494,7 +3499,7 @@ class ListFieldOptionsResponse {
 
   factory ListFieldOptionsResponse.fromJson(Map<String, dynamic> json) {
     return ListFieldOptionsResponse(
-      options: (json['options'] as List)
+      options: ((json['options'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldOption.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3527,7 +3532,7 @@ class ListFieldsResponse {
 
   factory ListFieldsResponse.fromJson(Map<String, dynamic> json) {
     return ListFieldsResponse(
-      fields: (json['fields'] as List)
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3560,7 +3565,7 @@ class ListLayoutsResponse {
 
   factory ListLayoutsResponse.fromJson(Map<String, dynamic> json) {
     return ListLayoutsResponse(
-      layouts: (json['layouts'] as List)
+      layouts: ((json['layouts'] as List?) ?? const [])
           .nonNulls
           .map((e) => LayoutSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3617,7 +3622,7 @@ class ListTemplatesResponse {
 
   factory ListTemplatesResponse.fromJson(Map<String, dynamic> json) {
     return ListTemplatesResponse(
-      templates: (json['templates'] as List)
+      templates: ((json['templates'] as List?) ?? const [])
           .nonNulls
           .map((e) => TemplateSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3717,7 +3722,7 @@ class RelatedItemEventIncludedData {
 
   factory RelatedItemEventIncludedData.fromJson(Map<String, dynamic> json) {
     return RelatedItemEventIncludedData(
-      includeContent: json['includeContent'] as bool,
+      includeContent: (json['includeContent'] as bool?) ?? false,
     );
   }
 
@@ -3815,7 +3820,7 @@ class RequiredField {
 
   factory RequiredField.fromJson(Map<String, dynamic> json) {
     return RequiredField(
-      fieldId: json['fieldId'] as String,
+      fieldId: (json['fieldId'] as String?) ?? '',
     );
   }
 
@@ -3844,7 +3849,7 @@ class SearchCasesResponse {
 
   factory SearchCasesResponse.fromJson(Map<String, dynamic> json) {
     return SearchCasesResponse(
-      cases: (json['cases'] as List)
+      cases: ((json['cases'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               SearchCasesResponseItem.fromJson(e as Map<String, dynamic>))
@@ -3887,12 +3892,12 @@ class SearchCasesResponseItem {
 
   factory SearchCasesResponseItem.fromJson(Map<String, dynamic> json) {
     return SearchCasesResponseItem(
-      caseId: json['caseId'] as String,
-      fields: (json['fields'] as List)
+      caseId: (json['caseId'] as String?) ?? '',
+      fields: ((json['fields'] as List?) ?? const [])
           .nonNulls
           .map((e) => FieldValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      templateId: json['templateId'] as String,
+      templateId: (json['templateId'] as String?) ?? '',
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -3927,7 +3932,7 @@ class SearchRelatedItemsResponse {
 
   factory SearchRelatedItemsResponse.fromJson(Map<String, dynamic> json) {
     return SearchRelatedItemsResponse(
-      relatedItems: (json['relatedItems'] as List)
+      relatedItems: ((json['relatedItems'] as List?) ?? const [])
           .nonNulls
           .map((e) => SearchRelatedItemsResponseItem.fromJson(
               e as Map<String, dynamic>))
@@ -3979,10 +3984,11 @@ class SearchRelatedItemsResponseItem {
   factory SearchRelatedItemsResponseItem.fromJson(Map<String, dynamic> json) {
     return SearchRelatedItemsResponseItem(
       associationTime:
-          nonNullableTimeStampFromJson(json['associationTime'] as Object),
-      content:
-          RelatedItemContent.fromJson(json['content'] as Map<String, dynamic>),
-      relatedItemId: json['relatedItemId'] as String,
+          nonNullableTimeStampFromJson(json['associationTime'] ?? 0),
+      content: RelatedItemContent.fromJson(
+          (json['content'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      relatedItemId: (json['relatedItemId'] as String?) ?? '',
       type: RelatedItemType.fromString((json['type'] as String)),
       performedBy: json['performedBy'] != null
           ? UserUnion.fromJson(json['performedBy'] as Map<String, dynamic>)
@@ -4096,10 +4102,10 @@ class TemplateSummary {
 
   factory TemplateSummary.fromJson(Map<String, dynamic> json) {
     return TemplateSummary(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       status: TemplateStatus.fromString((json['status'] as String)),
-      templateArn: json['templateArn'] as String,
-      templateId: json['templateId'] as String,
+      templateArn: (json['templateArn'] as String?) ?? '',
+      templateId: (json['templateId'] as String?) ?? '',
     );
   }
 

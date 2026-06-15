@@ -560,7 +560,8 @@ class AssociateUserResponse {
   factory AssociateUserResponse.fromJson(Map<String, dynamic> json) {
     return AssociateUserResponse(
       instanceUserSummary: InstanceUserSummary.fromJson(
-          json['InstanceUserSummary'] as Map<String, dynamic>),
+          (json['InstanceUserSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -584,7 +585,8 @@ class DeregisterIdentityProviderResponse {
       Map<String, dynamic> json) {
     return DeregisterIdentityProviderResponse(
       identityProviderSummary: IdentityProviderSummary.fromJson(
-          json['IdentityProviderSummary'] as Map<String, dynamic>),
+          (json['IdentityProviderSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -607,7 +609,8 @@ class DisassociateUserResponse {
   factory DisassociateUserResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateUserResponse(
       instanceUserSummary: InstanceUserSummary.fromJson(
-          json['InstanceUserSummary'] as Map<String, dynamic>),
+          (json['InstanceUserSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -709,10 +712,12 @@ class IdentityProviderSummary {
   factory IdentityProviderSummary.fromJson(Map<String, dynamic> json) {
     return IdentityProviderSummary(
       identityProvider: IdentityProvider.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
-      product: json['Product'] as String,
-      settings: Settings.fromJson(json['Settings'] as Map<String, dynamic>),
-      status: json['Status'] as String,
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      product: (json['Product'] as String?) ?? '',
+      settings: Settings.fromJson((json['Settings'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: (json['Status'] as String?) ?? '',
       failureMessage: json['FailureMessage'] as String?,
     );
   }
@@ -760,10 +765,12 @@ class InstanceSummary {
 
   factory InstanceSummary.fromJson(Map<String, dynamic> json) {
     return InstanceSummary(
-      instanceId: json['InstanceId'] as String,
-      products:
-          (json['Products'] as List).nonNulls.map((e) => e as String).toList(),
-      status: json['Status'] as String,
+      instanceId: (json['InstanceId'] as String?) ?? '',
+      products: ((json['Products'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: (json['Status'] as String?) ?? '',
       lastStatusCheckDate: json['LastStatusCheckDate'] as String?,
       statusMessage: json['StatusMessage'] as String?,
     );
@@ -826,10 +833,11 @@ class InstanceUserSummary {
   factory InstanceUserSummary.fromJson(Map<String, dynamic> json) {
     return InstanceUserSummary(
       identityProvider: IdentityProvider.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
-      instanceId: json['InstanceId'] as String,
-      status: json['Status'] as String,
-      username: json['Username'] as String,
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      instanceId: (json['InstanceId'] as String?) ?? '',
+      status: (json['Status'] as String?) ?? '',
+      username: (json['Username'] as String?) ?? '',
       associationDate: json['AssociationDate'] as String?,
       disassociationDate: json['DisassociationDate'] as String?,
       domain: json['Domain'] as String?,
@@ -873,11 +881,12 @@ class ListIdentityProvidersResponse {
 
   factory ListIdentityProvidersResponse.fromJson(Map<String, dynamic> json) {
     return ListIdentityProvidersResponse(
-      identityProviderSummaries: (json['IdentityProviderSummaries'] as List)
-          .nonNulls
-          .map((e) =>
-              IdentityProviderSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      identityProviderSummaries:
+          ((json['IdentityProviderSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  IdentityProviderSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1030,10 +1039,11 @@ class ProductUserSummary {
   factory ProductUserSummary.fromJson(Map<String, dynamic> json) {
     return ProductUserSummary(
       identityProvider: IdentityProvider.fromJson(
-          json['IdentityProvider'] as Map<String, dynamic>),
-      product: json['Product'] as String,
-      status: json['Status'] as String,
-      username: json['Username'] as String,
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      product: (json['Product'] as String?) ?? '',
+      status: (json['Status'] as String?) ?? '',
+      username: (json['Username'] as String?) ?? '',
       domain: json['Domain'] as String?,
       statusMessage: json['StatusMessage'] as String?,
       subscriptionEndDate: json['SubscriptionEndDate'] as String?,
@@ -1076,7 +1086,8 @@ class RegisterIdentityProviderResponse {
   factory RegisterIdentityProviderResponse.fromJson(Map<String, dynamic> json) {
     return RegisterIdentityProviderResponse(
       identityProviderSummary: IdentityProviderSummary.fromJson(
-          json['IdentityProviderSummary'] as Map<String, dynamic>),
+          (json['IdentityProviderSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1107,9 +1118,11 @@ class Settings {
 
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
-      securityGroupId: json['SecurityGroupId'] as String,
-      subnets:
-          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      securityGroupId: (json['SecurityGroupId'] as String?) ?? '',
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -1134,7 +1147,8 @@ class StartProductSubscriptionResponse {
   factory StartProductSubscriptionResponse.fromJson(Map<String, dynamic> json) {
     return StartProductSubscriptionResponse(
       productUserSummary: ProductUserSummary.fromJson(
-          json['ProductUserSummary'] as Map<String, dynamic>),
+          (json['ProductUserSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1157,7 +1171,8 @@ class StopProductSubscriptionResponse {
   factory StopProductSubscriptionResponse.fromJson(Map<String, dynamic> json) {
     return StopProductSubscriptionResponse(
       productUserSummary: ProductUserSummary.fromJson(
-          json['ProductUserSummary'] as Map<String, dynamic>),
+          (json['ProductUserSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1180,7 +1195,8 @@ class UpdateIdentityProviderSettingsResponse {
       Map<String, dynamic> json) {
     return UpdateIdentityProviderSettingsResponse(
       identityProviderSummary: IdentityProviderSummary.fromJson(
-          json['IdentityProviderSummary'] as Map<String, dynamic>),
+          (json['IdentityProviderSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

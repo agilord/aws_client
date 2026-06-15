@@ -471,7 +471,7 @@ class GetRoutingControlStateResponse {
 
   factory GetRoutingControlStateResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutingControlStateResponse(
-      routingControlArn: json['RoutingControlArn'] as String,
+      routingControlArn: (json['RoutingControlArn'] as String?) ?? '',
       routingControlState: RoutingControlState.fromString(
           (json['RoutingControlState'] as String)),
       routingControlName: json['RoutingControlName'] as String?,
@@ -505,7 +505,7 @@ class ListRoutingControlsResponse {
 
   factory ListRoutingControlsResponse.fromJson(Map<String, dynamic> json) {
     return ListRoutingControlsResponse(
-      routingControls: (json['RoutingControls'] as List)
+      routingControls: ((json['RoutingControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => RoutingControl.fromJson(e as Map<String, dynamic>))
           .toList(),

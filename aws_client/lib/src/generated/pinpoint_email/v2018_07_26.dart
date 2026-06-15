@@ -1682,11 +1682,12 @@ class CloudWatchDestination {
 
   factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchDestination(
-      dimensionConfigurations: (json['DimensionConfigurations'] as List)
-          .nonNulls
-          .map((e) => CloudWatchDimensionConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      dimensionConfigurations:
+          ((json['DimensionConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => CloudWatchDimensionConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
@@ -1747,8 +1748,8 @@ class CloudWatchDimensionConfiguration {
 
   factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
     return CloudWatchDimensionConfiguration(
-      defaultDimensionValue: json['DefaultDimensionValue'] as String,
-      dimensionName: json['DimensionName'] as String,
+      defaultDimensionValue: (json['DefaultDimensionValue'] as String?) ?? '',
+      dimensionName: (json['DimensionName'] as String?) ?? '',
       dimensionValueSource: DimensionValueSource.fromString(
           (json['DimensionValueSource'] as String)),
     );
@@ -1860,7 +1861,7 @@ class CreateDeliverabilityTestReportResponse {
     return CreateDeliverabilityTestReportResponse(
       deliverabilityTestStatus: DeliverabilityTestStatus.fromString(
           (json['DeliverabilityTestStatus'] as String)),
-      reportId: json['ReportId'] as String,
+      reportId: (json['ReportId'] as String?) ?? '',
     );
   }
 
@@ -2012,8 +2013,8 @@ class DedicatedIp {
 
   factory DedicatedIp.fromJson(Map<String, dynamic> json) {
     return DedicatedIp(
-      ip: json['Ip'] as String,
-      warmupPercentage: json['WarmupPercentage'] as int,
+      ip: (json['Ip'] as String?) ?? '',
+      warmupPercentage: (json['WarmupPercentage'] as int?) ?? 0,
       warmupStatus: WarmupStatus.fromString((json['WarmupStatus'] as String)),
       poolName: json['PoolName'] as String?,
     );
@@ -2774,11 +2775,11 @@ class EventDestination {
 
   factory EventDestination.fromJson(Map<String, dynamic> json) {
     return EventDestination(
-      matchingEventTypes: (json['MatchingEventTypes'] as List)
+      matchingEventTypes: ((json['MatchingEventTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventType.fromString((e as String)))
           .toList(),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       cloudWatchDestination: json['CloudWatchDestination'] != null
           ? CloudWatchDestination.fromJson(
               json['CloudWatchDestination'] as Map<String, dynamic>)
@@ -3015,8 +3016,9 @@ class GetBlacklistReportsResponse {
 
   factory GetBlacklistReportsResponse.fromJson(Map<String, dynamic> json) {
     return GetBlacklistReportsResponse(
-      blacklistReport: (json['BlacklistReport'] as Map<String, dynamic>).map(
-          (k, e) => MapEntry(
+      blacklistReport: ((json['BlacklistReport'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
+          .map((k, e) => MapEntry(
               k,
               (e as List)
                   .nonNulls
@@ -3246,7 +3248,7 @@ class GetDeliverabilityDashboardOptionsResponse {
   factory GetDeliverabilityDashboardOptionsResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDeliverabilityDashboardOptionsResponse(
-      dashboardEnabled: json['DashboardEnabled'] as bool,
+      dashboardEnabled: (json['DashboardEnabled'] as bool?) ?? false,
       accountStatus: (json['AccountStatus'] as String?)
           ?.let(DeliverabilityDashboardAccountStatus.fromString),
       activeSubscribedDomains: (json['ActiveSubscribedDomains'] as List?)
@@ -3319,13 +3321,15 @@ class GetDeliverabilityTestReportResponse {
       Map<String, dynamic> json) {
     return GetDeliverabilityTestReportResponse(
       deliverabilityTestReport: DeliverabilityTestReport.fromJson(
-          json['DeliverabilityTestReport'] as Map<String, dynamic>),
-      ispPlacements: (json['IspPlacements'] as List)
+          (json['DeliverabilityTestReport'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      ispPlacements: ((json['IspPlacements'] as List?) ?? const [])
           .nonNulls
           .map((e) => IspPlacement.fromJson(e as Map<String, dynamic>))
           .toList(),
       overallPlacement: PlacementStatistics.fromJson(
-          json['OverallPlacement'] as Map<String, dynamic>),
+          (json['OverallPlacement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       message: json['Message'] as String?,
       tags: (json['Tags'] as List?)
           ?.nonNulls
@@ -3366,7 +3370,8 @@ class GetDomainDeliverabilityCampaignResponse {
       Map<String, dynamic> json) {
     return GetDomainDeliverabilityCampaignResponse(
       domainDeliverabilityCampaign: DomainDeliverabilityCampaign.fromJson(
-          json['DomainDeliverabilityCampaign'] as Map<String, dynamic>),
+          (json['DomainDeliverabilityCampaign'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3399,12 +3404,13 @@ class GetDomainStatisticsReportResponse {
   factory GetDomainStatisticsReportResponse.fromJson(
       Map<String, dynamic> json) {
     return GetDomainStatisticsReportResponse(
-      dailyVolumes: (json['DailyVolumes'] as List)
+      dailyVolumes: ((json['DailyVolumes'] as List?) ?? const [])
           .nonNulls
           .map((e) => DailyVolume.fromJson(e as Map<String, dynamic>))
           .toList(),
-      overallVolume:
-          OverallVolume.fromJson(json['OverallVolume'] as Map<String, dynamic>),
+      overallVolume: OverallVolume.fromJson(
+          (json['OverallVolume'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3682,8 +3688,8 @@ class KinesisFirehoseDestination {
 
   factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseDestination(
-      deliveryStreamArn: json['DeliveryStreamArn'] as String,
-      iamRoleArn: json['IamRoleArn'] as String,
+      deliveryStreamArn: (json['DeliveryStreamArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
     );
   }
 
@@ -3793,11 +3799,12 @@ class ListDeliverabilityTestReportsResponse {
   factory ListDeliverabilityTestReportsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDeliverabilityTestReportsResponse(
-      deliverabilityTestReports: (json['DeliverabilityTestReports'] as List)
-          .nonNulls
-          .map((e) =>
-              DeliverabilityTestReport.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      deliverabilityTestReports:
+          ((json['DeliverabilityTestReports'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  DeliverabilityTestReport.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -3835,8 +3842,9 @@ class ListDomainDeliverabilityCampaignsResponse {
   factory ListDomainDeliverabilityCampaignsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListDomainDeliverabilityCampaignsResponse(
-      domainDeliverabilityCampaigns: (json['DomainDeliverabilityCampaigns']
-              as List)
+      domainDeliverabilityCampaigns: ((json['DomainDeliverabilityCampaigns']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               DomainDeliverabilityCampaign.fromJson(e as Map<String, dynamic>))
@@ -3906,7 +3914,7 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List)
+      tags: ((json['Tags'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3972,7 +3980,7 @@ class MailFromAttributes {
     return MailFromAttributes(
       behaviorOnMxFailure: BehaviorOnMxFailure.fromString(
           (json['BehaviorOnMxFailure'] as String)),
-      mailFromDomain: json['MailFromDomain'] as String,
+      mailFromDomain: (json['MailFromDomain'] as String?) ?? '',
       mailFromDomainStatus: MailFromDomainStatus.fromString(
           (json['MailFromDomainStatus'] as String)),
     );
@@ -4607,7 +4615,7 @@ class SnsDestination {
 
   factory SnsDestination.fromJson(Map<String, dynamic> json) {
     return SnsDestination(
-      topicArn: json['TopicArn'] as String,
+      topicArn: (json['TopicArn'] as String?) ?? '',
     );
   }
 
@@ -4673,8 +4681,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -4763,7 +4771,7 @@ class TrackingOptions {
 
   factory TrackingOptions.fromJson(Map<String, dynamic> json) {
     return TrackingOptions(
-      customRedirectDomain: json['CustomRedirectDomain'] as String,
+      customRedirectDomain: (json['CustomRedirectDomain'] as String?) ?? '',
     );
   }
 

@@ -4589,10 +4589,11 @@ class AWSManagedRulesACFPRuleSet {
 
   factory AWSManagedRulesACFPRuleSet.fromJson(Map<String, dynamic> json) {
     return AWSManagedRulesACFPRuleSet(
-      creationPath: json['CreationPath'] as String,
-      registrationPagePath: json['RegistrationPagePath'] as String,
+      creationPath: (json['CreationPath'] as String?) ?? '',
+      registrationPagePath: (json['RegistrationPagePath'] as String?) ?? '',
       requestInspection: RequestInspectionACFP.fromJson(
-          json['RequestInspection'] as Map<String, dynamic>),
+          (json['RequestInspection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       enableRegexInPath: json['EnableRegexInPath'] as bool?,
       responseInspection: json['ResponseInspection'] != null
           ? ResponseInspection.fromJson(
@@ -4664,7 +4665,7 @@ class AWSManagedRulesATPRuleSet {
 
   factory AWSManagedRulesATPRuleSet.fromJson(Map<String, dynamic> json) {
     return AWSManagedRulesATPRuleSet(
-      loginPath: json['LoginPath'] as String,
+      loginPath: (json['LoginPath'] as String?) ?? '',
       enableRegexInPath: json['EnableRegexInPath'] as bool?,
       requestInspection: json['RequestInspection'] != null
           ? RequestInspection.fromJson(
@@ -4832,7 +4833,7 @@ class AddressField {
 
   factory AddressField.fromJson(Map<String, dynamic> json) {
     return AddressField(
-      identifier: json['Identifier'] as String,
+      identifier: (json['Identifier'] as String?) ?? '',
     );
   }
 
@@ -4931,7 +4932,7 @@ class AndStatement {
 
   factory AndStatement.fromJson(Map<String, dynamic> json) {
     return AndStatement(
-      statements: (json['Statements'] as List)
+      statements: ((json['Statements'] as List?) ?? const [])
           .nonNulls
           .map((e) => Statement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5282,12 +5283,13 @@ class ByteMatchStatement {
 
   factory ByteMatchStatement.fromJson(Map<String, dynamic> json) {
     return ByteMatchStatement(
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       positionalConstraint: PositionalConstraint.fromString(
           (json['PositionalConstraint'] as String)),
-      searchString: _s.decodeUint8List(json['SearchString']! as String),
-      textTransformations: (json['TextTransformations'] as List)
+      searchString: _s.decodeUint8List((json['SearchString'] as String?) ?? ''),
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5802,7 +5804,8 @@ class Cookies {
   factory Cookies.fromJson(Map<String, dynamic> json) {
     return Cookies(
       matchPattern: CookieMatchPattern.fromJson(
-          json['MatchPattern'] as Map<String, dynamic>),
+          (json['MatchPattern'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
       oversizeHandling:
           OversizeHandling.fromString((json['OversizeHandling'] as String)),
@@ -6274,8 +6277,8 @@ class CustomHTTPHeader {
 
   factory CustomHTTPHeader.fromJson(Map<String, dynamic> json) {
     return CustomHTTPHeader(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -6313,7 +6316,7 @@ class CustomRequestHandling {
 
   factory CustomRequestHandling.fromJson(Map<String, dynamic> json) {
     return CustomRequestHandling(
-      insertHeaders: (json['InsertHeaders'] as List)
+      insertHeaders: ((json['InsertHeaders'] as List?) ?? const [])
           .nonNulls
           .map((e) => CustomHTTPHeader.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6370,7 +6373,7 @@ class CustomResponse {
 
   factory CustomResponse.fromJson(Map<String, dynamic> json) {
     return CustomResponse(
-      responseCode: json['ResponseCode'] as int,
+      responseCode: (json['ResponseCode'] as int?) ?? 0,
       customResponseBodyKey: json['CustomResponseBodyKey'] as String?,
       responseHeaders: (json['ResponseHeaders'] as List?)
           ?.nonNulls
@@ -6418,7 +6421,7 @@ class CustomResponseBody {
 
   factory CustomResponseBody.fromJson(Map<String, dynamic> json) {
     return CustomResponseBody(
-      content: json['Content'] as String,
+      content: (json['Content'] as String?) ?? '',
       contentType:
           ResponseContentType.fromString((json['ContentType'] as String)),
     );
@@ -6801,7 +6804,7 @@ class EmailField {
 
   factory EmailField.fromJson(Map<String, dynamic> json) {
     return EmailField(
-      identifier: json['Identifier'] as String,
+      identifier: (json['Identifier'] as String?) ?? '',
     );
   }
 
@@ -6830,7 +6833,7 @@ class ExcludedRule {
 
   factory ExcludedRule.fromJson(Map<String, dynamic> json) {
     return ExcludedRule(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -7169,7 +7172,7 @@ class Filter {
   factory Filter.fromJson(Map<String, dynamic> json) {
     return Filter(
       behavior: FilterBehavior.fromString((json['Behavior'] as String)),
-      conditions: (json['Conditions'] as List)
+      conditions: ((json['Conditions'] as List?) ?? const [])
           .nonNulls
           .map((e) => Condition.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7267,13 +7270,16 @@ class FirewallManagerRuleGroup {
   factory FirewallManagerRuleGroup.fromJson(Map<String, dynamic> json) {
     return FirewallManagerRuleGroup(
       firewallManagerStatement: FirewallManagerStatement.fromJson(
-          json['FirewallManagerStatement'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+          (json['FirewallManagerStatement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
       overrideAction: OverrideAction.fromJson(
-          json['OverrideAction'] as Map<String, dynamic>),
-      priority: json['Priority'] as int,
+          (json['OverrideAction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      priority: (json['Priority'] as int?) ?? 0,
       visibilityConfig: VisibilityConfig.fromJson(
-          json['VisibilityConfig'] as Map<String, dynamic>),
+          (json['VisibilityConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7388,7 +7394,7 @@ class ForwardedIPConfig {
     return ForwardedIPConfig(
       fallbackBehavior:
           FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
-      headerName: json['HeaderName'] as String,
+      headerName: (json['HeaderName'] as String?) ?? '',
     );
   }
 
@@ -8248,7 +8254,8 @@ class Headers {
   factory Headers.fromJson(Map<String, dynamic> json) {
     return Headers(
       matchPattern: HeaderMatchPattern.fromJson(
-          json['MatchPattern'] as Map<String, dynamic>),
+          (json['MatchPattern'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       matchScope: MapMatchScope.fromString((json['MatchScope'] as String)),
       oversizeHandling:
           OversizeHandling.fromString((json['OversizeHandling'] as String)),
@@ -8375,13 +8382,15 @@ class IPSet {
 
   factory IPSet.fromJson(Map<String, dynamic> json) {
     return IPSet(
-      arn: json['ARN'] as String,
-      addresses:
-          (json['Addresses'] as List).nonNulls.map((e) => e as String).toList(),
+      arn: (json['ARN'] as String?) ?? '',
+      addresses: ((json['Addresses'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       iPAddressVersion:
           IPAddressVersion.fromString((json['IPAddressVersion'] as String)),
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
     );
   }
@@ -8478,7 +8487,7 @@ class IPSetForwardedIPConfig {
     return IPSetForwardedIPConfig(
       fallbackBehavior:
           FallbackBehavior.fromString((json['FallbackBehavior'] as String)),
-      headerName: json['HeaderName'] as String,
+      headerName: (json['HeaderName'] as String?) ?? '',
       position: ForwardedIPPosition.fromString((json['Position'] as String)),
     );
   }
@@ -8526,7 +8535,7 @@ class IPSetReferenceStatement {
 
   factory IPSetReferenceStatement.fromJson(Map<String, dynamic> json) {
     return IPSetReferenceStatement(
-      arn: json['ARN'] as String,
+      arn: (json['ARN'] as String?) ?? '',
       iPSetForwardedIPConfig: json['IPSetForwardedIPConfig'] != null
           ? IPSetForwardedIPConfig.fromJson(
               json['IPSetForwardedIPConfig'] as Map<String, dynamic>)
@@ -8626,7 +8635,7 @@ class ImmunityTimeProperty {
 
   factory ImmunityTimeProperty.fromJson(Map<String, dynamic> json) {
     return ImmunityTimeProperty(
-      immunityTime: json['ImmunityTime'] as int,
+      immunityTime: (json['ImmunityTime'] as int?) ?? 0,
     );
   }
 
@@ -8823,7 +8832,8 @@ class JsonBody {
   factory JsonBody.fromJson(Map<String, dynamic> json) {
     return JsonBody(
       matchPattern: JsonMatchPattern.fromJson(
-          json['MatchPattern'] as Map<String, dynamic>),
+          (json['MatchPattern'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       matchScope: JsonMatchScope.fromString((json['MatchScope'] as String)),
       invalidFallbackBehavior: (json['InvalidFallbackBehavior'] as String?)
           ?.let(BodyParsingFallbackBehavior.fromString),
@@ -8932,7 +8942,7 @@ class Label {
 
   factory Label.fromJson(Map<String, dynamic> json) {
     return Label(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -9003,7 +9013,7 @@ class LabelMatchStatement {
 
   factory LabelMatchStatement.fromJson(Map<String, dynamic> json) {
     return LabelMatchStatement(
-      key: json['Key'] as String,
+      key: (json['Key'] as String?) ?? '',
       scope: LabelMatchScope.fromString((json['Scope'] as String)),
     );
   }
@@ -9032,7 +9042,7 @@ class LabelNameCondition {
 
   factory LabelNameCondition.fromJson(Map<String, dynamic> json) {
     return LabelNameCondition(
-      labelName: json['LabelName'] as String,
+      labelName: (json['LabelName'] as String?) ?? '',
     );
   }
 
@@ -9678,11 +9688,12 @@ class LoggingConfiguration {
 
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
-      logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resourceArn: json['ResourceArn'] as String,
+      logDestinationConfigs:
+          ((json['LogDestinationConfigs'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
       logScope: (json['LogScope'] as String?)?.let(LogScope.fromString),
       logType: (json['LogType'] as String?)?.let(LogType.fromString),
       loggingFilter: json['LoggingFilter'] != null
@@ -9740,7 +9751,7 @@ class LoggingFilter {
     return LoggingFilter(
       defaultBehavior:
           FilterBehavior.fromString((json['DefaultBehavior'] as String)),
-      filters: (json['Filters'] as List)
+      filters: ((json['Filters'] as List?) ?? const [])
           .nonNulls
           .map((e) => Filter.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10117,8 +10128,8 @@ class ManagedRuleGroupStatement {
 
   factory ManagedRuleGroupStatement.fromJson(Map<String, dynamic> json) {
     return ManagedRuleGroupStatement(
-      name: json['Name'] as String,
-      vendorName: json['VendorName'] as String,
+      name: (json['Name'] as String?) ?? '',
+      vendorName: (json['VendorName'] as String?) ?? '',
       excludedRules: (json['ExcludedRules'] as List?)
           ?.nonNulls
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
@@ -10324,9 +10335,9 @@ class ManagedRuleSet {
 
   factory ManagedRuleSet.fromJson(Map<String, dynamic> json) {
     return ManagedRuleSet(
-      arn: json['ARN'] as String,
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      arn: (json['ARN'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
       labelNamespace: json['LabelNamespace'] as String?,
       publishedVersions: (json['PublishedVersions'] as Map<String, dynamic>?)
@@ -10672,7 +10683,9 @@ class NotStatement {
 
   factory NotStatement.fromJson(Map<String, dynamic> json) {
     return NotStatement(
-      statement: Statement.fromJson(json['Statement'] as Map<String, dynamic>),
+      statement: Statement.fromJson(
+          (json['Statement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -10698,7 +10711,7 @@ class OrStatement {
 
   factory OrStatement.fromJson(Map<String, dynamic> json) {
     return OrStatement(
-      statements: (json['Statements'] as List)
+      statements: ((json['Statements'] as List?) ?? const [])
           .nonNulls
           .map((e) => Statement.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -10822,7 +10835,7 @@ class PasswordField {
 
   factory PasswordField.fromJson(Map<String, dynamic> json) {
     return PasswordField(
-      identifier: json['Identifier'] as String,
+      identifier: (json['Identifier'] as String?) ?? '',
     );
   }
 
@@ -10890,7 +10903,7 @@ class PhoneNumberField {
 
   factory PhoneNumberField.fromJson(Map<String, dynamic> json) {
     return PhoneNumberField(
-      identifier: json['Identifier'] as String,
+      identifier: (json['Identifier'] as String?) ?? '',
     );
   }
 
@@ -11260,7 +11273,7 @@ class RateBasedStatement {
     return RateBasedStatement(
       aggregateKeyType: RateBasedStatementAggregateKeyType.fromString(
           (json['AggregateKeyType'] as String)),
-      limit: json['Limit'] as int,
+      limit: (json['Limit'] as int?) ?? 0,
       customKeys: (json['CustomKeys'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -11537,8 +11550,8 @@ class RateLimitCookie {
 
   factory RateLimitCookie.fromJson(Map<String, dynamic> json) {
     return RateLimitCookie(
-      name: json['Name'] as String,
-      textTransformations: (json['TextTransformations'] as List)
+      name: (json['Name'] as String?) ?? '',
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11631,8 +11644,8 @@ class RateLimitHeader {
 
   factory RateLimitHeader.fromJson(Map<String, dynamic> json) {
     return RateLimitHeader(
-      name: json['Name'] as String,
-      textTransformations: (json['TextTransformations'] as List)
+      name: (json['Name'] as String?) ?? '',
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11694,7 +11707,7 @@ class RateLimitLabelNamespace {
 
   factory RateLimitLabelNamespace.fromJson(Map<String, dynamic> json) {
     return RateLimitLabelNamespace(
-      namespace: json['Namespace'] as String,
+      namespace: (json['Namespace'] as String?) ?? '',
     );
   }
 
@@ -11732,8 +11745,8 @@ class RateLimitQueryArgument {
 
   factory RateLimitQueryArgument.fromJson(Map<String, dynamic> json) {
     return RateLimitQueryArgument(
-      name: json['Name'] as String,
-      textTransformations: (json['TextTransformations'] as List)
+      name: (json['Name'] as String?) ?? '',
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11772,7 +11785,7 @@ class RateLimitQueryString {
 
   factory RateLimitQueryString.fromJson(Map<String, dynamic> json) {
     return RateLimitQueryString(
-      textTransformations: (json['TextTransformations'] as List)
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11809,7 +11822,7 @@ class RateLimitUriPath {
 
   factory RateLimitUriPath.fromJson(Map<String, dynamic> json) {
     return RateLimitUriPath(
-      textTransformations: (json['TextTransformations'] as List)
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11875,10 +11888,11 @@ class RegexMatchStatement {
 
   factory RegexMatchStatement.fromJson(Map<String, dynamic> json) {
     return RegexMatchStatement(
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      regexString: json['RegexString'] as String,
-      textTransformations: (json['TextTransformations'] as List)
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      regexString: (json['RegexString'] as String?) ?? '',
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -11997,10 +12011,11 @@ class RegexPatternSetReferenceStatement {
   factory RegexPatternSetReferenceStatement.fromJson(
       Map<String, dynamic> json) {
     return RegexPatternSetReferenceStatement(
-      arn: json['ARN'] as String,
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      textTransformations: (json['TextTransformations'] as List)
+      arn: (json['ARN'] as String?) ?? '',
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12235,11 +12250,13 @@ class RequestInspection {
 
   factory RequestInspection.fromJson(Map<String, dynamic> json) {
     return RequestInspection(
-      passwordField:
-          PasswordField.fromJson(json['PasswordField'] as Map<String, dynamic>),
+      passwordField: PasswordField.fromJson(
+          (json['PasswordField'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       payloadType: PayloadType.fromString((json['PayloadType'] as String)),
-      usernameField:
-          UsernameField.fromJson(json['UsernameField'] as Map<String, dynamic>),
+      usernameField: UsernameField.fromJson(
+          (json['UsernameField'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -12626,11 +12643,11 @@ class ResponseInspectionBodyContains {
 
   factory ResponseInspectionBodyContains.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionBodyContains(
-      failureStrings: (json['FailureStrings'] as List)
+      failureStrings: ((json['FailureStrings'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      successStrings: (json['SuccessStrings'] as List)
+      successStrings: ((json['SuccessStrings'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -12689,12 +12706,12 @@ class ResponseInspectionHeader {
 
   factory ResponseInspectionHeader.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionHeader(
-      failureValues: (json['FailureValues'] as List)
+      failureValues: ((json['FailureValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      name: json['Name'] as String,
-      successValues: (json['SuccessValues'] as List)
+      name: (json['Name'] as String?) ?? '',
+      successValues: ((json['SuccessValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -12754,12 +12771,12 @@ class ResponseInspectionJson {
 
   factory ResponseInspectionJson.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionJson(
-      failureValues: (json['FailureValues'] as List)
+      failureValues: ((json['FailureValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      identifier: json['Identifier'] as String,
-      successValues: (json['SuccessValues'] as List)
+      identifier: (json['Identifier'] as String?) ?? '',
+      successValues: ((json['SuccessValues'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -12810,10 +12827,14 @@ class ResponseInspectionStatusCode {
 
   factory ResponseInspectionStatusCode.fromJson(Map<String, dynamic> json) {
     return ResponseInspectionStatusCode(
-      failureCodes:
-          (json['FailureCodes'] as List).nonNulls.map((e) => e as int).toList(),
-      successCodes:
-          (json['SuccessCodes'] as List).nonNulls.map((e) => e as int).toList(),
+      failureCodes: ((json['FailureCodes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      successCodes: ((json['SuccessCodes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
     );
   }
 
@@ -12955,11 +12976,14 @@ class Rule {
 
   factory Rule.fromJson(Map<String, dynamic> json) {
     return Rule(
-      name: json['Name'] as String,
-      priority: json['Priority'] as int,
-      statement: Statement.fromJson(json['Statement'] as Map<String, dynamic>),
+      name: (json['Name'] as String?) ?? '',
+      priority: (json['Priority'] as int?) ?? 0,
+      statement: Statement.fromJson(
+          (json['Statement'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       visibilityConfig: VisibilityConfig.fromJson(
-          json['VisibilityConfig'] as Map<String, dynamic>),
+          (json['VisibilityConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       action: json['Action'] != null
           ? RuleAction.fromJson(json['Action'] as Map<String, dynamic>)
           : null,
@@ -13094,9 +13118,10 @@ class RuleActionOverride {
 
   factory RuleActionOverride.fromJson(Map<String, dynamic> json) {
     return RuleActionOverride(
-      actionToUse:
-          RuleAction.fromJson(json['ActionToUse'] as Map<String, dynamic>),
-      name: json['Name'] as String,
+      actionToUse: RuleAction.fromJson(
+          (json['ActionToUse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -13222,12 +13247,13 @@ class RuleGroup {
 
   factory RuleGroup.fromJson(Map<String, dynamic> json) {
     return RuleGroup(
-      arn: json['ARN'] as String,
-      capacity: json['Capacity'] as int,
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      arn: (json['ARN'] as String?) ?? '',
+      capacity: (json['Capacity'] as int?) ?? 0,
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       visibilityConfig: VisibilityConfig.fromJson(
-          json['VisibilityConfig'] as Map<String, dynamic>),
+          (json['VisibilityConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       availableLabels: (json['AvailableLabels'] as List?)
           ?.nonNulls
           .map((e) => LabelSummary.fromJson(e as Map<String, dynamic>))
@@ -13318,7 +13344,7 @@ class RuleGroupReferenceStatement {
 
   factory RuleGroupReferenceStatement.fromJson(Map<String, dynamic> json) {
     return RuleGroupReferenceStatement(
-      arn: json['ARN'] as String,
+      arn: (json['ARN'] as String?) ?? '',
       excludedRules: (json['ExcludedRules'] as List?)
           ?.nonNulls
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
@@ -13521,8 +13547,10 @@ class SampledHTTPRequest {
 
   factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) {
     return SampledHTTPRequest(
-      request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
-      weight: json['Weight'] as int,
+      request: HTTPRequest.fromJson(
+          (json['Request'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      weight: (json['Weight'] as int?) ?? 0,
       action: json['Action'] as String?,
       captchaResponse: json['CaptchaResponse'] != null
           ? CaptchaResponse.fromJson(
@@ -13627,7 +13655,7 @@ class SingleHeader {
 
   factory SingleHeader.fromJson(Map<String, dynamic> json) {
     return SingleHeader(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -13657,7 +13685,7 @@ class SingleQueryArgument {
 
   factory SingleQueryArgument.fromJson(Map<String, dynamic> json) {
     return SingleQueryArgument(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -13718,10 +13746,11 @@ class SizeConstraintStatement {
     return SizeConstraintStatement(
       comparisonOperator:
           ComparisonOperator.fromString((json['ComparisonOperator'] as String)),
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      size: json['Size'] as int,
-      textTransformations: (json['TextTransformations'] as List)
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      size: (json['Size'] as int?) ?? 0,
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13802,9 +13831,10 @@ class SqliMatchStatement {
 
   factory SqliMatchStatement.fromJson(Map<String, dynamic> json) {
     return SqliMatchStatement(
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      textTransformations: (json['TextTransformations'] as List)
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -14273,8 +14303,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -14365,7 +14395,7 @@ class TextTransformation {
 
   factory TextTransformation.fromJson(Map<String, dynamic> json) {
     return TextTransformation(
-      priority: json['Priority'] as int,
+      priority: (json['Priority'] as int?) ?? 0,
       type: TextTransformationType.fromString((json['Type'] as String)),
     );
   }
@@ -14455,8 +14485,8 @@ class TimeWindow {
 
   factory TimeWindow.fromJson(Map<String, dynamic> json) {
     return TimeWindow(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
     );
   }
 
@@ -14685,7 +14715,7 @@ class UsernameField {
 
   factory UsernameField.fromJson(Map<String, dynamic> json) {
     return UsernameField(
-      identifier: json['Identifier'] as String,
+      identifier: (json['Identifier'] as String?) ?? '',
     );
   }
 
@@ -14775,9 +14805,11 @@ class VisibilityConfig {
 
   factory VisibilityConfig.fromJson(Map<String, dynamic> json) {
     return VisibilityConfig(
-      cloudWatchMetricsEnabled: json['CloudWatchMetricsEnabled'] as bool,
-      metricName: json['MetricName'] as String,
-      sampledRequestsEnabled: json['SampledRequestsEnabled'] as bool,
+      cloudWatchMetricsEnabled:
+          (json['CloudWatchMetricsEnabled'] as bool?) ?? false,
+      metricName: (json['MetricName'] as String?) ?? '',
+      sampledRequestsEnabled:
+          (json['SampledRequestsEnabled'] as bool?) ?? false,
     );
   }
 
@@ -14967,13 +14999,15 @@ class WebACL {
 
   factory WebACL.fromJson(Map<String, dynamic> json) {
     return WebACL(
-      arn: json['ARN'] as String,
-      defaultAction:
-          DefaultAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
-      id: json['Id'] as String,
-      name: json['Name'] as String,
+      arn: (json['ARN'] as String?) ?? '',
+      defaultAction: DefaultAction.fromJson(
+          (json['DefaultAction'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['Id'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       visibilityConfig: VisibilityConfig.fromJson(
-          json['VisibilityConfig'] as Map<String, dynamic>),
+          (json['VisibilityConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       associationConfig: json['AssociationConfig'] != null
           ? AssociationConfig.fromJson(
               json['AssociationConfig'] as Map<String, dynamic>)
@@ -15156,9 +15190,10 @@ class XssMatchStatement {
 
   factory XssMatchStatement.fromJson(Map<String, dynamic> json) {
     return XssMatchStatement(
-      fieldToMatch:
-          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-      textTransformations: (json['TextTransformations'] as List)
+      fieldToMatch: FieldToMatch.fromJson(
+          (json['FieldToMatch'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textTransformations: ((json['TextTransformations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),

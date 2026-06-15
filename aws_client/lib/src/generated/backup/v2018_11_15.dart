@@ -5045,8 +5045,8 @@ class BackupPlan {
 
   factory BackupPlan.fromJson(Map<String, dynamic> json) {
     return BackupPlan(
-      backupPlanName: json['BackupPlanName'] as String,
-      rules: (json['Rules'] as List)
+      backupPlanName: (json['BackupPlanName'] as String?) ?? '',
+      rules: ((json['Rules'] as List?) ?? const [])
           .nonNulls
           .map((e) => BackupRule.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5333,8 +5333,8 @@ class BackupRule {
 
   factory BackupRule.fromJson(Map<String, dynamic> json) {
     return BackupRule(
-      ruleName: json['RuleName'] as String,
-      targetBackupVaultName: json['TargetBackupVaultName'] as String,
+      ruleName: (json['RuleName'] as String?) ?? '',
+      targetBackupVaultName: (json['TargetBackupVaultName'] as String?) ?? '',
       completionWindowMinutes: json['CompletionWindowMinutes'] as int?,
       copyActions: (json['CopyActions'] as List?)
           ?.nonNulls
@@ -5568,8 +5568,8 @@ class BackupSelection {
 
   factory BackupSelection.fromJson(Map<String, dynamic> json) {
     return BackupSelection(
-      iamRoleArn: json['IamRoleArn'] as String,
-      selectionName: json['SelectionName'] as String,
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      selectionName: (json['SelectionName'] as String?) ?? '',
       conditions: json['Conditions'] != null
           ? Conditions.fromJson(json['Conditions'] as Map<String, dynamic>)
           : null,
@@ -5949,10 +5949,10 @@ class Condition {
 
   factory Condition.fromJson(Map<String, dynamic> json) {
     return Condition(
-      conditionKey: json['ConditionKey'] as String,
+      conditionKey: (json['ConditionKey'] as String?) ?? '',
       conditionType:
           ConditionType.fromString((json['ConditionType'] as String)),
-      conditionValue: json['ConditionValue'] as String,
+      conditionValue: (json['ConditionValue'] as String?) ?? '',
     );
   }
 
@@ -6195,7 +6195,8 @@ class CopyAction {
 
   factory CopyAction.fromJson(Map<String, dynamic> json) {
     return CopyAction(
-      destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String,
+      destinationBackupVaultArn:
+          (json['DestinationBackupVaultArn'] as String?) ?? '',
       lifecycle: json['Lifecycle'] != null
           ? Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>)
           : null,
@@ -6932,10 +6933,9 @@ class CreateRestoreTestingPlanOutput {
 
   factory CreateRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
     return CreateRestoreTestingPlanOutput(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
     );
   }
 
@@ -6979,12 +6979,11 @@ class CreateRestoreTestingSelectionOutput {
   factory CreateRestoreTestingSelectionOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateRestoreTestingSelectionOutput(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
       restoreTestingSelectionName:
-          json['RestoreTestingSelectionName'] as String,
+          (json['RestoreTestingSelectionName'] as String?) ?? '',
     );
   }
 
@@ -7030,8 +7029,8 @@ class DateRange {
 
   factory DateRange.fromJson(Map<String, dynamic> json) {
     return DateRange(
-      fromDate: nonNullableTimeStampFromJson(json['FromDate'] as Object),
-      toDate: nonNullableTimeStampFromJson(json['ToDate'] as Object),
+      fromDate: nonNullableTimeStampFromJson(json['FromDate'] ?? 0),
+      toDate: nonNullableTimeStampFromJson(json['ToDate'] ?? 0),
     );
   }
 
@@ -8443,7 +8442,7 @@ class FrameworkControl {
 
   factory FrameworkControl.fromJson(Map<String, dynamic> json) {
     return FrameworkControl(
-      controlName: json['ControlName'] as String,
+      controlName: (json['ControlName'] as String?) ?? '',
       controlInputParameters: (json['ControlInputParameters'] as List?)
           ?.nonNulls
           .map((e) => ControlInputParameter.fromJson(e as Map<String, dynamic>))
@@ -8959,7 +8958,8 @@ class GetRestoreTestingInferredMetadataOutput {
   factory GetRestoreTestingInferredMetadataOutput.fromJson(
       Map<String, dynamic> json) {
     return GetRestoreTestingInferredMetadataOutput(
-      inferredMetadata: (json['InferredMetadata'] as Map<String, dynamic>)
+      inferredMetadata: ((json['InferredMetadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
     );
   }
@@ -8984,7 +8984,8 @@ class GetRestoreTestingPlanOutput {
   factory GetRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
     return GetRestoreTestingPlanOutput(
       restoreTestingPlan: RestoreTestingPlanForGet.fromJson(
-          json['RestoreTestingPlan'] as Map<String, dynamic>),
+          (json['RestoreTestingPlan'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9007,7 +9008,8 @@ class GetRestoreTestingSelectionOutput {
   factory GetRestoreTestingSelectionOutput.fromJson(Map<String, dynamic> json) {
     return GetRestoreTestingSelectionOutput(
       restoreTestingSelection: RestoreTestingSelectionForGet.fromJson(
-          json['RestoreTestingSelection'] as Map<String, dynamic>),
+          (json['RestoreTestingSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9122,8 +9124,8 @@ class KeyValue {
 
   factory KeyValue.fromJson(Map<String, dynamic> json) {
     return KeyValue(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -10129,7 +10131,7 @@ class ListRestoreTestingPlansOutput {
 
   factory ListRestoreTestingPlansOutput.fromJson(Map<String, dynamic> json) {
     return ListRestoreTestingPlansOutput(
-      restoreTestingPlans: (json['RestoreTestingPlans'] as List)
+      restoreTestingPlans: ((json['RestoreTestingPlans'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               RestoreTestingPlanForList.fromJson(e as Map<String, dynamic>))
@@ -10167,11 +10169,12 @@ class ListRestoreTestingSelectionsOutput {
   factory ListRestoreTestingSelectionsOutput.fromJson(
       Map<String, dynamic> json) {
     return ListRestoreTestingSelectionsOutput(
-      restoreTestingSelections: (json['RestoreTestingSelections'] as List)
-          .nonNulls
-          .map((e) => RestoreTestingSelectionForList.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
+      restoreTestingSelections:
+          ((json['RestoreTestingSelections'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => RestoreTestingSelectionForList.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -10858,7 +10861,7 @@ class ReportDeliveryChannel {
 
   factory ReportDeliveryChannel.fromJson(Map<String, dynamic> json) {
     return ReportDeliveryChannel(
-      s3BucketName: json['S3BucketName'] as String,
+      s3BucketName: (json['S3BucketName'] as String?) ?? '',
       formats:
           (json['Formats'] as List?)?.nonNulls.map((e) => e as String).toList(),
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
@@ -11166,7 +11169,7 @@ class ReportSetting {
 
   factory ReportSetting.fromJson(Map<String, dynamic> json) {
     return ReportSetting(
-      reportTemplate: json['ReportTemplate'] as String,
+      reportTemplate: (json['ReportTemplate'] as String?) ?? '',
       accounts: (json['Accounts'] as List?)
           ?.nonNulls
           .map((e) => e as String)
@@ -11699,13 +11702,13 @@ class RestoreTestingPlanForGet {
 
   factory RestoreTestingPlanForGet.fromJson(Map<String, dynamic> json) {
     return RestoreTestingPlanForGet(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
       recoveryPointSelection: RestoreTestingRecoveryPointSelection.fromJson(
-          json['RecoveryPointSelection'] as Map<String, dynamic>),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
-      scheduleExpression: json['ScheduleExpression'] as String,
+          (json['RecoveryPointSelection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
       creatorRequestId: json['CreatorRequestId'] as String?,
       lastExecutionTime: timeStampFromJson(json['LastExecutionTime']),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
@@ -11801,11 +11804,10 @@ class RestoreTestingPlanForList {
 
   factory RestoreTestingPlanForList.fromJson(Map<String, dynamic> json) {
     return RestoreTestingPlanForList(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
-      scheduleExpression: json['ScheduleExpression'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
+      scheduleExpression: (json['ScheduleExpression'] as String?) ?? '',
       lastExecutionTime: timeStampFromJson(json['LastExecutionTime']),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
       scheduleExpressionTimezone: json['ScheduleExpressionTimezone'] as String?,
@@ -12225,13 +12227,12 @@ class RestoreTestingSelectionForGet {
 
   factory RestoreTestingSelectionForGet.fromJson(Map<String, dynamic> json) {
     return RestoreTestingSelectionForGet(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      iamRoleArn: json['IamRoleArn'] as String,
-      protectedResourceType: json['ProtectedResourceType'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      protectedResourceType: (json['ProtectedResourceType'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
       restoreTestingSelectionName:
-          json['RestoreTestingSelectionName'] as String,
+          (json['RestoreTestingSelectionName'] as String?) ?? '',
       creatorRequestId: json['CreatorRequestId'] as String?,
       protectedResourceArns: (json['ProtectedResourceArns'] as List?)
           ?.nonNulls
@@ -12322,13 +12323,12 @@ class RestoreTestingSelectionForList {
 
   factory RestoreTestingSelectionForList.fromJson(Map<String, dynamic> json) {
     return RestoreTestingSelectionForList(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      iamRoleArn: json['IamRoleArn'] as String,
-      protectedResourceType: json['ProtectedResourceType'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+      protectedResourceType: (json['ProtectedResourceType'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
       restoreTestingSelectionName:
-          json['RestoreTestingSelectionName'] as String,
+          (json['RestoreTestingSelectionName'] as String?) ?? '',
       validationWindowHours: json['ValidationWindowHours'] as int?,
     );
   }
@@ -12820,11 +12820,10 @@ class UpdateRestoreTestingPlanOutput {
 
   factory UpdateRestoreTestingPlanOutput.fromJson(Map<String, dynamic> json) {
     return UpdateRestoreTestingPlanOutput(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 
@@ -12870,13 +12869,12 @@ class UpdateRestoreTestingSelectionOutput {
   factory UpdateRestoreTestingSelectionOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateRestoreTestingSelectionOutput(
-      creationTime:
-          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
-      restoreTestingPlanArn: json['RestoreTestingPlanArn'] as String,
-      restoreTestingPlanName: json['RestoreTestingPlanName'] as String,
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      restoreTestingPlanArn: (json['RestoreTestingPlanArn'] as String?) ?? '',
+      restoreTestingPlanName: (json['RestoreTestingPlanName'] as String?) ?? '',
       restoreTestingSelectionName:
-          json['RestoreTestingSelectionName'] as String,
-      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+          (json['RestoreTestingSelectionName'] as String?) ?? '',
+      updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] ?? 0),
     );
   }
 

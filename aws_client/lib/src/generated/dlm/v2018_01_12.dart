@@ -575,11 +575,11 @@ class Action {
 
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
-      crossRegionCopy: (json['CrossRegionCopy'] as List)
+      crossRegionCopy: ((json['CrossRegionCopy'] as List?) ?? const [])
           .nonNulls
           .map((e) => CrossRegionCopyAction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -609,7 +609,8 @@ class ArchiveRetainRule {
   factory ArchiveRetainRule.fromJson(Map<String, dynamic> json) {
     return ArchiveRetainRule(
       retentionArchiveTier: RetentionArchiveTier.fromJson(
-          json['RetentionArchiveTier'] as Map<String, dynamic>),
+          (json['RetentionArchiveTier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -634,7 +635,8 @@ class ArchiveRule {
   factory ArchiveRule.fromJson(Map<String, dynamic> json) {
     return ArchiveRule(
       retainRule: ArchiveRetainRule.fromJson(
-          json['RetainRule'] as Map<String, dynamic>),
+          (json['RetainRule'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -793,8 +795,9 @@ class CrossRegionCopyAction {
   factory CrossRegionCopyAction.fromJson(Map<String, dynamic> json) {
     return CrossRegionCopyAction(
       encryptionConfiguration: EncryptionConfiguration.fromJson(
-          json['EncryptionConfiguration'] as Map<String, dynamic>),
-      target: json['Target'] as String,
+          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      target: (json['Target'] as String?) ?? '',
       retainRule: json['RetainRule'] != null
           ? CrossRegionCopyRetainRule.fromJson(
               json['RetainRule'] as Map<String, dynamic>)
@@ -949,7 +952,7 @@ class CrossRegionCopyRule {
 
   factory CrossRegionCopyRule.fromJson(Map<String, dynamic> json) {
     return CrossRegionCopyRule(
-      encrypted: json['Encrypted'] as bool,
+      encrypted: (json['Encrypted'] as bool?) ?? false,
       cmkArn: json['CmkArn'] as String?,
       copyTags: json['CopyTags'] as bool?,
       deprecateRule: json['DeprecateRule'] != null
@@ -1122,7 +1125,7 @@ class EncryptionConfiguration {
 
   factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
     return EncryptionConfiguration(
-      encrypted: json['Encrypted'] as bool,
+      encrypted: (json['Encrypted'] as bool?) ?? false,
       cmkArn: json['CmkArn'] as String?,
     );
   }
@@ -1167,9 +1170,9 @@ class EventParameters {
 
   factory EventParameters.fromJson(Map<String, dynamic> json) {
     return EventParameters(
-      descriptionRegex: json['DescriptionRegex'] as String,
+      descriptionRegex: (json['DescriptionRegex'] as String?) ?? '',
       eventType: EventTypeValues.fromString((json['EventType'] as String)),
-      snapshotOwner: (json['SnapshotOwner'] as List)
+      snapshotOwner: ((json['SnapshotOwner'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -1343,7 +1346,7 @@ class FastRestoreRule {
 
   factory FastRestoreRule.fromJson(Map<String, dynamic> json) {
     return FastRestoreRule(
-      availabilityZones: (json['AvailabilityZones'] as List)
+      availabilityZones: ((json['AvailabilityZones'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2494,7 +2497,7 @@ class Script {
 
   factory Script.fromJson(Map<String, dynamic> json) {
     return Script(
-      executionHandler: json['ExecutionHandler'] as String,
+      executionHandler: (json['ExecutionHandler'] as String?) ?? '',
       executeOperationOnScriptFailure:
           json['ExecuteOperationOnScriptFailure'] as bool?,
       executionHandlerService: (json['ExecutionHandlerService'] as String?)
@@ -2566,7 +2569,7 @@ class ShareRule {
 
   factory ShareRule.fromJson(Map<String, dynamic> json) {
     return ShareRule(
-      targetAccounts: (json['TargetAccounts'] as List)
+      targetAccounts: ((json['TargetAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2618,8 +2621,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

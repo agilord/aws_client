@@ -431,16 +431,17 @@ class CommonControlSummary {
 
   factory CommonControlSummary.fromJson(Map<String, dynamic> json) {
     return CommonControlSummary(
-      arn: json['Arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
       domain: AssociatedDomainSummary.fromJson(
-          json['Domain'] as Map<String, dynamic>),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['LastUpdateTime'] as Object),
-      name: json['Name'] as String,
+          (json['Domain'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
       objective: AssociatedObjectiveSummary.fromJson(
-          json['Objective'] as Map<String, dynamic>),
+          (json['Objective'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -515,9 +516,9 @@ class ControlSummary {
 
   factory ControlSummary.fromJson(Map<String, dynamic> json) {
     return ControlSummary(
-      arn: json['Arn'] as String,
-      description: json['Description'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      description: (json['Description'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -577,12 +578,11 @@ class DomainSummary {
 
   factory DomainSummary.fromJson(Map<String, dynamic> json) {
     return DomainSummary(
-      arn: json['Arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['LastUpdateTime'] as Object),
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
+      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -627,12 +627,13 @@ class GetControlResponse {
 
   factory GetControlResponse.fromJson(Map<String, dynamic> json) {
     return GetControlResponse(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       behavior: ControlBehavior.fromString((json['Behavior'] as String)),
-      description: json['Description'] as String,
-      name: json['Name'] as String,
+      description: (json['Description'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       regionConfiguration: RegionConfiguration.fromJson(
-          json['RegionConfiguration'] as Map<String, dynamic>),
+          (json['RegionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -667,7 +668,7 @@ class ListCommonControlsResponse {
 
   factory ListCommonControlsResponse.fromJson(Map<String, dynamic> json) {
     return ListCommonControlsResponse(
-      commonControls: (json['CommonControls'] as List)
+      commonControls: ((json['CommonControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => CommonControlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -700,7 +701,7 @@ class ListControlsResponse {
 
   factory ListControlsResponse.fromJson(Map<String, dynamic> json) {
     return ListControlsResponse(
-      controls: (json['Controls'] as List)
+      controls: ((json['Controls'] as List?) ?? const [])
           .nonNulls
           .map((e) => ControlSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -732,7 +733,7 @@ class ListDomainsResponse {
 
   factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
     return ListDomainsResponse(
-      domains: (json['Domains'] as List)
+      domains: ((json['Domains'] as List?) ?? const [])
           .nonNulls
           .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -764,7 +765,7 @@ class ListObjectivesResponse {
 
   factory ListObjectivesResponse.fromJson(Map<String, dynamic> json) {
     return ListObjectivesResponse(
-      objectives: (json['Objectives'] as List)
+      objectives: ((json['Objectives'] as List?) ?? const [])
           .nonNulls
           .map((e) => ObjectiveSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -850,14 +851,14 @@ class ObjectiveSummary {
 
   factory ObjectiveSummary.fromJson(Map<String, dynamic> json) {
     return ObjectiveSummary(
-      arn: json['Arn'] as String,
-      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
-      description: json['Description'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] ?? 0),
+      description: (json['Description'] as String?) ?? '',
       domain: AssociatedDomainSummary.fromJson(
-          json['Domain'] as Map<String, dynamic>),
-      lastUpdateTime:
-          nonNullableTimeStampFromJson(json['LastUpdateTime'] as Object),
-      name: json['Name'] as String,
+          (json['Domain'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastUpdateTime: nonNullableTimeStampFromJson(json['LastUpdateTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
     );
   }
 

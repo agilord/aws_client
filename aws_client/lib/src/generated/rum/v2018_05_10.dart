@@ -1348,10 +1348,11 @@ class BatchCreateRumMetricDefinitionsError {
   factory BatchCreateRumMetricDefinitionsError.fromJson(
       Map<String, dynamic> json) {
     return BatchCreateRumMetricDefinitionsError(
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
       metricDefinition: MetricDefinitionRequest.fromJson(
-          json['MetricDefinition'] as Map<String, dynamic>),
+          (json['MetricDefinition'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -1382,7 +1383,7 @@ class BatchCreateRumMetricDefinitionsResponse {
   factory BatchCreateRumMetricDefinitionsResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchCreateRumMetricDefinitionsResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchCreateRumMetricDefinitionsError.fromJson(
               e as Map<String, dynamic>))
@@ -1426,9 +1427,9 @@ class BatchDeleteRumMetricDefinitionsError {
   factory BatchDeleteRumMetricDefinitionsError.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteRumMetricDefinitionsError(
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
-      metricDefinitionId: json['MetricDefinitionId'] as String,
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
     );
   }
 
@@ -1459,7 +1460,7 @@ class BatchDeleteRumMetricDefinitionsResponse {
   factory BatchDeleteRumMetricDefinitionsResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchDeleteRumMetricDefinitionsResponse(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchDeleteRumMetricDefinitionsError.fromJson(
               e as Map<String, dynamic>))
@@ -1805,9 +1806,10 @@ class ListTagsForResourceResponse {
 
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResponse(
-      resourceArn: json['ResourceArn'] as String,
-      tags: (json['Tags'] as Map<String, dynamic>)
-          .map((k, e) => MapEntry(k, e as String)),
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -1873,8 +1875,8 @@ class MetricDefinition {
 
   factory MetricDefinition.fromJson(Map<String, dynamic> json) {
     return MetricDefinition(
-      metricDefinitionId: json['MetricDefinitionId'] as String,
-      name: json['Name'] as String,
+      metricDefinitionId: (json['MetricDefinitionId'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       dimensionKeys: (json['DimensionKeys'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       eventPattern: json['EventPattern'] as String?,
@@ -2240,7 +2242,7 @@ class MetricDefinitionRequest {
 
   factory MetricDefinitionRequest.fromJson(Map<String, dynamic> json) {
     return MetricDefinitionRequest(
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       dimensionKeys: (json['DimensionKeys'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       eventPattern: json['EventPattern'] as String?,

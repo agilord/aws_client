@@ -1791,7 +1791,7 @@ class DefinitionDocument {
   factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
     return DefinitionDocument(
       language: DefinitionLanguage.fromString((json['language'] as String)),
-      text: json['text'] as String,
+      text: (json['text'] as String?) ?? '',
     );
   }
 
@@ -1931,7 +1931,8 @@ class DeploySystemInstanceResponse {
   factory DeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) {
     return DeploySystemInstanceResponse(
       summary: SystemInstanceSummary.fromJson(
-          json['summary'] as Map<String, dynamic>),
+          (json['summary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       greengrassDeploymentId: json['greengrassDeploymentId'] as String?,
     );
   }
@@ -2709,8 +2710,8 @@ class GetUploadStatusResponse {
 
   factory GetUploadStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetUploadStatusResponse(
-      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
-      uploadId: json['uploadId'] as String,
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] ?? 0),
+      uploadId: (json['uploadId'] as String?) ?? '',
       uploadStatus: UploadStatus.fromString((json['uploadStatus'] as String)),
       failureReason: (json['failureReason'] as List?)
           ?.nonNulls
@@ -3449,8 +3450,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['key'] as String,
-      value: json['value'] as String,
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
@@ -3605,7 +3606,7 @@ class UploadEntityDefinitionsResponse {
 
   factory UploadEntityDefinitionsResponse.fromJson(Map<String, dynamic> json) {
     return UploadEntityDefinitionsResponse(
-      uploadId: json['uploadId'] as String,
+      uploadId: (json['uploadId'] as String?) ?? '',
     );
   }
 

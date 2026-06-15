@@ -1970,8 +1970,9 @@ class AccessPoliciesStatus {
 
   factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) {
     return AccessPoliciesStatus(
-      options: json['Options'] as String,
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: (json['Options'] as String?) ?? '',
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2062,9 +2063,11 @@ class AdvancedOptionsStatus {
 
   factory AdvancedOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedOptionsStatus(
-      options: (json['Options'] as Map<String, dynamic>)
+      options: ((json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2204,8 +2207,10 @@ class AdvancedSecurityOptionsStatus {
   factory AdvancedSecurityOptionsStatus.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptionsStatus(
       options: AdvancedSecurityOptions.fromJson(
-          json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -2264,7 +2269,8 @@ class AuthorizeVpcEndpointAccessResponse {
       Map<String, dynamic> json) {
     return AuthorizeVpcEndpointAccessResponse(
       authorizedPrincipal: AuthorizedPrincipal.fromJson(
-          json['AuthorizedPrincipal'] as Map<String, dynamic>),
+          (json['AuthorizedPrincipal'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2638,10 +2644,9 @@ class AutoTuneStatus {
 
   factory AutoTuneStatus.fromJson(Map<String, dynamic> json) {
     return AutoTuneStatus(
-      creationDate:
-          nonNullableTimeStampFromJson(json['CreationDate'] as Object),
+      creationDate: nonNullableTimeStampFromJson(json['CreationDate'] ?? 0),
       state: AutoTuneState.fromString((json['State'] as String)),
-      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
+      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] ?? 0),
       errorMessage: json['ErrorMessage'] as String?,
       pendingDeletion: json['PendingDeletion'] as bool?,
       updateVersion: json['UpdateVersion'] as int?,
@@ -3076,8 +3081,11 @@ class CognitoOptionsStatus {
 
   factory CognitoOptionsStatus.fromJson(Map<String, dynamic> json) {
     return CognitoOptionsStatus(
-      options: CognitoOptions.fromJson(json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: CognitoOptions.fromJson(
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -3102,7 +3110,7 @@ class ColdStorageOptions {
 
   factory ColdStorageOptions.fromJson(Map<String, dynamic> json) {
     return ColdStorageOptions(
-      enabled: json['Enabled'] as bool,
+      enabled: (json['Enabled'] as bool?) ?? false,
     );
   }
 
@@ -3307,8 +3315,9 @@ class CreateVpcEndpointResponse {
 
   factory CreateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
     return CreateVpcEndpointResponse(
-      vpcEndpoint:
-          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
+      vpcEndpoint: VpcEndpoint.fromJson(
+          (json['VpcEndpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3453,7 +3462,8 @@ class DeleteVpcEndpointResponse {
   factory DeleteVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
     return DeleteVpcEndpointResponse(
       vpcEndpointSummary: VpcEndpointSummary.fromJson(
-          json['VpcEndpointSummary'] as Map<String, dynamic>),
+          (json['VpcEndpointSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3566,7 +3576,8 @@ class DescribeElasticsearchDomainConfigResponse {
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainConfigResponse(
       domainConfig: ElasticsearchDomainConfig.fromJson(
-          json['DomainConfig'] as Map<String, dynamic>),
+          (json['DomainConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3592,7 +3603,8 @@ class DescribeElasticsearchDomainResponse {
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainResponse(
       domainStatus: ElasticsearchDomainStatus.fromJson(
-          json['DomainStatus'] as Map<String, dynamic>),
+          (json['DomainStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -3618,7 +3630,7 @@ class DescribeElasticsearchDomainsResponse {
   factory DescribeElasticsearchDomainsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeElasticsearchDomainsResponse(
-      domainStatusList: (json['DomainStatusList'] as List)
+      domainStatusList: ((json['DomainStatusList'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ElasticsearchDomainStatus.fromJson(e as Map<String, dynamic>))
@@ -3915,11 +3927,11 @@ class DescribeVpcEndpointsResponse {
 
   factory DescribeVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return DescribeVpcEndpointsResponse(
-      vpcEndpointErrors: (json['VpcEndpointErrors'] as List)
+      vpcEndpointErrors: ((json['VpcEndpointErrors'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcEndpointError.fromJson(e as Map<String, dynamic>))
           .toList(),
-      vpcEndpoints: (json['VpcEndpoints'] as List)
+      vpcEndpoints: ((json['VpcEndpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => VpcEndpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -4049,8 +4061,10 @@ class DomainEndpointOptionsStatus {
   factory DomainEndpointOptionsStatus.fromJson(Map<String, dynamic> json) {
     return DomainEndpointOptionsStatus(
       options: DomainEndpointOptions.fromJson(
-          json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4106,7 +4120,7 @@ class DomainInformation {
 
   factory DomainInformation.fromJson(Map<String, dynamic> json) {
     return DomainInformation(
-      domainName: json['DomainName'] as String,
+      domainName: (json['DomainName'] as String?) ?? '',
       ownerId: json['OwnerId'] as String?,
       region: json['Region'] as String?,
     );
@@ -4390,8 +4404,10 @@ class EBSOptionsStatus {
 
   factory EBSOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EBSOptionsStatus(
-      options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: EBSOptions.fromJson((json['Options'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4625,8 +4641,10 @@ class ElasticsearchClusterConfigStatus {
   factory ElasticsearchClusterConfigStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchClusterConfigStatus(
       options: ElasticsearchClusterConfig.fromJson(
-          json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -4976,11 +4994,12 @@ class ElasticsearchDomainStatus {
 
   factory ElasticsearchDomainStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchDomainStatus(
-      arn: json['ARN'] as String,
-      domainId: json['DomainId'] as String,
-      domainName: json['DomainName'] as String,
+      arn: (json['ARN'] as String?) ?? '',
+      domainId: (json['DomainId'] as String?) ?? '',
+      domainName: (json['DomainName'] as String?) ?? '',
       elasticsearchClusterConfig: ElasticsearchClusterConfig.fromJson(
-          json['ElasticsearchClusterConfig'] as Map<String, dynamic>),
+          (json['ElasticsearchClusterConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       accessPolicies: json['AccessPolicies'] as String?,
       advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5135,8 +5154,9 @@ class ElasticsearchVersionStatus {
 
   factory ElasticsearchVersionStatus.fromJson(Map<String, dynamic> json) {
     return ElasticsearchVersionStatus(
-      options: json['Options'] as String,
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: (json['Options'] as String?) ?? '',
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5199,8 +5219,10 @@ class EncryptionAtRestOptionsStatus {
   factory EncryptionAtRestOptionsStatus.fromJson(Map<String, dynamic> json) {
     return EncryptionAtRestOptionsStatus(
       options: EncryptionAtRestOptions.fromJson(
-          json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -5899,11 +5921,12 @@ class ListVpcEndpointAccessResponse {
 
   factory ListVpcEndpointAccessResponse.fromJson(Map<String, dynamic> json) {
     return ListVpcEndpointAccessResponse(
-      authorizedPrincipalList: (json['AuthorizedPrincipalList'] as List)
+      authorizedPrincipalList: ((json['AuthorizedPrincipalList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AuthorizedPrincipal.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['NextToken'] as String,
+      nextToken: (json['NextToken'] as String?) ?? '',
     );
   }
 
@@ -5936,8 +5959,9 @@ class ListVpcEndpointsForDomainResponse {
   factory ListVpcEndpointsForDomainResponse.fromJson(
       Map<String, dynamic> json) {
     return ListVpcEndpointsForDomainResponse(
-      nextToken: json['NextToken'] as String,
-      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+      nextToken: (json['NextToken'] as String?) ?? '',
+      vpcEndpointSummaryList: ((json['VpcEndpointSummaryList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5971,8 +5995,9 @@ class ListVpcEndpointsResponse {
 
   factory ListVpcEndpointsResponse.fromJson(Map<String, dynamic> json) {
     return ListVpcEndpointsResponse(
-      nextToken: json['NextToken'] as String,
-      vpcEndpointSummaryList: (json['VpcEndpointSummaryList'] as List)
+      nextToken: (json['NextToken'] as String?) ?? '',
+      vpcEndpointSummaryList: ((json['VpcEndpointSummaryList'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => VpcEndpointSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -6219,8 +6244,10 @@ class NodeToNodeEncryptionOptionsStatus {
       Map<String, dynamic> json) {
     return NodeToNodeEncryptionOptionsStatus(
       options: NodeToNodeEncryptionOptions.fromJson(
-          json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -6283,10 +6310,9 @@ class OptionStatus {
 
   factory OptionStatus.fromJson(Map<String, dynamic> json) {
     return OptionStatus(
-      creationDate:
-          nonNullableTimeStampFromJson(json['CreationDate'] as Object),
+      creationDate: nonNullableTimeStampFromJson(json['CreationDate'] ?? 0),
       state: OptionState.fromString((json['State'] as String)),
-      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
+      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] ?? 0),
       pendingDeletion: json['PendingDeletion'] as bool?,
       updateVersion: json['UpdateVersion'] as int?,
     );
@@ -7051,8 +7077,8 @@ class SAMLIdp {
 
   factory SAMLIdp.fromJson(Map<String, dynamic> json) {
     return SAMLIdp(
-      entityId: json['EntityId'] as String,
-      metadataContent: json['MetadataContent'] as String,
+      entityId: (json['EntityId'] as String?) ?? '',
+      metadataContent: (json['MetadataContent'] as String?) ?? '',
     );
   }
 
@@ -7387,9 +7413,11 @@ class SnapshotOptionsStatus {
 
   factory SnapshotOptionsStatus.fromJson(Map<String, dynamic> json) {
     return SnapshotOptionsStatus(
-      options:
-          SnapshotOptions.fromJson(json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: SnapshotOptions.fromJson(
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -7552,8 +7580,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -7602,7 +7630,8 @@ class UpdateElasticsearchDomainConfigResponse {
       Map<String, dynamic> json) {
     return UpdateElasticsearchDomainConfigResponse(
       domainConfig: ElasticsearchDomainConfig.fromJson(
-          json['DomainConfig'] as Map<String, dynamic>),
+          (json['DomainConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       dryRunResults: json['DryRunResults'] != null
           ? DryRunResults.fromJson(
               json['DryRunResults'] as Map<String, dynamic>)
@@ -7658,8 +7687,9 @@ class UpdateVpcEndpointResponse {
 
   factory UpdateVpcEndpointResponse.fromJson(Map<String, dynamic> json) {
     return UpdateVpcEndpointResponse(
-      vpcEndpoint:
-          VpcEndpoint.fromJson(json['VpcEndpoint'] as Map<String, dynamic>),
+      vpcEndpoint: VpcEndpoint.fromJson(
+          (json['VpcEndpoint'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7948,8 +7978,11 @@ class VPCDerivedInfoStatus {
 
   factory VPCDerivedInfoStatus.fromJson(Map<String, dynamic> json) {
     return VPCDerivedInfoStatus(
-      options: VPCDerivedInfo.fromJson(json['Options'] as Map<String, dynamic>),
-      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+      options: VPCDerivedInfo.fromJson(
+          (json['Options'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: OptionStatus.fromJson((json['Status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 

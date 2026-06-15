@@ -11710,7 +11710,7 @@ class BucketAccessLogConfig {
 
   factory BucketAccessLogConfig.fromJson(Map<String, dynamic> json) {
     return BucketAccessLogConfig(
-      enabled: json['enabled'] as bool,
+      enabled: (json['enabled'] as bool?) ?? false,
       destination: json['destination'] as String?,
       prefix: json['prefix'] as String?,
     );

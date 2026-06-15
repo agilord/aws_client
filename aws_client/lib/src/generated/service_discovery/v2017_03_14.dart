@@ -1985,7 +1985,7 @@ class DnsConfig {
 
   factory DnsConfig.fromJson(Map<String, dynamic> json) {
     return DnsConfig(
-      dnsRecords: (json['DnsRecords'] as List)
+      dnsRecords: ((json['DnsRecords'] as List?) ?? const [])
           .nonNulls
           .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2204,7 +2204,7 @@ class DnsRecord {
 
   factory DnsRecord.fromJson(Map<String, dynamic> json) {
     return DnsRecord(
-      ttl: json['TTL'] as int,
+      ttl: (json['TTL'] as int?) ?? 0,
       type: RecordType.fromString((json['Type'] as String)),
     );
   }
@@ -2898,7 +2898,7 @@ class Instance {
 
   factory Instance.fromJson(Map<String, dynamic> json) {
     return Instance(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       attributes: (json['Attributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       creatorRequestId: json['CreatorRequestId'] as String?,
@@ -4095,7 +4095,7 @@ class SOA {
 
   factory SOA.fromJson(Map<String, dynamic> json) {
     return SOA(
-      ttl: json['TTL'] as int,
+      ttl: (json['TTL'] as int?) ?? 0,
     );
   }
 
@@ -4534,8 +4534,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

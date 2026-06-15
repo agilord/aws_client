@@ -1395,8 +1395,8 @@ class AgentConfiguration {
 
   factory AgentConfiguration.fromJson(Map<String, dynamic> json) {
     return AgentConfiguration(
-      periodInSeconds: json['periodInSeconds'] as int,
-      shouldProfile: json['shouldProfile'] as bool,
+      periodInSeconds: (json['periodInSeconds'] as int?) ?? 0,
+      shouldProfile: (json['shouldProfile'] as bool?) ?? false,
       agentParameters: (json['agentParameters'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(AgentParameterField.fromString(k), e as String)),
     );
@@ -1431,7 +1431,7 @@ class AgentOrchestrationConfig {
 
   factory AgentOrchestrationConfig.fromJson(Map<String, dynamic> json) {
     return AgentOrchestrationConfig(
-      profilingEnabled: json['profilingEnabled'] as bool,
+      profilingEnabled: (json['profilingEnabled'] as bool?) ?? false,
     );
   }
 
@@ -1557,12 +1557,13 @@ class Anomaly {
 
   factory Anomaly.fromJson(Map<String, dynamic> json) {
     return Anomaly(
-      instances: (json['instances'] as List)
+      instances: ((json['instances'] as List?) ?? const [])
           .nonNulls
           .map((e) => AnomalyInstance.fromJson(e as Map<String, dynamic>))
           .toList(),
-      metric: Metric.fromJson(json['metric'] as Map<String, dynamic>),
-      reason: json['reason'] as String,
+      metric: Metric.fromJson((json['metric'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      reason: (json['reason'] as String?) ?? '',
     );
   }
 
@@ -1608,8 +1609,8 @@ class AnomalyInstance {
 
   factory AnomalyInstance.fromJson(Map<String, dynamic> json) {
     return AnomalyInstance(
-      id: json['id'] as String,
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      id: (json['id'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
       endTime: timeStampFromJson(json['endTime']),
       userFeedback: json['userFeedback'] != null
           ? UserFeedback.fromJson(json['userFeedback'] as Map<String, dynamic>)
@@ -1688,18 +1689,20 @@ class BatchGetFrameMetricDataResponse {
 
   factory BatchGetFrameMetricDataResponse.fromJson(Map<String, dynamic> json) {
     return BatchGetFrameMetricDataResponse(
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      endTimes: (json['endTimes'] as List)
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      endTimes: ((json['endTimes'] as List?) ?? const [])
           .nonNulls
           .map((e) => TimestampStructure.fromJson(e as Map<String, dynamic>))
           .toList(),
-      frameMetricData: (json['frameMetricData'] as List)
+      frameMetricData: ((json['frameMetricData'] as List?) ?? const [])
           .nonNulls
           .map((e) => FrameMetricDatum.fromJson(e as Map<String, dynamic>))
           .toList(),
       resolution: AggregationPeriod.fromString((json['resolution'] as String)),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      unprocessedEndTimes: (json['unprocessedEndTimes'] as Map<String, dynamic>)
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      unprocessedEndTimes: ((json['unprocessedEndTimes']
+                  as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(
               k,
               (e as List)
@@ -1754,11 +1757,11 @@ class Channel {
 
   factory Channel.fromJson(Map<String, dynamic> json) {
     return Channel(
-      eventPublishers: (json['eventPublishers'] as List)
+      eventPublishers: ((json['eventPublishers'] as List?) ?? const [])
           .nonNulls
           .map((e) => EventPublisher.fromString((e as String)))
           .toList(),
-      uri: json['uri'] as String,
+      uri: (json['uri'] as String?) ?? '',
       id: json['id'] as String?,
     );
   }
@@ -1978,8 +1981,8 @@ class FrameMetric {
 
   factory FrameMetric.fromJson(Map<String, dynamic> json) {
     return FrameMetric(
-      frameName: json['frameName'] as String,
-      threadStates: (json['threadStates'] as List)
+      frameName: (json['frameName'] as String?) ?? '',
+      threadStates: ((json['threadStates'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2013,10 +2016,13 @@ class FrameMetricDatum {
 
   factory FrameMetricDatum.fromJson(Map<String, dynamic> json) {
     return FrameMetricDatum(
-      frameMetric:
-          FrameMetric.fromJson(json['frameMetric'] as Map<String, dynamic>),
-      values:
-          (json['values'] as List).nonNulls.map((e) => e as double).toList(),
+      frameMetric: FrameMetric.fromJson(
+          (json['frameMetric'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      values: ((json['values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as double)
+          .toList(),
     );
   }
 
@@ -2054,7 +2060,7 @@ class GetFindingsReportAccountSummaryResponse {
   factory GetFindingsReportAccountSummaryResponse.fromJson(
       Map<String, dynamic> json) {
     return GetFindingsReportAccountSummaryResponse(
-      reportSummaries: (json['reportSummaries'] as List)
+      reportSummaries: ((json['reportSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2085,7 +2091,8 @@ class GetNotificationConfigurationResponse {
       Map<String, dynamic> json) {
     return GetNotificationConfigurationResponse(
       notificationConfiguration: NotificationConfiguration.fromJson(
-          json['notificationConfiguration'] as Map<String, dynamic>),
+          (json['notificationConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2113,8 +2120,8 @@ class GetPolicyResponse {
 
   factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
     return GetPolicyResponse(
-      policy: json['policy'] as String,
-      revisionId: json['revisionId'] as String,
+      policy: (json['policy'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -2188,16 +2195,15 @@ class GetRecommendationsResponse {
 
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return GetRecommendationsResponse(
-      anomalies: (json['anomalies'] as List)
+      anomalies: ((json['anomalies'] as List?) ?? const [])
           .nonNulls
           .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
           .toList(),
-      profileEndTime:
-          nonNullableTimeStampFromJson(json['profileEndTime'] as Object),
+      profileEndTime: nonNullableTimeStampFromJson(json['profileEndTime'] ?? 0),
       profileStartTime:
-          nonNullableTimeStampFromJson(json['profileStartTime'] as Object),
-      profilingGroupName: json['profilingGroupName'] as String,
-      recommendations: (json['recommendations'] as List)
+          nonNullableTimeStampFromJson(json['profileStartTime'] ?? 0),
+      profilingGroupName: (json['profilingGroupName'] as String?) ?? '',
+      recommendations: ((json['recommendations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2239,7 +2245,8 @@ class ListFindingsReportsResponse {
 
   factory ListFindingsReportsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsReportsResponse(
-      findingsReportSummaries: (json['findingsReportSummaries'] as List)
+      findingsReportSummaries: ((json['findingsReportSummaries'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2277,7 +2284,7 @@ class ListProfileTimesResponse {
 
   factory ListProfileTimesResponse.fromJson(Map<String, dynamic> json) {
     return ListProfileTimesResponse(
-      profileTimes: (json['profileTimes'] as List)
+      profileTimes: ((json['profileTimes'] as List?) ?? const [])
           .nonNulls
           .map((e) => ProfileTime.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2328,7 +2335,7 @@ class ListProfilingGroupsResponse {
 
   factory ListProfilingGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListProfilingGroupsResponse(
-      profilingGroupNames: (json['profilingGroupNames'] as List)
+      profilingGroupNames: ((json['profilingGroupNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2466,8 +2473,8 @@ class Metric {
 
   factory Metric.fromJson(Map<String, dynamic> json) {
     return Metric(
-      frameName: json['frameName'] as String,
-      threadStates: (json['threadStates'] as List)
+      frameName: (json['frameName'] as String?) ?? '',
+      threadStates: ((json['threadStates'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -2829,8 +2836,8 @@ class PutPermissionResponse {
 
   factory PutPermissionResponse.fromJson(Map<String, dynamic> json) {
     return PutPermissionResponse(
-      policy: json['policy'] as String,
-      revisionId: json['revisionId'] as String,
+      policy: (json['policy'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -2880,12 +2887,13 @@ class Recommendation {
 
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
-      allMatchesCount: json['allMatchesCount'] as int,
-      allMatchesSum: json['allMatchesSum'] as double,
-      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
-      pattern: Pattern.fromJson(json['pattern'] as Map<String, dynamic>),
-      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
-      topMatches: (json['topMatches'] as List)
+      allMatchesCount: (json['allMatchesCount'] as int?) ?? 0,
+      allMatchesSum: (json['allMatchesSum'] as double?) ?? 0,
+      endTime: nonNullableTimeStampFromJson(json['endTime'] ?? 0),
+      pattern: Pattern.fromJson((json['pattern'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      topMatches: ((json['topMatches'] as List?) ?? const [])
           .nonNulls
           .map((e) => Match.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2957,8 +2965,8 @@ class RemovePermissionResponse {
 
   factory RemovePermissionResponse.fromJson(Map<String, dynamic> json) {
     return RemovePermissionResponse(
-      policy: json['policy'] as String,
-      revisionId: json['revisionId'] as String,
+      policy: (json['policy'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
     );
   }
 
@@ -3012,7 +3020,7 @@ class TimestampStructure {
 
   factory TimestampStructure.fromJson(Map<String, dynamic> json) {
     return TimestampStructure(
-      value: nonNullableTimeStampFromJson(json['value'] as Object),
+      value: nonNullableTimeStampFromJson(json['value'] ?? 0),
     );
   }
 

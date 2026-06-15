@@ -1131,14 +1131,17 @@ class Cluster {
 
   factory Cluster.fromJson(Map<String, dynamic> json) {
     return Cluster(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
-      networking:
-          Networking.fromJson(json['networking'] as Map<String, dynamic>),
-      scheduler: Scheduler.fromJson(json['scheduler'] as Map<String, dynamic>),
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      networking: Networking.fromJson(
+          (json['networking'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      scheduler: Scheduler.fromJson(
+          (json['scheduler'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       size: Size.fromString((json['size'] as String)),
       status: ClusterStatus.fromString((json['status'] as String)),
       endpoints: (json['endpoints'] as List?)
@@ -1312,11 +1315,11 @@ class ClusterSummary {
 
   factory ClusterSummary.fromJson(Map<String, dynamic> json) {
     return ClusterSummary(
-      arn: json['arn'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ClusterStatus.fromString((json['status'] as String)),
     );
   }
@@ -1422,24 +1425,28 @@ class ComputeNodeGroup {
 
   factory ComputeNodeGroup.fromJson(Map<String, dynamic> json) {
     return ComputeNodeGroup(
-      arn: json['arn'] as String,
-      clusterId: json['clusterId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      arn: (json['arn'] as String?) ?? '',
+      clusterId: (json['clusterId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
       customLaunchTemplate: CustomLaunchTemplate.fromJson(
-          json['customLaunchTemplate'] as Map<String, dynamic>),
-      iamInstanceProfileArn: json['iamInstanceProfileArn'] as String,
-      id: json['id'] as String,
-      instanceConfigs: (json['instanceConfigs'] as List)
+          (json['customLaunchTemplate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      iamInstanceProfileArn: (json['iamInstanceProfileArn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      instanceConfigs: ((json['instanceConfigs'] as List?) ?? const [])
           .nonNulls
           .map((e) => InstanceConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       scalingConfiguration: ScalingConfiguration.fromJson(
-          json['scalingConfiguration'] as Map<String, dynamic>),
+          (json['scalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       status: ComputeNodeGroupStatus.fromString((json['status'] as String)),
-      subnetIds:
-          (json['subnetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       amiId: json['amiId'] as String?,
       errorInfo: (json['errorInfo'] as List?)
           ?.nonNulls
@@ -1628,12 +1635,12 @@ class ComputeNodeGroupSummary {
 
   factory ComputeNodeGroupSummary.fromJson(Map<String, dynamic> json) {
     return ComputeNodeGroupSummary(
-      arn: json['arn'] as String,
-      clusterId: json['clusterId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      clusterId: (json['clusterId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: ComputeNodeGroupStatus.fromString((json['status'] as String)),
     );
   }
@@ -1747,8 +1754,8 @@ class CustomLaunchTemplate {
 
   factory CustomLaunchTemplate.fromJson(Map<String, dynamic> json) {
     return CustomLaunchTemplate(
-      id: json['id'] as String,
-      version: json['version'] as String,
+      id: (json['id'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -1827,8 +1834,8 @@ class Endpoint {
 
   factory Endpoint.fromJson(Map<String, dynamic> json) {
     return Endpoint(
-      port: json['port'] as String,
-      privateIpAddress: json['privateIpAddress'] as String,
+      port: (json['port'] as String?) ?? '',
+      privateIpAddress: (json['privateIpAddress'] as String?) ?? '',
       type: EndpointType.fromString((json['type'] as String)),
       publicIpAddress: json['publicIpAddress'] as String?,
     );
@@ -2010,7 +2017,7 @@ class ListClustersResponse {
 
   factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
     return ListClustersResponse(
-      clusters: (json['clusters'] as List)
+      clusters: ((json['clusters'] as List?) ?? const [])
           .nonNulls
           .map((e) => ClusterSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2047,7 +2054,7 @@ class ListComputeNodeGroupsResponse {
 
   factory ListComputeNodeGroupsResponse.fromJson(Map<String, dynamic> json) {
     return ListComputeNodeGroupsResponse(
-      computeNodeGroups: (json['computeNodeGroups'] as List)
+      computeNodeGroups: ((json['computeNodeGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               ComputeNodeGroupSummary.fromJson(e as Map<String, dynamic>))
@@ -2085,7 +2092,7 @@ class ListQueuesResponse {
 
   factory ListQueuesResponse.fromJson(Map<String, dynamic> json) {
     return ListQueuesResponse(
-      queues: (json['queues'] as List)
+      queues: ((json['queues'] as List?) ?? const [])
           .nonNulls
           .map((e) => QueueSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2312,18 +2319,19 @@ class Queue {
 
   factory Queue.fromJson(Map<String, dynamic> json) {
     return Queue(
-      arn: json['arn'] as String,
-      clusterId: json['clusterId'] as String,
-      computeNodeGroupConfigurations: (json['computeNodeGroupConfigurations']
-              as List)
+      arn: (json['arn'] as String?) ?? '',
+      clusterId: (json['clusterId'] as String?) ?? '',
+      computeNodeGroupConfigurations: ((json['computeNodeGroupConfigurations']
+                  as List?) ??
+              const [])
           .nonNulls
           .map((e) =>
               ComputeNodeGroupConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: QueueStatus.fromString((json['status'] as String)),
       errorInfo: (json['errorInfo'] as List?)
           ?.nonNulls
@@ -2413,12 +2421,12 @@ class QueueSummary {
 
   factory QueueSummary.fromJson(Map<String, dynamic> json) {
     return QueueSummary(
-      arn: json['arn'] as String,
-      clusterId: json['clusterId'] as String,
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
-      id: json['id'] as String,
-      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] as Object),
-      name: json['name'] as String,
+      arn: (json['arn'] as String?) ?? '',
+      clusterId: (json['clusterId'] as String?) ?? '',
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      modifiedAt: nonNullableTimeStampFromJson(json['modifiedAt'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       status: QueueStatus.fromString((json['status'] as String)),
     );
   }
@@ -2463,12 +2471,12 @@ class RegisterComputeNodeGroupInstanceResponse {
   factory RegisterComputeNodeGroupInstanceResponse.fromJson(
       Map<String, dynamic> json) {
     return RegisterComputeNodeGroupInstanceResponse(
-      endpoints: (json['endpoints'] as List)
+      endpoints: ((json['endpoints'] as List?) ?? const [])
           .nonNulls
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nodeID: json['nodeID'] as String,
-      sharedSecret: json['sharedSecret'] as String,
+      nodeID: (json['nodeID'] as String?) ?? '',
+      sharedSecret: (json['sharedSecret'] as String?) ?? '',
     );
   }
 
@@ -2499,8 +2507,8 @@ class ScalingConfiguration {
 
   factory ScalingConfiguration.fromJson(Map<String, dynamic> json) {
     return ScalingConfiguration(
-      maxInstanceCount: json['maxInstanceCount'] as int,
-      minInstanceCount: json['minInstanceCount'] as int,
+      maxInstanceCount: (json['maxInstanceCount'] as int?) ?? 0,
+      minInstanceCount: (json['minInstanceCount'] as int?) ?? 0,
     );
   }
 
@@ -2556,7 +2564,7 @@ class Scheduler {
   factory Scheduler.fromJson(Map<String, dynamic> json) {
     return Scheduler(
       type: SchedulerType.fromString((json['type'] as String)),
-      version: json['version'] as String,
+      version: (json['version'] as String?) ?? '',
     );
   }
 
@@ -2641,8 +2649,8 @@ class SlurmAuthKey {
 
   factory SlurmAuthKey.fromJson(Map<String, dynamic> json) {
     return SlurmAuthKey(
-      secretArn: json['secretArn'] as String,
-      secretVersion: json['secretVersion'] as String,
+      secretArn: (json['secretArn'] as String?) ?? '',
+      secretVersion: (json['secretVersion'] as String?) ?? '',
     );
   }
 
@@ -2678,8 +2686,8 @@ class SlurmCustomSetting {
 
   factory SlurmCustomSetting.fromJson(Map<String, dynamic> json) {
     return SlurmCustomSetting(
-      parameterName: json['parameterName'] as String,
-      parameterValue: json['parameterValue'] as String,
+      parameterName: (json['parameterName'] as String?) ?? '',
+      parameterValue: (json['parameterValue'] as String?) ?? '',
     );
   }
 

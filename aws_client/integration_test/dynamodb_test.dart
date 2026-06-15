@@ -166,4 +166,133 @@ void main() {
 
     await dynamo.deleteTable(tableName: tableName);
   });
+
+  test('DynamoDB (json): batch write then batch get items', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    await dynamo.batchWriteItem(requestItems: {
+      tableName: [
+        for (var i = 0; i < 3; i++)
+          WriteRequest(
+            putRequest: PutRequest(item: {
+              'id': AttributeValue(s: 'k$i'),
+              'n': AttributeValue(n: '$i'),
+            }),
+          ),
+      ],
+    });
+
+    final got = await dynamo.batchGetItem(requestItems: {
+      tableName: KeysAndAttributes(
+        keys: [
+          {'id': AttributeValue(s: 'k0')},
+          {'id': AttributeValue(s: 'k2')},
+        ],
+        consistentRead: true,
+      ),
+    });
+    final returned = got.responses![tableName]!;
+    expect(returned, hasLength(2));
+    expect(
+      returned.map((m) => m['id']!.s).toSet(),
+      equals({'k0', 'k2'}),
+    );
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): updateItem with an update expression', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    await dynamo.putItem(
+      tableName: tableName,
+      item: {'id': AttributeValue(s: 'counter'), 'n': AttributeValue(n: '1')},
+    );
+
+    final updated = await dynamo.updateItem(
+      tableName: tableName,
+      key: {'id': AttributeValue(s: 'counter')},
+      updateExpression: 'SET #n = #n + :inc',
+      expressionAttributeNames: {'#n': 'n'},
+      expressionAttributeValues: {':inc': AttributeValue(n: '4')},
+      returnValues: ReturnValue.allNew,
+    );
+    expect(updated.attributes!['n']!.n, equals('5'));
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): scan with a filter expression', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    for (var i = 0; i < 5; i++) {
+      await dynamo.putItem(
+        tableName: tableName,
+        item: {'id': AttributeValue(s: 's$i'), 'n': AttributeValue(n: '$i')},
+      );
+    }
+
+    final scanned = await dynamo.scan(
+      tableName: tableName,
+      filterExpression: '#n >= :min',
+      expressionAttributeNames: {'#n': 'n'},
+      expressionAttributeValues: {':min': AttributeValue(n: '3')},
+    );
+    expect(scanned.items, hasLength(2));
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): describeTable reports schema and status', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    final described = await dynamo.describeTable(tableName: tableName);
+    final table = described.table!;
+    expect(table.tableName, equals(tableName));
+    expect(
+      table.keySchema!.map((k) => k.attributeName),
+      contains('id'),
+    );
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
+
+  test('DynamoDB (json): transactWriteItems writes atomically', () async {
+    final tableName = uniqueName();
+    await createTable(tableName);
+
+    await dynamo.transactWriteItems(transactItems: [
+      TransactWriteItem(
+        put: Put(
+          tableName: tableName,
+          item: {'id': AttributeValue(s: 'tx-1')},
+        ),
+      ),
+      TransactWriteItem(
+        put: Put(
+          tableName: tableName,
+          item: {'id': AttributeValue(s: 'tx-2')},
+        ),
+      ),
+    ]);
+
+    final a = await dynamo.getItem(
+      tableName: tableName,
+      key: {'id': AttributeValue(s: 'tx-1')},
+      consistentRead: true,
+    );
+    final b = await dynamo.getItem(
+      tableName: tableName,
+      key: {'id': AttributeValue(s: 'tx-2')},
+      consistentRead: true,
+    );
+    expect(a.item, isNotNull);
+    expect(b.item, isNotNull);
+
+    await dynamo.deleteTable(tableName: tableName);
+  });
 }

@@ -1068,7 +1068,7 @@ class Backup {
 
   factory Backup.fromJson(Map<String, dynamic> json) {
     return Backup(
-      backupId: json['BackupId'] as String,
+      backupId: (json['BackupId'] as String?) ?? '',
       backupArn: json['BackupArn'] as String?,
       backupState:
           (json['BackupState'] as String?)?.let(BackupState.fromString),
@@ -1799,7 +1799,7 @@ class Hsm {
 
   factory Hsm.fromJson(Map<String, dynamic> json) {
     return Hsm(
-      hsmId: json['HsmId'] as String,
+      hsmId: (json['HsmId'] as String?) ?? '',
       availabilityZone: json['AvailabilityZone'] as String?,
       clusterId: json['ClusterId'] as String?,
       eniId: json['EniId'] as String?,
@@ -1894,7 +1894,7 @@ class ListTagsResponse {
 
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
     return ListTagsResponse(
-      tagList: (json['TagList'] as List)
+      tagList: ((json['TagList'] as List?) ?? const [])
           .nonNulls
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2026,8 +2026,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 

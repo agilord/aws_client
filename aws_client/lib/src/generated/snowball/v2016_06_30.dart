@@ -2602,7 +2602,7 @@ class Ec2AmiResource {
 
   factory Ec2AmiResource.fromJson(Map<String, dynamic> json) {
     return Ec2AmiResource(
-      amiId: json['AmiId'] as String,
+      amiId: (json['AmiId'] as String?) ?? '',
       snowballAmiId: json['SnowballAmiId'] as String?,
     );
   }
@@ -3578,7 +3578,7 @@ class ListServiceVersionsResult {
   factory ListServiceVersionsResult.fromJson(Map<String, dynamic> json) {
     return ListServiceVersionsResult(
       serviceName: ServiceName.fromString((json['ServiceName'] as String)),
-      serviceVersions: (json['ServiceVersions'] as List)
+      serviceVersions: ((json['ServiceVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceVersion.fromJson(e as Map<String, dynamic>))
           .toList(),

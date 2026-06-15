@@ -1337,7 +1337,7 @@ class EncryptionKey {
 
   factory EncryptionKey.fromJson(Map<String, dynamic> json) {
     return EncryptionKey(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       type: EncryptionKeyType.fromString((json['Type'] as String)),
     );
   }
@@ -1623,8 +1623,8 @@ class InputDataConfig {
 
   factory InputDataConfig.fromJson(Map<String, dynamic> json) {
     return InputDataConfig(
-      contentType: json['ContentType'] as String,
-      s3Uri: json['S3Uri'] as String,
+      contentType: (json['ContentType'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
     );
   }
 
@@ -1714,8 +1714,8 @@ class Language {
 
   factory Language.fromJson(Map<String, dynamic> json) {
     return Language(
-      languageCode: json['LanguageCode'] as String,
-      languageName: json['LanguageName'] as String,
+      languageCode: (json['LanguageCode'] as String?) ?? '',
+      languageName: (json['LanguageName'] as String?) ?? '',
     );
   }
 
@@ -1934,7 +1934,7 @@ class OutputDataConfig {
 
   factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
     return OutputDataConfig(
-      s3Uri: json['S3Uri'] as String,
+      s3Uri: (json['S3Uri'] as String?) ?? '',
       encryptionKey: json['EncryptionKey'] != null
           ? EncryptionKey.fromJson(
               json['EncryptionKey'] as Map<String, dynamic>)
@@ -2012,8 +2012,8 @@ class ParallelDataDataLocation {
 
   factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) {
     return ParallelDataDataLocation(
-      location: json['Location'] as String,
-      repositoryType: json['RepositoryType'] as String,
+      location: (json['Location'] as String?) ?? '',
+      repositoryType: (json['RepositoryType'] as String?) ?? '',
     );
   }
 
@@ -2340,8 +2340,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2490,8 +2490,8 @@ class TerminologyDataLocation {
 
   factory TerminologyDataLocation.fromJson(Map<String, dynamic> json) {
     return TerminologyDataLocation(
-      location: json['Location'] as String,
-      repositoryType: json['RepositoryType'] as String,
+      location: (json['Location'] as String?) ?? '',
+      repositoryType: (json['RepositoryType'] as String?) ?? '',
     );
   }
 
@@ -2863,10 +2863,11 @@ class TranslateDocumentResponse {
 
   factory TranslateDocumentResponse.fromJson(Map<String, dynamic> json) {
     return TranslateDocumentResponse(
-      sourceLanguageCode: json['SourceLanguageCode'] as String,
-      targetLanguageCode: json['TargetLanguageCode'] as String,
+      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
+      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
       translatedDocument: TranslatedDocument.fromJson(
-          json['TranslatedDocument'] as Map<String, dynamic>),
+          (json['TranslatedDocument'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       appliedSettings: json['AppliedSettings'] != null
           ? TranslationSettings.fromJson(
               json['AppliedSettings'] as Map<String, dynamic>)
@@ -2922,9 +2923,9 @@ class TranslateTextResponse {
 
   factory TranslateTextResponse.fromJson(Map<String, dynamic> json) {
     return TranslateTextResponse(
-      sourceLanguageCode: json['SourceLanguageCode'] as String,
-      targetLanguageCode: json['TargetLanguageCode'] as String,
-      translatedText: json['TranslatedText'] as String,
+      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
+      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
+      translatedText: (json['TranslatedText'] as String?) ?? '',
       appliedSettings: json['AppliedSettings'] != null
           ? TranslationSettings.fromJson(
               json['AppliedSettings'] as Map<String, dynamic>)
@@ -2964,7 +2965,7 @@ class TranslatedDocument {
 
   factory TranslatedDocument.fromJson(Map<String, dynamic> json) {
     return TranslatedDocument(
-      content: _s.decodeUint8List(json['Content']! as String),
+      content: _s.decodeUint8List((json['Content'] as String?) ?? ''),
     );
   }
 

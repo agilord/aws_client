@@ -894,17 +894,18 @@ class AssertionRule {
 
   factory AssertionRule.fromJson(Map<String, dynamic> json) {
     return AssertionRule(
-      assertedControls: (json['AssertedControls'] as List)
+      assertedControls: ((json['AssertedControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      controlPanelArn: json['ControlPanelArn'] as String,
-      name: json['Name'] as String,
-      ruleConfig:
-          RuleConfig.fromJson(json['RuleConfig'] as Map<String, dynamic>),
-      safetyRuleArn: json['SafetyRuleArn'] as String,
+      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      ruleConfig: RuleConfig.fromJson(
+          (json['RuleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
       status: Status.fromString((json['Status'] as String)),
-      waitPeriodMs: json['WaitPeriodMs'] as int,
+      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
       owner: json['Owner'] as String?,
     );
   }
@@ -1466,21 +1467,22 @@ class GatingRule {
 
   factory GatingRule.fromJson(Map<String, dynamic> json) {
     return GatingRule(
-      controlPanelArn: json['ControlPanelArn'] as String,
-      gatingControls: (json['GatingControls'] as List)
+      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
+      gatingControls: ((json['GatingControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      name: json['Name'] as String,
-      ruleConfig:
-          RuleConfig.fromJson(json['RuleConfig'] as Map<String, dynamic>),
-      safetyRuleArn: json['SafetyRuleArn'] as String,
+      name: (json['Name'] as String?) ?? '',
+      ruleConfig: RuleConfig.fromJson(
+          (json['RuleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
       status: Status.fromString((json['Status'] as String)),
-      targetControls: (json['TargetControls'] as List)
+      targetControls: ((json['TargetControls'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
-      waitPeriodMs: json['WaitPeriodMs'] as int,
+      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
       owner: json['Owner'] as String?,
     );
   }
@@ -1991,8 +1993,8 @@ class RuleConfig {
 
   factory RuleConfig.fromJson(Map<String, dynamic> json) {
     return RuleConfig(
-      inverted: json['Inverted'] as bool,
-      threshold: json['Threshold'] as int,
+      inverted: (json['Inverted'] as bool?) ?? false,
+      threshold: (json['Threshold'] as int?) ?? 0,
       type: RuleType.fromString((json['Type'] as String)),
     );
   }

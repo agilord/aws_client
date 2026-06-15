@@ -5115,7 +5115,7 @@ class CreateFilterResponse {
 
   factory CreateFilterResponse.fromJson(Map<String, dynamic> json) {
     return CreateFilterResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -5137,7 +5137,7 @@ class CreateIPSetResponse {
 
   factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateIPSetResponse(
-      ipSetId: json['ipSetId'] as String,
+      ipSetId: (json['ipSetId'] as String?) ?? '',
     );
   }
 
@@ -5185,7 +5185,7 @@ class CreateMembersResponse {
 
   factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
     return CreateMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5239,7 +5239,7 @@ class CreatePublishingDestinationResponse {
   factory CreatePublishingDestinationResponse.fromJson(
       Map<String, dynamic> json) {
     return CreatePublishingDestinationResponse(
-      destinationId: json['destinationId'] as String,
+      destinationId: (json['destinationId'] as String?) ?? '',
     );
   }
 
@@ -5307,7 +5307,7 @@ class CreateThreatIntelSetResponse {
 
   factory CreateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
     return CreateThreatIntelSetResponse(
-      threatIntelSetId: json['threatIntelSetId'] as String,
+      threatIntelSetId: (json['threatIntelSetId'] as String?) ?? '',
     );
   }
 
@@ -5446,13 +5446,17 @@ class DataSourceConfigurationsResult {
   factory DataSourceConfigurationsResult.fromJson(Map<String, dynamic> json) {
     return DataSourceConfigurationsResult(
       cloudTrail: CloudTrailConfigurationResult.fromJson(
-          json['cloudTrail'] as Map<String, dynamic>),
+          (json['cloudTrail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       dNSLogs: DNSLogsConfigurationResult.fromJson(
-          json['dnsLogs'] as Map<String, dynamic>),
+          (json['dnsLogs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       flowLogs: FlowLogsConfigurationResult.fromJson(
-          json['flowLogs'] as Map<String, dynamic>),
+          (json['flowLogs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       s3Logs: S3LogsConfigurationResult.fromJson(
-          json['s3Logs'] as Map<String, dynamic>),
+          (json['s3Logs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       kubernetes: json['kubernetes'] != null
           ? KubernetesConfigurationResult.fromJson(
               json['kubernetes'] as Map<String, dynamic>)
@@ -5611,7 +5615,7 @@ class DeclineInvitationsResponse {
 
   factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return DeclineInvitationsResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5707,7 +5711,7 @@ class DeleteInvitationsResponse {
 
   factory DeleteInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return DeleteInvitationsResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5732,7 +5736,7 @@ class DeleteMembersResponse {
 
   factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
     return DeleteMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5786,7 +5790,7 @@ class DescribeMalwareScansResponse {
 
   factory DescribeMalwareScansResponse.fromJson(Map<String, dynamic> json) {
     return DescribeMalwareScansResponse(
-      scans: (json['scans'] as List)
+      scans: ((json['scans'] as List?) ?? const [])
           .nonNulls
           .map((e) => Scan.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5870,7 +5874,8 @@ class DescribeOrganizationConfigurationResponse {
   factory DescribeOrganizationConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeOrganizationConfigurationResponse(
-      memberAccountLimitReached: json['memberAccountLimitReached'] as bool,
+      memberAccountLimitReached:
+          (json['memberAccountLimitReached'] as bool?) ?? false,
       autoEnable: json['autoEnable'] as bool?,
       autoEnableOrganizationMembers:
           (json['autoEnableOrganizationMembers'] as String?)
@@ -5938,13 +5943,14 @@ class DescribePublishingDestinationResponse {
   factory DescribePublishingDestinationResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribePublishingDestinationResponse(
-      destinationId: json['destinationId'] as String,
+      destinationId: (json['destinationId'] as String?) ?? '',
       destinationProperties: DestinationProperties.fromJson(
-          json['destinationProperties'] as Map<String, dynamic>),
+          (json['destinationProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       destinationType:
           DestinationType.fromString((json['destinationType'] as String)),
       publishingFailureStartTimestamp:
-          json['publishingFailureStartTimestamp'] as int,
+          (json['publishingFailureStartTimestamp'] as int?) ?? 0,
       status: PublishingStatus.fromString((json['status'] as String)),
     );
   }
@@ -5987,7 +5993,7 @@ class Destination {
 
   factory Destination.fromJson(Map<String, dynamic> json) {
     return Destination(
-      destinationId: json['destinationId'] as String,
+      destinationId: (json['destinationId'] as String?) ?? '',
       destinationType:
           DestinationType.fromString((json['destinationType'] as String)),
       status: PublishingStatus.fromString((json['status'] as String)),
@@ -6351,7 +6357,7 @@ class DisassociateMembersResponse {
 
   factory DisassociateMembersResponse.fromJson(Map<String, dynamic> json) {
     return DisassociateMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7126,16 +7132,17 @@ class Finding {
 
   factory Finding.fromJson(Map<String, dynamic> json) {
     return Finding(
-      accountId: json['accountId'] as String,
-      arn: json['arn'] as String,
-      createdAt: json['createdAt'] as String,
-      id: json['id'] as String,
-      region: json['region'] as String,
-      resource: Resource.fromJson(json['resource'] as Map<String, dynamic>),
-      schemaVersion: json['schemaVersion'] as String,
-      severity: json['severity'] as double,
-      type: json['type'] as String,
-      updatedAt: json['updatedAt'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      arn: (json['arn'] as String?) ?? '',
+      createdAt: (json['createdAt'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      region: (json['region'] as String?) ?? '',
+      resource: Resource.fromJson((json['resource'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      schemaVersion: (json['schemaVersion'] as String?) ?? '',
+      severity: (json['severity'] as double?) ?? 0,
+      type: (json['type'] as String?) ?? '',
+      updatedAt: (json['updatedAt'] as String?) ?? '',
       confidence: json['confidence'] as double?,
       description: json['description'] as String?,
       partition: json['partition'] as String?,
@@ -7380,8 +7387,9 @@ class GetAdministratorAccountResponse {
 
   factory GetAdministratorAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetAdministratorAccountResponse(
-      administrator:
-          Administrator.fromJson(json['administrator'] as Map<String, dynamic>),
+      administrator: Administrator.fromJson(
+          (json['administrator'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7457,7 +7465,7 @@ class GetDetectorResponse {
 
   factory GetDetectorResponse.fromJson(Map<String, dynamic> json) {
     return GetDetectorResponse(
-      serviceRole: json['serviceRole'] as String,
+      serviceRole: (json['serviceRole'] as String?) ?? '',
       status: DetectorStatus.fromString((json['status'] as String)),
       createdAt: json['createdAt'] as String?,
       dataSources: json['dataSources'] != null
@@ -7535,8 +7543,9 @@ class GetFilterResponse {
     return GetFilterResponse(
       action: FilterAction.fromString((json['action'] as String)),
       findingCriteria: FindingCriteria.fromJson(
-          json['findingCriteria'] as Map<String, dynamic>),
-      name: json['name'] as String,
+          (json['findingCriteria'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
       description: json['description'] as String?,
       rank: json['rank'] as int?,
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -7572,7 +7581,7 @@ class GetFindingsResponse {
 
   factory GetFindingsResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsResponse(
-      findings: (json['findings'] as List)
+      findings: ((json['findings'] as List?) ?? const [])
           .nonNulls
           .map((e) => Finding.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7598,7 +7607,8 @@ class GetFindingsStatisticsResponse {
   factory GetFindingsStatisticsResponse.fromJson(Map<String, dynamic> json) {
     return GetFindingsStatisticsResponse(
       findingStatistics: FindingStatistics.fromJson(
-          json['findingStatistics'] as Map<String, dynamic>),
+          (json['findingStatistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -7637,8 +7647,8 @@ class GetIPSetResponse {
   factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
     return GetIPSetResponse(
       format: IpSetFormat.fromString((json['format'] as String)),
-      location: json['location'] as String,
-      name: json['name'] as String,
+      location: (json['location'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: IpSetStatus.fromString((json['status'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -7818,7 +7828,8 @@ class GetMasterAccountResponse {
 
   factory GetMasterAccountResponse.fromJson(Map<String, dynamic> json) {
     return GetMasterAccountResponse(
-      master: Master.fromJson(json['master'] as Map<String, dynamic>),
+      master: Master.fromJson((json['master'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
@@ -7846,12 +7857,12 @@ class GetMemberDetectorsResponse {
 
   factory GetMemberDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return GetMemberDetectorsResponse(
-      memberDataSourceConfigurations: (json['members'] as List)
+      memberDataSourceConfigurations: ((json['members'] as List?) ?? const [])
           .nonNulls
           .map((e) =>
               MemberDataSourceConfiguration.fromJson(e as Map<String, dynamic>))
           .toList(),
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7883,11 +7894,11 @@ class GetMembersResponse {
 
   factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
     return GetMembersResponse(
-      members: (json['members'] as List)
+      members: ((json['members'] as List?) ?? const [])
           .nonNulls
           .map((e) => Member.fromJson(e as Map<String, dynamic>))
           .toList(),
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7999,8 +8010,8 @@ class GetThreatIntelSetResponse {
   factory GetThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
     return GetThreatIntelSetResponse(
       format: ThreatIntelSetFormat.fromString((json['format'] as String)),
-      location: json['location'] as String,
-      name: json['name'] as String,
+      location: (json['location'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
       status: ThreatIntelSetStatus.fromString((json['status'] as String)),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -8357,7 +8368,7 @@ class InviteMembersResponse {
 
   factory InviteMembersResponse.fromJson(Map<String, dynamic> json) {
     return InviteMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -8608,7 +8619,8 @@ class KubernetesConfigurationResult {
   factory KubernetesConfigurationResult.fromJson(Map<String, dynamic> json) {
     return KubernetesConfigurationResult(
       auditLogs: KubernetesAuditLogsConfigurationResult.fromJson(
-          json['auditLogs'] as Map<String, dynamic>),
+          (json['auditLogs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9162,7 +9174,7 @@ class ListCoverageResponse {
 
   factory ListCoverageResponse.fromJson(Map<String, dynamic> json) {
     return ListCoverageResponse(
-      resources: (json['resources'] as List)
+      resources: ((json['resources'] as List?) ?? const [])
           .nonNulls
           .map((e) => CoverageResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9195,7 +9207,7 @@ class ListDetectorsResponse {
 
   factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return ListDetectorsResponse(
-      detectorIds: (json['detectorIds'] as List)
+      detectorIds: ((json['detectorIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -9228,7 +9240,7 @@ class ListFiltersResponse {
 
   factory ListFiltersResponse.fromJson(Map<String, dynamic> json) {
     return ListFiltersResponse(
-      filterNames: (json['filterNames'] as List)
+      filterNames: ((json['filterNames'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -9261,7 +9273,7 @@ class ListFindingsResponse {
 
   factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
     return ListFindingsResponse(
-      findingIds: (json['findingIds'] as List)
+      findingIds: ((json['findingIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -9294,8 +9306,10 @@ class ListIPSetsResponse {
 
   factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListIPSetsResponse(
-      ipSetIds:
-          (json['ipSetIds'] as List).nonNulls.map((e) => e as String).toList(),
+      ipSetIds: ((json['ipSetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -9471,7 +9485,7 @@ class ListPublishingDestinationsResponse {
   factory ListPublishingDestinationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListPublishingDestinationsResponse(
-      destinations: (json['destinations'] as List)
+      destinations: ((json['destinations'] as List?) ?? const [])
           .nonNulls
           .map((e) => Destination.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -9527,7 +9541,7 @@ class ListThreatIntelSetsResponse {
 
   factory ListThreatIntelSetsResponse.fromJson(Map<String, dynamic> json) {
     return ListThreatIntelSetsResponse(
-      threatIntelSetIds: (json['threatIntelSetIds'] as List)
+      threatIntelSetIds: ((json['threatIntelSetIds'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -10011,11 +10025,11 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      accountId: json['accountId'] as String,
-      email: json['email'] as String,
-      masterId: json['masterId'] as String,
-      relationshipStatus: json['relationshipStatus'] as String,
-      updatedAt: json['updatedAt'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      email: (json['email'] as String?) ?? '',
+      masterId: (json['masterId'] as String?) ?? '',
+      relationshipStatus: (json['relationshipStatus'] as String?) ?? '',
+      updatedAt: (json['updatedAt'] as String?) ?? '',
       administratorId: json['administratorId'] as String?,
       detectorId: json['detectorId'] as String?,
       invitedAt: json['invitedAt'] as String?,
@@ -10129,7 +10143,7 @@ class MemberDataSourceConfiguration {
 
   factory MemberDataSourceConfiguration.fromJson(Map<String, dynamic> json) {
     return MemberDataSourceConfiguration(
-      accountId: json['accountId'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
       dataSources: json['dataSources'] != null
           ? DataSourceConfigurationsResult.fromJson(
               json['dataSources'] as Map<String, dynamic>)
@@ -10706,7 +10720,8 @@ class OrganizationDataSourceConfigurationsResult {
       Map<String, dynamic> json) {
     return OrganizationDataSourceConfigurationsResult(
       s3Logs: OrganizationS3LogsConfigurationResult.fromJson(
-          json['s3Logs'] as Map<String, dynamic>),
+          (json['s3Logs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       kubernetes: json['kubernetes'] != null
           ? OrganizationKubernetesConfigurationResult.fromJson(
               json['kubernetes'] as Map<String, dynamic>)
@@ -11041,7 +11056,7 @@ class OrganizationKubernetesAuditLogsConfigurationResult {
   factory OrganizationKubernetesAuditLogsConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return OrganizationKubernetesAuditLogsConfigurationResult(
-      autoEnable: json['autoEnable'] as bool,
+      autoEnable: (json['autoEnable'] as bool?) ?? false,
     );
   }
 
@@ -11086,7 +11101,8 @@ class OrganizationKubernetesConfigurationResult {
       Map<String, dynamic> json) {
     return OrganizationKubernetesConfigurationResult(
       auditLogs: OrganizationKubernetesAuditLogsConfigurationResult.fromJson(
-          json['auditLogs'] as Map<String, dynamic>),
+          (json['auditLogs'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -11181,7 +11197,7 @@ class OrganizationS3LogsConfigurationResult {
   factory OrganizationS3LogsConfigurationResult.fromJson(
       Map<String, dynamic> json) {
     return OrganizationS3LogsConfigurationResult(
-      autoEnable: json['autoEnable'] as bool,
+      autoEnable: (json['autoEnable'] as bool?) ?? false,
     );
   }
 
@@ -12745,7 +12761,7 @@ class ScanCondition {
 
   factory ScanCondition.fromJson(Map<String, dynamic> json) {
     return ScanCondition(
-      mapEquals: (json['mapEquals'] as List)
+      mapEquals: ((json['mapEquals'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScanConditionPair.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -12777,7 +12793,7 @@ class ScanConditionPair {
 
   factory ScanConditionPair.fromJson(Map<String, dynamic> json) {
     return ScanConditionPair(
-      key: json['key'] as String,
+      key: (json['key'] as String?) ?? '',
       value: json['value'] as String?,
     );
   }
@@ -13452,7 +13468,7 @@ class StartMonitoringMembersResponse {
 
   factory StartMonitoringMembersResponse.fromJson(Map<String, dynamic> json) {
     return StartMonitoringMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13479,7 +13495,7 @@ class StopMonitoringMembersResponse {
 
   factory StopMonitoringMembersResponse.fromJson(Map<String, dynamic> json) {
     return StopMonitoringMembersResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -13819,8 +13835,8 @@ class UnprocessedAccount {
 
   factory UnprocessedAccount.fromJson(Map<String, dynamic> json) {
     return UnprocessedAccount(
-      accountId: json['accountId'] as String,
-      result: json['result'] as String,
+      accountId: (json['accountId'] as String?) ?? '',
+      result: (json['result'] as String?) ?? '',
     );
   }
 
@@ -13893,7 +13909,7 @@ class UpdateFilterResponse {
 
   factory UpdateFilterResponse.fromJson(Map<String, dynamic> json) {
     return UpdateFilterResponse(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
     );
   }
 
@@ -13952,7 +13968,7 @@ class UpdateMemberDetectorsResponse {
 
   factory UpdateMemberDetectorsResponse.fromJson(Map<String, dynamic> json) {
     return UpdateMemberDetectorsResponse(
-      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+      unprocessedAccounts: ((json['unprocessedAccounts'] as List?) ?? const [])
           .nonNulls
           .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
           .toList(),

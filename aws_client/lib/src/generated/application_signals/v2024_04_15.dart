@@ -1058,17 +1058,17 @@ class BatchGetServiceLevelObjectiveBudgetReportOutput {
   factory BatchGetServiceLevelObjectiveBudgetReportOutput.fromJson(
       Map<String, dynamic> json) {
     return BatchGetServiceLevelObjectiveBudgetReportOutput(
-      errors: (json['Errors'] as List)
+      errors: ((json['Errors'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceLevelObjectiveBudgetReportError.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      reports: (json['Reports'] as List)
+      reports: ((json['Reports'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceLevelObjectiveBudgetReport.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
     );
   }
 
@@ -1114,9 +1114,9 @@ class CalendarInterval {
 
   factory CalendarInterval.fromJson(Map<String, dynamic> json) {
     return CalendarInterval(
-      duration: json['Duration'] as int,
+      duration: (json['Duration'] as int?) ?? 0,
       durationUnit: DurationUnit.fromString((json['DurationUnit'] as String)),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
     );
   }
 
@@ -1143,7 +1143,8 @@ class CreateServiceLevelObjectiveOutput {
   factory CreateServiceLevelObjectiveOutput.fromJson(
       Map<String, dynamic> json) {
     return CreateServiceLevelObjectiveOutput(
-      slo: ServiceLevelObjective.fromJson(json['Slo'] as Map<String, dynamic>),
+      slo: ServiceLevelObjective.fromJson(
+          (json['Slo'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1194,8 +1195,8 @@ class Dimension {
 
   factory Dimension.fromJson(Map<String, dynamic> json) {
     return Dimension(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1251,7 +1252,8 @@ class GetServiceLevelObjectiveOutput {
 
   factory GetServiceLevelObjectiveOutput.fromJson(Map<String, dynamic> json) {
     return GetServiceLevelObjectiveOutput(
-      slo: ServiceLevelObjective.fromJson(json['Slo'] as Map<String, dynamic>),
+      slo: ServiceLevelObjective.fromJson(
+          (json['Slo'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -1311,9 +1313,10 @@ class GetServiceOutput {
 
   factory GetServiceOutput.fromJson(Map<String, dynamic> json) {
     return GetServiceOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      service: Service.fromJson(json['Service'] as Map<String, dynamic>),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       logGroupReferences: (json['LogGroupReferences'] as List?)
           ?.nonNulls
           .map((e) => (e as Map<String, dynamic>)
@@ -1466,12 +1469,12 @@ class ListServiceDependenciesOutput {
 
   factory ListServiceDependenciesOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceDependenciesOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      serviceDependencies: (json['ServiceDependencies'] as List)
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      serviceDependencies: ((json['ServiceDependencies'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceDependency.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1526,12 +1529,12 @@ class ListServiceDependentsOutput {
 
   factory ListServiceDependentsOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceDependentsOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      serviceDependents: (json['ServiceDependents'] as List)
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      serviceDependents: ((json['ServiceDependents'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceDependent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1621,12 +1624,12 @@ class ListServiceOperationsOutput {
 
   factory ListServiceOperationsOutput.fromJson(Map<String, dynamic> json) {
     return ListServiceOperationsOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      serviceOperations: (json['ServiceOperations'] as List)
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      serviceOperations: ((json['ServiceOperations'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceOperation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1681,12 +1684,12 @@ class ListServicesOutput {
 
   factory ListServicesOutput.fromJson(Map<String, dynamic> json) {
     return ListServicesOutput(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
-      serviceSummaries: (json['ServiceSummaries'] as List)
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      serviceSummaries: ((json['ServiceSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -1889,7 +1892,7 @@ class MetricDataQuery {
 
   factory MetricDataQuery.fromJson(Map<String, dynamic> json) {
     return MetricDataQuery(
-      id: json['Id'] as String,
+      id: (json['Id'] as String?) ?? '',
       accountId: json['AccountId'] as String?,
       expression: json['Expression'] as String?,
       label: json['Label'] as String?,
@@ -1948,9 +1951,9 @@ class MetricReference {
 
   factory MetricReference.fromJson(Map<String, dynamic> json) {
     return MetricReference(
-      metricName: json['MetricName'] as String,
-      metricType: json['MetricType'] as String,
-      namespace: json['Namespace'] as String,
+      metricName: (json['MetricName'] as String?) ?? '',
+      metricType: (json['MetricType'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
       dimensions: (json['Dimensions'] as List?)
           ?.nonNulls
           .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
@@ -2012,9 +2015,10 @@ class MetricStat {
 
   factory MetricStat.fromJson(Map<String, dynamic> json) {
     return MetricStat(
-      metric: Metric.fromJson(json['Metric'] as Map<String, dynamic>),
-      period: json['Period'] as int,
-      stat: json['Stat'] as String,
+      metric: Metric.fromJson((json['Metric'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      period: (json['Period'] as int?) ?? 0,
+      stat: (json['Stat'] as String?) ?? '',
       unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
     );
   }
@@ -2103,7 +2107,8 @@ class RequestBasedServiceLevelIndicator {
       Map<String, dynamic> json) {
     return RequestBasedServiceLevelIndicator(
       requestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric.fromJson(
-          json['RequestBasedSliMetric'] as Map<String, dynamic>),
+          (json['RequestBasedSliMetric'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       comparisonOperator: (json['ComparisonOperator'] as String?)
           ?.let(ServiceLevelIndicatorComparisonOperator.fromString),
       metricThreshold: json['MetricThreshold'] as double?,
@@ -2225,11 +2230,13 @@ class RequestBasedServiceLevelIndicatorMetric {
     return RequestBasedServiceLevelIndicatorMetric(
       monitoredRequestCountMetric:
           MonitoredRequestCountMetricDataQueries.fromJson(
-              json['MonitoredRequestCountMetric'] as Map<String, dynamic>),
-      totalRequestCountMetric: (json['TotalRequestCountMetric'] as List)
-          .nonNulls
-          .map((e) => MetricDataQuery.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              (json['MonitoredRequestCountMetric'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      totalRequestCountMetric:
+          ((json['TotalRequestCountMetric'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => MetricDataQuery.fromJson(e as Map<String, dynamic>))
+              .toList(),
       keyAttributes: (json['KeyAttributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       metricType: (json['MetricType'] as String?)
@@ -2356,7 +2363,7 @@ class RollingInterval {
 
   factory RollingInterval.fromJson(Map<String, dynamic> json) {
     return RollingInterval(
-      duration: json['Duration'] as int,
+      duration: (json['Duration'] as int?) ?? 0,
       durationUnit: DurationUnit.fromString((json['DurationUnit'] as String)),
     );
   }
@@ -2506,9 +2513,10 @@ class Service {
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-      keyAttributes: (json['KeyAttributes'] as Map<String, dynamic>)
+      keyAttributes: ((json['KeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      metricReferences: (json['MetricReferences'] as List)
+      metricReferences: ((json['MetricReferences'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricReference.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2590,14 +2598,16 @@ class ServiceDependency {
   factory ServiceDependency.fromJson(Map<String, dynamic> json) {
     return ServiceDependency(
       dependencyKeyAttributes:
-          (json['DependencyKeyAttributes'] as Map<String, dynamic>)
+          ((json['DependencyKeyAttributes'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      dependencyOperationName: json['DependencyOperationName'] as String,
-      metricReferences: (json['MetricReferences'] as List)
+      dependencyOperationName:
+          (json['DependencyOperationName'] as String?) ?? '',
+      metricReferences: ((json['MetricReferences'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricReference.fromJson(e as Map<String, dynamic>))
           .toList(),
-      operationName: json['OperationName'] as String,
+      operationName: (json['OperationName'] as String?) ?? '',
     );
   }
 
@@ -2672,9 +2682,10 @@ class ServiceDependent {
   factory ServiceDependent.fromJson(Map<String, dynamic> json) {
     return ServiceDependent(
       dependentKeyAttributes:
-          (json['DependentKeyAttributes'] as Map<String, dynamic>)
+          ((json['DependentKeyAttributes'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
               .map((k, e) => MapEntry(k, e as String)),
-      metricReferences: (json['MetricReferences'] as List)
+      metricReferences: ((json['MetricReferences'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricReference.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -2722,9 +2733,10 @@ class ServiceLevelIndicator {
     return ServiceLevelIndicator(
       comparisonOperator: ServiceLevelIndicatorComparisonOperator.fromString(
           (json['ComparisonOperator'] as String)),
-      metricThreshold: json['MetricThreshold'] as double,
+      metricThreshold: (json['MetricThreshold'] as double?) ?? 0,
       sliMetric: ServiceLevelIndicatorMetric.fromJson(
-          json['SliMetric'] as Map<String, dynamic>),
+          (json['SliMetric'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -2845,7 +2857,7 @@ class ServiceLevelIndicatorMetric {
 
   factory ServiceLevelIndicatorMetric.fromJson(Map<String, dynamic> json) {
     return ServiceLevelIndicatorMetric(
-      metricDataQueries: (json['MetricDataQueries'] as List)
+      metricDataQueries: ((json['MetricDataQueries'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricDataQuery.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3030,12 +3042,13 @@ class ServiceLevelObjective {
 
   factory ServiceLevelObjective.fromJson(Map<String, dynamic> json) {
     return ServiceLevelObjective(
-      arn: json['Arn'] as String,
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
-      goal: Goal.fromJson(json['Goal'] as Map<String, dynamic>),
+      arn: (json['Arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      goal: Goal.fromJson(
+          (json['Goal'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['LastUpdatedTime'] as Object),
-      name: json['Name'] as String,
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
+      name: (json['Name'] as String?) ?? '',
       description: json['Description'] as String?,
       evaluationType:
           (json['EvaluationType'] as String?)?.let(EvaluationType.fromString),
@@ -3177,10 +3190,10 @@ class ServiceLevelObjectiveBudgetReport {
   factory ServiceLevelObjectiveBudgetReport.fromJson(
       Map<String, dynamic> json) {
     return ServiceLevelObjectiveBudgetReport(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
       budgetStatus: ServiceLevelObjectiveBudgetStatus.fromString(
           (json['BudgetStatus'] as String)),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
       attainment: json['Attainment'] as double?,
       budgetRequestsRemaining: json['BudgetRequestsRemaining'] as int?,
       budgetSecondsRemaining: json['BudgetSecondsRemaining'] as int?,
@@ -3260,10 +3273,10 @@ class ServiceLevelObjectiveBudgetReportError {
   factory ServiceLevelObjectiveBudgetReportError.fromJson(
       Map<String, dynamic> json) {
     return ServiceLevelObjectiveBudgetReportError(
-      arn: json['Arn'] as String,
-      errorCode: json['ErrorCode'] as String,
-      errorMessage: json['ErrorMessage'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -3354,8 +3367,8 @@ class ServiceLevelObjectiveSummary {
 
   factory ServiceLevelObjectiveSummary.fromJson(Map<String, dynamic> json) {
     return ServiceLevelObjectiveSummary(
-      arn: json['Arn'] as String,
-      name: json['Name'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
       createdTime: timeStampFromJson(json['CreatedTime']),
       keyAttributes: (json['KeyAttributes'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -3399,11 +3412,11 @@ class ServiceOperation {
 
   factory ServiceOperation.fromJson(Map<String, dynamic> json) {
     return ServiceOperation(
-      metricReferences: (json['MetricReferences'] as List)
+      metricReferences: ((json['MetricReferences'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricReference.fromJson(e as Map<String, dynamic>))
           .toList(),
-      name: json['Name'] as String,
+      name: (json['Name'] as String?) ?? '',
     );
   }
 
@@ -3535,9 +3548,10 @@ class ServiceSummary {
 
   factory ServiceSummary.fromJson(Map<String, dynamic> json) {
     return ServiceSummary(
-      keyAttributes: (json['KeyAttributes'] as Map<String, dynamic>)
+      keyAttributes: ((json['KeyAttributes'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(k, e as String)),
-      metricReferences: (json['MetricReferences'] as List)
+      metricReferences: ((json['MetricReferences'] as List?) ?? const [])
           .nonNulls
           .map((e) => MetricReference.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3630,8 +3644,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -3680,7 +3694,8 @@ class UpdateServiceLevelObjectiveOutput {
   factory UpdateServiceLevelObjectiveOutput.fromJson(
       Map<String, dynamic> json) {
     return UpdateServiceLevelObjectiveOutput(
-      slo: ServiceLevelObjective.fromJson(json['Slo'] as Map<String, dynamic>),
+      slo: ServiceLevelObjective.fromJson(
+          (json['Slo'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 

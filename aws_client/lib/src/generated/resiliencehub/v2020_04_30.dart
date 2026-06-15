@@ -3547,8 +3547,8 @@ class AcceptResourceGroupingRecommendationsResponse {
   factory AcceptResourceGroupingRecommendationsResponse.fromJson(
       Map<String, dynamic> json) {
     return AcceptResourceGroupingRecommendationsResponse(
-      appArn: json['appArn'] as String,
-      failedEntries: (json['failedEntries'] as List)
+      appArn: (json['appArn'] as String?) ?? '',
+      failedEntries: ((json['failedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => FailedGroupingRecommendationEntry.fromJson(
               e as Map<String, dynamic>))
@@ -3593,9 +3593,9 @@ class AddDraftAppVersionResourceMappingsResponse {
   factory AddDraftAppVersionResourceMappingsResponse.fromJson(
       Map<String, dynamic> json) {
     return AddDraftAppVersionResourceMappingsResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
-      resourceMappings: (json['resourceMappings'] as List)
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      resourceMappings: ((json['resourceMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -3662,9 +3662,9 @@ class AlarmRecommendation {
 
   factory AlarmRecommendation.fromJson(Map<String, dynamic> json) {
     return AlarmRecommendation(
-      name: json['name'] as String,
-      recommendationId: json['recommendationId'] as String,
-      referenceId: json['referenceId'] as String,
+      name: (json['name'] as String?) ?? '',
+      recommendationId: (json['recommendationId'] as String?) ?? '',
+      referenceId: (json['referenceId'] as String?) ?? '',
       type: AlarmType.fromString((json['type'] as String)),
       appComponentName: json['appComponentName'] as String?,
       appComponentNames: (json['appComponentNames'] as List?)
@@ -3823,10 +3823,9 @@ class App {
 
   factory App.fromJson(Map<String, dynamic> json) {
     return App(
-      appArn: json['appArn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      name: json['name'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       assessmentSchedule: (json['assessmentSchedule'] as String?)
           ?.let(AppAssessmentScheduleType.fromString),
       complianceStatus: (json['complianceStatus'] as String?)
@@ -4006,7 +4005,7 @@ class AppAssessment {
 
   factory AppAssessment.fromJson(Map<String, dynamic> json) {
     return AppAssessment(
-      assessmentArn: json['assessmentArn'] as String,
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
       assessmentStatus:
           AssessmentStatus.fromString((json['assessmentStatus'] as String)),
       invoker: AssessmentInvoker.fromString((json['invoker'] as String)),
@@ -4182,7 +4181,7 @@ class AppAssessmentSummary {
 
   factory AppAssessmentSummary.fromJson(Map<String, dynamic> json) {
     return AppAssessmentSummary(
-      assessmentArn: json['assessmentArn'] as String,
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
       assessmentStatus:
           AssessmentStatus.fromString((json['assessmentStatus'] as String)),
       appArn: json['appArn'] as String?,
@@ -4293,8 +4292,8 @@ class AppComponent {
 
   factory AppComponent.fromJson(Map<String, dynamic> json) {
     return AppComponent(
-      name: json['name'] as String,
-      type: json['type'] as String,
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
       additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
               e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -4546,10 +4545,9 @@ class AppSummary {
 
   factory AppSummary.fromJson(Map<String, dynamic> json) {
     return AppSummary(
-      appArn: json['appArn'] as String,
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
-      name: json['name'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
       assessmentSchedule: (json['assessmentSchedule'] as String?)
           ?.let(AppAssessmentScheduleType.fromString),
       complianceStatus: (json['complianceStatus'] as String?)
@@ -4623,7 +4621,7 @@ class AppVersionSummary {
 
   factory AppVersionSummary.fromJson(Map<String, dynamic> json) {
     return AppVersionSummary(
-      appVersion: json['appVersion'] as String,
+      appVersion: (json['appVersion'] as String?) ?? '',
       creationTime: timeStampFromJson(json['creationTime']),
       identifier: json['identifier'] as int?,
       versionName: json['versionName'] as String?,
@@ -4811,8 +4809,8 @@ class BatchUpdateRecommendationStatusFailedEntry {
   factory BatchUpdateRecommendationStatusFailedEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateRecommendationStatusFailedEntry(
-      entryId: json['entryId'] as String,
-      errorMessage: json['errorMessage'] as String,
+      entryId: (json['entryId'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
     );
   }
 
@@ -4852,13 +4850,13 @@ class BatchUpdateRecommendationStatusResponse {
   factory BatchUpdateRecommendationStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateRecommendationStatusResponse(
-      appArn: json['appArn'] as String,
-      failedEntries: (json['failedEntries'] as List)
+      appArn: (json['appArn'] as String?) ?? '',
+      failedEntries: ((json['failedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchUpdateRecommendationStatusFailedEntry.fromJson(
               e as Map<String, dynamic>))
           .toList(),
-      successfulEntries: (json['successfulEntries'] as List)
+      successfulEntries: ((json['successfulEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => BatchUpdateRecommendationStatusSuccessfulEntry.fromJson(
               e as Map<String, dynamic>))
@@ -4912,11 +4910,11 @@ class BatchUpdateRecommendationStatusSuccessfulEntry {
   factory BatchUpdateRecommendationStatusSuccessfulEntry.fromJson(
       Map<String, dynamic> json) {
     return BatchUpdateRecommendationStatusSuccessfulEntry(
-      entryId: json['entryId'] as String,
-      excluded: json['excluded'] as bool,
+      entryId: (json['entryId'] as String?) ?? '',
+      excluded: (json['excluded'] as bool?) ?? false,
       item: UpdateRecommendationStatusItem.fromJson(
-          json['item'] as Map<String, dynamic>),
-      referenceId: json['referenceId'] as String,
+          (json['item'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      referenceId: (json['referenceId'] as String?) ?? '',
       excludeReason: (json['excludeReason'] as String?)
           ?.let(ExcludeRecommendationReason.fromString),
     );
@@ -5079,8 +5077,9 @@ class ComponentRecommendation {
 
   factory ComponentRecommendation.fromJson(Map<String, dynamic> json) {
     return ComponentRecommendation(
-      appComponentName: json['appComponentName'] as String,
-      configRecommendations: (json['configRecommendations'] as List)
+      appComponentName: (json['appComponentName'] as String?) ?? '',
+      configRecommendations: ((json['configRecommendations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => ConfigRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -5151,10 +5150,10 @@ class ConfigRecommendation {
 
   factory ConfigRecommendation.fromJson(Map<String, dynamic> json) {
     return ConfigRecommendation(
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       optimizationType: ConfigRecommendationOptimizationType.fromString(
           (json['optimizationType'] as String)),
-      referenceId: json['referenceId'] as String,
+      referenceId: (json['referenceId'] as String?) ?? '',
       appComponentName: json['appComponentName'] as String?,
       compliance: (json['compliance'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(DisruptionType.fromString(k),
@@ -5245,8 +5244,8 @@ class Cost {
 
   factory Cost.fromJson(Map<String, dynamic> json) {
     return Cost(
-      amount: json['amount'] as double,
-      currency: json['currency'] as String,
+      amount: (json['amount'] as double?) ?? 0,
+      currency: (json['currency'] as String?) ?? '',
       frequency: CostFrequency.fromString((json['frequency'] as String)),
     );
   }
@@ -5291,7 +5290,8 @@ class CreateAppResponse {
 
   factory CreateAppResponse.fromJson(Map<String, dynamic> json) {
     return CreateAppResponse(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -5328,8 +5328,8 @@ class CreateAppVersionAppComponentResponse {
   factory CreateAppVersionAppComponentResponse.fromJson(
       Map<String, dynamic> json) {
     return CreateAppVersionAppComponentResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       appComponent: json['appComponent'] != null
           ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
           : null,
@@ -5374,8 +5374,8 @@ class CreateAppVersionResourceResponse {
 
   factory CreateAppVersionResourceResponse.fromJson(Map<String, dynamic> json) {
     return CreateAppVersionResourceResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       physicalResource: json['physicalResource'] != null
           ? PhysicalResource.fromJson(
               json['physicalResource'] as Map<String, dynamic>)
@@ -5435,7 +5435,9 @@ class CreateResiliencyPolicyResponse {
 
   factory CreateResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
     return CreateResiliencyPolicyResponse(
-      policy: ResiliencyPolicy.fromJson(json['policy'] as Map<String, dynamic>),
+      policy: ResiliencyPolicy.fromJson(
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5482,7 +5484,7 @@ class DeleteAppAssessmentResponse {
 
   factory DeleteAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAppAssessmentResponse(
-      assessmentArn: json['assessmentArn'] as String,
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
       assessmentStatus:
           AssessmentStatus.fromString((json['assessmentStatus'] as String)),
     );
@@ -5553,7 +5555,7 @@ class DeleteAppResponse {
 
   factory DeleteAppResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAppResponse(
-      appArn: json['appArn'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
     );
   }
 
@@ -5590,8 +5592,8 @@ class DeleteAppVersionAppComponentResponse {
   factory DeleteAppVersionAppComponentResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteAppVersionAppComponentResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       appComponent: json['appComponent'] != null
           ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
           : null,
@@ -5636,8 +5638,8 @@ class DeleteAppVersionResourceResponse {
 
   factory DeleteAppVersionResourceResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAppVersionResourceResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       physicalResource: json['physicalResource'] != null
           ? PhysicalResource.fromJson(
               json['physicalResource'] as Map<String, dynamic>)
@@ -5672,7 +5674,8 @@ class DeleteRecommendationTemplateResponse {
   factory DeleteRecommendationTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return DeleteRecommendationTemplateResponse(
-      recommendationTemplateArn: json['recommendationTemplateArn'] as String,
+      recommendationTemplateArn:
+          (json['recommendationTemplateArn'] as String?) ?? '',
       status:
           RecommendationTemplateStatus.fromString((json['status'] as String)),
     );
@@ -5704,7 +5707,7 @@ class DeleteResiliencyPolicyResponse {
 
   factory DeleteResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DeleteResiliencyPolicyResponse(
-      policyArn: json['policyArn'] as String,
+      policyArn: (json['policyArn'] as String?) ?? '',
     );
   }
 
@@ -5728,8 +5731,9 @@ class DescribeAppAssessmentResponse {
 
   factory DescribeAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAppAssessmentResponse(
-      assessment:
-          AppAssessment.fromJson(json['assessment'] as Map<String, dynamic>),
+      assessment: AppAssessment.fromJson(
+          (json['assessment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -5752,7 +5756,8 @@ class DescribeAppResponse {
 
   factory DescribeAppResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAppResponse(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -5789,8 +5794,8 @@ class DescribeAppVersionAppComponentResponse {
   factory DescribeAppVersionAppComponentResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAppVersionAppComponentResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       appComponent: json['appComponent'] != null
           ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
           : null,
@@ -5836,8 +5841,8 @@ class DescribeAppVersionResourceResponse {
   factory DescribeAppVersionResourceResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAppVersionResourceResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       physicalResource: json['physicalResource'] != null
           ? PhysicalResource.fromJson(
               json['physicalResource'] as Map<String, dynamic>)
@@ -5890,9 +5895,9 @@ class DescribeAppVersionResourcesResolutionStatusResponse {
   factory DescribeAppVersionResourcesResolutionStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAppVersionResourcesResolutionStatusResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
-      resolutionId: json['resolutionId'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      resolutionId: (json['resolutionId'] as String?) ?? '',
       status:
           ResourceResolutionStatusType.fromString((json['status'] as String)),
       errorMessage: json['errorMessage'] as String?,
@@ -5946,8 +5951,8 @@ class DescribeAppVersionResponse {
 
   factory DescribeAppVersionResponse.fromJson(Map<String, dynamic> json) {
     return DescribeAppVersionResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
               e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -6249,9 +6254,9 @@ class DescribeAppVersionTemplateResponse {
   factory DescribeAppVersionTemplateResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeAppVersionTemplateResponse(
-      appArn: json['appArn'] as String,
-      appTemplateBody: json['appTemplateBody'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appTemplateBody: (json['appTemplateBody'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
     );
   }
 
@@ -6300,11 +6305,11 @@ class DescribeDraftAppVersionResourcesImportStatusResponse {
   factory DescribeDraftAppVersionResourcesImportStatusResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeDraftAppVersionResourcesImportStatusResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       status: ResourceImportStatusType.fromString((json['status'] as String)),
       statusChangeTime:
-          nonNullableTimeStampFromJson(json['statusChangeTime'] as Object),
+          nonNullableTimeStampFromJson(json['statusChangeTime'] ?? 0),
       errorMessage: json['errorMessage'] as String?,
     );
   }
@@ -6338,7 +6343,9 @@ class DescribeResiliencyPolicyResponse {
 
   factory DescribeResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
     return DescribeResiliencyPolicyResponse(
-      policy: ResiliencyPolicy.fromJson(json['policy'] as Map<String, dynamic>),
+      policy: ResiliencyPolicy.fromJson(
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -6370,7 +6377,7 @@ class DescribeResourceGroupingRecommendationTaskResponse {
   factory DescribeResourceGroupingRecommendationTaskResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeResourceGroupingRecommendationTaskResponse(
-      groupingId: json['groupingId'] as String,
+      groupingId: (json['groupingId'] as String?) ?? '',
       status: ResourcesGroupingRecGenStatusType.fromString(
           (json['status'] as String)),
       errorMessage: json['errorMessage'] as String?,
@@ -6563,8 +6570,8 @@ class EksSource {
 
   factory EksSource.fromJson(Map<String, dynamic> json) {
     return EksSource(
-      eksClusterArn: json['eksClusterArn'] as String,
-      namespaces: (json['namespaces'] as List)
+      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
+      namespaces: ((json['namespaces'] as List?) ?? const [])
           .nonNulls
           .map((e) => e as String)
           .toList(),
@@ -6604,8 +6611,8 @@ class EksSourceClusterNamespace {
 
   factory EksSourceClusterNamespace.fromJson(Map<String, dynamic> json) {
     return EksSourceClusterNamespace(
-      eksClusterArn: json['eksClusterArn'] as String,
-      namespace: json['namespace'] as String,
+      eksClusterArn: (json['eksClusterArn'] as String?) ?? '',
+      namespace: (json['namespace'] as String?) ?? '',
     );
   }
 
@@ -6667,7 +6674,7 @@ class EventSubscription {
   factory EventSubscription.fromJson(Map<String, dynamic> json) {
     return EventSubscription(
       eventType: EventType.fromString((json['eventType'] as String)),
-      name: json['name'] as String,
+      name: (json['name'] as String?) ?? '',
       snsTopicArn: json['snsTopicArn'] as String?,
     );
   }
@@ -6731,8 +6738,9 @@ class FailedGroupingRecommendationEntry {
   factory FailedGroupingRecommendationEntry.fromJson(
       Map<String, dynamic> json) {
     return FailedGroupingRecommendationEntry(
-      errorMessage: json['errorMessage'] as String,
-      groupingRecommendationId: json['groupingRecommendationId'] as String,
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      groupingRecommendationId:
+          (json['groupingRecommendationId'] as String?) ?? '',
     );
   }
 
@@ -6761,8 +6769,8 @@ class FailurePolicy {
 
   factory FailurePolicy.fromJson(Map<String, dynamic> json) {
     return FailurePolicy(
-      rpoInSecs: json['rpoInSecs'] as int,
-      rtoInSecs: json['rtoInSecs'] as int,
+      rpoInSecs: (json['rpoInSecs'] as int?) ?? 0,
+      rtoInSecs: (json['rtoInSecs'] as int?) ?? 0,
     );
   }
 
@@ -6795,9 +6803,9 @@ class GroupingAppComponent {
 
   factory GroupingAppComponent.fromJson(Map<String, dynamic> json) {
     return GroupingAppComponent(
-      appComponentId: json['appComponentId'] as String,
-      appComponentName: json['appComponentName'] as String,
-      appComponentType: json['appComponentType'] as String,
+      appComponentId: (json['appComponentId'] as String?) ?? '',
+      appComponentName: (json['appComponentName'] as String?) ?? '',
+      appComponentType: (json['appComponentType'] as String?) ?? '',
     );
   }
 
@@ -6860,20 +6868,22 @@ class GroupingRecommendation {
     return GroupingRecommendation(
       confidenceLevel: GroupingRecommendationConfidenceLevel.fromString(
           (json['confidenceLevel'] as String)),
-      creationTime:
-          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
       groupingAppComponent: GroupingAppComponent.fromJson(
-          json['groupingAppComponent'] as Map<String, dynamic>),
-      groupingRecommendationId: json['groupingRecommendationId'] as String,
-      recommendationReasons: (json['recommendationReasons'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resources: (json['resources'] as List)
+          (json['groupingAppComponent'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      groupingRecommendationId:
+          (json['groupingRecommendationId'] as String?) ?? '',
+      recommendationReasons:
+          ((json['recommendationReasons'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      resources: ((json['resources'] as List?) ?? const [])
           .nonNulls
           .map((e) => GroupingResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      score: json['score'] as double,
+      score: (json['score'] as double?) ?? 0,
       status: GroupingRecommendationStatusType.fromString(
           (json['status'] as String)),
       rejectionReason: (json['rejectionReason'] as String?)
@@ -6983,15 +6993,18 @@ class GroupingResource {
   factory GroupingResource.fromJson(Map<String, dynamic> json) {
     return GroupingResource(
       logicalResourceId: LogicalResourceId.fromJson(
-          json['logicalResourceId'] as Map<String, dynamic>),
+          (json['logicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       physicalResourceId: PhysicalResourceId.fromJson(
-          json['physicalResourceId'] as Map<String, dynamic>),
-      resourceName: json['resourceName'] as String,
-      resourceType: json['resourceType'] as String,
-      sourceAppComponentIds: (json['sourceAppComponentIds'] as List)
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceName: (json['resourceName'] as String?) ?? '',
+      resourceType: (json['resourceType'] as String?) ?? '',
+      sourceAppComponentIds:
+          ((json['sourceAppComponentIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
     );
   }
 
@@ -7067,8 +7080,8 @@ class ImportResourcesToDraftAppVersionResponse {
   factory ImportResourcesToDraftAppVersionResponse.fromJson(
       Map<String, dynamic> json) {
     return ImportResourcesToDraftAppVersionResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       status: ResourceImportStatusType.fromString((json['status'] as String)),
       eksSources: (json['eksSources'] as List?)
           ?.nonNulls
@@ -7120,7 +7133,8 @@ class ListAlarmRecommendationsResponse {
 
   factory ListAlarmRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListAlarmRecommendationsResponse(
-      alarmRecommendations: (json['alarmRecommendations'] as List)
+      alarmRecommendations: ((json['alarmRecommendations'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => AlarmRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7154,7 +7168,7 @@ class ListAppAssessmentComplianceDriftsResponse {
   factory ListAppAssessmentComplianceDriftsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppAssessmentComplianceDriftsResponse(
-      complianceDrifts: (json['complianceDrifts'] as List)
+      complianceDrifts: ((json['complianceDrifts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ComplianceDrift.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7187,7 +7201,7 @@ class ListAppAssessmentResourceDriftsResponse {
   factory ListAppAssessmentResourceDriftsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppAssessmentResourceDriftsResponse(
-      resourceDrifts: (json['resourceDrifts'] as List)
+      resourceDrifts: ((json['resourceDrifts'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceDrift.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7221,7 +7235,7 @@ class ListAppAssessmentsResponse {
 
   factory ListAppAssessmentsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppAssessmentsResponse(
-      assessmentSummaries: (json['assessmentSummaries'] as List)
+      assessmentSummaries: ((json['assessmentSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => AppAssessmentSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7256,7 +7270,8 @@ class ListAppComponentCompliancesResponse {
   factory ListAppComponentCompliancesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppComponentCompliancesResponse(
-      componentCompliances: (json['componentCompliances'] as List)
+      componentCompliances: ((json['componentCompliances'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => AppComponentCompliance.fromJson(e as Map<String, dynamic>))
@@ -7292,11 +7307,12 @@ class ListAppComponentRecommendationsResponse {
   factory ListAppComponentRecommendationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppComponentRecommendationsResponse(
-      componentRecommendations: (json['componentRecommendations'] as List)
-          .nonNulls
-          .map((e) =>
-              ComponentRecommendation.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      componentRecommendations:
+          ((json['componentRecommendations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  ComponentRecommendation.fromJson(e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -7325,7 +7341,7 @@ class ListAppInputSourcesResponse {
 
   factory ListAppInputSourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppInputSourcesResponse(
-      appInputSources: (json['appInputSources'] as List)
+      appInputSources: ((json['appInputSources'] as List?) ?? const [])
           .nonNulls
           .map((e) => AppInputSource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7372,8 +7388,8 @@ class ListAppVersionAppComponentsResponse {
   factory ListAppVersionAppComponentsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppVersionAppComponentsResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       appComponents: (json['appComponents'] as List?)
           ?.nonNulls
           .map((e) => AppComponent.fromJson(e as Map<String, dynamic>))
@@ -7416,7 +7432,7 @@ class ListAppVersionResourceMappingsResponse {
   factory ListAppVersionResourceMappingsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAppVersionResourceMappingsResponse(
-      resourceMappings: (json['resourceMappings'] as List)
+      resourceMappings: ((json['resourceMappings'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResourceMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7452,11 +7468,11 @@ class ListAppVersionResourcesResponse {
 
   factory ListAppVersionResourcesResponse.fromJson(Map<String, dynamic> json) {
     return ListAppVersionResourcesResponse(
-      physicalResources: (json['physicalResources'] as List)
+      physicalResources: ((json['physicalResources'] as List?) ?? const [])
           .nonNulls
           .map((e) => PhysicalResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      resolutionId: json['resolutionId'] as String,
+      resolutionId: (json['resolutionId'] as String?) ?? '',
       nextToken: json['nextToken'] as String?,
     );
   }
@@ -7487,7 +7503,7 @@ class ListAppVersionsResponse {
 
   factory ListAppVersionsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppVersionsResponse(
-      appVersions: (json['appVersions'] as List)
+      appVersions: ((json['appVersions'] as List?) ?? const [])
           .nonNulls
           .map((e) => AppVersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7519,7 +7535,7 @@ class ListAppsResponse {
 
   factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
     return ListAppsResponse(
-      appSummaries: (json['appSummaries'] as List)
+      appSummaries: ((json['appSummaries'] as List?) ?? const [])
           .nonNulls
           .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7586,7 +7602,7 @@ class ListResiliencyPoliciesResponse {
 
   factory ListResiliencyPoliciesResponse.fromJson(Map<String, dynamic> json) {
     return ListResiliencyPoliciesResponse(
-      resiliencyPolicies: (json['resiliencyPolicies'] as List)
+      resiliencyPolicies: ((json['resiliencyPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResiliencyPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7619,7 +7635,8 @@ class ListResourceGroupingRecommendationsResponse {
   factory ListResourceGroupingRecommendationsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListResourceGroupingRecommendationsResponse(
-      groupingRecommendations: (json['groupingRecommendations'] as List)
+      groupingRecommendations: ((json['groupingRecommendations'] as List?) ??
+              const [])
           .nonNulls
           .map(
               (e) => GroupingRecommendation.fromJson(e as Map<String, dynamic>))
@@ -7653,7 +7670,7 @@ class ListSopRecommendationsResponse {
 
   factory ListSopRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListSopRecommendationsResponse(
-      sopRecommendations: (json['sopRecommendations'] as List)
+      sopRecommendations: ((json['sopRecommendations'] as List?) ?? const [])
           .nonNulls
           .map((e) => SopRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7686,7 +7703,7 @@ class ListSuggestedResiliencyPoliciesResponse {
   factory ListSuggestedResiliencyPoliciesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListSuggestedResiliencyPoliciesResponse(
-      resiliencyPolicies: (json['resiliencyPolicies'] as List)
+      resiliencyPolicies: ((json['resiliencyPolicies'] as List?) ?? const [])
           .nonNulls
           .map((e) => ResiliencyPolicy.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7742,7 +7759,7 @@ class ListTestRecommendationsResponse {
 
   factory ListTestRecommendationsResponse.fromJson(Map<String, dynamic> json) {
     return ListTestRecommendationsResponse(
-      testRecommendations: (json['testRecommendations'] as List)
+      testRecommendations: ((json['testRecommendations'] as List?) ?? const [])
           .nonNulls
           .map((e) => TestRecommendation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7779,8 +7796,9 @@ class ListUnsupportedAppVersionResourcesResponse {
   factory ListUnsupportedAppVersionResourcesResponse.fromJson(
       Map<String, dynamic> json) {
     return ListUnsupportedAppVersionResourcesResponse(
-      resolutionId: json['resolutionId'] as String,
-      unsupportedResources: (json['unsupportedResources'] as List)
+      resolutionId: (json['resolutionId'] as String?) ?? '',
+      unsupportedResources: ((json['unsupportedResources'] as List?) ??
+              const [])
           .nonNulls
           .map((e) => UnsupportedResource.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -7831,7 +7849,7 @@ class LogicalResourceId {
 
   factory LogicalResourceId.fromJson(Map<String, dynamic> json) {
     return LogicalResourceId(
-      identifier: json['identifier'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
       eksSourceName: json['eksSourceName'] as String?,
       logicalStackName: json['logicalStackName'] as String?,
       resourceGroupName: json['resourceGroupName'] as String?,
@@ -8018,10 +8036,12 @@ class PhysicalResource {
   factory PhysicalResource.fromJson(Map<String, dynamic> json) {
     return PhysicalResource(
       logicalResourceId: LogicalResourceId.fromJson(
-          json['logicalResourceId'] as Map<String, dynamic>),
+          (json['logicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       physicalResourceId: PhysicalResourceId.fromJson(
-          json['physicalResourceId'] as Map<String, dynamic>),
-      resourceType: json['resourceType'] as String,
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceType: (json['resourceType'] as String?) ?? '',
       additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
               e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -8167,7 +8187,7 @@ class PhysicalResourceId {
 
   factory PhysicalResourceId.fromJson(Map<String, dynamic> json) {
     return PhysicalResourceId(
-      identifier: json['identifier'] as String,
+      identifier: (json['identifier'] as String?) ?? '',
       type: PhysicalIdentifierType.fromString((json['type'] as String)),
       awsAccountId: json['awsAccountId'] as String?,
       awsRegion: json['awsRegion'] as String?,
@@ -8216,7 +8236,7 @@ class PublishAppVersionResponse {
 
   factory PublishAppVersionResponse.fromJson(Map<String, dynamic> json) {
     return PublishAppVersionResponse(
-      appArn: json['appArn'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
       appVersion: json['appVersion'] as String?,
       identifier: json['identifier'] as int?,
       versionName: json['versionName'] as String?,
@@ -8512,11 +8532,12 @@ class RecommendationTemplate {
 
   factory RecommendationTemplate.fromJson(Map<String, dynamic> json) {
     return RecommendationTemplate(
-      assessmentArn: json['assessmentArn'] as String,
+      assessmentArn: (json['assessmentArn'] as String?) ?? '',
       format: TemplateFormat.fromString((json['format'] as String)),
-      name: json['name'] as String,
-      recommendationTemplateArn: json['recommendationTemplateArn'] as String,
-      recommendationTypes: (json['recommendationTypes'] as List)
+      name: (json['name'] as String?) ?? '',
+      recommendationTemplateArn:
+          (json['recommendationTemplateArn'] as String?) ?? '',
+      recommendationTypes: ((json['recommendationTypes'] as List?) ?? const [])
           .nonNulls
           .map((e) => RenderRecommendationType.fromString((e as String)))
           .toList(),
@@ -8637,8 +8658,8 @@ class RejectResourceGroupingRecommendationsResponse {
   factory RejectResourceGroupingRecommendationsResponse.fromJson(
       Map<String, dynamic> json) {
     return RejectResourceGroupingRecommendationsResponse(
-      appArn: json['appArn'] as String,
-      failedEntries: (json['failedEntries'] as List)
+      appArn: (json['appArn'] as String?) ?? '',
+      failedEntries: ((json['failedEntries'] as List?) ?? const [])
           .nonNulls
           .map((e) => FailedGroupingRecommendationEntry.fromJson(
               e as Map<String, dynamic>))
@@ -8858,9 +8879,10 @@ class ResiliencyScore {
 
   factory ResiliencyScore.fromJson(Map<String, dynamic> json) {
     return ResiliencyScore(
-      disruptionScore: (json['disruptionScore'] as Map<String, dynamic>)
+      disruptionScore: ((json['disruptionScore'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{})
           .map((k, e) => MapEntry(DisruptionType.fromString(k), e as double)),
-      score: json['score'] as double,
+      score: (json['score'] as double?) ?? 0,
       componentScore: (json['componentScore'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(
               ResiliencyScoreType.fromString(k),
@@ -8928,9 +8950,9 @@ class ResolveAppVersionResourcesResponse {
   factory ResolveAppVersionResourcesResponse.fromJson(
       Map<String, dynamic> json) {
     return ResolveAppVersionResourcesResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
-      resolutionId: json['resolutionId'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
+      resolutionId: (json['resolutionId'] as String?) ?? '',
       status:
           ResourceResolutionStatusType.fromString((json['status'] as String)),
     );
@@ -9199,7 +9221,8 @@ class ResourceMapping {
       mappingType:
           ResourceMappingType.fromString((json['mappingType'] as String)),
       physicalResourceId: PhysicalResourceId.fromJson(
-          json['physicalResourceId'] as Map<String, dynamic>),
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       appRegistryAppName: json['appRegistryAppName'] as String?,
       eksSourceName: json['eksSourceName'] as String?,
       logicalStackName: json['logicalStackName'] as String?,
@@ -9438,8 +9461,8 @@ class SopRecommendation {
 
   factory SopRecommendation.fromJson(Map<String, dynamic> json) {
     return SopRecommendation(
-      recommendationId: json['recommendationId'] as String,
-      referenceId: json['referenceId'] as String,
+      recommendationId: (json['recommendationId'] as String?) ?? '',
+      referenceId: (json['referenceId'] as String?) ?? '',
       serviceType: SopServiceType.fromString((json['serviceType'] as String)),
       appComponentName: json['appComponentName'] as String?,
       description: json['description'] as String?,
@@ -9503,8 +9526,9 @@ class StartAppAssessmentResponse {
 
   factory StartAppAssessmentResponse.fromJson(Map<String, dynamic> json) {
     return StartAppAssessmentResponse(
-      assessment:
-          AppAssessment.fromJson(json['assessment'] as Map<String, dynamic>),
+      assessment: AppAssessment.fromJson(
+          (json['assessment'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 
@@ -9546,8 +9570,8 @@ class StartResourceGroupingRecommendationTaskResponse {
   factory StartResourceGroupingRecommendationTaskResponse.fromJson(
       Map<String, dynamic> json) {
     return StartResourceGroupingRecommendationTaskResponse(
-      appArn: json['appArn'] as String,
-      groupingId: json['groupingId'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      groupingId: (json['groupingId'] as String?) ?? '',
       status: ResourcesGroupingRecGenStatusType.fromString(
           (json['status'] as String)),
       errorMessage: json['errorMessage'] as String?,
@@ -9606,7 +9630,7 @@ class TerraformSource {
 
   factory TerraformSource.fromJson(Map<String, dynamic> json) {
     return TerraformSource(
-      s3StateFileUrl: json['s3StateFileUrl'] as String,
+      s3StateFileUrl: (json['s3StateFileUrl'] as String?) ?? '',
     );
   }
 
@@ -9674,7 +9698,7 @@ class TestRecommendation {
 
   factory TestRecommendation.fromJson(Map<String, dynamic> json) {
     return TestRecommendation(
-      referenceId: json['referenceId'] as String,
+      referenceId: (json['referenceId'] as String?) ?? '',
       appComponentName: json['appComponentName'] as String?,
       dependsOnAlarms: (json['dependsOnAlarms'] as List?)
           ?.nonNulls
@@ -9782,10 +9806,12 @@ class UnsupportedResource {
   factory UnsupportedResource.fromJson(Map<String, dynamic> json) {
     return UnsupportedResource(
       logicalResourceId: LogicalResourceId.fromJson(
-          json['logicalResourceId'] as Map<String, dynamic>),
+          (json['logicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       physicalResourceId: PhysicalResourceId.fromJson(
-          json['physicalResourceId'] as Map<String, dynamic>),
-      resourceType: json['resourceType'] as String,
+          (json['physicalResourceId'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      resourceType: (json['resourceType'] as String?) ?? '',
       unsupportedResourceStatus: json['unsupportedResourceStatus'] as String?,
     );
   }
@@ -9828,7 +9854,8 @@ class UpdateAppResponse {
 
   factory UpdateAppResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAppResponse(
-      app: App.fromJson(json['app'] as Map<String, dynamic>),
+      app: App.fromJson(
+          (json['app'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
     );
   }
 
@@ -9865,8 +9892,8 @@ class UpdateAppVersionAppComponentResponse {
   factory UpdateAppVersionAppComponentResponse.fromJson(
       Map<String, dynamic> json) {
     return UpdateAppVersionAppComponentResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       appComponent: json['appComponent'] != null
           ? AppComponent.fromJson(json['appComponent'] as Map<String, dynamic>)
           : null,
@@ -9911,8 +9938,8 @@ class UpdateAppVersionResourceResponse {
 
   factory UpdateAppVersionResourceResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAppVersionResourceResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       physicalResource: json['physicalResource'] != null
           ? PhysicalResource.fromJson(
               json['physicalResource'] as Map<String, dynamic>)
@@ -9963,8 +9990,8 @@ class UpdateAppVersionResponse {
 
   factory UpdateAppVersionResponse.fromJson(Map<String, dynamic> json) {
     return UpdateAppVersionResponse(
-      appArn: json['appArn'] as String,
-      appVersion: json['appVersion'] as String,
+      appArn: (json['appArn'] as String?) ?? '',
+      appVersion: (json['appVersion'] as String?) ?? '',
       additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)?.map((k,
               e) =>
           MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
@@ -10079,7 +10106,9 @@ class UpdateResiliencyPolicyResponse {
 
   factory UpdateResiliencyPolicyResponse.fromJson(Map<String, dynamic> json) {
     return UpdateResiliencyPolicyResponse(
-      policy: ResiliencyPolicy.fromJson(json['policy'] as Map<String, dynamic>),
+      policy: ResiliencyPolicy.fromJson(
+          (json['policy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
     );
   }
 

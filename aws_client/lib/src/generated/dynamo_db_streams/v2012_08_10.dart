@@ -597,7 +597,7 @@ class KeySchemaElement {
 
   factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
     return KeySchemaElement(
-      attributeName: json['AttributeName'] as String,
+      attributeName: (json['AttributeName'] as String?) ?? '',
       keyType: KeyType.fromString((json['KeyType'] as String)),
     );
   }

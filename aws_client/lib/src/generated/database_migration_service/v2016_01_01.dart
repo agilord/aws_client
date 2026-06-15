@@ -10424,7 +10424,7 @@ class DynamoDbSettings {
 
   factory DynamoDbSettings.fromJson(Map<String, dynamic> json) {
     return DynamoDbSettings(
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
     );
   }
 
@@ -10475,8 +10475,8 @@ class ElasticsearchSettings {
 
   factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) {
     return ElasticsearchSettings(
-      endpointUri: json['EndpointUri'] as String,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+      endpointUri: (json['EndpointUri'] as String?) ?? '',
+      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
       errorRetryDuration: json['ErrorRetryDuration'] as int?,
       fullLoadErrorPercentage: json['FullLoadErrorPercentage'] as int?,
       useNewMappingType: json['UseNewMappingType'] as bool?,
@@ -13861,8 +13861,8 @@ class NeptuneSettings {
 
   factory NeptuneSettings.fromJson(Map<String, dynamic> json) {
     return NeptuneSettings(
-      s3BucketFolder: json['S3BucketFolder'] as String,
-      s3BucketName: json['S3BucketName'] as String,
+      s3BucketFolder: (json['S3BucketFolder'] as String?) ?? '',
+      s3BucketName: (json['S3BucketName'] as String?) ?? '',
       errorRetryDuration: json['ErrorRetryDuration'] as int?,
       iamAuthEnabled: json['IamAuthEnabled'] as bool?,
       maxFileSize: json['MaxFileSize'] as int?,
@@ -15585,8 +15585,8 @@ class RecommendationSettings {
 
   factory RecommendationSettings.fromJson(Map<String, dynamic> json) {
     return RecommendationSettings(
-      instanceSizingType: json['InstanceSizingType'] as String,
-      workloadType: json['WorkloadType'] as String,
+      instanceSizingType: (json['InstanceSizingType'] as String?) ?? '',
+      workloadType: (json['WorkloadType'] as String?) ?? '',
     );
   }
 
@@ -15669,8 +15669,8 @@ class RedisSettings {
 
   factory RedisSettings.fromJson(Map<String, dynamic> json) {
     return RedisSettings(
-      port: json['Port'] as int,
-      serverName: json['ServerName'] as String,
+      port: (json['Port'] as int?) ?? 0,
+      serverName: (json['ServerName'] as String?) ?? '',
       authPassword: json['AuthPassword'] as String?,
       authType:
           (json['AuthType'] as String?)?.let(RedisAuthTypeValue.fromString),
@@ -20147,9 +20147,9 @@ class TimestreamSettings {
 
   factory TimestreamSettings.fromJson(Map<String, dynamic> json) {
     return TimestreamSettings(
-      databaseName: json['DatabaseName'] as String,
-      magneticDuration: json['MagneticDuration'] as int,
-      memoryDuration: json['MemoryDuration'] as int,
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      magneticDuration: (json['MagneticDuration'] as int?) ?? 0,
+      memoryDuration: (json['MemoryDuration'] as int?) ?? 0,
       cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool?,
       enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool?,
     );

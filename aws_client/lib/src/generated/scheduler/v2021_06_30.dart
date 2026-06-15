@@ -736,8 +736,10 @@ class AwsVpcConfiguration {
 
   factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
     return AwsVpcConfiguration(
-      subnets:
-          (json['Subnets'] as List).nonNulls.map((e) => e as String).toList(),
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
       assignPublicIp:
           (json['AssignPublicIp'] as String?)?.let(AssignPublicIp.fromString),
       securityGroups: (json['SecurityGroups'] as List?)
@@ -784,7 +786,7 @@ class CapacityProviderStrategyItem {
 
   factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) {
     return CapacityProviderStrategyItem(
-      capacityProvider: json['capacityProvider'] as String,
+      capacityProvider: (json['capacityProvider'] as String?) ?? '',
       base: json['base'] as int?,
       weight: json['weight'] as int?,
     );
@@ -812,7 +814,7 @@ class CreateScheduleGroupOutput {
 
   factory CreateScheduleGroupOutput.fromJson(Map<String, dynamic> json) {
     return CreateScheduleGroupOutput(
-      scheduleGroupArn: json['ScheduleGroupArn'] as String,
+      scheduleGroupArn: (json['ScheduleGroupArn'] as String?) ?? '',
     );
   }
 
@@ -834,7 +836,7 @@ class CreateScheduleOutput {
 
   factory CreateScheduleOutput.fromJson(Map<String, dynamic> json) {
     return CreateScheduleOutput(
-      scheduleArn: json['ScheduleArn'] as String,
+      scheduleArn: (json['ScheduleArn'] as String?) ?? '',
     );
   }
 
@@ -988,7 +990,7 @@ class EcsParameters {
 
   factory EcsParameters.fromJson(Map<String, dynamic> json) {
     return EcsParameters(
-      taskDefinitionArn: json['TaskDefinitionArn'] as String,
+      taskDefinitionArn: (json['TaskDefinitionArn'] as String?) ?? '',
       capacityProviderStrategy: (json['CapacityProviderStrategy'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -1080,8 +1082,8 @@ class EventBridgeParameters {
 
   factory EventBridgeParameters.fromJson(Map<String, dynamic> json) {
     return EventBridgeParameters(
-      detailType: json['DetailType'] as String,
-      source: json['Source'] as String,
+      detailType: (json['DetailType'] as String?) ?? '',
+      source: (json['Source'] as String?) ?? '',
     );
   }
 
@@ -1384,7 +1386,7 @@ class KinesisParameters {
 
   factory KinesisParameters.fromJson(Map<String, dynamic> json) {
     return KinesisParameters(
-      partitionKey: json['PartitionKey'] as String,
+      partitionKey: (json['PartitionKey'] as String?) ?? '',
     );
   }
 
@@ -1426,7 +1428,7 @@ class ListScheduleGroupsOutput {
 
   factory ListScheduleGroupsOutput.fromJson(Map<String, dynamic> json) {
     return ListScheduleGroupsOutput(
-      scheduleGroups: (json['ScheduleGroups'] as List)
+      scheduleGroups: ((json['ScheduleGroups'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScheduleGroupSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1459,7 +1461,7 @@ class ListSchedulesOutput {
 
   factory ListSchedulesOutput.fromJson(Map<String, dynamic> json) {
     return ListSchedulesOutput(
-      schedules: (json['Schedules'] as List)
+      schedules: ((json['Schedules'] as List?) ?? const [])
           .nonNulls
           .map((e) => ScheduleSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1711,8 +1713,8 @@ class SageMakerPipelineParameter {
 
   factory SageMakerPipelineParameter.fromJson(Map<String, dynamic> json) {
     return SageMakerPipelineParameter(
-      name: json['Name'] as String,
-      value: json['Value'] as String,
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -1955,8 +1957,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String,
-      value: json['Value'] as String,
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
@@ -2059,8 +2061,8 @@ class Target {
 
   factory Target.fromJson(Map<String, dynamic> json) {
     return Target(
-      arn: json['Arn'] as String,
-      roleArn: json['RoleArn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
       deadLetterConfig: json['DeadLetterConfig'] != null
           ? DeadLetterConfig.fromJson(
               json['DeadLetterConfig'] as Map<String, dynamic>)
@@ -2131,7 +2133,7 @@ class TargetSummary {
 
   factory TargetSummary.fromJson(Map<String, dynamic> json) {
     return TargetSummary(
-      arn: json['Arn'] as String,
+      arn: (json['Arn'] as String?) ?? '',
     );
   }
 
@@ -2165,7 +2167,7 @@ class UpdateScheduleOutput {
 
   factory UpdateScheduleOutput.fromJson(Map<String, dynamic> json) {
     return UpdateScheduleOutput(
-      scheduleArn: json['ScheduleArn'] as String,
+      scheduleArn: (json['ScheduleArn'] as String?) ?? '',
     );
   }
 
